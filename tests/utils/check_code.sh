@@ -66,6 +66,7 @@ fi
 
 # Get the full path, not just relative
 path="$( cd $2 && pwd)"
+geoips_path="$( cd "$( dirname "$0")/../../" && pwd)"
 pkgname=`basename $path`
 # Get the full path to the geoips .config directory, pwd removes the relative paths
 CONFIG_PATH="$( cd "$( dirname "$0")/../../.config" && pwd)"
@@ -155,8 +156,8 @@ if [[ "$test" == "pytest_short" || "$test" == "all" ]]; then
     else
         # First test the geoips package pytests - these include pytests of any other
         # installed plugin packages, so always test geoips repo pytests.
-        echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests"
-        pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests
+        echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $geoips_path/tests/unit_tests"
+        pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $geoips_path/tests/unit_tests
         pytest_short_geoips_retval=$?
         retval=$((pytest_short_geoips_retval+retval))
     fi
@@ -195,8 +196,8 @@ if [[ "$test" == "pytest_long" || "$test" == "all" ]]; then
     else
         # First test the geoips package pytests - these include pytests of any other
         # installed plugin packages, so always test geoips repo pytests.
-        echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests_long"
-        pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $GEOIPS_PACKAGES_DIR/geoips/tests/unit_tests_long
+        echo "pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $geoips_path/tests/unit_tests_long"
+        pytest --cov=geoips -c $CONFIG_PATH/pytest.ini $geoips_path/tests/unit_tests_long
         pytest_long_geoips_retval=$?
         retval=$((pytest_long_geoips_retval+retval))
     fi
@@ -232,8 +233,8 @@ if [[ "$test" == "interfaces" || "$test" == "all" ]]; then
     else
         echo ""
         echo "CALLING TEST interfaces:"
-        echo "test_interfaces"
-        test_interfaces
+        echo "python $geoips_path/tests/utils/test_interfaces.py"
+        python $geoips_path/tests/utils/test_interfaces.py
         interfaces_retval=$?
         echo "TEST COMPLETE interfaces"
         retval=$((interfaces_retval+retval))

@@ -14,9 +14,15 @@
 
 
 import logging
-from datatree import DataTree
 
 LOG = logging.getLogger(__name__)
+try:
+    from datatree import DataTree
+except ImportError:
+    LOG.info(
+        "Failed import DataTree in xarray_utils/xr_to_dtree.py. "
+        "If you need it, install it."
+    )
 
 
 def xarray_to_datatree(xarray_dict):

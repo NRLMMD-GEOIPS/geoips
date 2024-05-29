@@ -78,7 +78,7 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = corners_to_area_definition(self)
         return ad
 
-    def create_test_plot(self, fname):
+    def create_test_plot(self, fname, return_fig_ax_map=False):
         """Create a test PNG image for this sector."""
         from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
         from cartopy import feature as cfeature
@@ -91,7 +91,10 @@ class SectorPluginBase(BaseYamlPlugin):
         )
         ax.add_feature(cfeature.COASTLINE)
         ax.add_feature(cfeature.BORDERS)
-        fig.savefig(fname)
+        if fname is not None:
+            fig.savefig(fname)
+        if return_fig_ax_map:
+            return fig, ax, mapobj
 
 
 class SectorsInterface(BaseYamlInterface):

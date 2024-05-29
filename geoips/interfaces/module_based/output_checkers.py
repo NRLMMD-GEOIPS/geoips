@@ -18,7 +18,6 @@ from geoips.interfaces.base import (
     ValidationError,
 )
 import logging
-from geoips.errors import PluginError
 
 # import subprocess
 from geoips.commandline.log_setup import log_with_emphasis
@@ -257,9 +256,10 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                 for compare_product in compare_products:
                     # Pull the file that is actually used for comparison from
                     # the compare_products dictionary.
-                    file_for_comparison_basename = basename(
-                        compare_products[compare_product]["file_for_comparison"]
-                    )
+                    file_for_comparison = compare_products[compare_product][
+                        "file_for_comparison"
+                    ]
+                    file_for_comparison_basename = basename(file_for_comparison)
                     # If the basename of the current missing product matches the
                     # basename of the file for comparison, then write out the
                     # command to remove the actual stored comparison file from
@@ -268,7 +268,10 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                         comparison_filename = compare_products[compare_product][
                             "stored_comparison"
                         ]
-                        fobj.write(f"rm -v {comparison_filename}\n")
+                        fobj.write(f"  rm -v {comparison_filename}\n")
+                        LOG.interactive(f"    TEST OUTPUT: {comparison_filename}")
+                    else:
+                        LOG.interactive(f"    TEST OUTPUT: {file_for_comparison}")
         # This is just for testing purposes - write out copy commands to
         # copy the missing product into a test location for easy review.
         with open(fname_missingprodcptest, "w") as fobj:
@@ -350,7 +353,8 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
                 # We have no knowledge if these should be gzipped or not,
                 # so they are just copied as is.  Developers must manually
                 # gzip before commiting if desired.
-                fobj.write(f"cp -v {missingcomp} {comparison_path}\n")
+                fobj.write(f"  cp -v {missingcomp} {comparison_path}\n")
+                LOG.interactive(f"    CURR OUTPUT: {missingcomp}")
         with open(fname_missingcompcptest, "w") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingcomp in missingcomps:
@@ -1017,15 +1021,10 @@ class OutputCheckersInterface(BaseModuleInterface):
         return checker_name
 
     def get_plugin(self, name):
-        """Get the output checker plugin corresponding to checker_name and return it."""
-        try:
-            plug = super().get_plugin(name)
-            if self.valid_plugin(plug):
-                return plug
-        except PluginError:
-            plug = super().get_plugin(self.identify_checker(name))
-            if self.valid_plugin(plug):
-                return plug
+        """Return the output checker plugin corresponding to checker_name."""
+        plug = super().get_plugin(name)
+        if self.valid_plugin(plug):
+            return plug
 
     def valid_plugin(self, plugin):
         """Check the validity of the supplied output_checker plugin."""
