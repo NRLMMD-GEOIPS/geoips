@@ -498,7 +498,13 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
     plugin["relpath"] = relpath
     plugin["package"] = package
 
-    interface_name = plugin["interface"]
+    try:
+        interface_name = plugin["interface"]
+    except KeyError:
+        raise PluginRegistryError(
+            f"""No 'interface' level in '{filepath}'.
+                Ensure all required metadata is included."""
+        )
     interface_module = getattr(geoips.interfaces, f"{interface_name}")
 
     if interface_name not in plugins.keys():
@@ -853,6 +859,13 @@ def get_parser():
         choices=["json", "yaml"],
         help="Format to write registries to. This will also be the file extension.",
     )
+    parser.add_argument(
+        "-p",
+        "--package_name",
+        type=str.lower,
+        default=None,
+        help="Package name to create registries for. If not specified, run on all.",
+    )
     return parser
 
 
@@ -872,11 +885,17 @@ def main():
 
     ARGS = parser.parse_args()
     save_type = ARGS.save_type
+    package_name = ARGS.package_name
 
     LOG = setup_logging(logging_level="INTERACTIVE")
     # Note: Python 3.9 appears to return duplicates when installed with setuptools.
     # These are filtered within the create_plugin_registries function.
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    if package_name:
+        for plugin_package in plugin_packages:
+            if plugin_package.name == package_name:
+                use_plugin_package = plugin_package
+        plugin_packages = [use_plugin_package]
     LOG.debug(plugin_packages)
     create_plugin_registries(plugin_packages, save_type)
     sys.exit(0)

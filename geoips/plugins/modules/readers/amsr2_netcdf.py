@@ -404,4 +404,4 @@ def get_test_files(test_data_dir):
 
 def get_test_parameters():
     """Generate a data key for unit testing."""
-    return {"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}
+    return [{"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}]

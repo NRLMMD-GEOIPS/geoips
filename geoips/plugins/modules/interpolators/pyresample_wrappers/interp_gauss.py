@@ -20,7 +20,7 @@ from geoips.plugins.modules.interpolators.utils.interp_pyresample import (
     interp_kd_tree,
     get_data_box_definition,
 )
-from geoips.geoips_utils import copy_standard_metadata
+from geoips.geoips_utils import copy_standard_metadata, remove_unsupported_kwargs
 
 LOG = logging.getLogger(__name__)
 
@@ -37,6 +37,7 @@ def call(
     array_num=None,
     sigmaval=None,
     drop_nan=False,
+    **kwargs,
 ):
     """Pyresample interp_kd_tree gaussian interpolation GeoIPS plugin."""
     LOG.info(
@@ -96,6 +97,7 @@ def call(
     if sigmaval is None:
         sigmaval = 10000
 
+    kd_kwargs = remove_unsupported_kwargs(interp_kd_tree, kwargs)
     interp_data = interp_kd_tree(
         vars_to_interp,
         area_def,
@@ -103,6 +105,7 @@ def call(
         input_xarray.interpolation_radius_of_influence,
         interp_type="gauss",
         sigmas=sigmaval,
+        **kd_kwargs,
     )
     if output_xarray is None:
         output_xarray = xarray.Dataset()

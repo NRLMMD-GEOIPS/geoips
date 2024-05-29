@@ -14,16 +14,27 @@
 
 import os
 from copy import deepcopy
+import sys
+import inspect
 
 # import yaml
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginRegistryError
+from geoips.errors import PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
-NAMESPACE_PREFIX = "geoips"
+
+def remove_unsupported_kwargs(module, requested_kwargs):
+    """Remove unsupported keyword arguments."""
+    module_args = set(inspect.signature(module).parameters.keys())
+    unsupported = list(set(requested_kwargs.keys()).difference(module_args))
+    if "kwargs" not in module_args:
+        for key in unsupported:
+            LOG.warning("REMOVING UNSUPPORTED %s key %s", module, key)
+            requested_kwargs.pop(key)
+    return requested_kwargs
 
 
 def get_entry_point_group(group):
@@ -115,89 +126,6 @@ def load_all_yaml_plugins():
         except TypeError:
             raise PluginRegistryError(f"Failed reading {pkg_plug_path}.")
     return yaml_plugins
-
-
-def find_entry_point(namespace, name, default=None):
-    """Find object matching 'name' using GEOIPS entry point namespace 'namespace'.
-
-    Automatically add 'geoips' prefix to namespace for disambiguation.
-
-    This is used in geoips.interfaces.base.get_plugin when "name" exists.
-    In that case, default is passed in as the full path, and is likely just
-    returned as the full path.  So the entry points in here probably are not
-    actually used, but the function is still required.
-
-    Parameters
-    ----------
-    namespace : str
-        Entry point namespace (e.g. 'readers')
-    name : str
-        Entry point name (e.g. 'amsr2_netcdf')
-    default : entry point, optional
-        Default value if no match is found.  If this is not set (i.e. None),
-        then no match will result in an exception
-    """
-    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    for ep in get_entry_point_group(ep_namespace):
-        if ep.name == name:
-            resolved_ep = ep.load()
-            break
-    else:
-        resolved_ep = None
-    if resolved_ep is not None:
-        return resolved_ep
-    else:
-        if default is not None:
-            return default
-        else:
-            raise EntryPointError(
-                f"Failed to find object matching {name} in namespace {ep_namespace}"
-            )
-
-
-def get_all_entry_points(namespace):
-    """Return all entry points in GEOIPS entry point namespace 'namespace'.
-
-    Automatically add 'geoips' prefix to namespace for disambiguation.
-
-    Parameters
-    ----------
-    namespace :str
-        Entry point namespace (e.g. 'readers')
-    """
-    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    retlist = []
-    # Do not use a list comprehension here so we can raise exceptions
-    # containing the actual package that errored.
-    try:
-        for ep in get_entry_point_group(ep_namespace):
-            try:
-                retlist += [ep.load()]
-            except Exception as resp:
-                raise EntryPointError(
-                    f"{resp}:"
-                    f"\nAn error occurred while loading entry point "
-                    f"'{ep.name}={ep.value}' entry point."
-                    f"\nTry checking to ensure init file exists in package subdir "
-                    f"\n(ALL directories containing python files MUST have init file)"
-                ) from resp
-    except KeyError:
-        retlist = []
-    return retlist
-
-
-def list_entry_points(namespace):
-    """List names of objects in GEOIPS entry point namespace 'namespace'.
-
-    Automatically add 'geoips' prefix to namespace for disambiguation.
-
-    Parameters
-    ----------
-    namespace :str
-        Entry point namespace (e.g. 'readers')
-    """
-    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.name for ep in get_entry_point_group(ep_namespace)]
 
 
 def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
@@ -427,7 +355,7 @@ def get_required_geoips_xarray_attrs():
     return required_xarray_attrs
 
 
-def merge_nested_dicts(dest, src, in_place=True):
+def merge_nested_dicts(dest, src, in_place=True, replace=False):
     """Perform an in-place merge of src into dest.
 
     Performs an in-place merge of src into dest while preserving any values that already
@@ -437,6 +365,25 @@ def merge_nested_dicts(dest, src, in_place=True):
         final_dest = deepcopy(dest)
     else:
         final_dest = dest
+
+    # NOTE: this is a top-level field, where if you set
+    # product_spec_override:
+    #   replace: true
+    # It will automatically replace ALL fields found in
+    # the original product spec and also found in the
+    # override with what is specified in the override
+    # in its entirety, without merging.  This is not
+    # terribly useful overall - we probably want this
+    # sort of capability in the end, but more flexible
+    # and able to be applied to only specific fields,
+    # etc.  This is a brute force method to at least
+    # allow overriding entire fields.
+    if replace:
+        for key in final_dest:
+            if key in src:
+                final_dest[key] = src[key]
+        return final_dest
+
     try:
         final_dest.update(src | final_dest)
     except (AttributeError, TypeError):
