@@ -16,6 +16,9 @@
 import logging
 
 # Third Party Installed Libraries
+import numpy
+from pyresample import utils
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -237,7 +240,7 @@ def sector_xarray_temporal(
 
 def sector_xarray_spatial(
     full_xarray,
-    extent_lonlat,
+    area_def,
     varnames,
     lon_pad=3,
     lat_pad=0,
@@ -250,8 +253,9 @@ def sector_xarray_spatial(
     ----------
     full_xarray : xarray.Dataset
         xarray object to sector spatially
-    extent_lonlat : list of float
-        Area to sector: [MINLON, MINLAT, MAXLON, MAXLAT]
+    area_def: pyresample.AreaDefinition
+        The requested region to sector spatially from the full_xarray.
+        If None, no spatial sectoring required.
     varnames : list of str
         list of variable names that should be sectored based on 'time'
     drop : bool
@@ -271,30 +275,17 @@ def sector_xarray_spatial(
             )
         return None
 
-    import xarray
-
     sector_xarray = xarray.Dataset()
     sector_xarray.attrs = full_xarray.attrs.copy()
 
-    import numpy
-    from pyresample import utils
-
     if verbose:
         LOG.info("    Padding longitudes")
-    # convert extent longitude to be within 0-360 range
-    min_lon = utils.wrap_longitudes(extent_lonlat[0]) - lon_pad
-    max_lon = utils.wrap_longitudes(extent_lonlat[2]) + lon_pad
-    if min_lon > max_lon and max_lon < 0:
-        max_lon = max_lon + 360
-    min_lat = extent_lonlat[1] - lat_pad
-    max_lat = extent_lonlat[3] + lat_pad
     if verbose:
         LOG.info("    Padding latitudes")
-    # Make sure we don't extend latitudes beyond -90 / +90
-    if min_lat < -90.0:
-        min_lat = -90.0
-    if max_lat > 90.0:
-        max_lat = 90.0
+
+    min_lon, min_lat, max_lon, max_lat = get_minmax_latlon_from_area_def(
+        area_def, lon_pad, lat_pad
+    )
 
     if verbose:
         LOG.info("    Wrapping longitudes")
@@ -416,6 +407,98 @@ def sector_xarray_spatial(
     return sector_xarray
 
 
+def get_minmax_latlon_from_area_def(area_def, lon_pad, lat_pad):
+    """Retrieve the Min/Max Lat/Lon from the provided area_def.
+
+    Given a PyResample AreaDefinition Object, retrieve the minimum and maximum
+    latitude and longitude values that should be used to sector the xarray efficiently.
+
+    If the provided area def encapsulates either of the poles, set the min/max latitude
+    value to -90/90 degrees accordingly, and match the other latitude value to what was
+    provided in the area_def bounds.
+
+    For longitudes, if the sector doesn't contain a pole, wrap them to ensure they exist
+    in the 0-360 range, otherwise set to -180, 180.
+
+    Parameters
+    ----------
+    area_def: PyResample AreaDefinition()
+        - The area_definition that defines the bounds of the data we will be sectoring.
+    lon_pad: float
+        - The amount (in degrees) of padding to be added to the longitude bounds.
+    lat_pad: float
+        - The amount (in degrees) of padding to be added to the latitude bounds.
+
+    Returns
+    -------
+    min_lon, min_lat, max_lon, max_lat: float
+        - These degree (float) values will be returned in the order listed above.
+    """
+    extent_lonlat = list(
+        area_def.area_extent_ll
+    )  # [min_lon, min_lat, max_lon, max_lat]
+    min_lon, max_lon = -180, 180
+
+    # Check if the area_def includes either North or South Pole. If it does, we have to
+    # manually adjust the lat_lon extent to reflect the correct extent for both lat/lon.
+    # Otherwise go about business as usual.
+    LOG.info("Checking if area_def includes the North Pole.")
+    if point_in_area_def(area_def, 0, 90):
+        LOG.info("North Pole exists within area_def.")
+        min_lat = extent_lonlat[1] - lat_pad
+        max_lat = 90
+        return min_lon, min_lat, max_lon, max_lat
+
+    LOG.info("North Pole not in area_def, checking South Pole.")
+    if point_in_area_def(area_def, 0, -90):
+        LOG.info("South Pole exists within area_def.")
+        min_lat = -90
+        max_lat = extent_lonlat[3] + lat_pad
+        return min_lon, min_lat, max_lon, max_lat
+
+    LOG.info(
+        "Neither North or South Pole are in area def, using custom bounds.",
+    )
+    # Area Definition doesn't include a pole, get the natural bounds from the area_def.
+    # convert extent longitude to be within [-180, 180] range
+    min_lon = utils.wrap_longitudes(extent_lonlat[0]) - lon_pad
+    max_lon = utils.wrap_longitudes(extent_lonlat[2]) + lon_pad
+    if min_lon > max_lon and max_lon < 0:
+        max_lon = max_lon + 360
+    min_lat = extent_lonlat[1] - lat_pad
+    max_lat = extent_lonlat[3] + lat_pad
+    # Make sure we don't extend latitudes beyond -90 / +90
+    if min_lat < -90.0:
+        min_lat = -90.0
+    if max_lat > 90.0:
+        max_lat = 90.0
+    return min_lon, min_lat, max_lon, max_lat
+
+
+def point_in_area_def(area_def, lon, lat):
+    """Determine whether or not the provided point (in degrees) is within area_def.
+
+    Parameters
+    ----------
+    area_def: PyResample AreaDefinition()
+        - The area_definition that defines the bounds of the data we will be sectoring.
+    lon: float
+        - The longitude value in degrees.
+    lat: float
+        - The latitude value in degrees.
+
+    Returns
+    -------
+    bool:
+        - Whether or not the point is contained in the area definition.
+    """
+    try:
+        area_def.get_array_indices_from_lonlat(lon, lat)
+        return True
+    except ValueError:
+        return False
+
+
 def sector_xarray_dataset(
     full_xarray,
     area_def,
@@ -516,10 +599,9 @@ def sector_xarray_dataset(
             # we care about is spatial coverage.
             time_xarray = full_xarray.copy()
 
-        extent_lonlat = list(area_def.area_extent_ll)
         sector_xarray = sector_xarray_spatial(
             time_xarray,
-            extent_lonlat,
+            area_def,
             varnames,
             lon_pad,
             lat_pad,
@@ -685,11 +767,18 @@ def sector_xarrays(
         sectored spatially and temporally as requested.
     """
     ret_xobjs = {}
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
+    )
+
     for key, xobj in xobjs.items():
         LOG.info("SECTORING dataset %s area_def %s", key, area_def.name)
         LOG.info(" requested variables %s", set(varlist))
         LOG.info(" dataset variables %s", set(xobj.variables.keys()))
         LOG.info(" dataset data_vars %s", set(xobj.data_vars))
+        LOG.info("  Min time: %s", get_min_from_xarray_time(xobj, "time"))
+        LOG.info("  Max time: %s", get_max_from_xarray_time(xobj, "time"))
         # Compile a list of variables that will be used to sector - the current data
         # variable, and we will add in the appropriate latitude and longitude variables
         # (of the same shape as data), and if it exists the appropriately shaped time
@@ -792,8 +881,6 @@ def sector_xarrays(
             area_def  # add name of this sector to sector attribute
         )
         if hasattr(sect_xarray, "time"):
-            from geoips.xarray_utils.time import get_min_from_xarray_time
-            from geoips.xarray_utils.time import get_max_from_xarray_time
 
             sect_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
                 sect_xarray, "time"
@@ -816,6 +903,8 @@ def sector_xarrays(
         sect_xarray.attrs["sectored"] = True
         ret_xobjs[key] = sect_xarray
         ret_xobjs["METADATA"] = sect_xarray[[]]
+        LOG.info("  Min time: %s", get_min_from_xarray_time(sect_xarray, "time"))
+        LOG.info("  Max time: %s", get_max_from_xarray_time(sect_xarray, "time"))
 
     return ret_xobjs
 
@@ -847,3 +936,49 @@ def get_sectored_xarrays(
             area_def.name,
         )
     return sect_xarrays
+
+
+def combine_preproc_xarrays_with_alg_xarray(dict_of_xarrays, alg_xarray, rgb_var=None):
+    """Combine preprocessed xarrays with an xarray output from an algorithm.
+
+    The dimensions of the preprocessed xarrays must match the algorithm xarray.
+
+    Parameters
+    ----------
+    dict_of_xarrays : dict
+        Dictionary of xarray objects (e.g. output from geoips_netcdf reader).
+    alg_xarray : xarray dataset
+        xarray dataset returned from algorithm.
+    rgb_var : bool
+        Specify the product name produced by an algorithm that outputs RGB values.
+        If so, there will not be any NaNs to replace and a composite will not be made.
+        This function will first set all 0s to NaN during the merge process,
+        then replace any remaining NaNs back to 0.
+
+    Returns
+    -------
+    xarray.Dataset
+        Combined xarray dataset of input xarrays datasets
+    """
+    # Merge xarray objects from newest to oldest
+    # Otherwise older swaths will be overlaid on newer
+    keys = sorted(dict_of_xarrays)[::-1]
+    # Set merged xarray object to alg_xarray, NaNs in this xarray dataset will
+    # be replaced with increasingly older pre-processed swaths
+    merged = alg_xarray
+    if rgb_var:
+        from numpy import nan
+
+        merged[rgb_var] = merged[rgb_var].where(merged[rgb_var] != 0, nan)
+    for i, key in enumerate(keys):
+        if key == "METADATA":
+            continue
+        preproc = dict_of_xarrays[key]
+        if rgb_var:
+            preproc[rgb_var] = preproc[rgb_var].where(preproc[rgb_var] != 0, nan)
+        # # Replace NaNs in new dataset with composited xarray
+        # merged = new_dset.combine_first(merged)
+        merged = merged.combine_first(preproc)
+    if rgb_var:
+        merged[rgb_var] = merged[rgb_var].fillna(0)
+    return merged

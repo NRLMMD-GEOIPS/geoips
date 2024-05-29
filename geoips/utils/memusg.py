@@ -13,18 +13,16 @@
 """Utilities for tracking and monitoring memory and resource usage."""
 import logging
 import socket
-
 import resource
+
+from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
 
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import psutil
-except ImportError:
-    LOG.info(
-        "Failed import psutil in utils/memusg.py. " + "If you need it, install it."
-    )
 
 
 def print_mem_usage(logstr="", verbose=False):

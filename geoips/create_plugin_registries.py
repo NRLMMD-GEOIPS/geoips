@@ -504,7 +504,13 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
     plugin["relpath"] = relpath
     plugin["package"] = package
 
-    interface_name = plugin["interface"]
+    try:
+        interface_name = plugin["interface"]
+    except KeyError:
+        raise PluginRegistryError(
+            f"""No 'interface' level in '{filepath}'.
+                Ensure all required metadata is included."""
+        )
     interface_module = getattr(geoips.interfaces, f"{interface_name}")
 
     if interface_name not in plugins.keys():
@@ -837,6 +843,38 @@ def add_module_plugin(package, relpath, plugins):
     return error_message
 
 
+def get_parser():
+    """Create the ArgumentParser for main."""
+    description = (
+        "Creates Plugin Registries for all installed GeoIPS packages. "
+        "The registries will be written to the root directory of each installed "
+        "package. The registries will be named either 'registered_plugins.json' "
+        "or 'registered_plugins.yaml' depending on which format is chosen. "
+        "For additional information on GeoIPS plugin registries please refer to "
+        "the GeoIPS documentation."
+    )
+    parser = ArgumentParser(
+        prog="create_plugin_registries",
+        description=description,
+    )
+    parser.add_argument(
+        "-s",
+        "--save_type",
+        type=str.lower,
+        default="json",
+        choices=["json", "yaml"],
+        help="Format to write registries to. This will also be the file extension.",
+    )
+    parser.add_argument(
+        "-p",
+        "--package_name",
+        type=str.lower,
+        default=None,
+        help="Package name to create registries for. If not specified, run on all.",
+    )
+    return parser
+
+
 def main():
     """Generate all available plugins from all installed GeoIPS packages.
 
@@ -849,34 +887,21 @@ def main():
     args: list
         List of strings representing the arguments provided via command line.
     """
-    description = (
-        "Creates Plugin Registries for all installed GeoIPS packages. "
-        "The registries will be written to the root directory of each installed "
-        "package. The registries will be named either 'registered_plugins.json' "
-        "or 'registered_plugins.yaml' depending on which format is chosen. "
-        "For additional information on GeoIPS plugin registries please refer to "
-        "the GeoIPS documentation."
-    )
+    parser = get_parser()
 
-    argparser = ArgumentParser(
-        prog="create_plugin_registries",
-        description=description,
-    )
-    argparser.add_argument(
-        "-s",
-        "--save_type",
-        type=str.lower,
-        default="json",
-        choices=["json", "yaml"],
-        help="Format to write registries to. This will also be the file extension.",
-    )
-    ARGS = argparser.parse_args()
+    ARGS = parser.parse_args()
     save_type = ARGS.save_type
+    package_name = ARGS.package_name
 
     LOG = setup_logging(logging_level="INTERACTIVE")
     # Note: Python 3.9 appears to return duplicates when installed with setuptools.
     # These are filtered within the create_plugin_registries function.
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    if package_name:
+        for plugin_package in plugin_packages:
+            if plugin_package.name == package_name:
+                use_plugin_package = plugin_package
+        plugin_packages = [use_plugin_package]
     LOG.debug(plugin_packages)
     create_plugin_registries(plugin_packages, save_type)
     sys.exit(0)

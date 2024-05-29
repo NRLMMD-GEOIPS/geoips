@@ -13,7 +13,7 @@
 #!/bin/sh
 
 # This should contain test calls to cover ALL required functionality
-# tests for the geoips repo.
+# tests for this repo.
 
 # The $GEOIPS_PACKAGES_DIR/geoips tests modules sourced within this script handle:
    # setting up the appropriate associative arrays for tracking the overall
@@ -23,7 +23,9 @@
 
 repopath=`dirname $0`/../
 pkgname=geoips
-
+# Argument to test_all_pre.sh ONLY sets the prefix on the log output / filenames.
+# Used for clarity, and to differentiate potentially multiple "test_all.sh" scripts
+# in the same repo.
 . $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_all_pre.sh ${pkgname}_all
 
 echo ""
@@ -46,6 +48,8 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/geokompsat.static.Visible.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/geokompsat.tc.WV.geotiff.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
@@ -60,6 +64,7 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smos.tc.sectored.text_winds.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ssmi.tc.37pct.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ssmis.color91.unprojected_image.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh"
