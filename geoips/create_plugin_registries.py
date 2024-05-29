@@ -22,7 +22,7 @@ created at the top level package directory for each plugin package.
 """
 
 import yaml
-from importlib import resources, util
+from importlib import metadata, resources, util
 from inspect import signature
 from os.path import (
     basename,
@@ -42,7 +42,6 @@ from geoips.errors import PluginRegistryError
 import json
 from argparse import ArgumentParser
 
-from geoips.geoips_utils import get_entry_point_group
 
 LOG = logging.getLogger(__name__)
 
@@ -396,7 +395,7 @@ def create_plugin_registries(plugin_packages, save_type):
         # Remove all registries to prevent running geoips with an incomplete
         # or corrupt set of plugins.  Force user to resolve errors before
         # proceeding.
-        remove_registries(get_entry_point_group("geoips.plugin_packages"))
+        remove_registries(metadata.entry_points(group="geoips.plugin_packages"))
         # Now raise the error, including the error message with output
         # from every failed plugin/file during the attempted registry process.
         raise PluginRegistryError(error_message)
@@ -876,7 +875,7 @@ def main():
     LOG = setup_logging(logging_level="INTERACTIVE")
     # Note: Python 3.9 appears to return duplicates when installed with setuptools.
     # These are filtered within the create_plugin_registries function.
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
     LOG.debug(plugin_packages)
     create_plugin_registries(plugin_packages, save_type)
     sys.exit(0)

@@ -26,27 +26,6 @@ LOG = logging.getLogger(__name__)
 NAMESPACE_PREFIX = "geoips"
 
 
-def get_entry_point_group(group):
-    """Get entry point group.
-
-    Parameters
-    ----------
-    group: str
-        - The name of the group of entrypoints. Eg. 'geoips.plugin_packages'.
-
-    Returns
-    -------
-    eps: list of EntryPoints
-        - a list of entry points that fall under group 'group'.
-    """
-    # NOTE: When there is a .egg-info directory in the plugin package top
-    # level (ie, from setuptools pip install -e), it seems to return that
-    # package twice in this list.  For now, just use the full list with
-    # duplicates.
-    eps = metadata.entry_points(group=group)
-    return eps
-
-
 def find_ascii_palette(name):
     """Find ASCII palette named "name".
 
@@ -68,7 +47,7 @@ def find_all_txt_plugins(subdir=""):
     in ``.txt``. Return list of files
     """
     # Load all entry points for plugin packages
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
 
     # Loop over the plugin packages and load all of their yaml plugins
     txt_files = []
@@ -88,7 +67,7 @@ def load_all_yaml_plugins():
     # Load all entry points for plugin packages
     import json
 
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
     yaml_plugins = {}
     for pkg in plugin_packages:
         pkg_plug_path = str(resources.files(pkg.value) / "registered_plugins")
@@ -138,7 +117,7 @@ def find_entry_point(namespace, name, default=None):
         then no match will result in an exception
     """
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    for ep in get_entry_point_group(ep_namespace):
+    for ep in metadata.entry_points(group=ep_namespace):
         if ep.name == name:
             resolved_ep = ep.load()
             break
@@ -170,7 +149,7 @@ def get_all_entry_points(namespace):
     # Do not use a list comprehension here so we can raise exceptions
     # containing the actual package that errored.
     try:
-        for ep in get_entry_point_group(ep_namespace):
+        for ep in metadata.entry_points(group=ep_namespace):
             try:
                 retlist += [ep.load()]
             except Exception as resp:
@@ -197,7 +176,7 @@ def list_entry_points(namespace):
         Entry point namespace (e.g. 'readers')
     """
     ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.name for ep in get_entry_point_group(ep_namespace)]
+    return [ep.name for ep in metadata.entry_points(group=ep_namespace)]
 
 
 def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):

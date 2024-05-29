@@ -26,14 +26,13 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import resources
+from importlib import metadata, resources
 import os
 import logging
 from geoips.errors import PluginRegistryError
 import yaml
 import json
 
-from geoips.geoips_utils import get_entry_point_group
 
 LOG = logging.getLogger(__name__)
 
@@ -55,7 +54,7 @@ class PluginRegistry:
         else:
             self._is_test = False
             self.registry_files = []  # Collect the paths to the registry files here
-            for pkg in get_entry_point_group("geoips.plugin_packages"):
+            for pkg in metadata.entry_points(group="geoips.plugin_packages"):
                 try:
                     self.registry_files.append(
                         str(resources.files(pkg.value) / "registered_plugins.json")
