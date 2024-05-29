@@ -27,7 +27,7 @@ def yield_plugins():
     """Yield plugins."""
     plugin_packages = get_entry_point_group("geoips.plugin_packages")
     for pkg in plugin_packages:
-        fpath = resources.files("geoips") / "plugins/yaml"
+        fpath = resources.files(pkg.name) / "plugins/yaml"
         plugin_files = fpath.rglob("*.yaml")
         for pf in plugin_files:
             yield pf

@@ -24,15 +24,15 @@ class EntryPointError(Exception):
 
     pass
 
-
+  
 class PluginError(Exception):
-    """Exception to be raised when there is an error in a plugin module."""
+    """Exception to be raised when there is an error in a GeoIPS plugin."""
 
     pass
 
 
 class PluginRegistryError(Exception):
-    """Exception to be raised when there is an error in a plugin module."""
+    """Exception to be raised when there is an error in a plugin registry."""
 
     pass
 
@@ -45,5 +45,11 @@ class PluginValidationError(Exception):
 
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
+
+    pass
+
+
+class CliError(Exception):
+    """Raise exception on command line interface error."""
 
     pass

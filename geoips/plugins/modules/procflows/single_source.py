@@ -205,16 +205,579 @@ def get_output_filenames(
     return output_fnames, metadata_fnames
 
 
+def add_attrs_from_area_def(final_xarray, source_xarray, area_def):
+    """Add attributes from an area_def."""
+    # MLS I think this should actually just be final_xarray and final_xarray,
+    # no source_xarray!  We might be losing information...
+    # Ensure we have the "adjustment"id" in the filename appropriately
+    if "adjustment_id" in area_def.sector_info:
+        final_xarray = add_filename_extra_field(
+            source_xarray, "adjustment_id", area_def.sector_info["adjustment_id"]
+        )
+    return final_xarray
+
+
+def resector_xarrays(
+    resector, sect_xarrays, area_def, variables, window_start_time, window_end_time
+):
+    """Resector xarrays if requested."""
+    # If the initial sectoring was to a padded area definition, must sector to final
+    # area_def here.
+    # Allow specifying whether it needs to be resectored or not via kwargs.
+    if resector:
+        LOG.interactive("Resectoring xarrays without padding...")
+        curr_sect_xarrays = sector_xarrays(
+            sect_xarrays,
+            area_def,
+            varlist=variables,
+            hours_before_sector_time=6,
+            hours_after_sector_time=9,
+            drop=True,
+            window_start_time=window_start_time,
+            window_end_time=window_end_time,
+        )
+        # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
+    else:
+        curr_sect_xarrays = sect_xarrays
+    return curr_sect_xarrays
+
+
+def get_interp_plugin_from_product(prod_plugin):
+    """Get the interpolator plugin from the product spec.
+
+    Reassign interp_plugin based on CURRENT sect_xarray
+    Allow re-defining interpolation for different datasets.
+    """
+    interp_plugin = None
+    if "interpolator" in prod_plugin["spec"]:
+        interp_plugin = interpolators.get_plugin(
+            prod_plugin["spec"]["interpolator"]["plugin"]["name"]
+        )
+        interp_args = prod_plugin["spec"]["interpolator"]["plugin"]["arguments"]
+        interp_args = remove_unsupported_kwargs(interp_plugin, interp_args)
+    return interp_plugin, interp_args
+
+
+def apply_interp_first(
+    variables,
+    curr_sect_xarrays,
+    prod_plugin,
+    datasets_for_vars,
+    resampled_read,
+    area_def,
+    processed_xarrays,
+):
+    """Apply interpolation first.
+
+    For product types that involve interpolation before algorithm.
+    """
+    # Default to empty xarray.Dataset() - will be populated within loop with
+    # appropriate regridded variables.
+    interp_xarray = xarray.Dataset()
+    for varname in variables:
+        LOG.info("TRYING variable %s", varname)
+        for key, sect_xarray in curr_sect_xarrays.items():
+            LOG.info("    TRYING dataset %s for variable %s", key, varname)
+
+            if varname not in sect_xarray.variables:
+                continue
+
+            # Determine which interpolator to use based on the product definition.
+            interp_plugin, interp_args = get_interp_plugin_from_product(prod_plugin)
+
+            # Check if a specific dataset was specified for the current variable,
+            # and ensure we are pulling the variable from the correct dataset.
+            if not use_variable_from_current_dataset(
+                varname,
+                key,
+                variables,
+                sect_xarray,
+                interp_xarray,
+                resampled_read,
+                datasets_for_vars,
+            ):
+                continue
+
+            # Potential efficiency hit with to_masked_array for dask arrays, etc
+            # LOG.info('Min/max %s %s / %s, dataset %s',
+            #          varname,
+            #          sect_xarray[varname].to_masked_array().min(),
+            #          sect_xarray[varname].to_masked_array().max(),
+            #          key)
+
+            # It is much faster to interpolate all variables at once than
+            # one at a time. Since we can assume "variables" is all of the
+            # requested variables, just interpolate them all the first time
+            # through, and add logic to NOT reinterpolate variables if they've
+            # already been interpolated.
+            # For reference, with 11 variables, it was 1 min 13s
+            # to interpolate individually, 22s in one call.
+            interp_args["varlist"] = variables
+            if "time_dim" in sect_xarray.dims:
+                # This is for a particularly formatted dataset, that includes
+                # separate arrays for different times (ABI fire product).
+                # We need to be careful this does not break for some other
+                # dataset that includes a differently formatted "time"
+                # dimension.
+                tdims = len(sect_xarray.time_dim)
+
+                interp_list = []
+                for i in range(tdims):
+                    interp_list.append(
+                        perform_interpolation(
+                            interp_plugin,
+                            area_def,
+                            sect_xarray.isel(time_dim=i),
+                            xarray.Dataset(),
+                            interp_args,
+                            processed_xarrays,
+                        )
+                    )
+
+                interp_xarray[varname] = xarray.concat(interp_list, dim="dim_2")[
+                    varname
+                ]
+            else:
+                interp_xarray = perform_interpolation(
+                    interp_plugin,
+                    area_def,
+                    sect_xarray,
+                    interp_xarray,
+                    interp_args,
+                    processed_xarrays,
+                )
+
+            # Potential efficiency hit with to_masked_array for dask arrays, etc
+            # LOG.info('Min/max interp %s %s / %s',
+            #          varname,
+            #          interp_xarray[varname].to_masked_array().min(),
+            #          interp_xarray[varname].to_masked_array().max())
+    return interp_xarray
+
+
+def use_variable_from_current_dataset(
+    varname,
+    key,
+    variables,
+    sect_xarray,
+    interp_xarray,
+    resampled_read,
+    datasets_for_vars,
+):
+    """Use the variable from the current dataset.
+
+    If a specific dataset was requested for the current variable, and
+    this dataset was NOT requested via a resampled_read (in which case
+    the native datasets won't exist, only the resampled dataset),
+    then use the appropriately requested dataset.
+    """
+    if varname in datasets_for_vars and not resampled_read:
+        if key in datasets_for_vars[varname]:
+            LOG.info(
+                "        USING %s varname from dataset %s, as specified in "
+                "product_input YAML config",
+                varname,
+                key,
+            )
+        else:
+            LOG.info(
+                "        WAITING dataset %s not requested for variable %s in "
+                "product_input YAML config",
+                key,
+                varname,
+            )
+            return False
+    # If we've already interpolated this variable, check if it is needed
+    # before interpolating again
+    elif interp_xarray is not None and varname in list(interp_xarray.keys()):
+        # If all of the required variables are in the current dataset, use this
+        # version
+        if set(variables).issubset(set(sect_xarray.variables.keys())):
+            LOG.info(
+                "        REPLACING %s with current dataset %s, all required "
+                "variables in current dataset",
+                varname,
+                key,
+            )
+        # Otherwise, skip re-interpolating to avoid unecessary computation
+        else:
+            LOG.warning(
+                "        SKIPPING %s, encountered multiple versions, skipping "
+                "subsequent dataset %s",
+                varname,
+                key,
+            )
+            return False
+    else:
+        LOG.info(
+            "        USING %s varname from dataset %s - first availalbe, and "
+            "not specified in YAML",
+            varname,
+            key,
+        )
+    return True
+
+
+def get_alg_and_interp_plugins(prod_plugin):
+    """Get algorithm and interpolator plugins from prod_plugin definition."""
+    # Only attempt to set algorithm function if algorithm requested in product type
+    try:
+        alg_args = prod_plugin["spec"]["algorithm"]["plugin"]["arguments"]
+        alg_plugin = algorithms.get_plugin(
+            prod_plugin["spec"]["algorithm"]["plugin"]["name"]
+        )
+    except KeyError:
+        alg_args = None
+        alg_plugin = None
+
+    try:
+        interp_args = prod_plugin["spec"]["interpolator"]["plugin"]["arguments"]
+        interp_plugin = interpolators.get_plugin(
+            prod_plugin["spec"]["interpolator"]["plugin"]["name"]
+        )
+        interp_args = remove_unsupported_kwargs(interp_plugin, interp_args)
+    except KeyError:
+        interp_args = None
+        interp_plugin = None
+    return alg_plugin, alg_args, interp_plugin, interp_args
+
+
+def apply_alg_after_interp(
+    interp_xarray,
+    area_def,
+    alg_plugin,
+    alg_args,
+    prod_plugin,
+    variables,
+    processed_xarrays,
+):
+    """Apply algorithm after interpolation.
+
+    MLS need to add ability here to pull from processed_xarrays if algorithm
+    was already applied.
+    """
+    if processed_xarrays and prod_plugin.name in processed_xarrays:
+        return processed_xarrays[prod_plugin.name]
+    # Specify the call signature and return value for different algorithm types:
+    if prod_plugin.family in ["interpolator"]:
+        # Note "interp" product type will NOT have a single variable named
+        # "product_name", just the individual interpolated variables.
+        interp_xarray = interp_xarray
+    elif alg_plugin.family in ["xarray_to_numpy"]:
+        # xarray_to_numpy will return a single array, which can be set to the
+        # "product_name" variable.
+        LOG.interactive(
+            "  Applying '%s' family algorithm '%s' to data...",
+            alg_plugin.family,
+            alg_plugin.name,
+        )
+        interp_xarray[prod_plugin.name] = xarray.DataArray(
+            alg_plugin(interp_xarray, **alg_args)
+        )
+    elif alg_plugin.family in ["xarray_to_xarray"]:
+        # xarray_to_xarray algorithm type will return the full xarray object -
+        # assume variable names have been set appropriately within the
+        # algorithm.  This could be another good use of the
+        # "alt_varname_for_covg" kwarg in the coverage checks - if we want to
+        # just use a specific variable for the coverage checks rather than the
+        # "product_name" variable.
+        LOG.interactive(
+            "  Applying '%s' family algorithm '%s' to data...",
+            alg_plugin.family,
+            alg_plugin.name,
+        )
+        interp_xarray = alg_plugin(
+            interp_xarray, variables, prod_plugin.name, **alg_args
+        )
+    elif alg_plugin.family in [
+        "single_channel",
+        "channel_combination",
+        "list_numpy_to_numpy",
+        "rgb",
+    ]:
+        # Assume ANYTHING else takes in a list of numpy arrays, and returns a
+        # single numpy array.
+        # Perhaps we should be explicit here...
+        LOG.interactive(
+            "  Applying '%s' family algorithm '%s' to data...",
+            alg_plugin.family,
+            alg_plugin.name,
+        )
+        interp_xarray[prod_plugin.name] = xarray.DataArray(
+            alg_plugin(
+                [interp_xarray[varname].to_masked_array() for varname in variables],
+                **alg_args,
+            )
+        )
+    else:
+        raise TypeError(
+            f"UNSUPPORTED algorithm family '{alg_plugin.family}' or product family "
+            f"'{prod_plugin.family}', please add to the single_source procflow's "
+            "'get_alg_xarray' function appropriately"
+        )
+    return interp_xarray
+
+
+def apply_alg_first(
+    alg_plugin,
+    alg_args,
+    prod_plugin,
+    curr_sect_xarrays,
+    sect_xarrays,
+    variables,
+    variable_names,
+    area_def,
+):
+    """Apply algorithm appropriately based on algorithm family.
+
+    MLS
+    Inexplicably some of these use curr_sect_xarrays, and some use sect_xarrays.
+    Also, some use variables and some use variable_names.
+    I am guessing there is no reason for the difference, but maintaining the
+    original functionality for now.
+    """
+    alg_xarray = xarray.Dataset()
+    alg_xarray.attrs = sect_xarrays["METADATA"].attrs.copy()
+    if alg_plugin.family in ["xarray_to_numpy"]:
+        # Why does this one use sect_xarrays and not curr_sect_xarrays?
+        # And it uses variable_names, not variables.
+        alg_xarray = apply_alg_xarray_to_numpy(
+            alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variable_names
+        )
+    elif alg_plugin.family in ["xarray_dict_area_def_to_numpy"]:
+        # Why does this one use sect_xarrays and not curr_sect_xarrays?
+        alg_xarray = apply_alg_xarray_dict_area_def_to_numpy(
+            alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, area_def
+        )
+    elif alg_plugin.family in ["xarray_dict_to_xarray"]:
+        # This one uses sect_xarrays
+        alg_xarray = apply_alg_xarray_dict_to_xarray(alg_plugin, alg_args, sect_xarrays)
+    elif alg_plugin.family in ["xarray_to_xarray"]:
+        # This one uses variables, not variable_names
+        alg_xarray = apply_alg_xarray_to_xarray(
+            alg_plugin, alg_args, prod_plugin, sect_xarrays, variables
+        )
+    elif alg_plugin.family in ["list_numpy_to_numpy"]:
+        # Why does this one use curr_sect_xarrays and not sect_xarrays?
+        # And variables, not variable_names ?
+        alg_xarray = apply_alg_list_numpy_to_numpy(
+            alg_xarray,
+            alg_plugin,
+            alg_args,
+            prod_plugin,
+            curr_sect_xarrays,
+            variables,
+        )
+    return alg_xarray
+
+
+def apply_interp_after_alg(
+    alg_xarray, interp_plugin, interp_args, prod_plugin, area_def, processed_xarrays
+):
+    """Apply interpolation after algorithm."""
+    # No interpolation required
+    if prod_plugin.family in ["algorithm", "algorithm_colormapper"]:
+        final_xarray = alg_xarray
+    # If required, interpolate the result prior to returning
+    elif prod_plugin.family == "algorithm_interpolator_colormapper":
+        interp_args["varlist"] = [prod_plugin.name]
+        final_xarray = perform_interpolation(
+            interp_plugin,
+            area_def,
+            alg_xarray,
+            alg_xarray,
+            interp_args,
+            processed_xarrays,
+        )
+    return final_xarray
+
+
+def apply_alg_xarray_to_xarray(
+    alg_plugin, alg_args, prod_plugin, sect_xarrays, variable_names
+):
+    """Apply xarray_to_xarray algorithm."""
+    input_alg_xarray = None
+    for varname in variable_names:
+        LOG.info("TRYING variable %s for non-interpolated algorithms", varname)
+        for curr_sect_xarray in sect_xarrays.values():
+            if varname in curr_sect_xarray:
+                if input_alg_xarray is None:
+                    LOG.info(
+                        "    USING sectored xarray %s for non-interpolated "
+                        "algorithms",
+                        curr_sect_xarray,
+                    )
+                    input_alg_xarray = curr_sect_xarray
+                else:
+                    LOG.info(
+                        "    SKIPPING For non-interpolated data processing, "
+                        "all native variables must be the same resolution! "
+                        "Skipping variable %s, shape %s, input_alg_xarrays: %s",
+                        varname,
+                        curr_sect_xarray[varname].shape,
+                        input_alg_xarray,
+                    )
+    if input_alg_xarray is None:
+        raise ValueError(
+            "No required variables in any xarrays for 'xarray_to_xarray' "
+            "algorithm type"
+        )
+    LOG.interactive(
+        "  Applying '%s' family algorithm '%s' to data...",
+        alg_plugin.family,
+        alg_plugin.name,
+    )
+    alg_xarray = alg_plugin(
+        input_alg_xarray, variable_names, prod_plugin.name, **alg_args
+    )
+    return alg_xarray
+
+
+def apply_alg_xarray_dict_to_xarray(alg_plugin, alg_args, sect_xarrays):
+    """Apply xarray_dict_to_xarray algorithm."""
+    # Format the call signature for passing a dictionary of xarrays,
+    # plus area_def, and return a single numpy array
+    LOG.interactive(
+        "  Applying '%s' family algorithm '%s' to data...",
+        alg_plugin.family,
+        alg_plugin.name,
+    )
+    alg_xarray = alg_plugin(sect_xarrays, **alg_args)
+    return alg_xarray
+
+
+def apply_alg_xarray_dict_area_def_to_numpy(
+    alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, area_def
+):
+    """Apply xarray_dict_area_def_to_numpy algorithm."""
+    # Format the call signature for passing a dictionary of xarrays,
+    # plus area_def, and return a single numpy array
+    LOG.interactive(
+        "  Applying '%s' family algorithm '%s' to data...",
+        alg_plugin.family,
+        alg_plugin.name,
+    )
+    alg_xarray[prod_plugin.name] = xarray.DataArray(
+        alg_plugin(sect_xarrays, area_def, **alg_args)
+    )
+    return alg_xarray
+
+
+def apply_alg_xarray_to_numpy(
+    alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variable_names
+):
+    """Apply xarray_to_numpy algorithm."""
+    # Format the call signature for passing a dictionary of xarrays,
+    # plus area_def, and return a single numpy array
+    for dsname in sect_xarrays.keys():
+        if set(variable_names).issubset(set(sect_xarrays[dsname].variables.keys())):
+            LOG.interactive(
+                "  Applying '%s' family algorithm '%s' to data...",
+                alg_plugin.family,
+                alg_plugin.name,
+            )
+            alg_xarray[prod_plugin.name] = xarray.DataArray(
+                alg_plugin(sect_xarrays[dsname], **alg_args)
+            )
+    return alg_xarray
+
+
+def apply_alg_list_numpy_to_numpy(
+    alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variables
+):
+    """Apply list_numpy_to_numpy algorithm."""
+    # Need to pull all the required variables out of the various xarray datasets
+    # and add them to numpy list.
+    # Then assign the resulting numpy array to the "product_name" DataArray
+    # within the xarray Dataset
+    numpys = []
+    for varname in variables:
+        for curr_sect_xarray in sect_xarrays.values():
+            if varname in list(curr_sect_xarray.variables.keys()):
+                numpys += [curr_sect_xarray[varname].to_masked_array()]
+                alg_xarray = curr_sect_xarray
+    LOG.interactive(
+        "  Applying '%s' family algorithm '%s' to data...",
+        alg_plugin.family,
+        alg_plugin.name,
+    )
+    alg_xarray[prod_plugin.name] = xarray.DataArray(alg_plugin(numpys, **alg_args))
+    return alg_xarray
+
+
+def perform_interpolation(
+    interp_plugin, area_def, sect_xarray, interp_xarray, interp_args, processed_xarrays
+):
+    """Perform standard interpolation."""
+    interp_args, interp_xarray = select_variables_to_interp(
+        interp_args, area_def, sect_xarray, interp_xarray, processed_xarrays
+    )
+    LOG.interactive(
+        "  Interpolating data with interpolator '%s' args '%s'...",
+        interp_plugin.name,
+        interp_args,
+    )
+    # Only attempt to interpolate if there are required variables left.
+    if interp_args["varlist"]:
+        interp_xarray = interp_plugin(
+            area_def, sect_xarray, interp_xarray, **interp_args
+        )
+    else:
+        LOG.info("No variables to interpolate, returning interp_xarray unchanged.")
+    return interp_xarray
+
+
+def get_unique_dataset_key(area_def, xobj):
+    """Get a unique id for xarray dataset."""
+    standard_attrs = (
+        f"{xobj.attrs['start_datetime']}_"
+        f"{xobj.attrs['end_datetime']}_"
+        f"{xobj.attrs['platform_name']}_"
+        f"{xobj.attrs['source_name']}"
+    )
+    return f"{area_def.area_id}_{hash(area_def)}_{standard_attrs}"
+
+
+def select_variables_to_interp(
+    interp_args, area_def, source_xarray, interp_xarray, processed_xarrays
+):
+    """Select interpolation variables."""
+    curr_available_vars = set(list(source_xarray.variables.keys()))
+    already_interped_vars = set(list(interp_xarray.variables.keys()))
+    all_requested_vars = set(interp_args["varlist"])
+    curr_requested_vars = curr_available_vars.intersection(all_requested_vars)
+    interp_vars = curr_requested_vars.difference(already_interped_vars)
+    final_interp_vars = list(interp_vars)
+    # This is a unique identifier so we can re-use variables
+    # and product arrays appropriately.
+    area_def_key = get_unique_dataset_key(area_def, source_xarray)
+    if processed_xarrays and area_def_key in processed_xarrays:
+        LOG.info(
+            "  Area def '%s' in processed_xarrays, "
+            "with variables '%s', using existing array, "
+            "in place of interp_xarray '%s'.",
+            area_def_key,
+            list(processed_xarrays[area_def_key].variables.keys()),
+            interp_xarray,
+        )
+        # Just add to this existing array
+        interp_xarray = processed_xarrays[area_def_key]
+        final_interp_vars = []
+        for varname in interp_vars:
+            if varname not in processed_xarrays[area_def_key].variables.keys():
+                final_interp_vars += [varname]
+    interp_args["varlist"] = final_interp_vars
+    return interp_args, interp_xarray
+
+
 def remove_unsupported_kwargs(module, requested_kwargs):
     """Remove unsupported keyword arguments."""
-    unsupported = list(
-        set(requested_kwargs.keys()).difference(
-            set(inspect.signature(module).parameters.keys())
-        )
-    )
-    for key in unsupported:
-        LOG.warning("REMOVING UNSUPPORTED %s key %s", module, key)
-        requested_kwargs.pop(key)
+    module_args = set(inspect.signature(module).parameters.keys())
+    unsupported = list(set(requested_kwargs.keys()).difference(module_args))
+    if "kwargs" not in module_args:
+        for key in unsupported:
+            LOG.warning("REMOVING UNSUPPORTED %s key %s", module, key)
+            requested_kwargs.pop(key)
     return requested_kwargs
 
 
@@ -505,6 +1068,7 @@ def plot_data(
     output_kwargs["output_dict"] = output_dict
     output_formatter = get_output_formatter(output_dict)
     output_plugin = output_formatters.get_plugin(output_formatter)
+    output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
     exclude_platforms = prod_plugin["spec"].get("exclude_platforms")
     include_platforms = prod_plugin["spec"].get("include_platforms")
     if exclude_platforms and alg_xarray.platform_name in exclude_platforms:
@@ -551,6 +1115,7 @@ def plot_data(
             xarray_obj=alg_xarray,
             product_names=[prod_plugin.name, "latitude", "longitude"],
             output_fnames=list(output_fnames.keys()),
+            **output_kwargs,
         )
         if output_products != list(output_fnames.keys()):
             raise ValueError("Did not produce expected products")
@@ -762,14 +1327,22 @@ def get_area_defs_from_command_line_args(
         else:
             import pyresample
 
+            orig_lons = xobjs[self_register_dataset]["longitude"]
+            lons = pyresample.utils.wrap_longitudes(orig_lons)
             area_def = pyresample.geometry.SwathDefinition(
-                lons=xobjs[self_register_dataset]["longitude"],
+                lons=lons,
                 lats=xobjs[self_register_dataset]["latitude"],
             )
             min_lat = xobjs[self_register_dataset]["latitude"].min()
             max_lat = xobjs[self_register_dataset]["latitude"].max()
             min_lon = xobjs[self_register_dataset]["longitude"].min()
             max_lon = xobjs[self_register_dataset]["longitude"].max()
+            if max_lon > 180 and min_lon < 180:
+                min_lon = lons.where(lons > 0).min()
+                max_lon = lons.where(lons < 0).max()
+            else:
+                min_lon = lons.min()
+                max_lon = lons.max()
             area_def.area_extent_ll = [min_lon, min_lat, max_lon, max_lat]
             if (
                 "interpolation_radius_of_influence"
@@ -865,6 +1438,7 @@ def get_alg_xarray(
     sect_xarrays,
     area_def,
     prod_plugin,
+    processed_xarrays=None,
     resector=True,
     resampled_read=False,
     variable_names=None,
@@ -910,45 +1484,19 @@ def get_alg_xarray(
         variables = variable_names
 
     LOG.interactive("Applying algorithms and interpolation...")
+
     datasets_for_vars = get_requested_datasets_for_variables(prod_plugin)
 
-    # Only attempt to set algorithm function if algorithm requested in product type
-    try:
-        alg_args = prod_plugin["spec"]["algorithm"]["plugin"]["arguments"]
-        alg_plugin = algorithms.get_plugin(
-            prod_plugin["spec"]["algorithm"]["plugin"]["name"]
-        )
-    except KeyError:
-        alg_args = None
-        alg_plugin = None
+    # Get the algorithm and interpolator plugins we need to use, based
+    # on the contents of prod_plugin.
+    alg_plugin, alg_args, interp_plugin, interp_args = get_alg_and_interp_plugins(
+        prod_plugin
+    )
 
-    try:
-        interp_args = prod_plugin["spec"]["interpolator"]["plugin"]["arguments"]
-        interp_plugin = interpolators.get_plugin(
-            prod_plugin["spec"]["interpolator"]["plugin"]["name"]
-        )
-    except KeyError:
-        interp_args = None
-        interp_plugin = None
-
-    # If the initial sectoring was to a padded area definition, must sector to final
-    # area_def here.
-    # Allow specifying whether it needs to be resectored or not via kwargs.
-    if resector:
-        LOG.interactive("Resectoring xarrays without padding...")
-        curr_sect_xarrays = sector_xarrays(
-            sect_xarrays,
-            area_def,
-            varlist=variables,
-            hours_before_sector_time=6,
-            hours_after_sector_time=9,
-            drop=True,
-            window_start_time=window_start_time,
-            window_end_time=window_end_time,
-        )
-        # hours_before_sector_time=6, hours_after_sector_time=6, drop=True)
-    else:
-        curr_sect_xarrays = sect_xarrays
+    # Re-sector the xarrays if requested.
+    curr_sect_xarrays = resector_xarrays(
+        resector, sect_xarrays, area_def, variables, window_start_time, window_end_time
+    )
 
     LOG.info("get_alg_xarray required variables: %s", variables)
     LOG.info("get_alg_xarray requested datasets for variables: %s", datasets_for_vars)
@@ -960,310 +1508,96 @@ def get_alg_xarray(
         "algorithm_interpolator_colormapper",
         "algorithm",
     ]:
-        alg_xarray = xarray.Dataset()
-        alg_xarray.attrs = sect_xarrays["METADATA"].attrs.copy()
-        if alg_plugin.family in ["xarray_to_numpy"]:
-            # Format the call signature for passing a dictionary of xarrays,
-            # plus area_def, and return a single numpy array
-            for dsname in sect_xarrays.keys():
-                if set(variable_names).issubset(
-                    set(sect_xarrays[dsname].variables.keys())
-                ):
-                    LOG.interactive(
-                        "  Applying '%s' family algorithm '%s' to data...",
-                        alg_plugin.family,
-                        alg_plugin.name,
-                    )
-                    alg_xarray[prod_plugin.name] = xarray.DataArray(
-                        alg_plugin(sect_xarrays[dsname], **alg_args)
-                    )
-        elif alg_plugin.family in ["xarray_dict_area_def_to_numpy"]:
-            # Format the call signature for passing a dictionary of xarrays,
-            # plus area_def, and return a single numpy array
-            LOG.interactive(
-                "  Applying '%s' family algorithm '%s' to data...",
-                alg_plugin.family,
-                alg_plugin.name,
-            )
-            alg_xarray[prod_plugin.name] = xarray.DataArray(
-                alg_plugin(sect_xarrays, area_def, **alg_args)
-            )
-        elif alg_plugin.family in ["xarray_dict_to_xarray"]:
-            # Format the call signature for passing a dictionary of xarrays,
-            # plus area_def, and return a single numpy array
-            LOG.interactive(
-                "  Applying '%s' family algorithm '%s' to data...",
-                alg_plugin.family,
-                alg_plugin.name,
-            )
-            alg_xarray = alg_plugin(sect_xarrays, **alg_args)
-        elif alg_plugin.family in ["xarray_to_xarray"]:
-            input_alg_xarray = None
-            for varname in variables:
-                LOG.info("TRYING variable %s for non-interpolated algorithms", varname)
-                for curr_sect_xarray in curr_sect_xarrays:
-                    if varname in curr_sect_xarray:
-                        if input_alg_xarray is None:
-                            LOG.info(
-                                "    USING sectored xarray %s for non-interpolated "
-                                "algorithms",
-                                curr_sect_xarray,
-                            )
-                            input_alg_xarray = curr_sect_xarray
-                        else:
-                            LOG.info(
-                                "    SKIPPING For non-interpolated data processing, "
-                                "all native variables must be the same resolution! "
-                                "Skipping variable %s, shape %s, input_alg_xarrays: %s",
-                                varname,
-                                curr_sect_xarrays[varname].shape,
-                                input_alg_xarray,
-                            )
-            if input_alg_xarray is None:
-                raise ValueError(
-                    "No required variables in any xarrays for 'xarray_to_xarray' "
-                    "algorithm type"
-                )
-            LOG.interactive(
-                "  Applying '%s' family algorithm '%s' to data...",
-                alg_plugin.family,
-                alg_plugin.name,
-            )
-            alg_xarray = alg_plugin(
-                input_alg_xarray, variables, prod_plugin.name, **alg_args
-            )
-        elif alg_plugin.family in ["list_numpy_to_numpy"]:
-            # Need to pull all the required variables out of the various xarray datasets
-            # and add them to numpy list.
-            # Then assign the resulting numpy array to the "product_name" DataArray
-            # within the xarray Dataset
-            numpys = []
-            for varname in variables:
-                for curr_sect_xarray in curr_sect_xarrays.values():
-                    if varname in list(curr_sect_xarray.variables.keys()):
-                        numpys += [curr_sect_xarray[varname].to_masked_array()]
-                        alg_xarray = curr_sect_xarray
-            LOG.interactive(
-                "  Applying '%s' family algorithm '%s' to data...",
-                alg_plugin.family,
-                alg_plugin.name,
-            )
-            alg_xarray[prod_plugin.name] = xarray.DataArray(
-                alg_plugin(numpys, **alg_args)
-            )
+        # All of these apply the algorithm first, so go ahead and
+        # apply the algorithm.
+        # Some use variables and some use variable_names... So pass both.
+        # Some use curr_sect_xarrays and some use sect_xarrays... So pass both.
+        # MLS I'm guessing this random selection is not right.
+        alg_xarray = apply_alg_first(
+            alg_plugin,
+            alg_args,
+            prod_plugin,
+            curr_sect_xarrays,
+            sect_xarrays,
+            variables,
+            variable_names,
+            area_def,
+        )
 
-        # No interpolation required
-        if prod_plugin.family in ["algorithm", "algorithm_colormapper"]:
-            final_xarray = alg_xarray
-        # If required, interpolate the result prior to returning
-        elif prod_plugin.family == "algorithm_interpolator_colormapper":
-            interp_args["varlist"] = [prod_plugin.name]
-            LOG.interactive(
-                "  Interpolating data with interpolator '%s'...", interp_plugin.name
-            )
-            final_xarray = interp_plugin(area_def, alg_xarray, None, **interp_args)
+        # Now apply the intepolator after applying the algorithm.
+        final_xarray = apply_interp_after_alg(
+            alg_xarray,
+            interp_plugin,
+            interp_args,
+            prod_plugin,
+            area_def,
+            processed_xarrays,
+        )
 
-        # Ensure we have the "adjustment"id" in the filename appropriately
-        if "adjustment_id" in area_def.sector_info:
-            final_xarray = add_filename_extra_field(
-                alg_xarray, "adjustment_id", area_def.sector_info["adjustment_id"]
-            )
+        # MLS This appears to update alg_xarray, not final_xarray, with the
+        # area_def information.  So this might not be right..
+        final_xarray = add_attrs_from_area_def(final_xarray, alg_xarray, area_def)
         # return here - we are done for either alg_cmap or alg_interp_cmap type
         return final_xarray
 
     # NOTE if algorithm specified first in product_type, we will not get to this point!
     # Returned from above if statement
 
-    # Default to empty xarray.Dataset() - will be populated within loop with
-    # appropriate regridded variables.
-    interp_xarray = xarray.Dataset()
-
-    for varname in variables:
-        LOG.info("TRYING variable %s", varname)
-        for key, sect_xarray in curr_sect_xarrays.items():
-            LOG.info("    TRYING dataset %s for variable %s", key, varname)
-
-            if varname not in sect_xarray.variables:
-                continue
-
-            # Reassign interp_plugin based on CURRENT sect_xarray
-            # Allow re-defining interpolation for different datasets.
-            interp_plugin = None
-            if "interpolator" in prod_plugin["spec"]:
-                interp_plugin = interpolators.get_plugin(
-                    prod_plugin["spec"]["interpolator"]["plugin"]["name"]
-                )
-                interp_args = prod_plugin["spec"]["interpolator"]["plugin"]["arguments"]
-
-            # If a specific dataset was requested for the current variable, and
-            # this dataset was NOT requested via a resampled_read (in which case
-            # the native datasets won't exist, only the resampled dataset),
-            # then use the appropriately requested dataset.
-            if varname in datasets_for_vars and not resampled_read:
-                if key in datasets_for_vars[varname]:
-                    LOG.info(
-                        "        USING %s varname from dataset %s, as specified in "
-                        "product_input YAML config",
-                        varname,
-                        key,
-                    )
-                else:
-                    LOG.info(
-                        "        WAITING dataset %s not requested for variable %s in "
-                        "product_input YAML config",
-                        key,
-                        varname,
-                    )
-                    continue
-            # If we've already interpolated this variable, check if it is needed
-            # before interpolating again
-            elif interp_xarray is not None and varname in list(interp_xarray.keys()):
-                # If all of the required variables are in the current dataset, use this
-                # version
-                if set(variables).issubset(set(sect_xarray.variables.keys())):
-                    LOG.info(
-                        "        REPLACING %s with current dataset %s, all required "
-                        "variables in current dataset",
-                        varname,
-                        key,
-                    )
-                # Otherwise, skip re-interpolating to avoid unecessary computation
-                else:
-                    LOG.warning(
-                        "        SKIPPING %s, encountered multiple versions, skipping "
-                        "subsequent dataset %s",
-                        varname,
-                        key,
-                    )
-                    continue
-            else:
-                LOG.info(
-                    "        USING %s varname from dataset %s - first availalbe, and "
-                    "not specified in YAML",
-                    varname,
-                    key,
-                )
-
-            # Potential efficiency hit with to_masked_array for dask arrays, etc
-            # LOG.info('Min/max %s %s / %s, dataset %s',
-            #          varname,
-            #          sect_xarray[varname].to_masked_array().min(),
-            #          sect_xarray[varname].to_masked_array().max(),
-            #          key)
-
-            # apply the requested interpolation routine.
-            interp_args["varlist"] = [varname]
-            if "time_dim" in sect_xarray.dims:
-                # This is for a particularly formatted dataset, that includes
-                # separate arrays for different times (ABI fire product).
-                # We need to be careful this does not break for some other
-                # dataset that includes a differently formatted "time"
-                # dimension.
-                tdims = len(sect_xarray.time_dim)
-                LOG.interactive(
-                    "  Interpolating data with interpolator '%s'...", interp_plugin.name
-                )
-                interp_list = [
-                    interp_plugin(
-                        area_def,
-                        sect_xarray.isel(time_dim=i),
-                        xarray.Dataset(),
-                        **interp_args,
-                    )
-                    for i in range(tdims)
-                ]
-                interp_xarray[varname] = xarray.concat(interp_list, dim="dim_2")[
-                    varname
-                ]
-            else:
-                LOG.interactive(
-                    "  Interpolating data with interpolator '%s'...", interp_plugin.name
-                )
-                interp_xarray = interp_plugin(
-                    area_def, sect_xarray, interp_xarray, **interp_args
-                )
-
-            # Potential efficiency hit with to_masked_array for dask arrays, etc
-            # LOG.info('Min/max interp %s %s / %s',
-            #          varname,
-            #          interp_xarray[varname].to_masked_array().min(),
-            #          interp_xarray[varname].to_masked_array().max())
+    # For products that first require interpolator, start with interpolator.
+    # These appear to consistently use curr_sect_xarrays and variables.
+    # Don't re-interpolate if a variable is found in processed_xarrays.
+    interp_xarray = apply_interp_first(
+        variables,
+        curr_sect_xarrays,
+        prod_plugin,
+        datasets_for_vars,
+        resampled_read,
+        area_def,
+        processed_xarrays,
+    )
 
     # Make sure we have all the appropriate attributes attached to the current
     # interp_xarray.
     # Use force=False so if attributes were set above, we do not overwrite them.
-    copy_standard_metadata(sect_xarray, interp_xarray, force=False)
+    # MLS This was originally using sect_xarray, which would have just been
+    # the last sect_xarray when looping through the datasets.  Not sure that
+    # is what we wanted. Also not sure how much this is going to change outputs.
+    copy_standard_metadata(sect_xarrays["METADATA"], interp_xarray, force=False)
 
-    # Specify the call signature and return value for different algorithm types:
-    if prod_plugin.family in ["interpolator"]:
-        # Note "interp" product type will NOT have a single variable named
-        # "product_name", just the individual interpolated variables.
-        interp_xarray = interp_xarray
-    elif alg_plugin.family in ["xarray_to_numpy"]:
-        # xarray_to_numpy will return a single array, which can be set to the
-        # "product_name" variable.
-        LOG.interactive(
-            "  Applying '%s' family algorithm '%s' to data...",
-            alg_plugin.family,
-            alg_plugin.name,
-        )
-        interp_xarray[prod_plugin.name] = xarray.DataArray(
-            alg_plugin(interp_xarray, **alg_args)
-        )
-    elif alg_plugin.family in ["xarray_to_xarray"]:
-        # xarray_to_xarray algorithm type will return the full xarray object -
-        # assume variable names have been set appropriately within the
-        # algorithm.  This could be another good use of the
-        # "alt_varname_for_covg" kwarg in the coverage checks - if we want to
-        # just use a specific variable for the coverage checks rather than the
-        # "product_name" variable.
-        LOG.interactive(
-            "  Applying '%s' family algorithm '%s' to data...",
-            alg_plugin.family,
-            alg_plugin.name,
-        )
-        interp_xarray = alg_plugin(
-            interp_xarray, variables, prod_plugin.name, **alg_args
-        )
-    elif alg_plugin.family in [
-        "single_channel",
-        "channel_combination",
-        "list_numpy_to_numpy",
-        "rgb",
-    ]:
-        # Assume ANYTHING else takes in a list of numpy arrays, and returns a
-        # single numpy array.
-        # Perhaps we should be explicit here...
-        LOG.interactive(
-            "  Applying '%s' family algorithm '%s' to data...",
-            alg_plugin.family,
-            alg_plugin.name,
-        )
-        interp_xarray[prod_plugin.name] = xarray.DataArray(
-            alg_plugin(
-                [interp_xarray[varname].to_masked_array() for varname in variables],
-                **alg_args,
-            )
-        )
-    else:
-        raise TypeError(
-            f"UNSUPPORTED algorithm family '{alg_plugin.family}' or product family "
-            f"'{prod_plugin.family}', please add to the single_source procflow's "
-            "'get_alg_xarray' function appropriately"
-        )
+    # Now apply the algorithm after interpolating. Don't reapply if it is
+    # found in processed_xarrays.
+    interp_xarray = apply_alg_after_interp(
+        interp_xarray,
+        area_def,
+        alg_plugin,
+        alg_args,
+        prod_plugin,
+        variables,
+        processed_xarrays,
+    )
 
     # Make sure we have all the appropriate attributes attached to the current
     # interp_xarray.
     # Use force=False so if attributes were set above, we do not overwrite them.
-    copy_standard_metadata(sect_xarray, interp_xarray, force=False)
+    # MLS This was originally using sect_xarray, which would have just been
+    # the last sect_xarray when looping through the datasets.  Not sure that
+    # is what we wanted. Also not sure how much this is going to change outputs.
+    copy_standard_metadata(sect_xarrays["METADATA"], interp_xarray, force=False)
     # Attach final product_name to the interp_xarray as well (the end goal of
-    # this routine)
+    # this routine).
+    if (
+        interp_xarray.attrs.get("product_name")
+        and interp_xarray.attrs["product_name"] != prod_plugin.name
+    ):
+        # Only include product_names if there is more than one product_name
+        if "product_names" not in interp_xarray.attrs:
+            interp_xarray.attrs["product_names"] = [prod_plugin.name]
+        else:
+            interp_xarray.attrs["product_names"].append(prod_plugin.name)
     interp_xarray.attrs["product_name"] = prod_plugin.name
-    # Add appropriate attributes to alg_xarray
-    if "adjustment_id" in area_def.sector_info:
-        interp_xarray = add_filename_extra_field(
-            interp_xarray, "adjustment_id", area_def.sector_info["adjustment_id"]
-        )
+    # MLS This one uses interp_xarray and interp_xarray...
+    # The other one I think passed the wrong ones.
+    interp_xarray = add_attrs_from_area_def(interp_xarray, interp_xarray, area_def)
 
     return interp_xarray
 
@@ -1410,7 +1744,6 @@ def call(fnames, command_line_args=None):
         reader_kwargs = {}
     compare_path = command_line_args["compare_path"]
     output_file_list_fname = command_line_args["output_file_list_fname"]
-    # compare_outputs_module = command_line_args["compare_outputs_module"]
     sector_adjuster = command_line_args["sector_adjuster"]
     sector_adjuster_kwargs = command_line_args["sector_adjuster_kwargs"]
     self_register_source = command_line_args["self_register_source"]
@@ -1420,15 +1753,16 @@ def call(fnames, command_line_args=None):
     resampled_read = command_line_args["resampled_read"]
     product_db = command_line_args["product_db"]
     product_db_writer = command_line_args["product_db_writer"]
+    product_db_writer_kwargs = command_line_args["product_db_writer_kwargs"]
     presector_data = not command_line_args["no_presectoring"]
     output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
-        from geoips_db.interfaces.databases import get_plugin
+        from geoips_db.interfaces import databases
 
-        db_writer = get_plugin(product_db_writer)
-        if not getenv("G2DB_USER") or not getenv("G2DB_PASS"):
-            raise ValueError("Need to set both $G2DB_USER and $G2DB_PASS")
+        db_writer = databases.get_plugin(product_db_writer)
+        if not getenv("GEOIPS_DB_USER") or not getenv("GEOIPS_DB_PASS"):
+            raise ValueError("Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS")
 
     # Load plugins
     reader_plugin = readers.get_plugin(reader_name)
@@ -1861,14 +2195,18 @@ def call(fnames, command_line_args=None):
                         "fileType": fprod.split(".")[-1],
                     }
                     product_added = db_writer(
-                        fprod, area_def, alg_xarray, additional_attrs=additional_attrs
+                        fprod,
+                        area_def=area_def,
+                        xarray_obj=alg_xarray,
+                        additional_attrs=additional_attrs,
+                        **product_db_writer_kwargs,
                     )
                     database_writes += [product_added]
 
             process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
             num_jobs += 1
         else:
-            LOG.info(
+            LOG.interactive(
                 'SKIPPING No coverage or required variables "%s" for %s %s',
                 variables,
                 xobjs["METADATA"].source_name,
@@ -1901,7 +2239,8 @@ def call(fnames, command_line_args=None):
         from geoips.interfaces.module_based.output_checkers import output_checkers
 
         for output_product in final_products:
-            output_checker = output_checkers.get_plugin(output_product)
+            plugin_name = output_checkers.identify_checker(output_product)
+            output_checker = output_checkers.get_plugin(plugin_name)
             kwargs = {}
             if output_checker.name in output_checker_kwargs:
                 kwargs = output_checker_kwargs[output_checker.name]
@@ -1924,7 +2263,7 @@ def call(fnames, command_line_args=None):
             replace_geoips_paths(output_product, curly_braces=True),
         )
         if output_product in database_writes:
-            LOG.info("    DATABASESUCCESS %s", output_product)
+            LOG.interactive("    DATABASESUCCESS %s", output_product)
     for removed_product in removed_products:
         LOG.interactive("    DELETEDPRODUCT %s", removed_product)
 

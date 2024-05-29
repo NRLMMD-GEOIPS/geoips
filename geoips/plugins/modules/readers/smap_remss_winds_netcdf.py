@@ -134,4 +134,4 @@ def get_test_files(test_data_dir):
 
 def get_test_parameters():
     """Generate test data key for unit testing."""
-    return {"data_key": "WINDSPEED_1", "data_var": "wind_speed_kts"}
+    return [{"data_key": "WINDSPEED_1", "data_var": "wind_speed_kts"}]
