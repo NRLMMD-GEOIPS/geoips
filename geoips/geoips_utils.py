@@ -14,7 +14,6 @@
 
 import os
 from copy import deepcopy
-import sys
 import inspect
 
 # import yaml
