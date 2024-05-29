@@ -14,13 +14,12 @@
 
 import os
 from copy import deepcopy
-import sys
 
 # import yaml
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginRegistryError, NotSupportedError
+from geoips.errors import EntryPointError, PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
@@ -28,18 +27,23 @@ NAMESPACE_PREFIX = "geoips"
 
 
 def get_entry_point_group(group):
-    """Get entry point group."""
+    """Get entry point group.
+
+    Parameters
+    ----------
+    group: str
+        - The name of the group of entrypoints. Eg. 'geoips.plugin_packages'.
+
+    Returns
+    -------
+    eps: list of EntryPoints
+        - a list of entry points that fall under group 'group'.
+    """
     # NOTE: When there is a .egg-info directory in the plugin package top
     # level (ie, from setuptools pip install -e), it seems to return that
     # package twice in this list.  For now, just use the full list with
     # duplicates.
-    if sys.version_info[:3] >= (3, 10, 0):
-        eps = metadata.entry_points(group=group)
-    else:
-        raise NotSupportedError(
-            "GeoIPS only supports python versions >= 3.10.0. Please upgrade your "
-            "Python Version to use GeoIPS."
-        )
+    eps = metadata.entry_points(group=group)
     return eps
 
 
