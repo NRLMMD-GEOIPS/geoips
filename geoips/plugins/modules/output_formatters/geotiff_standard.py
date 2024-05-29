@@ -116,8 +116,8 @@ def call(
                 transform=transform,
                 **profile,
             ) as dst:
-                dst.write(plot_data.astype(rasterio.uint8), indexes=1)
                 cmap_dict = get_rasterio_cmap_dict(mpl_colors_info["cmap"])
                 dst.write_colormap(1, cmap_dict)
+                dst.write(plot_data.astype(rasterio.uint8), indexes=1)
 
     return output_fnames

@@ -18,7 +18,9 @@ from geoips.interfaces.base import (
     ValidationError,
 )
 import logging
-from geoips.errors import PluginError
+
+# import subprocess
+from geoips.commandline.log_setup import log_with_emphasis
 import gzip
 from glob import glob
 from os.path import exists, splitext, basename, dirname, isdir, join
@@ -254,9 +256,10 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                 for compare_product in compare_products:
                     # Pull the file that is actually used for comparison from
                     # the compare_products dictionary.
-                    file_for_comparison_basename = basename(
-                        compare_products[compare_product]["file_for_comparison"]
-                    )
+                    file_for_comparison = compare_products[compare_product][
+                        "file_for_comparison"
+                    ]
+                    file_for_comparison_basename = basename(file_for_comparison)
                     # If the basename of the current missing product matches the
                     # basename of the file for comparison, then write out the
                     # command to remove the actual stored comparison file from
@@ -265,7 +268,10 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                         comparison_filename = compare_products[compare_product][
                             "stored_comparison"
                         ]
-                        fobj.write(f"rm -v {comparison_filename}\n")
+                        fobj.write(f"  rm -v {comparison_filename}\n")
+                        LOG.interactive(f"    TEST OUTPUT: {comparison_filename}")
+                    else:
+                        LOG.interactive(f"    TEST OUTPUT: {file_for_comparison}")
         # This is just for testing purposes - write out copy commands to
         # copy the missing product into a test location for easy review.
         with open(fname_missingprodcptest, "w") as fobj:
@@ -347,7 +353,8 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
                 # We have no knowledge if these should be gzipped or not,
                 # so they are just copied as is.  Developers must manually
                 # gzip before commiting if desired.
-                fobj.write(f"cp -v {missingcomp} {comparison_path}\n")
+                fobj.write(f"  cp -v {missingcomp} {comparison_path}\n")
+                LOG.interactive(f"    CURR OUTPUT: {missingcomp}")
         with open(fname_missingcompcptest, "w") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingcomp in missingcomps:
@@ -424,33 +431,6 @@ def write_good_comparisons_to_file(goodcomps, compare_strings, diffdir):
                 test_filename = join(test_path, test_basename)
                 fobj.write(f"cp {goodcomp} {test_filename}\n")
     return 0
-
-
-def log_with_emphasis(log_command, log_lines):
-    """Surround log output with extra emphasis.
-
-    This will eventually be consolidated in a logging utility.
-    For now, include here.
-
-    Parameters
-    ----------
-    log_command : callable
-        ie, LOG.info
-    log_lines : list
-        list of lines to pass to log_command.
-        ie, ["log output line 1", "log output line 2"]
-
-    Returns
-    -------
-    No return values.
-    """
-    log_command("**********************************************")
-    log_command("**********************************************")
-    for log_line in log_lines:
-        log_command(log_line)
-    log_command("**********************************************")
-    log_command("**********************************************")
-    log_command("\n")
 
 
 def get_missing_products(output_products_for_comparison, compare_products):
@@ -541,8 +521,11 @@ def gunzip_product(fname, is_comparison_product=False, clobber=False):
     # Otherwise, see if the .gz version exists.
     elif glob(fname + ".gz"):
         gz_fname = fname + ".gz"
-    LOG.info("**** Gunzipping product for comparisons")
-    LOG.info("gunzip %s", gz_fname)
+
+    messages = ["Gunzipping product for comparisons"]
+    messages.append(f"gunzip {gz_fname}")
+    log_with_emphasis(LOG.info, *messages)
+
     if is_comparison_product:
         save_dir = join(
             getenv("GEOIPS_OUTDIRS"),
@@ -778,7 +761,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 remove_temp_files += [output_product_for_comparison]
 
             log_with_emphasis(
-                LOG.info, ["*** COMPARE {basename(output_product_for_comparison)}"]
+                LOG.info, "COMPARE {basename(output_product_for_comparison)}"
             )
             found_one = False
             for compare_product in compare_products:
@@ -849,9 +832,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         int
             Binary code: 0 if all comparisons were completed successfully.
         """
-        log_with_emphasis(
-            LOG.info, [f"*** COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"]
-        )
+        log_with_emphasis(LOG.info, f"COMPARISONS OF KNOWN OUTPUTS IN {compare_path}")
         # We gunzip comparison files to a temporary location, so keep track of
         # all the temporary files so we can remove them at the end.
         remove_temp_files = []
@@ -880,7 +861,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
         remove_temp_files += curr_remove_temp_files
         log_with_emphasis(
             LOG.info,
-            [f"*** DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}"],
+            f"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}",
         )
 
         # Identify all missing products based on the list of output products
@@ -1040,15 +1021,10 @@ class OutputCheckersInterface(BaseModuleInterface):
         return checker_name
 
     def get_plugin(self, name):
-        """Get the output checker plugin corresponding to checker_name and return it."""
-        try:
-            plug = super().get_plugin(name)
-            if self.valid_plugin(plug):
-                return plug
-        except PluginError:
-            plug = super().get_plugin(self.identify_checker(name))
-            if self.valid_plugin(plug):
-                return plug
+        """Return the output checker plugin corresponding to checker_name."""
+        plug = super().get_plugin(name)
+        if self.valid_plugin(plug):
+            return plug
 
     def valid_plugin(self, plugin):
         """Check the validity of the supplied output_checker plugin."""

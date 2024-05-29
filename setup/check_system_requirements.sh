@@ -12,6 +12,10 @@
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
+# If this is defined, attempt to switch to this branch after cloning.
+# Do not fail if it doesn't exist.
+switch_to_branch=$GEOIPS_MODIFIED_BRANCH
+
 exit_on_missing="false"
 if [[ "$3" == "exit_on_missing" ]]; then
     exit_on_missing="true"
@@ -55,7 +59,6 @@ test_data_urls=(
 
 # Requirements to run base geoips tests
 if [[ "$1" == "geoips_base" ]]; then
-    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh imagemagick
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh python
 fi
@@ -64,8 +67,109 @@ fi
 if [[ "$1" == "geoips_full" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gcc
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gfortran
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh g++
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
+fi
+
+if [[ "$1" == "run_command" ]]; then
+    echo "Running $2 ... "
+    `$2 >> $install_log 2>&1`
+    if [[ "$?" != "0" ]]; then
+        echo "'$2' failed. Quitting"
+        exit 1
+    else
+        echo "SUCCESS: '$2' appears to have run successfully"
+    fi
+fi
+
+if [[ "$1" == "dump_pip_environment" ]]; then
+    output_requirements_txt="$2"
+    if [[ ! -d `dirname $output_requirements_txt` ]]; then
+        echo "FAILED: `dirname $output_requirements_txt` did not exist"
+        echo "        create directory, then re-run"
+        exit 1
+    fi
+    pip freeze > $output_requirements_txt
+    if [[ "$?" == "0" ]]; then
+        echo "SUCCESS: Dumped pip requirements to $output_requirements_txt"
+    else
+        echo "FAILED Dumping pip requirements to $output_requirements_txt"
+        exit 1
+    fi
+fi
+if [[ "$1" == "dump_mamba_environment" ]]; then
+    output_requirements_txt="$2"
+    if [[ ! -d `dirname $output_requirements_txt` ]]; then
+        echo "FAILED: `dirname $output_requirements_txt` did not exist"
+        echo "        create directory, then re-run"
+        exit 1
+    fi
+    mamba list --export > $output_requirements_txt
+    if [[ "$?" == "0" ]]; then
+        echo "SUCCESS: Dumped mamba package list to $output_requirements_txt"
+    else
+        echo "FAILED Dumping mamba package list to $output_requirements_txt"
+        exit 1
+    fi
+fi
+
+if [[ "$1" == "check_command" ]]; then
+    $2 --version >> $install_log 2>&1
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo "WARNING: '$2 --version' failed, please install $2 before proceeding"
+        exit 1
+    else
+        echo "SUCCESS: '$2' appears to be installed successfully"
+        echo "    "`which $2`
+    fi
+fi
+
+if [[ "$1" == "check_environment_variable" ]]; then
+    if [[ -z "${!2}" ]]; then
+        echo "WARNING: '\$$2' does not exist, must be defined before proceeding"
+        exit 1
+    else
+        echo "SUCCESS: '\$$2' appears to exist, ${!2}"
+    fi
+fi
+
+if [[ "$1" == "clone_repo" ]]; then
+
+    if [[ ! -e "$3" ]]; then
+	echo "git clone $2 $3"
+	git clone $2 $3
+	retval=$?
+	if [[ "$retval" != "0" ]]; then
+            echo "FAILED: '$2' failed cloning, try deleting and try again"
+	    echo "$3"
+            exit 1
+	fi
+    elif [[ "$4" != "" ]]; then
+	if [[ ! -e "$3/$4" ]]; then
+	    echo "FAILED: subdirectory $4 does not exist in $3."
+	    echo "Try deleting $3 and trying again"
+	    exit 1
+	fi
+    else
+        echo "SUCCESS: '\$$2' appears to already exist, ${!2}"
+    fi
+fi
+
+if [[ "$1" == "mamba_install" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh check_command $2
+    if [[ "$?" != "0" ]]; then
+        mamba install $2 -y
+    fi
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh check_command $2
+    if [[ "$?" != "0" ]]; then
+        echo "WARNING: '$2 --version' failed, please install $2 before proceeding"
+        exit 1
+    else
+        echo "SUCCESS: '$2' appears to be installed successfully"
+        echo "    "`which $2`
+    fi
 fi
 
 # Required for image comparisons
@@ -127,6 +231,20 @@ fi
 
 # Needed for building akima. If we can build a distributable wheel for akima, then maybe
 # we won't need this.
+if [[ "$1" == "gfortran" ]]; then
+    gfortran --version >> $install_log 2>&1
+    retval=$?
+    if [[ "$retval" != "0" ]]; then
+        echo "WARNING: 'gfortran --version' failed, please install gfortran before proceeding"
+        exit 1
+    else
+        echo "SUCCESS: 'gfortran' appears to be installed successfully"
+        echo "    "`which gfortran`
+    fi
+fi
+
+# Needed for building akima. If we can build a distributable wheel for akima, then maybe
+# we won't need this.
 if [[ "$1" == "g++" ]]; then
     g++ --version >> $install_log 2>&1
     retval=$?
@@ -155,6 +273,9 @@ fi
 if [[ "$1" == "settings_repo" ]]; then
     repo_name=$2
     repo_name_string="settings repo $repo_name"
+    if [[ "$switch_to_branch" != "" ]]; then
+        repo_name_string="$repo_name_string, branch $switch_to_branch"
+    fi
     repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
     repo_url=$GEOIPS_REPO_URL/${repo_name}.git
     ls $repo_dir/* >> $install_log 2>&1
@@ -179,34 +300,61 @@ if [[ "$1" == "settings_repo" ]]; then
             echo "        try deleting directory and re-running"
             exit 1
         fi
+        # Check if current branch exists, and switch to it if so.
+        # Allow branch not existing.
+        if [[ "$switch_to_branch" != "" ]]; then
+            git -C $repo_dir checkout $switch_to_branch
+            if [[ "$?" != "0" ]]; then
+                echo "Branch $switch_to_branch did not exist, staying on current branch"
+            else
+                echo "SUCCESS: successfully switch to branch $switch_to_branch"
+            fi
+        fi
     else
         echo "SUCCESS: $repo_name_string appears to be installed successfully"
         echo "    "`ls -ld $repo_dir`
     fi
 fi
 
-if [[ "$1" == "test_data" ]]; then
+if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
     # Download test data from a known URL into $GEOIPS_TESTDATA_DIR
     test_data_name=$2
+    test_data_source_location="cira"
+    if [[ "$1" == "test_data_github" ]]; then
+        test_data_source_location="github"
+    fi
 
     if [[ ! -d $GEOIPS_TESTDATA_DIR ]]; then
         mkdir -p $GEOIPS_TESTDATA_DIR
     fi
 
     test_data_name_string="tests data repo $test_data_name"
+    if [[ "$switch_to_branch" != "" ]]; then
+        test_data_name_string="$test_data_name_string, branch $switch_to_branch"
+    fi
     test_data_dir=$GEOIPS_TESTDATA_DIR/$test_data_name
-    for url in ${test_data_urls[@]}; do
-        if [[ "${url}" == *"${test_data_name}.tgz" ]]; then
-            test_data_url="${url}"
-            break
-        fi
-    done
+    test_data_url="$GEOIPS_REPO_URL/${test_data_name}.git"
+    if [[ "$test_data_source_location" != "github" ]]; then
+        for url in ${test_data_urls[@]}; do
+            if [[ "${url}" == *"${test_data_name}.tgz" ]]; then
+                test_data_url="${url}"
+                break
+            fi
+        done
+    fi
+
+    # Ensure there is a data or docs directory
     data_path="$test_data_dir/data/*"
-
     ls $data_path >> $install_log 2>&1
-    retval=$?
+    retval_data=$?
+    data_path="$test_data_dir/docs/*"
+    ls $data_path >> $install_log 2>&1
+    retval_docs=$?
+    data_path="$test_data_dir/outputs/*"
+    ls $data_path >> $install_log 2>&1
+    retval_outputs=$?
 
-    if [[ "$retval" != "0" ]]; then
+    if [[ "$retval_data" != "0" && "$retval_docs" != "0" && "$retval_outputs" != "0" ]]; then
         if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED: Missing $test_data_name_string"
             echo "        Please run install script, then rerun test script. "
@@ -215,15 +363,39 @@ if [[ "$1" == "test_data" ]]; then
             exit 1
         fi
         echo "Installing $test_data_name_string .... "
-        echo "  $test_data_dir/ from $test_data_url"
-        python $SCRIPT_DIR/download_test_data.py $test_data_url | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
-        dl_retval=$?
-        if  [[ "$dl_retval" == "0" ]]; then
-            echo "SUCCESS: Pulled and decompressed ${test_data_name} from ${test_data_url}"
+        echo "  $test_data_dir/ from $test_data_url via $test_data_source_location"
+        python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir >> $install_log 2>&1
+        retval=$?
+        if  [[ "$retval" == "0" ]]; then
+            echo "SUCCESS: Pulled ${test_data_name} from ${test_data_url}"
         else
-            echo "FAILED: Failed to pull and decompress ${test_data_name} from ${test_data_url}"
+            echo "FAILED: Failed to pull ${test_data_name} from ${test_data_url}"
             echo "        try deleting and re-running"
             exit 1
+        fi
+        if [[ "$test_data_source_location" != "github" ]]; then
+            echo "tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
+            tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+            retval=$?
+            if  [[ "$retval" == "0" ]]; then
+                echo "SUCCESS: Decompressed ${test_data_name}"
+            else
+                echo "FAILED: Failed to decompress ${test_data_name}"
+                echo "        try deleting and re-running"
+                exit 1
+            fi
+		else
+            # If this is a github repo, then check if current-branch exists
+            # and switch to it if so. Allow branch not existing.
+            if [[ "$switch_to_branch" != "" ]]; then
+                echo "git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1"
+                git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1
+                if [[ "$?" != "0" ]]; then
+                    echo "Branch $switch_to_branch did not exist, staying on current branch"
+                else
+                    echo "SUCCESS: successfully switch to branch $switch_to_branch"
+                fi
+            fi
         fi
     else
         echo "SUCCESS: $test_data_name_string appears to be installed successfully"
@@ -233,8 +405,14 @@ fi
 
 if [[ "$1" == "source_repo" ]]; then
     repo_name=$2
+    if [[ $3 != "exit_on_missing" ]]; then
+        pip_arguments=$3
+    fi
 
     repo_name_string="source repo $repo_name"
+    if [[ "$switch_to_branch" != "" ]]; then
+        repo_name_string="$repo_name_string, branch $switch_to_branch"
+    fi
     repo_dir=$GEOIPS_PACKAGES_DIR/$repo_name
     repo_url=$GEOIPS_REPO_URL/${repo_name}.git
     data_path="$repo_dir/tests/*"
@@ -254,9 +432,19 @@ if [[ "$1" == "source_repo" ]]; then
         echo "git clone $repo_url $repo_dir" >> $install_log 2>&1
         git clone $repo_url $repo_dir >> $install_log 2>&1
         clone_retval=$?
+        # Check if current branch exists, and switch to it if so.
+        # Allow branch not existing.
+        if [[ "$switch_to_branch" != "" ]]; then
+            git -C $repo_dir checkout $switch_to_branch >> $install_log 2>&1
+            if [[ "$?" != "0" ]]; then
+                echo "Branch $switch_to_branch did not exist, staying on current branch"
+            else
+                echo "SUCCESS: successfully switch to branch $switch_to_branch"
+            fi
+        fi
         pip_retval=0
-        echo "pip install -e $repo_dir" >> $install_log 2>&1
-        pip install -e $repo_dir >> $install_log 2>&1
+        echo "pip install -e $repo_dir -v $pip_arguments" >> $install_log 2>&1
+        pip install -e $repo_dir -v $pip_arguments >> $install_log 2>&1
         pip_retval=$?
         if [[ "$clone_retval" == "0" && "$pip_retval" == "0" ]]; then
             echo "SUCCESS: Cloned and installed $repo_name_string"

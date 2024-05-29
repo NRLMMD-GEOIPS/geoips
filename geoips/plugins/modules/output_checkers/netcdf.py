@@ -14,6 +14,8 @@
 
 import logging
 
+from geoips.commandline.log_setup import log_with_emphasis
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
@@ -130,12 +132,13 @@ def outputs_match(plugin, output_product, compare_product):
     compare_xobj = xarray.open_dataset(compare_product)
 
     if out_xobj.attrs != compare_xobj.attrs:
-        LOG.interactive("    ****************************************************")
-        LOG.interactive(
-            "    *** BAD GeoIPS NetCDF file attributes do NOT match exactly ***"
+        message = "BAD GeoIPS NetCDF file attributes do NOT match exactly"
+        log_with_emphasis(
+            LOG.interactive,
+            message,
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
         )
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
         for attr in out_xobj.attrs.keys():
             if attr not in compare_xobj.attrs:
                 diffstr = (
@@ -170,7 +173,6 @@ def outputs_match(plugin, output_product, compare_product):
                 )
                 diffout += [diffstr]
                 LOG.interactive(diffstr)
-        LOG.interactive("    ****************************************************")
         diffout += ["\n"]
         retval = False
 
@@ -182,14 +184,14 @@ def outputs_match(plugin, output_product, compare_product):
     try:
         xarray.testing.assert_allclose(compare_xobj, out_xobj)
     except AssertionError as resp:
-        LOG.interactive("    ****************************************************")
-        LOG.interactive(
-            "    *** BAD GeoIPS NetCDF files do not match within tolerance *****"
+        message = "BAD GeoIPS NetCDF files do not match within tolerance"
+        log_with_emphasis(
+            LOG.interactive,
+            message,
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
         )
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
-        for line in str(resp).split("\n"):
-            LOG.interactive(f"    *** {line} ***")
+        log_with_emphasis(LOG.interactive, *[line for line in str(resp).split("\n")])
         diffout += [
             "\nxarray objects do not match between current output and comparison\n"
         ]
@@ -197,39 +199,22 @@ def outputs_match(plugin, output_product, compare_product):
         diffout += [f"\nCompare: {compare_xobj}\n"]
         diffout += [f"\n{resp}\n"]
         for varname in compare_xobj.variables:
-            maxdiff = (compare_xobj[varname] - out_xobj[varname]).max()
-            mindiff = (compare_xobj[varname] - out_xobj[varname]).min()
-            meandiff = (compare_xobj[varname] - out_xobj[varname]).mean()
-            if mindiff != 0:
-                LOG.interactive(f"    *** mindiff {varname}: {mindiff} ***")
-                diffout += [f"mindiff {varname}: {mindiff}\n"]
-            if maxdiff != 0:
-                LOG.interactive(f"    *** maxdiff {varname}: {maxdiff} ***")
-                diffout += [f"maxdiff {varname}: {maxdiff}\n"]
-            if meandiff != 0:
-                LOG.interactive(f"    *** meandiff {varname}: {meandiff} ***")
-                diffout += [f"meandiff {varname}: {meandiff}\n"]
-        LOG.info("    ****************************************************************")
+            logged_messages = log_object_diff_values(
+                out_xobj, compare_xobj, varname, log_function=LOG.warning
+            )
+            diffout.extend([[m] for m in logged_messages])
         retval = False
 
     try:
         xarray.testing.assert_identical(compare_xobj, out_xobj)
     except AssertionError as resp:
-        LOG.info("    ****************************************************************")
-        LOG.info("    *** INFORMATIONAL ONLY assert_identical differences *****")
+        log_with_emphasis(LOG.info, "INFORMATIONAL ONLY assert_identical differences")
         for line in str(resp).split("\n"):
-            LOG.info(f"    *** {line} ***")
+            log_with_emphasis(LOG.info, line)
         for varname in compare_xobj.variables:
-            maxdiff = (compare_xobj[varname] - out_xobj[varname]).max()
-            mindiff = (compare_xobj[varname] - out_xobj[varname]).min()
-            meandiff = (compare_xobj[varname] - out_xobj[varname]).mean()
-            if mindiff != 0:
-                LOG.info(f"    *** mindiff {varname}: {mindiff} ***")
-            if maxdiff != 0:
-                LOG.info(f"    *** maxdiff {varname}: {maxdiff} ***")
-            if meandiff != 0:
-                LOG.info(f"    *** meandiff {varname}: {meandiff} ***")
-        LOG.info("    ****************************************************************")
+            log_object_diff_values(
+                out_xobj, compare_xobj, varname, log_function=LOG.info
+            )
 
     if retval is False:
         with open(out_difftxt, "w") as fobj:
@@ -237,6 +222,69 @@ def outputs_match(plugin, output_product, compare_product):
         return False
 
     return True
+
+
+def log_object_diff_values(object1, object2, compare_key, log_function=LOG.info):
+    r"""
+    Log differences two objects via key and returns messages detailing differences.
+
+    Computes the maximum, minimum, and mean differences for the values associated
+    with a specified key in two objects. Generates messages for any non-zero
+    differences and logs these messages. The messages are also returned as a list
+    of strings for further use. Takes in an optional custom logging function,
+    defaults to info logging.
+
+    Objects must expose a min, max, and mean function after the difference
+    between them is computed.
+
+    Parameters
+    ----------
+    object1 : object
+        The first object containing the key for comparison. Must support
+        subscripting with the compare key and arithmetic operations.
+    object2 : object
+        The second object for comparison. Must also support subscripting with the
+        compare key and arithmetic operations.
+    compare_key : str
+        The key for the values to be compared between `object1` and `object2`.
+    log_func : func, optional
+        The function to be used for logging, must take in a list of strings of min
+        length 0.
+
+    Returns
+    -------
+    messages : list of str
+        A list of messages indicating non-zero min, max, and mean differences for
+        the values associated with `compare_key`, formatted as strings.
+
+    Notes
+    -----
+    Only logs and returns messages for non-zero differences. If there are no non-zero
+    differences, an empty list is returned.
+
+    Uses `log_with_emphasis` to log the messages.
+
+    Examples
+    --------
+    Given two objects `obj1` and `obj2` with a key `temp`:
+
+    >>> obj1 = {'temp': np.array([1, 2, 3])}
+    >>> obj2 = {'temp': np.array([2, 3, 4])}
+    >>> log_object_diff_values(obj1, obj2, 'temp')
+    ['mindiff temp: -1\\n', 'maxdiff temp: -1\\n', 'meandiff temp: -1.0\\n']
+
+    This will log and return messages about differences in `temp` values.
+    """
+    maxdiff = (object2[compare_key] - object1[compare_key]).max()
+    mindiff = (object2[compare_key] - object1[compare_key]).min()
+    meandiff = (object2[compare_key] - object1[compare_key]).mean()
+    messages = [
+        f"mindiff {compare_key}: {mindiff}\n",
+        f"maxdiff {compare_key}: {maxdiff}\n",
+        f"meandiff {compare_key}: {meandiff}\n",
+    ]
+    log_with_emphasis(log_function, *messages)
+    return messages
 
 
 def call(plugin, compare_path, output_products):

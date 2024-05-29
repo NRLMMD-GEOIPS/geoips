@@ -16,6 +16,8 @@ import subprocess
 import logging
 from os.path import splitext
 
+from geoips.commandline.log_setup import log_with_emphasis
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
@@ -131,16 +133,15 @@ def outputs_match(plugin, output_product, compare_product):
 
     # subimg_retval = subprocess.call(call_list)
     if retval != 0:
-        LOG.interactive("    *****************************************")
-        LOG.interactive("    *** BAD geotiffs do NOT match exactly ***")
-        LOG.interactive("    ***   output_product: %s ***", output_product)
-        LOG.interactive("    ***   compare_product: %s ***", compare_product)
-        LOG.interactive("    *****************************************")
+        log_with_emphasis(
+            LOG.interactive,
+            "BAD geotiffs do NOT match exactly",
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
+        )
         return False
 
-    LOG.info("    ***************************")
-    LOG.info("    *** GOOD geotiffs match ***")
-    LOG.info("    ***************************")
+    log_with_emphasis(LOG.info, "GOOD geotiffs match")
     return True
 
 

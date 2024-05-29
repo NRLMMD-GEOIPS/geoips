@@ -15,8 +15,8 @@ spec:
   description: South Pole Region
   projection:
     a: 6371228.0
-    lat_0: -89.99
-    lon_0: 90.0
+    lat_0: -90
+    lon_0: 0
     proj: stere
     units: m
   resolution:

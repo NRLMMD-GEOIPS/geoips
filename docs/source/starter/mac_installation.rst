@@ -96,11 +96,10 @@ but this command will ensure that for everyone.
 
 .. code:: bash
 
-    # imagemagick required for image comparisons
     # git required for pulling from git and for -C commands
     # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
     #   best to install via conda
-    conda create -y -n geoips -c conda-forge python=3.10 openblas imagemagick git pyhdf pykdtree
+    conda create -y -n geoips -c conda-forge python=3.10 openblas git pyhdf pykdtree
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``conda activate geoips`` every time you want to
@@ -143,6 +142,10 @@ To test your installation you will call two scripts:
 
     # Download the test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
+    
+    # Create the GeoIPS plugin registries
+    create_plugin_registries
+    
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 

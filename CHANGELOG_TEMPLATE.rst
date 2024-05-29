@@ -14,13 +14,13 @@
 
    ####################################################################################
    DO NOT MODIFY THIS TEMPLATE!
-   FOR USE IN COMPILING CONSISTENT CHANGE LOGS / RELEASE NOTES!
+   FOR USE IN COMPILING CONSISTENT RELEASE NOTES!
 
    NOTE: RST IS VERY PARTICULAR ABOUT SPACING / INDENTATIONS!
    FOLLOW THIS TEMPLATE CLOSELY TO ENSURE PROPER RENDERING (and read up on rst syntax)
    ####################################################################################
 
-1. Follow below template when adding information to the CHANGELOG.rst
+1. Follow below template when adding information to the current release note
    prior to opening a pull request
 
    -  Follow proper formatting/categorization of changes below
@@ -33,9 +33,9 @@
          (and read up on RST syntax for good measure).
 
    -  If you make changes during the Pull Request process, just update
-      the CHANGELOG entry accordingly, do not add an additional
-      CHANGELOG entry. We only want the information regarding the final
-      merged pull request in the CHANGELOG.
+      the release note entry accordingly, do not add an additional
+      release note entry. We only want the information regarding the final
+      merged pull request in the release notes.
 
 2. Only include headers for categories that have current updates (do NOT
    include empty headers - if there are no "Breaking Changes" do not include the
@@ -46,17 +46,16 @@
    -  Simple changes can just have the list of modified files directly
       under the “Summary of change” section, without additional details.
 
-4. Issue ID should match related linked issue, like: NRLMMD-GEOIPS/geoips#27
-5. Note the contents of CHANGELOG.rst will be moved to
-   docs/source/releases/vX_Y_Z.rst  during the PR review process. If you
-   are feeling adventurous, you can add your entries directly there.
+4. Issue ID should match related linked issue, like: GEOIPS/geoips#27
+5. Ensure your entries are included directly in the release note file:
+   docs/source/releases/vX_Y_Z.rst
 
    - NOTE: X.Y.Z is the UPCOMING VERSION of the repository, NOT the current
      tagged version!
    - The current release note to update directly on any geoips plugin
-     repository with current changes can be found in the file
-     `update_this_release_note` within the geoips repo dev branch.
-
+     repository with current changes is referenced in the file
+     `update_this_release_note` within the geoips repo default branch:
+     https://github.com/NRLMMD-GEOIPS/geoips/blob/main/update_this_release_note
 
 ::
 
