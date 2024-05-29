@@ -27,6 +27,9 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+* Bug fixes
+
+  * Fix color table application in geotiff_standard output formatter
 
 Enhancements
 ============
@@ -181,3 +184,19 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Bug Fixes
+=========
+
+Fix color table application in geotiff_standard output formatter
+----------------------------------------------------------------
+
+Prior to rasterio version 1.3.10, the color table was applied correctly
+after writing the array.  It appears this now needs to be done before the
+array is written.
+
+::
+
+  modified: docs/source/releases/v1_13_0a0.rst
+  modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
+  modified: pyproject.toml
