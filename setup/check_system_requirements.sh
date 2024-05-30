@@ -391,7 +391,10 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             # to rename the top folder of it to test_data_name. This way full_install.sh will
             # not download the data again as it's able to identify that it's installed.
             folder_name=$(echo "$matching_folders")
-            mv $GEOIPS_TESTDATA_DIR/$folder_name $test_data_dir
+            if [[ "$folder_name" != "$test_data_name" ]]; then
+                # if folder_name doesn't equal test_data_name then rename that folder
+                mv $GEOIPS_TESTDATA_DIR/$folder_name $test_data_dir
+            fi
             retval=$?
             if  [[ "$retval" == "0" ]]; then
                 echo "SUCCESS: Decompressed ${test_data_name}"
