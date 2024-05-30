@@ -382,7 +382,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
             matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)
             folder_count=$(echo "$matching_folders" | wc -l)
-            if [ "$folder_count" -ne 1]; then
+            if [[ "$folder_count" -ne 1 ]]; then
                 echo "Error: Expected exactly one matching folder starting with $test_data_name but found $folder_count."
                 echo "Please delete or rename folders starting with $test_data_name in $GEOIPS_TESTDATA_DIR before running this script again."
                 exit 1
