@@ -379,6 +379,19 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             echo "DOWNLOADING: NextCloud Dataset $test_data_name @ $test_data_url"
             echo "tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
             python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+            # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
+            matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)
+            folder_count=$(echo "$matching_folders" | wc -l)
+            if [ "$folder_count" -ne 1]; then
+                echo "Error: Expected exactly one matching folder starting with $test_data_name but found $folder_count."
+                echo "Please delete or rename folders starting with $test_data_name in $GEOIPS_TESTDATA_DIR before running this script again."
+                exit 1
+            fi
+            # if only one match was found, this was the installed dataset and we are good
+            # to rename the top folder of it to test_data_name. This way full_install.sh will
+            # not download the data again as it's able to identify that it's installed.
+            folder_name=$(echo "$matching_folders")
+            mv $GEOIPS_TESTDATA_DIR/$folder_name $test_data_dir
             retval=$?
             if  [[ "$retval" == "0" ]]; then
                 echo "SUCCESS: Decompressed ${test_data_name}"
