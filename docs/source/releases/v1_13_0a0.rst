@@ -20,6 +20,7 @@ Version 1.13.0a0 (2024-04-24)
 * Documentation
 
   * New Docs Structure + GitHub Actions
+  * Add System Requirements documentation
 
 * Release Updates
 
