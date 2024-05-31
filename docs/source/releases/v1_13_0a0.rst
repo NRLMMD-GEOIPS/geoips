@@ -17,10 +17,15 @@ Version 1.13.0a0 (2024-04-24)
 
   * Initial Stage of the GeoIPS CLI
   * CLI Stage Two - new implementation of 'geoips run' and more args for 'geiops list'
+  * New Docs Structure + GitHub Actions
+
 * Release Updates
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+* Bug fixes
+
+  * Fix color table application in geotiff_standard output formatter
 
 Enhancements
 ============
@@ -247,6 +252,11 @@ Modified Files
     modified: tests/unit_tests/commandline/test_geoips_run.py
     modified: tests/unit_tests/commandline/test_geoips_test_script.py
 
+New Docs Structure + GitHub Actions
+-----------------------------------
+
+Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the "old docs" (all other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch. Added a banner to the documentation site to inform readers that the old docs are frozen and to link them to the new docs as a preview. Note that no new functionality has been added to GeoIPS.
+
 Release Updates
 ===============
 
@@ -260,3 +270,19 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Bug Fixes
+=========
+
+Fix color table application in geotiff_standard output formatter
+----------------------------------------------------------------
+
+Prior to rasterio version 1.3.10, the color table was applied correctly
+after writing the array.  It appears this now needs to be done before the
+array is written.
+
+::
+
+  modified: docs/source/releases/v1_13_0a0.rst
+  modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
+  modified: pyproject.toml
