@@ -45,7 +45,6 @@ class TestGeoipsListInterfaces(BaseCliTest):
                     "plugin_type",
                 ]
             )
-            # Add argument list with an invalid command call ("-p" w/out "-i")
             self._cmd_list.append(base_args + ["-p", "geoips"])
             # Add argument list with an invalid command call ("--long" with "--columns")
             self._cmd_list.append(base_args + ["--long", "--columns", "relpath"])
