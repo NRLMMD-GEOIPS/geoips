@@ -36,11 +36,7 @@ from geoips.errors import (
 from geoips.geoips_utils import (
     find_entry_point,
     split_camel_case,
-    # get_all_entry_points,
-    # load_all_yaml_plugins,
 )
-
-# from geoips.interfaces import product_defaults
 
 LOG = logging.getLogger(__name__)
 
@@ -366,13 +362,10 @@ class BaseTextPlugin(ABC):
         plugin_name: str
             - The name of the plugin to validate
 
-        Possibly Raises
-        ---------------
+        Raises
+        ------
         error: PluginRegistryError
             - Will be raised if the plugin is missing a required attribute
-
-        Possibly Throws
-        ---------------
         error: KeyError
             - Will be thrown if the plugin is not found within the interface's registry
         """
