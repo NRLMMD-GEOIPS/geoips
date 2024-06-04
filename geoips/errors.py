@@ -24,7 +24,7 @@ class EntryPointError(Exception):
 
     pass
 
-  
+
 class PluginError(Exception):
     """Exception to be raised when there is an error in a GeoIPS plugin."""
 

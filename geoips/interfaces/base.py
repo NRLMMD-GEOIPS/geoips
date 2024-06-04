@@ -28,16 +28,12 @@ from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import (
-    EntryPointError,
     PluginError,
     PluginRegistryError,
     PluginValidationError,
 )
 
-from geoips.geoips_utils import (
-    find_entry_point,
-    split_camel_case,
-)
+from geoips.geoips_utils import split_camel_case
 
 LOG = logging.getLogger(__name__)
 
@@ -835,31 +831,6 @@ class BaseModuleInterface(BaseInterface):
           If the specified plugin isn't found within the interface.
         """
         # Find the plugin module
-        try:
-            if exists(name):
-                # This is used! For output checkers at least.
-                module = find_entry_point(self.name, name)
-            else:
-                package = self.registry[name]["package"]
-                relpath = self.registry[name]["relpath"]
-                module_path = splitext(relpath.replace("/", "."))[0]
-                module_path = f"{package}.{module_path}"
-                abspath = files(package) / relpath
-                spec = util.spec_from_file_location(module_path, abspath)
-                module = util.module_from_spec(spec)
-                spec.loader.exec_module(module)
-            # module = find_entry_point(self.name, name)
-        except EntryPointError as resp:
-            raise PluginError(
-                f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
-                f"\nCheck 'pyproject.toml' for typos, "
-                f"\nthat path in pyproject.toml matches path to '{name}' module, "
-                f"\ncheck top level attributes on module '{name}' "
-                f"(interface, family, name), "
-                f"\n and check that you are attempting to use the correct plugin name "
-                f"\n(ie, check in product YAMLs or command line that you are"
-                f" attempting to access the correct plugin name)"
-            ) from resp
         # Convert the module into an object
         registered_module_plugins = self.registered_module_based_plugins
         if name not in registered_module_plugins[self.name]:
@@ -867,7 +838,7 @@ class BaseModuleInterface(BaseInterface):
                 f"Plugin '{name}', "
                 f"from interface '{self.name}' "
                 f"appears to not exist."
-                f"\nCreate plugin, then call create_plugin_registries?"
+                f"\nCreate plugin, then call create_plugin_registries!"
             )
 
         package = registered_module_plugins[self.name][name]["package"]
