@@ -16,7 +16,8 @@ from abc import ABC, abstractmethod
 import yaml
 import inspect
 import logging
-from os.path import exists, splitext
+from os.path import basename, splitext
+from glob import glob
 
 from importlib.resources import files
 from importlib import util
@@ -513,6 +514,8 @@ class BaseYamlInterface(BaseInterface):
 
     interface_type = "yaml_based"
     validator = YamlPluginValidator()
+    interface_type = "yaml_based"
+    name = "BaseYamlInterface"
 
     def __new__(cls):
         """YAML plugin interface new method."""
@@ -522,7 +525,12 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        pass
+        self.supported_families = [
+            basename(fname).split(".")[0]
+            for fname in sorted(
+                glob(str(files("geoips") / f"schema/{self.name}/*.yaml"))
+            )
+        ]
 
     def _create_registered_plugin_names(self, yaml_plugin):
         """Create a plugin name for plugin registry.
@@ -701,10 +709,30 @@ class BaseModuleInterface(BaseInterface):
     """
 
     interface_type = "module_based"
+    required_args = {}
+
+    def __repr__(self):
+        """Plugin interface repr method."""
+        return f"{self.__class__.__name__}()"
+
+    # def _plugin_module_to_obj(self, module, module_call_func="call", obj_attrs={}):
+    #     """Convert a plugin module into an object.
+
+    #     Convert the passed module into an object of type.
+    #     """
+    #     obj = plugin_module_to_obj(
+    #         module=module, module_call_func=module_call_func, obj_attrs=obj_attrs
+    #     )
+    #     if obj.interface != self.name:
+    #         raise PluginError(
+    #             f"Plugin 'interface' attribute on '{obj.name}' plugin does not "
+    #             f"match the name of its interface as specified by entry_points."
+    #         )
+    #     return obj
 
     def __init__(self):
         """Initialize module plugin interface."""
-        pass
+        self.supported_families = list(self.required_args.keys())
 
     @classmethod
     def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
@@ -833,6 +861,23 @@ class BaseModuleInterface(BaseInterface):
                 f" attempting to access the correct plugin name)"
             ) from resp
         # Convert the module into an object
+        registered_module_plugins = self.registered_module_based_plugins
+        if name not in registered_module_plugins[self.name]:
+            raise PluginError(
+                f"Plugin '{name}', "
+                f"from interface '{self.name}' "
+                f"appears to not exist."
+                f"\nCreate plugin, then call create_plugin_registries?"
+            )
+
+        package = registered_module_plugins[self.name][name]["package"]
+        relpath = registered_module_plugins[self.name][name]["relpath"]
+        module_path = splitext(relpath.replace("/", "."))[0]
+        module_path = f"{package}.{module_path}"
+        abspath = files(package) / relpath
+        spec = util.spec_from_file_location(module_path, abspath)
+        module = util.module_from_spec(spec)
+        spec.loader.exec_module(module)
         return self._plugin_module_to_obj(name, module)
 
     def plugin_is_valid(self, name):

@@ -43,17 +43,23 @@ spec:
     - name: Night-Vis-IR
       source_names: [viirs]
       docstring: |
-        The Night-Vis-IR product_defaults configuration for viirs products.
-      product_defaults: Night-Vis-IR
+        The Night-Vis-IR product configuration for viirs products.
+      product_defaults: RGB-Default
       spec:
         variables: ["DNBRad", "M16BT"]
+        algorithm:
+            plugin:
+                name: Night_Vis_IR
     - name: Night-Vis-IR-GeoIPS1
       source_names: [viirs]
       docstring: |
-        The Night-Vis-IR-GeoIPS1 product_defaults configuration for viirs products.
-      product_defaults: Night-Vis-IR-GeoIPS1
+        The Night-Vis-IR-GeoIPS1 product configuration for viirs products.
+      product_defaults: RGB-Default
       spec:
         variables: ["DNBRad", "M16BT", "DNB:solar_zenith_angle"]
+        algorithm:
+            plugin:
+                name: Night_Vis_IR_GeoIPS1
     - name: Visible
       source_names: [viirs]
       docstring: |

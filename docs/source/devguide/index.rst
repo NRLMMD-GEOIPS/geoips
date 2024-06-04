@@ -22,5 +22,6 @@ Developer Guide
    dev_setup
    build_docs
    git_workflow
+   unit_tests
    documentation_strategy
    xarray_standards
