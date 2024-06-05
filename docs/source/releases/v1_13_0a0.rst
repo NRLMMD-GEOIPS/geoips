@@ -199,6 +199,7 @@ Modified Files
     modified: geoips/commandline/geoips_list.py
     modified: geoips/commandline/geoips_run.py
     modified: geoips/commandline/run_procflow.py
+    modified: geoips/utils/context_managers.py
     modified: geoips/create_plugin_registries.py
     modified: geoips/geoips_utils.py
     modified: pyproject.toml
