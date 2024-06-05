@@ -130,15 +130,20 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(self.new_amsr2_config_based_args)
             self._cmd_list.append(self.abi_static_infrared_args)
             self._cmd_list.append(self.new_abi_static_infrared_args)
-            self._cmd_list.append(self.geo_args)
-            self._cmd_list.append(self.new_geo_args)
+            if "data_fusion" in self.plugin_package_names:
+                # Only add these argument lists if data_fusion is installed
+                self._cmd_list.append(self.geo_args)
+                self._cmd_list.append(self.new_geo_args)
 
             # Add argument list to retrieve help message
             self._cmd_list.append(["run_procflow", "-h"])
             self._cmd_list.append(base_args + ["config_based", "-h"])
             self._cmd_list.append(base_args + ["single_source", "-h"])
-            self._cmd_list.append(["data_fusion_procflow", "-h"])
-            self._cmd_list.append(base_args + ["data_fusion", "-h"])
+            if "data_fusion" in self.plugin_package_names:
+                # Only add these argument lists if data_fusion is installed
+                # Doing this as a separate conditional to keep the arg-lists in order
+                self._cmd_list.append(["data_fusion_procflow", "-h"])
+                self._cmd_list.append(base_args + ["data_fusion", "-h"])
             # Add argument list with non existent arguments
             self._cmd_list.append(base_args + ["not_a_procflow"])
         return self._cmd_list

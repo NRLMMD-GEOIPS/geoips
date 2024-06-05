@@ -63,18 +63,17 @@ def format_docstring(docstring, use_regex=True):
           recommended as it will replace 'newline' chars but not purposeful
           '.newline' strings.
     """
-    if docstring is None:
-        return docstring
-    elif use_regex:
-        # Regex pattern for subbing out "\n" but not ".\n"
-        pattern = r"(?<!\.)\n"
-        docstring = re.sub(
-            pattern,
-            " ",
-            docstring.strip().replace("\n\n", "\n"),
-        )
-    else:
-        docstring = docstring.strip().replace("\n\n", "\n")
+    if docstring:
+        if use_regex:
+            # Regex pattern for subbing out "\n" but not ".\n"
+            pattern = r"(?<!\.)\n"
+            docstring = re.sub(
+                pattern,
+                " ",
+                docstring.strip().replace("\n\n", "\n"),
+            )
+        else:
+            docstring = docstring.strip().replace("\n\n", "\n")
     return docstring
 
 
