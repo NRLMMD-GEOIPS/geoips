@@ -10,10 +10,10 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 # import pytest
 # from importlib.resources import files
 
-# from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+# from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-# class TestGeoipsTestUnitTest(BaseCliTest):
+# class TestGeoipsTestUnitTest(BaseCLITest):
 #     """Unit Testing Class for Test Unit Test Sub-Command."""
 
 #     @property

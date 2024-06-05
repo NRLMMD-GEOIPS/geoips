@@ -5,10 +5,10 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 import pytest
 
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsGetPackage(BaseCliTest):
+class TestGeoipsGetPackage(BaseCLITest):
     """Unit Testing Class for Get Package Sub-Command."""
 
     @property

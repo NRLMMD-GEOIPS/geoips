@@ -9,10 +9,10 @@ from os import listdir
 from os.path import basename
 import pytest
 
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsListUnitTests(BaseCliTest):
+class TestGeoipsListUnitTests(BaseCLITest):
     """Unit Testing Class for List Unit Tests Sub-Command."""
 
     @property

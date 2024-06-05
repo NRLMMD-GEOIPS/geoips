@@ -8,10 +8,10 @@ from importlib import resources
 from os.path import basename
 import pytest
 
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsListScripts(BaseCliTest):
+class TestGeoipsListScripts(BaseCLITest):
     """Unit Testing Class for List Scripts Sub-Command."""
 
     @property

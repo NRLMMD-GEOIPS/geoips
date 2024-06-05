@@ -6,7 +6,7 @@ import subprocess
 from geoips.geoips_utils import get_entry_point_group
 
 
-class BaseCliTest(abc.ABC):
+class BaseCLITest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for sub-commands."""
 
     _config_install_args = ["geoips", "config", "install"]

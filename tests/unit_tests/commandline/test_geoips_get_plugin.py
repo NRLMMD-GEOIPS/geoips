@@ -7,10 +7,10 @@ from numpy.random import rand
 import pytest
 
 from geoips import interfaces
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsGetPlugin(BaseCliTest):
+class TestGeoipsGetPlugin(BaseCLITest):
     """Unit Testing Class for Get Plugin Sub-Command."""
 
     rand_threshold = 0.10
