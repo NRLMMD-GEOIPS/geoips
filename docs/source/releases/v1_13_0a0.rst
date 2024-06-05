@@ -26,6 +26,10 @@ Version 1.13.0a0 (2024-04-24)
 
   * Fix color table application in geotiff_standard output formatter
 
+* Testing Updates
+
+  * Updated portions of the code to use new NextCloud Data Links
+
 Enhancements
 ============
 
@@ -170,3 +174,38 @@ array is written.
   modified: docs/source/releases/v1_13_0a0.rst
   modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
   modified: pyproject.toml
+
+Testing Updates
+===============
+
+Updated portions of the code to use new NextCloud Data Links
+------------------------------------------------------------
+
+*From GEOIPS#624: 2024-05-29, Update Code and Documentation to reflect new NextCloud Test Data Location*
+*From GEOIPS#625: 2024-05-29, Fix Bug In ``setup/download_test_data.py``*
+
+Portions ``setup/check_system_requirements.sh`` test data install code was outdated due
+to the old instance of NextCloud being taken down recently. We've created a new instance
+of NextCloud which hosts a large majority of the data used for testing GeoIPS, and this
+required updating portions of the code which used the old links to the new link
+locations.
+
+As we were making those changes, we also found that ``setup/download_test_data.py``
+would not work for non ``.git`` hosted datsets. This is because a change was made to
+``setup/check_system_requirements.sh`` which sent the output of the raw repsonse from
+``requests.get`` to a logfile rather than piping it to tar extraction then a logfile. To
+fix this, we added a conditional in ``setup/check_system_requirements.sh`` which
+determined the source of the dataset, and either send the output of
+``setup/download_test_data.py`` directly to a logfile (``.git``-based), or piped it to
+tar extraction then to a log file.
+
+These changes address the new data locations and the bug introduced to
+``setup/check_system_requirements.sh``.
+
+::
+
+    modified: geoips/commandline/ancillary_info/test_data.py
+    modified: geoips/commandline/geoips_config.py
+    modified: setup/check_system_requirements.sh
+    modified: tests/integration_tests/full_install.sh
+    modified: tests/unit_tests/commandline/cli_top_level_tester.py
