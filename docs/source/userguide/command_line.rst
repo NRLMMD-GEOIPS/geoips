@@ -265,8 +265,8 @@ test scripts from a certain GeoIPS package.
     geoips list scripts -p <package_name>
 
 ``list test-datasets`` is a list sub-command which retrieves a listing of test datasets
-used for testing GeoIPS process workflows. Currently, we rely on the test-datasets shown
-below to properly test GeoIPS.
+used for testing GeoIPS processing workflows. Currently, we rely on the test-datasets
+shown below to properly test GeoIPS.
 
 List of test-datasets needed for testing GeoIPS:
 
@@ -317,7 +317,7 @@ Performing Processes
 The other use case of the GeoIPS CLI is for performing GeoIPS processes. We currently
 implement 4 commands which perform some sort of process. This includes plugin
 validation, executing test scripts, installing test datasets used by GeoIPS, and running
-a process workflow as ``run_procflow`` previously did. The latter is the most
+a processing workflow as ``run_procflow`` previously did. The latter is the most
 significant change as we've rerouted all ``run_procflow`` & ``data_fusion_procflow``
 commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actually
 change the implementation of how procflows were ran, this makes all procflow calls be
@@ -329,7 +329,7 @@ the command provided.
 Config Command
 --------------
 
-Currently, GeoIPS relies on test datasets to perform testing on the process workflows
+Currently, GeoIPS relies on test datasets to perform testing on the processing workflows
 which we've created. These test datasets are installed via a bash script before any
 testing can be done. To make this process easier and more configurable, we've
 implemented a ``geoips config`` command, which encapsulates configuration settings that
@@ -340,7 +340,7 @@ for installing test datasets, though we'll support other config commands as we c
 to develop the GeoIPS CLI.
 
 ``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing implemented process workflows. For a listing of test datasets available for
+testing implemented processing workflows. For a listing of test datasets available for
 installation, run this command ``geoips list test-datasets``.
 
 To install a specific test dataset, run the command below.
@@ -353,8 +353,8 @@ To install a specific test dataset, run the command below.
 Run Command
 -----------
 
-Currently, GeoIPS creates all outputs defined by products via a process workflow
-(procflow). These process workflows are written as a bash script, which tells GeoIPS
+Currently, GeoIPS creates all outputs defined by products via a processing workflow
+(procflow). These processing workflows are written as a bash script, which tells GeoIPS
 what plugins will be used and how they will be processed. While this works for the time
 being, we are largely refactoring the way in which outputs will be produced by using an
 order-based procflow. We eventually want to specify the order in which a procflow
@@ -467,7 +467,7 @@ Once you've created your script in the appropriate location, follow the command 
 
     geoips test script <script_name> (defaults to 'geoips' package)
     geoips test script -p <package_name> <script_name>
-    geoips test script --implemented <script_name> (no '-p' as this is only supported for 'geoips' package)
+    geoips test script --integration <script_name> (no '-p' as this is only supported for 'geoips' package)
 
 Validate Command
 ----------------
