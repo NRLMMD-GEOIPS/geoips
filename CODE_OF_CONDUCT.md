@@ -1,6 +1,9 @@
 
 # Contributor Covenant Code of Conduct
 
+This Code of Conduct is maintained and enforced by our community collaborators,
+and not the Federal Government and its employees.
+
 ## Our Pledge
 
 We as members, contributors, and leaders pledge to make participation in our
