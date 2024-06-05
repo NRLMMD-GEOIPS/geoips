@@ -31,7 +31,7 @@ class CoverageError(Exception):
     pass
 
 
-class CliError(Exception):
+class CLIError(Exception):
     """Raise exception on command line interface error."""
 
     pass
