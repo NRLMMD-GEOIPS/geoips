@@ -234,6 +234,8 @@ def check_gridline_annotator(gridline_annotator):
                     key, required_fields
                 )
             )
+        if key == "xpadding" or key == "ypadding":
+            continue
         for subkey in subkeys:
             if subkey not in gridline_annotator["spec"][key]:
                 LOG.info(gridline_annotator)
@@ -525,7 +527,7 @@ def draw_features(mapobj, curr_ax, feature_annotator, zorder=None):
 
     for name, feature in feature_annotator["spec"].items():
         feat = deepcopy(feature)
-        if feat.pop("enabled"):
+        if name != "background" and feat.pop("enabled"):
             curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
 
 
@@ -565,6 +567,12 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     LOG.info("    Plotting with cartopy")
 
     spec = gridline_annotator["spec"]
+    labels = spec["labels"]
+
+    if "xpadding" in labels.keys():
+        extra_args["xpadding"] = labels["xpadding"]
+    if "ypadding" in labels.keys():
+        extra_args["ypadding"] = labels["ypadding"]
 
     # Note: linestyle is specified by a tuple: (offset, (pixels_on,
     # pixels_off, pxon, pxoff)), etc
@@ -573,7 +581,6 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr = curr_ax.gridlines(draw_labels=True, **lines, **extra_args)
 
     # Default to False, unless set in argument
-    labels = spec["labels"]
     glnr.top_labels = labels["top"]
     glnr.bottom_labels = labels["bottom"]
     glnr.left_labels = labels["left"]
@@ -592,3 +599,9 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr.yformatter = LATITUDE_FORMATTER
     glnr.xlabel_style = {"rotation": 0}
     glnr.ylabel_style = {"rotation": 0}
+    # The following are the list of supported attributes which we can define in our
+    # gridline annotator. If specified, add these attributes to the x / y style dicts.
+    for style_arg in ["fontfamily", "fontstyle", "fontweight", "fontsize"]:
+        if style_arg in labels.keys():
+            glnr.xlabel_style[style_arg] = labels[style_arg]
+            glnr.ylabel_style[style_arg] = labels[style_arg]

@@ -51,6 +51,40 @@ properties:
             type: boolean
           right:
             type: boolean
+          # The amount of pixels to offset the x-axis (usually longitude) labels for
+          # imagery. If negative, this will shift the labels inside the map-portion of
+          # the imagery.
+          xpadding:
+            type: integer
+          # The amount of pixels to offset the y-axis (usually latitude) labels for
+          # imagery. If negative, this will shift the labels inside the map-portion of
+          # the imagery.
+          ypadding:
+            type: integer
+          # The family of the font to apply to the labels. If not provided, it will be
+          # the default font that matplotlib uses. Otherwise, it should be a family
+          # supported by 'matplotlib.font_manager.get_font_names()'.
+          fontfamily:
+            type: string
+          # The style of the font to output. Defaults to normal, but can be either
+          # 'italic', 'normal', or 'oblique'.
+          fontstyle:
+            type: string
+          # {a numeric value in range 0-1000, 'ultralight', 'light', 'normal',
+          # 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi',
+          # 'bold', 'heavy', 'extra bold', 'black'}
+          fontweight:
+            anyOf: [
+              type: integer,
+              type: string,
+            ]
+          # float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large',
+          # 'xx-large'}. Defaults to matplotlib.pyplot.rcParams['font.size']
+          fontsize:
+            anyOf: [
+              type: number,
+              type: string,
+            ]
       lines:
         type: object
         required:
@@ -69,3 +103,7 @@ properties:
               type: integer
           linewidth:
             type: number
+      # Background color for the frame surrounding the image. Must be either a
+      # matplotlib named color or a hexadecimal color string.
+      background:
+        type: string
