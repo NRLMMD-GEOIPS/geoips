@@ -14,7 +14,6 @@
 
 import os
 from copy import deepcopy
-import sys
 import inspect
 
 # import yaml
@@ -35,20 +34,6 @@ def remove_unsupported_kwargs(module, requested_kwargs):
             LOG.warning("REMOVING UNSUPPORTED %s key %s", module, key)
             requested_kwargs.pop(key)
     return requested_kwargs
-
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    # NOTE: When there is a .egg-info directory in the plugin package top
-    # level (ie, from setuptools pip install -e), it seems to return that
-    # package twice in this list.  For now, just use the full list with
-    # duplicates.
-    if sys.version_info[:3] >= (3, 10, 0):
-        eps = metadata.entry_points(group=group)
-    else:
-        eps = metadata.entry_points()[group]
-
-    return eps
 
 
 def find_ascii_palette(name):
@@ -72,7 +57,7 @@ def find_all_txt_plugins(subdir=""):
     in ``.txt``. Return list of files
     """
     # Load all entry points for plugin packages
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
 
     # Loop over the plugin packages and load all of their yaml plugins
     txt_files = []
@@ -92,7 +77,7 @@ def load_all_yaml_plugins():
     # Load all entry points for plugin packages
     import json
 
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
     yaml_plugins = {}
     for pkg in plugin_packages:
         pkg_plug_path = str(resources.files(pkg.value) / "registered_plugins")
