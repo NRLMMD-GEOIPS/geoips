@@ -15,36 +15,36 @@ on:
 
 jobs:
   check_code_bandit:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: "pypy-3.9"
+          python-version: "pypy-3.10"
           check-latest: true
-      - name: Checkout plugin current branch
-        uses: actions/checkout@master
       - name: Update pip
         run: pip install --upgrade pip
       - name: Install bandit
         run: pip install bandit
       - name: Checkout plugin current branch
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
       - name: Checkout geoips default branch
         uses: actions/checkout@v3
         with:
-          repository: NRLMMD-GEOIPS/geoips
-          ref: main
+          fetch-depth: 0
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.DEFAULT_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
-          path: geoips_dev_utils
-          sparse-checkout: |
-            tests/utils
+          path: geoips_default_branch
       - name: Run code check script bandit
         shell: bash -l {0}
         run: |
           echo "::group::bandit_analysis"
           echo "BANDIT analysis of code"
-          ./geoips_dev_utils/tests/utils/check_code.sh bandit .
+          ./geoips_default_branch/tests/utils/check_code.sh bandit ./geoips_plugin_repo
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"

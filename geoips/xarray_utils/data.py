@@ -767,11 +767,18 @@ def sector_xarrays(
         sectored spatially and temporally as requested.
     """
     ret_xobjs = {}
+    from geoips.xarray_utils.time import (
+        get_min_from_xarray_time,
+        get_max_from_xarray_time,
+    )
+
     for key, xobj in xobjs.items():
         LOG.info("SECTORING dataset %s area_def %s", key, area_def.name)
         LOG.info(" requested variables %s", set(varlist))
         LOG.info(" dataset variables %s", set(xobj.variables.keys()))
         LOG.info(" dataset data_vars %s", set(xobj.data_vars))
+        LOG.info("  Min time: %s", get_min_from_xarray_time(xobj, "time"))
+        LOG.info("  Max time: %s", get_max_from_xarray_time(xobj, "time"))
         # Compile a list of variables that will be used to sector - the current data
         # variable, and we will add in the appropriate latitude and longitude variables
         # (of the same shape as data), and if it exists the appropriately shaped time
@@ -874,8 +881,6 @@ def sector_xarrays(
             area_def  # add name of this sector to sector attribute
         )
         if hasattr(sect_xarray, "time"):
-            from geoips.xarray_utils.time import get_min_from_xarray_time
-            from geoips.xarray_utils.time import get_max_from_xarray_time
 
             sect_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
                 sect_xarray, "time"
@@ -898,6 +903,8 @@ def sector_xarrays(
         sect_xarray.attrs["sectored"] = True
         ret_xobjs[key] = sect_xarray
         ret_xobjs["METADATA"] = sect_xarray[[]]
+        LOG.info("  Min time: %s", get_min_from_xarray_time(sect_xarray, "time"))
+        LOG.info("  Max time: %s", get_max_from_xarray_time(sect_xarray, "time"))
 
     return ret_xobjs
 
@@ -929,3 +936,49 @@ def get_sectored_xarrays(
             area_def.name,
         )
     return sect_xarrays
+
+
+def combine_preproc_xarrays_with_alg_xarray(dict_of_xarrays, alg_xarray, rgb_var=None):
+    """Combine preprocessed xarrays with an xarray output from an algorithm.
+
+    The dimensions of the preprocessed xarrays must match the algorithm xarray.
+
+    Parameters
+    ----------
+    dict_of_xarrays : dict
+        Dictionary of xarray objects (e.g. output from geoips_netcdf reader).
+    alg_xarray : xarray dataset
+        xarray dataset returned from algorithm.
+    rgb_var : bool
+        Specify the product name produced by an algorithm that outputs RGB values.
+        If so, there will not be any NaNs to replace and a composite will not be made.
+        This function will first set all 0s to NaN during the merge process,
+        then replace any remaining NaNs back to 0.
+
+    Returns
+    -------
+    xarray.Dataset
+        Combined xarray dataset of input xarrays datasets
+    """
+    # Merge xarray objects from newest to oldest
+    # Otherwise older swaths will be overlaid on newer
+    keys = sorted(dict_of_xarrays)[::-1]
+    # Set merged xarray object to alg_xarray, NaNs in this xarray dataset will
+    # be replaced with increasingly older pre-processed swaths
+    merged = alg_xarray
+    if rgb_var:
+        from numpy import nan
+
+        merged[rgb_var] = merged[rgb_var].where(merged[rgb_var] != 0, nan)
+    for i, key in enumerate(keys):
+        if key == "METADATA":
+            continue
+        preproc = dict_of_xarrays[key]
+        if rgb_var:
+            preproc[rgb_var] = preproc[rgb_var].where(preproc[rgb_var] != 0, nan)
+        # # Replace NaNs in new dataset with composited xarray
+        # merged = new_dset.combine_first(merged)
+        merged = merged.combine_first(preproc)
+    if rgb_var:
+        merged[rgb_var] = merged[rgb_var].fillna(0)
+    return merged

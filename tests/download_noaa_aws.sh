@@ -88,6 +88,27 @@ if [[ "$satellite" == "himawari8" ]]; then
             done
         fi
     done
+elif [[ "$satellite" == "geokompsat" ]]; then
+    rclone_path="publicAWS:noaa-gk2a-pds/AMI/L1B/FD/$yyyy$mm/$dd/$hh/"
+    echo "rclone --config $rclone_conf lsf $rclone_path"
+    files=`rclone --config $rclone_conf lsf $rclone_path`
+    echo "COMPARE: ${yyyy}${mm}${dd}${hh}${mn}"
+    break
+    for fname in $files; do
+        if [[ "$fname" =~ "${yyyy}${mm}${dd}${hh}${mn}" ]]; then
+            if [[ "$wildcard_list" == "" ]]; then
+                echo "rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/"
+                rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/
+            else
+                for wildcard in $wildcard_list; do
+                    if [[ "$fname" =~ "$wildcard" ]]; then
+                        echo "rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/"
+                        rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/
+                    fi
+                done
+            fi
+        fi
+    done
 else
     rclone_path="publicAWS:noaa-$satellite/ABI-L1b-RadF/$yyyy/$jday/$hh/"
     echo "rclone --config $rclone_conf lsf $rclone_path"

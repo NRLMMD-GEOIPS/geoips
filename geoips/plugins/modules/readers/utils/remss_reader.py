@@ -19,6 +19,11 @@ LOG = logging.getLogger(__name__)
 MS_TO_KTS = 1.94384
 DEG_TO_KM = 111.321
 
+# interface = None indicates to the GeoIPS interfaces that this is not a valid
+# plugin, and this module will not be added to the GeoIPS plugin registry.
+# This allows including python modules within the geoips/plugins directory
+# that provide helper or utility functions to the geoips plugins, but are
+# not full GeoIPS plugins on their own.
 interface = None
 
 

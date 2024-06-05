@@ -34,6 +34,10 @@ expected_outputs=$GEOIPS_SYSTEM/tests/realtime_tests/output_file_lists/$source_n
 
 output_file_list_fname_arg=""
 if [[ "$1" == "write_output_file_list" ]]; then
+    if [[ ! -d $GEOIPS_SYSTEM/tests/realtime_tests/output_file_lists ]]; then
+        echo "ERROR: $GEOIPS_SYSTEM/tests/realtime_tests/output_file_lists must exist to write_output_file_list! Quitting!"
+        exit 1
+    fi
     output_file_list_fname_arg="--output_file_list_fname $expected_outputs"
 fi
 
@@ -43,4 +47,10 @@ if [[ "$1" == "copy_files" && "$2" != "" && -d "$2" ]]; then
     copy_dir="$copy_base_dir/$source_name"
     mkdir -p $copy_dir
     echo "NOTE: Will copy output files to $copy_dir"
+elif [[ "$1" == "copy_files" && "$2" != "" && ! -d "$2" ]]; then
+    echo "ERROR: $2 must exist to copy_files! Quitting!"
+    exit 1
+elif [[ "$1" == "copy_files" && "$2" == "" ]]; then
+    echo "ERROR: $2 must be specified (and exist) to copy_files! Quitting!"
+    exit 1
 fi

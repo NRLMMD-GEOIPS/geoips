@@ -17,7 +17,7 @@ on:
 
 jobs:
   release_v_change_detection:
-    runs-on: ubuntu-latest
+    runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Checkout geoips repo default branch
         uses: actions/checkout@v3 # v3 is the latest for checkout
