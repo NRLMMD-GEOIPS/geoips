@@ -22,6 +22,11 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+
+* Refactoring Updates
+
+  * Removed all support for Python versions less than 3.10.0
+
 * Bug fixes
 
   * Fix color table application in geotiff_standard output formatter
@@ -145,6 +150,10 @@ New Docs Structure + GitHub Actions
 
 Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the "old docs" (all other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch. Added a banner to the documentation site to inform readers that the old docs are frozen and to link them to the new docs as a preview. Note that no new functionality has been added to GeoIPS.
 
+* Refactoring Updates
+
+  * Removed all support for Python versions less than 3.10.0
+
 Release Updates
 ===============
 
@@ -158,6 +167,30 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Refactoring Updates
+===================
+
+Removed all support for Python versions less than 3.10.0
+--------------------------------------------------------
+
+*From GEOIPS#439: 2024-02-12, Remove Support for Python 3.9*
+
+'There are a few places in the code where we explicitly attempt to support Python 3.9
+but supporting 3.9 is beginning to hold us back in some ways. We should explicitly
+remove support for Python 3.9 and update the code to remove all related special cases.'
+
+Since Python 3.9 and older versions are holding GeoIPS back, and since primary GeoIPS
+users are using Python versions greater than or equal to 3.10.0, we are removing all
+support for versions less than 3.10. The following files have been modified to
+implement those changes.
+
+::
+
+    modified: pyproject.toml
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/plugin_registry.py
+    modified: geoips/geoips_utils.py
 
 Bug Fixes
 =========
@@ -174,6 +207,7 @@ array is written.
   modified: docs/source/releases/v1_13_0a0.rst
   modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
   modified: pyproject.toml
+
 
 Testing Updates
 ===============

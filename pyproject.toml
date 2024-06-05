@@ -56,7 +56,7 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"                          # object used to perform the build process
 
 [tool.poetry.dependencies] # must download to run
-python = ">=3.9"       # mandatory to declare the required python version
+python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = "*"          # Base requirement
 numpy = "*"            # Base requirement
@@ -116,9 +116,9 @@ ipython = { version = "*", optional = true }
 
 [tool.poetry.extras]
 doc = [
-    "pydata-sphinx-theme", # Required for building documentation
-    "sphinx",              # Required for building documentation, v7.2 errors
-    "sphinx-design",       # Required for building documentation
+    "pydata-sphinx-theme",       # Required for building documentation
+    "sphinx",                    # Required for building documentation, v7.2 errors
+    "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
 ]
 lint = [
