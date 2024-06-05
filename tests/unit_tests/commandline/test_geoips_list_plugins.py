@@ -7,10 +7,10 @@ from importlib import resources
 import json
 import pytest
 
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsListPlugins(BaseCliTest):
+class TestGeoipsListPlugins(BaseCLITest):
     """Unit Testing Class for List Plugins Sub-Command."""
 
     @property

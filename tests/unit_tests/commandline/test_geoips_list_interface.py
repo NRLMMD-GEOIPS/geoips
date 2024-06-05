@@ -9,10 +9,10 @@ from pathlib import Path
 import pytest
 
 from geoips import interfaces
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsListInterface(BaseCliTest):
+class TestGeoipsListInterface(BaseCLITest):
     """Unit Testing Class for List Interface Sub-Command."""
 
     @property

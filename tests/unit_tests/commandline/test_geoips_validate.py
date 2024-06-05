@@ -8,10 +8,10 @@ from importlib import resources
 from numpy.random import rand
 import pytest
 
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsValidate(BaseCliTest):
+class TestGeoipsValidate(BaseCLITest):
     """Unit Testing Class for 'geoips validate' Command."""
 
     @property

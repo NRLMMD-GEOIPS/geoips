@@ -10,10 +10,10 @@ from os import listdir
 from os.path import basename
 import pytest
 
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsRun(BaseCliTest):
+class TestGeoipsRun(BaseCLITest):
     """Unit Testing Class for 'geoips run' Command."""
 
     @property

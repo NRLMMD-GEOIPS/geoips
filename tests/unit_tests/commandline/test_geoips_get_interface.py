@@ -6,10 +6,10 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 import pytest
 
 from geoips import interfaces
-from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from tests.unit_tests.commandline.cli_top_level_tester import BaseCLITest
 
 
-class TestGeoipsGetInterface(BaseCliTest):
+class TestGeoipsGetInterface(BaseCLITest):
     """Unit Testing Class for Get Interface Sub-Command."""
 
     @property
