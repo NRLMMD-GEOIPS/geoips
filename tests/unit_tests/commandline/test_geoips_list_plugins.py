@@ -65,7 +65,7 @@ class TestGeoipsListPlugins(BaseCliTest):
             assert "To use, type `geoips list plugins`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            selected_cols = self.retrieve_selected_columns_from_list_command(args)
+            selected_cols = self.retrieve_selected_columns(args)
             headers = {
                 "GeoIPS Package": "package",
                 "Interface Name": "interface",

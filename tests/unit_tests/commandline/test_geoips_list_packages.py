@@ -75,7 +75,7 @@ class TestGeoipsListPackages(BaseCliTest):
                 "Package Path": "package_path",
                 "Version Number": "version",
             }
-            selected_cols = self.retrieve_selected_columns_from_list_command(args)
+            selected_cols = self.retrieve_selected_columns(args)
             self.assert_correct_headers_in_output(output, headers, selected_cols)
             # Assert that we found every installed package
             for pkg_name in self.plugin_package_names:

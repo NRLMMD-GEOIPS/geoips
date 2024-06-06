@@ -90,7 +90,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
             assert "To use, type `geoips list interfaces`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            selected_cols = self.retrieve_selected_columns_from_list_command(args)
+            selected_cols = self.retrieve_selected_columns(args)
             if "-i" in args or "-p" in args:
                 headers = {
                     "GeoIPS Package": "package",

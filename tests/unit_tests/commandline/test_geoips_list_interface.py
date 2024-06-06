@@ -109,7 +109,7 @@ class TestGeoipsListInterface(BaseCliTest):
             assert interface.name not in plugin_registry[interface_type].keys()
         else:
             # Assert that the correct headers exist in the CLI output
-            selected_cols = self.retrieve_selected_columns_from_list_command(args)
+            selected_cols = self.retrieve_selected_columns(args)
             headers = {
                 "GeoIPS Package": "package",
                 "Interface Name": "interface",

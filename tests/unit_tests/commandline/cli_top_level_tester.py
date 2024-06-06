@@ -85,13 +85,15 @@ class BaseCliTest(abc.ABC):
             ]
         return self._test_datasets
 
-    def retrieve_selected_columns_from_list_command(self, args):
-        """If --columns was used for a 'list' command, retrieve the list of columns.
+    def retrieve_selected_columns(self, args):
+        """If --columns was used for a command, retrieve the list of columns.
 
-        Only used for commands that invoke 'list'. We've added a '--columns' option
-        for list commands, and this function will retrieve the selected list of
-        columns so we can assert that they, and nothing else, are listed correctly
-        in the output of the list command.
+        Only used for commands that invoke --columns as a valid optional argument.
+        Currently, only a '--columns' option exists for list commands, and this function
+        will retrieve the selected list of columns so we can assert that they, and
+        nothing else, are listed correctly in the output of the list command.
+
+        We expect to add the --columns argument to the 'get' command in the future.
 
         Parameters
         ----------

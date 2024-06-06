@@ -335,8 +335,8 @@ class GeoipsExecutableCommand(GeoipsCommand):
         """Retrieve the appropriate headers from a list command with the given args.
 
         Headers are the top-row of the tabular output from 'list' commands. These are
-        customizable via optional args [--column, --short, --long] and we retrieve
-        the appropriate headers based on those optional arguments and the 'list' command
+        customizable via optional args [--column, --long] and we retrieve the
+        appropriate headers based on those optional arguments and the 'list' command
         provided.
 
         Parameters
@@ -412,7 +412,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
         )
 
     def _generate_table_data_by_interface(self, interface, interface_registry, headers):
-        """Generate the table data needed for output in '_print_plugins_short_format.
+        """Generate the table data needed for output in '_print_plugins.
 
         Given a certain interface and a list of headers, generate a list of table data
         used for outputting information used by 'geoips list interface' and
