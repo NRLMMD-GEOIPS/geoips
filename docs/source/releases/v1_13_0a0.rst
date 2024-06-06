@@ -16,7 +16,7 @@ Version 1.13.0a0 (2024-04-24)
 * Enhancements
 
   * Initial Stage of the GeoIPS CLI
-  * CLI Stage Two - new implementation of 'geoips run' and more args for 'geiops list'
+  * CLI Changes - new implementation of 'geoips run' and more args for 'geiops list'
   * New Docs Structure + GitHub Actions
 
 * Release Updates
@@ -137,8 +137,8 @@ For an example of how to run the GeoIPS CLI, see the code section below.
     added: geoips/tests/unit_tests/commandline/test_geoips_test_unit_test.py
     added: geoips/tests/unit_tests/commandline/test_geoips_test_validate.py
 
-CLI Stage Two
--------------
+CLI Changes - new implementation of 'geoips run' and more args for 'geoips list'
+--------------------------------------------------------------------------------
 
 *From GEOIPS#455: 2024-03-21, CLI Stage Two*
 
