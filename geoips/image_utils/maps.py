@@ -234,7 +234,10 @@ def check_gridline_annotator(gridline_annotator):
                     key, required_fields
                 )
             )
-        if key == "xpadding" or key == "ypadding":
+        if key in ["xpadding" or "ypadding"]:
+            # We skip here since we don't require 'xpadding' or 'ypadding'. These are
+            # optional attributes that you can apply to the gridline_annotator if
+            # wanted.
             continue
         for subkey in subkeys:
             if subkey not in gridline_annotator["spec"][key]:
@@ -599,9 +602,12 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr.yformatter = LATITUDE_FORMATTER
     glnr.xlabel_style = {"rotation": 0}
     glnr.ylabel_style = {"rotation": 0}
-    # The following are the list of supported attributes which we can define in our
-    # gridline annotator. If specified, add these attributes to the x / y style dicts.
-    for style_arg in ["fontfamily", "fontstyle", "fontweight", "fontsize"]:
+
+    for style_arg in gridline_annotators.label_kwargs.keys():
+        # If a (x/y)label_style kwarg is present in the gridline annotator's label
+        # object, than make sure to apply that argument now. Ie. color of the label,
+        # it's offset, etc. See geoips.schema.gridline_annotators.cartopy:labels for
+        # more information.
         if style_arg in labels.keys():
             glnr.xlabel_style[style_arg] = labels[style_arg]
             glnr.ylabel_style[style_arg] = labels[style_arg]
