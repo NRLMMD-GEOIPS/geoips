@@ -3,7 +3,7 @@
 System Requirements
 ===================
 
-GeoIPS system requirements are strongly dependent on how you intend to use
+GeoIPS system requirements are dependent on how you intend to use
 GeoIPS. This document will outline the minimum and recommended system
 requirements for users and developers for the base GeoIPS system, only.
 
