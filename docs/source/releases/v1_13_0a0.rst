@@ -16,6 +16,7 @@ Version 1.13.0a0 (2024-04-24)
 * Enhancements
 
   * Initial Stage of the GeoIPS CLI
+  * Improve error message when user missing ``pixelmatch``
 
 * Documentation
 
@@ -150,6 +151,16 @@ For an example of how to run the GeoIPS CLI, see the code section below.
     added: geoips/tests/unit_tests/commandline/test_geoips_test_unit_test.py
     added: geoips/tests/unit_tests/commandline/test_geoips_test_validate.py
 
+
+Improve error message when user missing ``pixelmatch``
+------------------------------------------------------
+
+When a user uses the image output checker with ``--compare-path`` without
+``pixelmatch`` installed, an error is raised. The old error was confusing. 
+This change improves the error, and directs the user on how to ameliorate
+the issue.
+
+
 Documentation
 =============
 
@@ -170,9 +181,6 @@ Borrowed the Contributor Covenant Code of Conduct v2.1, but removed the enforcem
     modified: pyproject.toml
     modified: docs/check-old-docs-frozen.py
 
-* Refactoring Updates
-
-  * Removed all support for Python versions less than 3.10.0
 
 Release Updates
 ===============
