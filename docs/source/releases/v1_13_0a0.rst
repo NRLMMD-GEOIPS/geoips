@@ -27,9 +27,19 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
+
+* Refactoring Updates
+
+  * Removed all support for Python versions less than 3.10.0
+
 * Bug fixes
 
   * Fix color table application in geotiff_standard output formatter
+  * Fix bug introduced by matplotlib versions ``>=3.9``
+
+* Testing Updates
+
+  * Updated portions of the code to use new NextCloud Data Links
 
 Enhancements
 ============
@@ -171,6 +181,7 @@ Borrowed the Contributor Covenant Code of Conduct v2.1, but removed the enforcem
     modified: pyproject.toml
     modified: docs/check-old-docs-frozen.py
 
+
 Release Updates
 ===============
 
@@ -184,6 +195,30 @@ Update "update_this_release_note" to v1_13_0a0
     modified: docs/source/releases/index.rst
     new file: docs/source/releases/v1_13_0a0.rst
     modified: update_this_release_note
+
+Refactoring Updates
+===================
+
+Removed all support for Python versions less than 3.10.0
+--------------------------------------------------------
+
+*From GEOIPS#439: 2024-02-12, Remove Support for Python 3.9*
+
+'There are a few places in the code where we explicitly attempt to support Python 3.9
+but supporting 3.9 is beginning to hold us back in some ways. We should explicitly
+remove support for Python 3.9 and update the code to remove all related special cases.'
+
+Since Python 3.9 and older versions are holding GeoIPS back, and since primary GeoIPS
+users are using Python versions greater than or equal to 3.10.0, we are removing all
+support for versions less than 3.10. The following files have been modified to
+implement those changes.
+
+::
+
+    modified: pyproject.toml
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/plugin_registry.py
+    modified: geoips/geoips_utils.py
 
 Bug Fixes
 =========
@@ -200,3 +235,53 @@ array is written.
   modified: docs/source/releases/v1_13_0a0.rst
   modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
   modified: pyproject.toml
+
+Fix bug introduced by matplotlib versions ``>=3.9``
+---------------------------------------------------
+
+Prior to matplotlib versions ``>=3.9`` we were able to use ``matplotlib.cm.get_cmap``
+without any problem. After 3.9 was introduced, this failed because
+``cm had no attribute called 'get_cmap'``. To fix this, we've migrated such calls from
+``cm.get_cmap`` to ``pyplot.get_cmap``, as that function still works for pyplot. It's
+weird that the same functionality was located in two different places, but at least it
+makes for an easy fix.
+
+::
+
+    modified: geoips/image_utils/colormap_utils.py
+    modified: geoips/plugins/modules/colormappers/matplotlib_linear_norm.py
+
+Testing Updates
+===============
+
+Updated portions of the code to use new NextCloud Data Links
+------------------------------------------------------------
+
+*From GEOIPS#624: 2024-05-29, Update Code and Documentation to reflect new NextCloud Test Data Location*
+*From GEOIPS#625: 2024-05-29, Fix Bug In ``setup/download_test_data.py``*
+
+Portions ``setup/check_system_requirements.sh`` test data install code was outdated due
+to the old instance of NextCloud being taken down recently. We've created a new instance
+of NextCloud which hosts a large majority of the data used for testing GeoIPS, and this
+required updating portions of the code which used the old links to the new link
+locations.
+
+As we were making those changes, we also found that ``setup/download_test_data.py``
+would not work for non ``.git`` hosted datsets. This is because a change was made to
+``setup/check_system_requirements.sh`` which sent the output of the raw repsonse from
+``requests.get`` to a logfile rather than piping it to tar extraction then a logfile. To
+fix this, we added a conditional in ``setup/check_system_requirements.sh`` which
+determined the source of the dataset, and either send the output of
+``setup/download_test_data.py`` directly to a logfile (``.git``-based), or piped it to
+tar extraction then to a log file.
+
+These changes address the new data locations and the bug introduced to
+``setup/check_system_requirements.sh``.
+
+::
+
+    modified: geoips/commandline/ancillary_info/test_data.py
+    modified: geoips/commandline/geoips_config.py
+    modified: setup/check_system_requirements.sh
+    modified: tests/integration_tests/full_install.sh
+    modified: tests/unit_tests/commandline/cli_top_level_tester.py
