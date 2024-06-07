@@ -289,6 +289,17 @@ instructions:
   #     `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
   #   output_info:
   #     - Output of the Unit Test Being Ran
+  geoips_tree:
+    help_str: |
+      Print a tree of all of the available GeoIPS CLI commands. This will display every
+      command in a top-down tree which gives a visual structure of how the CLI can be
+      ran.
+    usage_str: |
+      To use, type `geoips tree <--max_depth> <int> <--colored> <--short_name>`.
+    output_info:
+      - The tree of available GeoIPS CLI commands up to '--max_depth' levels. Can be
+        colored output if wanted and can define whether or not we want the full command
+        string or just the name of the command at the specified depth.
   geoips_validate:
     help_str: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood via
