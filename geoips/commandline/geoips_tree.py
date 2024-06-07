@@ -127,22 +127,21 @@ class GeoipsTree(GeoipsExecutableCommand):
         indent = " " * (level * 4)
         split_cmd = parser.prog.split()
 
+        if len(split_cmd) <= 2:
+            # split_cmd is either ['geoips'] or ['geoips', '<cmd>']
+            cmd_name = " ".join(split_cmd)
+        else:
+            # split_cmd takes the form of the following (same structure for all cmds):
+            # ['To', 'use,', 'type', '`geoips', 'config', '<cmd>', '<sub-cmd>', '...`.', 'install'] # NOQA
+            # The case above would result in 'geoips config install'
+            cmd_name = " ".join(split_cmd[3:5] + [split_cmd[-1]])[1:]
+
         if short_name:
             # Just grab the exact name of the command.
             # Ie. 'geoips' or 'config' or 'install'
             cmd_txt = f"{split_cmd[-1]}"
-
-        if len(split_cmd) <= 2:
-            # split_cmd is either ['geoips'] or ['geoips', '<cmd>']
-            cmd_name = " ".join(split_cmd)
-            if not short_name:
-                cmd_txt = f"{cmd_name}"
         else:
-            # split_cmd takes the form of the following (same structure for all cmds):
-            # ['To', 'use,', 'type', '`geoips', 'config', '<cmd>', '<sub-cmd>', '...`.', 'install'] # NOQA
-            cmd_name = " ".join(split_cmd[3:5] + [split_cmd[-1]])[1:]
-            if not short_name:
-                cmd_txt = f"{cmd_name}"
+            cmd_txt = cmd_name
 
         url = f"{self.cmd_line_url}#{cmd_name.replace(' ', '-')}"
         hyperlink = self.link(url, cmd_txt)
@@ -160,7 +159,7 @@ class GeoipsTree(GeoipsExecutableCommand):
             and parser._subparsers
             and level + 1 <= max_depth
         ):
-            # If the parser has subparsers, subparsers is not none, and we are not
+            # If the parser has subparsers, subparsers is not None, and we're not
             # exceeding the max depth specified, then call print_tree again.
             subparsers_action = parser._subparsers._group_actions[0]
             for choice, subparser in subparsers_action.choices.items():
