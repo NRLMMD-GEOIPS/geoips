@@ -13,11 +13,11 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListInterface(BaseCliTest):
-    """Unit Testing Class for List Interface Sub-Command."""
+    """Unit Testing Class for List Interface Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
-        """Check every possible call signature for the GeoipsListInterface command.
+    def command_combinations(self):
+        """A list of every possible call signature for the GeoipsListInterface command.
 
         This includes failing cases as well.
         """
@@ -33,9 +33,25 @@ class TestGeoipsListInterface(BaseCliTest):
                     self._cmd_list.append(args)
             # Add argument list with a non-existent interface
             self._cmd_list.append(base_args + ["non_existent_interface"])
+            # Add argument list that utilizes the --column optional arg
+            self._cmd_list.append(
+                base_args
+                + [
+                    "algorithms",
+                    "--columns",
+                    "package",
+                    "interface",
+                    "plugin_type",
+                    "relpath",
+                ]
+            )
             # Add argument list with an existing interface but non-existent package
             self._cmd_list.append(
                 base_args + ["algorithms", "-p", "non_existent_package"]
+            )
+            # Add argument list with an existing interface but w/ conflicting opt args
+            self._cmd_list.append(
+                base_args + ["readers", "--long", "--columns", "package", "interface"]
             )
         return self._cmd_list
 
@@ -49,16 +65,22 @@ class TestGeoipsListInterface(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        if args[3] in interfaces.__all__:
+        if "--columns" in args and "--long" in args:
+            assert (
+                "error: argument --columns/-c: not allowed with argument --long/-l"
+                in error.replace("\n", "")
+            )
+        elif args[3] in interfaces.__all__:
             # interface exists, so check that the package name is incorrect
             assert args[-1] not in self.plugin_package_names
-            usg_str = "error: argument --package/-p: invalid "
-            usg_str += f"choice: '{args[-1]}' (choose from"
-            assert usg_str in error
+            usg_str = (
+                f"error: argument --package_name/-p: invalid "
+                f"choice: '{args[-1]}' (choose from"
+            )
+            assert usg_str in error.replace("\n", "")
         else:
-            usg_str = "error: argument interface_name: invalid "
-            usg_str += f"choice: '{args[3]}' (choose from"
-            assert usg_str in error
+            assert args[3] not in interfaces.__all__
+        assert "usage: To use, type `geoips list interface <interface_name>`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list interface ...' successful output is correct.
@@ -87,16 +109,17 @@ class TestGeoipsListInterface(BaseCliTest):
             assert interface.name not in plugin_registry[interface_type].keys()
         else:
             # Assert that the correct headers exist in the CLI output
-            headers = [
-                "GeoIPS Package",
-                "Interface",
-                "Interface Type",
-                "Family",
-                "Plugin Name",
-                "Relative Path",
-            ]
-            for header in headers:
-                assert header in output
+            selected_cols = self.retrieve_selected_columns(args)
+            headers = {
+                "GeoIPS Package": "package",
+                "Interface Name": "interface",
+                "Interface Type": "plugin_type",
+                "Family": "family",
+                "Plugin Name": "plugin_name",
+                "Source Names": "source_name",
+                "Relative Path": "relpath",
+            }
+            self.assert_correct_headers_in_output(output, headers, selected_cols)
 
 
 test_sub_cmd = TestGeoipsListInterface()
@@ -104,10 +127,10 @@ test_sub_cmd = TestGeoipsListInterface()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips list interface ...' commands.
 
     This test covers every valid combination of commands for the 'geoips list interface'
@@ -120,4 +143,4 @@ def test_all_command_combinations(args):
         - List of arguments to call the CLI with
           (ie. ['geoips', 'list', 'interface', 'algorithms'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)

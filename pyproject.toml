@@ -64,7 +64,7 @@ pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
-xarray = "<2024.3"           # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
+xarray = "<2024.3"     # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
 cartopy = ">=0.22.0"   # No longer requires libgeos
 ephem = "*"            # Required for overpass predictor
@@ -150,7 +150,7 @@ geoips = "geoips"
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
 create_sector_image = "geoips.commandline.create_sector_image:main"
 list_available_plugins = "geoips.commandline.list_available_plugins:main"
-run_procflow = "geoips.commandline.run_procflow:main"
+run_procflow = "geoips.commandline.commandline_interface:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 create_plugin_registries = "geoips.create_plugin_registries:main"
