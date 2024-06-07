@@ -39,6 +39,41 @@ class GeoipsTree(GeoipsExecutableCommand):
             }
         return self._level_to_color
 
+    @property
+    def cmd_line_url(self):
+        """The url to the GeoIPS documentation for the GeoIPS CLI."""
+        if not hasattr(self, "_cmd_line_url"):
+            self._cmd_line_url = r"https://nrlmmd-geoips.github.io/geoips/userguide/command_line.html"  # NOQA
+            # self._cmd_line_url = r"file:///Users/erose/cira_workspace/geoips_build_docs/userguide/command_line.html"  # NOQA
+        return self._cmd_line_url
+
+    def link(self, uri, label=None):
+        """Hyperlink the provided uri alongside 'label' if applicable.
+
+        If label is not provided, just return a hyperlink with 'url' as it's text.
+
+        Parameters
+        ----------
+        uri: str
+            - The uniform resource identifier which maps to a certain webpage.
+        label: str (default = None)
+            - Optional text to hyperlink to.
+
+        Returns
+        -------
+        hyperlink: str
+            - Text that has been hyperlinked to 'uri'
+        """
+        if label is None:
+            label = uri
+
+        parameters = ""
+        # OSC 8 ; params ; URI ST <name> OSC 8 ;; ST
+        escape_mask = "\033]8;{};{}\033\\{}\033]8;;\033\\"
+        hyperlink = escape_mask.format(parameters, uri, label)
+
+        return hyperlink
+
     def add_arguments(self):
         """Add arguments to the tree-subparser for the Tree Command."""
         self.parser.add_argument(
@@ -111,22 +146,30 @@ class GeoipsTree(GeoipsExecutableCommand):
         if short_name:
             # Just grab the exact name of the command.
             # Ie. 'geoips' or 'config' or 'install'
-            lvl_str = f"{indent}{split_cmd[-1]}"
-        elif len(split_cmd) <= 2:
+            cmd_txt = f"{split_cmd[-1]}"
+
+        if len(split_cmd) <= 2:
             # split_cmd is either ['geoips'] or ['geoips', '<cmd>']
-            lvl_str = f"{indent}{' '.join(split_cmd)}"
+            cmd_name = " ".join(split_cmd)
+            if not short_name:
+                cmd_txt = f"{cmd_name}"
         else:
             # split_cmd takes the form of the following (same structure for all cmds):
             # ['To', 'use,', 'type', '`geoips', 'config', '<cmd>', '<sub-cmd>', '...`.', 'install'] # NOQA
-            lvl_str = f"{indent}{' '.join(split_cmd[3:5] + [split_cmd[-1]])[1:]}"
+            cmd_name = " ".join(split_cmd[3:5] + [split_cmd[-1]])[1:]
+            if not short_name:
+                cmd_txt = f"{cmd_name}"
+
+        url = f"{self.cmd_line_url}#{cmd_name.replace(' ', '-')}"
+        hyperlink = self.link(url, cmd_txt)
 
         if colored:
             # print the command tree in a colored fashion
             color = self.level_to_color.get(level, Fore.WHITE)
-            print(color + lvl_str + Style.RESET_ALL)
+            print(f"{indent}{color}{hyperlink}{Style.RESET_ALL}")
         else:
             # Otherwise just print the string in a normal fashion
-            print(lvl_str)
+            print(f"{indent}{hyperlink}")
 
         if (
             hasattr(parser, "_subparsers")
