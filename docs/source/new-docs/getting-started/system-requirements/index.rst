@@ -68,10 +68,8 @@ In addition to the required disk space for users, developers will require:
 |          |             |             | for integration tests.    |
 +----------+-------------+-------------+---------------------------+
 
-Future System Requirements
---------------------------
-
-GeoIPS is still undergoing heavy development and changing rapidly. We
-anticipate that we will implement more complete parallelization in the future
-which may increase the recommended system requirements for CPU but is unlikely to
-increase the minimum system requirements.
+Operational System Requirements
+-------------------------------
+If you are speccing out a system for an operational environment, please reach 
+out to the GeoIPS team to discuss system needs and the impact of our future
+development plans on your system.
