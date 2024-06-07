@@ -79,7 +79,8 @@ class BaseCliTest(abc.ABC):
                 "test_data_gpm",
                 "test_data_noaa_aws",
                 "test_data_sar",
-                "test_data_scat",
+                "test_data_scat_1.11.2",
+                "test_data_scat_1.11.3",
                 "test_data_smap",
                 "test_data_viirs",
             ]

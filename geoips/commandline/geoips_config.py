@@ -3,6 +3,7 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
+from numpy import any
 from os import listdir, environ
 from os.path import abspath, join
 import requests
@@ -48,10 +49,10 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         test_dataset_name = args.test_dataset_name
         test_dataset_url = test_dataset_dict[test_dataset_name]
-        if test_dataset_name in listdir(self.geoips_testdata_dir):
+        if any([test_dataset_name in fol for fol in listdir(self.geoips_testdata_dir)]):
             print(
                 f"Test dataset '{test_dataset_name}' already exists under "
-                f"'{join(self.geoips_testdata_dir, test_dataset_name)}'. See that "
+                f"'{join(self.geoips_testdata_dir, test_dataset_name)}*/'. See that "
                 "location for the contents of the test dataset."
             )
         else:
