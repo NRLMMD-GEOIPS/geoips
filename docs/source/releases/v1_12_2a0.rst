@@ -39,14 +39,12 @@ Version 1.12.2a0 (2024-02-19)
   * Added documentation for create_plugin_registries and PluginRegistry Class
   * Fix log_with_emphasis to deal with empty strings gracefully
   * Add documentation about optional pdflatex dependency
-
 * Refactor
 
   * Make JSON Plugin Registries Readable
   * Modify create_plugin_registries to use argparse instead of sys.argv
   * Refactor optional imports in readers to use a context manager function
 * Testing Updates
-
   * Move pytest validation from plugin_registry.py to unit tests.
 
 Testing Updates

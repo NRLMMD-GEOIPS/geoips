@@ -16,6 +16,7 @@ Version 1.13.0a0 (2024-04-24)
 * Enhancements
 
   * Initial Stage of the GeoIPS CLI
+  * CLI Changes - new implementation of 'geoips run' and more args for 'geiops list'
   * Improve error message when user missing ``pixelmatch``
 
 * Documentation
@@ -151,6 +152,121 @@ For an example of how to run the GeoIPS CLI, see the code section below.
     added: geoips/tests/unit_tests/commandline/test_geoips_test_unit_test.py
     added: geoips/tests/unit_tests/commandline/test_geoips_test_validate.py
 
+CLI Changes - new implementation of 'geoips run' and more args for 'geoips list'
+--------------------------------------------------------------------------------
+
+*From GEOIPS#455: 2024-03-21, CLI Stage Two*
+
+With the addition of the GeoIPS CLI
+(*From GEOIPS#37: 2022-08-11, Create a useful CLI for GeoIPS.*), we now have access to
+a wide array of commands to interact with GeoIPS. The purpose of this PR is to enhance
+the GeoIPS CLI with new and improved functionality. Specifically this PR addresses the
+``geoips run`` command and adds additional arguments (``--columns, --long``) to
+``geoips list`` commands.
+
+``geoips run`` now invokes the same process as what ``run_procflow`` and
+``data_fusion_procflow`` do. We've made this change to allow process workflow
+functionality to become part of the CLI rather than a separate commandline entrypoint
+that was hard to discover. Eventually, it would be nice to move all independent
+commandline entrypoints onto the CLI. Such as ``create_plugin_registries``,
+``create_sector_image``, etc. To use ``geoips run``, simply replace ``run_procflow``
+or ``data_fusion_procflow`` with ``geoips run <specified_procflow>``, keeping the
+remaining arguments the exact same. We have deprecated the use of the old procflow calls
+and the ``--procflow <specified_procflow>`` flag as that information is now obtained by
+the ``geoips run <specified_procflow>`` call. Below is an example of what a new
+procflow script looks like:
+
+::
+
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+        --reader_name abi_netcdf \
+        --product_name Infrared \
+        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --resampled_read \
+        --logging_level info \
+        --sector_list goes_east
+
+As stated above, we also added new optional arguments to all ``geoips list`` commands.
+These arguments are shared and are only specified once via the ``GeoipsListCommon``
+class. The two new optional arguments are ``--long`` and ``--columns <col_header> ...``.
+``--long`` is the default for all ``geoips list`` commands and specifies that all
+headers should be outputted. ``--columns <col_header> ...`` Specifies which columns
+you'd like outputted via the ``geoips list`` command. For example, if we ran
+``geoips list interface algorithms``, we'd get the ``--long`` format outputted. Running
+``geoips list interface algorithms --columns package interface plugin_type relpath``
+provides us table output with only those specified columns. Available columns differ
+by list command.
+
+Modified Files
+
+::
+
+    added: tests/integration_tests/cli_dummy_integration.sh
+    added: tests/integration_tests/cli_dummy_script.sh
+    modified: docs/source/userguide/command_line.rst
+    modified: geoips/commandline/ancillary_info/cmd_instructions.json
+    modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+    modified: geoips/commandline/args.py
+    modified: geoips/commandline/commandline_interface.py
+    modified: geoips/commandline/geoips_command.py
+    modified: geoips/commandline/geoips_list.py
+    modified: geoips/commandline/geoips_run.py
+    modified: geoips/commandline/run_procflow.py
+    modified: geoips/utils/context_managers.py
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/geoips_utils.py
+    modified: pyproject.toml
+    modified: tests/scripts/abi.config_based_exclude_goes17.sh
+    modified: tests/scripts/abi.config_based_output.sh
+    modified: tests/scripts/abi.config_based_output_low_memory.sh
+    modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+    modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+    modified: tests/scripts/ahi.tc.WV.geotiff.sh
+    modified: tests/scripts/amsr2.config_based_no_compare.sh
+    modified: tests/scripts/amsr2.config_based_no_compare_full.sh
+    modified: tests/scripts/amsr2.config_based_overlay_output.sh
+    modified: tests/scripts/amsr2.config_based_overlay_output_low_memory.sh
+    modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+    modified: tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh
+    modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+    modified: tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh
+    modified: tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh
+    modified: tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh
+    modified: tests/scripts/atms.tc.165H.netcdf_geoips.sh
+    modified: tests/scripts/documentation_imagery.sh
+    modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+    modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh
+    modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+    modified: tests/scripts/imerg.tc.Rain.imagery_clean.sh
+    modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+    modified: tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh
+    modified: tests/scripts/modis.Infrared.unprojected_image.sh
+    modified: tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+    modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+    modified: tests/scripts/seviri.WV-Upper.unprojected_image.sh
+    modified: tests/scripts/smap.tc.windspeed.imagery_clean.sh
+    modified: tests/scripts/smap.unsectored.text_winds.sh
+    modified: tests/scripts/smos.tc.sectored.text_winds.sh
+    modified: tests/scripts/ssmi.tc.37pct.imagery_clean.sh
+    modified: tests/scripts/ssmis.color91.unprojected_image.sh
+    modified: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh
+    modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+    modified: tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh
+    modified: tests/unit_tests/commandline/test_geoips_list_interface.py
+    modified: tests/unit_tests/commandline/test_geoips_list_packages.py
+    modified: tests/unit_tests/commandline/test_geoips_list_scripts.py
+    modified: tests/unit_tests/commandline/test_geoips_list_test_datasets.py
+    modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
+    modified: tests/unit_tests/commandline/test_geoips_run.py
+    modified: tests/unit_tests/commandline/test_geoips_test_script.py
 
 Improve error message when user missing ``pixelmatch``
 ------------------------------------------------------

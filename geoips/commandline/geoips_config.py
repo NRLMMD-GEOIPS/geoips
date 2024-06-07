@@ -14,14 +14,14 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
-    """Config Sub-Command Class for installing packages/data.
+    """Config Command Class for installing packages/data.
 
     Supports installation of packages and test data needed for testing and/or running
     your GeoIPS environment.
     """
 
-    command_name = "install"
-    subcommand_classes = []
+    name = "install"
+    command_classes = []
 
     @property
     def geoips_testdata_dir(self):
@@ -32,7 +32,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "test_dataset_name",
             type=str.lower,
             choices=list(test_dataset_dict.keys()),
@@ -81,7 +81,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         if resp.status_code == 200:
             self.extract_data_cautiously(resp, download_dir)
         else:
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Error retrieving data from {url}; Status Code {resp.status_code}."
             )
 
@@ -113,5 +113,5 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 class GeoipsConfig(GeoipsCommand):
     """Config top-level command for configuring your GeoIPS environment."""
 
-    command_name = "config"
-    subcommand_classes = [GeoipsConfigInstall]
+    name = "config"
+    command_classes = [GeoipsConfigInstall]

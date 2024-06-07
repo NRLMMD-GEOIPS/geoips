@@ -12,6 +12,7 @@
 
 """General high level utilities for geoips processing."""
 
+import json
 import os
 from copy import deepcopy
 import inspect
@@ -376,3 +377,49 @@ def merge_nested_dicts(dest, src, in_place=True, replace=False):
         raise
     if not in_place:
         return final_dest
+
+
+def is_editable(package_name):
+    """Return whether or not 'package_name' has been installed in editable mode.
+
+    Where editable mode is a local package installed via 'pip install -e <path_to_pkg>
+    and non-editable mode is a local package installed via 'pip install <pact_to_pkg>.
+
+    If the package under package_name doesn't exist, raise a ValueError reporting that.
+
+    Parameters
+    ----------
+    package_name: str
+        - The name of the pip installed local package. (ie. "geoips", "recenter_tc", ..)
+
+    Returns
+    -------
+    editable: bool
+        - The truth value as to whether or not the package was installed in editable
+          mode.
+    """
+    plugin_package_names = [
+        ep.value for ep in metadata.entry_points(group="geoips.plugin_packages")
+    ]
+    if package_name not in plugin_package_names:
+        raise ValueError(
+            f"Package '{package_name}' is not an installed package. Please install it "
+            "before running this command via 'pip install <path_to_package_name>' "
+            "optionally with the '-e' flag."
+        )
+    dist_info = metadata.distribution(package_name).read_text("direct_url.json")
+    # If dist_info is None, package was not installed from source and it was installed
+    # from a pre-built wheel. Therefore it is not in editable mode.
+    if dist_info:
+        # If dist_info is not None, that means we retrieved metadata about the installed
+        # package. Check to see if it's in editable mode or not.
+        json_dist = json.loads(dist_info)
+        if (
+            "dir_info" in json_dist.keys()
+            and "editable" in json_dist["dir_info"].keys()
+            and json_dist["dir_info"]["editable"]
+        ):
+            # If the 'editable' key exists and is True
+            return True
+    # Package is installed in non-editable mode
+    return False

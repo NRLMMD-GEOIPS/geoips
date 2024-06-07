@@ -14,7 +14,7 @@
 
 import logging
 from contextlib import contextmanager
-import sys
+import traceback
 
 LOG = logging.getLogger(__name__)
 
@@ -32,8 +32,8 @@ def import_optional_dependencies(loglevel="info"):
     try:
         yield None
     except ImportError as err:
-        filename = sys.exc_info()[2].tb_frame.f_code.co_filename
-        lineno = sys.exc_info()[2].tb_frame.f_lineno
+        tb = traceback.extract_tb(err.__traceback__)
+        filename, lineno, _, _ = tb[-1]
         err_str = f"Failed to import {err.name} at {filename}:{lineno}. "
         err_str += "If you need it, install it."
 

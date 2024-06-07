@@ -13,10 +13,10 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListUnitTests(BaseCliTest):
-    """Unit Testing Class for List Unit Tests Sub-Command."""
+    """Unit Testing Class for List Unit Tests Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of every possible call signature for the GeoipsListUnitTests command.
 
         This includes failing cases as well.
@@ -44,9 +44,11 @@ class TestGeoipsListUnitTests(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
-        # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "unit-tests"]
-        assert "usage: To use, type `geoips list unit-tests -p <package_name>`" in error
+        editable = self.assert_non_editable_error_or_wrong_package(args, error)
+        if editable:
+            # bad command has been provided, check the contents of the error message
+            assert args != ["geoips", "list", "unit-tests"]
+            assert "usage: To use, type `geoips list unit-tests" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list unit-tests ...' successful output is correct.
@@ -64,7 +66,6 @@ class TestGeoipsListUnitTests(BaseCliTest):
             assert "usage: To use, type `geoips list unit-tests" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            assert ["geoips", "list", "unit-tests"] == args[:3]
             # Assert that the correct headers exist in the CLI output
             headers = ["GeoIPS Package", "Unit Test Directory", "Unit Test Name"]
             for header in headers:
@@ -77,7 +78,7 @@ class TestGeoipsListUnitTests(BaseCliTest):
             # Assert that we found every unit test
             for subdir_name in listdir(unit_test_dir):
                 for unit_test in sorted(
-                    glob(f"{unit_test_dir}/{subdir_name}/test*.py")
+                    glob(f"{unit_test_dir}/{subdir_name}/test_*.py")
                 ):
                     assert basename(unit_test) in output
 
@@ -87,10 +88,10 @@ test_sub_cmd = TestGeoipsListUnitTests()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips list unit-tests ...' commands.
 
     This test covers every valid combination of commands for the
@@ -102,4 +103,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'list', 'unit-tests'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)
