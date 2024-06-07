@@ -100,22 +100,6 @@ class GeoipsTree(GeoipsExecutableCommand):
             ),
         )
 
-    def __call__(self, args):
-        """Run the `geoips tree <opt_args>` command.
-
-        Parameters
-        ----------
-        args: Namespace()
-            - The argument namespace to parse through
-        """
-        print()
-        self.print_tree(
-            self.top_level_parser,
-            colored=args.colored,
-            max_depth=args.max_depth,
-            short_name=args.short_name,
-        )
-
     def print_tree(self, parser, colored=False, level=0, max_depth=2, short_name=False):
         """Display GeoIPS CLI commands up to 'max_depth' in a tree-like fashion.
 
@@ -187,3 +171,19 @@ class GeoipsTree(GeoipsExecutableCommand):
                     max_depth=max_depth,
                     short_name=short_name,
                 )
+
+    def __call__(self, args):
+        """Run the `geoips tree <opt_args>` command.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through
+        """
+        print()
+        self.print_tree(
+            self.top_level_parser,
+            colored=args.colored,
+            max_depth=args.max_depth,
+            short_name=args.short_name,
+        )
