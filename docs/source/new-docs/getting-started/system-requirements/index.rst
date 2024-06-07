@@ -21,6 +21,10 @@ determine your requirements, especially for production settings.
 
 User System Requirements
 ------------------------
+We attempt to support Linux, MacOS, and Windows, but only officially support 
+Linux. Thismeans that GeoIPS should work on all OS but we only guarantee Linux.
+If you encounter an issue on Mac or Windows, please submit an issue and we will 
+do our best to address it.
 
 +------------------+---------------------------------------------------------+
 | Operating System | Minimum Version                                         |
