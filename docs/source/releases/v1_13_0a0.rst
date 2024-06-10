@@ -344,6 +344,7 @@ does.
     modified: docs/source/userguide/command_line.rst
     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
     modified: geoips/commandline/commandline_interface.py
+    modified: geoips/commandline/geoips_command.py
     modified: tests/unit_tests/commandline/cli_top_level_tester.py
     added: geoips/commandline/geoips_tree.py
     added: tests/unit_tests/commandline/test_geoips_tree.py
