@@ -33,6 +33,7 @@ from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 # Installed Libraries
 
 # GeoIPS Libraries
+from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 from .utils.geostationary_geolocation import (
@@ -194,19 +195,21 @@ def compare_dicts(d1, d2, skip=None):
 
 def get_top_level_metadata(fnames, sect):
     """Get top level metadata."""
+    md = {}
+    source_file = fnames[0]
     for fname in fnames:
         df = HritFile(fname)
         if "block_2" in df.metadata.keys():
+            source_file = fname
             break
-    md = {}
-    if "GEOS" in df.metadata["block_2"]["projection"]:
+    if "GEOS" in df.metadata.get("block_2", {}).get("projection", {}):
         md["sector_name"] = "Full-Disk"
-    else:
-        raise HritError(
-            "Unknown projection encountered: {}".format(
-                df.metadata["block_2"]["projection"]
-            )
-        )
+    # else:
+    # raise HritError(
+    #     "Unknown projection encountered: {}".format(
+    #         df.metadata.get("block_2", {}).get("projection", {})
+    #     )
+    # )
     md["start_datetime"] = df.start_datetime
     md["end_datetime"] = df.start_datetime
     md["data_provider"] = "nesdisstar"
@@ -226,6 +229,7 @@ def get_top_level_metadata(fnames, sect):
     #     raise HritError('Unknown satname encountered: {}'.format(msg_satname))
     md["platform_name"] = msg_satname[0:3] + "-" + msg_satname[-1]  # msg-1 or msg-4
     md["source_name"] = "seviri"
+    md["source_file"] = source_file
     md["area_definition"] = sect
     md["sample_distance_km"] = 3.0
 
@@ -475,7 +479,9 @@ class ChanList(object):
         return cls(chans)
 
 
-def call_single_time(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read SEVIRI hrit data products.
 
     Parameters
@@ -824,12 +830,51 @@ def call_single_time(fnames, metadata_only=False, chans=None, area_def=None, sel
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+    """Read SEVIRI hrit data products.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     if metadata_only:
         return call_single_time([fnames[3]], metadata_only=metadata_only)
-    all_metadata = [ call_single_time([x], metadata_only=True)["METADATA"] for x in fnames]
+    all_metadata = [
+        call_single_time([x], metadata_only=True)["METADATA"] for x in fnames
+    ]
+
+    if metadata_only:
+        return readers.concatenate_metadata(all_metadata)
+
     start_times = [x.start_datetime for x in all_metadata]
     times = list(set(start_times))
     import collections
+
     ingested_xarrays = collections.defaultdict(list)
     for time in times:
         scan_time_files = [x.start_datetime == time for x in all_metadata]
@@ -840,7 +885,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             area_def=area_def,
             self_register=self_register,
         )
-        for dname, dset, in data_dict.items():
+        for (
+            dname,
+            dset,
+        ) in data_dict.items():
             ingested_xarrays[dname].append(dset)
 
     if len(times) == 1:
@@ -849,6 +897,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         return data_dict
 
     import xarray
+
     # merged_dset = xarray.Dataset()
     # Now that we've ingested all scan times, stack along time dimension
     dict_xarrays = {}

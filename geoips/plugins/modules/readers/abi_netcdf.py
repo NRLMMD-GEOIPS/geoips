@@ -21,6 +21,7 @@ import numpy as np
 
 from scipy.ndimage import zoom
 
+from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -515,14 +516,48 @@ def _get_geolocation_metadata(metadata):
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
-    if metadata_only:
-        return call_single_time([fnames[0]], metadata_only=metadata_only)
+    """
+    Read ABI NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     all_metadata = [
         call_single_time([x], metadata_only=True)["METADATA"] for x in fnames
     ]
+    if metadata_only:
+        return readers.concatenate_metadata(all_metadata)
     start_times = [x.start_datetime for x in all_metadata]
     times = list(set(start_times))
     import collections
+
     ingested_xarrays = collections.defaultdict(list)
     for time in times:
         scan_time_files = [x.start_datetime == time for x in all_metadata]
@@ -533,7 +568,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             area_def=area_def,
             self_register=self_register,
         )
-        for dname, dset, in data_dict.items():
+        for (
+            dname,
+            dset,
+        ) in data_dict.items():
             ingested_xarrays[dname].append(dset)
 
     if len(times) == 1:
@@ -542,6 +580,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         return data_dict
 
     import xarray
+
     # merged_dset = xarray.Dataset()
     # Now that we've ingested all scan times, stack along time dimension
     dict_xarrays = {}
@@ -553,7 +592,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         merged_dset.attrs["end_datetime"] = max(times)
         merged_dset = merged_dset.assign_coords({"time_dim": times})
         dict_xarrays[dname] = merged_dset
-        
+
     metadata = data_dict["METADATA"]
     metadata.attrs["start_datetime"] = min(times)
     metadata.attrs["end_datetime"] = max(times)

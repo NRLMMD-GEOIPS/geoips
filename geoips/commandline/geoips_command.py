@@ -8,6 +8,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 import abc
 import argparse
 from importlib import resources
+from importlib import metadata as md
 import json
 from os.path import dirname
 from shutil import get_terminal_size
@@ -17,7 +18,6 @@ from tabulate import tabulate
 import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions
-from geoips.geoips_utils import get_entry_point_group
 
 
 class PluginPackages:
@@ -38,11 +38,11 @@ class PluginPackages:
         get_plugin_packages() and get_plugin_package_paths() functions.
         """
         self.entrypoints = [
-            ep.value for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
+            ep.value for ep in sorted(md.entry_points(group="geoips.plugin_packages"))
         ]
         self.paths = [
             dirname(resources.files(ep.value))
-            for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
+            for ep in sorted(md.entry_points(group="geoips.plugin_packages"))
         ]
 
 

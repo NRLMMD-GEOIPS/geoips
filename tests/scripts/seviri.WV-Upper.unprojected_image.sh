@@ -42,9 +42,11 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_seviri/data/H-000-MSG2__-MSG2_IODC__
              --output_formatter unprojected_image \
              --output_formatter_kwargs '{"x_size": "1000", "y_size": "1000"}' \
              --filename_formatter geoips_fname \
-             #--compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.unprojected_image" \
              --self_register_dataset 'FULL_DISK' \
              --self_register_source seviri
 retval=$?
 
 exit $retval
+
+
+             #--compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.unprojected_image" \
