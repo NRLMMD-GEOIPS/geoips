@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  check_code_black:
+  check_old_docs_frozen:
     runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Setup Python

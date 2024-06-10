@@ -17,8 +17,13 @@ Version 1.13.0a0 (2024-04-24)
 
   * Initial Stage of the GeoIPS CLI
   * CLI Changes - new implementation of 'geoips run' and more args for 'geiops list'
-  * New Docs Structure + GitHub Actions
+  * Improve error message when user missing ``pixelmatch``
   * New ``geoips tree`` command
+
+* Documentation
+
+  * Add Code of Conduct
+  * New Docs Structure + GitHub Actions
 
 * Release Updates
 
@@ -343,14 +348,35 @@ does.
     added: geoips/commandline/geoips_tree.py
     added: tests/unit_tests/commandline/test_geoips_tree.py
 
+Improve error message when user missing ``pixelmatch``
+------------------------------------------------------
+
+When a user uses the image output checker with ``--compare-path`` without
+``pixelmatch`` installed, an error is raised. The old error was confusing.
+This change improves the error, and directs the user on how to ameliorate
+the issue.
+
+
+Documentation
+=============
+
 New Docs Structure + GitHub Actions
 -----------------------------------
 
 Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the "old docs" (all other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch. Added a banner to the documentation site to inform readers that the old docs are frozen and to link them to the new docs as a preview. Note that no new functionality has been added to GeoIPS.
 
-* Refactoring Updates
+Add Code of Conduct
+-------------------
+Borrowed the Contributor Covenant Code of Conduct v2.1, but removed the enforcement section since it doesn't appear to work well for GitHub since it requires private communication. Also added to the documentation using the m2r2 package which was added as a requirement to the `doc` target in pyproject.toml. We will also begin ignoring conf_PKG.py in the frozen docs checks.
 
-  * Removed all support for Python versions less than 3.10.0
+::
+
+    added: CODE_OF_CONDUCT.md
+    modified: docs/source/new-docs/contribute/code-of-conduct/index.rst
+    modified: docs/source/_templates/conf_PKG.py
+    modified: pyproject.toml
+    modified: docs/check-old-docs-frozen.py
+
 
 Release Updates
 ===============
