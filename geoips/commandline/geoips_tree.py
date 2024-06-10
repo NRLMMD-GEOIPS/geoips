@@ -44,7 +44,6 @@ class GeoipsTree(GeoipsExecutableCommand):
         """The url to the GeoIPS documentation for the GeoIPS CLI."""
         if not hasattr(self, "_cmd_line_url"):
             self._cmd_line_url = r"https://nrlmmd-geoips.github.io/geoips/userguide/command_line.html"  # NOQA
-            # self._cmd_line_url = r"file:///Users/erose/cira_workspace/geoips_build_docs/userguide/command_line.html"  # NOQA
         return self._cmd_line_url
 
     def link(self, uri, label=None):
