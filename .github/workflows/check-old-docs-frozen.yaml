@@ -1,0 +1,51 @@
+name: Old Docs Have Not Been Changed
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  check_old_docs_frozen:
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          check-latest: true
+      - name: Update pip
+        run: pip install --upgrade pip
+      - name: Checkout plugin current branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
+      - name: Checkout geoips default branch
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          repository: ${{ vars.ORGANIZATION }}/geoips
+          ref: ${{ vars.DEFAULT_BRANCH }}
+          token: ${{ secrets.GEOIPS_TOKEN }}
+          path: geoips_default_branch
+      - name: Check if docs frozen
+        shell: bash -l {0}
+        run: |
+          echo "::group::frozen_analysis"
+          python3 ./geoips_plugin_repo/docs/check-old-docs-frozen.py ./geoips_plugin_repo/docs/source
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::return code ${ret}"
+            exit 1
+          fi

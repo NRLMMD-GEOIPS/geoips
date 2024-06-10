@@ -16,8 +16,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
-          --procflow single_source \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
           --reader_name amsr2_netcdf \
           --reader_kwargs \
             '{"test_arg": "AMSR2 single source command line reader test_arg"}' \
@@ -31,7 +30,15 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.<product>.imagery_annotated" \
-          --product_spec_override '{"89H-Physical": {"coverage_checker": {"plugin": {"name": "center_radius", "arguments": {"radius_km": 300}}}}}' \
+          --product_spec_override \
+            '{"89H-Physical":
+              {"coverage_checker":
+                {"plugin":
+                  {"name": "center_radius", "arguments": {"radius_km": 300}}},
+               "interpolator":
+                 {"plugin":
+                   {"name": "interp_gauss", "arguments": {"nproc": 4}}}
+             }}' \
           --output_formatter_kwargs '{}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \

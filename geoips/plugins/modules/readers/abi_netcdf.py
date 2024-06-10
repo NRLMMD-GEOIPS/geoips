@@ -21,6 +21,7 @@ import numpy as np
 
 from scipy.ndimage import zoom
 
+from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -33,25 +34,13 @@ LOG = logging.getLogger(__name__)
 
 # Installed Libraries
 
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     # If this reader is not installed on the system, don't fail alltogether, just skip
     # this import.  This reader will not work if the import fails and the package will
     # have to be installed to process data of this type.
     import netCDF4 as ncdf
-except ImportError:
-    LOG.info(
-        "Failed import netCDF4 in scifile/readers/abi_ncdf4_reader.py. If you need it,"
-        " install it."
-        ""
-    )
-
-try:
     import numexpr as ne
-except ImportError:
-    LOG.info(
-        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. "
-        "If you need it, install it."
-    )
 
 interface = "readers"
 family = "standard"

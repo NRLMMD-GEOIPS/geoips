@@ -16,8 +16,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/* \
-          --procflow single_source \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/* \
           --reader_name ahi_hsd \
           --product_name WV \
           --filename_formatter geotiff_fname \
@@ -25,6 +24,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/000
           --trackfile_parser bdeck_parser \
           --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.<product>.geotiff" \
+          --logging_level debug \
           --resampled_read
 retval=$?
 

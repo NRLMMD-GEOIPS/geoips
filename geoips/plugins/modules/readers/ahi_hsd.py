@@ -26,6 +26,7 @@ from scipy.ndimage import zoom
 
 # GeoIPS Libraries
 from geoips.utils.memusg import print_mem_usage
+from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -33,14 +34,9 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
 
 LOG = logging.getLogger(__name__)
 
-
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
-except Exception:
-    LOG.info(
-        "Failed numexpr import in scifile/readers/ahi_hsd_reader_new.py. If you need"
-        " it, install it."
-    )
 
 try:
     nprocs = 6
@@ -1360,6 +1356,13 @@ def call_single_time(
         try:
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
+            for varname, var in gvars[res].items():
+                gvars[res][varname] = np.ma.array(
+                    var, mask=gvars[res]["satellite_zenith_angle"].mask
+                )
+                gvars[res][varname] = np.ma.masked_where(
+                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
+                )
         except KeyError:
             pass
     for ds in datavars.keys():

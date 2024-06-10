@@ -17,8 +17,7 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 # https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_250/ascat_20210421_010000_metopc_12730_eps_o_250_3203_ovw.l2.nc \
-          --procflow single_source \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_250/ascat_20210421_010000_metopc_12730_eps_o_250_3203_ovw.l2.nc \
           --reader_name scat_knmi_winds_netcdf \
           --product_name windbarbs \
           --filename_formatter tc_fname \

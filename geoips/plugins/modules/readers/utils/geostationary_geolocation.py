@@ -21,19 +21,20 @@ from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour
 
 from geoips.errors import CoverageError
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
+# interface = None indicates to the GeoIPS interfaces that this is not a valid
+# plugin, and this module will not be added to the GeoIPS plugin registry.
+# This allows including python modules within the geoips/plugins directory
+# that provide helper or utility functions to the geoips plugins, but are
+# not full GeoIPS plugins on their own.
 interface = None
 
-
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
-except ImportError:
-    LOG.info(
-        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py."
-        "If you need it, install it."
-    )
 
 
 nprocs = 6

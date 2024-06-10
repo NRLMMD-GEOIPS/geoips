@@ -12,9 +12,8 @@
 
 #!/bin/bash
 
-run_procflow \
+geoips run config_based \
   $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b*.nc \
-  --procflow config_based \
   --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test_low_memory.yaml
 config_retval=$?
 
