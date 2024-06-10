@@ -27,30 +27,30 @@ import socket
 
 LOG = logging.getLogger(__name__)
 
-PATHS = {}
-
-# Get the base package directory
-PATHS["BASE_PATH"] = pathjoin(dirname(__file__), "..")
-
-PATHS["GEOIPS_OPERATIONAL_USER"] = False
-if getenv("GEOIPS_OPERATIONAL_USER"):
-    PATHS["GEOIPS_OPERATIONAL_USER"] = getenv("GEOIPS_OPERATIONAL_USER")
-
 # At a minimum, GEOIPS_OUTDIRS must be defined.
 if not getenv("GEOIPS_OUTDIRS"):
     raise KeyError(
         "GEOIPS_OUTDIRS must be set in your environment.  "
         "Please set GEOIPS_OUTDIRS and try again"
     )
-else:
-    PATHS["GEOIPS_OUTDIRS"] = getenv("GEOIPS_OUTDIRS").rstrip("/")
 
-if getenv("GEOIPS_PACKAGES_DIR") and exists(getenv("GEOIPS_PACKAGES_DIR")):
-    PATHS["GEOIPS_PACKAGES_DIR"] = getenv("GEOIPS_PACKAGES_DIR").rstrip("/")
-elif getenv("GEOIPS_PACKAGES_DIR"):
-    PATHS["GEOIPS_PACKAGES_DIR"] = getenv("GEOIPS_PACKAGES_DIR").rstrip("/")
-else:
-    PATHS["GEOIPS_PACKAGES_DIR"] = pathjoin(PATHS["BASE_PATH"], "..", "..")
+base_path = (pathjoin(dirname(__file__), ".."),)  # Get the base package directory
+
+PATHS = {
+    "BASE_PATH": base_path,
+    "GEOIPS_OPERATIONAL_USER": getenv("GEOIPS_OPERATIONAL_USER", False),
+    "GEOIPS_OUTDIRS": getenv("GEOIPS_OUTDIRS").rstrip("/"),
+    "GEOIPS_PACKAGES_DIR": getenv(
+        "GEOIPS_PACKAGES_DIR", pathjoin(base_path, "..", "..")
+    ),
+    "GEOIPS_BASEDIR": getenv(
+        "GEOIPS_PACKAGES_DIR", pathjoin(PATHS["GEOIPS_PACKAGES_DIR"], "..")
+    ),
+    ### NEED TO FIGURE THIS ONE OUT ^^^ RELIES ON PREV VARIABLE
+}
+
+PATHS = {key: item.rstrip("/").rstrip("\\") for key, item in PATHS}
+
 
 if not getenv("GEOIPS_BASEDIR"):
     PATHS["GEOIPS_BASEDIR"] = pathjoin(PATHS["GEOIPS_PACKAGES_DIR"], "..")
@@ -223,6 +223,11 @@ if getenv("PUBLICWWW_URL"):
     PATHS["PUBLICWWW_URL"] = getenv("PUBLICWWW_URL").rstrip("/")
 else:
     PATHS["PUBLICWWW_URL"] = PATHS["PUBLICWWW"]
+
+paths = (
+    ("PRIVATEWWW", ("preprocessed", "privatewww")),
+    ("PUBLICWWW_URL"),
+)
 
 if getenv("PRIVATEWWW"):
     PATHS["PRIVATEWWW"] = getenv("PRIVATEWWW").rstrip("/")
