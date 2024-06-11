@@ -555,7 +555,7 @@ class CommandClassFactory:
     having to copy-paste classes specifc to a certain interface.
     """
 
-    def __init__(self, base_class, class_names):
+    def __init__(self, base_class, class_names, add_attrs={}):
         """Initialize the class factory and generate a list of classes.
 
         Parameters
@@ -574,17 +574,23 @@ class CommandClassFactory:
                 - "GeoipsListColormappers"
                 - ...
                 - "<base_class_name><name>"
+        add_attrs: dict (optional)
+            - A dictionary of attributes we'd like to assign to each command class
+            - If specified and has overlapping keys to those specified below, this
+              dictionary will override the defaults.
         """
         self.base_class = base_class
         self.base_class_name = self.base_class.__name__
         self.classes = []
         for cname in class_names:
-            class_attrs = {
+            default_attrs = {
                 "name": cname,
                 "command_classes": [],
                 "add_arguments": base_class.add_arguments,
                 "__call__": base_class.__call__,
             }
+            # Combine with additional attributes, overwriting defaults where applicable.
+            class_attrs = {**default_attrs, **add_attrs}
             # Add the class of <base_class_name><cname> to the constructors 'classes'
             # attribute. Don't actually initialize these classes as we'll be doing that
             # later once we have the required information.
