@@ -104,6 +104,8 @@ sectors:
   - sec
   - secs
   - sector
+package:
+  - pkg
 list:
   - ls
 run:

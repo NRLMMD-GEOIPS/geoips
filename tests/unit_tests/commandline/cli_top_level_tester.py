@@ -9,6 +9,7 @@ import pytest
 import subprocess
 import sys
 
+from geoips.commandline.cmd_instructions import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import is_editable
 
@@ -20,10 +21,10 @@ class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for commands."""
 
     _config_install_args = ["geoips", "config", "install"]
-    _get_family_args = ["geoips", "get", "family"]
-    _get_interface_args = ["geoips", "get", "interface"]
+    _get_family_args = ["geoips", "get"]
+    _get_interface_args = ["geoips", "get"]
     _get_package_args = ["geoips", "get", "package"]
-    _get_plugin_args = ["geoips", "get", "plugin"]
+    _get_plugin_args = ["geoips", "get"]
     _list_interface_args = ["geoips", "list"]
     _list_interfaces_args = ["geoips", "list", "interfaces"]
     _list_plugins_args = ["geoips", "list", "plugins"]
@@ -56,9 +57,12 @@ class BaseCliTest(abc.ABC):
         _validate_args,
     ]
 
+    alias_mapping = alias_mapping
+
     def generate_id(self, args):
         """Generate an ID for the test-arguments provided."""
         return " ".join(args)
+
 
     @property
     def plugin_package_names(self):

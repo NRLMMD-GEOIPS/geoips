@@ -6,10 +6,7 @@ from os.path import dirname, exists
 import pytest
 import yaml
 
-from geoips.commandline.cmd_instructions import (
-    get_cmd_instructions,
-    cmd_instructions_modified,
-)
+from geoips.commandline.cmd_instructions import get_instructions, instructions_modified
 from geoips.commandline.commandline_interface import GeoipsCLI
 
 
@@ -45,14 +42,14 @@ def test_instruction_cases(dir_name):
             GeoipsCLI(instructions_dir=cmd_dir)
     elif "missing" in dir_name:
         if dir_name == "json_missing":
-            get_cmd_instructions(ancillary_dirname=cmd_dir)
+            get_instructions(ancillary_dirname=cmd_dir)
             assert exists(f"{cmd_dir}/cmd_instructions.json")
             remove(f"{cmd_dir}/cmd_instructions.json")
         else:
             with pytest.raises(FileNotFoundError):
-                get_cmd_instructions(ancillary_dirname=cmd_dir)
+                get_instructions(ancillary_dirname=cmd_dir)
     elif "newer" in dir_name:
-        yaml_newer = cmd_instructions_modified(ancillary_dirname=cmd_dir)
+        yaml_newer = instructions_modified(ancillary_dirname=cmd_dir)
         # we are not using get_cmd_instructions here as this would overwrite the json
         # instructions and this test case would be in the incorrect state. This function
         # would still be called though and ensures that coverage passes
@@ -73,5 +70,5 @@ def test_instruction_cases(dir_name):
                 cmd_yaml["name"] = current_time_str
                 with open(fpath, "w") as f:
                     yaml.safe_dump(cmd_yaml, f)
-                yaml_newer = cmd_instructions_modified(ancillary_dirname=cmd_dir)
+                yaml_newer = instructions_modified(ancillary_dirname=cmd_dir)
             assert yaml_newer == True

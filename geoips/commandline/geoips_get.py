@@ -106,9 +106,15 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        if args.plugin_name and args.plugin_name != "family":
+        if (
+            args.plugin_name and args.plugin_name != "family"
+            and args.plugin_name != "fam"
+        ):
             self.get_plugin(args)
-        elif args.plugin_name == "family" and args.family_name:
+        elif (
+            (args.plugin_name == "family" or args.plugin_name == "fam")
+            and args.family_name
+        ):
             self.get_family(args)
         elif args.plugin_name is None and args.family_name is None:
             self.get_interface()
