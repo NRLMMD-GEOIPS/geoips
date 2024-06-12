@@ -20,8 +20,8 @@ from os.path import dirname, exists, getmtime
 import yaml
 
 
-def cmd_instructions_modified(ancillary_dirname):
-    """Check whether or not cmd_instructions.yaml has been modified.
+def instructions_modified(ancillary_dirname, fname="cmd_instructions"):
+    """Check whether or not {fname}.yaml has been modified.
 
     This uses os.path.getmtime(fname) determine whether or not the YAML command help
     instructions have been modified more recently than when we last generated our JSON
@@ -32,6 +32,9 @@ def cmd_instructions_modified(ancillary_dirname):
     ----------
     ancillary_dirname: str
         - The path to the folder which contains the help instructions for the CLI
+    fname: str (optional)
+        - The name of the file (no extension) that we will be checking the modification
+          time of.
 
     Returns
     -------
@@ -39,8 +42,8 @@ def cmd_instructions_modified(ancillary_dirname):
         - The truth value as to whether or not the yaml cmd_instructions were modified
           more recently than the json cmd_instructions
     """
-    json_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.json")
-    yaml_mtime = getmtime(f"{ancillary_dirname}/cmd_instructions.yaml")
+    json_mtime = getmtime(f"{ancillary_dirname}/{fname}.json")
+    yaml_mtime = getmtime(f"{ancillary_dirname}/{fname}.yaml")
     yaml_recently_modified = False
     if yaml_mtime > json_mtime:
         # yaml file was modified more recently than json_mtime
@@ -48,7 +51,7 @@ def cmd_instructions_modified(ancillary_dirname):
     return yaml_recently_modified
 
 
-def get_cmd_instructions(ancillary_dirname=None):
+def get_instructions(ancillary_dirname=None, fname="cmd_instructions"):
     """Return a dictionary of instructions for each command, obtained by a yaml file.
 
     This has been placed as a module attribute so we don't perform this process for
@@ -66,6 +69,9 @@ def get_cmd_instructions(ancillary_dirname=None):
         - The path to the folder which contains the help instructions for the CLI.
           Defaults to None in case a user wants to supply a different path for testing
           purposes
+    fname: str (optional)
+        - The name of the file (no extension) that we will be checking the modification
+          time of.
 
     Returns
     -------
@@ -75,33 +81,32 @@ def get_cmd_instructions(ancillary_dirname=None):
     if ancillary_dirname is None or not isinstance(ancillary_dirname, str):
         # use the default command instructions
         ancillary_dirname = str(dirname(__file__)) + "/ancillary_info"
-    if not exists(f"{ancillary_dirname}/cmd_instructions.yaml"):
-        err_str = f"File {ancillary_dirname}/cmd_instructions.yaml is missing, please "
+    if not exists(f"{ancillary_dirname}/{fname}.yaml"):
+        err_str = f"File {ancillary_dirname}/{fname}.yaml is missing, please "
         err_str += "create that file at the specified location in order to use the CLI."
         raise FileNotFoundError(err_str)
-    if not exists(
-        f"{ancillary_dirname}/cmd_instructions.json"
-    ) or cmd_instructions_modified(ancillary_dirname):
+    if not exists(f"{ancillary_dirname}/{fname}.json") or instructions_modified(
+        ancillary_dirname
+    ):
         # JSON Command Instructions don't exist yet or yaml instructions were recently
         # modified; load in the YAML Command Instructions and dump those to a JSON File,
         # but just assign the instructions to what we loaded from the yaml file since
         # they already exist in memory
         with open(
-            f"{ancillary_dirname}/cmd_instructions.yaml",
+            f"{ancillary_dirname}/{fname}.yaml",
             "r",
         ) as yml_instruct, open(
-            f"{ancillary_dirname}/cmd_instructions.json",
+            f"{ancillary_dirname}/{fname}.json",
             "w",
         ) as jfile:
-            cmd_yaml = yaml.safe_load(yml_instruct)
-            json.dump(cmd_yaml, jfile, indent=4)
-            cmd_instructions = cmd_yaml
+            yaml_file = yaml.safe_load(yml_instruct)
+            json.dump(yaml_file, jfile, indent=4)
+            instructions = yaml_file
     else:
         # Otherwise load in the JSON file as it's much quicker.
-        cmd_instructions = json.load(
-            open(f"{ancillary_dirname}/cmd_instructions.json", "r")
-        )
-    return cmd_instructions
+        instructions = json.load(open(f"{ancillary_dirname}/{fname}.json", "r"))
+    return instructions
 
 
-cmd_instructions = get_cmd_instructions()
+cmd_instructions = get_instructions()
+alias_mapping = get_instructions(fname="alias_mapping")

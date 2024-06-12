@@ -1,0 +1,106 @@
+algorithms:
+  - alg
+  - algs
+  - algorithm
+colormappers:
+  - cm
+  - cms
+  - cmap
+  - cmaps
+  - color
+  - colors
+  - colormapper
+coverage_checkers:
+  - cc
+  - ccs
+  - cvg
+  - cvgs
+  - cvg_chk
+  - cvg_chks
+  - coverage_checker
+filename_formatters:
+  - ff
+  - ffs
+  - fname
+  - fnames
+  - fname_fmt
+  - fname_fmts
+  - filename_formatter
+interpolators:
+  - int
+  - ints
+  - interp
+  - interps
+  - interpolator
+output_checkers:
+  - oc
+  - ocs
+  - out_chk
+  - out_chks
+  - output_checker
+output_formatters:
+  - of
+  - ofs
+  - out_fmt
+  - out_fmts
+  - output_formatter
+procflows:
+  - pf
+  - pfs
+  - prc
+  - prcs
+  - procflow
+readers:
+  - rdr
+  - rdrs
+  - reader
+sector_adjusters:
+  - sa
+  - sas
+  - sec_adj
+  - sec_adjs
+  - sector_adjuster
+sector_metadata_generators:
+  - smg
+  - smgs
+  - sec_md_gen
+  - sec_md_gens
+  - sector_metadata_generator
+sector_spec_generators:
+  - ssg
+  - ssgs
+  - sec_spc_gen
+  - sec_spc_gens
+  - sector_spec_generator
+title_formatters:
+  - tf
+  - tfs
+  - ttl_fmt
+  - ttl_fmts
+  - title_formatter
+feature_annotators:
+  - fa
+  - fas
+  - ft_ann
+  - ft_anns
+  - feature_annotator
+gridline_annotators:
+  - ga
+  - gas
+  - grd_ann
+  - grd_anns
+  - gridline_annotator
+product_defaults:
+  - pd
+  - pds
+  - prd_def
+  - prd_defs
+  - product_default
+products:
+  - prd
+  - prds
+  - product
+sectors:
+  - sec
+  - secs
+  - sector

@@ -16,7 +16,7 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions
+from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 
 
 class PluginPackages:
@@ -107,9 +107,17 @@ class GeoipsCommand(abc.ABC):
                 # invocation of the CLI.
                 self.cmd_instructions = cmd_instructions
             try:
-                # attempt to create a sepate sub-parser for the specific command
-                # class being initialized
-                # So we can separate the commands arguments in a tree-like structure
+                # If the command's name exists w/in the alias mapping, then
+                # add thos aliases to the parser
+                if self.name in alias_mapping.keys():
+                    aliases = alias_mapping[self.name]
+                # Otherwise just add an empty list as its aliases. This means you have
+                # to call that command verbatim its name.
+                else:
+                    aliases = ()
+                # Attempt to create a sepate sub-parser for the specific command
+                # class being initialized so we can separate the commands arguments
+                # in a tree-like structure
                 self.parser = parent.subparsers.add_parser(
                     self.name,
                     description=self.cmd_instructions["instructions"][
@@ -123,6 +131,7 @@ class GeoipsCommand(abc.ABC):
                     ],
                     parents=parent_parsers,
                     conflict_handler="resolve",
+                    aliases=aliases,
                 )
             except KeyError:
                 raise KeyError(
@@ -131,7 +140,7 @@ class GeoipsCommand(abc.ABC):
                     f"'{self.combined_name}' key."
                 )
         else:
-            # otherwise initialize a top-level parser for this command.
+            # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser()
             self.combined_name = self.name
 
@@ -539,17 +548,17 @@ class CommandClassFactory:
 
     * GeoipsListSingleInterface:
 
-        * GeoipsListAlgorithms
-        * GeoipsListColormappers
+        * GeoipsListSingleInterfaceAlgorithms
+        * GeoipsListSingleInterfaceColormappers
         * ...
-        * GeoipsListTitleFormatters
+        * GeoipsListSingleInterfaceTitleFormatters
 
-    * GeoipsGetPlugin
+    * GeoipsGetInterface
 
-        * GeoipsGetAlgorithm
-        * GeoipsGetColormapper
+        * GeoipsGetInterfaceAlgorithm
+        * GeoipsGetInterfaceColormapper
         * ...
-        * GeoipsGetTitleFormatter
+        * GeoipsGetInterfaceTitleFormatter
 
     This class has been created to reduce the verbosity of geoips commands without
     having to copy-paste classes specifc to a certain interface.
