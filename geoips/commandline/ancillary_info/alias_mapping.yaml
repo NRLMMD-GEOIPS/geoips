@@ -104,3 +104,9 @@ sectors:
   - sec
   - secs
   - sector
+list:
+  - ls
+run:
+  - exe
+validate:
+  - val

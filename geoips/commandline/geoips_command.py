@@ -108,13 +108,9 @@ class GeoipsCommand(abc.ABC):
                 self.cmd_instructions = cmd_instructions
             try:
                 # If the command's name exists w/in the alias mapping, then
-                # add thos aliases to the parser
-                if self.name in alias_mapping.keys():
-                    aliases = alias_mapping[self.name]
-                # Otherwise just add an empty list as its aliases. This means you have
-                # to call that command verbatim its name.
-                else:
-                    aliases = ()
+                # add thoss aliases to the parser, otherwise just set it as an empty
+                # list.
+                aliases = alias_mapping.get(self.name, [])
                 # Attempt to create a sepate sub-parser for the specific command
                 # class being initialized so we can separate the commands arguments
                 # in a tree-like structure
@@ -179,7 +175,7 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions."
+                help=f"{self.name} instructions.",
             )
             for subcmd_cls in self.command_classes:
                 subcmd_cls(parent=self, legacy=self.legacy)

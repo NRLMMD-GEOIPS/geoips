@@ -86,7 +86,7 @@ def get_instructions(ancillary_dirname=None, fname="cmd_instructions"):
         err_str += "create that file at the specified location in order to use the CLI."
         raise FileNotFoundError(err_str)
     if not exists(f"{ancillary_dirname}/{fname}.json") or instructions_modified(
-        ancillary_dirname
+        ancillary_dirname, fname
     ):
         # JSON Command Instructions don't exist yet or yaml instructions were recently
         # modified; load in the YAML Command Instructions and dump those to a JSON File,
