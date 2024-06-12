@@ -40,7 +40,7 @@ plugin for GeoIPS, as they define how to produce a specific product as a combina
 other plugins. Products use other plugins, such as an algorithm, colormapper,
 interpolater, etc. to generate the correct result.
 
-We will now go hands on in creating a product for CLAVR-x Cloud-Top-Height.
+We are now going to dive into hands-on experience by creating a product for CLAVR-x Cloud-Top-Height. 
 
 #. First off, change directories to your product plugins directory.
    ::
