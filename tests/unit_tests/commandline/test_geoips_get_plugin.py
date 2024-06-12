@@ -42,22 +42,24 @@ class TestGeoipsGetPlugin(BaseCliTest):
                     interface.interface_type
                 ][interface_name]
                 for idx, plugin_name in enumerate(interface_registry):
-                    # Randomly select some plugins to perform 'get plugin' on. Doing
-                    # this because there are too many plugins to test in a timely manner
-                    if interface.name == "products":
-                        for subplg_name in interface_registry[plugin_name]:
+                    for alias in self.alias_mapping[interface_name] + [interface_name]:
+                        # Randomly select some plugins to perform 'get plugin' on. Doing
+                        # this because there are too many plugins to test in a timely
+                        # manner
+                        if interface.name == "products":
+                            for subplg_name in interface_registry[plugin_name]:
+                                do_get_plugin = rand() < self.rand_threshold
+                                if do_get_plugin or idx == 0:
+                                    combined_name = f"{plugin_name}.{subplg_name}"
+                                    self._cmd_list.append(
+                                        base_args + [alias, combined_name],
+                                    )
+                        else:
                             do_get_plugin = rand() < self.rand_threshold
                             if do_get_plugin or idx == 0:
-                                combined_name = f"{plugin_name}.{subplg_name}"
                                 self._cmd_list.append(
-                                    base_args + [interface.name, combined_name],
+                                    base_args + [alias, plugin_name],
                                 )
-                    else:
-                        do_get_plugin = rand() < self.rand_threshold
-                        if do_get_plugin or idx == 0:
-                            self._cmd_list.append(
-                                base_args + [interface.name, plugin_name],
-                            )
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
@@ -78,8 +80,7 @@ class TestGeoipsGetPlugin(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips get plugin <interface_name> "
-        err_str += "<plugin_name>`"
+        err_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
         assert err_str in error
 
     def check_output(self, args, output):
@@ -94,8 +95,7 @@ class TestGeoipsGetPlugin(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "usage: To use, type `geoips get plugin <interface_name> "
-            usg_str += "<plugin_name>`"
+            usg_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
             assert usg_str in output
         else:
             # Checking that output from geoips get plugin command is valid

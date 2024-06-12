@@ -18,11 +18,15 @@ class TestGeoipsListTestDatasets(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            self._cmd_list = [self._list_test_datasets_args]
+            base_args = self._list_test_datasets_args
+            alias_args = self._alias_list_test_datasets_args
+            self._cmd_list = [base_args, alias_args]
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "test-datasets", "-h"])
+            self._cmd_list.append(["geoips", "ls", "test-datasets", "-h"])
             # Add argument list with a non-existent command call ("-p")
             self._cmd_list.append(["geoips", "list", "test-datasets", "-p", "geoips"])
+            self._cmd_list.append(["geoips", "ls", "test-datasets", "-p", "geoips"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -36,7 +40,10 @@ class TestGeoipsListTestDatasets(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "test-datasets"]
+        assert (
+            args != ["geoips", "list", "test-datasets"]
+            and args != ["geoips", "ls", "test-datasets"]
+        )
         assert "usage: To use, type `geoips list test-datasets`" in error
         assert "Error: '-p' flag is not supported for this command" in error
 
@@ -52,11 +59,14 @@ class TestGeoipsListTestDatasets(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list", "test-datasets", "-h"]
+            assert "-h" in args
             assert "usage: To use, type `geoips list test-datasets`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            assert args == ["geoips", "list", "test-datasets"]
+            assert (
+                args == ["geoips", "list", "test-datasets"]
+                or args == ["geoips", "ls", "test-datasets"]
+            )
             # Assert that the correct headers exist in the CLI output
             headers = ["Data Host", "Dataset Name"]
             for header in headers:

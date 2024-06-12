@@ -22,21 +22,28 @@ class TestGeoipsListScripts(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             base_args = self._list_scripts_args
+            alias_args = self._alias_list_scripts_args
             self._cmd_list = []
-            for pkg_name in self.plugin_package_names + ["all"]:
-                if pkg_name != "all":
-                    args = base_args + ["-p", pkg_name]
-                else:
-                    args = base_args
-                self._cmd_list.append(args)
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names + ["all"]:
+                    if pkg_name != "all":
+                        args = argset + ["-p", pkg_name]
+                    else:
+                        args = argset
+                    self._cmd_list.append(args)
             # Add argument list which invokes the --columns flag
             self._cmd_list.append(base_args + ["--columns", "package", "filename"])
             self._cmd_list.append(base_args + ["--columns", "filename"])
             self._cmd_list.append(base_args + ["--columns", "package"])
+            self._cmd_list.append(alias_args + ["--columns", "package", "filename"])
+            self._cmd_list.append(alias_args + ["--columns", "filename"])
+            self._cmd_list.append(alias_args + ["--columns", "package"])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(alias_args + ["-h"])
             # Add argument list with a non-existent package
             self._cmd_list.append(base_args + ["-p", "non_existent_package"])
+            self._cmd_list.append(alias_args + ["-p", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -53,7 +60,10 @@ class TestGeoipsListScripts(BaseCliTest):
         if editable:
             # An error occurred using args. Assert that args is not valid and check the
             # output of the error.
-            assert args != ["geoips", "list", "scripts"]
+            assert (
+                args != ["geoips", "list", "scripts"]
+                and args != ["geoips", "ls", "scripts"]
+            )
             for pkg_name in self.plugin_package_names:
                 assert args != ["geoips", "list", "scripts", "-p", pkg_name]
             assert "usage: To use, type `geoips list scripts`" in error

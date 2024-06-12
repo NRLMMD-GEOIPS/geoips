@@ -36,9 +36,15 @@ class TestGeoipsGetFamily(BaseCliTest):
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
             self._cmd_list.append(
+                base_args + ["non_existent_interface", "fam", "standard"]
+            )
+            self._cmd_list.append(
                 base_args + ["non_existent_interface", "family", "standard"]
             )
             # Add argument list with non_existent_family
+            self._cmd_list.append(
+                base_args + ["algorithms", "fam", "non_existent_family"]
+            )
             self._cmd_list.append(
                 base_args + ["algorithms", "family", "non_existent_family"]
             )
@@ -71,7 +77,7 @@ class TestGeoipsGetFamily(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "`geoips get <interface_name> family <family_name>`"
+            usg_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
             assert usg_str in output
         else:
             # Checking that output from geoips get plugin command is valid
