@@ -1,4 +1,4 @@
- .. dropdown:: Distribution Statement
+.. dropdown:: Distribution Statement
 
    | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
    | # # #
@@ -524,8 +524,8 @@ certain plugin. To get a listing of plugins available for validation, run the co
 the package we want to list plugins from.
 
 To validate a plugin we will need the full path to the plugin you want validated. See
-    geoips list test-datasets
-an example of this shown below.
+an example of this shown below.Notice the use of aliases in case
+you want to use these commands in shorthand style.
 
 ::
 

@@ -24,43 +24,43 @@ instructions:
       these artifacts, see below.
 
       * Interface:
-        * Command Signature:
-          * `geoips get <interface_name>`
-        * Artifact Listing:
-          * `geoips list interfaces`
-        * output_info:
-          * Absolute Path
-          * Docstring
-          * Interface Name
-          * Interface Type
-          * Supported Families
+          * Command Signature:
+              * `geoips get <interface_name>`
+          * Artifact Listing:
+              * `geoips list interfaces`
+          * output_info:
+              * Absolute Path
+              * Docstring
+              * Interface Name
+              * Interface Type
+              * Supported Families
 
       * Plugin:
-        * Command Signature:
-          * `geoips get <interface_name> <plugin_name>`
-        * Artifact Listing:
-          * `geoips list plugins <-p> <package_name>
-        * Output Info:
-          * Docstring
-          * Family Name
-          * GeoIPS Package
-          * Interface Name
-          * Plugin Type
-          * call_sig / source_names / Product Defaults (dependent on Plugin Type)
-          * Relative Path
+          * Command Signature:
+              * `geoips get <interface_name> <plugin_name>`
+          * Artifact Listing:
+              * `geoips list plugins <-p> <package_name>`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * GeoIPS Package
+              * Interface Name
+              * Plugin Type
+              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
+              * Relative Path
 
       * Family:
-        * Command Signature:
-          * `geoips get <interface_name> family <family_name>`
-        * Artifact Listing:
-          * `geoips list interfaces --columns interface supported_families`
-        * Output Info:
-          * Docstring
-          * Family Name
-          * Family Path
-          * Interface Name
-          * Interface Type
-          * Required Arguments / Schema
+          * Command Signature:
+              * `geoips get <interface_name> family <family_name>`
+          * Artifact Listing:
+              * `geoips list interfaces --columns interface supported_families`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * Family Path
+              * Interface Name
+              * Interface Type
+              * Required Arguments / Schema
     usage_str: |
       To use, type `geoips get <interface_name> <sub-cmd> ...`.
     output_info:
