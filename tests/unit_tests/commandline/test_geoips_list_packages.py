@@ -57,10 +57,11 @@ class TestGeoipsListPackages(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert (
-            args != ["geoips", "list", "packages"]
-            and args != ["geoips", "ls", "packages"]
-        )
+        assert args != ["geoips", "list", "packages"] and args != [
+            "geoips",
+            "ls",
+            "packages",
+        ]
         assert "usage: To use, type `geoips list packages`" in error
         assert "Error: '-p' flag is not supported for this command" in error
 

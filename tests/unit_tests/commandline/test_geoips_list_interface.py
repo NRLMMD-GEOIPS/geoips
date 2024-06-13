@@ -49,8 +49,8 @@ class TestGeoipsListInterface(BaseCliTest):
                 ]
             )
             self._cmd_list.append(
-                alias_args +
-                [
+                alias_args
+                + [
                     "algorithms",
                     "--columns",
                     "package",

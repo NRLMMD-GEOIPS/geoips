@@ -53,10 +53,11 @@ class TestGeoipsListUnitTests(BaseCliTest):
         editable = self.assert_non_editable_error_or_wrong_package(args, error)
         if editable:
             # bad command has been provided, check the contents of the error message
-            assert (
-                args != ["geoips", "list", "unit-tests"]
-                and args != ["geoips", "ls", "unit-tests"]
-            )
+            assert args != ["geoips", "list", "unit-tests"] and args != [
+                "geoips",
+                "ls",
+                "unit-tests",
+            ]
             assert "usage: To use, type `geoips list unit-tests" in error
 
     def check_output(self, args, output):

@@ -26,9 +26,7 @@ class TestGeoipsGetFamily(BaseCliTest):
                 interface = getattr(interfaces, interface_name)
                 for alias in self.alias_mapping[interface_name] + [interface_name]:
                     for family_name in interface.supported_families:
-                        self._cmd_list.append(
-                            base_args + [alias, "fam", family_name]
-                        )
+                        self._cmd_list.append(base_args + [alias, "fam", family_name])
                         self._cmd_list.append(
                             base_args + [alias, "family", family_name]
                         )

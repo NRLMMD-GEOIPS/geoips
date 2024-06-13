@@ -70,7 +70,6 @@ class BaseCliTest(abc.ABC):
         """Generate an ID for the test-arguments provided."""
         return " ".join(args)
 
-
     @property
     def plugin_package_names(self):
         """List of names of every installed GeoIPS package."""

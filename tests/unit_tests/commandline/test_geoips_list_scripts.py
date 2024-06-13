@@ -60,10 +60,11 @@ class TestGeoipsListScripts(BaseCliTest):
         if editable:
             # An error occurred using args. Assert that args is not valid and check the
             # output of the error.
-            assert (
-                args != ["geoips", "list", "scripts"]
-                and args != ["geoips", "ls", "scripts"]
-            )
+            assert args != ["geoips", "list", "scripts"] and args != [
+                "geoips",
+                "ls",
+                "scripts",
+            ]
             for pkg_name in self.plugin_package_names:
                 assert args != ["geoips", "list", "scripts", "-p", pkg_name]
             assert "usage: To use, type `geoips list scripts`" in error

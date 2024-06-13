@@ -80,6 +80,7 @@ class GeoipsCommand(abc.ABC):
         self.legacy = legacy
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
+        self.alias_mapping = alias_mapping
         if self.parent:
             # Set the combined name of the provided object. For example, if this was the
             # parent 'list' command, it would be 'geoips_list'. If it was a child of
@@ -110,7 +111,7 @@ class GeoipsCommand(abc.ABC):
                 # If the command's name exists w/in the alias mapping, then
                 # add thoss aliases to the parser, otherwise just set it as an empty
                 # list.
-                aliases = alias_mapping.get(self.name, [])
+                aliases = self.alias_mapping.get(self.name, [])
                 # Attempt to create a sepate sub-parser for the specific command
                 # class being initialized so we can separate the commands arguments
                 # in a tree-like structure
@@ -128,6 +129,7 @@ class GeoipsCommand(abc.ABC):
                     parents=parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
+                    formatter_class=argparse.RawTextHelpFormatter,
                 )
             except KeyError:
                 raise KeyError(
@@ -137,7 +139,9 @@ class GeoipsCommand(abc.ABC):
                 )
         else:
             # Otherwise initialize a top-level parser for this command.
-            self.parser = argparse.ArgumentParser()
+            self.parser = argparse.ArgumentParser(
+                formatter_class=argparse.RawTextHelpFormatter,
+            )
             self.combined_name = self.name
 
         self.add_subparsers()

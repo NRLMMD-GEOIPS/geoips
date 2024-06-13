@@ -89,10 +89,11 @@ class TestGeoipsListInterfaces(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert (
-            args != ["geoips", "list", "interfaces"]
-            and args != ["geoips", "ls", "interfaces"]
-        )
+        assert args != ["geoips", "list", "interfaces"] and args != [
+            "geoips",
+            "ls",
+            "interfaces",
+        ]
         assert args != ["geoips", "list", "interfaces", "-i"]
         assert "usage: To use, type `geoips list interfaces`" in error
         if "--long" in args and "--columns" in args:

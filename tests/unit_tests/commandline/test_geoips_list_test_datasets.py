@@ -40,10 +40,11 @@ class TestGeoipsListTestDatasets(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert (
-            args != ["geoips", "list", "test-datasets"]
-            and args != ["geoips", "ls", "test-datasets"]
-        )
+        assert args != ["geoips", "list", "test-datasets"] and args != [
+            "geoips",
+            "ls",
+            "test-datasets",
+        ]
         assert "usage: To use, type `geoips list test-datasets`" in error
         assert "Error: '-p' flag is not supported for this command" in error
 
@@ -63,10 +64,11 @@ class TestGeoipsListTestDatasets(BaseCliTest):
             assert "usage: To use, type `geoips list test-datasets`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            assert (
-                args == ["geoips", "list", "test-datasets"]
-                or args == ["geoips", "ls", "test-datasets"]
-            )
+            assert args == ["geoips", "list", "test-datasets"] or args == [
+                "geoips",
+                "ls",
+                "test-datasets",
+            ]
             # Assert that the correct headers exist in the CLI output
             headers = ["Data Host", "Dataset Name"]
             for header in headers:
