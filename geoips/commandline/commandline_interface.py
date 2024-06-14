@@ -73,6 +73,10 @@ class GeoipsCLI(GeoipsCommand):
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
+        # print(self.GEOIPS_ARGS.log_level)
+        getattr(LOG, self.GEOIPS_ARGS.log_level)(
+            f"LOG LEVEL = {self.GEOIPS_ARGS.log_level}"
+        )
         if hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.

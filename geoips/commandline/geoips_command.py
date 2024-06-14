@@ -7,7 +7,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 
 import abc
 import argparse
-from importlib import resources
+from importlib import metadata, resources
 import json
 from os.path import dirname
 from shutil import get_terminal_size
@@ -17,7 +17,6 @@ from tabulate import tabulate
 import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions
-from geoips.geoips_utils import get_entry_point_group
 
 
 class PluginPackages:
@@ -38,15 +37,58 @@ class PluginPackages:
         get_plugin_packages() and get_plugin_package_paths() functions.
         """
         self.entrypoints = [
-            ep.value for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
+            ep.value
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
         self.paths = [
             dirname(resources.files(ep.value))
-            for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
 
 
 plugin_packages = PluginPackages()
+
+
+class ParentParsers:
+
+    geoips_parser = argparse.ArgumentParser(add_help=False)
+    geoips_parser.add_argument(
+        "--log_level",
+        "-log",
+        type=str,
+        default="interactive",
+        choices=["debug", "error", "info", "interactive", "warning"],
+        help="The logging level to use for output via the CLI.",
+    )
+
+    list_parser = argparse.ArgumentParser(add_help=False)
+    list_parser.add_argument(
+        "--package_name",
+        "-p",
+        type=str,
+        default="all",
+        choices=plugin_packages.entrypoints,
+        help="The GeoIPS package to list from.",
+    )
+    mutex_group = list_parser.add_mutually_exclusive_group()
+    mutex_group.add_argument(
+        "--long",
+        "-l",
+        default=True,
+        action="store_true",
+        help="Flag representing the 'long' listing of a certain command.",
+    )
+    mutex_group.add_argument(
+        "--columns",
+        "-c",
+        type=str,
+        nargs="+",
+        default=None,
+        help="""Specific Headers of Data you'd like to see listed.
+                For more in formation on headers available, run
+                'geoips list <cmd> <positional_args> --columns help'.
+                """,
+    )
 
 
 class GeoipsCommand(abc.ABC):
@@ -92,10 +134,14 @@ class GeoipsCommand(abc.ABC):
             # by each GeoipsList<cmd> class. Ie. if GeoipsListCommon has
             # arguments --package, --columns, etc., and all of those arguments
             # would be inherited by each GeoipsList<cmd>
-            if "list" in self.combined_name:
-                parent_parsers = [GeoipsListCommon().parser]
-            else:
-                parent_parsers = []
+            curr_parent = self.parent
+            self.parent_parsers = []
+            while curr_parent and hasattr(ParentParsers, f"{curr_parent.name}_parser"):
+                self.parent_parsers.insert(
+                    0,
+                    getattr(ParentParsers, f"{curr_parent.name}_parser"),
+                )
+                curr_parent = curr_parent.parent
 
             if parent.cmd_instructions:
                 # this is used for testing purposes to ensure failure for invalid
@@ -121,7 +167,7 @@ class GeoipsCommand(abc.ABC):
                     usage=self.cmd_instructions["instructions"][self.combined_name][
                         "usage_str"
                     ],
-                    parents=parent_parsers,
+                    parents=self.parent_parsers,
                     conflict_handler="resolve",
                 )
             except KeyError:
@@ -488,44 +534,3 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     plugin_entry.append(plugin_dict[plugin_key][header])
             table_data.append(plugin_entry)
         return table_data
-
-
-class GeoipsListCommon(GeoipsExecutableCommand):
-    """Class containing common optional arguments shared between list commands."""
-
-    name = "list_common"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the list-subparser for the List Command."""
-        self.parser.add_argument(
-            "--package_name",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_package_names,
-            help="The GeoIPS package to list from.",
-        )
-        mutex_group = self.parser.add_mutually_exclusive_group()
-        mutex_group.add_argument(
-            "--long",
-            "-l",
-            default=True,
-            action="store_true",
-            help="Flag representing the 'long' listing of a certain command.",
-        )
-        mutex_group.add_argument(
-            "--columns",
-            "-c",
-            type=str,
-            nargs="+",
-            default=None,
-            help="""Specific Headers of Data you'd like to see listed.
-                    For more in formation on headers available, run
-                    'geoips list <cmd> <positional_args> --columns help'.
-                    """,
-        )
-
-    def __call__(self, args):
-        """Exectutable function for GeoipsListCommon Class. Not implemented."""
-        pass
