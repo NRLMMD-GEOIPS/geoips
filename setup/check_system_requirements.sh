@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -52,7 +52,6 @@ test_data_urls=(
     "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_clavrx_1.10.0.tgz"
     "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0.tgz"
     "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.2.tgz"
     "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3.tgz"
     "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0.tgz"
     "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_viirs_1.6.0.tgz"
@@ -375,9 +374,20 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
                 echo "        try deleting and re-running"
                 exit 1
             fi
+            # If this is a github repo, then check if current-branch exists
+            # and switch to it if so. Allow branch not existing.
+            if [[ "$switch_to_branch" != "" ]]; then
+                echo "git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1"
+                git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1
+                if [[ "$?" != "0" ]]; then
+                    echo "Branch $switch_to_branch did not exist, staying on current branch"
+                else
+                    echo "SUCCESS: successfully switch to branch $switch_to_branch"
+                fi
+            fi
         else
             echo "DOWNLOADING: NextCloud Dataset $test_data_name @ $test_data_url"
-            echo "tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
+            echo "python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
             python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
             # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
             matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)

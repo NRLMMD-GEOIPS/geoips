@@ -1,4 +1,6 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
  | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
@@ -67,8 +69,6 @@ FROM WEB: MEMBERS: Create Branch from Existing Issue
   * Click **"Create branch"**
   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
-..
-
 FROM WEB: NON-MEMBERS: Create fork of repo
 ===================================================================
 * **NOTE: NRLMMD-GEOIPS members will branch following steps above,
@@ -110,8 +110,8 @@ FROM COMMAND LINE: Switch to new branch, Make changes as usual
 
 * Use enforced commit message format for all commits
 
-  * Please follow 
-    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.rst>`_
+  * Please follow
+    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md>`_
   * Summary line <= 120 characters
   * Blank line (if commit message is more than one line)
   * OPTIONAL: additional details
@@ -234,4 +234,3 @@ FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 * Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
 * Ensure all related Issue and Pull Request cards were automatically
   moved to the "Done" column
-

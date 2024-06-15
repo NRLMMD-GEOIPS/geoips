@@ -4,9 +4,6 @@ defaults:
   run:
     shell: bash
 
-env:
-  CONDA_ENV: pytest-${{ github.run_id }}-${{ github.run_attempt }}
-
 # Can not use variables in the list of branches,
 # GitHub Actions will not recognize, and workflow will not run.
 on:
@@ -34,7 +31,7 @@ jobs:
       - name: Setup Python
         uses: actions/setup-python@v4 # v4is the latest for setup-python
         with:
-          python-version: "pypy-3.10"  # I believe 3.10 is the latest for actions
+          python-version: "pypy-3.10" # I believe 3.10 is the latest for actions
           check-latest: true
       - name: Update pip
         run: pip install --upgrade pip

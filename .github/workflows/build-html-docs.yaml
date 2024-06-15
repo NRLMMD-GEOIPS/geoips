@@ -4,9 +4,6 @@ defaults:
   run:
     shell: bash
 
-env:
-  CONDA_ENV: build_html_docs-${{ github.run_id }}-${{ github.run_attempt }}
-
 # Can not use variables in the list of branches,
 # GitHub Actions will not recognize, and workflow will not run.
 on:
@@ -15,7 +12,7 @@ on:
     branches:
       - main
   # Allows run of this workflow manually from the Actions tab
-  # Must be merged before it will be available to manually run.
+  # Must be merged to default before it will be available to manually run.
   workflow_dispatch:
 
 # conda command to install all the required libraries for installing geoips

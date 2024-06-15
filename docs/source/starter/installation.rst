@@ -1,4 +1,6 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
  | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
@@ -87,7 +89,7 @@ If desired, the GeoIPS environment variables can be added to your
       ./Mambaforge-Linux-x86_64.sh
 
   .. code:: bash
-    
+
       # Clean up after yourself
       rm -f ./Mambaforge-Linux-x86_64.sh
 
@@ -103,7 +105,8 @@ but this command will ensure that for everyone.
     # Note geos no longer required for cartopy >= 0.22
     # openblas / gcc required for recenter_tc / akima build.
     # git required for -C commands
-    mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas git
+    # Bug in git 2.45 that breaks git lfs clones.
+    mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas "git<2.45.0" "git-lfs<3.4"
     mamba activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``mamba activate geoips``
@@ -143,7 +146,23 @@ and run integration tests:
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 
-6. Test output
+6. Capture working requirements.txt for base install
+----------------------------------------------------
+
+These can be commited to the repository for reference - only commit if
+base_test.sh returns 0!
+
+.. code:: bash
+
+  if [[ "$GEOIPS_VERS" == "" ]]; then
+      GEOIPS_VERS=`python -c "import geoips; print(geoips.__version__)"
+  fi
+
+  mkdir $GEOIPS_PACKAGES_DIR/geoips/environments
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
+
+7. Test output
 --------------
 
 For reference, the end of the output from the base_test.sh command should
@@ -155,3 +174,22 @@ look something like below, indicating that none of the tests failed:
     Total run time: 82 seconds
     Number data types run: 3
     Number data types failed: 0
+
+7. Capture working requirements.txt for base install
+----------------------------------------------------
+
+These can be commited to the repository for reference - only commit if
+base_test.sh returns 0!  Not required.
+
+.. code:: bash
+
+  if [[ "$NEW_GEOIPS_VERSION" != "" ]]; then
+      GEOIPS_VERS=$NEW_GEOIPS_VERSION
+  fi
+  if [[ "$GEOIPS_VERS" == "" ]]; then
+      GEOIPS_VERS=`python -c "import geoips; print(geoips.__version__)"`
+  fi
+
+  mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
