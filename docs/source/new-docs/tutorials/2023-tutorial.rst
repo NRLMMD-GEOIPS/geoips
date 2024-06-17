@@ -47,14 +47,13 @@ We are now going to dive into hands-on experience by creating a product for CLAV
 
         cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
 
-.. NOTE::
-  If you're not able to move into the directory listed in the above code-block. Verify if the values of
-  environment variables are set as needed.
+   .. NOTE::
+    If you're not able to move into the directory listed in the above code-block. Verify if the values of
+    environment variables are set as needed.
 
-  export MY_PKG_NAME=<your package name>
-  
-  export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
+    export MY_PKG_NAME=<your package name>
 
+    export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
 #. Now, create a file called ``my_clavrx_products.yaml``, which we'll fill in soon.
    Before we add any code let's discuss some of the top level attributes that are
