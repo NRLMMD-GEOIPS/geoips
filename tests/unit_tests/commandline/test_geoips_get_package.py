@@ -19,7 +19,7 @@ class TestGeoipsGetPackage(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_package_args
+            base_args = ["geoips", "get"]
             # add arguments for retrieving each package
             for pkg_name in self.plugin_package_names:
                 self._cmd_list.append(base_args + ["pkg", pkg_name])

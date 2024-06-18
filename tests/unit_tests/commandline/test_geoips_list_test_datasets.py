@@ -18,8 +18,8 @@ class TestGeoipsListTestDatasets(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_test_datasets_args
-            alias_args = self._alias_list_test_datasets_args
+            base_args = ["geoips", "list", "test-datasets"]
+            alias_args = ["geoips", "ls", "test-datasets"]
             self._cmd_list = [base_args, alias_args]
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "test-datasets", "-h"])

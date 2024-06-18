@@ -662,10 +662,15 @@ class GeoipsList(GeoipsCommand):
     """Top-Level List Command for listing off GeoIPS Artifacts."""
 
     name = "list"
-    generated_classes = CommandClassFactory(
-        GeoipsListSingleInterface,
-        [int_name.replace("_", "-") for int_name in interfaces.__all__],
-    ).classes
+    generated_classes = []
+    for int_name in interfaces.__all__:
+        generated_classes.append(
+            CommandClassFactory(
+                GeoipsListSingleInterface,
+                int_name.replace("_", "-"),
+            ).generated_class
+        )
+
     command_classes = generated_classes + [
         GeoipsListInterfaces,
         GeoipsListPackages,

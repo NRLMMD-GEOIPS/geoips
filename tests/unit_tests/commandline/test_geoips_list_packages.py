@@ -18,8 +18,8 @@ class TestGeoipsListPackages(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_packages_args
-            alias_args = self._alias_list_packages_args
+            base_args = ["geoips", "list", "packages"]
+            alias_args = ["geoips", "ls", "packages"]
             self._cmd_list = [base_args, alias_args]
             # Add argument list invoking the --columns flag
             self._cmd_list.append(base_args + ["--columns", "package", "package_path"])

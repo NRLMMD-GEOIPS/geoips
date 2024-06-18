@@ -365,9 +365,13 @@ class GeoipsGet(GeoipsCommand):
 
     name = "get"
 
-    generated_classes = CommandClassFactory(
-        GeoipsGetInterface,
-        [int_name.replace("_", "-") for int_name in interfaces.__all__],
-        # interfaces.__all__,
-    ).classes
+    generated_classes = []
+    for int_name in interfaces.__all__:
+        generated_classes.append(
+            CommandClassFactory(
+                GeoipsGetInterface,
+                int_name.replace("_", "-"),
+            ).generated_class
+        )
+
     command_classes = generated_classes + [GeoipsGetPackage]

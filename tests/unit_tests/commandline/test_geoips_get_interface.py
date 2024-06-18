@@ -20,7 +20,7 @@ class TestGeoipsGetInterface(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_interface_args
+            base_args = ["geoips", "get"]
             # add arguments for retrieving each GeoIPS Interface
             for interface_name in interfaces.__all__:
                 interface_name = interface_name.replace("_", "-")

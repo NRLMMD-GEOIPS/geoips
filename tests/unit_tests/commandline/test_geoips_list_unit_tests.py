@@ -22,8 +22,8 @@ class TestGeoipsListUnitTests(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_unit_tests_args
-            alias_args = self._alias_list_unit_tests_args
+            base_args = ["geoips", "list", "unit-tests"]
+            alias_args = ["geoips", "ls", "unit-tests"]
             self._cmd_list = [base_args, alias_args]
             for argset in [base_args, alias_args]:
                 for pkg_name in self.plugin_package_names:

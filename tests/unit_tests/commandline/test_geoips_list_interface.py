@@ -23,8 +23,8 @@ class TestGeoipsListInterface(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._list_interface_args
-            alias_args = self._alias_list_interface_args
+            base_args = ["geoips", "list"]
+            alias_args = ["geoips", "ls"]
             for argset in [base_args, alias_args]:
                 for pkg_name in self.plugin_package_names + ["all"]:
                     for interface_name in interfaces.__all__:

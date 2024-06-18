@@ -20,7 +20,7 @@ class TestGeoipsGetFamily(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_family_args
+            base_args = ["geoips", "get"]
             # add each family argument from every interface to the command arg list
             for interface_name in interfaces.__all__:
                 interface = getattr(interfaces, interface_name)

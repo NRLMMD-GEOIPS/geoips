@@ -23,7 +23,7 @@ class TestGeoipsGetPlugin(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_plugin_args
+            base_args = ["geoips", "get"]
             # validate all plugins from package all packages
             for interface_name in interfaces.__all__:
                 interface = getattr(interfaces, interface_name)

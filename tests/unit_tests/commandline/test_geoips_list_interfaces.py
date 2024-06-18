@@ -18,8 +18,8 @@ class TestGeoipsListInterfaces(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_interfaces_args
-            alias_args = self._alias_list_interfaces_args
+            base_args = ["geoips", "list", "interfaces"]
+            alias_args = ["geoips", "ls", "interfaces"]
             self._cmd_list = [base_args, alias_args]
             for argset in [base_args, alias_args]:
                 for pkg_name in self.plugin_package_names:

@@ -20,50 +20,6 @@ gcli = GeoipsCLI()
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for commands."""
 
-    _config_install_args = ["geoips", "config", "install"]
-    _get_family_args = ["geoips", "get"]
-    _get_interface_args = ["geoips", "get"]
-    _get_package_args = ["geoips", "get"]
-    _get_plugin_args = ["geoips", "get"]
-    _list_interface_args = ["geoips", "list"]
-    _alias_list_interface_args = ["geoips", "ls"]
-    _list_interfaces_args = ["geoips", "list", "interfaces"]
-    _alias_list_interfaces_args = ["geoips", "ls", "interfaces"]
-    _list_plugins_args = ["geoips", "list", "plugins"]
-    _alias_list_plugins_args = ["geoips", "ls", "plugins"]
-    _list_packages_args = ["geoips", "list", "packages"]
-    _alias_list_packages_args = ["geoips", "ls", "packages"]
-    _list_scripts_args = ["geoips", "list", "scripts"]
-    _alias_list_scripts_args = ["geoips", "ls", "scripts"]
-    _list_test_datasets_args = ["geoips", "list", "test-datasets"]
-    _alias_list_test_datasets_args = ["geoips", "ls", "test-datasets"]
-    _list_unit_tests_args = ["geoips", "list", "unit-tests"]
-    _alias_list_unit_tests_args = ["geoips", "ls", "unit-tests"]
-    _run_args = ["geoips", "run"]
-    _test_linting_args = ["geoips", "test", "linting"]
-    _test_script_args = ["geoips", "test", "script"]
-    _test_unit_test_args = ["geoips", "test", "unit-test"]
-    _validate_args = ["geoips", "validate"]
-    arg_list = [
-        _config_install_args,
-        _get_family_args,
-        _get_interface_args,
-        _get_package_args,
-        _get_plugin_args,
-        _list_interface_args,
-        _list_interfaces_args,
-        _list_plugins_args,
-        _list_packages_args,
-        _list_scripts_args,
-        _list_test_datasets_args,
-        _list_unit_tests_args,
-        _run_args,
-        _test_linting_args,
-        _test_script_args,
-        _test_unit_test_args,
-        _validate_args,
-    ]
-
     alias_mapping = alias_mapping
 
     def generate_id(self, args):
@@ -148,6 +104,10 @@ class BaseCliTest(abc.ABC):
             - If None, asser that every Header key is in the output. Otherwise check
               that the corresponding Header key, column_val is in the output
         """
+        if "'No plugins found under interface" in output:
+            # This will happen for 'sector_adjusters' if recenter_tc is not an installed
+            # plugin package
+            pass
         for header in headers:
             if selected_cols is None or headers[header] in selected_cols:
                 assert header in output or "has no" in output
