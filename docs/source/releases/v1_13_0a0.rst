@@ -272,7 +272,7 @@ Improve error message when user missing ``pixelmatch``
 ------------------------------------------------------
 
 When a user uses the image output checker with ``--compare-path`` without
-``pixelmatch`` installed, an error is raised. The old error was confusing. 
+``pixelmatch`` installed, an error is raised. The old error was confusing.
 This change improves the error, and directs the user on how to ameliorate
 the issue.
 
@@ -335,6 +335,21 @@ implement those changes.
     modified: geoips/create_plugin_registries.py
     modified: geoips/plugin_registry.py
     modified: geoips/geoips_utils.py
+
+Refactored ``config install`` unit tests to run faster
+------------------------------------------------------
+
+Previously the ``config install`` unit tests actually installed test datasets if they
+were missing. This is completely uneccessary and shouldn't be performed in the unit
+tests, only if a user actually wants to install data. To fix this, we've added a hidden
+argument to ``config install``, called ``--test-mode``, which will skip the download
+portion of the code if specified. While not perfect, this ensures that the unit tests
+will run fast and output the correct information.
+
+::
+
+    modified: geoips/commandline/geoips_config.py
+    modified: tests/unit_tests/commandline/test_geoips_config_install.py
 
 Bug Fixes
 =========
