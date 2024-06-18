@@ -18,9 +18,9 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Setup Python
-        uses: actions/setup-python@v3
+        uses: actions/setup-python@v4
         with:
-          python-version: "pypy-3.9"
+          python-version: "pypy-3.10"
           check-latest: true
       - name: Update pip
         run: pip install --upgrade pip
