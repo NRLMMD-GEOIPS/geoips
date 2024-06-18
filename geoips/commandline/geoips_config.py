@@ -3,6 +3,7 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
+import argparse
 from numpy import any
 from os import listdir, environ
 from os.path import abspath, join
@@ -38,6 +39,14 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             choices=list(test_dataset_dict.keys()),
             help="GeoIPS Test Dataset to Install.",
         )
+        # The following argument has been added in case we want to test the output of
+        # this command without actually installing the real datasets
+        self.parser.add_argument(
+            "--test-mode",
+            action="store_true",
+            default=False,
+            help=argparse.SUPPRESS,
+        )
 
     def __call__(self, args):
         """Run the `geoips config install <test_dataset_name>` command.
@@ -59,7 +68,11 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             print(
                 f"Installing {test_dataset_name} test dataset. This may take a while..."
             )
-            self.download_extract_test_data(test_dataset_url, self.geoips_testdata_dir)
+            if not args.test_mode:
+                self.download_extract_test_data(
+                    test_dataset_url,
+                    self.geoips_testdata_dir,
+                )
             out_str = f"Test dataset '{test_dataset_name}' has been installed under "
             out_str += f"{self.geoips_testdata_dir}/{test_dataset_name}/"
             print(out_str)
