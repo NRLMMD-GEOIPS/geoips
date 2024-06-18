@@ -105,11 +105,10 @@ but this command will ensure that for everyone.
     # Note geos no longer required for cartopy >= 0.22
     # openblas / gcc required for recenter_tc / akima build.
     # git required for -C commands
-    # Bug in git 2.45 that breaks git lfs clones.
-    mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas "git<2.45.0" "git-lfs<3.4"
-    mamba activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
+    mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas git
+    conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
-**Note:** You will need to run ``mamba activate geoips``
+**Note:** You will need to run ``conda activate geoips``
 every time you want to run or work on GeoIPS.
 
 4. Install the GeoIPS git repository
