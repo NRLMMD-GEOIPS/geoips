@@ -111,7 +111,7 @@ class GeoipsCommand(abc.ABC):
                 # If the command's name exists w/in the alias mapping, then
                 # add thoss aliases to the parser, otherwise just set it as an empty
                 # list.
-                aliases = self.alias_mapping.get(self.name.replace("-", "_"), [])
+                aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
                 # Attempt to create a sepate sub-parser for the specific command
                 # class being initialized so we can separate the commands arguments
                 # in a tree-like structure

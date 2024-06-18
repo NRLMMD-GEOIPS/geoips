@@ -104,13 +104,9 @@ class BaseCliTest(abc.ABC):
             - If None, asser that every Header key is in the output. Otherwise check
               that the corresponding Header key, column_val is in the output
         """
-        if "'No plugins found under interface" in output:
-            # This will happen for 'sector_adjusters' if recenter_tc is not an installed
-            # plugin package
-            pass
         for header in headers:
             if selected_cols is None or headers[header] in selected_cols:
-                assert header in output or "has no" in output
+                assert header in output or "No plugins" in output or "has no" in output
 
     def assert_non_editable_error_or_wrong_package(self, args, error):
         """If we found a package in non-editable mode, assert that an error exists.
