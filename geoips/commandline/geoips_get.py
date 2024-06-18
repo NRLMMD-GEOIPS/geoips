@@ -81,7 +81,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
             type=str,
             default=None,
             nargs="?",
-            choices=getattr(interfaces, self.name).supported_families,
+            choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
             help="GeoIPS Family to select from the provided interface.",
         )
         pass
@@ -146,7 +146,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        interface_name = self.name
+        interface_name = self.name.replace("-", "_")
         plugin_name = args.plugin_name
         try:
             interface = getattr(interfaces, interface_name)
@@ -190,7 +190,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        interface_name = self.name
+        interface_name = self.name.replace("-", "_")
         family_name = args.family_name
         try:
             interface = getattr(interfaces, interface_name)
@@ -251,7 +251,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
             - Interface Type
             - Supported Families
         """
-        interface_name = self.name
+        interface_name = self.name.replace("-", "_")
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
@@ -367,6 +367,7 @@ class GeoipsGet(GeoipsCommand):
 
     generated_classes = CommandClassFactory(
         GeoipsGetInterface,
-        interfaces.__all__,
+        [int_name.replace("_", "-") for int_name in interfaces.__all__],
+        # interfaces.__all__,
     ).classes
     command_classes = generated_classes + [GeoipsGetPackage]

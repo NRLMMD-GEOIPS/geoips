@@ -23,6 +23,7 @@ class TestGeoipsGetInterface(BaseCliTest):
             base_args = self._get_interface_args
             # add arguments for retrieving each GeoIPS Interface
             for interface_name in interfaces.__all__:
+                interface_name = interface_name.replace("_", "-")
                 for alias in self.alias_mapping[interface_name] + [interface_name]:
                     self._cmd_list.append(base_args + [alias])
             # Add argument list to retrieve help message

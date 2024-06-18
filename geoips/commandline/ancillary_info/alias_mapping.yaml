@@ -3,102 +3,70 @@ algorithms:
   - algs
   - algorithm
 colormappers:
-  - cm
-  - cms
   - cmap
   - cmaps
-  - color
-  - colors
   - colormapper
-coverage_checkers:
-  - cc
-  - ccs
-  - cvg
-  - cvgs
-  - cvg_chk
-  - cvg_chks
-  - coverage_checker
-filename_formatters:
-  - ff
-  - ffs
-  - fname
-  - fnames
-  - fname_fmt
-  - fname_fmts
-  - filename_formatter
+coverage-checkers:
+  - cchk
+  - cchks
+  - coverage-checker
+filename-formatters:
+  - ffmt
+  - ffmts
+  - filename-formatter
 interpolators:
-  - int
-  - ints
   - interp
   - interps
   - interpolator
-output_checkers:
-  - oc
-  - ocs
-  - out_chk
-  - out_chks
-  - output_checker
-output_formatters:
-  - of
-  - ofs
-  - out_fmt
-  - out_fmts
-  - output_formatter
+output-checkers:
+  - ochk
+  - ochks
+  - output-checker
+output-formatters:
+  - ofmt
+  - ofmts
+  - output-formatter
 procflows:
-  - pf
-  - pfs
-  - prc
-  - prcs
+  - pfl
+  - pfls
   - procflow
 readers:
   - rdr
   - rdrs
   - reader
-sector_adjusters:
-  - sa
-  - sas
-  - sec_adj
-  - sec_adjs
-  - sector_adjuster
-sector_metadata_generators:
-  - smg
-  - smgs
-  - sec_md_gen
-  - sec_md_gens
-  - sector_metadata_generator
-sector_spec_generators:
-  - ssg
-  - ssgs
-  - sec_spc_gen
-  - sec_spc_gens
-  - sector_spec_generator
-title_formatters:
-  - tf
-  - tfs
-  - ttl_fmt
-  - ttl_fmts
-  - title_formatter
-feature_annotators:
-  - fa
-  - fas
-  - ft_ann
-  - ft_anns
-  - feature_annotator
-gridline_annotators:
-  - ga
-  - gas
-  - grd_ann
-  - grd_anns
-  - gridline_annotator
-product_defaults:
-  - pd
-  - pds
-  - prd_def
-  - prd_defs
-  - product_default
+sector-adjusters:
+  - sadj
+  - sadjs
+  - sector-adjuster
+sector-metadata-generators:
+  - smgen
+  - smgens
+  - sector-metadata-generator
+sector-spec-generators:
+  - ssgen
+  - ssgens
+  - sector-spec-generator
+title-formatters:
+  - tfmt
+  - tfmts
+  - title-formatter
+feature-annotators:
+  - fann
+  - fanns
+  - feature-annotator
+gridline-annotators:
+  - gann
+  - ganns
+  - gridline-annotator
+product-defaults:
+  - pdef
+  - pdefs
+  - prod-def
+  - prod-defs
+  - product-default
 products:
-  - prd
-  - prds
+  - prod
+  - prods
   - product
 sectors:
   - sec
@@ -106,13 +74,17 @@ sectors:
   - sector
 package:
   - pkg
-packages:
   - pkgs
+  - packages
+packages:
+  - pkg
+  - pkgs
+  - package
 plugins:
   - plgs
+config:
+  - cfg
 list:
   - ls
-run:
-  - exe
 validate:
   - val

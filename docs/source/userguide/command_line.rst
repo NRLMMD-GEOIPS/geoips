@@ -109,10 +109,8 @@ which will include a column representing the supported families of each interfac
     geoips get algs fam single_channel
     geoips get algorithm family single_channel
     geoips get algorithms family single_channel
-    geoips get pd fam interpolator_algorithm_colormapper
-    geoips get pds fam interpolator_algorithm_colormapper
-    geoips get prd_def fam interpolator_algorithm_colormapper
-    geoips get prd_defs fam interpolator_algorithm_colormapper
+    geoips get prod_def fam interpolator_algorithm_colormapper
+    geoips get prod_defs fam interpolator_algorithm_colormapper
     geoips get product_default family interpolator_algorithm_colormapper
     geoips get product_defaults family interpolator_algorithm_colormapper
     geoips get <interface_name> family <family_name>
@@ -370,8 +368,8 @@ Config Command
 Currently, GeoIPS relies on test datasets to perform testing on the processing workflows
 which we've created. These test datasets are installed via a bash script before any
 testing can be done. To make this process easier and more configurable, we've
-implemented a ``geoips config`` command, which encapsulates configuration settings that
-we can implement via the CLI.
+implemented a ``geoips config`` (or ``geoips cfg``) command, which encapsulates
+configuration settings that we can implement via the CLI.
 
 We currently only implement the ``geoips config install <test_dataset_name>`` command
 for installing test datasets, though we'll support other config commands as we continue
@@ -385,6 +383,7 @@ To install a specific test dataset, run the command below.
 
 ::
 
+    geoips cfg install test_data_clavrx
     geoips config install test_data_clavrx
     geoips config install <test_dataset_name>
 

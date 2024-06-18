@@ -28,6 +28,7 @@ class TestGeoipsListInterface(BaseCliTest):
             for argset in [base_args, alias_args]:
                 for pkg_name in self.plugin_package_names + ["all"]:
                     for interface_name in interfaces.__all__:
+                        interface_name = interface_name.replace("_", "-")
                         if pkg_name != "all":
                             args = argset + [interface_name, "-p", pkg_name]
                         else:
@@ -116,7 +117,7 @@ class TestGeoipsListInterface(BaseCliTest):
             - Multiline str representing the output of the CLI call
         """
         # The args provided are valid, so test that the output is actually correct
-        interface = getattr(interfaces, args[2])
+        interface = getattr(interfaces, args[2].replace("-", "_"))
         interface_type = interface.interface_type
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a

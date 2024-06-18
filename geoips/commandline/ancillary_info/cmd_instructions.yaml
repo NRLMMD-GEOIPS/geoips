@@ -67,20 +67,20 @@ instructions:
       - Information related to the artifact that was retrieved.
   geoips_get_algorithms: *geoips-get-interface
   geoips_get_colormappers: *geoips-get-interface
-  geoips_get_coverage_checkers: *geoips-get-interface
-  geoips_get_filename_formatters: *geoips-get-interface
+  geoips_get_coverage-checkers: *geoips-get-interface
+  geoips_get_filename-formatters: *geoips-get-interface
   geoips_get_interpolators: *geoips-get-interface
-  geoips_get_output_checkers: *geoips-get-interface
-  geoips_get_output_formatters: *geoips-get-interface
+  geoips_get_output-checkers: *geoips-get-interface
+  geoips_get_output-formatters: *geoips-get-interface
   geoips_get_procflows: *geoips-get-interface
   geoips_get_readers: *geoips-get-interface
-  geoips_get_sector_adjusters: *geoips-get-interface
-  geoips_get_sector_metadata_generators: *geoips-get-interface
-  geoips_get_sector_spec_generators: *geoips-get-interface
-  geoips_get_title_formatters: *geoips-get-interface
-  geoips_get_feature_annotators: *geoips-get-interface
-  geoips_get_gridline_annotators: *geoips-get-interface
-  geoips_get_product_defaults: *geoips-get-interface
+  geoips_get_sector-adjusters: *geoips-get-interface
+  geoips_get_sector-metadata-generators: *geoips-get-interface
+  geoips_get_sector-spec-generators: *geoips-get-interface
+  geoips_get_title-formatters: *geoips-get-interface
+  geoips_get_feature-annotators: *geoips-get-interface
+  geoips_get_gridline-annotators: *geoips-get-interface
+  geoips_get_product-defaults: *geoips-get-interface
   geoips_get_products: *geoips-get-interface
   geoips_get_sectors: *geoips-get-interface
   # geoips_get_family:
@@ -193,20 +193,20 @@ instructions:
       - Relative Path
   geoips_list_algorithms: *list-single-interface
   geoips_list_colormappers: *list-single-interface
-  geoips_list_coverage_checkers: *list-single-interface
-  geoips_list_filename_formatters: *list-single-interface
+  geoips_list_coverage-checkers: *list-single-interface
+  geoips_list_filename-formatters: *list-single-interface
   geoips_list_interpolators: *list-single-interface
-  geoips_list_output_checkers: *list-single-interface
-  geoips_list_output_formatters: *list-single-interface
+  geoips_list_output-checkers: *list-single-interface
+  geoips_list_output-formatters: *list-single-interface
   geoips_list_procflows: *list-single-interface
   geoips_list_readers: *list-single-interface
-  geoips_list_sector_adjusters: *list-single-interface
-  geoips_list_sector_metadata_generators: *list-single-interface
-  geoips_list_sector_spec_generators: *list-single-interface
-  geoips_list_title_formatters: *list-single-interface
-  geoips_list_feature_annotators: *list-single-interface
-  geoips_list_gridline_annotators: *list-single-interface
-  geoips_list_product_defaults: *list-single-interface
+  geoips_list_sector-adjusters: *list-single-interface
+  geoips_list_sector-metadata-generators: *list-single-interface
+  geoips_list_sector-spec-generators: *list-single-interface
+  geoips_list_title-formatters: *list-single-interface
+  geoips_list_feature-annotators: *list-single-interface
+  geoips_list_gridline-annotators: *list-single-interface
+  geoips_list_product-defaults: *list-single-interface
   geoips_list_products: *list-single-interface
   geoips_list_sectors: *list-single-interface
   geoips_list_interfaces:
