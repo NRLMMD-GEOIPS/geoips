@@ -22,7 +22,7 @@ class TestGeoipsConfigInstall(BaseCliTest):
             base_args = self._config_install_args
             # add argument lists to install available test datasets
             for test_dataset_name in self.test_datasets:
-                self._cmd_list.append(base_args + [test_dataset_name])
+                self._cmd_list.append(base_args + ["--test-mode", test_dataset_name])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non existent test dataset
