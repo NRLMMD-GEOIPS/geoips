@@ -27,19 +27,13 @@ import pandas as pd
 # Geoips libraries
 from geoips.filenames.base_paths import PATHS as gpaths
 
-# from geoips.utils.context_managers import import_optional_dependencies
-
-from sys import argv
-from datetime import datetime
-
-import psutil
-import pandas as pd
-
-from ast import literal_eval
-
-# from geoips.utils.context_managers import import_optional_dependencies
+from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
+
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
+    import psutil
 
 
 def print_mem_usage(logstr="", verbose=False):
