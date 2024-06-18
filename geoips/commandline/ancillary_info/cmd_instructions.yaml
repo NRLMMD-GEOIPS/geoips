@@ -19,8 +19,8 @@ instructions:
       - Not Applicable
   geoips_get: &geoips-get-interface
     help_str: |
-      Retrieve an the selected GeoIPS artifact. For this command, an artifact is one of
-      ['interface', 'plugin', 'family']. To get more information on how to retrieve
+      Retrieve information about a GeoIPS artifact. For this command, an artifact is one
+      of ['interface', 'plugin', 'family']. To get more information on how to retrieve
       these artifacts, see below.
 
       * Interface:
