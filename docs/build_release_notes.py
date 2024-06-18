@@ -46,7 +46,9 @@ def parse_arguments():
         Parsed arguments containing input_folder and output_file.
     """
     parser = argparse.ArgumentParser(
-        description="Generate release notes from YAML files.",
+        description="Generate release notes from YAML files."
+        + " Entries are sorted by order in yaml files, "
+        + "and by order of yaml files provided via the command line.",
         formatter_class=RichHelpFormatter,
     )
     parser.add_argument(
@@ -467,6 +469,8 @@ def main():
             header_file=args.prefix_file,
             footer_file=args.suffix_file,
         )
+    if not ("write_yaml_template" in args) or args.input_files_or_folders:
+        parser.print_help()
 
 
 if __name__ == "__main__":
