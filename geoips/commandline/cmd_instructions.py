@@ -45,7 +45,7 @@ def instructions_modified(ancillary_dirname, fname="cmd_instructions"):
     json_mtime = getmtime(f"{ancillary_dirname}/{fname}.json")
     yaml_mtime = getmtime(f"{ancillary_dirname}/{fname}.yaml")
     yaml_recently_modified = False
-    if yaml_mtime > json_mtime:
+    if yaml_mtime >= json_mtime:
         # yaml file was modified more recently than json_mtime
         yaml_recently_modified = True
     return yaml_recently_modified

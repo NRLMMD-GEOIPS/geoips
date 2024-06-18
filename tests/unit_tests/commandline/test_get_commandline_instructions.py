@@ -53,14 +53,19 @@ def test_instruction_cases(dir_name):
         # we are not using get_cmd_instructions here as this would overwrite the json
         # instructions and this test case would be in the incorrect state. This function
         # would still be called though and ensures that coverage passes
+
+        # NOTE: The nested if statements are needed for errors that occur from git. When
+        # pulling from our remote repo, we download these files at the same time and
+        # they are out of sync. Since this is an extreme corner case, just modify the
+        # file, rerun cmd_instructions_modified, then assert that yaml newer is True.
+
         if dir_name == "json_newer":
+            if yaml_newer == True:
+                get_instructions(ancillary_dirname=cmd_dir)
+                yaml_newer = instructions_modified(ancillary_dirname=cmd_dir)
             assert yaml_newer == False
         else:
             if yaml_newer == False:
-                # NOTE: This occurs due to git. When pulling from our remote repo, we
-                # download these files at the same time and they are out of sync. Since
-                # this is an extreme corner case, just modify the file, rerun
-                # cmd_instructions_modified, then assert that yaml newer is True.
                 fpath = f"{cmd_dir}/cmd_instructions.yaml"
                 cmd_yaml = yaml.safe_load(open(fpath, "r"))
                 write_time = datetime.now(timezone.utc)
