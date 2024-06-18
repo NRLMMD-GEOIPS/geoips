@@ -293,11 +293,11 @@ instructions:
     help_str: |
       Print a tree of all of the available GeoIPS CLI commands. This will display every
       command in a top-down tree which gives a visual structure of how the CLI can be
-      ran.
+      ran. <--max-depth> must be greater than or equal to 1.
     usage_str: |
-      To use, type `geoips tree <--max_depth> <int> <--colored> <--short_name>`.
+      To use, type `geoips tree <--max-depth> <int> <--color> <--short-name>`.
     output_info:
-      - The tree of available GeoIPS CLI commands up to '--max_depth' levels. Can be
+      - The tree of available GeoIPS CLI commands up to '--max-depth' levels. Can be
         colored output if wanted and can define whether or not we want the full command
         string or just the name of the command at the specified depth.
   geoips_validate:

@@ -76,20 +76,19 @@ class GeoipsTree(GeoipsExecutableCommand):
     def add_arguments(self):
         """Add arguments to the tree-subparser for the Tree Command."""
         self.parser.add_argument(
-            "--max_depth",
+            "--max-depth",
             default=2,
             type=int,
-            choices=[0, 1, 2],
             help="The depth of the command tree to print out.",
         )
         self.parser.add_argument(
-            "--colored",
+            "--color",
             default=False,
             action="store_true",
             help="Whether or not we want to print the tree in a colored fashion.",
         )
         self.parser.add_argument(
-            "--short_name",
+            "--short-name",
             default=False,
             action="store_true",
             help=(
@@ -179,9 +178,14 @@ class GeoipsTree(GeoipsExecutableCommand):
             - The argument namespace to parse through
         """
         print()
+        depth = args.max_depth
+        if depth < 1:
+            raise self.parser.error(
+                f"Invalid depth value: {depth}. Must be greater than or equal to 1."
+            )
         self.print_tree(
             self.top_level_parser,
-            colored=args.colored,
-            max_depth=args.max_depth,
+            colored=args.color,
+            max_depth=depth,
             short_name=args.short_name,
         )

@@ -35,7 +35,6 @@ class BaseCliTest(abc.ABC):
     _test_linting_args = ["geoips", "test", "linting"]
     _test_script_args = ["geoips", "test", "script"]
     _test_unit_test_args = ["geoips", "test", "unit-test"]
-    _tree_args = ["geoips", "tree"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
         _config_install_args,
@@ -54,7 +53,6 @@ class BaseCliTest(abc.ABC):
         _test_linting_args,
         _test_script_args,
         _test_unit_test_args,
-        _tree_args,
         _validate_args,
     ]
 
@@ -358,6 +356,9 @@ class BaseCliTest(abc.ABC):
             case _ if ("--long" in args and "--columns" in args):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
+            case _ if ("--max-depth" in args and "0" in args):
+                # Can't capture argparse.ArgumentError output using monkeypatch... yet
+                return False
             case _:
                 # Monkeypatch works for the provided arguments!
                 return True
@@ -376,7 +377,6 @@ class BaseCliTest(abc.ABC):
         """
         if args is None:
             return
-        print(f"Calling args: {args}")
         monkeypatch_viable = self.viable_monkeypatch(args)
         if monkeypatch_viable:
             # The arguments provided were valid for monkeypatch so we will be using it

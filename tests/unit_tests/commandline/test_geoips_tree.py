@@ -18,26 +18,26 @@ class TestGeoipsTree(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._tree_args
+            base_args = ["geoips", "tree"]
             self._cmd_list = [base_args]
-            for depth in range(3):
-                self._cmd_list.append(base_args + ["--max_depth", str(depth)])
+            for depth in range(1, 4):
+                self._cmd_list.append(base_args + ["--max-depth", str(depth)])
                 self._cmd_list.append(
-                    base_args + ["--max_depth", str(depth), "--colored"]
+                    base_args + ["--max-depth", str(depth), "--color"]
                 )
                 self._cmd_list.append(
-                    base_args + ["--max_depth", str(depth), "--short_name"]
+                    base_args + ["--max-depth", str(depth), "--short-name"]
                 )
                 self._cmd_list.append(
-                    base_args + ["--max_depth", str(depth), "--short_name", "--colored"]
+                    base_args + ["--max-depth", str(depth), "--short-name", "--color"]
                 )
-            self._cmd_list.append(base_args + ["--short_name"])
-            self._cmd_list.append(base_args + ["--colored"])
-            self._cmd_list.append(base_args + ["--colored", "--short_name"])
+            self._cmd_list.append(base_args + ["--short-name"])
+            self._cmd_list.append(base_args + ["--color"])
+            self._cmd_list.append(base_args + ["--color", "--short-name"])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with invalid depth
-            self._cmd_list.append(base_args + ["--max_depth", "7"])
+            self._cmd_list.append(base_args + ["--max-depth", "0"])
         return self._cmd_list
 
     @property
@@ -78,7 +78,7 @@ class TestGeoipsTree(BaseCliTest):
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
         err_str = (
-            "To use, type `geoips tree <--max_depth> <int> <--colored> <--short_name>`."
+            "To use, type `geoips tree <--max-depth> <int> <--color> <--short-name>`."
         )
         assert err_str in error
         assert args != ["geoips", "tree"]
@@ -97,22 +97,20 @@ class TestGeoipsTree(BaseCliTest):
         # using monkeypatch.
         output = output.replace("pytest", "geoips")
         # The args provided are valid, so test that the output is actually correct
-        if "-h" in args:
+        if "-h" in args or ("--max-depth" in args and "0" in args):
             usg_str = (
-                "To use, type `geoips tree <--max_depth> <int> <--colored> "
-                "<--short_name>`."
+                "To use, type `geoips tree <--max-depth> <int> <--color> "
+                "<--short-name>`."
             )
-            assert usg_str in output
+            assert usg_str in output or args == ["geoips", "tree", "--max-depth", "0"]
         else:
             # Checking that output from geoips tree command is valid
-            if set(["--max_depth", "0"]) <= set(args):
-                depth = 0
-            elif set(["--max_depth", "1"]) <= set(args):
+            if set(["--max-depth", "1"]) <= set(args):
                 depth = 1
             else:
                 depth = 2
 
-            short = "--short_name" in args
+            short = "--short-name" in args
             assert "geoips" in output
 
             if depth > 0:
