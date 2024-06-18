@@ -20,7 +20,8 @@ These are fine defaults for most users:
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
 
 If desired, the GeoIPS environment variables can be added to your
-``$HOME/.bashrc`` by running the following commands:
+default shell configuration file (which is typically stored in
+``$HOME/.bashrc``) by running the following commands or something similar:
 
 .. code:: bash
 
@@ -31,6 +32,14 @@ If desired, the GeoIPS environment variables can be added to your
 Conda
 -----
 
+Conda is a package and virtual environment manager that can
+be used to install the dependencies of GeoIPS.
+
+We recommend using Conda if you are new to GeoIPS, programming or Python.
+
+If you are an expert user, you may want to use the manual
+or Docker installation methods.
+
 Install Conda
 ^^^^^^^^^^^^^
 
@@ -39,18 +48,16 @@ Install Conda
   <https://docs.conda.io/en/latest/miniconda.html>`_, or
   `Miniforge/Mambaforge <https://github.com/conda-forge/miniforge#download>`_.
 
-  For example, for Linux with Intel chips, one of the following:
+  For example, for Linux with Intel chips, one of the following might work:
 
   .. code:: bash
 
-      # wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
       # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
       # wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
       wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
 
 - Make the install script executable and run the installer,
-  following the prompts (particularly the bit about
-  conda init / restarting terminal!):
+  following the prompts. Eg.:
 
   .. code:: bash
 
@@ -61,36 +68,53 @@ Install Conda
 
   .. code:: bash
 
-      # Clean up after yourself
       rm -f ./Mambaforge-Linux-x86_64.sh
 
 Create and activate a conda environment with dependencies
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Next we'll create a conda environment named ``geoips`` that contains all system
-requirements for GeoIPS. Many of these may already be installed on your system,
-but this command will ensure that for everyone.
+requirements for GeoIPS.
 
 .. code:: bash
 
-    # Note geos no longer required for cartopy >= 0.22
-    # openblas / gcc required for recenter_tc / akima build.
-    # git required for -C commands
     mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas git
-    mamba activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
-.. note::
-    You will need to run ``mamba activate geoips`` every time you want to run or work on GeoIPS.
+Activate the conda environment
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Install the GeoIPS git repository
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You will need to run ``mamba activate geoips``
+every time you want to run or work on GeoIPS.
 
-Installs all GeoIPS Python dependencies, and GeoIPS itself.
+.. code:: bash
+
+    mamba activate geoips
+
+Install GeoIPS
+^^^^^^^^^^^^^^
+
+We can use ``pip`` to install all GeoIPS Python dependencies, and GeoIPS itself.
+
+.. code:: bash
+
+    # Ensure geoips python environment enabled before installing geoips
+    pip install "$GEOIPS_PACKAGES_DIR/geoips"
+
+If you want to install GeoIPS with all optional dependencies, you can use:
 
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
     pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
+
+The optional dependencies are:
+
+- ``doc``: for building the documentation with Sphinx
+  (the documentation is also available online at
+  https://nrlmmd-geoips.github.io/geoips/)
+- ``lint``: for linting the code (useful for developers)
+- ``test``: for running the tests
+- ``debug``: for debugging the code with ipython/jupyter
 
 Expert
 ------
