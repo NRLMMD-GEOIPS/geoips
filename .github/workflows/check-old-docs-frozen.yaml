@@ -37,7 +37,7 @@ jobs:
           echo "git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/"
           ret=$(git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM \
               ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/releases/v*.rst)
-          echo "Release note files modified this PR:"
+          echo "Old docs files modified this PR:"
           for file in ${ret[@]}; do
               echo "    MODIFIED: $file"
           done
