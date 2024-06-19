@@ -42,7 +42,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup BuildX
-        uses: docker/setup-buildx-action@v2
+        uses: docker/setup-buildx-action@v3
 
       - name: Make image name lower case
         run: |
@@ -55,7 +55,7 @@ jobs:
         run: docker save -o image.tar ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Upload Docker image artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: docker-image
           path: image.tar
