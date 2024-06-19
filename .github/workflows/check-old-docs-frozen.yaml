@@ -1,8 +1,10 @@
-name: Old Docs Have Not Been Changed
-
+name: Release note update
 defaults:
   run:
     shell: bash
+
+env:
+  COMMIT_INTO: remotes/origin/main
 
 on:
   # Triggers the workflow when pull request created and updated
@@ -14,38 +16,36 @@ on:
   workflow_dispatch:
 
 jobs:
-  check_old_docs_frozen:
+  release_v_change_detection:
     runs-on: ${{ vars.RUNNER }}
     steps:
-      - name: Setup Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9"
-          check-latest: true
-      - name: Update pip
-        run: pip install --upgrade pip
-      - name: Checkout plugin current branch
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          path: geoips_plugin_repo
-      - name: Checkout geoips default branch
-        uses: actions/checkout@v3
+      - name: Checkout geoips repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
         with:
           fetch-depth: 0
           repository: ${{ vars.ORGANIZATION }}/geoips
           ref: ${{ vars.DEFAULT_BRANCH }}
           token: ${{ secrets.GEOIPS_TOKEN }}
           path: geoips_default_branch
-      - name: Check if docs frozen
-        shell: bash -l {0}
+      - name: Checkout current repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
+      - name: Detect new and modified release files
         run: |
-          echo "::group::frozen_analysis"
-          python3 ./geoips_plugin_repo/docs/check-old-docs-frozen.py ./geoips_plugin_repo/docs/source
-          ret=$?
-          echo "Return code: ${ret}"
-          echo "::endgroup::"
-          if [[ "${ret}" != *"0"* ]]; then
-            echo "::error::return code ${ret}"
-            exit 1
-          fi
+          echo "git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/"
+          ret=$(git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM \
+              ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/releases/v*.rst)
+          echo "Release note files modified this PR:"
+          for file in ${ret[@]}; do
+              echo "    MODIFIED: $file"
+          done
+          for file in ${ret[@]}; do
+              if [[ "$file" != *"docs/source/releases"* ]]; then
+                  echo "    File outside of docs/source/releases modified: $file"
+                  echo "    Please update docs in new-docs directory"
+                  exit 1
+              fi
+          done
+          echo "PASSED"

@@ -32,6 +32,7 @@ Version 1.13.0 (2024-06-08)
   * Update AMI TC test script to use $GEOIPS test bdeck file
   * Update test outputs for cartopy 0.23.0 and matplotlib 3.9
   * Remove all references to geokompsat_netcdf reader (replaced with ami_netcdf)
+  * Replace check-old-docs-frozen.py with git-based Actions check
 * Installation Updates
 
   * Update CIRA NEXCLOUD amsr2 test dataset
@@ -123,6 +124,17 @@ on the first line.
 
 Testing Updates
 ===============
+
+Replace check-old-docs-frozen.py with git-based Actions check
+-------------------------------------------------------------
+
+This will avoid the need to update the hashes every time a file changes
+if we do need to update any files in the old docs directory.
+
+::
+
+  modified:   .github/workflows/check-old-docs-frozen.yaml
+  deleted:    docs/check-old-docs-frozen.py
 
 Update test outputs for cartopy 0.23.0 and matplotlib 3.9
 ---------------------------------------------------------
