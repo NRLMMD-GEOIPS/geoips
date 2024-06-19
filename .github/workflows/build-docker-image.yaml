@@ -60,9 +60,64 @@ jobs:
           name: docker-image
           path: image.tar
 
-      - name: Trigger repository dispatch
-        run: |
-          curl -X POST -H "Accept: application/vnd.github.v3+json" \
-          -H "Authorization: token ${{ secrets.GHCR_TOKEN }}" \
-          https://api.github.com/repos/${{ github.repository }}/dispatches \
-          -d '{"event_type":"docker_image_built","client_payload":{"sha":"${{ github.sha }}"}}'
+  build_sphinx_html:
+    runs-on: ${{ vars.RUNNER }}
+    needs: build_docker_image
+    steps:
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: docker-image
+          path: .
+
+      - name: Load Docker Image
+        run: docker load -i image.tar
+
+      # # Include test dependencies to allow full documentation
+      # - name: pip install geoips_default_branch[doc,test]
+      #   run: |
+      #     which pip
+      #     pip uninstall -y geoips
+      #     # Include test dependencies to allow full documentation
+      #     pip install $PWD/geoips_default_branch[doc,test]
+      #     ret=$?
+      #     echo "${ret}"
+      # - name: Checkout current repo current branch
+      #   uses: actions/checkout@v3 # v3 is the latest for checkout
+      #   with:
+      #     fetch-depth: 0
+      #     path: geoips_plugin_repo
+      # - name: pip install geoips plugin repo
+      #   run: |
+      #     which pip
+      #     curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
+      #     # We must reinstall even if this is the geoips repo, because we need to test
+      #     # the current branch
+      #     pip uninstall -y $curr_repo
+      #     pip install -v $PWD/geoips_plugin_repo
+      #     ret=$?
+      #     echo "${ret}"
+      # - name: create_plugin_registries
+      #   run: |
+      #     which create_plugin_registries
+      #     create_plugin_registries
+      #     ret=$?
+      #     echo "${ret}"
+      # - name: Run build html
+      #   run: |
+      #     echo "Build html docs"
+      #     # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
+      #     # using standard github actions variables
+      #     curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
+      #     # Call build_docs.sh from the geoips default branch
+      #     # Pass in
+      #     #   the path to the current plugin repo,
+      #     #   the name of the current repo,
+      #     #   "html_only" to indicate producing only html output, and
+      #     #   the path to the docs template directory in the geoips default branch.
+      #     ./geoips_default_branch/docs/build_docs.sh ./geoips_plugin_repo $curr_repo html_only ./geoips_default_branch/docs
+      #     ret=$?
+      #     if [[ "${ret##*:}" != *"0"* ]]; then
+      #       echo "::error::Building html docs ${ret##*:}"
+      #       exit 1
+      #     fi
