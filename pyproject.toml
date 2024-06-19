@@ -59,7 +59,7 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = "*"          # Base requirement
-numpy = "*"            # Base requirement
+numpy = "<2.0.0"            # Base requirement
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement

@@ -1,28 +1,71 @@
-name: Build Sphinx html docs
+name: Build Docker Image
 
 defaults:
   run:
     shell: bash
 
-# Can not use variables in the list of branches,
-# GitHub Actions will not recognize, and workflow will not run.
 on:
-  repository_dispatch:
-    types:
-      - docker_image_built
+  # Triggers when code is pushed to "main" branch
+  # This should only happen when PRs are merged
+  push:
+    branches:
+      - main
 
-# conda command to install all the required libraries for installing geoips
-# and geoips dependencies
-#   openblas required for scipy
-#   gcc/gxx required for akima/recenter_tc
-#   latexcodec required for build_docs.sh
-# conda create -y -n github_actions -c conda-forge gcc gxx openblas git latexcodec
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+
+  # Triggers when a new release is created
+  release:
+    types:
+      - published
+
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+
+env:
+  REGISTRY: ghcr.io
+  TEST_TAG: geoips:test
+
 jobs:
+  build_docker_image:
+    runs-on: ${{ vars.RUNNER }}
+    # Can't write to registry without this
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup BuildX
+        uses: docker/setup-buildx-action@v3
+
+      - name: Make image name lower case
+        run: |
+          echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
+
+      - name: Build Docker Image
+        run: docker build -t ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}:${{ github.sha }} .
+
+      - name: Save Docker image as tar file
+        run: docker save -o image.tar ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Upload Docker image artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: docker-image
+          path: image.tar
+
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
+    needs: build_docker_image
     steps:
       - name: Download Docker image artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           name: docker-image
           path: .
