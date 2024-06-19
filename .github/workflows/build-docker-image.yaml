@@ -67,7 +67,7 @@ jobs:
         run: |
           # Set the DOCKER_TAGS environment variable based on the event
           # If the event is a release, use the release tag
-          if [[ "${GITHUB_EVENT_NAME}" == "release"]]; then
+          if [[ "${GITHUB_EVENT_NAME}" == "release" ]]; then
             echo "DOCKER_TAGS=${RELEASE_TAG},stable" >> $GITHUB_ENV
           # If the event is a push to main, use "latest"
           elif [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
