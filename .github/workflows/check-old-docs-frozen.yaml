@@ -19,14 +19,6 @@ jobs:
   old_docs_change_detection:
     runs-on: ${{ vars.RUNNER }}
     steps:
-      - name: Checkout geoips repo default branch
-        uses: actions/checkout@v3 # v3 is the latest for checkout
-        with:
-          fetch-depth: 0
-          repository: ${{ vars.ORGANIZATION }}/geoips
-          ref: ${{ vars.DEFAULT_BRANCH }}
-          token: ${{ secrets.GEOIPS_TOKEN }}
-          path: geoips_default_branch
       - name: Checkout current repo default branch
         uses: actions/checkout@v3 # v3 is the latest for checkout
         with:
