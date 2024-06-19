@@ -1,4 +1,4 @@
-name: Release note update
+name: Old docs have not been changed
 defaults:
   run:
     shell: bash
@@ -16,7 +16,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  release_v_change_detection:
+  old_docs_change_detection:
     runs-on: ${{ vars.RUNNER }}
     steps:
       - name: Checkout geoips repo default branch
