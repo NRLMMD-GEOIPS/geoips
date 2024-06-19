@@ -55,7 +55,7 @@ jobs:
         run: docker save -o image.tar ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }}
 
       - name: Upload Docker image artifact
-        uses: actions/upload-artifact:v2
+        uses: actions/upload-artifact@v2
         with:
           name: docker-image
           path: image.tar
