@@ -1,4 +1,4 @@
-name: Build & Test in Docker
+name: Build Docker Image
 
 defaults:
   run:
@@ -19,7 +19,7 @@ env:
   TEST_TAG: geoips:test
 
 jobs:
-  build_push_test_docker:
+  build_docker_image:
     runs-on: ${{ vars.RUNNER }}
     # Can't write to registry without this
     permissions:
@@ -39,6 +39,8 @@ jobs:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Checkout repository
+        uses: actions/checkout@v2
       - name: Build and Push image
         uses: docker/build-push-action@v3.1.0
         with:
