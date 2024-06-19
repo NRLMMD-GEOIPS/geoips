@@ -57,7 +57,7 @@ jobs:
           echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
 
       - name: Extract branch name
-        run: echo "BRANCH_NAME=$GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
+        run: echo "BRANCH_NAME=${GITHUB_REF#refs/heads/}" >> ${GITHUB_ENV}
 
       - name: Extract release tag
         if: github.event_name == 'release'
