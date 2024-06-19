@@ -1,15 +1,17 @@
 FROM python:3.10-slim-bullseye
 
 RUN apt-get update && apt-get -y upgrade
-RUN apt-get install -y wget git libopenblas-dev imagemagick g++ make
+# RUN apt-get install -y wget git libopenblas-dev imagemagick g++ make
+RUN apt-get install -y wget git libopenblas-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get update && apt-get install -y software-properties-common
-RUN add-apt-repository -y ppa:ubuntugis/ppa
-RUN apt-get install -y gdal-bin libgdal-dev
-RUN pip install -U pip
+# RUN apt-get update && apt-get install -y software-properties-common
+# RUN add-apt-repository -y ppa:ubuntugis/ppa
+# RUN apt-get install -y gdal-bin libgdal-dev
+RUN pip install --no-cache-dir -U pip
 
-# could install the rest of geoips dependancies here
-RUN pip install rasterio
+# # could install the rest of geoips dependancies here
+# RUN pip install rasterio
 
 # When transitioning to a multistage build, this is the end of the first build
 
@@ -42,9 +44,9 @@ ENV GEOIPS_PACKAGES_DIR=${GEOIPS_PACKAGES_DIR}
 ENV GEOIPS_DEPENDENCIES_DIR=${GEOIPS_DEPENDENCIES_DIR}
 ENV GEOIPS_TESTDATA_DIR=${GEOIPS_TESTDATA_DIR}
 
-COPY --chown=${USER_ID}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips
+COPY --chown=${USER_ID}:${GROUP_ID} . ${GEOIPS_PACKAGES_DIR}/geoips/
 
 WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
 RUN cd ${GEOIPS_PACKAGES_DIR}/geoips \
-    && pip install -e "$GEOIPS_PACKAGES_DIR/geoips[test]" \
+    && pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips[test,doc,lint]" \
     && create_plugin_registries
