@@ -7,10 +7,9 @@ defaults:
 # Can not use variables in the list of branches,
 # GitHub Actions will not recognize, and workflow will not run.
 on:
-  workflow_run:
-    workflows: ["Build Docker Image"]
+  repository_dispatch:
     types:
-      - completed
+      - docker_image_built
 
 # conda command to install all the required libraries for installing geoips
 # and geoips dependencies
