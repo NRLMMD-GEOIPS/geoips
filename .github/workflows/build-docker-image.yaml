@@ -53,9 +53,9 @@ jobs:
       - name: Setup BuildX
         uses: docker/setup-buildx-action@v3
 
-      - name: Make image name lower case
+      - name: Set the image name
         run: |
-          image_name=${GITHUB_REPOSITORY,,}
+          image_name=${ REGISTRY }/${GITHUB_REPOSITORY,,}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
 
@@ -82,14 +82,14 @@ jobs:
         uses: docker/build-push-action@v3.1.0
         with:
           push: ${{ vars.GITHUB_REF_TYPE == 'tag' || vars.GITHUB_REF_NAME == 'main' }}
-          tags: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ github.sha }},test
+          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }},test
           file: "Dockerfile"
-          cache-from: type=registry,ref=${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:test
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:test
 
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
     container:
-      image: ${{ env.REGISTRY }}/${{ needs.build_docker_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.build_docker_image.outputs.IMAGE_NAME }}:${{ github.sha }}
     # needs: build_docker_image
     steps:
       - name: Debug location
