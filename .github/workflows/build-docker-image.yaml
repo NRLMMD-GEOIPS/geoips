@@ -87,6 +87,7 @@ jobs:
       - name: Build and Push image
         uses: docker/build-push-action@v3.1.0
         with:
+          context: .
           push: ${{ vars.GITHUB_REF_TYPE == 'tag' || vars.GITHUB_REF_NAME == 'main' }}
           tags: ${{ env.IMAGE_NAME }}:${{ github.sha }},test
           file: "Dockerfile"
