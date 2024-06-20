@@ -114,13 +114,61 @@ The optional dependencies are:
   https://nrlmmd-geoips.github.io/geoips/)
 - ``lint``: for linting the code (useful for developers)
 - ``test``: for running the tests
-- ``debug``: for debugging the code with ipython/jupyter
+- ``debug``: for debugging the code with IPython/jupyter
 
 Expert
 ------
 
+If you are an expert user, you may want to install the dependencies manually.
+
+Install system dependencies
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Required
+""""""""
+
+* ``git``
+* ``openblas`` (required for scipy pip install)
+* ``make`` (required for pypublicdecompwt)
+* ``python`` >= 3.9
+
+Optional
+""""""""
+
+* ``gfortran`` (required for plugins including fortran builds)
+* ``gcc`` and ``g++`` (required for plugins including fortran or C builds)
+* ``pdflatex`` (optional, for building pdf documentation)
+* Test data repos can be installed in `$GEOIPS_TESTDATA_DIR`
+
 Development
 -----------
 
+[TODO]
+
+See the [ADDING FUNCTIONALITY] page for more details on how to contribute to GeoIPS.
+
 Docker
 ------
+
+We provide a working Dockerfile that can be used to run GeoIPS in a container.
+
+The Dockerfile can be built into a Docker image by cloning the GeoIPS repository and
+running ``docker build``. For example:
+
+.. code:: bash
+
+    git clone https://github.com/NRLMMD-GEOIPS/geoips.git geoips
+    cd geoips
+    docker build -t geoips .
+
+The Docker image can be run with the following command:
+
+.. code:: bash
+
+    docker run -it geoips   # Run the container in interactive mode
+
+Right now, the Docker image is only used for development and testing.
+
+If you are interested in using the Docker build
+for production or plugin development, please reach
+out to us via our contact page [CONTACT PAGE] or create an issue on GitHub [ISSUE PAGE].
