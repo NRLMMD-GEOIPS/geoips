@@ -55,7 +55,7 @@ jobs:
 
       - name: Set the image name
         run: |
-          image_name=${ REGISTRY }/${GITHUB_REPOSITORY,,}
+          image_name=${REGISTRY}/${GITHUB_REPOSITORY,,}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
 
@@ -88,9 +88,9 @@ jobs:
 
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
+    needs: build_docker_image
     container:
       image: ${{ needs.build_docker_image.outputs.IMAGE_NAME }}:${{ github.sha }}
-    # needs: build_docker_image
     steps:
       - name: Debug location
         run: |
