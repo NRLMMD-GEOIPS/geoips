@@ -65,7 +65,7 @@ jobs:
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ secrets.GHCR_USER }}
-          password: ${{ secrets.GHRC_TOKEN }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       - name: Debug
         run: |
