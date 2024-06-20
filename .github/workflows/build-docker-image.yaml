@@ -87,6 +87,9 @@ jobs:
     needs: build_docker_image
     container:
       image: ${{ needs.build_docker_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      credentials:
+        username: ${{ secrets.GHCR_USER }}
+        password: ${{ secrets.GHRC_TOKEN }}
     steps:
       - name: Debug location
         run: |
