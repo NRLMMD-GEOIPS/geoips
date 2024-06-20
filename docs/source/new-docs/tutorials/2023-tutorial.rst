@@ -57,13 +57,17 @@ We are now going to dive into hands-on experience by creating a product for CLAV
 
       echo $MY_PKG_DIR  : reflects merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
-#. Now, create a file called ``my_clavrx_products.yaml`` which we'll fill in soon.
-   Before we add any code let's discuss some of the top level attributes that are
-   required in any GeoIPS plugin:
-   ``interface``, ``family``, and ``docstring``.
+#. Now, create a file called ``my_clavrx_products.yaml`` and add the following code into it 
+   .. code-block:: yaml
 
-Please see documentation for
-:ref:`additional info on these GeoIPS required attributes<required-attributes>`
+      interface: products
+      family: list
+      name: my_clavrx_products
+      docstring: |
+          CLAVR-x imagery products
+
+
+
 
 Creating a GeoIPS Product Plugin
 --------------------------------
@@ -71,6 +75,15 @@ Creating a GeoIPS Product Plugin
 The code snippet shown below shows properties required in every GeoIPS plugin, YAML or
 Module-based. These properties help GeoIPS define what type of plugin you are developing
 and also defines what schema your plugin will be validated against.
+
+ which we'll fill in soon.
+   Before we add any code let's discuss some of the top level attributes that are
+   required in any GeoIPS plugin:
+   ``interface``, ``family``, and ``docstring``.
+
+Please see documentation for
+:ref:`additional info on these GeoIPS required attributes<required-attributes>`
+
 
 Copy and paste the code shown below into my_clavrx_products.yaml.
 
