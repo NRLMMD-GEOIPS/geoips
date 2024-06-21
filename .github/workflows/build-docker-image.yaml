@@ -96,7 +96,7 @@ jobs:
     steps:
       - name: Debug location
         run: |
-          echo $USER
+          whoami
           echo $PWD
           ls -l --color
 
