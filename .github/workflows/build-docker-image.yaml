@@ -31,13 +31,6 @@ env:
   TEST_TAG: geoips:test
 
 jobs:
-  # create_variables:
-  #   runs-on: ${{ vars.RUNNER }}
-  #   steps:
-  #     - name: Create image name
-  #       run: |
-  #         echo "IMAGE_NAME=${GITHUB_REPOSITORY,,}" >> ${GITHUB_ENV}
-
   build_docker_image:
     runs-on: ${{ vars.RUNNER }}
     # Can't write to registry without this
@@ -95,12 +88,8 @@ jobs:
         password: ${{ secrets.GHCR_TOKEN }}
       options: --workdir /app/geoips_packages/geoips
     steps:
-      - name: Debug location
-        run: |
-          whoami
-          echo $PWD
-          cd $GEOIPS_PACKAGES_DIR/geoips
-          ls -l --color
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Install geoips documentation packages
         run: pip install -e .[doc]
