@@ -86,10 +86,12 @@ jobs:
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
-      options: --workdir /app/geoips_packages/geoips
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
 
       - name: Install geoips documentation packages
         run: pip install -e .[doc]
