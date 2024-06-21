@@ -74,7 +74,7 @@ jobs:
           git status
 
       - name: Build and Push image
-        uses: docker/build-push-action@v3.1.0
+        uses: docker/build-push-action@v6
         with:
           context: .
           push: true
