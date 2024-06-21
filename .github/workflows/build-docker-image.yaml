@@ -78,9 +78,9 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }},test
+          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
           file: "Dockerfile"
-          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:test
+          # cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:test
 
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
@@ -89,7 +89,7 @@ jobs:
       image: ${{ needs.build_docker_image.outputs.IMAGE_NAME }}:${{ github.sha }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHRC_TOKEN }}
+        password: ${{ secrets.GHCR_TOKEN }}
     steps:
       - name: Debug location
         run: |
