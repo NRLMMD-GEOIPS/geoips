@@ -53,8 +53,8 @@ RUN pip install --no-cache-dir -U pip
 
 # Shouldn't need to set this just for install of base package...
 # It looks like the make_dirs function should be moved out of base_paths.py
-ARG GEOIPS_OUTDIR=/output
-ENV GEOIPS_OUTDIR=${GEOIPS_OUTDIR}
+ARG GEOIPS_OUTDIRS=/output
+ENV GEOIPS_OUTDIRS=${GEOIPS_OUTDIRS}
 COPY . .
 RUN pip install --no-cache-dir . \
     && create_plugin_registries
