@@ -52,5 +52,5 @@ RUN pip install --no-cache-dir -U pip
 #     && create_plugin_registries
 
 COPY . ${GEOIPS_PACKAGES_DIR}/geoips/
-RUN pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips" \
+RUN pip install --no-cache-dir . \
     && create_plugin_registries
