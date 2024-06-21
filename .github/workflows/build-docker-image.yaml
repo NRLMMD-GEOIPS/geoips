@@ -93,7 +93,7 @@ jobs:
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
-      options: "--workdir /app/geoips_packages/geoips"
+      options: --workdir /app/geoips_packages/geoips
     steps:
       - name: Debug location
         run: |
