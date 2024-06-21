@@ -78,9 +78,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: ${{ env.IMAGE_NAME }}:${{ github.sha }}
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:test
           file: "Dockerfile"
-          # cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:test
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:test
 
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
