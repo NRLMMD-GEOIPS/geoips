@@ -22,7 +22,7 @@ determine your requirements, especially for production settings.
 User System Requirements
 ------------------------
 We attempt to support Linux, MacOS, and Windows, but only officially support 
-Linux. Thismeans that GeoIPS should work on all OS but we only guarantee Linux.
+Linux. This means that GeoIPS should work on all OS but we only guarantee Linux.
 If you encounter an issue on Mac or Windows, please submit an issue and we will 
 do our best to address it.
 
@@ -41,7 +41,7 @@ do our best to address it.
 +----------+-------------+-------------+--------------------------------------+
 | Hardware | Minimum     | Recommended | Supports                             |
 +==========+=============+=============+======================================+
-| CPU      | 2 Cores     | 4 Cores     | A single concurrent GeoIPS process   |
+| CPU      | 2 CPU       | 4 CPU       | A single concurrent GeoIPS process   |
 +----------+-------------+-------------+--------------------------------------+
 || Memory  || 12GB       || 128GB      || Production of most GeoIPS imagery.  |
 ||         ||            ||            || Some Geostationary imagery requires |
@@ -57,16 +57,11 @@ do our best to address it.
 Developer System Requirements
 -----------------------------
 
-In addition to the required disk space for users, developers will require:
+Developers will be required to install test datasets for the GeoIPS integration
+tests (40GB) and a complete, static set of Cartopy shape files (20GB). This requires
+an additional 60GB of space. It is recommended that this data is placed on a local
+solid state dive for speed purposes.
 
-+----------+-------------+-------------+---------------------------+
-| Hardware | Minimum     | Recommended | Supports                  |
-+==========+=============+=============+===========================+
-| Storage  | 40GB        | 40GB        | Integration test datasets |
-+----------+-------------+-------------+---------------------------+
-|          | 20GB on SSD | 20GB on SSD | Static cartopy shapefiles |
-|          |             |             | for integration tests.    |
-+----------+-------------+-------------+---------------------------+
 
 Operational System Requirements
 -------------------------------
