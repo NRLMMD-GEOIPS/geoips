@@ -79,7 +79,11 @@ class GeoipsTree(GeoipsExecutableCommand):
             "--max-depth",
             default=2,
             type=int,
-            help="The depth of the command tree to print out.",
+            help=(
+                "The depth of the command tree to print out."
+                "Where depth denotes the level of the command you'd like to display."
+                "\nIe. <0> geoips <1> list <2> scripts"
+            ),
         )
         self.parser.add_argument(
             "--color",
