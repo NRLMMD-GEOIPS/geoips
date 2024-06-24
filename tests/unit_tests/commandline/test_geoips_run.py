@@ -120,7 +120,7 @@ class TestGeoipsRun(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._run_args
+            base_args = ["geoips", "run"]
             # add argument lists for legacy calls 'run_procflow' and
             # 'data_fusion_procflow'
             # additionally add argument lists for 'geoips run config_based',

@@ -22,7 +22,7 @@ class TestGeoipsValidate(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._validate_args
+            base_args = ["geoips", "validate"]
             rand_threshold = 0.85
             # validate some subset plugins from all installed packages
             for pkg_name in self.plugin_package_names:

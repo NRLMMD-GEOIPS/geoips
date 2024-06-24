@@ -19,7 +19,7 @@ class TestGeoipsTestScript(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._test_script_args
+            base_args = ["geoips", "test", "script"]
             # Add argument list executing a dummy test script
             self._cmd_list.append(base_args + ["cli_dummy_script.sh"])
             # Do the same thing specifying which package it comes from

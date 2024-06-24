@@ -1,5 +1,5 @@
 {
-    "name": "I_have_been_modified_more_recently_than_my_parent_yaml",
+    "name": "geoips_cmd_instructions",
     "instructions": {
         "config": {
             "help_str": "Various configuration-based commands for setting up your geoips environment.\nCurrently supports `geoips config install <test_dataset_name>` command.\n",

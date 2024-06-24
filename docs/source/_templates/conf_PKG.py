@@ -52,6 +52,7 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
+    "sphinxarg.ext",
     "sphinxcontrib.autoprogram",
     "m2r2",
 ]

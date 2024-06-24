@@ -17,47 +17,105 @@ instructions:
       To use, type `geoips config install <test_dataset_name>`.
     output_info:
       - Not Applicable
-  geoips_get:
+  geoips_get: &geoips-get-interface
     help_str: |
-      Retrieve an appropriate GeoIPS artifact. Currently supported `get` calls are:
-      ["family", "interface", "package", "plugin"]
+      Retrieve information about a GeoIPS artifact. For this command, an artifact is one
+      of ['interface', 'plugin', 'family']. To get more information on how to retrieve
+      these artifacts, see below.
+
+      * Interface:
+          * Command Signature:
+              * `geoips get <interface_name>`
+          * Artifact Listing:
+              * `geoips list interfaces`
+          * output_info:
+              * Absolute Path
+              * Docstring
+              * Interface Name
+              * Interface Type
+              * Supported Families
+
+      * Plugin:
+          * Command Signature:
+              * `geoips get <interface_name> <plugin_name>`
+          * Artifact Listing:
+              * `geoips list plugins <-p> <package_name>`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * GeoIPS Package
+              * Interface Name
+              * Plugin Type
+              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
+              * Relative Path
+
+      * Family:
+          * Command Signature:
+              * `geoips get <interface_name> family <family_name>`
+          * Artifact Listing:
+              * `geoips list interfaces --columns interface supported_families`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * Family Path
+              * Interface Name
+              * Interface Type
+              * Required Arguments / Schema
     usage_str: |
-      To use, type `geoips get <cmd> <sub-cmd> ...`.
+      To use, type `geoips get <interface_name> <sub-cmd> ...`.
     output_info:
       - Information related to the artifact that was retrieved.
-  geoips_get_family:
-    help_str: |
-      Retrieve the appropriate GeoIPS Family alongside descriptive information of
-      that family. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS families, run:
-      `geoips list interfaces`.
-    usage_str: |
-      To use, type `geoips get family <interface_name> <family_name>`, where
-      <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
-      family member of that interface.
-    output_info:
-      - Docstring
-      - Family Name
-      - Family Path
-      - Interface Name
-      - Interface Type
-      - Required Args / Schema
-  geoips_get_interface:
-    help_str: |
-      Retrieve the appropriate GeoIPS Interface alongside descriptive information of
-      that interface. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS interfaces, run:
-      `geoips list interfaces`.
-    usage_str: |
-      To use, type `geoips get interface <interface_name>`, where <interface_name> is a
-      valid GeoIPS Interface.
-    output_info:
-      - Absolute Path
-      - Docstring
-      - Documentation Link (If applicable)
-      - Interface Name
-      - Interface Type
-      - Supported Families
+  geoips_get_algorithms: *geoips-get-interface
+  geoips_get_colormappers: *geoips-get-interface
+  geoips_get_coverage-checkers: *geoips-get-interface
+  geoips_get_filename-formatters: *geoips-get-interface
+  geoips_get_interpolators: *geoips-get-interface
+  geoips_get_output-checkers: *geoips-get-interface
+  geoips_get_output-formatters: *geoips-get-interface
+  geoips_get_procflows: *geoips-get-interface
+  geoips_get_readers: *geoips-get-interface
+  geoips_get_sector-adjusters: *geoips-get-interface
+  geoips_get_sector-metadata-generators: *geoips-get-interface
+  geoips_get_sector-spec-generators: *geoips-get-interface
+  geoips_get_title-formatters: *geoips-get-interface
+  geoips_get_feature-annotators: *geoips-get-interface
+  geoips_get_gridline-annotators: *geoips-get-interface
+  geoips_get_product-defaults: *geoips-get-interface
+  geoips_get_products: *geoips-get-interface
+  geoips_get_sectors: *geoips-get-interface
+  # geoips_get_family:
+  #   help_str: |
+  #     Retrieve the appropriate GeoIPS Family alongside descriptive information of
+  #     that family. See output_info for each datum provided when this command is
+  #     called. For a listing of available GeoIPS families, run:
+  #     `geoips list interfaces`.
+  #   usage_str: |
+  #     To use, type `geoips get family <interface_name> <family_name>`, where
+  #     <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
+  #     family member of that interface.
+  #   output_info:
+  #     - Docstring
+  #     - Family Name
+  #     - Family Path
+  #     - Interface Name
+  #     - Interface Type
+  #     - Required Args / Schema
+  # geoips_get_interface:
+  #   help_str: |
+  #     Retrieve the appropriate GeoIPS Interface alongside descriptive information of
+  #     that interface. See output_info for each datum provided when this command is
+  #     called. For a listing of available GeoIPS interfaces, run:
+  #     `geoips list interfaces`.
+  #   usage_str: |
+  #     To use, type `geoips get interface <interface_name>`, where <interface_name> is a
+  #     valid GeoIPS Interface.
+  #   output_info:
+  #     - Absolute Path
+  #     - Docstring
+  #     - Documentation Link (If applicable)
+  #     - Interface Name
+  #     - Interface Type
+  #     - Supported Families
   geoips_get_package:
     help_str: |
       Retrieve the appropriate GeoIPS Package alongside descriptive information of
@@ -73,24 +131,24 @@ instructions:
       - Package Path
       - Source Code
       - Version Number
-  geoips_get_plugin:
-    help_str: |
-      Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
-      that plugin. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS Plugins, run:
-      `geoips list plugins`.
-    usage_str: |
-      To use, type `geoips get plugin <interface_name> <plugin_name>`, where
-      <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
-      identifier that has been implemented in any installed GeoIPS package.
-    output_info:
-      - Docstring
-      - Documentation Link (If applicable)
-      - Family
-      - Interface Name
-      - Package
-      - Relative Path
-      - Plugin Specific Info (signature / source_names / available overrides)
+  # geoips_get_plugin:
+  #   help_str: |
+  #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
+  #     that plugin. See output_info for each datum provided when this command is
+  #     called. For a listing of available GeoIPS Plugins, run:
+  #     `geoips list plugins`.
+  #   usage_str: |
+  #     To use, type `geoips get plugin <interface_name> <plugin_name>`, where
+  #     <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
+  #     identifier that has been implemented in any installed GeoIPS package.
+  #   output_info:
+  #     - Docstring
+  #     - Documentation Link (If applicable)
+  #     - Family
+  #     - Interface Name
+  #     - Package
+  #     - Relative Path
+  #     - Plugin Specific Info (signature / source_names / available overrides)
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
@@ -135,20 +193,20 @@ instructions:
       - Relative Path
   geoips_list_algorithms: *list-single-interface
   geoips_list_colormappers: *list-single-interface
-  geoips_list_coverage_checkers: *list-single-interface
-  geoips_list_filename_formatters: *list-single-interface
+  geoips_list_coverage-checkers: *list-single-interface
+  geoips_list_filename-formatters: *list-single-interface
   geoips_list_interpolators: *list-single-interface
-  geoips_list_output_checkers: *list-single-interface
-  geoips_list_output_formatters: *list-single-interface
+  geoips_list_output-checkers: *list-single-interface
+  geoips_list_output-formatters: *list-single-interface
   geoips_list_procflows: *list-single-interface
   geoips_list_readers: *list-single-interface
-  geoips_list_sector_adjusters: *list-single-interface
-  geoips_list_sector_metadata_generators: *list-single-interface
-  geoips_list_sector_spec_generators: *list-single-interface
-  geoips_list_title_formatters: *list-single-interface
-  geoips_list_feature_annotators: *list-single-interface
-  geoips_list_gridline_annotators: *list-single-interface
-  geoips_list_product_defaults: *list-single-interface
+  geoips_list_sector-adjusters: *list-single-interface
+  geoips_list_sector-metadata-generators: *list-single-interface
+  geoips_list_sector-spec-generators: *list-single-interface
+  geoips_list_title-formatters: *list-single-interface
+  geoips_list_feature-annotators: *list-single-interface
+  geoips_list_gridline-annotators: *list-single-interface
+  geoips_list_product-defaults: *list-single-interface
   geoips_list_products: *list-single-interface
   geoips_list_sectors: *list-single-interface
   geoips_list_interfaces:

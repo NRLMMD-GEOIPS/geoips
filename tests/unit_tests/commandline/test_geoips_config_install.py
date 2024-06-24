@@ -19,7 +19,7 @@ class TestGeoipsConfigInstall(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._config_install_args
+            base_args = ["geoips", "config", "install"]
             # add argument lists to install available test datasets
             for test_dataset_name in self.test_datasets:
                 self._cmd_list.append(base_args + [test_dataset_name])
