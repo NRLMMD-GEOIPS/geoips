@@ -2,6 +2,7 @@
 
 import abc
 import contextlib
+from importlib import metadata as md
 import io
 from numpy import any
 import pytest
@@ -9,7 +10,7 @@ import subprocess
 import sys
 
 from geoips.commandline.commandline_interface import GeoipsCLI
-from geoips.geoips_utils import get_entry_point_group, is_editable
+from geoips.geoips_utils import is_editable
 
 
 gcli = GeoipsCLI()
@@ -64,7 +65,7 @@ class BaseCliTest(abc.ABC):
         """List of names of every installed GeoIPS package."""
         if not hasattr(self, "_plugin_package_names"):
             self._plugin_package_names = [
-                ep.value for ep in get_entry_point_group("geoips.plugin_packages")
+                ep.value for ep in md.entry_points(group="geoips.plugin_packages")
             ]
         return self._plugin_package_names
 
@@ -355,6 +356,9 @@ class BaseCliTest(abc.ABC):
             case _ if ("--long" in args and "--columns" in args):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
+            case _ if ("--max-depth" in args and "0" in args):
+                # Can't capture argparse.ArgumentError output using monkeypatch... yet
+                return False
             case _:
                 # Monkeypatch works for the provided arguments!
                 return True
@@ -373,7 +377,6 @@ class BaseCliTest(abc.ABC):
         """
         if args is None:
             return
-        print(f"Calling args: {args}")
         monkeypatch_viable = self.viable_monkeypatch(args)
         if monkeypatch_viable:
             # The arguments provided were valid for monkeypatch so we will be using it
