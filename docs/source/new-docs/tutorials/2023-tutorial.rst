@@ -30,9 +30,9 @@ Done looks like:
 
 .. _create-a-product1:
 
-**********************************
-Extend GeoIPS with new Products
-**********************************
+****************************************
+New Product Creation by Extending GeoIPS 
+****************************************
 
 This section elaborates on product creation using GeoIPS. We will create three products using CLAVR-x data namely
 Cloud-Top-Height, Cloud-Base-Height, and Cloud-Depth. Products are the cornerstone
@@ -58,78 +58,57 @@ We are now going to dive into hands-on experience by creating a product for CLAV
       echo $MY_PKG_DIR  : reflects merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
 #. Now, create a file called ``my_clavrx_products.yaml`` and add the following code into it 
+
    .. code-block:: yaml
 
       interface: products
       family: list
       name: my_clavrx_products
       docstring: |
-          CLAVR-x imagery products
+           CLAVR-x imagery products
 
+   The code snippet shown above shows properties required in every GeoIPS plugin, YAML-based or
+   Module-based. These properties help GeoIPS understand the type of plugin you are developing
+   and also defines the schema your plugin will be validated against.
 
+   It is recommended to go through the definitions of the top level attributes such as ``interface``,
+   ``family``, and ``docstring`` that are required in any GeoIPS plugin. 
+   Click here
+   :ref:`click here <required-attributes>` 
+   (page opens in the same window) to go the related documentation. 
 
+#. Now we'll add the ``spec`` portion to the yaml file created in the last step to support our new product plugin.
+   ``spec`` is a container for the 'specification' of your yaml plugin. In this case, it
+   contains a list of ``products``, as shown below. Denoted by the ``family: list``
+   property shown above, this yaml file will contain a list of products, which can be of
+   length 1 if you so desire.
 
-Creating a GeoIPS Product Plugin
---------------------------------
+   Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it. YAML is a whitespace-based
+   coding language, similar to Python in that aspect. 
 
-The code snippet shown below shows properties required in every GeoIPS plugin, YAML or
-Module-based. These properties help GeoIPS define what type of plugin you are developing
-and also defines what schema your plugin will be validated against.
-
- which we'll fill in soon.
-   Before we add any code let's discuss some of the top level attributes that are
-   required in any GeoIPS plugin:
-   ``interface``, ``family``, and ``docstring``.
-
-Please see documentation for
-:ref:`additional info on these GeoIPS required attributes<required-attributes>`
-
-
-Copy and paste the code shown below into my_clavrx_products.yaml.
-
-.. code-block:: yaml
-
-    interface: products
-    family: list
-    name: my_clavrx_products
-    docstring: |
-      CLAVR-x imagery products
-
-Now we'll update the ``spec`` portion of the yaml file to support our new product plugin.
-``spec`` is a container for the 'specification' of your yaml plugin. In this case, it
-contains a list of ``products``, as shown below. Denoted by the ``family: list``
-property shown above, this yaml file will contain a list of products, which can be of
-length 1 if you so desire.
-
-Copy and paste the code block below under your to the end of your file. spec should be
-right under the docstring you wrote, with no tabs behind it. YAML is a whitespace-based
-coding language, similar to Python in that aspect. Feel free to remove the comments, as
-they just describe what each property does.
-
-.. code-block:: yaml
+   .. code-block:: yaml
 
     spec:
       products:
-        - name: My-Cloud-Top-Height # The name of the product you're defining (can be anything)
-          source_names: [clavrx] # Defined as metadata in the corresponding reader
-          docstring: | # Pipe says to YAML this will be a multiline comment, can be anything
+        - name: My-Cloud-Top-Height      # name of the product you're defining 
+          source_names: [clavrx]         # defined as metadata in the corresponding reader
+          docstring: |                   # Pipe says to YAML this will be a multiline comment 
             CLAVR-x Cloud Top Height
-          product_defaults: Cloud-Height # See the Product Defaults section for more info
-          spec: # Variables are the neccessary variables which are needed to produce your product
+          product_defaults: Cloud-Height # see the Product Defaults section for more info
+          spec: 
+            # Variables are the required parameters needed for the product generation 
             variables: ["cld_height_acha", "latitude", "longitude"]
 
-To use your product that you just created, you'll need to create a bash script that
-implements ``run_procflow`` (run-process-workflow). This is a script which defines the
-*process-workflow* needed to generate your product. We'll keep this short for now, but you
-are able to strictly define how you want your product to be created, as well as what
-format you'd like it outputted as. You can also define the sector you'd like your data
-to be plotted on, as well as compare the output product to a validated product if wanted.
+#. To use your product that you just created, you'll need to create a bash script that
+   implements ``run_procflow`` (run-process-workflow). This script defines the
+   *process-workflow* needed to generate your product. It can be used to specify how you want your product to be created, 
+   output format, and define the sector you'd like your data to be plotted on apart from 
+   enlisting comparison of the output product with a validated product(optional).
 
-GeoIPS is called via a command line interface (CLI). The main command that you will use is
-run_procflow which will run your data through the selected procflow using the specified
-plugins. It's easiest to do this via a script, and scripts are stored in your plugin
-package's ``tests/`` directory because they can be used later to regression test your
-package.
+GeoIPS is called via a command line interface (CLI). The primary command that you will use is
+``run_procflow`` which will process your data through the selected procflow using the specified
+plugins. Scripts are stored in your plugin package's ``tests/`` directory as they can be later used 
+for regression test of package you're developing.
 
 Creating a Script to Visualize Your Product
 -------------------------------------------
