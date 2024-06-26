@@ -31,7 +31,7 @@ Done looks like:
 .. _create-a-product1:
 
 ****************************************
-New Product Creation by Extending GeoIPS 
+New Product Creation by Extending GeoIPS
 ****************************************
 
 This section elaborates on product creation using GeoIPS. We will create three products using CLAVR-x data namely
@@ -57,7 +57,7 @@ We are now going to dive into hands-on experience by creating a product for CLAV
 
       echo $MY_PKG_DIR  : reflects merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
-#. Now, create a file called ``my_clavrx_products.yaml`` and add the following code into it 
+#. Now, create a file called ``my_clavrx_products.yaml`` and add the following code into it
 
    .. code-block:: yaml
 
@@ -72,10 +72,10 @@ We are now going to dive into hands-on experience by creating a product for CLAV
    and also defines the schema your plugin will be validated against.
 
    It is recommended to go through the definitions of the top level attributes such as ``interface``,
-   ``family``, and ``docstring`` that are required in any GeoIPS plugin. 
+   ``family``, and ``docstring`` that are required in any GeoIPS plugin.
    Click here
-   :ref:`click here <required-attributes>` 
-   (page opens in the same window) to go the related documentation. 
+   :ref:`click here <required-attributes>`
+   (page opens in the same window) to go the related documentation.
 
 #. Now we'll add the ``spec`` portion to the yaml file created in the last step to support our new product plugin.
    ``spec`` is a container for the 'specification' of your yaml plugin. In this case, it
@@ -83,40 +83,42 @@ We are now going to dive into hands-on experience by creating a product for CLAV
    property shown above, this yaml file will contain a list of products, which can be of
    length 1 if you so desire.
 
-   Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it. YAML is a whitespace-based
-   coding language, similar to Python in that aspect. 
+   Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it. YAML is a
+   whitespace-based
+   coding language, similar to Python in that aspect.
 
    .. code-block:: yaml
 
     spec:
       products:
-        - name: My-Cloud-Top-Height      # name of the product you're defining 
+        - name: My-Cloud-Top-Height      # name of the product you're defining
           source_names: [clavrx]         # defined as metadata in the corresponding reader
-          docstring: |                   # Pipe says to YAML this will be a multiline comment 
+          docstring: |                   # Pipe says to YAML this will be a multiline comment
             CLAVR-x Cloud Top Height
           product_defaults: Cloud-Height # see the Product Defaults section for more info
-          spec: 
-            # Variables are the required parameters needed for the product generation 
+          spec:
+            # Variables are the required parameters needed for the product generation
             variables: ["cld_height_acha", "latitude", "longitude"]
 
 #. To use your product that you just created, you'll need to create a bash script that
    implements ``run_procflow`` (run-process-workflow). This script defines the
-   *process-workflow* needed to generate your product. It can be used to specify how you want your product to be created, 
-   output format, and define the sector you'd like your data to be plotted on apart from 
+   *process-workflow* needed to generate your product. It can be used to specify how you want your product to be
+   created,
+   output format, and define the sector you'd like your data to be plotted on apart from
    enlisting comparison of the output product with a validated product(optional).
 
 GeoIPS is called via a command line interface (CLI). The primary command that you will use is
 ``run_procflow`` which will process your data through the selected procflow using the specified
-plugins. Scripts are stored in your plugin package's ``tests/`` directory as they can be later used 
+plugins. Scripts are stored in your plugin package's ``tests/`` directory as they can be later used
 for regression test of package you're developing.
 
 Creating a Script to Visualize Your Product
 -------------------------------------------
 
 #. Check if you have the test data for the clavrx within ``$GEOIPS_TESTDATA_DIR`` and if not run the following.
-   :: 
+   ::
 
-       $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx 
+       $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx
 
   We'll now create a test script to generate an image for the product you just created.
 
@@ -145,7 +147,8 @@ As shown above, we define which procflow we want to use, which reader,
 what product will be displayed, how to output it, which filename formatter will be used,
 the minimum coverage needed to create an output (% based), as well as the sector used to
 plot the data. Many more items can be added if wanted. If you'd like some examples of
-that, feel free to peruse the `GeoIPS Scripts Directory <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
+that, feel free to peruse the `GeoIPS Scripts Directory
+<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
 
 Once these changes have been created, we can run our test script to produce Cloud Top
 Height Imagery. To do so, run your script using the line shown below.
@@ -173,7 +176,8 @@ for My-Cloud-Base-Height.
 
 Now, edit my_clavrx_products.yaml. Here are some helpful hints:
   * The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called "cld_height_base"
-  * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if you'd like!)
+  * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if
+    you'd like!)
 
 The correct products implementation for 'my_clavrx_products.yaml' is shown below.
 Hopefully, you didn't have to make any changes after seeing this! Developing products,
@@ -245,7 +249,8 @@ Edit my_clavrx_products.yaml. Here is a helful hint to get you started:
           spec:
             variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
 
-We now have two variables, but if we examine the `Cloud-Height Product Defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
+We now have two variables, but if we examine the `Cloud-Height Product Defaults
+<https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
 we see that it uses the ``single_channel`` algorithm. This doesn't work for our use case,
 since the ``single_channel`` algorithm just manipulates a single data variable and
 plots it. Therefore, we need a new algorithm! See the
