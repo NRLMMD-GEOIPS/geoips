@@ -113,7 +113,12 @@ for regression test of package you're developing.
 Creating a Script to Visualize Your Product
 -------------------------------------------
 
-We'll now create a test script to generate an image for the product you just created.
+#. Check if you have the test data for the clavrx within ``$GEOIPS_TESTDATA_DIR`` and if not run the following.
+   :: 
+
+       $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx 
+
+  We'll now create a test script to generate an image for the product you just created.
 
 #. Change directories into your scripts directory.
    ::
@@ -123,18 +128,18 @@ We'll now create a test script to generate an image for the product you just cre
 #. Create a bash bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it
    to include the codeblock below.
 
-.. code-block:: bash
+   .. code-block:: bash
 
-    run_procflow \
-        $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-        --procflow single_source \
-        --reader_name clavrx_hdf4 \
-        --product_name My-Cloud-Top-Height \
-        --output_formatter imagery_annotated \
-        --filename_formatter geoips_fname \
-        --minimum_coverage 0 \
-        --sector_list conus
-    ss_retval=$?
+       run_procflow \
+           $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
+           --procflow single_source \
+           --reader_name clavrx_hdf4 \
+           --product_name My-Cloud-Top-Height \
+           --output_formatter imagery_annotated \
+           --filename_formatter geoips_fname \
+           --minimum_coverage 0 \
+           --sector_list conus
+       ss_retval=$?
 
 As shown above, we define which procflow we want to use, which reader,
 what product will be displayed, how to output it, which filename formatter will be used,
