@@ -52,8 +52,6 @@ Install Conda
 
   .. code:: bash
 
-      # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-      # wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
       wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
 
 - Make the install script executable and run the installer,
@@ -105,7 +103,7 @@ If you want to install GeoIPS with all optional dependencies, you can use:
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
+    pip install "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
 The optional dependencies are:
 
@@ -140,10 +138,26 @@ Optional
 * ``pdflatex`` (optional, for building pdf documentation)
 * Test data repos can be installed in `$GEOIPS_TESTDATA_DIR`
 
+Debian
+""""""
+
+.. code:: bash
+
+    sudo apt-get install git make libopenblas-dev python3
+    sudo apt-get install gfortran gcc g++ pdflatex gdal-bin libgdal-dev texlive-latex-base
+
 Development
 -----------
 
-[TODO]
+The installation steps for developers are the same as for normal and/or expert users, except for one step.
+
+When installing geoips, please install all the extras and install in **editable** mode so that changes to the code are
+immediately reflected in the installed package. Eg.
+
+.. code:: bash
+
+    # Ensure geoips python environment enabled before installing geoips
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
 See the [ADDING FUNCTIONALITY] page for more details on how to contribute to GeoIPS.
 
@@ -168,6 +182,8 @@ The Docker image can be run with the following command:
     docker run -it geoips   # Run the container in interactive mode
 
 Right now, the Docker image is only used for development and testing.
+
+We suggest mounting in a data directory so your containers don't get too large.
 
 If you are interested in using the Docker build
 for production or plugin development, please reach
