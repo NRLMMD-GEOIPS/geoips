@@ -56,7 +56,7 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"                          # object used to perform the build process
 
 [tool.poetry.dependencies] # must download to run
-python = ">=3.9"       # mandatory to declare the required python version
+python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = "*"          # Base requirement
 numpy = "*"            # Base requirement
@@ -64,7 +64,7 @@ pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
-xarray = "<2024.3"           # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
+xarray = "<2024.3"     # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
 cartopy = ">=0.22.0"   # No longer requires libgeos
 ephem = "*"            # Required for overpass predictor
@@ -93,6 +93,7 @@ pydata-sphinx-theme = { version = "*", optional = true }
 sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
+m2r2 = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
@@ -116,10 +117,11 @@ ipython = { version = "*", optional = true }
 
 [tool.poetry.extras]
 doc = [
-    "pydata-sphinx-theme", # Required for building documentation
-    "sphinx",              # Required for building documentation, v7.2 errors
-    "sphinx-design",       # Required for building documentation
+    "pydata-sphinx-theme",       # Required for building documentation
+    "sphinx",                    # Required for building documentation, v7.2 errors
+    "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
+    "m2r2", 	# Required for rendering markdown into RST-based documentation
 ]
 lint = [
     "bandit",                # Syntax/security checking
@@ -150,7 +152,7 @@ geoips = "geoips"
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
 create_sector_image = "geoips.commandline.create_sector_image:main"
 list_available_plugins = "geoips.commandline.list_available_plugins:main"
-run_procflow = "geoips.commandline.run_procflow:main"
+run_procflow = "geoips.commandline.commandline_interface:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 create_plugin_registries = "geoips.create_plugin_registries:main"

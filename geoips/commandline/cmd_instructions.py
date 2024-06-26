@@ -52,7 +52,7 @@ def get_cmd_instructions(ancillary_dirname=None):
     """Return a dictionary of instructions for each command, obtained by a yaml file.
 
     This has been placed as a module attribute so we don't perform this process for
-    every CLI sub-command. It was taking too long to initialize the CLI and this was a
+    every CLI command. It was taking too long to initialize the CLI and this was a
     large partof that. See
     https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for more
     information.
@@ -70,7 +70,7 @@ def get_cmd_instructions(ancillary_dirname=None):
     Returns
     -------
     cmd_instructions: dict
-        - Dictionary of help instructions for every CLI sub-command
+        - Dictionary of help instructions for every CLI command
     """
     if ancillary_dirname is None or not isinstance(ancillary_dirname, str):
         # use the default command instructions

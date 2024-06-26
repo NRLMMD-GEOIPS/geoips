@@ -10,10 +10,10 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetFamily(BaseCliTest):
-    """Unit Testing Class for Get Family Sub-Command."""
+    """Unit Testing Class for Get Family Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of every possible call signature for the GeoipsGetFamily command.
 
         This includes failing cases as well.
@@ -84,10 +84,10 @@ test_sub_cmd = TestGeoipsGetFamily()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips get family ...' commands.
 
     This test covers every valid combination of commands for the 'geoips get family'
@@ -99,4 +99,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'get', 'family'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)
