@@ -205,3 +205,28 @@ jobs:
             echo "::error::due to bandit violations, return code ${ret}"
             exit 1
           fi
+
+  lint_doc8:
+    runs-on: ${{ vars.RUNNER }}
+    needs: build_doclinttest_image
+    container:
+      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      credentials:
+        username: ${{ secrets.GHCR_USER }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Run doc8
+        shell: bash -l {0}
+        run: |
+          echo "::group::doc8_analysis"
+          echo "Doc8 analysis of code"
+          doc8 --max-line-length=120 ./docs/source/new-docs/
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to doc8 violations, return code ${ret}"
+            exit 1
+          fi
