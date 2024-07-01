@@ -34,21 +34,21 @@ Done looks like:
 Product Creation by Extending GeoIPS
 ****************************************
 
-This tutorial elaborates on product creation using GeoIPS. We will create three products 
-using CLAVR-x: **Cloud-Top-Height**, **Cloud-Base-Height**, and **Cloud-Depth**. Products 
+This tutorial elaborates on product creation using GeoIPS. We will create three products
+using CLAVR-x: **Cloud-Top-Height**, **Cloud-Base-Height**, and **Cloud-Depth**. Products
 are the cornerstone plugin for GeoIPS, as they define how to produce a specific product as
 a combination of other plugins. Products use other plugins, such as an algorithm, colormapper,
 interpolater, etc. to generate the intended output.
 
 GeoIPS is almost entirely composed of plugins and can be extended by developing new plugins in
-external python packages. The ability to extend GeoIPS using plugins means that there is no 
-need to edit the main GeoIPS code to add new functionality.  Most types of functionality in 
-GeoIPS can be extended. If you encounter something that you would like to be able to extend 
+external python packages. The ability to extend GeoIPS using plugins means that there is no
+need to edit the main GeoIPS code to add new functionality.  Most types of functionality in
+GeoIPS can be extended. If you encounter something that you would like to be able to extend
 but are unable to, please contact the GeoIPS team or create an issue on GitHub.
 
 Developing a new plugin for GeoIPS requires developing a new Python package that GeoIPS
 terms a "plugin package". The plugin package can contain one or more plugins. It is
-configured in a special way such that, when it is installed, it registers itself and its plugins 
+configured in a special way such that, when it is installed, it registers itself and its plugins
 with GeoIPS.
 
 .. _plugin-vocabulary:
@@ -58,8 +58,8 @@ GeoIPS Plugin Vocabulary
 
 Plugin
 ------
-A GeoIPS plugin is used to develop a new product by using/extending GeoIPS through a Python module or a 
-YAML file. By product we mean development of a new functionality using GeoIPS as a base. 
+A GeoIPS plugin is used to develop a new product by using/extending GeoIPS through a Python module or a
+YAML file. By product we mean development of a new functionality using GeoIPS as a base.
 The type (Python module / YMAL) of the product plugin is determined by its interface.
 
 Plugins are stored in installable Python packages that register their payload with
@@ -67,7 +67,7 @@ GeoIPS through the use of
 `entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
 
 #. Module-based Plugin
-   
+
    A module-based plugin is a plugin that extends GeoIPS by adding new
    functionality that is capable of performing an action (e.g. apply an algorithm,
    read data, apply formatting, etc.).  Module-based plugins are defined as a
@@ -77,26 +77,26 @@ GeoIPS through the use of
    formatters.
 
 #. YAML-based Plugin
-   
+
    A YAML-based plugin is a plugin that extends GeoIPS by adding a new set of
    static configuration options for GeoIPS.  Examples of YAML-based plugins include
    ``sectors``, ``products``, and ``feature-annotators``.
 
 .. _required-attributes:
 
-Plugin Attributes: 
+Plugin Attributes:
 ------------------
 
-The following are the top level attributes required while defining a new product plugin: 
+The following are the top level attributes required while defining a new product plugin:
 
 #. Interface
-   
+
    An ``interface`` defines a class of GeoIPS plugins that extend the same type of
    functionality within GeoIPS. For example, some commonly used interfaces include the
    ``algorithms``, ``colormappers``, and ``sectors`` interfaces.
 
 #. Family
-   
+
    A ``family`` is a subset of an interface's plugins which accept specific sets of
    arguments/properties. Module-based plugins of the same ``family`` have similar call
    signatures. YAML-based plugins of the same ``family`` are validated against the same
@@ -111,51 +111,52 @@ The following are the top level attributes required while defining a new product
    you will be able to see what each plugin does provided the ``docstring`` for that plugin
    is filled.
 
-
 .. _plugin-development-setup:
 
 Product Plugin Development Initial Setup
 ****************************************
 
-Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initial setup done: 
+Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initial setup done:
 
-#. To develop a new GeoIPS plugin, install :ref:`GeoIPS<linux-installation>` and make sure that 
-   you have ``geoips`` Python environment enabled throughout this tutorial using 
-   
-   .. code-block:: shell
-    
-    mamba activate geoips # activating python envrionment 
-
-  
-   You will know if geoips environment is enabled if it shows up ahead of your username in your command prompt. 
-
-#. Next, let's install GeoIPS CLAVR-x package and test the installation. This is needed as we are developing products for GeoIPS CLAVR-x. 
+#. To develop a new GeoIPS plugin, install :ref:`GeoIPS<linux-installation>` and make sure that
+   you have ``geoips`` Python environment enabled throughout this tutorial using
 
    .. code-block:: shell
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx # download the remote repository
-    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx # installing the geoips_clavrx 
+    mamba activate geoips # activating python envrionment
 
+   You will know if geoips environment is enabled if it shows up ahead of your username in your command prompt.
 
-    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx      # Install the clavrx test data repo
-    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # Run tests to verify geoips-clavrx installation 
+#. Next, let's install GeoIPS CLAVR-x package and test the installation. This is needed as we are developing products
+for GeoIPS CLAVR-x.
+
+   .. code-block:: shell
+
+    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx # download the remote
+    repository
+    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx # installing the geoips_clavrx
+
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx      # Install the clavrx
+    test data repo
+    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # Run tests to verify geoips-clavrx installation
 
 #. Now, set the following additonal environment variables which are specific to your product plugin development
-   
+
    .. code-block:: shell
-    
-      export MY_PKG_NAME=<your package name>    #read the note below for your package name,   
+
+      export MY_PKG_NAME=<your package name>    #read the note below for your package name,
       export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME    #your package directory
       export MY_PKG_URL=<your package’s URL on version control platform(GitLab)> #your package VCS url
 
    .. NOTE::
     Choose a name for your package making sure that it is in lower case, starting with a letter,
-    and only contains letters, numbers, and underscores. 
+    and only contains letters, numbers, and underscores.
 
-#. Navigate to your product plugin directory and clone the example repository of customized plugin development, `Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_
-   that would guide us through the process of creating a new plugin package containing one or more custom plugins. 
+#. Navigate to your product plugin directory and clone the example repository of customized plugin development,
+`Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_
+   that would guide us through the process of creating a new plugin package containing one or more custom plugins.
 
-   .. code-block:: shell 
+   .. code-block:: shell
 
       cd $GEOIPS_PACKAGES_DIR         #Go to your package directory
       git clone --no-tags --single-branch $GEOIPS_REPO_URL/template_basic_plugin.git
@@ -163,68 +164,70 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
    .. NOTE::
     If you're not able to move into the directory listed in the above code-block. Verify if the values of
     environment variable(s) is/are set using the command shown below otherwise check the step three again
-    and if needed take help, we will be using these environment variables again in the development 
+    and if needed take help, we will be using these environment variables again in the development
 
     .. code-block:: shell
 
-      echo $MY_PKG_NAME : should reflect your package name 
-      echo $MY_PKG_DIR  : should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME 
+      echo $MY_PKG_NAME : should reflect your package name
+      echo $MY_PKG_DIR  : should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
-#.  Owning tutorial template package: change it's name, set the git branch to main, change it's remote repo URL, and push  
-  
+#.  Owning tutorial template package: change it's name, set the git branch to main, change it's remote repo URL, and
+push
+
     .. code-block:: shell
-       
+
        mv template_basic_plugin/ $MY_PKG_NAME
        cd $MY_PKG_NAME
        git remote set-url origin $MY_PKG_URL
        git branch -m main
        git push -u origin main
 
-#. Navigate to your Plugins directory and look around. Also, we will change the repo name from ``my_package`` to your own package name  
+#. Navigate to your Plugins directory and look around. Also, we will change the repo name from ``my_package`` to your
+own package name
 
    .. code-block:: shell
 
       cd $MY_PKG_DIR
-      git mv my_package $MY_PACKAGE_NAME 
+      git mv my_package $MY_PACKAGE_NAME
 
-#. Update Pertinent files 
+#. Update Pertinent files
 
    #. Installing a Python package requires metadata that describes the package and how to
-      install it. GeoIPS uses ``pyproject.toml`` to define this information. Open ``pyproject.toml``  
-      in your ``$MY_PKG_DIR`` and replace the following: 
+      install it. GeoIPS uses ``pyproject.toml`` to define this information. Open ``pyproject.toml``
+      in your ``$MY_PKG_DIR`` and replace the following:
 
       * Update ``@package@`` to your package name.
       * Update ``my_package`` to your package name.
-   
-   #. Update README.md 
+
+   #. Update README.md
 
       * Find and replace all occurrences of @package@ with your package name
 
    #. Add, commit, and push your changes
 
-      .. code-block:: shell 
-        
+      .. code-block:: shell
+
          git add README.md pyproject.toml
          git commit -m "Updated name of template plugin package to mine"
          git push
-   
 
 Plugin Product Custom Definition & Development
 ***********************************************
 
 Now that initial setup is done, we will first start with installing your bare bones version of your plugin.
-After that we will go hands on in creating a product CLAVR-x Cloud-Top-Height.  
+After that we will go hands on in creating a product CLAVR-x Cloud-Top-Height.
 
 We are now going to dive into hands-on experience by creating a product for CLAVR-x Cloud-Top-Height:
 
-#. Install your package using the command below. The flag -e means “editable” which lets us edit the package after it is installed. 
-   The subsequent edits will be reflected in the installed package 
-   
+#. Install your package using the command below. The flag -e means “editable” which lets us edit the package after it is
+installed.
+   The subsequent edits will be reflected in the installed package
+
    .. code-block:: python
 
-      pip install -e .  # remember there is a period character at the end 
+      pip install -e .  # remember there is a period character at the end
 
-#. Copy the template product plugin definition file to new file to modify: 
+#. Copy the template product plugin definition file to new file to modify:
 
    .. code-block:: shell
 
@@ -233,11 +236,11 @@ We are now going to dive into hands-on experience by creating a product for CLAV
 
 #. Navigate to your product plugins directory and create a file called ``my_clavrx_products.yaml``
 
-   .. code-block:: shell 
+   .. code-block:: shell
 
       cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-      touch ``my_clavrx_products.yaml`` 
-      
+      touch ``my_clavrx_products.yaml``
+
 #. Now, create a file called ``my_clavrx_products.yaml`` and add the following code into it
 
    .. code-block:: yaml
@@ -258,7 +261,7 @@ We are now going to dive into hands-on experience by creating a product for CLAV
    :ref:`click here <required-attributes>`
    (page scrolls up) to go the related documentation.
 
-Cloud Top Height Product: 
+Cloud Top Height Product:
 -------------------------
 
 Now we'll add the ``spec`` portion to the yaml file created in the last step to support our new product plugin.
@@ -283,7 +286,6 @@ whitespace-based coding language, similar to Python in that aspect.
             # Variables are the required parameters needed for the product generation
             variables: ["cld_height_acha", "latitude", "longitude"]
 
-
 Script to Visualize Your Product
 --------------------------------
 
@@ -303,9 +305,8 @@ for regression test of package you're developing.
 
        $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx
 
-  
-
-#. We'll now create a test script to generate an image for the product you just created. Change directories into your scripts directory.
+#. We'll now create a test script to generate an image for the product you just created. Change directories into your
+scripts directory.
    ::
 
         cd $MY_PKG_DIR/tests/scripts
@@ -333,9 +334,9 @@ for regression test of package you're developing.
    that, feel free to peruse the `GeoIPS Scripts Directory
    <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
 
-#. Run your test script as shown below to produce Cloud Top Height Imagery:  
+#. Run your test script as shown below to produce Cloud Top Height Imagery:
    ::
-    
+
         $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
 
 This will write some log output. If your script succeeded it will end with INTERACTIVE:
@@ -350,8 +351,7 @@ but what if we want to extend our plugin to produce Cloud Base Height? What abou
 Depth? Using the method shown above, we're going to extend our my_clavrx_products.yaml
 to produce just that.
 
-
-Cloud Base Height Product: 
+Cloud Base Height Product:
 --------------------------
 
 Using your definition of My-Cloud-Top-Height as an example, create a product definition
@@ -393,7 +393,7 @@ and other types of plugins should be somewhat intuitive after completing this tu
           spec:
             variables: ["cld_height_base", "latitude", "longitude"]
 
-Cloud Depth Product: 
+Cloud Depth Product:
 --------------------
 
 Now that we have products for both Cloud Top Height and Cloud Base Height, we can
