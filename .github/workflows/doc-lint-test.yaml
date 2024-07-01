@@ -110,6 +110,7 @@ jobs:
       - name: Run build html
         run: |
           echo "Build html docs"
+          echo $PWD
           # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
           # using standard github actions variables
           curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
