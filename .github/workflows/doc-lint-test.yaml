@@ -79,8 +79,8 @@ jobs:
             ${{ env.IMAGE_NAME }}:${{ github.sha }}
             ${{ env.IMAGE_NAME }}:buildcache
           file: "Dockerfile"
-          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
-          cache-to: type=inline
+          cache-from: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache
+          cache-to: type=registry,ref=ghcr.io/${{ github.repository }}:buildcache,mode=max
 
       # This is used for building docs, linting, and testing other plugins
       - name: Push additional tag if on main branch
@@ -197,7 +197,7 @@ jobs:
         run: |
           echo "::group::bandit_analysis"
           echo "BANDIT analysis of code"
-          ./tests/utils/check_code.sh bandit ./geoips_plugin_repo
+          ./tests/utils/check_code.sh bandit ./
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
