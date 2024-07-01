@@ -1,4 +1,4 @@
-FROM python:3.10-slim-bullseye
+FROM python:3.10-slim-bullseye as base
 
 RUN apt-get update && apt-get -y upgrade
 # RUN apt-get install -y wget git libopenblas-dev imagemagick g++ make
@@ -51,10 +51,11 @@ RUN pip install --no-cache-dir -U pip
 #     && pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips" \
 #     && create_plugin_registries
 
+FROM base AS doclinttest
 # Shouldn't need to set this just for install of base package...
 # It looks like the make_dirs function should be moved out of base_paths.py
 ARG GEOIPS_OUTDIRS=/output
 ENV GEOIPS_OUTDIRS=${GEOIPS_OUTDIRS}
-COPY . .
-RUN pip install --no-cache-dir . \
+COPY --chown=root:root . .
+RUN pip install --no-cache-dir .[doc,lint,test] \
     && create_plugin_registries
