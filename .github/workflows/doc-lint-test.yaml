@@ -89,6 +89,9 @@ jobs:
           docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest
           docker push ${IMAGE_NAME}:doclinttest
 
+#################################################
+# Documentation builds
+#################################################
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
@@ -123,5 +126,82 @@ jobs:
           ret=$?
           if [[ "${ret##*:}" != *"0"* ]]; then
             echo "::error::Building html docs ${ret##*:}"
+            exit 1
+          fi
+
+# This job does not currently work because latex is not installed in the image. I think
+# that to get this job working would only require installing texlive-base but other
+# texlive packages might also be required.
+#
+# Additionally, this job is extremely slow. Building the PDF documentation is time
+# consuming and should probably only be run on releases. Building the HTML documentation
+# should be enough to catch any problems that crop up.
+#
+#   build_sphinx_pdf:
+#     runs-on: ${{ vars.RUNNER }}
+#     needs: build_doclinttest_image
+#     container:
+#       image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+#       credentials:
+#         username: ${{ secrets.GHCR_USER }}
+#         password: ${{ secrets.GHCR_TOKEN }}
+#     steps:
+#       - name: Checkout code
+#         uses: actions/checkout@v4
+#
+#       - name: Configure Git safe directory
+#         run: git config --global --add safe.directory $PWD
+#
+#       - name: Install geoips documentation packages
+#         run: pip install -e .[doc]
+#
+#       - name: Run build pdf
+#         run: |
+#           echo "Build pdf docs"
+#           # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
+#           # using standard github actions variables
+#           curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
+#           # Call build_docs.sh from the geoips default branch
+#           # Pass in
+#           #   the path to the current plugin repo,
+#           #   the name of the current repo,
+#           #   "pdf_only" to indicate producing only pdf output, and
+#           #   the path to the docs template directory in the geoips default branch.
+#           ./docs/build_docs.sh . $curr_repo pdf_only ./docs
+#           ret=$?
+#           if [[ "${ret##*:}" != *"0"* ]]; then
+#             echo "::error::Building pdf docs ${ret##*:}"
+#             exit 1
+#           fi
+
+#################################################
+# Linting
+#################################################
+  lint_bandit:
+    runs-on: ${{ vars.RUNNER }}
+    needs: build_doclinttest_image
+    container:
+      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      credentials:
+        username: ${{ secrets.GHCR_USER }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # - name: Configure Git safe directory
+      #   run: git config --global --add safe.directory $PWD
+
+      - name: Run bandit
+        shell: bash -l {0}
+        run: |
+          echo "::group::bandit_analysis"
+          echo "BANDIT analysis of code"
+          ./geoips_default_branch/tests/utils/check_code.sh bandit ./geoips_plugin_repo
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to bandit violations, return code ${ret}"
             exit 1
           fi
