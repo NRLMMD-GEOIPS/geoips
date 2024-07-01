@@ -243,7 +243,7 @@ jobs:
         run: |
           echo "::group::flake8_analysis"
           echo "FLAKE8 analysis of code"
-          ./geoips_default_branch/tests/utils/check_code.sh flake8 .
+          ./tests/utils/check_code.sh flake8 .
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
