@@ -110,7 +110,6 @@ jobs:
       - name: Run build html
         run: |
           echo "Build html docs"
-          echo $PWD
           # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
           # using standard github actions variables
           curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
@@ -120,7 +119,7 @@ jobs:
           #   the name of the current repo,
           #   "html_only" to indicate producing only html output, and
           #   the path to the docs template directory in the geoips default branch.
-          ./geoips_default_branch/docs/build_docs.sh ./geoips_plugin_repo $curr_repo html_only ./geoips_default_branch/docs
+          ./docs/build_docs.sh . $curr_repo html_only ./docs
           ret=$?
           if [[ "${ret##*:}" != *"0"* ]]; then
             echo "::error::Building html docs ${ret##*:}"
