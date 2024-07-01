@@ -197,7 +197,7 @@ jobs:
         run: |
           echo "::group::bandit_analysis"
           echo "BANDIT analysis of code"
-          ./geoips_default_branch/tests/utils/check_code.sh bandit ./geoips_plugin_repo
+          ./tests/utils/check_code.sh bandit ./geoips_plugin_repo
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
