@@ -1,7 +1,7 @@
 :orphan:
 
-2023 Tutorial
-=============
+Documentation for Product Pluign Development by Extending GeoIPS
+=================================================================
 
 Assigned to: Kumar
 Due for review: June 3rd
@@ -28,7 +28,6 @@ Done looks like:
 
  - A PR from your feature branch to ``main`` 😊
 
-.. .. _create-a-product1:
 .. _plugin-extend:
 
 ****************************************
@@ -36,7 +35,7 @@ Product Creation by Extending GeoIPS
 ****************************************
 
 This tutorial elaborates on product creation using GeoIPS. We will create three products 
-using CLAVR-x data namely Cloud-Top-Height, Cloud-Base-Height, and Cloud-Depth. Products 
+using CLAVR-x: **Cloud-Top-Height**, **Cloud-Base-Height**, and **Cloud-Depth**. Products 
 are the cornerstone plugin for GeoIPS, as they define how to produce a specific product as
 a combination of other plugins. Products use other plugins, such as an algorithm, colormapper,
 interpolater, etc. to generate the intended output.
@@ -121,27 +120,40 @@ Product Plugin Development Initial Setup
 Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initial setup done: 
 
 #. To develop a new GeoIPS plugin, install :ref:`GeoIPS<linux-installation>` and make sure that 
-   you have ``geoips`` environment enabled through ``mamba activate geoips`` or ``conda activate geoips``
-
-#. Choose a name for your package making sure that it is in lower case, starting with a letter,
-   and only contains letters, numbers, and underscores
-
-   .. NOTE::
-    From here on, anywhere ``@package@`` is used should be replaced with your chosen package
-    name.
-
-#. Set the following additonal environment variables which are specific to plugin development
+   you have ``geoips`` Python environment enabled throughout this tutorial using 
    
    .. code-block:: shell
     
-      export MY_PKG_NAME=<your package name>    #your package name  
+    mamba activate geoips # activating python envrionment 
+
+  
+   You will know if geoips environment is enabled if it shows up ahead of your username in your command prompt. 
+
+#. Next, let's install GeoIPS CLAVR-x package and test the installation. This is needed as we are developing products for GeoIPS CLAVR-x. 
+
+   .. code-block:: shell
+
+    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx # download the remote repository
+    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx # installing the geoips_clavrx 
+
+
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx      # Install the clavrx test data repo
+    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # Run tests to verify geoips-clavrx installation 
+
+#. Now, set the following additonal environment variables which are specific to your product plugin development
+   
+   .. code-block:: shell
+    
+      export MY_PKG_NAME=<your package name>    #read the note below for your package name,   
       export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME    #your package directory
       export MY_PKG_URL=<your package’s URL on version control platform(GitLab)> #your package VCS url
 
-#. An example repository `Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_
-   is provided that can guide you through the process of creating a new plugin package
-   containing one or more custom plugins. We will be cloning this template repository now after
-   navigating to your product plugin directory
+   .. NOTE::
+    Choose a name for your package making sure that it is in lower case, starting with a letter,
+    and only contains letters, numbers, and underscores. 
+
+#. Navigate to your product plugin directory and clone the example repository of customized plugin development, `Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_
+   that would guide us through the process of creating a new plugin package containing one or more custom plugins. 
 
    .. code-block:: shell 
 
@@ -158,7 +170,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
       echo $MY_PKG_NAME : should reflect your package name 
       echo $MY_PKG_DIR  : should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME 
 
-#.  Rename your package, change it's branch to main, change it's URL and push to remote repo 
+#.  Owning tutorial template package: change it's name, set the git branch to main, change it's remote repo URL, and push  
   
     .. code-block:: shell
        
@@ -168,8 +180,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
        git branch -m main
        git push -u origin main
 
-#. Navigate to your Product Plugins Directory and look around. Also, we will change the repo name 
-   from ``my_package`` to your own package name  
+#. Navigate to your Plugins directory and look around. Also, we will change the repo name from ``my_package`` to your own package name  
 
    .. code-block:: shell
 
@@ -198,9 +209,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
          git push
    
 
-   We, additionally, make GeoIPS aware of plugin packages using ``entry-points``.
-
-Product Plugin Custom Definition & Development
+Plugin Product Custom Definition & Development
 ***********************************************
 
 Now that initial setup is done, we will first start with installing your bare bones version of your plugin.
@@ -252,17 +261,16 @@ We are now going to dive into hands-on experience by creating a product for CLAV
 Cloud Top Height Product: 
 -------------------------
 
-#. Now we'll add the ``spec`` portion to the yaml file created in the last step to support our new product plugin.
-   ``spec`` is a container for the 'specification' of your yaml plugin. In this case, it
-   contains a list of ``products``, as shown below. Denoted by the ``family: list``
-   property shown above, this yaml file will contain a list of products, which can be of
-   length 1 if you so desire.
+Now we'll add the ``spec`` portion to the yaml file created in the last step to support our new product plugin.
+``spec`` is a container for the 'specification' of your yaml plugin. In this case, it
+contains a list of ``products``, as shown below. Denoted by the ``family: list``
+property shown above, this yaml file will contain a list of products, which can be of
+length 1 if you so desire.
 
-   Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it. YAML is a
-   whitespace-based
-   coding language, similar to Python in that aspect.
+Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it. YAML is a
+whitespace-based coding language, similar to Python in that aspect.
 
-   .. code-block:: yaml
+  .. code-block:: yaml
 
     spec:
       products:
@@ -276,8 +284,8 @@ Cloud Top Height Product:
             variables: ["cld_height_acha", "latitude", "longitude"]
 
 
-Creating a Script to Visualize Your Product
-*******************************************
+Script to Visualize Your Product
+--------------------------------
 
 GeoIPS is called via a command line interface (CLI). The primary command that you will use is
 ``run_procflow`` which will process your data through the selected procflow using the specified
