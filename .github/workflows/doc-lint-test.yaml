@@ -1,0 +1,127 @@
+# Builds an image that contains GeoIPS built with `pip install .[doc,lint,test]`
+name: Build Documentation, Lint, and Test
+
+defaults:
+  run:
+    shell: bash
+
+on:
+  # Triggers when code is pushed to "main" branch
+  # This should only happen when PRs are merged
+  push:
+    branches:
+      - main
+
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+
+  # Triggers when a new release is created
+  release:
+    types:
+      - published
+
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+
+env:
+  REGISTRY: ghcr.io
+
+jobs:
+  build_doclinttest_image:
+    runs-on: ${{ vars.RUNNER }}
+    # Can't write to registry without this
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      IMAGE_NAME: ${{ steps.set_image_name.outputs.IMAGE_NAME }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup BuildX
+        uses: docker/setup-buildx-action@v3
+
+      - name: Set the image name
+        id: set_image_name
+        run: |
+          image_name=${REGISTRY}/${GITHUB_REPOSITORY,,}
+          echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
+
+      - name: Login to the Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.GHCR_USER }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
+      # This cache allows the second push below when on the main branch
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
+
+      - name: Build and Push image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: doclinttest
+          push: true
+          tags: |
+            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.IMAGE_NAME }}:buildcache
+          file: "Dockerfile"
+          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
+          cache-to: type=inline
+
+      # This is used for building docs, linting, and testing other plugins
+      - name: Push additional tag if on main branch
+        if: github.ref == 'refs/heads/main'
+        run: |
+          docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest
+          docker push ${IMAGE_NAME}:doclinttest
+
+  build_sphinx_html:
+    runs-on: ${{ vars.RUNNER }}
+    needs: build_doclinttest_image
+    container:
+      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      credentials:
+        username: ${{ secrets.GHCR_USER }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+
+      - name: Install geoips documentation packages
+        run: pip install -e .[doc]
+
+      - name: Run build html
+        run: |
+          echo "Build html docs"
+          # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
+          # using standard github actions variables
+          curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
+          # Call build_docs.sh from the geoips default branch
+          # Pass in
+          #   the path to the current plugin repo,
+          #   the name of the current repo,
+          #   "html_only" to indicate producing only html output, and
+          #   the path to the docs template directory in the geoips default branch.
+          ./geoips_default_branch/docs/build_docs.sh ./geoips_plugin_repo $curr_repo html_only ./geoips_default_branch/docs
+          ret=$?
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::Building html docs ${ret##*:}"
+            exit 1
+          fi
