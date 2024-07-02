@@ -293,6 +293,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
       - name: Pip install package
         run: pip install -v .
       - name: create_plugin_registries
