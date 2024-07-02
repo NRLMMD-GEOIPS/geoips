@@ -1,6 +1,5 @@
 :orphan:
 
-
 Installing
 ==========
 
@@ -37,8 +36,8 @@ default shell configuration file (which is typically stored in
     echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
     echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
 
-Conda
------
+Install Dependencies with Conda
+-------------------------------
 
 Conda is a package and virtual environment manager that can
 be used to install the dependencies of GeoIPS.
@@ -48,8 +47,8 @@ We recommend using Conda if you are new to GeoIPS, programming or Python.
 If you are an expert user, you may want to use the manual
 or Docker installation methods.
 
-Install Conda
-^^^^^^^^^^^^^
+Get Conda
+^^^^^^^^^
 
 - Download the appropriate version of `Conda
   <https://www.anaconda.com/download#downloads>`_,  `Miniconda
@@ -61,6 +60,9 @@ Install Conda
   .. code:: bash
 
       wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+
+  To find your specific version, visit the `Miniforge/Mambaforge github page
+  <https://github.com/conda-forge/miniforge/releases/>`_.
 
 - Make the install script executable and run the installer,
   following the prompts. Eg.:
@@ -89,17 +91,57 @@ requirements for GeoIPS.
 Activate the conda environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-You will need to run ``mamba activate geoips``
-every time you want to run or work on GeoIPS.
+You will need to run ``mamba activate geoips`` (or ``conda activate geoips``)
+every time you want to run or work on GeoIPS. Eg.
 
 .. code:: bash
 
     mamba activate geoips
 
+Install system dependencies directly
+------------------------------------
+
+If you are an expert user, you may want to install the dependencies manually. Do not do this if you already installed
+dependencies with Conda.
+
+Required
+^^^^^^^^
+
+* ``git``
+* ``openblas`` (required for scipy pip install)
+* ``make`` (required for pypublicdecompwt)
+* ``python`` >= 3.9
+
+Optional
+^^^^^^^^
+
+* ``gfortran`` (required for plugins including fortran builds)
+* ``gcc`` and ``g++`` (required for plugins including fortran or C builds, and ARM machines)
+* ``pdflatex`` (optional, for building pdf documentation)
+* ``wget`` (required for downloading test data)
+* ``make`` (optional, for building packages on ARM machines)
+* Test data repos can be installed in `$GEOIPS_TESTDATA_DIR`
+
+Debian
+^^^^^^
+
+For example, on Debian machines, you can install the optional and required dependencies like this:
+
+.. code:: bash
+
+    sudo apt-get install git make libopenblas-dev python3
+    sudo apt-get install gfortran gcc g++ pdflatex gdal-bin libgdal-dev texlive-latex-base wget make
+
 Install GeoIPS
-^^^^^^^^^^^^^^
+--------------
 
 We can use ``pip`` to install all GeoIPS Python dependencies, and GeoIPS itself.
+
+First, clone the GeoIPS git repository:
+
+.. code:: bash
+
+    git clone https://github.com/NRLMMD-GeoIPS/geoips.git $GEOIPS_PACKAGES_DIR/geoips
 
 .. code:: bash
 
@@ -122,42 +164,12 @@ The optional dependencies are:
 - ``test``: for running the tests
 - ``debug``: for debugging the code with IPython/jupyter
 
-Expert
-------
-
-If you are an expert user, you may want to install the dependencies manually.
-
-Install system dependencies
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Required
-""""""""
-
-* ``git``
-* ``openblas`` (required for scipy pip install)
-* ``make`` (required for pypublicdecompwt)
-* ``python`` >= 3.9
-
-Optional
-""""""""
-
-* ``gfortran`` (required for plugins including fortran builds)
-* ``gcc`` and ``g++`` (required for plugins including fortran or C builds)
-* ``pdflatex`` (optional, for building pdf documentation)
-* Test data repos can be installed in `$GEOIPS_TESTDATA_DIR`
-
-Debian
-""""""
-
-.. code:: bash
-
-    sudo apt-get install git make libopenblas-dev python3
-    sudo apt-get install gfortran gcc g++ pdflatex gdal-bin libgdal-dev texlive-latex-base
-
 Development
 -----------
 
 The installation steps for developers are the same as for normal and/or expert users, except for one step.
+
+Most developers use Conda installations, but any dependency management solution is fine.
 
 When installing geoips, please install all the extras and install in **editable** mode so that changes to the code are
 immediately reflected in the installed package. Eg.
