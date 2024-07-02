@@ -1,4 +1,4 @@
-    # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+    # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
     # # #
     # # # Author:
     # # # Naval Research Laboratory, Marine Meteorology Division
@@ -28,5 +28,3 @@ Somewhere within the commit message, you must include a valid Issue ID
 * ie, like NRLMMD-GEOIPS/geoips#5
 
 NRLMMD-GEOIPS/<issue_repo_name>#<issue_num>
-############################################################################
--->

@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -656,12 +656,20 @@ def call(
                             ncvar.getncattr(attrname)
                         )
 
-        xarrays[data_type].attrs["resolution_km"] = (
-            float(ncdf_file.LongName[-4:-1]) / 1000.0
-        )
+        # LongName is something like:
+        # 'VIIRS/JPSS1 Day/Night Band 6-Min L1B Swath SDR 750m NRT'
+        # or
+        # 'VIIRS/NPP Day/Night Band 6-Min L1B Swath 750m'
+        long_name_parts = ncdf_file.LongName.split(" ")
+        if long_name_parts[-1] == "NRT":
+            resolution_m = long_name_parts[-2]
+        else:
+            resolution_m = long_name_parts[-1]
+        resolution_m = int(resolution_m.replace("m", ""))
+        LOG.info("Resolution: %s", resolution_m)
+        xarrays[data_type].attrs["resolution_km"] = resolution_m / 1000.0
 
         # close the files
-
         ncdf_file.close()
 
     # Geolocation resampling

@@ -3,10 +3,10 @@
 name = "geoips"                                          # geoips package available at the root of the project
 version = "0.0.0"                                        # 0.0.0 will be auto-updated with poetry dynamic versioning!
 description = "Geolocated Information Processing System"
-authors = ["Tom <tom.jerry@colostate.edu>"]
+authors = ["GeoIPS <geoips@nrlmry.navy.mil>"]
 
 # optional ones
-maintainers = ["Tom <tom.jerry@colostate.edu>"]
+maintainers = ["GeoIPS <geoips@nrlmry.navy.mil>"]
 #homepage = "set the url"   // optional
 repository = "https://github.com/NRLMMD-GEOIPS/geoips" #optional
 #documentation = "set the url"      // optional
@@ -59,7 +59,7 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = "*"          # Base requirement
-numpy = "*"            # Base requirement
+numpy = "<2.0.0"            # Base requirement
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
@@ -77,7 +77,10 @@ pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
 pyorbital = "*"        # required by satpy
 pypublicdecompwt = "*" # Required to read SEVIRI data
-rasterio = "*"         # GEOTIFF output; Pinned to <1.3.10 due to the bug mentioned in #...
+rio-cogeo = "*"        # Cloud Optimized GEOTIFF output
+rasterio = "*"   # GEOTIFF output
+                       # version <1.3.10 required for bug in geotiff_standard
+                       # Remove version requirement when bug fixed
 referencing = "*"
 satpy = "*"            # efficiency improvements >= 0.33.1
 scikit-image = "*"     # Radius based center coverage checks

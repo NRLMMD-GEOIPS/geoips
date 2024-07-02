@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -23,7 +23,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/03
           --filename_formatter geotiff_fname \
           --output_formatter geotiff_standard \
           --trackfile_parser bdeck_parser \
-          --trackfiles $GEOIPS_TESTDATA_DIR/test_data_geokompsat/sectors/bsh032024.dat \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh032024.dat \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.tc.<product>.geotiff" \
           --resampled_read
 retval=$?

@@ -1,4 +1,6 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
  | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
@@ -38,15 +40,15 @@
       merged pull request in the release notes.
 
 2. Only include headers for categories that have current updates (do NOT
-   include empty headers - if there are no "Breaking Changes" do not include the
-   "Breaking Changes" header)
+   include empty headers - if there are no "Breaking Changes" do not include
+   the "Breaking Changes" header)
 
 3. Include a list of files for each "Summary of change" section.
 
    -  Simple changes can just have the list of modified files directly
       under the “Summary of change” section, without additional details.
 
-4. Issue ID should match related linked issue, like: GEOIPS/geoips#27
+4. Issue ID should match related linked issue, like: NRLMMD-GEOIPS/geoips#27
 5. Ensure your entries are included directly in the release note file:
    docs/source/releases/vX_Y_Z.rst
 

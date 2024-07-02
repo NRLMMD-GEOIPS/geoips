@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -20,6 +20,9 @@ from geoips.interfaces.base import BaseInterface
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
 from geoips.utils.context_managers import import_optional_dependencies
+
+FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
+FAILED_INTERFACE_HEADER_POST = "interface:"
 
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"

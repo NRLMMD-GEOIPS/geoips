@@ -12,7 +12,7 @@ on:
     branches:
       - main
   # Allows run of this workflow manually from the Actions tab
-  # Must be merged to dev before it will be available to manually run.
+  # Must be merged to default before it will be available to manually run.
   workflow_dispatch:
 
 # conda command to install all the required libraries for installing geoips

@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -36,6 +36,10 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh $repopath $pkgname html_only" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ahi.tc.WV.geotiff.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.static.Infrared.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.static.Visible.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.tc.WV.geotiff.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.WV-Upper.unprojected_image.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh" \
@@ -47,9 +51,8 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/cli_dummy_script.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/geokompsat.static.Visible.imagery_annotated.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/geokompsat.tc.WV.geotiff.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \

@@ -1,3 +1,15 @@
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
+# # #
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 """Code to implement GeoipsCommand Abstract Base Class for the CLI.
 
 Will implement a plethora of commands, but for the meantime, we'll work on
@@ -7,7 +19,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 
 import abc
 import argparse
-from importlib import resources
+from importlib import metadata, resources
 import json
 from os.path import dirname
 from shutil import get_terminal_size
@@ -17,7 +29,6 @@ from tabulate import tabulate
 import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions
-from geoips.geoips_utils import get_entry_point_group
 
 
 class PluginPackages:
@@ -38,11 +49,12 @@ class PluginPackages:
         get_plugin_packages() and get_plugin_package_paths() functions.
         """
         self.entrypoints = [
-            ep.value for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
+            ep.value
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
         self.paths = [
             dirname(resources.files(ep.value))
-            for ep in sorted(get_entry_point_group("geoips.plugin_packages"))
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
 
 
