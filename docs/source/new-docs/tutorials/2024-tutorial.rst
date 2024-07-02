@@ -1,7 +1,7 @@
 :orphan:
 
 Documentation for Product Pluign Development by Extending GeoIPS
-=================================================================
+================================================================
 
 Assigned to: Kumar
 Due for review: June 3rd
@@ -30,9 +30,8 @@ Done looks like:
 
 .. _plugin-extend:
 
-****************************************
 Product Creation by Extending GeoIPS
-****************************************
+************************************
 
 This tutorial elaborates on product creation using GeoIPS. We will create three products
 using CLAVR-x: **Cloud-Top-Height**, **Cloud-Base-Height**, and **Cloud-Depth**. Products
@@ -153,8 +152,8 @@ for GeoIPS CLAVR-x.
     and only contains letters, numbers, and underscores.
 
 #. Navigate to your product plugin directory and clone the example repository of customized plugin development,
-`Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_
-   that would guide us through the process of creating a new plugin package containing one or more custom plugins.
+`Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_ that would guide us through
+the process of creating a new plugin package containing one or more custom plugins.
 
    .. code-block:: shell
 
@@ -212,7 +211,7 @@ own package name
          git push
 
 Plugin Product Custom Definition & Development
-***********************************************
+**********************************************
 
 Now that initial setup is done, we will first start with installing your bare bones version of your plugin.
 After that we will go hands on in creating a product CLAVR-x Cloud-Top-Height.
@@ -220,8 +219,7 @@ After that we will go hands on in creating a product CLAVR-x Cloud-Top-Height.
 We are now going to dive into hands-on experience by creating a product for CLAVR-x Cloud-Top-Height:
 
 #. Install your package using the command below. The flag -e means “editable” which lets us edit the package after it is
-installed.
-   The subsequent edits will be reflected in the installed package
+installed. The subsequent edits will be reflected in the installed package
 
    .. code-block:: python
 
@@ -307,7 +305,8 @@ for regression test of package you're developing.
 
 #. We'll now create a test script to generate an image for the product you just created. Change directories into your
 scripts directory.
-   ::
+
+   .. code-block:: bash
 
         cd $MY_PKG_DIR/tests/scripts
 
