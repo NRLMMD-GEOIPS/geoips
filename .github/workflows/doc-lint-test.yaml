@@ -312,3 +312,35 @@ jobs:
             exit 1
           fi
 
+  test_pytest_short:
+    runs-on: ${{ vars.RUNNER }}
+    needs: build_doclinttest_image
+    container:
+      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      credentials:
+        username: ${{ secrets.GHCR_USER }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+      - name: Pip install package
+        run: pip install -v .
+      - name: create_plugin_registries
+        run: create_plugin_registries
+      - name: Run pytest unit tests
+        run: |
+          echo "::group::pytest_unit_test"
+          echo "Pytest short unit tests of code ${PWD}/geoips_default_branch"
+          echo "which pytest"
+          which pytest
+          echo "pytest -q ./tests/unit_tests"
+          pytest -q ./tests/unit_tests
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to geoips repo pytest errors, return code ${ret}"
+            exit 1
+          fi
