@@ -301,7 +301,7 @@ jobs:
         run: create_plugin_registries
       - name: Run code check script interfaces
         run: |
-          ./geoips_default_branch/tests/utils/check_code.sh interfaces geoips
+          ./tests/utils/check_code.sh interfaces geoips
           ret=$?
           echo "::group::interface_analysis"
           echo "INTERFACES analysis of code"
