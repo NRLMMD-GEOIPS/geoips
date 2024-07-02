@@ -278,3 +278,50 @@ jobs:
             echo "::error::due to black violations, return code ${ret}"
             exit 1
           fi
+
+#################################################
+# Code tests
+#################################################
+  test_interfaces:
+    runs-on: ${{ vars.RUNNER }}
+    needs: build_doclinttest_image
+    container:
+      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      credentials:
+        username: ${{ secrets.GHCR_USER }}
+        password: ${{ secrets.GHCR_TOKEN }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Pip install package
+        run: |
+          echo "which pip"
+          which pip
+          curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
+          echo "pip uninstall -y $curr_repo"
+          pip uninstall -y $curr_repo
+          echo "pip install -v $PWD/geoips_plugin_repo"
+          pip install -v $PWD/geoips_plugin_repo
+          ret=$?
+          echo "${ret}"
+      - name: create_plugin_registries
+        run: |
+          echo "which create_plugin_registries"
+          which create_plugin_registries
+          echo "create_plugin_registries"
+          create_plugin_registries
+          ret=$?
+          echo "${ret}"
+      - name: Run code check script interfaces
+        run: |
+          $PWD/geoips_default_branch/tests/utils/check_code.sh interfaces $PWD/geoips_plugin_repo
+          ret=$?
+          echo "::group::interface_analysis"
+          echo "INTERFACES analysis of code"
+          echo "${ret}"
+          echo "::endgroup::"
+          if [[ "${ret##*:}" != *"0"* ]]; then
+            echo "::error::due to interface violations ${ret##*:}"
+            exit 1
+          fi
+
