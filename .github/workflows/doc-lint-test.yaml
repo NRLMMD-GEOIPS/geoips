@@ -47,6 +47,15 @@ jobs:
       DOCLINTTEST_TAG: ${{ steps.set_doclinttest_tag.outputs.DOCLINTTEST_TAG }}
       # The image to use for doclinttest jobs
       DOCLINTTEST_IMAGE: ${{ steps.set_doclinttest_image.outputs.DOCLINTTEST_IMAGE }}
+      # Flags for disabling various parts of the workflow
+      CI_DISABLE_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_DISABLE_BUILD_SPHINX_HTML }}
+      CI_DISABLE_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_DISABLE_BUILD_SPHINX_PDF }}
+      CI_DISABLE_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_DISABLE_LINT_BANDIT }}
+      CI_DISABLE_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_DISABLE_LINT_DOC8 }}
+      CI_DISABLE_LINT_FLAKE8: ${{ steps.get_job_flags.outputs.CI_DISABLE_LINT_FLAKE8 }}
+      CI_DISABLE_LINT_BLACK: ${{ steps.get_job_flags.outputs.CI_DISABLE_LINT_BLACK }}
+      CI_DISABLE_TEST_INTERFACES: ${{ steps.get_job_flags.outputs.CI_DISABLE_TEST_INTERFACES }}
+      CI_DISABLE_TEST_PYTEST_SHORT: ${{ steps.get_job_flags.outputs.CI_DISABLE_TEST_PYTEST_SHORT }}
     steps:
       - name: Set the image name
         id: set_image_name
@@ -72,6 +81,23 @@ jobs:
         run: |
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
+
+      - name: Get job flags
+        id: get_job_flags
+        run: |
+          flags=(CI_DISABLE_BUILD_SPHINX_HTML CI_DISABLE_BUILD_SPHINX_PDF \
+              CI_DISABLE_LINT_BANDIT CI_DISABLE_LINT_DOC8 CI_DISABLE_LINT_FLAKE8 \
+              CI_DISABLE_LINT_BLACK CI_DISABLE_TEST_INTERFACES \
+              CI_DISABLE_TEST_PYTEST_SHORT)
+          for flag in ${flags[@]}; do
+              val="${{ secrets[flag] }}"
+              if [ "$val" == "false" ]; then
+                  echo "${flag}=false" >> ${GITHUB_ENV}
+                  echo "${flag}=false" >> ${GITHUB_OUTPUT}
+              else
+                  echo "${flag}=true" >> ${GITHUB_ENV}
+                  echo "${flag}=true" >> ${GITHUB_OUTPUT}
+              fi
 
   # Build the base GeoIPS doclinttest image
   # This image is used in all subsequent tests
@@ -138,7 +164,7 @@ jobs:
 # Documentation builds
 #################################################
   build_sphinx_html:
-    if: ${{ secrets.CI_DISABLE_BUILD_SPHINX_HTML == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_BUILD_SPHINX_HTML == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
@@ -183,7 +209,7 @@ jobs:
 # should be enough to catch any problems that crop up.
 #
 #   build_sphinx_pdf:
-#     if: ${{ secrets.CI_DISABLE_BUILD_SPHINX_PDF == 'false' }}
+#     if: ${{ needs.set_variables.outputs.CI_DISABLE_BUILD_SPHINX_PDF == 'false' }}
 #     runs-on: ${{ vars.RUNNER }}
 #     needs: [build_doclinttest_image, set_variables]
 #     container:
@@ -223,7 +249,7 @@ jobs:
 # Linting
 #################################################
   lint_bandit:
-    if: ${{ secrets.CI_DISABLE_LINT_BANDIT == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_LINT_BANDIT == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
@@ -249,7 +275,7 @@ jobs:
           fi
 
   lint_doc8:
-    if: ${{ secrets.CI_DISABLE_LINT_DOC8 == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_LINT_DOC8 == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
@@ -275,7 +301,7 @@ jobs:
           fi
 
   lint_flake8:
-    if: ${{ secrets.CI_DISABLE_LINT_FLAKE8 == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_LINT_FLAKE8 == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
@@ -301,7 +327,7 @@ jobs:
           fi
 
   lint_black:
-    if: ${{ secrets.CI_DISABLE_LINT_BLACK == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_LINT_BLACK == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
@@ -332,7 +358,7 @@ jobs:
 # Code tests
 #################################################
   test_interfaces:
-    if: ${{ secrets.CI_DISABLE_TEST_INTERFACES == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_TEST_INTERFACES == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
@@ -363,7 +389,7 @@ jobs:
           fi
 
   test_pytest_short:
-    if: ${{ secrets.CI_DISABLE_TEST_PYTEST_SHORT == 'false' }}
+    if: ${{ needs.set_variables.outputs.CI_DISABLE_TEST_PYTEST_SHORT == 'false' }}
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
