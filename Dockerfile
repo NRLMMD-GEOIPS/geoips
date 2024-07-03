@@ -9,6 +9,8 @@ RUN pip install --no-cache-dir -U pip
 
 FROM base AS doclinttest
 
+WORKDIR /packages/geoips
+
 ARG GEOIPS_OUTDIRS=/output
 ENV GEOIPS_OUTDIRS=${GEOIPS_OUTDIRS}
 
