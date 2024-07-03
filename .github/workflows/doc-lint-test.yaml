@@ -412,6 +412,8 @@ jobs:
       credentials:
         username: ${{ secrets.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -421,14 +423,35 @@ jobs:
         run: pip install -v .
       - name: create_plugin_registries
         run: create_plugin_registries
+      # Run unit tests for this repo if they exist
       - name: Run pytest unit tests
         run: |
           echo "::group::pytest_unit_test"
-          echo "Pytest short unit tests of code ${PWD}/geoips_default_branch"
+          echo "Pytest short unit tests of ${CURR_REPO}""
           echo "which pytest"
           which pytest
+          if [ ! -d "./tests/unit_tests" ]; then
+            echo "No unit tests found in ${CURR_REPO}"
+            exit 0
+          fi
           echo "pytest -q ./tests/unit_tests"
           pytest -q ./tests/unit_tests
+          ret=$?
+          echo "Return code: ${ret}"
+          echo "::endgroup::"
+          if [[ "${ret}" != *"0"* ]]; then
+            echo "::error::due to geoips repo pytest errors, return code ${ret}"
+            exit 1
+          fi
+      - name: Run base GeoIPS pytest unit tests
+        if: ${{ env.CURR_REPO != "geoips" }}
+        run: |
+          echo "::group::pytest_unit_test"
+          echo "Pytest short unit tests of ${CURR_REPO} using core GeoIPS tests"
+          echo "which pytest"
+          which pytest
+          echo "pytest -q $BASE_GEOIPS_PATH/tests/unit_tests"
+          pytest -q $BASE_GEOIPS_PATH/tests/unit_tests
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
