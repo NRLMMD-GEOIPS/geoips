@@ -90,10 +90,10 @@ jobs:
               CI_DISABLE_LINT_BLACK CI_DISABLE_TEST_INTERFACES \
               CI_DISABLE_TEST_PYTEST_SHORT)
           for flag in ${flags[@]}; do
-              val="${{ secrets[flag] }}"
-              if [ "$val" == "false" ]; then
-                  echo "${flag}=false" >> ${GITHUB_ENV}
-                  echo "${flag}=false" >> ${GITHUB_OUTPUT}
+              val="${{ secrets[${flag}] }}"
+              if [ "$val" == "true" ]; then
+                  echo "${flag}=true" >> ${GITHUB_ENV}
+                  echo "${flag}=true" >> ${GITHUB_OUTPUT}
               else
                   echo "${flag}=true" >> ${GITHUB_ENV}
                   echo "${flag}=true" >> ${GITHUB_OUTPUT}
