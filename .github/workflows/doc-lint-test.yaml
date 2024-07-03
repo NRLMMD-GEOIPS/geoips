@@ -135,7 +135,7 @@ jobs:
 #################################################
   build_sphinx_html:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
@@ -179,7 +179,7 @@ jobs:
 #
 #   build_sphinx_pdf:
 #     runs-on: ${{ vars.RUNNER }}
-#     needs: build_doclinttest_image
+#     needs: [build_doclinttest_image, set_variables]
 #     container:
 #       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
 #       credentials:
@@ -218,7 +218,7 @@ jobs:
 #################################################
   lint_bandit:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
@@ -243,7 +243,7 @@ jobs:
 
   lint_doc8:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
@@ -268,7 +268,7 @@ jobs:
 
   lint_flake8:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
@@ -293,7 +293,7 @@ jobs:
 
   lint_black:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
@@ -323,7 +323,7 @@ jobs:
 #################################################
   test_interfaces:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
@@ -353,7 +353,7 @@ jobs:
 
   test_pytest_short:
     runs-on: ${{ vars.RUNNER }}
-    needs: build_doclinttest_image
+    needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
