@@ -4,7 +4,7 @@ name: Build Documentation, Lint, and Test
 env:
   # The registry that will be used to store all images
   # Override from repo or org level to use a different registry
-  REGISTRY: ghcr.io
+  DOCKER_REGISTRY: ghcr.io
   # The path to the GeoIPS package in DOCLINTTEST images
   BASE_GEOIPS_PATH: /packages/geoips
   # Allow overriding the doclinttest image tag used for plugin packages
@@ -48,7 +48,7 @@ jobs:
         id: set_image_name
         run: |
           # Create an image name using the organiztion and repository names, lowercase
-          image_name=${REGISTRY}/${GITHUB_REPOSITORY,,}
+          image_name=${DOCKER_REGISTRY}/${GITHUB_REPOSITORY,,}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
       - name: Set doclinttest image tag
@@ -97,9 +97,9 @@ jobs:
       - name: Login to the Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ env.REGISTRY }}
-          username: ${{ secrets.GHCR_USER }}
-          password: ${{ secrets.GHCR_TOKEN }}
+          registry: ${{ env.DOCKER_REGISTRY }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 
       # This cache allows the second push below when on the main branch
       - name: Cache Docker layers
@@ -139,8 +139,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     env:
       CURR_REPO: ${{ github.event.repository.name }}
     steps:
@@ -183,8 +183,8 @@ jobs:
 #     container:
 #       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
 #       credentials:
-#         username: ${{ secrets.GHCR_USER }}
-#         password: ${{ secrets.GHCR_TOKEN }}
+#         username: ${{ secrets.DOCKER_REGISTRY_USER }}
+#         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
 #     env:
 #       CURR_REPO: ${{ github.event.repository.name }}
 #     steps:
@@ -222,8 +222,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -247,8 +247,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -272,8 +272,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -297,8 +297,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -327,8 +327,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -357,8 +357,8 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.GHCR_USER }}
-        password: ${{ secrets.GHCR_TOKEN }}
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
