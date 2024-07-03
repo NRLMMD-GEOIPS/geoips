@@ -40,9 +40,8 @@ jobs:
       - name: Set the image name
         id: set_image_name
         run: |
-          image_name=${REGISTRY}/${GITHUB_REPOSITORY,,}
-          echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
-          echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
+          # Create an image name using the organiztion and repository names, lowercase
+          echo "IMAGE_NAME=${REGISTRY}/${GITHUB_REPOSITORY,,}" >> ${GITHUB_OUTPUT}
 
   # Build the base GeoIPS doclinttest image
   # This image is used in all subsequent tests
@@ -53,6 +52,7 @@ jobs:
   # from /packages/geoips.
   build_doclinttest_image:
     runs-on: ${{ vars.RUNNER }}
+    needs: set_variables
     if: ${{ github.event.repository.name == 'geoips' }}
     env:
       IMAGE_NAME: ${{ needs.set_variables.outputs.IMAGE_NAME }}
