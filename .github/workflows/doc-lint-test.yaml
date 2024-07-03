@@ -40,6 +40,8 @@ jobs:
   # Set variables that should be accessible to all jobs
   set_variables:
     runs-on: ${{ vars.RUNNER }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
     outputs:
       # The name of the untagged docker images to be created by this workflow
       IMAGE_NAME: ${{ steps.set_image_name.outputs.IMAGE_NAME }}
