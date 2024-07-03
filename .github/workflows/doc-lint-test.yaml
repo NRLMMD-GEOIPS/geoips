@@ -1,6 +1,10 @@
 # Builds an image that contains GeoIPS built with `pip install .[doc,lint,test]`
 name: Build Documentation, Lint, and Test
 
+env:
+  BASE_GEOIPS_PATH: /packages/geoips
+  PLUGIN_BASE_IMAGE: ghcr.io/NRLMMD-GEOIPS/geoips:doclinttest-stable
+
 defaults:
   run:
     shell: bash
@@ -31,27 +35,40 @@ env:
   REGISTRY: ghcr.io
 
 jobs:
-  build_doclinttest_image:
+  set_variables:
     runs-on: ${{ vars.RUNNER }}
-    # Can't write to registry without this
-    permissions:
-      contents: read
-      packages: write
     outputs:
       IMAGE_NAME: ${{ steps.set_image_name.outputs.IMAGE_NAME }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup BuildX
-        uses: docker/setup-buildx-action@v3
-
       - name: Set the image name
         id: set_image_name
         run: |
           image_name=${REGISTRY}/${GITHUB_REPOSITORY,,}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
+
+  # Build the base GeoIPS doclinttest image
+  # This image is used in all subsequent tests
+  # It is only built for the main GeoIPS package but is used by all repositories
+  #
+  # Within this image, the GeoIPS package is located in /packages/geoips and is
+  # installed using `pip install .[doc,lint,test]`. Scripts from geoips can be called
+  # from /packages/geoips.
+  build_doclinttest_image:
+    runs-on: ${{ vars.RUNNER }}
+    if: ${{ github.event.repository.name == 'geoips' }}
+    env:
+      IMAGE_NAME: ${{ needs.set_variables.outputs.IMAGE_NAME }}
+    # Can't write to registry without this
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup BuildX
+        uses: docker/setup-buildx-action@v3
 
       - name: Login to the Registry
         uses: docker/login-action@v3
@@ -100,6 +117,8 @@ jobs:
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -113,16 +132,13 @@ jobs:
       - name: Run build html
         run: |
           echo "Build html docs"
-          # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
-          # using standard github actions variables
-          curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
           # Call build_docs.sh from the geoips default branch
           # Pass in
           #   the path to the current plugin repo,
           #   the name of the current repo,
           #   "html_only" to indicate producing only html output, and
           #   the path to the docs template directory in the geoips default branch.
-          ./docs/build_docs.sh . $curr_repo html_only ./docs
+          $BASE_GEOIPS_PATH/docs/build_docs.sh . $CURR_REPO html_only ./docs
           ret=$?
           if [[ "${ret##*:}" != *"0"* ]]; then
             echo "::error::Building html docs ${ret##*:}"
@@ -145,6 +161,8 @@ jobs:
 #       credentials:
 #         username: ${{ secrets.GHCR_USER }}
 #         password: ${{ secrets.GHCR_TOKEN }}
+#     env:
+#       CURR_REPO: ${{ github.event.repository.name }}
 #     steps:
 #       - name: Checkout code
 #         uses: actions/checkout@v4
@@ -158,16 +176,13 @@ jobs:
 #       - name: Run build pdf
 #         run: |
 #           echo "Build pdf docs"
-#           # Ie, get 'recenter_tc' out of 'NRLMMD-GEOIPS/recenter_tc'
-#           # using standard github actions variables
-#           curr_repo=`echo "$GITHUB_REPOSITORY" | sed "s,$GITHUB_REPOSITORY_OWNER/,,"`
 #           # Call build_docs.sh from the geoips default branch
 #           # Pass in
 #           #   the path to the current plugin repo,
 #           #   the name of the current repo,
 #           #   "pdf_only" to indicate producing only pdf output, and
 #           #   the path to the docs template directory in the geoips default branch.
-#           ./docs/build_docs.sh . $curr_repo pdf_only ./docs
+#           ./docs/build_docs.sh . $CURR_REPO pdf_only ./docs
 #           ret=$?
 #           if [[ "${ret##*:}" != *"0"* ]]; then
 #             echo "::error::Building pdf docs ${ret##*:}"
@@ -193,7 +208,7 @@ jobs:
         run: |
           echo "::group::bandit_analysis"
           echo "BANDIT analysis of code"
-          ./tests/utils/check_code.sh bandit ./
+          $BASE_GEOIPS_PATH/tests/utils/check_code.sh bandit ./
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
@@ -243,7 +258,7 @@ jobs:
         run: |
           echo "::group::flake8_analysis"
           echo "FLAKE8 analysis of code"
-          ./tests/utils/check_code.sh flake8 .
+          $BASE_GEOIPS_PATH/tests/utils/check_code.sh flake8 .
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
@@ -270,7 +285,7 @@ jobs:
           echo "::group::black_analysis"
           echo "BLACK analysis of code"
           black --version
-          ./tests/utils/check_code.sh black ./
+          $BASE_GEOIPS_PATH/tests/utils/check_code.sh black ./
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
@@ -301,7 +316,7 @@ jobs:
         run: create_plugin_registries
       - name: Run code check script interfaces
         run: |
-          ./tests/utils/check_code.sh interfaces geoips
+          $BASE_GEOIPS_PATH/tests/utils/check_code.sh interfaces geoips
           ret=$?
           echo "::group::interface_analysis"
           echo "INTERFACES analysis of code"
