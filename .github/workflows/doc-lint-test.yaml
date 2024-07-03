@@ -2,9 +2,14 @@
 name: Build Documentation, Lint, and Test
 
 env:
-  BASE_GEOIPS_PATH: /packages/geoips
-  PLUGIN_BASE_IMAGE: ghcr.io/NRLMMD-GEOIPS/geoips:doclinttest-stable
+  # The registry that will be used to store all images
+  # Override from repo or org level to use a different registry
   REGISTRY: ghcr.io
+  # The path to the GeoIPS package in DOCLINTTEST images
+  BASE_GEOIPS_PATH: /packages/geoips
+  # Allow overriding the doclinttest image tag used for plugin packages
+  # Allows using a different version of the doc, lint, and test code
+  PLUGIN_DOCLINTTEST_TAG: doclinttest-stable
 
 defaults:
   run:
@@ -36,12 +41,33 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     outputs:
       IMAGE_NAME: ${{ steps.set_image_name.outputs.IMAGE_NAME }}
+      DOCLINTTEST_TAG: ${{ steps.set_doclinttest_tag.outputs.DOCLINTTEST_TAG }}
+      DOCLINTTEST_IMAGE: ${{ steps.set_doclinttest_image.outputs.DOCLINTTEST_IMAGE }}
     steps:
       - name: Set the image name
         id: set_image_name
         run: |
           # Create an image name using the organiztion and repository names, lowercase
-          echo "IMAGE_NAME=${REGISTRY}/${GITHUB_REPOSITORY,,}" >> ${GITHUB_OUTPUT}
+          image_name = ${REGISTRY}/${GITHUB_REPOSITORY,,}
+          echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
+          echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
+      - name: Set doclinttest image tag
+        id: set_doclinttest_tag
+        run: |
+          # If the current repository is geoips, use the image we're about to build
+          # for running tests and building docs.
+          if [[ "${CURR_REPO}" == "geoips" ]]; then
+              echo "DOCLINTTEST_TAG=doclinttest-${GITHUB_SHA}" >> ${GITHUB_ENV}
+              echo "DOCLINTTEST_TAG=doclinttest-${GITHUB_SHA}" >> ${GITHUB_OUTPUT}
+          else
+              echo "DOCLINTTEST_TAG=${PLUGIN_DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
+              echo "DOCLINTTEST_TAG=${PLUGIN_DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
+          fi
+      - name: Set doclinttest image
+        id: set_doclinttest_image
+        run: |
+          echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
+          echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
 
   # Build the base GeoIPS doclinttest image
   # This image is used in all subsequent tests
@@ -55,7 +81,8 @@ jobs:
     needs: set_variables
     if: ${{ github.event.repository.name == 'geoips' }}
     env:
-      IMAGE_NAME: ${{ needs.set_variables.outputs.IMAGE_NAME }}
+      BUILDCACHE_IMAGE: ${{ needs.set_variables.outputs.IMAGE_NAME }}:buildcache
+      DOCLINTTEST_IMAGE: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
     # Can't write to registry without this
     permissions:
       contents: read
@@ -90,18 +117,18 @@ jobs:
           target: doclinttest
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ github.sha }}
+            ${{ env.DOCLINTTEST_IMAGE }}
             ${{ env.IMAGE_NAME }}:buildcache
           file: "Dockerfile"
-          cache-from: type=registry,ref=${{ env.IMAGE_NAME }}:buildcache
-          cache-to: type=registry,ref=ghcr.io/${{ env.IMAGE_NAME }}:buildcache,mode=max
+          cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
+          cache-to: type=registry,ref=ghcr.io/${{ env.BUILDCACHE_IMAGE }},mode=max
 
       # This is used for building docs, linting, and testing other plugins
       - name: Push additional tag if on main branch
         if: github.ref == 'refs/heads/main'
         run: |
-          docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest
-          docker push ${IMAGE_NAME}:doclinttest
+          docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest-stable
+          docker push ${IMAGE_NAME}:doclinttest-stable
 
 #################################################
 # Documentation builds
@@ -110,7 +137,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
@@ -154,7 +181,7 @@ jobs:
 #     runs-on: ${{ vars.RUNNER }}
 #     needs: build_doclinttest_image
 #     container:
-#       image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+#       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
 #       credentials:
 #         username: ${{ secrets.GHCR_USER }}
 #         password: ${{ secrets.GHCR_TOKEN }}
@@ -193,7 +220,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
@@ -218,7 +245,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
@@ -243,7 +270,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
@@ -268,7 +295,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
@@ -298,7 +325,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
@@ -328,7 +355,7 @@ jobs:
     runs-on: ${{ vars.RUNNER }}
     needs: build_doclinttest_image
     container:
-      image: ${{ needs.build_doclinttest_image.outputs.IMAGE_NAME }}:${{ github.sha }}
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
         username: ${{ secrets.GHCR_USER }}
         password: ${{ secrets.GHCR_TOKEN }}
