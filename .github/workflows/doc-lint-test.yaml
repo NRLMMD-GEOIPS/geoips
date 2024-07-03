@@ -67,6 +67,7 @@ jobs:
       - name: Set doclinttest image tag
         id: set_doclinttest_tag
         run: |
+          echo "CURR_REPO: ${CURR_REPO}"
           # If the current repository is geoips, use the image we're about to build
           # for running tests and building docs.
           if [[ "${CURR_REPO}" == "geoips" ]]; then
