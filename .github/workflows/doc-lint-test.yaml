@@ -85,19 +85,34 @@ jobs:
       - name: Get job flags
         id: get_job_flags
         run: |
+          # Define an array of flags and their corresponding secret values
           flags=(CI_DISABLE_BUILD_SPHINX_HTML CI_DISABLE_BUILD_SPHINX_PDF \
               CI_DISABLE_LINT_BANDIT CI_DISABLE_LINT_DOC8 CI_DISABLE_LINT_FLAKE8 \
               CI_DISABLE_LINT_BLACK CI_DISABLE_TEST_INTERFACES \
               CI_DISABLE_TEST_PYTEST_SHORT)
-          for flag in ${flags[@]}; do
-              val="${{ secrets[${flag}] }}"
+
+          for flag in "${flags[@]}"; do
+              # Dynamically construct the variable name and access the corresponding secret
+              case $flag in
+                  CI_DISABLE_BUILD_SPHINX_HTML) val="${{ secrets.CI_DISABLE_BUILD_SPHINX_HTML }}" ;;
+                  CI_DISABLE_BUILD_SPHINX_PDF) val="${{ secrets.CI_DISABLE_BUILD_SPHINX_PDF }}" ;;
+                  CI_DISABLE_LINT_BANDIT) val="${{ secrets.CI_DISABLE_LINT_BANDIT }}" ;;
+                  CI_DISABLE_LINT_DOC8) val="${{ secrets.CI_DISABLE_LINT_DOC8 }}" ;;
+                  CI_DISABLE_LINT_FLAKE8) val="${{ secrets.CI_DISABLE_LINT_FLAKE8 }}" ;;
+                  CI_DISABLE_LINT_BLACK) val="${{ secrets.CI_DISABLE_LINT_BLACK }}" ;;
+                  CI_DISABLE_TEST_INTERFACES) val="${{ secrets.CI_DISABLE_TEST_INTERFACES }}" ;;
+                  CI_DISABLE_TEST_PYTEST_SHORT) val="${{ secrets.CI_DISABLE_TEST_PYTEST_SHORT }}" ;;
+              esac
+
+              # Check if the secret value is "true" and set the environment variable and output
               if [ "$val" == "true" ]; then
-                  echo "${flag}=true" >> ${GITHUB_ENV}
-                  echo "${flag}=true" >> ${GITHUB_OUTPUT}
+                  echo "${flag}=true" >> $GITHUB_ENV
+                  echo "${flag}=true" >> $GITHUB_OUTPUT
               else
-                  echo "${flag}=true" >> ${GITHUB_ENV}
-                  echo "${flag}=true" >> ${GITHUB_OUTPUT}
+                  echo "${flag}=false" >> $GITHUB_ENV
+                  echo "${flag}=false" >> $GITHUB_OUTPUT
               fi
+          done
 
   # Build the base GeoIPS doclinttest image
   # This image is used in all subsequent tests
