@@ -444,7 +444,7 @@ jobs:
             exit 1
           fi
       - name: Run base GeoIPS pytest unit tests
-        if: ${{ env.CURR_REPO != "geoips" }}
+        if: ${{ env.CURR_REPO != 'geoips' }}
         run: |
           echo "::group::pytest_unit_test"
           echo "Pytest short unit tests of ${CURR_REPO} using core GeoIPS tests"
