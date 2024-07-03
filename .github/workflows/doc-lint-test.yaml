@@ -4,6 +4,7 @@ name: Build Documentation, Lint, and Test
 env:
   BASE_GEOIPS_PATH: /packages/geoips
   PLUGIN_BASE_IMAGE: ghcr.io/NRLMMD-GEOIPS/geoips:doclinttest-stable
+  REGISTRY: ghcr.io
 
 defaults:
   run:
@@ -29,10 +30,6 @@ on:
 
   # Allows run of this workflow manually from the Actions tab
   workflow_dispatch:
-
-
-env:
-  REGISTRY: ghcr.io
 
 jobs:
   set_variables:
