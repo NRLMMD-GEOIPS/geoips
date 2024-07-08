@@ -64,6 +64,7 @@ jobs:
         run: |
           # Create an image name using the organiztion and repository names, lowercase
           image_name=${DOCKER_REGISTRY}/${GITHUB_REPOSITORY,,}
+          echo "IMAGE_NAME=${image_name}"
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
       - name: Set doclinttest image tag
@@ -73,15 +74,18 @@ jobs:
           # If the current repository is geoips, use the image we're about to build
           # for running tests and building docs.
           if [[ "${CURR_REPO}" == "geoips" ]]; then
+              echo "DOCLINTTEST_TAG=doclinttest-${GITHUB_SHA}"
               echo "DOCLINTTEST_TAG=doclinttest-${GITHUB_SHA}" >> ${GITHUB_ENV}
               echo "DOCLINTTEST_TAG=doclinttest-${GITHUB_SHA}" >> ${GITHUB_OUTPUT}
           else
+              echo "DOCLINTTEST_TAG=${PLUGIN_DOCLINTTEST_TAG}"
               echo "DOCLINTTEST_TAG=${PLUGIN_DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
               echo "DOCLINTTEST_TAG=${PLUGIN_DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
           fi
       - name: Set doclinttest image
         id: set_doclinttest_image
         run: |
+          echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}"
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
 
@@ -109,9 +113,11 @@ jobs:
 
               # Check if the secret value is "true" and set the environment variable and output
               if [ "$val" == "true" ]; then
+                  echo "${flag}=true"
                   echo "${flag}=true" >> $GITHUB_ENV
                   echo "${flag}=true" >> $GITHUB_OUTPUT
               else
+                  echo "${flag}=false"
                   echo "${flag}=false" >> $GITHUB_ENV
                   echo "${flag}=false" >> $GITHUB_OUTPUT
               fi
@@ -182,7 +188,10 @@ jobs:
 # Documentation builds
 #################################################
   build_sphinx_html:
-    if: ${{ needs.set_variables.outputs.CI_DISABLE_BUILD_SPHINX_HTML == 'false' }}
+    if: >
+      ${{ needs.set_variables.outputs.CI_DISABLE_BUILD_SPHINX_HTML == 'false' }} &&
+      (needs.build_doclinttest_image.result == 'success' ||
+      needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
