@@ -86,7 +86,21 @@ requirements for GeoIPS.
 
 .. code:: bash
 
-    mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas git
+    mamba create -y -n geoips -c conda-forge python=3.10 openblas git
+
+.. note::
+
+    If you would like to run plugins that require fortran, you will need to install ``gfortran``.
+
+.. warning::
+
+        If you are using an ARM machine, you may need to install ``pyhdf`` with conda.
+        If you run into ``fatal error: 'hdf.h' file not found`` when installing ``pyhdf``,
+        you may need to install ``pyhdf`` with conda. You can do this with the following command:
+
+        .. code:: bash
+
+            mamba create -y -n geoips -c conda-forge python=3.10 openblas git **pyhdf**
 
 Activate the conda environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
