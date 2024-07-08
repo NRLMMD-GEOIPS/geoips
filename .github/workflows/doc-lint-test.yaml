@@ -131,8 +131,8 @@ jobs:
     steps:
       - name: Print run flags
         run: |
-          for var in $(echo ${{ toJson(needs.set_variables.outputs) }} | jq -r 'keys[]'); do
-            value=$(echo ${{ toJson(needs.set_variables.outputs) }} | jq -r --arg var "$var" '.[$var]')
+          for var in $(echo "${{ toJson(needs.set_variables.outputs)" }} | jq -r 'keys[]'); do
+            value=$(echo "${{ toJson(needs.set_variables.outputs)" }} | jq -r --arg var "$var" '.[$var]')
             echo "$var=$value"
           done
 
