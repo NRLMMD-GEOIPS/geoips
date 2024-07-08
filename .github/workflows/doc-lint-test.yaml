@@ -125,6 +125,17 @@ jobs:
               fi
           done
 
+  print_run_flags:
+    runs-on: ${{ vars.RUNNER }}
+    needs: [set_variables]
+    steps:
+      - name: Print run flags
+        run: |
+          for var in $(echo ${{ toJson(needs.set_variables.outputs) }} | jq -r 'keys[]'); do
+            value=$(echo ${{ toJson(needs.set_variables.outputs) }} | jq -r --arg var "$var" '.[$var]')
+            echo "$var=$value"
+          done
+
   # Build the base GeoIPS doclinttest image
   # This image is used in all subsequent tests
   # It is only built for the main GeoIPS package but is used by all repositories
