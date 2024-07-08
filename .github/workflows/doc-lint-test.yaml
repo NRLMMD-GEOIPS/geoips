@@ -201,7 +201,7 @@ jobs:
 # Documentation builds
 #################################################
   build_sphinx_html:
-    if: ${{ needs.set_variables.outputs.CI_BUILD_SPHINX_HTML == 'true' && (needs.build_doclinttest_image.result == 'success' || needs.build_doclinttest_image.result == 'skipped') }}
+    if: needs.build_doclinttest_image.result == 'success' || needs.build_doclinttest_image.result == 'skipped'
     runs-on: ${{ vars.RUNNER }}
     needs: [build_doclinttest_image, set_variables]
     container:
