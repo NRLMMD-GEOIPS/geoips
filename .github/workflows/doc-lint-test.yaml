@@ -237,7 +237,7 @@ jobs:
           #   the name of the current repo,
           #   "html_only" to indicate producing only html output, and
           #   the path to the docs template directory in the geoips default branch.
-          $BASE_GEOIPS_PATH/docs/build_docs.sh . $CURR_REPO html_only ./docs
+          $BASE_GEOIPS_PATH/docs/build_docs.sh . $CURR_REPO html_only $BASE_GEOIPS_PATH/docs
           ret=$?
           if [[ "${ret##*:}" != *"0"* ]]; then
             echo "::error::Building html docs ${ret##*:}"
