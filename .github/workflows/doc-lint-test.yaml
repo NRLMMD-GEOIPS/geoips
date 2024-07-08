@@ -86,9 +86,9 @@ jobs:
       - name: Set doclinttest image
         id: set_doclinttest_image
         run: |
-          echo "DOCLINTTEST_IMAGE=${DOCKER_REGISTRY}/geoips:${DOCLINTTEST_TAG}"
-          echo "DOCLINTTEST_IMAGE=${DOCKER_REGISTRY}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
-          echo "DOCLINTTEST_IMAGE=${DOCKER_REGISTRY}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
+          echo "DOCLINTTEST_IMAGE=${DOCKER_REGISTRY}/${{ github.repository_owner,, }}/geoips:${DOCLINTTEST_TAG}"
+          echo "DOCLINTTEST_IMAGE=${DOCKER_REGISTRY}/${{ github.repository_owner,, }}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
+          echo "DOCLINTTEST_IMAGE=${DOCKER_REGISTRY}/${{ github.repository_owner,, }}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
       - name: Get job flags
         id: get_job_flags
         run: |
