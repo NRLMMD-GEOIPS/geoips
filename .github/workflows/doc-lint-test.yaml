@@ -342,11 +342,16 @@ jobs:
         shell: bash -l {0}
         run: |
           echo "::group::doc8_analysis"
+          if [ ! -d "./docs/source/new-docs" ]; then
+            echo "No new-docs directory found in ${CURR_REPO}"
+            exit 0
+          fi
           echo "Doc8 analysis of code"
           doc8 --max-line-length=120 ./docs/source/new-docs/
           ret=$?
           echo "Return code: ${ret}"
           echo "::endgroup::"
+          if [[ ]]
           if [[ "${ret}" != *"0"* ]]; then
             echo "::error::due to doc8 violations, return code ${ret}"
             exit 1
