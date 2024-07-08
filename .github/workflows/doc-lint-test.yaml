@@ -480,7 +480,7 @@ jobs:
       - name: Run pytest unit tests
         run: |
           echo "::group::pytest_unit_test"
-          echo "Pytest short unit tests of ${CURR_REPO}""
+          echo "Pytest short unit tests of ${CURR_REPO}"
           echo "which pytest"
           which pytest
           if [ ! -d "./tests/unit_tests" ]; then
