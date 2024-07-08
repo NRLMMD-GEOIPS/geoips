@@ -10,16 +10,6 @@ env:
   # Allow overriding the doclinttest image tag used for plugin packages
   # Allows using a different version of the doc, lint, and test code
   PLUGIN_DOCLINTTEST_TAG: doclinttest-stable
-  # Enable all parts of the workflow by default
-  # Set these to false at the repo-level to disable for a particular repo
-  CI_BUILD_SPHINX_HTML: true
-  CI_BUILD_SPHINX_PDF: true
-  CI_LINT_BANDIT: true
-  CI_LINT_DOC8: true
-  CI_LINT_FLAKE8: true
-  CI_LINT_BLACK: true
-  CI_TEST_INTERFACES: true
-  CI_TEST_PYTEST_SHORT: true
 
 defaults:
   run:
@@ -59,7 +49,16 @@ jobs:
       DOCLINTTEST_TAG: ${{ steps.set_doclinttest_tag.outputs.DOCLINTTEST_TAG }}
       # The image to use for doclinttest jobs
       DOCLINTTEST_IMAGE: ${{ steps.set_doclinttest_image.outputs.DOCLINTTEST_IMAGE }}
-      # Flags for disabling various parts of the workflow
+      # Flags for enabling/disabling various parts of the workflow
+      # Default to enabled unless overridden by a repository-level variable
+      CI_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }}
+      CI_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_PDF }}
+      CI_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_LINT_BANDIT }}
+      CI_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_LINT_DOC8 }}
+      CI_LINT_FLAKE8: ${{ steps.get_job_flags.outputs.CI_LINT_FLAKE8 }}
+      CI_LINT_BLACK: ${{ steps.get_job_flags.outputs.CI_LINT_BLACK }}
+      CI_TEST_INTERFACES: ${{ steps.get_job_flags.outputs.CI_TEST_INTERFACES }}
+      CI_TEST_PYTEST_SHORT: ${{ steps.get_job_flags.outputs.CI_TEST_PYTEST_SHORT }}
     steps:
       - name: Set the image name
         id: set_image_name
@@ -90,6 +89,41 @@ jobs:
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}"
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
           echo "DOCLINTTEST_IMAGE=${IMAGE_NAME}:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
+      - name: Get job flags
+        id: get_job_flags
+        run: |
+          # Define an array of flags and their corresponding secret values
+          flags=(CI_BUILD_SPHINX_HTML \
+                 CI_BUILD_SPHINX_PDF \
+                 CI_LINT_BANDIT \
+                 CI_LINT_DOC8 \
+                 CI_LINT_FLAKE8 \
+                 CI_LINT_BLACK \
+                 CI_TEST_INTERFACES \
+                 CI_TEST_PYTEST_SHORT)
+          for flag in "${flags[@]}"; do
+              # Dynamically construct the variable name and access the corresponding secret
+              case $flag in
+                  CI_BUILD_SPHINX_HTML) val="${{ vars.CI_BUILD_SPHINX_HTML }}" ;;
+                  CI_BUILD_SPHINX_PDF) val="${{ vars.CI_BUILD_SPHINX_PDF }}" ;;
+                  CI_LINT_BANDIT) val="${{ vars.CI_LINT_BANDIT }}" ;;
+                  CI_LINT_DOC8) val="${{ vars.CI_LINT_DOC8 }}" ;;
+                  CI_LINT_FLAKE8) val="${{ vars.CI_LINT_FLAKE8 }}" ;;
+                  CI_LINT_BLACK) val="${{ vars.CI_LINT_BLACK }}" ;;
+                  CI_TEST_INTERFACES) val="${{ vars.CI_TEST_INTERFACES }}" ;;
+                  CI_TEST_PYTEST_SHORT) val="${{ vars.CI_TEST_PYTEST_SHORT }}" ;;
+              esac
+              # Check if the secret value is "true" and set the environment variable and output
+              if [ "$val" == "false" ]; then
+                  echo "${flag}=false"
+                  echo "${flag}=false" >> $GITHUB_ENV
+                  echo "${flag}=false" >> $GITHUB_OUTPUT
+              else
+                  echo "${flag}=true"
+                  echo "${flag}=true" >> $GITHUB_ENV
+                  echo "${flag}=true" >> $GITHUB_OUTPUT
+              fi
+          done
 
   # Build the base GeoIPS doclinttest image
   # This image is used in all subsequent tests
@@ -157,7 +191,7 @@ jobs:
 #################################################
   build_sphinx_html:
     if: >
-      ${{ env.CI_BUILD_SPHINX_HTML == 'true' }} &&
+      needs.set_variables.outputs.CI_BUILD_SPHINX_HTML == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
@@ -245,7 +279,7 @@ jobs:
 #################################################
   lint_bandit:
     if: >
-      ${{ env.CI_LINT_BANDIT == 'true' }} &&
+      needs.set_variables.outputs.CI_LINT_BANDIT == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
@@ -274,7 +308,7 @@ jobs:
 
   lint_doc8:
     if: >
-      ${{ env.CI_LINT_DOC8 == 'true' }} &&
+      needs.set_variables.outputs.CI_LINT_DOC8 == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
@@ -303,7 +337,7 @@ jobs:
 
   lint_flake8:
     if: >
-      ${{ env.CI_LINT_FLAKE8 == 'true' }} &&
+      needs.set_variables.outputs.CI_LINT_FLAKE8 == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
@@ -332,7 +366,7 @@ jobs:
 
   lint_black:
     if: >
-      ${{ env.CI_LINT_BLACK == 'true' }} &&
+      needs.set_variables.outputs.CI_LINT_BLACK == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
@@ -366,7 +400,7 @@ jobs:
 #################################################
   test_interfaces:
     if: >
-      ${{ env.CI_TEST_INTERFACES == 'true' }} &&
+      needs.set_variables.outputs.CI_TEST_INTERFACES == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
@@ -400,7 +434,7 @@ jobs:
 
   test_pytest_short:
     if: >
-      ${{ env.CI_TEST_PYTEST_SHORT == 'true' }} &&
+      needs.set_variables.outputs.CI_TEST_PYTEST_SHORT == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
     runs-on: ${{ vars.RUNNER }}
