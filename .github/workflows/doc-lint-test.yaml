@@ -294,6 +294,7 @@ jobs:
 #################################################
   lint_bandit:
     if: >
+      always() &&
       needs.set_variables.outputs.CI_LINT_BANDIT == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
@@ -323,6 +324,7 @@ jobs:
 
   lint_doc8:
     if: >
+      always() &&
       needs.set_variables.outputs.CI_LINT_DOC8 == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
@@ -352,6 +354,7 @@ jobs:
 
   lint_flake8:
     if: >
+      always() &&
       needs.set_variables.outputs.CI_LINT_FLAKE8 == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
@@ -381,6 +384,7 @@ jobs:
 
   lint_black:
     if: >
+      always() &&
       needs.set_variables.outputs.CI_LINT_BLACK == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
@@ -415,6 +419,7 @@ jobs:
 #################################################
   test_interfaces:
     if: >
+      always() &&
       needs.set_variables.outputs.CI_TEST_INTERFACES == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
@@ -449,6 +454,7 @@ jobs:
 
   test_pytest_short:
     if: >
+      always() &&
       needs.set_variables.outputs.CI_TEST_PYTEST_SHORT == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
