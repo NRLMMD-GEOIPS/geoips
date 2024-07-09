@@ -24,12 +24,6 @@ from geoips.utils.context_managers import import_optional_dependencies
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"
 
-FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
-FAILED_INTERFACE_HEADER_POST = "interface:"
-
-FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
-FAILED_INTERFACE_HEADER_POST = "interface:"
-
 
 def main():
     """Script to test all plugins in all interfaces."""
