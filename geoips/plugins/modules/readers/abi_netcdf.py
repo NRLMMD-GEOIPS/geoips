@@ -725,6 +725,7 @@ def call_single_time(
     xarray_obj.attrs["start_datetime"] = sdt
     xarray_obj.attrs["end_datetime"] = edt
     xarray_obj.attrs["source_name"] = "abi"
+    xarray_obj.attrs["source_file"] = fnames[0]
     xarray_obj.attrs["data_provider"] = "noaa"
 
     # G16 -> goes-16

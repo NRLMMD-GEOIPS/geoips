@@ -1774,7 +1774,16 @@ def call(fnames, command_line_args=None):
         "Reading metadata from dataset with reader '%s'...", reader_plugin.name
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
-    source_name = xobjs["METADATA"].source_name
+    if hasattr(xobjs["METADATA"], "source_name"):
+        source_name = xobjs["METADATA"].source_name
+    elif hasattr(xobjs["METADATA"].get("file0_METADATA"), "source_name"):
+        source_name = xobjs["METADATA"].get("file0_METADATA").source_name
+    else:
+        raise NotImplementedError("Need to implement a check for this type of metadata.")
+    # from IPython import embed as shell
+
+    # shell()
+    # source_name = xobjs["METADATA"].source_name
     print_mem_usage("MEMUSG", verbose=False)
 
     prod_plugin = products.get_plugin(

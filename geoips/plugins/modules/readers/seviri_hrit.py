@@ -862,8 +862,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    if metadata_only:
-        return call_single_time([fnames[3]], metadata_only=metadata_only)
     all_metadata = [
         call_single_time([x], metadata_only=True)["METADATA"] for x in fnames
     ]

@@ -1190,6 +1190,7 @@ def call_single_time(
     xarray_obj.attrs["start_datetime"] = start_dt
     xarray_obj.attrs["end_datetime"] = end_dt
     xarray_obj.attrs["source_name"] = "ahi"
+    xarray_obj.attrs["source_file"] = fnames[0]
     xarray_obj.attrs["data_provider"] = "jma"
     xarray_obj.attrs["platform_name"] = highest_md["block_01"]["satellite_name"].lower()
     xarray_obj.attrs["area_definition"] = area_def
