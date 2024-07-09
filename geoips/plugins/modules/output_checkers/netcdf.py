@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -208,13 +208,14 @@ def outputs_match(plugin, output_product, compare_product):
     try:
         xarray.testing.assert_identical(compare_xobj, out_xobj)
     except AssertionError as resp:
-        log_with_emphasis(LOG.info, "INFORMATIONAL ONLY assert_identical differences")
+        lines = ["INFORMATIONAL ONLY assert_identical differences"]
         for line in str(resp).split("\n"):
-            log_with_emphasis(LOG.info, line)
+            lines += [line]
         for varname in compare_xobj.variables:
             log_object_diff_values(
                 out_xobj, compare_xobj, varname, log_function=LOG.info
             )
+        log_with_emphasis(LOG.info, *lines)
 
     if retval is False:
         with open(out_difftxt, "w") as fobj:
