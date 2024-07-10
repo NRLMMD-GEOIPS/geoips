@@ -46,9 +46,11 @@ class ReadersInterface(BaseModuleInterface):
         concat_md: 2D dict of xarray Datasets
             - All metadata merged into a 2D dictionary of xarray Datasets
         """
-        md = {"METADATA": {}}
+        md = {"METADATA": {"source_file_attributes": {}}}
         for md_idx in range(len(all_metadata)):
-            md["METADATA"][f"file{md_idx}_METADATA"] = all_metadata[md_idx]
+            md["METADATA"]["source_file_attributes"][f"filename_{md_idx}"] = (
+                all_metadata[md_idx]
+            )
         return md
 
 

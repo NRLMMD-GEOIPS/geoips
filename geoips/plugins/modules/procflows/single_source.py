@@ -1778,17 +1778,31 @@ def call(fnames, command_line_args=None):
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     if hasattr(xobjs["METADATA"], "source_name"):
+        # This means metadata is coming from a single file
         source_name = xobjs["METADATA"].source_name
-    elif hasattr(xobjs["METADATA"].get("file0_METADATA"), "source_name"):
-        source_name = xobjs["METADATA"].get("file0_METADATA").source_name
+    elif hasattr(
+        xobjs["METADATA"]
+        .get(
+            "source_file_attributes",
+            {},
+        )
+        .get("filename_0"),
+        "source_name",
+    ):
+        # If the metadata returned has the format:
+        # xobjs["METADATA"]["source_file_attributes"]["filename_0"] ...
+        # Then this means we have metadata from multiple files. This is done for
+        # abi_netcdf, ahi_hsd, and seviri_hrit currently.
+        source_name = xobjs["METADATA"]["source_file_attributes"][
+            "filename_0"
+        ].source_name
     else:
         raise NotImplementedError(
-            "Need to implement a check for this type of metadata."
+            "GeoIPS hasn't implemented a method to handle this format of metadata."
+            "Please either return metadata in the form of METADATA -> xobj or "
+            "METADATA -> source_file_attributes -> filename_0 -> xobj."
         )
-    # from IPython import embed as shell
 
-    # shell()
-    # source_name = xobjs["METADATA"].source_name
     pid_track.print_mem_usg()
 
     prod_plugin = products.get_plugin(
