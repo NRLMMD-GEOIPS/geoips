@@ -26,7 +26,7 @@ from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import PidLog
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
-from geoips.geoips_utils import replace_geoips_paths
+from geoips.geoips_utils import replace_geoips_paths, get_source_name
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
@@ -1777,31 +1777,7 @@ def call(fnames, command_line_args=None):
         "Reading metadata from dataset with reader '%s'...", reader_plugin.name
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
-    if hasattr(xobjs["METADATA"], "source_name"):
-        # This means metadata is coming from a single file
-        source_name = xobjs["METADATA"].source_name
-    elif hasattr(
-        xobjs["METADATA"]
-        .get(
-            "source_file_attributes",
-            {},
-        )
-        .get("filename_0"),
-        "source_name",
-    ):
-        # If the metadata returned has the format:
-        # xobjs["METADATA"]["source_file_attributes"]["filename_0"] ...
-        # Then this means we have metadata from multiple files. This is done for
-        # abi_netcdf, ahi_hsd, and seviri_hrit currently.
-        source_name = xobjs["METADATA"]["source_file_attributes"][
-            "filename_0"
-        ].source_name
-    else:
-        raise NotImplementedError(
-            "GeoIPS hasn't implemented a method to handle this format of metadata."
-            "Please either return metadata in the form of METADATA -> xobj or "
-            "METADATA -> source_file_attributes -> filename_0 -> xobj."
-        )
+    source_name = get_source_name(xobjs)
 
     pid_track.print_mem_usg()
 

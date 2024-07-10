@@ -946,7 +946,14 @@ def sort_by_band_and_seg(metadata):
     return "{0:02d}_{1:02d}".format(band_number, segment_number)
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    test_arg="AHI Default Test Arg",
+):
     """
     Read AHI HSD data data from a list of filenames.
 
@@ -980,6 +987,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    LOG.interactive("AHI reader test_arg: %s", test_arg)
     all_metadata = [
         call_single_time([x], metadata_only=True)["METADATA"] for x in fnames
     ]
