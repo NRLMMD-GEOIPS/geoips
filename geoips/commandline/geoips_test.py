@@ -19,7 +19,8 @@ from glob import glob
 from importlib import resources
 
 # from os import listdir
-from os.path import basename
+from os import environ
+from os.path import basename, join
 import sys
 
 # from pytest import main as invoke_pytest
@@ -27,6 +28,7 @@ from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.geoips_utils import is_editable
+from geoips.interfaces import sectors
 
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
@@ -111,6 +113,65 @@ from geoips.geoips_utils import is_editable
 
 #         test_path = str(f"{unit_test_dir}/{dir_name}/{test_name}")
 #         invoke_pytest(["-v", test_path])
+
+
+class GeoipsTestSector(GeoipsExecutableCommand):
+    """Test Command for creating a sector image based on the provided sector name.
+
+    This used to be ran via 'create_sector_image', however we are trying to consolidate
+    all independent console scripts to be used via the CLI. When this command is called
+    an image of the provided sector will be created so we can view whether or not it
+    matches the region of the globe we'd like to study.
+    """
+
+    name = "sector"
+    command_classes = []
+
+    def add_arguments(self):
+        """Instantiate the arguments that are supported for the test sector command.
+
+        Currently the "geoips test sector" command supports this format:
+            - geoips test sector <sector_name> --outdir <output_directory_path>
+        Where:
+            - <sector_name> is the name of any GeoIPS Sector Plugin that has an entry in
+              any package's plugin registry.
+            - --outdir is the full path to the directory in which you'd like to create
+              the sector image.
+        """
+        self.parser.add_argument(
+            "sector_name",
+            type=str,
+            help="Name of the sector plugin to create an image from.",
+        )
+        self.parser.add_argument(
+            "--outdir",
+            "-o",
+            type=str,
+            default=f"{environ['GEOIPS_OUTDIRS']}",
+            help="The output directory to create your sector image in.",
+        )
+
+    def __call__(self, args):
+        """Create the provided sector image based off the arguments provided.
+
+        This will retrieve the selected sector plugin from any GeoIPS Plugin package,
+        then create an image of that sector. This is a good way to quickly test whether
+        or not your sector plugin covers the area you expected with the correct
+        resolution.
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        sector_name = args.sector_name
+        outdir = args.outdir
+        # Create an image for the requested sector, including just the map and white
+        # background.
+        fname = join(outdir, f"{sector_name}.png")
+        sect = sectors.get_plugin(sector_name)
+        print(f"Creating {fname}.")
+        sect.create_test_plot(fname)
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -254,5 +315,5 @@ class GeoipsTest(GeoipsCommand):
     """Top-Level Test Command for testing GeoIPS and its corresponding Packages."""
 
     name = "test"
-    command_classes = [GeoipsTestLinting, GeoipsTestScript]
+    command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestSector]
     # command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]

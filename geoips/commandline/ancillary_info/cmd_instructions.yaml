@@ -279,6 +279,16 @@ instructions:
       To use, type `geoips test script -p <package_name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
+  geoips_test_sector:
+    help_str: |
+      Create a specific sector image from the provided sector plugin name. This is an
+      easy way to test whether or not the sector plugin you've created matches the
+      region of the globe you want to study at the correct resolution. Provided this
+      sector plugin has been added to the plugin registry, this command will work.
+    usage_str: |
+      To use, type `geoips test sector <sector_name> --outdir <output_directory_path>`.
+    output_info:
+      - A path to the image of the sector you've created.
   # geoips_test_unit-test:
   #   help_str: |
   #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command
