@@ -207,7 +207,9 @@ if [[ "$1" == "python" ]]; then
     python --version >> $install_log 2>&1
     retval=$?
     if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'python --version' failed, please install python >= 3.9 before proceeding"
+        echo "WARNING: 'python --version' failed, please install python >= 3.9 before proceeding."
+	echo "If you have python3 installed, please alias it to python."
+        echo "For more info see https://askubuntu.com/a/321000/314655"
         exit 1
     else
         echo "SUCCESS: 'python' appears to be installed successfully"
