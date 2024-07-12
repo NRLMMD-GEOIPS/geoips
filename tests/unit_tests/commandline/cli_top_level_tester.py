@@ -45,6 +45,7 @@ class BaseCliTest(abc.ABC):
     _run_args = ["geoips", "run"]
     _test_linting_args = ["geoips", "test", "linting"]
     _test_script_args = ["geoips", "test", "script"]
+    _test_sector_args = ["geoips", "test", "sector"]
     _test_unit_test_args = ["geoips", "test", "unit-test"]
     _validate_args = ["geoips", "validate"]
     arg_list = [

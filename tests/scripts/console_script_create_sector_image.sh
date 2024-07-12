@@ -12,10 +12,10 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-create_sector_image -s conus
+geoips test sector conus
 retval_conus=$?
 
-create_sector_image -s global goes_east -l info
+geoips test sector global; geoips test sector goes_east
 retval_all=$?
 
 echo "CONUS retval: $retval_conus"

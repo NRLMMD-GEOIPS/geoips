@@ -19,14 +19,15 @@ from glob import glob
 from importlib import resources
 
 # from os import listdir
-from os import environ
-from os.path import basename, join
+from os import environ, makedirs
+from os.path import basename, exists, join
 import sys
 
 # from pytest import main as invoke_pytest
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.errors import PluginError
 from geoips.geoips_utils import is_editable
 from geoips.interfaces import sectors
 
@@ -166,10 +167,20 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         """
         sector_name = args.sector_name
         outdir = args.outdir
+        # If the path to outdir doesn't already exist, make that path
+        if not exists(outdir):
+            makedirs(outdir)
         # Create an image for the requested sector, including just the map and white
         # background.
         fname = join(outdir, f"{sector_name}.png")
-        sect = sectors.get_plugin(sector_name)
+        try:
+            sect = sectors.get_plugin(sector_name)
+        except PluginError:
+            raise self.parser.error(
+                f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
+                "found under 'geoips list interface sectors' or create a new plugin "
+                f"named '{sector_name}' and run 'create_plugin_registries'."
+            )
         print(f"Creating {fname}.")
         sect.create_test_plot(fname)
 
