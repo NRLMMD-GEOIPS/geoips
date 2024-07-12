@@ -50,6 +50,16 @@ plugin_packages = PluginPackages()
 
 
 class ParentParsers:
+    """Object containing shared arguments for commands in a hierarchical order.
+
+    The name of the parsers in this class directly link to the name of the top-level
+    command which will share its arguments. For example, since our top-level command is
+    'geoips' (see GeoipsCLI), then the arguments created by 'geoips_parser' will be
+    shared amongst all of its child commands. As such, every argument created by
+    'list_parser' will be shared by 'list' commands, and so on. So long as the name of
+    the class matches the structure <class_name>_parser, then the arguments will be
+    shared correctly.
+    """
 
     geoips_parser = argparse.ArgumentParser(add_help=False)
     geoips_parser.add_argument(
@@ -128,12 +138,12 @@ class GeoipsCommand(abc.ABC):
             # list, for example 'scripts', combined name would be 'geoips_list_scripts'
             self.combined_name = f"{parent.combined_name}_{self.name}"
 
-            # We need to create a Geoips<cmd>Common Class for arguments
-            # that are shared between common commands. For example, we've created
-            # a 'GeoipsListCommon' class which adds arguments that will be shared
-            # by each GeoipsList<cmd> class. Ie. if GeoipsListCommon has
-            # arguments --package, --columns, etc., and all of those arguments
-            # would be inherited by each GeoipsList<cmd>
+            # The logic below traverses up from the current command class through all
+            # of its parents. For example, if this was GeoipsListPackages, the parent
+            # traversal would look like GeoipsList -> GeoipsCLI, which would result in
+            # parent_parsers looking like [geoips_parser, list_parser]. All of the
+            # arguments created by those parent parsers would be inherited by
+            # GeoipsListPackages
             curr_parent = self.parent
             self.parent_parsers = []
             while curr_parent and hasattr(ParentParsers, f"{curr_parent.name}_parser"):
