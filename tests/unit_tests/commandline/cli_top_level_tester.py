@@ -2,6 +2,7 @@
 
 import abc
 import contextlib
+from importlib import metadata
 import io
 from numpy import any
 import pytest
@@ -9,7 +10,7 @@ import subprocess
 import sys
 
 from geoips.commandline.commandline_interface import GeoipsCLI
-from geoips.geoips_utils import get_entry_point_group, is_editable
+from geoips.geoips_utils import is_editable
 
 
 gcli = GeoipsCLI()
@@ -64,7 +65,7 @@ class BaseCliTest(abc.ABC):
         """List of names of every installed GeoIPS package."""
         if not hasattr(self, "_plugin_package_names"):
             self._plugin_package_names = [
-                ep.value for ep in get_entry_point_group("geoips.plugin_packages")
+                ep.value for ep in metadata.entry_points(group="geoips.plugin_packages")
             ]
         return self._plugin_package_names
 

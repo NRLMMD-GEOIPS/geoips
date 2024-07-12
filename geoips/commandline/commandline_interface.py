@@ -73,10 +73,13 @@ class GeoipsCLI(GeoipsCommand):
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
-        # print(self.GEOIPS_ARGS.log_level)
-        getattr(LOG, self.GEOIPS_ARGS.log_level)(
-            f"LOG LEVEL = {self.GEOIPS_ARGS.log_level}"
-        )
+        # NOTE: We should discuss how we want to share the selected LOG to child classes
+        # They can all use the functionality below, however that would be redundant and
+        # there is likely a better way to fix this. Unfortunately 'parse_known_args'
+        # didn't work and this is our best solution for the time being.
+
+        # self.LOG = getattr(LOG, self.GEOIPS_ARGS.log_level)
+        # self.LOG("LOG LEVEL = {self.GEOIPS_ARGS.log_level}")
         if hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
