@@ -1,0 +1,50 @@
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.14.0a0 (2024-07-12)
+*****************************
+
+* Refactoring Updates
+
+  * Merged 'create_sector_image' into the CLI
+
+Refactoring Updates
+===================
+
+Merged 'create_sector_image' into the CLI
+-----------------------------------------
+
+*From GEOIPS#636: 2024-06-05, Merge create_sector_image.py functionality into the CLI*
+
+This update moves the functionality from the independent console script
+``create_sector_image`` onto the CLI under the command ``geoips test sector``. Since the
+CLI has been added to main, we are slowly consolidating all independent console scripts
+onto the CLI, so we have a uniform was of executing console commands with GeoIPS.
+
+There was a slight modification to this command, as we now only allow one sector to
+be provided to this command instead of a list of sectors. This fits better with the
+nomenclature of the command and can be ran multiple times if the user wants to create
+multiple sector images.
+
+Unit tests have been added for this command as well.
+
+::
+
+    modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+    modified: geoips/commandline/geoips_test.py
+    modified: pyproject.toml
+    modified: tests/scripts/console_script_create_sector_image.sh
+    modified: tests/unit_tests/commandline/cli_top_level_tester.py
+    added: tests/unit_tests/commandline/test_geoips_test_sector.py
+    deleted: geoips/commandline/create_sector_image.py
