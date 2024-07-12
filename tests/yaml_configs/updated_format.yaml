@@ -1,0 +1,292 @@
+# We will need to create a new geoips plugin interface for "procflow_configs"
+interface: procflow_configs
+
+# This identifies that this procflow_config should be used with the "config_based" procflow.
+# In the future, this will likely ONLY be the order_based procflow - the goal is for order based
+# to replace single_source, config_based, and data_fusion.
+family: config_based
+
+# This is an arbitrary name to identify this particular procflow config
+name: amsr2_all
+
+# docstring to 
+docstring: |
+  All AMSR2 products
+spec:
+
+  # This procflow config specifies all products to generate for data files that use the
+  # "amsr2_netcdf" reader.
+  reader_name: amsr2_netcdf
+  
+  # This is a special field for "config-based" processing in particular, which tells it to
+  # use "Infrared-Gray" product for any background imagery.
+  fuse_product: Infrared-Gray
+  
+  # This is an argument that identifies if this reader reads in only data for the current
+  # sector.  Typically the geostationary readers perform "sectored_read"s, and other smaller
+  # datasets perform non-sectored reads (just read in the full dataset, and sector after the
+  # fact)
+  sectored_read: False
+
+  # This is a full dict listing of all the sectors available for processing this data type
+  # Each item within this dictionary (tcweb_bdeck, tcweb_bdeck_recenter, etc - these
+  # are arbitrary names that are referenced within the "outputs" section below) is made up
+  # of a set of options that should match command line arguments that can be passed to a
+  # single_source procflow call.  They identify how to define the sector.
+  available_sectors:
+    tcweb_bdeck:
+      # tc_spec_template argument identifies that this is a dynamic TC sector
+      # The actual location of the sector will be determined by the "bdeck" file
+      # that is passed in
+      tc_spec_template: tc_web
+
+    tcweb_bdeck_recenter:
+      tc_spec_template: tc_web
+      sector_adjuster: recenter_tc
+      adjust_variables: ["tb89hA", "tb89vA", "tc36h", "tb36v", "akima"]
+
+    unprojected:
+      # This unprojected sector registers all channels of data to the
+      # same dataset/resolution, so retains all the data and is not
+      # sectoring to a specific region
+      self_register_dataset: Brightness_Temperature_89_GHz_AH
+      self_register_source: amsr2
+
+    # This uses the "global" sector to reproject the data.
+    global:
+      sector_list:
+        - global
+
+  # This is the full dictionary list of outputs to produce for
+  # this data type.  Each element in the dictionary (ie, unprojected,
+  # global_overlay, image_clean) is an arbitrary identifier for a
+  # selection of arguments specifying how the output product
+  # should be formatted.  The "requested_sector_type" field references
+  # the available sectors specified above.
+  # The other arguments align with "single_source" procflow command
+  # line arguments, and typically reference geoips plugin names
+  outputs:
+    unprojected:
+      # This references the available sectors specified above.
+      requested_sector_type: unprojected
+      # This is a geoips "output_formatter" plugin
+      output_formatter: unprojected_image
+      # These are keyword argumnets to pass into the output_formatter plugin
+      output_formatter_kwargs:
+        x_size: 500
+      # This is a list of geoips "filename_formatter" plugins - this just
+      # writes out the same file to different file names.
+      filename_formatters: ["geoips_fname"]
+      # Identifies that duplicates should not be removed.  Each filename
+      # formatter can specify a "remove_duplicates" method, which identifies
+      # how to parse the filename to determine if 2 filenames are duplicates
+      # (ie, if 2 files are nearly the same time, with slightly different
+      # coverage, we often keep the one with the greater coverage, and delete
+      # the "duplicate" with less coverage)
+      remove_duplicates: False
+      # A list of all products to create.  These are geoips "product" plugins
+      # (YAML specifications of colormap, algorithm, interpolation scheme,
+      # etc)
+      product_names:
+        - 89pct
+
+    global_overlay:
+      requested_sector_type: global
+      # Can specify minimum coverage for the image to be produced. I think
+      # it defaults to like 20% ?
+      minimum_coverage: 10
+      # Specify what times *should* be produced.  Ie here, only produce
+      # 0, 20, and 40 after the hour (half of the geostaitonary 10-min files)
+      produce_times:
+        required_minutes: [0, 20, 40]
+      output_formatter: imagery_annotated
+      filename_formatters: ["geoips_fname"]
+      product_names:
+        - 89pct
+        - 37pct
+      # This is a specific thing for config based to identify what to
+      # plot as a background.  Data fusion handles this with arbitrary
+      # numbers of layers, so this will likely be subsumed by data_fusion
+      # implementation (so, order based procflow would generalize the
+      # arbitrary layers that are specified via data_fusion, rather than
+      # having this specific "background/foreground" implementation that
+      # is in config based.
+      background_products:
+        config_names: ["abi", "ahi", "seviri"]
+        product_names: ["Visible", "Infrared-Gray"]
+
+    image_clean:
+      requested_sector_type: tcweb_bdeck
+      output_formatter: imagery_clean
+      output_formatter_kwargs:
+        title_formatter: tc_copyright
+        title_copyright: "Data copyright ME, Imagery YOU"
+      filename_formatters: ["tc_clean_fname"]
+      # Can also specify keyword arguments to pass into the
+      # filename formatter.  The keys here are the actual
+      # plugin names - the special key "all" applies to all
+      # of the specified filename_formatters.  Note that
+      # ALL of these fields should support passing in "kwargs"
+      # if anything does not support kwargs, it should be
+      # updated to support it.
+      filename_formatters_kwargs:
+        all:
+          basedir: !ENV ${GEOIPS_OUTDIRS}/scratch
+      # This is a very special case for TC filenames - 
+      # this likely should end up just being additional
+      # kwargs to filename_formatters_kwargs, and not a
+      # separate "file_path_modifications" field.
+      file_path_modifications:
+        unique_invest_dirs: true
+        existing_invest_dirs_allowable_time_diff: 6
+      # metadata filename formatters are just filenames
+      # specifically for the YAML metadata outputs.
+      # THis is a special case for outputting both a
+      # product (output_formatter / filename_formatter), and
+      # associated YAML metadata about that product
+      # (metadata_filename_formatters / metadata_output_formatters),
+      # the plugins that get passed to metadata_filename_formatters
+      # are just filename_formatter plugins, and the plugins that
+      # get passed to metadata_output_formatters are valid
+      # output_formatter plugins.  Not sure how this should be
+      # handled correctly, or if it is reasonable to specify
+      # metadata explicitly like this?
+      metadata_filename_formatters:
+        all: metadata_default_fname
+      metadata_output_formatter: metadata_tc
+      remove_duplicates: True
+      product_names:
+        - 89H
+        - 89H-Physical
+        - 89V
+        - 89pct
+        - 37H
+        - 37V
+        - 37pct
+        - color37
+        - color89
+      # Telling it to NOT produce background (since
+      # background was specified above for ALL products)
+      fuse_product: None
+      # Basically you can re-specify ANYTHING that is in the
+      # YAML product specification right here - this will
+      # probably end up being handled similarly to how the
+      # product YAMLs are specified - where you can fully
+      # specify everything right here for the product, or
+      # just specify a pre-existing product.  This is just
+      # replacing the below fields in the YAML product spec
+      # with the below values.
+      product_spec_override:
+        all:
+          filename_coverage_checker:
+            plugin:
+              name: center_radius
+              arguments:
+                radius_km: 200
+          full_coverage_checker:
+            plugin:
+              name: masked_arrays
+              arguments: {}
+          image_production_coverage_checker:
+            plugin:
+              name: masked_arrays
+              arguments: {}
+        color37:
+          filename_coverage_checker:
+            plugin:
+              name: center_radius_rgba
+              arguments:
+                radius_km: 200
+          full_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+          image_production_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+        color89:
+          filename_coverage_checker:
+            plugin:
+              name: center_radius_rgba
+              arguments:
+                radius_km: 200
+          full_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+          image_production_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+
+    image_overlay:
+      requested_sector_type: tcweb_bdeck_recenter
+      output_formatter: imagery_annotated
+      filename_formatters: ["tc_fname"]
+      file_path_modifications:
+        unique_invest_dirs: true
+        existing_invest_dirs_allowable_time_diff: 6
+      metadata_filename_formatters:
+        all: metadata_default_fname
+      metadata_output_formatter: metadata_tc
+      remove_duplicates: True
+      product_names:
+        - 89H
+        - 89H-Physical
+        - 89V
+        - 89pct
+        - 37H
+        - 37V
+        - 37pct
+        - color37
+        - color89
+      # Set specific boundaries_params geoips plugins
+      boundaries_params: tc_pmw
+      gridlines_params: tc_pmw
+      background_products:
+        config_names: ["abi", "ahi", "seviri"]
+        product_names: ["Visible", "Infrared-Gray"]
+      product_spec_override:
+        all:
+          filename_coverage_checker:
+            plugin:
+              name: center_radius
+              arguments:
+                radius_km: 200
+          full_coverage_checker:
+            plugin:
+              name: masked_arrays
+              arguments: {}
+          image_production_coverage_checker:
+            plugin:
+              name: masked_arrays
+              arguments: {}
+        color37:
+          filename_coverage_checker:
+            plugin:
+              name: center_radius_rgba
+              arguments:
+                radius_km: 200
+          full_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+          image_production_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+        color89:
+          filename_coverage_checker:
+            plugin:
+              name: center_radius_rgba
+              arguments:
+                radius_km: 200
+          full_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
+          image_production_coverage_checker:
+            plugin:
+              name: rgba
+              arguments: {}
