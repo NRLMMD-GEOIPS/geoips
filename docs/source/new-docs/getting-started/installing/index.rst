@@ -144,7 +144,9 @@ For example, on Debian machines, you can install the optional and required depen
 .. code:: bash
 
     sudo apt-get install git make libopenblas-dev python3
-    sudo apt-get install gfortran gcc g++ pdflatex gdal-bin libgdal-dev texlive-latex-base wget make
+    sudo apt-get install gfortran gcc g++ gdal-bin libgdal-dev texlive-latex-base wget make
+
+This takes ~1gb of space.
 
 Install GeoIPS
 --------------
