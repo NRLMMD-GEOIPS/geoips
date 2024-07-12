@@ -20,7 +20,6 @@ from numpy import any
 import pytest
 import subprocess
 import sys
-from importlib import metadata
 
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import is_editable
