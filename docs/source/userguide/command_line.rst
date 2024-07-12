@@ -449,6 +449,28 @@ To test that your code adheres to GeoIPS Linting protocols, run the command belo
     geoips test linting (defaults to 'geoips' package)
     geoips test linting -p <package_name>
 
+``sector`` produces a .png image based on the provided sector plugin name. This sector
+must be an entry within any Plugin Package's registered_plugins.(yaml/json) file. Once,
+you've created a new sector plugin, make sure to run ``create_plugin_registries`` to get
+this sector added to your registry. Once added, you can run this command to produce an
+image of your sector to easily test whether or not it captures the region you expected
+and if the resolution of that sector is correct.
+
+To produce a sector image is quite simple. All you have to do is:
+
+    * ``geoips test sector <sector_name>``
+
+This an additional output directory can be specified if you want this image to be saved
+in a different location.
+
+    * ``geoips test sector <sector_name> --outdir <output_directory_path>``
+
+For example, if you were to run ``geoips test sector canada``, the following image would
+be created at ``$GEOIPS_OUTDIRS/canada.png``.
+
+.. image:: ../../images/command_line_examples/canada.png
+   :width: 800
+
 ``script`` executes an output-based test script which will return a numerical value
 based on the output of the test. A 0 is a success, and any other number will denote what
 failed and why that occurred. The ``script`` command can also execute ``integration``
