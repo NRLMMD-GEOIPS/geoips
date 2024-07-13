@@ -1,4 +1,6 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
  | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
@@ -98,6 +100,5 @@ Use the "template_basic_plugin" template on github
 
     cd $GEOIPS_PACKAGES_DIR
     git clone https://github.com/NRLMMD-GEOIPS/geoips_@mydatatype@
-  ############################################################################
 
 Follow instructions in template README
