@@ -30,7 +30,6 @@ gcli = GeoipsCLI()
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for commands."""
 
-    _config_install_args = ["geoips", "config", "install"]
     _get_family_args = ["geoips", "get", "family"]
     _get_interface_args = ["geoips", "get", "interface"]
     _get_package_args = ["geoips", "get", "package"]
@@ -48,7 +47,6 @@ class BaseCliTest(abc.ABC):
     _test_unit_test_args = ["geoips", "test", "unit-test"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
-        _config_install_args,
         _get_family_args,
         _get_interface_args,
         _get_package_args,
