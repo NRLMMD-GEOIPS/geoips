@@ -1,0 +1,41 @@
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
+Version 1.14.0a0 (2024-07-12)
+*****************************
+
+* Bug Fixes
+
+  * Fix memusg.py bugs that occur on Mac
+
+Bug Fixes
+=========
+
+Fix memusg.py bugs that occur on Mac
+------------------------------------
+
+This branch was needed as there was recently a bug introduced on Mac that would prevent
+any use of GeoIPS. This was introduced in geoips/utils/memusg.py, where a Process method
+was used that was only available on Linux, FreeBSD, SunOS. The method was
+``Process.cpu_num`` and was used in tracking information about the CPU Count used during
+a certain GeoIPS Process. Unfortunately, this is unavailable on Mac and caused bugs when
+trying to run GeoIPS.
+
+To fix this, we added a ``platform.system() == Linux`` check for ``Process.cpu_num``
+calls which ensured that function would only be ran if on a Linux system. Otherwise skip
+that call and don't collect inforamation on that variable.
+
+::
+
+    modified: geoips/utils/memusg.py
