@@ -1,42 +1,27 @@
 .. dropdown:: Distribution Statement
 
- | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 Version 1.14.0a0 (2024-07-12)
 *****************************
 
 * Bug Fixes
 
-  * Final Bug Fixes for GeoIPS Workshop
+  * Fix failing test data CLI unit tests
 
 Bug Fixes
 =========
 
-Final Bug Fixes for GeoIPS Workshop
------------------------------------
+Fix failing test data CLI unit tests
+------------------------------------
 
 *From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
 
-This branch fixes the remaining bugs that must be dealt with before the annual GeoIPS
-Workshop commences. These bugs are largely unrelated to each other but need to be fixed
-to ensure, installation, executing, and testing GeoIPS works without any hiccups. Please
-add to this section below in the order in which the bugs are addressed.
-
-1: Fixing failing unit tests so we can get the CI to pass. Unit tests
 ``test_geoips_config_install.py`` and ``test_log_setup.py`` had 1 or more tests that
-were failing, which caused the CI to fail as well. We need to fix these unit tests so
+were failing, which caused the CI to fail as well. Fix these unit tests so
 we can actually use the CI to address problems that are coming from new PRs. Below are
-the changes made to get that working.
+the files that required changes.
 
 ::
 
