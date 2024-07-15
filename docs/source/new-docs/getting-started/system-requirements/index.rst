@@ -22,10 +22,9 @@ determine your requirements, especially for production settings.
 Operating System and Proccessor Archetype Compatibility
 -------------------------------------------------------
 
-We attempt to support Linux, MacOS, and Windows on both ARM and x86 processors, but only officially support 
-Linux. This means that GeoIPS should work on all OS but we only guarantee Linux.
-If you encounter an issue on Mac or Windows, please submit an issue and we will 
-do our best to address it.
+We officially support RedHat and Debian flavors of Linux. We aim to also support MacOS, and Windows on
+both x86 and ARM processors. If you encounter an issue on Mac or Windows, 
+please submit an issue and while we cannot guarantee anything, we will do our best to address it.
 
 +------------------+---------------------------------------------------------+
 | Operating System | Minimum Version                                         |
