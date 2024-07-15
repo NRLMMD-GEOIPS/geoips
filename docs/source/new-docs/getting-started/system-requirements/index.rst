@@ -19,9 +19,10 @@ If you plan to use GeoIPS with custom tooling, unsupported datsets, in a
 parallel/batch environment, we recommend that you perform your own testing to
 determine your requirements, especially for production settings.
 
-User System Requirements
-------------------------
-We attempt to support Linux, MacOS, and Windows, but only officially support 
+Operating System and Proccessor Archetype Compatibility
+-------------------------------------------------------
+
+We attempt to support Linux, MacOS, and Windows on both ARM and x86 processors, but only officially support 
 Linux. This means that GeoIPS should work on all OS but we only guarantee Linux.
 If you encounter an issue on Mac or Windows, please submit an issue and we will 
 do our best to address it.
@@ -41,16 +42,22 @@ do our best to address it.
 At the moment, the installation instructions for GeoIPS (which you can find [HERE])
 work for these OS/processor archetype combos:
 
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+|                           | Conda              | Expert Install     | Docker (native)    | Docker (x86 emulation) |
++===========================+====================+====================+====================+========================+
+| Debian (x86)              | ✅                 | ✅                 | ✅                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Redhat (x86)              | ✅                 | ❓                 | ❓                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Mac (x86)                 | ❓                 | ❓                 | ❓                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Mac (arm)                 | ❌                 | ❓                 | ❌                 | ✅                     |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Windows with WSL2 (x86)   | ❓                 | ❓                 | ❓                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
 
-+-------------------------+--------------------+--------------------+--------------------+------------------------+
-| | Conda | Expert Install | Docker (native) | Docker (x86 emulation) |
-+=========================+====================+====================+====================+========================+
-| Debian (x86) | ✅ | ✅ | ✅ | N/A |
-| Redhat (x86) | ✅ | ❓ | ❓ | N/A |
-| Mac (x86) | ❓ | ❓ | ❓ | N/A |
-| Mac (arm) | ❌ | ❓ | ❌ | ✅ |
-| Windows with WSL2 (x86) | ❓ | ❓ | ❓ | N/A |
-+-------------------------+--------------------+--------------------+--------------------+------------------------+
+User System Requirements
+------------------------
 
 +----------+-------------+-------------+--------------------------------------+
 | Hardware | Minimum     | Recommended | Supports                             |
