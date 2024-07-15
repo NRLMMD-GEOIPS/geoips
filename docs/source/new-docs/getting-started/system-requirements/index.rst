@@ -60,20 +60,18 @@ User System Requirements
 ------------------------
 
 +----------+-------------+-------------+--------------------------------------+
-| Hardware | Minimum     | Recommended | Supports                             |
+| Hardware | Minimum     | Recommended | Comments                             |
 +==========+=============+=============+======================================+
-| CPU      | 2 CPU       | 4 CPU       | A single concurrent GeoIPS process   |
+| CPU      | 2 CPU       | 4 CPU       |                                      |
 +----------+-------------+-------------+--------------------------------------+
-|| Memory  || 12GB       || 128GB      || Production of most GeoIPS imagery.  |
+|| Memory  || 12GB       || 128GB      || Enough for most GeoIPS imagery.     |
 ||         ||            ||            || Some Geostationary imagery requires |
 ||         ||            ||            || > 90GB RAM.                         |
 +----------+-------------+-------------+--------------------------------------+
-| Storage  | 20GB on SSD | 20GB on SSD | Base GeoIPS system installation.     |
+| Storage  | 20GB on SSD | 20GB on SSD || Plus additional storage, as needed, |
+|          |             |             || for datasets.                       |
 +----------+-------------+-------------+--------------------------------------+
-||         || 20GB       || As needed  || Additional disk space for input and |
-||         ||            ||            || output data storage. May be SDD,    |
-||         ||            ||            || HDD, or NAS.                        |
-+----------+-------------+-------------+--------------------------------------+
+
 
 Developer System Requirements
 -----------------------------
