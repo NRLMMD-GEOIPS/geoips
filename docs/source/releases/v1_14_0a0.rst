@@ -12,7 +12,7 @@ Version 1.14.0a0 (2024-07-16)
   * Correct typo causing product family xrdict_area_product_to_outlist failure
 * Documentation Updates
 
-  * Update LICENSE and DISTRIBUTION to latest approved version
+  * Update LICENSE and DISTRIBUTION to latest approved version, update all file headers
   * Add pinkrst and brassy to dependencies
 
 Bug Fixes
@@ -65,13 +65,15 @@ Add pinkrst and brassy to dependencies
 
   modified: pyproject.toml
 
-
-Update LICENSE and DISTRIBUTION to latest approved version
-----------------------------------------------------------
+Update LICENSE and DISTRIBUTION to latest approved version, update all file headers
+-----------------------------------------------------------------------------------
 
 *From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
+
+This file header should no longer have to change.
 
 ::
 
   modified: LICENSE
   modified: DISTRIBUTION
+  modified: Every single file
