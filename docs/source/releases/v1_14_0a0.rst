@@ -10,6 +10,8 @@ Version 1.14.0a0 (2024-07-16)
 
   * Fix failing test data CLI unit tests
   * Correct typo causing product family xrdict_area_product_to_outlist failure
+  * Fix push of doclinttest-stable image to ghcr.io
+
 * Documentation Updates
 
   * Update LICENSE and DISTRIBUTION to latest approved version, update all file headers
@@ -53,6 +55,20 @@ the files that required changes.
     modified: tests/unit_tests/commandline/cli_top_level_tester.py
     deleted: tests/unit_tests/commandline/test_geoips_config_install.py
 
+Fix push of doclinttest-stable image to ghcr.io
+-----------------------------------------------
+
+*From GEOIPS#681: 2024-07-16, Fix push of doclinttest-stable image to ghcr.io*
+
+Incorrect/old variables were being used in this step, but the issue wasn't
+revealed until we pushed to main because the step didn't run except on main.
+Added an additional step to also push doclinttest-latest in the same manner,
+but from any branch to ensure that the doclinttest-stable step will succeed.
+
+::
+
+    modified: .github/workflows/doc-lint-test.yaml
+
 Documentation Updates
 =====================
 
@@ -61,7 +77,7 @@ Add pinkrst and brassy to dependencies
 
 *From GEOIPS#675: 2024-07-16, Add brassy and pinkrst to geoips lint dependencies*
 
-:: 
+::
 
   modified: pyproject.toml
 
