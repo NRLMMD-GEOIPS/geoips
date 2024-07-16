@@ -5,12 +5,12 @@ import logging
 import pytest
 
 from geoips.errors import PluginPackageNotFoundError
-from geoips.geoips_utils import expose_geoips_commands, get_entry_point_group
+from geoips.geoips_utils import expose_geoips_commands
 
 LOG = logging.getLogger(__name__)
 
 plugin_packages = [
-    str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
+    str(ep.value) for ep in metadata.entry_points(group="geoips.plugin_packages")
 ]
 
 

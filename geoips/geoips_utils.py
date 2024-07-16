@@ -455,7 +455,7 @@ def _get_pkg_name_and_logger(pkg_name, provided_log):
           output it.
     """
     plugin_packages = [
-        str(ep.value) for ep in get_entry_point_group("geoips.plugin_packages")
+        str(ep.value) for ep in metadata.entry_points(group="geoips.plugin_packages")
     ]
     if provided_log:
         log = provided_log
