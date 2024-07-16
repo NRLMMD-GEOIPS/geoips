@@ -243,7 +243,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Release Note
-          path: ${{ steps.release-note-generator.outputs.release_note_file }}"
+          path: ${{ steps.release-note-generator.outputs.release_note_file }}
           if-no-files-found: error
           overwrite: true
 
