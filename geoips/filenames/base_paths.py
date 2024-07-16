@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -203,6 +203,12 @@ if not getenv("GEOIPSDATA"):
     PATHS["GEOIPSDATA"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "geoipsdata")
 else:
     PATHS["GEOIPSDATA"] = getenv("GEOIPSDATA").rstrip("/")
+
+if not getenv("GEOIPS_VERS"):
+    PATHS["GEOIPS_VERS"] = "0.0.0"
+else:
+    PATHS["GEOIPS_VERS"] = getenv("GEOIPS_VERS")
+
 
 if getenv("TCWWW"):
     PATHS["TCWWW"] = getenv("TCWWW").rstrip("/")
