@@ -97,6 +97,7 @@ sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
+brassy = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
@@ -107,6 +108,7 @@ flake8-docstrings = { version = "*", optional = true }
 flake8-rst = { version = "*", optional = true }
 prettier = { version = "*", optional = true }
 doc8 = { version = "*", optional = true }
+pinkrst = { version = "*", optional = true }
 # Test group
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
@@ -125,6 +127,7 @@ doc = [
     "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
     "m2r2",                      # Required for rendering markdown into RST-based documentation
+    "brassy",                    # Release Note Generation
 ]
 lint = [
     "bandit",                # Syntax/security checking
@@ -136,6 +139,7 @@ lint = [
     "flake8-rst",            # RST checking
     "prettier",              # YAML, JSON, etc linting
     "doc8",                  # RST linting
+    "pinkrst",               # RST Auto-formatting
 ]
 test = [
     "pytest",          # Required for unit tests
