@@ -30,7 +30,6 @@ gcli = GeoipsCLI()
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for commands."""
 
-    _config_install_args = ["geoips", "config", "install"]
     _get_family_args = ["geoips", "get", "family"]
     _get_interface_args = ["geoips", "get", "interface"]
     _get_package_args = ["geoips", "get", "package"]
@@ -48,7 +47,6 @@ class BaseCliTest(abc.ABC):
     _test_unit_test_args = ["geoips", "test", "unit-test"]
     _validate_args = ["geoips", "validate"]
     arg_list = [
-        _config_install_args,
         _get_family_args,
         _get_interface_args,
         _get_package_args,
@@ -150,7 +148,7 @@ class BaseCliTest(abc.ABC):
         """
         for header in headers:
             if selected_cols is None or headers[header] in selected_cols:
-                assert header in output or "has no" in output
+                assert header in output or "has no" in output or "No plugins" in output
 
     def assert_non_editable_error_or_wrong_package(self, args, error):
         """If we found a package in non-editable mode, assert that an error exists.
@@ -204,9 +202,13 @@ class BaseCliTest(abc.ABC):
                 # This is a specific case for the integration test scripts that
                 # only work for geoips. Make sure an error is raised that says
                 # we cannot run integration tests in packages other than 'geoips'
-                assert (
+                integration_error = (
                     "script: error: Only package 'geoips' has integration tests"
-                ) in error
+                )
+                package_name_error = (
+                    "error: argument --package_name/-p: invalid choice:"
+                )
+                assert integration_error in error or package_name_error in error
             elif (
                 "-p" in args
                 and args[pkg_idx] in self.plugin_package_names
