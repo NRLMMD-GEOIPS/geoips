@@ -13,6 +13,7 @@ Version 1.14.0a0 (2024-07-16)
 * Documentation Updates
 
   * Update LICENSE and DISTRIBUTION to latest approved version
+  * Add pinkrst and brassy to dependencies
 
 Bug Fixes
 =========
@@ -54,6 +55,16 @@ the files that required changes.
 
 Documentation Updates
 =====================
+
+Add pinkrst and brassy to dependencies
+--------------------------------------
+
+*From GEOIPS#675: 2024-07-16, Add brassy and pinkrst to geoips lint dependencies*
+
+:: 
+
+  modified: pyproject.toml
+
 
 Update LICENSE and DISTRIBUTION to latest approved version
 ----------------------------------------------------------
