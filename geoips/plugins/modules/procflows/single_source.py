@@ -909,6 +909,9 @@ def process_xarray_dict_to_output_format(
             xobjs["METADATA"],
             area_def=area_def,
         )
+    else:
+        # Ensure final_products is defined
+        final_products = curr_products
 
     return final_products
 
