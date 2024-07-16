@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 if [[ "$1" != "write_output_file_list" && "$1" != "copy_files" && "$1" != "run_file_list_comparison" ]]; then
     echo "Usage: $0 <output_file_arg> [<copy_base_dir>]"
@@ -34,6 +25,10 @@ expected_outputs=$GEOIPS_SYSTEM/tests/realtime_tests/output_file_lists/$source_n
 
 output_file_list_fname_arg=""
 if [[ "$1" == "write_output_file_list" ]]; then
+    if [[ ! -d $GEOIPS_SYSTEM/tests/realtime_tests/output_file_lists ]]; then
+        echo "ERROR: $GEOIPS_SYSTEM/tests/realtime_tests/output_file_lists must exist to write_output_file_list! Quitting!"
+        exit 1
+    fi
     output_file_list_fname_arg="--output_file_list_fname $expected_outputs"
 fi
 
@@ -43,4 +38,10 @@ if [[ "$1" == "copy_files" && "$2" != "" && -d "$2" ]]; then
     copy_dir="$copy_base_dir/$source_name"
     mkdir -p $copy_dir
     echo "NOTE: Will copy output files to $copy_dir"
+elif [[ "$1" == "copy_files" && "$2" != "" && ! -d "$2" ]]; then
+    echo "ERROR: $2 must exist to copy_files! Quitting!"
+    exit 1
+elif [[ "$1" == "copy_files" && "$2" == "" ]]; then
+    echo "ERROR: $2 must be specified (and exist) to copy_files! Quitting!"
+    exit 1
 fi

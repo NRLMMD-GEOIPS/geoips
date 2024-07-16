@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit Tests for log output for optional dependencies found throughout geoips."""
 
 import logging

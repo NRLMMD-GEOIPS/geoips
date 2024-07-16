@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Products interface module."""
 
@@ -129,8 +120,24 @@ class ProductsInterface(BaseYamlInterface):
             # Otherwise, if "all" specified, use those override values
             elif "all" in product_spec_override:
                 override_args = product_spec_override["all"]
+            replace_arg = False
+            # NOTE: this is a top-level field, where if you set
+            # product_spec_override:
+            #   spec:
+            #     replace: true
+            # It will automatically replace ALL fields found in
+            # the original product spec and also found in the
+            # override with what is specified in the override
+            # in its entirety, without merging.  This is not
+            # terribly useful overall - we probably want this
+            # sort of capability in the end, but more flexible
+            # and able to be applied to only specific fields,
+            # etc.  This is a brute force method to at least
+            # allow overriding entire fields.
+            if product_spec_override.get("replace"):
+                replace_arg = True
             prod_plugin["spec"] = merge_nested_dicts(
-                prod_plugin["spec"], override_args, in_place=False
+                prod_plugin["spec"], override_args, in_place=False, replace=replace_arg
             )
 
         return prod_plugin

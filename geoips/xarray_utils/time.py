@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Utils to handle time stamp information within xarray objects."""
 
@@ -75,6 +66,10 @@ def get_min_from_xarray_time(xarray_obj, varname):
         Python datetime.datetime object representing minimum time of the
         Dataset or DataArray
     """
+    # If requested varname is not even in the xarray object, just
+    # return None rather than failing.
+    if varname not in xarray_obj.variables:
+        return None
     minval = xarray_obj[varname].min().to_dict()["data"]
     # Hack to get around bug in most recent version of numpy
     if minval is None:
@@ -101,6 +96,10 @@ def get_max_from_xarray_time(xarray_obj, varname):
         Python datetime.datetime object representing maximum time of the
         Dataset or DataArray
     """
+    # If requested varname is not even in the xarray object, just
+    # return None rather than failing.
+    if varname not in xarray_obj.variables:
+        return None
     maxval = xarray_obj[varname].max().to_dict()["data"]
     # Hack to get around bug in most recent version of numpy
     if maxval is None:

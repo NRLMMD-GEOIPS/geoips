@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Generalized geolocation calculations for geostationary satellites."""
 
@@ -25,6 +16,11 @@ from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
+# interface = None indicates to the GeoIPS interfaces that this is not a valid
+# plugin, and this module will not be added to the GeoIPS plugin registry.
+# This allows including python modules within the geoips/plugins directory
+# that provide helper or utility functions to the geoips plugins, but are
+# not full GeoIPS plugins on their own.
 interface = None
 
 with import_optional_dependencies(loglevel="info"):

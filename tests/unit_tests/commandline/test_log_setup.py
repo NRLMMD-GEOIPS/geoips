@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit tests for geoips/commandline/log_setup.py.
 
 Tests the following functions:
@@ -179,7 +182,10 @@ def test_log_interactive_from_directly_imported_plugin(caplog):
     reader = readers.get_plugin("abi_netcdf")
 
     test_data_dir = os.getenv("GEOIPS_TESTDATA_DIR")
-    test_data_dir += "/test_data_noaa_aws/data/goes16/20200918/1950"
-    test_data_files = glob(test_data_dir + "/*C14*.nc")
-    _ = reader(test_data_files)
-    assert "INTERACTIVE" in caplog.text
+    if test_data_dir:
+        # Only run this test if GEOIPS_TESTDATA_DIR environment variable has been set
+        # on the machine that is running the test.
+        test_data_dir += "/test_data_noaa_aws/data/goes16/20200918/1950"
+        test_data_files = glob(test_data_dir + "/*C14*.nc")
+        _ = reader(test_data_files)
+        assert "INTERACTIVE" in caplog.text

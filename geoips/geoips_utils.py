@@ -1,44 +1,31 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """General high level utilities for geoips processing."""
 
+import json
 import os
 from copy import deepcopy
-import sys
+import inspect
 
 # import yaml
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import EntryPointError, PluginRegistryError
+from geoips.errors import PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
-NAMESPACE_PREFIX = "geoips"
 
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    # NOTE: When there is a .egg-info directory in the plugin package top
-    # level (ie, from setuptools pip install -e), it seems to return that
-    # package twice in this list.  For now, just use the full list with
-    # duplicates.
-    if sys.version_info[:3] >= (3, 10, 0):
-        eps = metadata.entry_points(group=group)
-    else:
-        eps = metadata.entry_points()[group]
-
-    return eps
+def remove_unsupported_kwargs(module, requested_kwargs):
+    """Remove unsupported keyword arguments."""
+    module_args = set(inspect.signature(module).parameters.keys())
+    unsupported = list(set(requested_kwargs.keys()).difference(module_args))
+    if "kwargs" not in module_args:
+        for key in unsupported:
+            LOG.warning("REMOVING UNSUPPORTED %s key %s", module, key)
+            requested_kwargs.pop(key)
+    return requested_kwargs
 
 
 def find_ascii_palette(name):
@@ -62,7 +49,7 @@ def find_all_txt_plugins(subdir=""):
     in ``.txt``. Return list of files
     """
     # Load all entry points for plugin packages
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
 
     # Loop over the plugin packages and load all of their yaml plugins
     txt_files = []
@@ -82,7 +69,7 @@ def load_all_yaml_plugins():
     # Load all entry points for plugin packages
     import json
 
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
     yaml_plugins = {}
     for pkg in plugin_packages:
         pkg_plug_path = str(resources.files(pkg.value) / "registered_plugins")
@@ -109,89 +96,6 @@ def load_all_yaml_plugins():
         except TypeError:
             raise PluginRegistryError(f"Failed reading {pkg_plug_path}.")
     return yaml_plugins
-
-
-def find_entry_point(namespace, name, default=None):
-    """Find object matching 'name' using GEOIPS entry point namespace 'namespace'.
-
-    Automatically add 'geoips' prefix to namespace for disambiguation.
-
-    This is used in geoips.interfaces.base.get_plugin when "name" exists.
-    In that case, default is passed in as the full path, and is likely just
-    returned as the full path.  So the entry points in here probably are not
-    actually used, but the function is still required.
-
-    Parameters
-    ----------
-    namespace : str
-        Entry point namespace (e.g. 'readers')
-    name : str
-        Entry point name (e.g. 'amsr2_netcdf')
-    default : entry point, optional
-        Default value if no match is found.  If this is not set (i.e. None),
-        then no match will result in an exception
-    """
-    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    for ep in get_entry_point_group(ep_namespace):
-        if ep.name == name:
-            resolved_ep = ep.load()
-            break
-    else:
-        resolved_ep = None
-    if resolved_ep is not None:
-        return resolved_ep
-    else:
-        if default is not None:
-            return default
-        else:
-            raise EntryPointError(
-                f"Failed to find object matching {name} in namespace {ep_namespace}"
-            )
-
-
-def get_all_entry_points(namespace):
-    """Return all entry points in GEOIPS entry point namespace 'namespace'.
-
-    Automatically add 'geoips' prefix to namespace for disambiguation.
-
-    Parameters
-    ----------
-    namespace :str
-        Entry point namespace (e.g. 'readers')
-    """
-    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    retlist = []
-    # Do not use a list comprehension here so we can raise exceptions
-    # containing the actual package that errored.
-    try:
-        for ep in get_entry_point_group(ep_namespace):
-            try:
-                retlist += [ep.load()]
-            except Exception as resp:
-                raise EntryPointError(
-                    f"{resp}:"
-                    f"\nAn error occurred while loading entry point "
-                    f"'{ep.name}={ep.value}' entry point."
-                    f"\nTry checking to ensure init file exists in package subdir "
-                    f"\n(ALL directories containing python files MUST have init file)"
-                ) from resp
-    except KeyError:
-        retlist = []
-    return retlist
-
-
-def list_entry_points(namespace):
-    """List names of objects in GEOIPS entry point namespace 'namespace'.
-
-    Automatically add 'geoips' prefix to namespace for disambiguation.
-
-    Parameters
-    ----------
-    namespace :str
-        Entry point namespace (e.g. 'readers')
-    """
-    ep_namespace = ".".join([NAMESPACE_PREFIX, namespace])
-    return [ep.name for ep in get_entry_point_group(ep_namespace)]
 
 
 def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=True):
@@ -421,7 +325,7 @@ def get_required_geoips_xarray_attrs():
     return required_xarray_attrs
 
 
-def merge_nested_dicts(dest, src, in_place=True):
+def merge_nested_dicts(dest, src, in_place=True, replace=False):
     """Perform an in-place merge of src into dest.
 
     Performs an in-place merge of src into dest while preserving any values that already
@@ -431,6 +335,25 @@ def merge_nested_dicts(dest, src, in_place=True):
         final_dest = deepcopy(dest)
     else:
         final_dest = dest
+
+    # NOTE: this is a top-level field, where if you set
+    # product_spec_override:
+    #   replace: true
+    # It will automatically replace ALL fields found in
+    # the original product spec and also found in the
+    # override with what is specified in the override
+    # in its entirety, without merging.  This is not
+    # terribly useful overall - we probably want this
+    # sort of capability in the end, but more flexible
+    # and able to be applied to only specific fields,
+    # etc.  This is a brute force method to at least
+    # allow overriding entire fields.
+    if replace:
+        for key in final_dest:
+            if key in src:
+                final_dest[key] = src[key]
+        return final_dest
+
     try:
         final_dest.update(src | final_dest)
     except (AttributeError, TypeError):
@@ -445,3 +368,49 @@ def merge_nested_dicts(dest, src, in_place=True):
         raise
     if not in_place:
         return final_dest
+
+
+def is_editable(package_name):
+    """Return whether or not 'package_name' has been installed in editable mode.
+
+    Where editable mode is a local package installed via 'pip install -e <path_to_pkg>
+    and non-editable mode is a local package installed via 'pip install <pact_to_pkg>.
+
+    If the package under package_name doesn't exist, raise a ValueError reporting that.
+
+    Parameters
+    ----------
+    package_name: str
+        - The name of the pip installed local package. (ie. "geoips", "recenter_tc", ..)
+
+    Returns
+    -------
+    editable: bool
+        - The truth value as to whether or not the package was installed in editable
+          mode.
+    """
+    plugin_package_names = [
+        ep.value for ep in metadata.entry_points(group="geoips.plugin_packages")
+    ]
+    if package_name not in plugin_package_names:
+        raise ValueError(
+            f"Package '{package_name}' is not an installed package. Please install it "
+            "before running this command via 'pip install <path_to_package_name>' "
+            "optionally with the '-e' flag."
+        )
+    dist_info = metadata.distribution(package_name).read_text("direct_url.json")
+    # If dist_info is None, package was not installed from source and it was installed
+    # from a pre-built wheel. Therefore it is not in editable mode.
+    if dist_info:
+        # If dist_info is not None, that means we retrieved metadata about the installed
+        # package. Check to see if it's in editable mode or not.
+        json_dist = json.loads(dist_info)
+        if (
+            "dir_info" in json_dist.keys()
+            and "editable" in json_dist["dir_info"].keys()
+            and json_dist["dir_info"]["editable"]
+        ):
+            # If the 'editable' key exists and is True
+            return True
+    # Package is installed in non-editable mode
+    return False

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Test script for representative product comparisons."""
 
@@ -118,7 +109,17 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     )
     from PIL import Image
     import numpy as np
-    from pixelmatch.contrib.PIL import pixelmatch
+
+    try:
+        from pixelmatch.contrib.PIL import pixelmatch
+    except ImportError as e:
+        raise ImportError(
+            "Comparing images using GeoIPS requires a python library called pixelmatch"
+            + " (link: https://pypi.org/project/pixelmatch/)."
+            + "You can install it directly or install the test extra"
+            + " eg. pip install geoips[test]"
+        ) from e
+
     from geoips.commandline.log_setup import log_with_emphasis
 
     LOG.info("**Comparing output_product vs. compare product")

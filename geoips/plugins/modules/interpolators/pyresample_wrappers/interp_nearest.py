@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Geoips plugin for driving pyresample Nearest Neighbor interpolation."""
 
@@ -21,7 +12,7 @@ from geoips.plugins.modules.interpolators.utils.interp_pyresample import (
     get_data_box_definition,
 )
 from geoips.data_manipulations.info import percent_unmasked
-from geoips.geoips_utils import copy_standard_metadata
+from geoips.geoips_utils import copy_standard_metadata, remove_unsupported_kwargs
 
 LOG = logging.getLogger(__name__)
 
@@ -49,7 +40,7 @@ def get_final_roi(xarray_obj, area_def):
     return roi
 
 
-def call(area_def, input_xarray, output_xarray, varlist, array_num=None):
+def call(area_def, input_xarray, output_xarray, varlist, array_num=None, **kwargs):
     """Pyresample interp_kd_tree nearest neighbor GeoIPS plugin."""
     LOG.info(
         "Interpolating nearest using standard scifile register method: kd_tree nearest"
@@ -90,8 +81,14 @@ def call(area_def, input_xarray, output_xarray, varlist, array_num=None):
     # Use standard scifile / pyresample registration
     data_box_definition = get_data_box_definition(input_xarray.source_name, lons, lats)
 
+    kd_kwargs = remove_unsupported_kwargs(interp_kd_tree, kwargs)
     interp_data = interp_kd_tree(
-        vars_to_interp, area_def, data_box_definition, float(roi), interp_type="nearest"
+        vars_to_interp,
+        area_def,
+        data_box_definition,
+        float(roi),
+        interp_type="nearest",
+        **kd_kwargs,
     )
 
     for arr, orig, varname in zip(interp_data, vars_to_interp, varlist):

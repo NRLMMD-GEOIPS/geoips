@@ -1,16 +1,8 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit tests on all the readers."""
+import numpy as np
 import pytest
 from geoips.commandline.log_setup import setup_logging
 from geoips.interfaces import readers
@@ -32,22 +24,26 @@ class TestReaders:
 
     def verify_xarray(self, inxr, test_parameters):
         """Test every parameter."""
-        data_key = test_parameters["data_key"]
-        data_var = test_parameters["data_var"]
+        for test_parameter in test_parameters:
+            data_key = test_parameter["data_key"]
+            data_var = test_parameter["data_var"]
+            if "mean" in test_parameter:
+                mean = test_parameter["mean"]
+                assert np.isclose(inxr[data_key].variables[data_var].mean(), mean)
 
-        assert inxr
-        assert inxr[data_key]
-        assert inxr[data_key].longitude.max()
-        assert inxr[data_key].longitude.min()
-        assert inxr[data_key].latitude.max()
-        assert inxr[data_key].latitude.min()
-        assert getattr(inxr[data_key], data_var).mean()
-        assert inxr["METADATA"].attrs["source_name"]
-        assert inxr["METADATA"].attrs["platform_name"]
-        assert inxr["METADATA"].attrs["data_provider"]
-        assert inxr["METADATA"].attrs["start_datetime"]
-        assert inxr["METADATA"].attrs["end_datetime"]
-        assert inxr["METADATA"].attrs["interpolation_radius_of_influence"]
+            assert inxr
+            assert inxr[data_key]
+            assert inxr[data_key].longitude.max()
+            assert inxr[data_key].longitude.min()
+            assert inxr[data_key].latitude.max()
+            assert inxr[data_key].latitude.min()
+            assert inxr[data_key].variables[data_var].mean()
+            assert inxr["METADATA"].attrs["source_name"]
+            assert inxr["METADATA"].attrs["platform_name"]
+            assert inxr["METADATA"].attrs["data_provider"]
+            assert inxr["METADATA"].attrs["start_datetime"]
+            assert inxr["METADATA"].attrs["end_datetime"]
+            assert inxr["METADATA"].attrs["interpolation_radius_of_influence"]
 
     @pytest.mark.parametrize("reader_name", available_readers)
     def test_reader_plugins(self, reader_name):

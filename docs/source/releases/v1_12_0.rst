@@ -1,14 +1,7 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 Version 1.12.0 (2023-12-07)
 ***************************
@@ -20,6 +13,7 @@ Version 1.12.0 (2023-12-07)
   * Fix GEOIPS_VERS in config_geoips setup file
   * Check for unit_tests directory before running pytest in check_code.sh
   * Fix build_docs.sh geoips template paths
+  * Call identify_checker and get_plugin separately for output_checkers
 * Testing updates
 
   * Add extensive YAML procflow config, including many options
@@ -34,6 +28,7 @@ Version 1.12.0 (2023-12-07)
   * Rename JPSS-01/02 platform name to noaa-20/21 in ATMS reader
   * Add hy-2d platform to scat knmi winds reader
   * Allow filtering products based on platform name
+  * Allow passing plugin_package name to create_plugin_registries
 * Release updates
 
   * Update 'update_this_release_note'
@@ -49,6 +44,58 @@ Version 1.12.0 (2023-12-07)
 
 Enhancements
 ============
+
+Allow passing plugin_package name to create_plugin_registries
+-------------------------------------------------------------
+
+*From GEOIPS#422: 2023-12-14, 1.12.0 release bug fixes*
+
+Either create all plugin registries (one argument), or a single
+registry (pass package name to create_plugin_registries)
+
+::
+
+  modified: geoips/create_plugin_registries.py
+
+Call identify_checker and get_plugin separately for output_checkers
+-------------------------------------------------------------------
+
+*From GEOIPS#422: 2023-12-14, 1.12.0 release bug fixes*
+
+* Remove EntryPointError
+
+  * EntryPointError no longer needed (not using EntryPoints for individual plugins)
+  * Removed from interfaces/base.py - get_plugin should never raise EntryPointError
+* Remove find_entry_point, list_entry_points, and get_all_entry_points
+
+  * No longer used since entry points are not used for individual plugins.
+  * Plugin registries are now used exclusively for finding plugins, so we do
+    not need individual entry points (only a single entry point for each plugin
+    package).
+* Call identify checker and get_plugin separately from procflows
+
+  * Rather than having a special case in base.py get_plugin and
+    output_checkers get_plugin which allowed passing in full paths
+    to output products and automatically identifying the checker
+    name and opening it, just explicitly call ``identify_checker``
+    and ``get_plugin`` separately from the procflows.
+  * single_source, config_based, and data_fusion procflows all now
+    call ``identify_checker`` on the output product filename, and
+    ``get_plugin`` on the resulting checker plugin name.
+  * This simplified a lot of logic in both ``output_checkers`` and
+    ``interfaces/base.py``. Supporting passing a filename to
+    ``output_checkers.get_plugin()`` was unnecessarily complicated.
+* Added log.interactive when sector has no coverage
+
+::
+
+  M geoips/errors.py
+  M geoips/geoips_utils.py
+  M geoips/interfaces/base.py
+  M geoips/interfaces/module_based/output_checkers.py
+  M geoips/plugins/modules/procflows/single_source.py
+  M geoips/plugins/modules/procflows/config_based.py
+
 
 Allow filtering products based on platform name
 -----------------------------------------------

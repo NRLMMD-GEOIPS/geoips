@@ -11,6 +11,8 @@ profiling/
 ####################################################
 # GeoIPS Environment specific .gitignore options:
 
+# auto-generated command instructions file
+geoips/commandline/ancillary_info/cmd_instructions.json
 # auto-generated plugin registry file
 registered_plugins.json
 # auto-generated version file, created at run-time

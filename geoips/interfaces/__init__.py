@@ -1,16 +1,19 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS interface module."""
+
+# Note all imports from geoips.interfaces below will error on
+# flake8 F401: "imported but unused", since we are not including the
+# individual module name strings in the __all__ variable below.
+# flake8 does not recognize the list of strings when passed to
+# __all__.  Note F401 is ignored on this file in geoips/.config/flake8,
+# so when using the "official" GeoIPS flake8 config, these errors will
+# not be reported. Since flake8 does not allow you to specify a single
+# error to ignore within the full file (only ALL errors within the file,
+# or single errors on a single line), we are ignoring F401 in this file
+# via a per-file ignore within the flake8 config.
+# https://stackoverflow.com/questions/48153886/flake8-ignore-specific-warning-for-entire-file
 
 from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
@@ -71,6 +74,11 @@ yaml_based_interfaces = [
     "products",
     "sectors",
 ]
+# Note due to the fact that we are including all of the imported packages
+# in __all__ via variables rather than the actual strings, flake8 does
+# not recognize the above imports as being used.  F401 ignored via
+# per-file ignore in geoips/.config/flake8 config.  See comment above
+# for more information.
 __all__ = module_based_interfaces + yaml_based_interfaces
 
 

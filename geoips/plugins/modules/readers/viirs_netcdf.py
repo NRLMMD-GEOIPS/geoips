@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """VIIRS NetCDF reader.
 
@@ -61,9 +52,13 @@ import os
 
 # Installed Libraries
 import numpy
+import pandas as pd
 import xarray as xr
 
 from geoips.utils.context_managers import import_optional_dependencies
+
+# GeoIPS Libraries
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -209,6 +204,26 @@ family = "standard"
 name = "viirs_netcdf"
 
 
+def _get_geolocation_metadata(orig_shape, fnames, xarray):
+    """
+    Gather all of the metadata used in creating geolocation data for input file.
+
+    This is split out so we can easily create a chash of the data for creation
+    of a unique filename. This allows us to avoid recalculation of angles that
+    have already been calculated.
+    """
+    geomet = {}
+    geomet["platform_name"] = "viirs"
+    geomet["scene"] = "stitched_granules"
+    # Just getting the nadir resolution in kilometers.  Must extract from a string.
+    geomet["res_km"] = xarray.attrs["resolution_km"]
+    geomet["roi_factor"] = 5  # roi = res * roi_factor, was 10
+    geomet["num_lines"] = orig_shape[0]
+    geomet["num_samples"] = orig_shape[1]
+    geomet["fnames"] = fnames
+    return geomet
+
+
 def required_chan(chans, varnames):
     """Return True if required channel."""
     if chans is None:
@@ -267,10 +282,21 @@ def add_to_xarray(varname, nparr, xobj, dataset_masks, data_type, nparr_mask):
     if dataset_masks[data_type] is False:
         dataset_masks[data_type] = nparr_mask
     elif dataset_masks[data_type].shape != merged_array.shape:
+        # This was previously only being applied to "BT_CHANNELS", which
+        # caused the unprojected test scripts to fail (due to incorrect
+        # shape of the final mask array).  Removing that check so ALL
+        # variables are vstacked.
         dataset_masks[data_type] = numpy.vstack([dataset_masks[data_type], nparr_mask])
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    resample=False,
+):
     """Read VIIRS netcdf data products.
 
     Parameters
@@ -621,9 +647,79 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                             ncvar.getncattr(attrname)
                         )
 
-        # close the files
+        # LongName is something like:
+        # 'VIIRS/JPSS1 Day/Night Band 6-Min L1B Swath SDR 750m NRT'
+        # or
+        # 'VIIRS/NPP Day/Night Band 6-Min L1B Swath 750m'
+        long_name_parts = ncdf_file.LongName.split(" ")
+        if long_name_parts[-1] == "NRT":
+            resolution_m = long_name_parts[-2]
+        else:
+            resolution_m = long_name_parts[-1]
+        resolution_m = int(resolution_m.replace("m", ""))
+        LOG.info("Resolution: %s", resolution_m)
+        xarrays[data_type].attrs["resolution_km"] = resolution_m / 1000.0
 
+        # close the files
         ncdf_file.close()
+
+    # Geolocation resampling
+    if resample and area_def:
+        adname = area_def.area_id
+        new_shape = area_def.shape
+
+        LOG.info("")
+        LOG.info("Getting geolocation information for {}.".format(adname))
+
+        for dtype in xarrays.keys():
+            if "latitude" not in xarrays[dtype].variables:
+                LOG.info(
+                    "No data read for dataset %s, removing from xarray list", dtype
+                )
+                continue
+            fldk_lats = xarrays[dtype]["latitude"]
+            fldk_lons = xarrays[dtype]["longitude"]
+            # Get just the metadata we need
+            geo_metadata = _get_geolocation_metadata(
+                fldk_lats.shape, fnames, xarrays[dtype]
+            )
+            lines, samples = get_indexes(geo_metadata, fldk_lats, fldk_lons, area_def)
+
+            index_mask = lines != -999
+
+            new_dim0 = "dim_{:d}".format(new_shape[0])
+            new_dim1 = "dim_{:d}".format(new_shape[1])
+
+            # Resample the mask
+            old_dataset_masks = dataset_masks[dtype]
+            dataset_masks[dtype] = numpy.full(new_shape, True)
+            dataset_masks[dtype][index_mask] = old_dataset_masks[
+                lines[index_mask], samples[index_mask]
+            ]
+
+            for varname in xarrays[dtype].variables.keys():
+                new_var = numpy.full(new_shape, -999.1)
+                new_var[index_mask] = xarrays[dtype][varname].values[
+                    lines[index_mask], samples[index_mask]
+                ]
+                if varname not in list(xvarnames.values()) + ["latitude", "longitude"]:
+                    # Set values <= -999.9 to NaN so they also get interpolated.
+                    new_var[numpy.where(new_var <= -999.9)] = numpy.nan
+                    # Interpolate missing data.
+                    out_var = numpy.array(pd.DataFrame(new_var).interpolate())
+                    # Reset the mask so these values get shown.
+                    skip_mask = numpy.where(
+                        numpy.isnan(new_var) & ~numpy.isnan(out_var)
+                    )
+                    dataset_masks[dtype][skip_mask] = False
+                else:
+                    out_var = new_var
+                xarrays[dtype][varname] = xr.DataArray(
+                    out_var, dims=[new_dim0, new_dim1]
+                )
+
+        LOG.interactive("Done with geolocation for {}".format(adname))
+        LOG.info("")
 
     # Clean up the final xarray dictionary
     xarray_returns = {}
@@ -664,12 +760,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # fill_value = -999.9
     for dtype in xarray_returns:
         bad_llmask = xarray_returns[dtype]["latitude"] == -999.9
-        xarray_returns[dtype]["latitude"] = xarray_returns[dtype]["latitude"].where(
-            ~bad_llmask
-        )
-        xarray_returns[dtype]["longitude"] = xarray_returns[dtype]["longitude"].where(
-            ~bad_llmask
-        )
+        for var in xarray_returns[dtype].variables.keys():
+            xarray_returns[dtype][var] = xarray_returns[dtype][var].where(~bad_llmask)
 
     xarray_returns["METADATA"] = list(xarray_returns.values())[0][[]]
 
