@@ -3,7 +3,7 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Version 1.14.0a0 (2024-07-15)
+Version 1.14.0a0 (2024-07-16)
 *****************************
 
 * Bug Fixes
