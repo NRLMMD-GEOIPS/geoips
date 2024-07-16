@@ -9,6 +9,9 @@ Version 1.14.0a0 (2024-07-12)
 * Bug Fixes
 
   * Fix failing test data CLI unit tests
+* Documentation Updates
+
+  * Update LICENSE to latest approved version
 
 Bug Fixes
 =========
@@ -29,3 +32,14 @@ the files that required changes.
     modified: tests/unit_tests/commandline/cli_top_level_tester.py
     deleted: tests/unit_tests/commandline/test_geoips_config_install.py
 
+Documentation Updates
+=====================
+
+Update LICENSE to latest approved version
+-----------------------------------------
+
+*From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
+
+::
+
+  modified: LICENSE
