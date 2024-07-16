@@ -151,6 +151,7 @@ jobs:
     needs: set_variables
     if: ${{ github.event.repository.name == 'geoips' }}
     env:
+      IMAGE_NAME: ${{ needs.set_variables.outputs.IMAGE_NAME }}
       BUILDCACHE_IMAGE: ${{ needs.set_variables.outputs.IMAGE_NAME }}:buildcache
       DOCLINTTEST_IMAGE: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
     # Can't write to registry without this
@@ -193,12 +194,18 @@ jobs:
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=ghcr.io/${{ env.BUILDCACHE_IMAGE }},mode=max
 
+      # This is a test to ensure that the next step will work on main
+      - name: Push a "latest" tag regardless of which branch we're on
+        run: |
+          docker tag ${env.IMAGE_NAME}:${GITHUB_SHA} ${env.IMAGE_NAME}:doclinttest-latest
+          docker push ${env.IMAGE_NAME}:doclinttest-latest
+
       # This is used for building docs, linting, and testing other plugins
-      - name: Push additional tag if on main branch
+      - name: Push "stable" tag if on main branch
         if: github.ref == 'refs/heads/main'
         run: |
-          docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest-stable
-          docker push ${IMAGE_NAME}:doclinttest-stable
+          docker tag ${env.IMAGE_NAME}:${GITHUB_SHA} ${env.IMAGE_NAME}:doclinttest-stable
+          docker push ${env.IMAGE_NAME}:doclinttest-stable
 
 #################################################
 # Documentation builds
