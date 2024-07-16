@@ -232,12 +232,20 @@ jobs:
         run: pip install -e .[doc]
 
       - name: Build release notes from yaml files
+        id: release-note-generator
         run: |
           update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
           release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           release_version="$(basename $update_this_file .rst)"
           echo "Running brassy on directory: $release_notes_dir" 
           brassy --release-version $release_version --no-rich --output-file $update_this_file $release_notes_dir
+          echo "release_note_file=$update_this_file" >> $GITHUB_OUTPUT
+          
+      - name: Upload release note
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release Note
+          path: ${{ steps.release-note-generator.outputs.release_note_file }}"
 
       - name: Run build html
         run: |
