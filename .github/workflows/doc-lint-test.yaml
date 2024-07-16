@@ -234,7 +234,7 @@ jobs:
           release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           release_version="$(basename $update_this_file .rst)"
           echo "Running brassy on directory: $release_notes_dir" 
-          brassy --release-version $release_version --no-rich --output_file $update_this_file $release_notes_dir
+          brassy --release-version $release_version --no-rich --output-file $update_this_file $release_notes_dir
 
       - name: Run build html
         run: |
