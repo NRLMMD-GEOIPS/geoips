@@ -237,6 +237,7 @@ jobs:
           echo "Running brassy on directory: $release_notes_dir" 
           brassy --release-version $release_version --no-rich --output-file $update_this_file $release_notes_dir
           echo "release_note_file=$update_this_file" >> $GITHUB_OUTPUT
+          cat $update_this_file
           
       - name: Upload release note
         uses: actions/upload-artifact@v4
