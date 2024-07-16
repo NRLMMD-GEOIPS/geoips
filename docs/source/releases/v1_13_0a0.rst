@@ -343,7 +343,7 @@ Refactored ``geoips list interface`` to use a class factory
 -----------------------------------------------------------
 
 *From GEOIPS#576: 2024-05-11, CLI: Reduce number of command layers where possible and appropriate*
-*From GEOIPS#573: 2024-05-11, Use class factories to generate subcommands for commands like ``geoips get family`` and ``geoips get interface``
+*From GEOIPS#573: 2024-05-11, Use class factories to generate subcommands for commands like ``geoips get family`` and ``geoips get interface``*
 
 While this PR doesn't fix all of the problems addressed in the issues above, it is our
 initial attempt at creating a class factory for certain CLI commands to reduce the
