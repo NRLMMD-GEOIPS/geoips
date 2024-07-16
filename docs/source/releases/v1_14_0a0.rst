@@ -1,0 +1,27 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.14.0a0 (2024-07-12)
+*****************************
+
+* Documentation Updates
+
+  * Update LICENSE and DISTRIBUTION to latest approved version, update all file headers
+
+Documentation Updates
+=====================
+
+Update LICENSE and DISTRIBUTION to latest approved version, update all file headers
+-----------------------------------------------------------------------------------
+
+*From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
+
+This file header should no longer have to change.
+
+::
+
+  modified: LICENSE
+  modified: DISTRIBUTION
+  modified: Every single file
