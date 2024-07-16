@@ -1,3 +1,15 @@
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
+# # #
+# # # Author:
+# # # Naval Research Laboratory, Marine Meteorology Division
+# # #
+# # # This program is free software: you can redistribute it and/or modify it under
+# # # the terms of the NRLMMD License included with this program. This program is
+# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+# # # for more details. If you did not receive the license, for more information see:
+# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+
 """Semi-Abstract CLI Test Class implementing attributes shared by commands."""
 
 import abc
@@ -8,11 +20,11 @@ from numpy import any
 import pytest
 import subprocess
 import sys
+from importlib import metadata
 
 from geoips.commandline.cmd_instructions import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import is_editable
-
 
 gcli = GeoipsCLI()
 
@@ -46,8 +58,7 @@ class BaseCliTest(abc.ABC):
                 "test_data_gpm",
                 "test_data_noaa_aws",
                 "test_data_sar",
-                "test_data_scat_1.11.2",
-                "test_data_scat_1.11.3",
+                "test_data_scat",
                 "test_data_smap",
                 "test_data_viirs",
             ]
@@ -106,7 +117,7 @@ class BaseCliTest(abc.ABC):
         """
         for header in headers:
             if selected_cols is None or headers[header] in selected_cols:
-                assert header in output or "No plugins" in output or "has no" in output
+                assert header in output or "has no" in output or "No plugins" in output
 
     def assert_non_editable_error_or_wrong_package(self, args, error):
         """If we found a package in non-editable mode, assert that an error exists.
@@ -160,9 +171,13 @@ class BaseCliTest(abc.ABC):
                 # This is a specific case for the integration test scripts that
                 # only work for geoips. Make sure an error is raised that says
                 # we cannot run integration tests in packages other than 'geoips'
-                assert (
+                integration_error = (
                     "script: error: Only package 'geoips' has integration tests"
-                ) in error
+                )
+                package_name_error = (
+                    "error: argument --package_name/-p: invalid choice:"
+                )
+                assert integration_error in error or package_name_error in error
             elif (
                 "-p" in args
                 and args[pkg_idx] in self.plugin_package_names

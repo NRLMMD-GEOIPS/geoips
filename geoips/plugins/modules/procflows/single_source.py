@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -12,7 +12,7 @@
 
 """Processing workflow for single data source processing."""
 
-from os import getenv
+from os import getenv, getpid
 from os.path import basename, exists
 import logging
 from datetime import timedelta
@@ -23,7 +23,7 @@ import xarray
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
-from geoips.utils.memusg import print_mem_usage
+from geoips.utils.memusg import PidLog
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
 from geoips.geoips_utils import replace_geoips_paths
@@ -918,6 +918,8 @@ def process_xarray_dict_to_output_format(
             xobjs["METADATA"],
             area_def=area_def,
         )
+    else:
+        final_products = curr_products
 
     return final_products
 
@@ -1678,6 +1680,9 @@ def call(fnames, command_line_args=None):
     removed_products = []
     saved_products = []
     database_writes = []
+    ss_pid = getpid()
+
+    pid_track = PidLog(ss_pid, logstr="MEMUSG")
 
     from geoips.commandline.args import check_command_line_args
 
@@ -1761,13 +1766,13 @@ def call(fnames, command_line_args=None):
         from geoips_db.interfaces import databases
 
         db_writer = databases.get_plugin(product_db_writer)
-        if not getenv("GEOIPS_DB_USER") or not getenv("GEOIPS_DB_PASS"):
-            raise ValueError("Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS")
+        if not getenv("GEOIPS_DB_URI"):
+            raise ValueError("Need to set $GEOIPS_DB_URI")
 
     # Load plugins
     reader_plugin = readers.get_plugin(reader_name)
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg()
 
     num_jobs = 0
     LOG.interactive(
@@ -1775,7 +1780,7 @@ def call(fnames, command_line_args=None):
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg()
 
     prod_plugin = products.get_plugin(
         source_name, product_name, command_line_args["product_spec_override"]
@@ -1799,7 +1804,7 @@ def call(fnames, command_line_args=None):
         )
 
     # Use the xarray objects and command line args to determine required area_defs
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg()
     area_defs = get_area_defs_from_command_line_args(
         command_line_args, xobjs, variables, filter_time=True
     )
@@ -1812,7 +1817,7 @@ def call(fnames, command_line_args=None):
         and not sectored_read
         and not resampled_read
     ):
-        print_mem_usage("MEMUSG", verbose=False)
+        pid_track.print_mem_usg()
         LOG.interactive(
             "Reading full dataset " "with reader '%s'...", reader_plugin.name
         )
@@ -1820,7 +1825,7 @@ def call(fnames, command_line_args=None):
             fnames, metadata_only=False, chans=variables, **reader_kwargs
         )
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg()
     # If we have a product of type "unsectored_xarray_dict_to_output_format"
     # process it here
     # This will not have any required area_defs
@@ -1840,7 +1845,7 @@ def call(fnames, command_line_args=None):
         )
         xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg()
 
     new_attrs = {"filename_extra_fields": {}}
     # setup for TC products
@@ -1908,7 +1913,7 @@ def call(fnames, command_line_args=None):
             else:
                 pad_sect_xarrays = xobjs
 
-        print_mem_usage("MEMUSG", verbose=False)
+        pid_track.print_mem_usg()
         if len(pad_sect_xarrays.keys()) == 0:
             LOG.interactive(
                 "SKIPPING no sectored xarrays returned for %s", area_def.name
@@ -1941,7 +1946,7 @@ def call(fnames, command_line_args=None):
             area_def=area_def,
         )
 
-        print_mem_usage("MEMUSG", verbose=False)
+        pid_track.print_mem_usg()
         # If we had a request for sectored data processing, skip the rest of the loop
         if curr_output_products:
             final_products += curr_output_products
@@ -2024,7 +2029,7 @@ def call(fnames, command_line_args=None):
                     area_def.sector_info["adjustment_id"]
                 )
 
-        print_mem_usage("MEMUSG", verbose=False)
+        pid_track.print_mem_usg()
         all_vars = []
         for key, xobj in pad_sect_xarrays.items():
             # Double check the xarray object actually contains data
@@ -2069,7 +2074,7 @@ def call(fnames, command_line_args=None):
                     window_end_time=window_end_time,
                 )
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg()
 
             # This defaults to "covg_func" and "covg_args" - if
             # image_production_covg_* exist, it will use those.
@@ -2148,16 +2153,16 @@ def call(fnames, command_line_args=None):
                 minimum_coverage = alg_xarray.minimum_coverage
             if command_line_minimum_coverage is not None:
                 minimum_coverage = command_line_minimum_coverage
-            LOG.info(
+            LOG.interactive(
                 "Required coverage %s for product %s, actual coverage %s",
                 minimum_coverage,
                 prod_plugin.name,
                 covg,
             )
             if covg < minimum_coverage and fname_covg < minimum_coverage:
-                LOG.info(
-                    "Insufficient coverage %s / %s for data products for %s, %s "
-                    "required SKIPPING",
+                LOG.interactive(
+                    "SKIPPING: Insufficient coverage %s / %s for "
+                    "data products for %s, %s required",
                     covg,
                     fname_covg,
                     area_def.name,
@@ -2179,7 +2184,7 @@ def call(fnames, command_line_args=None):
             if not curr_products:
                 continue
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg()
             final_products += curr_products
             curr_removed_products, curr_saved_products = remove_duplicates(
                 curr_products, remove_files=True
@@ -2267,10 +2272,12 @@ def call(fnames, command_line_args=None):
     for removed_product in removed_products:
         LOG.interactive("    DELETEDPRODUCT %s", removed_product)
 
-    print_mem_usage("MEMUSG", verbose=True)
+    pid_track.print_mem_usg(verbose=True)
+
     LOG.interactive("READER_NAME: %s", reader_name)
     LOG.interactive("PRODUCT_NAME: %s", product_name)
     LOG.interactive("NUM_PRODUCTS: %s", len(final_products))
     LOG.interactive("NUM_DELETED_PRODUCTS: %s", len(removed_products))
     output_process_times(process_datetimes, num_jobs, job_str="single_source procflow")
+    pid_track.save_exit()
     return retval
