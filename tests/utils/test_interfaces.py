@@ -5,6 +5,7 @@
 from pprint import pformat
 import traceback
 import json
+
 from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
 from geoips.commandline.log_setup import setup_logging
