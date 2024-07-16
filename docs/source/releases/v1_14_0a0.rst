@@ -1,0 +1,66 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.14.0a0 (2024-07-12)
+*****************************
+
+* Bug Fixes
+
+  * Fix failing test data CLI unit tests
+  * Correct typo causing product family xrdict_area_product_to_outlist failure
+* Documentation Updates
+
+  * Update LICENSE and DISTRIBUTION to latest approved version
+
+Bug Fixes
+=========
+
+Correct typo causing product family xrdict_area_product_to_outlist failure
+--------------------------------------------------------------------------
+
+*From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
+
+Product families that did not have pre-defined output lists and expected data
+passed unmodified from the readers to the output formatters were failing due to
+a missing else statement ensuring the list of final_products was set even when
+the output file list was not pre-defined.  Add else statement to set final_products
+to curr_products when output file list not defined.
+
+This resolved an error with product family xrdict_area_product_to_outlist when
+it was requested without sectoring, but it worked if sectoring was requested
+(followed a different route through the code for each).
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Fix failing test data CLI unit tests
+------------------------------------
+
+*From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
+
+``test_geoips_config_install.py`` and ``test_log_setup.py`` had 1 or more tests that
+were failing, which caused the CI to fail as well. Fix these unit tests so
+we can actually use the CI to address problems that are coming from new PRs. Below are
+the files that required changes.
+
+::
+
+    modified: tests/unit_tests/commandline/test_log_setup.py
+    modified: tests/unit_tests/commandline/cli_top_level_tester.py
+    deleted: tests/unit_tests/commandline/test_geoips_config_install.py
+
+Documentation Updates
+=====================
+
+Update LICENSE and DISTRIBUTION to latest approved version
+----------------------------------------------------------
+
+*From GEOIPS#666: 2024-07-14, Final Bug Fixes Prior to Workshop*
+
+::
+
+  modified: LICENSE
+  modified: DISTRIBUTION
