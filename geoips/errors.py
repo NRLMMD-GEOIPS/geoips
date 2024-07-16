@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -33,5 +33,11 @@ class CoverageError(Exception):
 
 class PluginPackageNotFoundError(Exception):
     """Raise exception stating a certain plugin package was not found."""
+
+    pass
+
+
+class CliError(Exception):
+    """Raise exception on command line interface error."""
 
     pass

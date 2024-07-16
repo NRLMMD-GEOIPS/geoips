@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -14,9 +14,8 @@
 
 # Note this includes test of --window_start_time and --window_end_time
 
-run_procflow \
+geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
-    --procflow single_source \
     --reader_name smap_remss_winds_netcdf \
     --product_name windspeed \
     --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.tc.windspeed.imagery_clean" \

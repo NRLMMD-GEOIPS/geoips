@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -118,7 +118,17 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     )
     from PIL import Image
     import numpy as np
-    from pixelmatch.contrib.PIL import pixelmatch
+
+    try:
+        from pixelmatch.contrib.PIL import pixelmatch
+    except ImportError as e:
+        raise ImportError(
+            "Comparing images using GeoIPS requires a python library called pixelmatch"
+            + " (link: https://pypi.org/project/pixelmatch/)."
+            + "You can install it directly or install the test extra"
+            + " eg. pip install geoips[test]"
+        ) from e
+
     from geoips.commandline.log_setup import log_with_emphasis
 
     LOG.info("**Comparing output_product vs. compare product")

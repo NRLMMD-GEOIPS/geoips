@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -74,10 +74,10 @@ def set_matplotlib_colors_standard(
     """
     min_val = data_range[0]
     max_val = data_range[1]
-    from matplotlib import cm
+    from matplotlib import pyplot as plt
 
     # cmap = cm.ScalarMappable(norm=colors.NoNorm(), cm.get_cmap(cmap_name))
-    mpl_cmap = cm.get_cmap(cmap_name)
+    mpl_cmap = plt.get_cmap(cmap_name)
 
     LOG.info("Setting norm")
     from matplotlib.colors import Normalize

@@ -1,4 +1,6 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
  | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
@@ -22,6 +24,7 @@ Version 1.12.2a0 (2024-02-21)
   * Introduced documentation for coding standards for bringing code to standard.
   * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
+
 * Bug fixes
 
   * Fix polar data not showing up in imagery
@@ -37,6 +40,7 @@ Version 1.12.2a0 (2024-02-21)
 
   * Added documentation for create_plugin_registries and PluginRegistry Class
   * Fix log_with_emphasis to deal with empty strings gracefully
+  * Add documentation about optional pdflatex dependency
 * Refactor
 
   * Make JSON Plugin Registries Readable

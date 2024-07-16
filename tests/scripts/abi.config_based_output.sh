@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -12,7 +12,7 @@
 
 #!/bin/bash
 
-run_procflow --procflow config_based \
+geoips run config_based \
              --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test.yaml
 config_retval=$?
 

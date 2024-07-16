@@ -1,4 +1,4 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
+# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
 # # #
 # # # Author:
 # # # Naval Research Laboratory, Marine Meteorology Division
@@ -14,7 +14,7 @@
 import logging
 
 from matplotlib.colors import Normalize
-from matplotlib import cm
+from matplotlib import pyplot as plt
 
 from geoips.image_utils.colormap_utils import from_ascii
 from geoips.geoips_utils import find_ascii_palette
@@ -103,7 +103,7 @@ def call(
 
     if cmap_source == "matplotlib":
         try:
-            mpl_cmap = cm.get_cmap(cmap_name)
+            mpl_cmap = plt.get_cmap(cmap_name)
         except ValueError:
             raise ValueError(f"Colormap {cmap_name} not found in source {cmap_source}")
     elif cmap_source == "geoips":
