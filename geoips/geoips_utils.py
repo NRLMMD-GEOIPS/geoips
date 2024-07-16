@@ -373,7 +373,7 @@ def merge_nested_dicts(dest, src, in_place=True, replace=False):
         return final_dest
 
 
-def expose_geoips_commands(pkg_name=None, test_log=None):
+def expose_geoips_commands(pkg_name=None, _test_log=None):
     """Expose a list of commands that operate in the GeoIPS environment.
 
     Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',
@@ -385,11 +385,11 @@ def expose_geoips_commands(pkg_name=None, test_log=None):
         - The name of the GeoIPS Plugin Package whose command's will be exposed.
         - If None, assume this was called via the commandline and retrieve package_name
           via that manner. Otherwise use the supplied package_name.
-    test_log: logging.Logger (default = None)
+    _test_log: logging.Logger (default = None)
         - If provided, use this logger instead. This is added as an optional argument
           so we can check the output of this command for our Unit Tests.
     """
-    pkg_name, log = _get_pkg_name_and_logger(pkg_name, test_log)
+    pkg_name, log = _get_pkg_name_and_logger(pkg_name, _test_log)
     # Get a list of console_script entrypoints specific to the provided package
     eps = list(
         filter(
@@ -470,7 +470,7 @@ def _get_pkg_name_and_logger(pkg_name, provided_log):
         if pkg_name not in plugin_packages:
             raise PluginPackageNotFoundError(
                 f"No such package named '{pkg_name}' found. Make sure that package is "
-                "installed via pip."
+                "installed with a package manager such as pip."
             )
     return pkg_name, log
 
@@ -500,8 +500,8 @@ def is_editable(package_name):
     if package_name not in plugin_package_names:
         raise ValueError(
             f"Package '{package_name}' is not an installed package. Please install it "
-            "before running this command via 'pip install <path_to_package_name>' "
-            "optionally with the '-e' flag."
+            "before running this command; ie via 'pip install <path_to_package_name>' "
+            "optionally with the '-e' flag. You can also use another package manager."
         )
     dist_info = metadata.distribution(package_name).read_text("direct_url.json")
     # If dist_info is None, package was not installed from source and it was installed
