@@ -1,5 +1,5 @@
-other:
-- description: 'Added brassy builds to the CI"
-  title: 'Added brassy to CI'
+CI:
+- description: "Added brassy builds to the CI"
+  title: "Added brassy to CI"
   files:
     - modified: ".github/workflows/doc-lint-test.yaml"
