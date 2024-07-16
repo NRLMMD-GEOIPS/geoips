@@ -585,7 +585,7 @@ class CommandClassFactory:
             - The base class to build each generated class with..
             - Ie. if we were creating a class factory for GeoipsListSingleInterface, the
               base class would be 'GeoipsListSingleInterface'.
-        class_names: str
+        class_name: str
             - The name of the class that we'd like to generate.
             - Ie. if we were creating a class factory for GeoipsListSingleInterface, the
               class to generate would be a strign that represents all the class for the

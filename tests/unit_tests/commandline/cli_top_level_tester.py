@@ -25,6 +25,7 @@ from geoips.commandline.cmd_instructions import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import is_editable
 
+
 gcli = GeoipsCLI()
 
 
