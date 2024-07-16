@@ -14,7 +14,6 @@
 
 import abc
 import contextlib
-from importlib import metadata
 import io
 from numpy import any
 import pytest
