@@ -22,9 +22,6 @@ Version 1.13.0a0 (2024-04-24)
 
   * Update update_this_release_note
   * Add v1_13_0a0.rst release note
-* Enhancements
-
-  * Added 'expose' command
 
 * Refactoring Updates
 
