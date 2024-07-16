@@ -4,9 +4,6 @@ defaults:
   run:
     shell: bash
 
-env:
-  CONDA_ENV: build_deploy_docs-${{ github.run_id }}-${{ github.run_attempt }}
-
 on:
   # Allows run of this workflow manually from the Actions tab
   # Must be merged to dev before it will be available to manually run.

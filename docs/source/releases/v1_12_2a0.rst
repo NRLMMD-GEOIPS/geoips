@@ -1,4 +1,6 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+.. dropdown:: Distribution Statement
+
+ | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
  | # # #
  | # # # Author:
  | # # # Naval Research Laboratory, Marine Meteorology Division
@@ -10,7 +12,7 @@
  | # # # for more details. If you did not receive the license, for more information see:
  | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-Version 1.12.2a0 (2024-02-19)
+Version 1.12.2a0 (2024-02-21)
 *****************************
 
 * Enhancements
@@ -22,7 +24,7 @@ Version 1.12.2a0 (2024-02-19)
   * Introduced documentation for coding standards for bringing code to standard.
   * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
-  
+
 * Bug fixes
 
   * Fix polar data not showing up in imagery
@@ -45,7 +47,11 @@ Version 1.12.2a0 (2024-02-19)
   * Modify create_plugin_registries to use argparse instead of sys.argv
   * Refactor optional imports in readers to use a context manager function
 * Testing Updates
+
   * Move pytest validation from plugin_registry.py to unit tests.
+* Documentation
+
+  * Add documentation about optional pdflatex dependency
 
 Testing Updates
 ===============
