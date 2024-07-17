@@ -243,7 +243,7 @@ jobs:
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          if [ ${#errors[@]} -eq 0 ]; then
+          if [ ${#ret[@]} -eq 0 ]; then
               echo "FAILED: No release note changes detected"
               echo "Please use brassy to enter change logs in $release_notes_dir"
               exit 1
