@@ -230,6 +230,11 @@ jobs:
     env:
       CURR_REPO: ${{ github.event.repository.name }}
     steps:
+      - name: Checkout current repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
+        with:
+          fetch-depth: 0
+          path: BASE_GEOIPS_PATH
       - name: Detect new and modified release files
         run: |
           echo "Checking for new and modified release note files"
