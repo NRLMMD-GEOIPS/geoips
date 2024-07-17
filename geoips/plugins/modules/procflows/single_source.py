@@ -17,7 +17,7 @@ from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import PidLog
 from geoips.xarray_utils.data import sector_xarrays
 from geoips.sector_utils.utils import filter_area_defs_actual_time, is_dynamic_sector
-from geoips.geoips_utils import replace_geoips_paths, get_source_name
+from geoips.geoips_utils import replace_geoips_paths
 
 # Old interfaces (YAML, not updated to classes yet!)
 from geoips.dev.product import (
@@ -1771,8 +1771,7 @@ def call(fnames, command_line_args=None):
         "Reading metadata from dataset with reader '%s'...", reader_plugin.name
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
-    source_name = get_source_name(xobjs)
-
+    source_name = xobjs["METADATA"].source_name
     pid_track.print_mem_usg()
 
     prod_plugin = products.get_plugin(

@@ -26,7 +26,7 @@ from geoips.xarray_utils.data import (
     combine_preproc_xarrays_with_alg_xarray,
 )
 from geoips.filenames.duplicate_files import remove_duplicates
-from geoips.geoips_utils import replace_geoips_paths, get_source_name
+from geoips.geoips_utils import replace_geoips_paths
 from geoips.utils.context_managers import import_optional_dependencies
 
 with import_optional_dependencies(loglevel="info"):
@@ -982,7 +982,7 @@ def call(fnames, command_line_args=None):
         )
         bg_xobjs = bg_reader_plugin(bg_files, metadata_only=True, **bg_reader_kwargs)
         prod_plugin = products.get_plugin(
-            get_source_name(bg_xobjs),
+            bg_xobjs["METADATA"].source_name,
             bg_product_name,
         )
         bg_variables = get_required_variables(prod_plugin)
@@ -1000,7 +1000,7 @@ def call(fnames, command_line_args=None):
         "Reading metadata from datasets using reader '%s'...", reader_plugin.name
     )
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
-    source_name = get_source_name(xobjs)
+    source_name = xobjs["METADATA"].source_name
 
     if not produce_current_time(config_dict, xobjs["METADATA"], output_dict_keys=None):
         LOG.interactive("SKIPPING ALL PROCESSING no products required for current time")

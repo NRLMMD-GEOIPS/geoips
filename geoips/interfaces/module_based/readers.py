@@ -3,6 +3,9 @@
 
 """Readers interface module."""
 
+from os.path import basename
+from xarray import Dataset
+
 from geoips.interfaces.base import BaseModuleInterface
 
 
@@ -25,7 +28,7 @@ class ReadersInterface(BaseModuleInterface):
         Where the structure of the merged metadata is a nested dictionary of metadata.
 
         Ie. (xarray_obj has no data and is merely just a container for metadata):
-        {"METADATA": {"file0_METADATA": xarray_obj, ..., "fileX_METADATA": xarray_obj}}
+        {"METADATA": {"source_file_attributes": {fname: xobj, ..., "fnamex": xobj}}}
 
         Parameters
         ----------
@@ -34,14 +37,26 @@ class ReadersInterface(BaseModuleInterface):
 
         Returns
         -------
-        concat_md: 2D dict of xarray Datasets
-            - All metadata merged into a 2D dictionary of xarray Datasets
+        md: dict of xarray Datasets
+            - All metadata merged into a dictionary of xarray Datasets
         """
-        md = {"METADATA": {"source_file_attributes": {}}}
+        md = {"METADATA": Dataset()}
         for md_idx in range(len(all_metadata)):
-            md["METADATA"]["source_file_attributes"][f"filename_{md_idx}"] = (
+            if md_idx == 0:
+                md["METADATA"].attrs = all_metadata[md_idx].attrs
+                md["METADATA"].attrs["source_file_attributes"] = {}
+                md["METADATA"].attrs["source_file_names"] = []
+                md["METADATA"].attrs["source_file_datetimes"] = []
+                md["METADATA"].attrs["end_datetime"] = all_metadata[-1].end_datetime
+            fname = all_metadata[md_idx].attrs["source_file"]
+            md["METADATA"].attrs["source_file_attributes"][basename(fname)] = (
                 all_metadata[md_idx]
             )
+            md["METADATA"].attrs["source_file_names"].append(basename(fname))
+            md["METADATA"].attrs["source_file_datetimes"].append(
+                all_metadata[md_idx].start_datetime
+            )
+
         return md
 
 
