@@ -301,6 +301,7 @@ jobs:
           overwrite: true
 
       - name: Run build html
+        id: build-html-docs
         run: |
           echo "Build html docs"
           # Call build_docs.sh from the geoips default branch
@@ -315,6 +316,14 @@ jobs:
             echo "::error::Building html docs ${ret##*:}"
             exit 1
           fi
+          echo "BUILT_DOCS_PATH=$BASE_GEOIPS_PATH/build/sphinx/html" >> $GITHUB_OUTPUT
+      - name: Upload HTML Docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: HTML Docs
+          path: ${{ steps.build-html-docs.outputs.BUILT_DOCS_PATH }}
+          if-no-files-found: error
+          overwrite: true
 
 # This job does not currently work because latex is not installed in the image. I think
 # that to get this job working would only require installing texlive-base but other
