@@ -298,7 +298,6 @@ jobs:
           name: Release Note
           path: ${{ steps.release-note-generator.outputs.release_note_file }}
           if-no-files-found: error
-          overwrite: true
 
       - name: Run build html
         id: build-html-docs
@@ -323,7 +322,6 @@ jobs:
           name: HTML Docs
           path: ${{ steps.build-html-docs.outputs.BUILT_DOCS_PATH }}
           if-no-files-found: error
-          overwrite: true
 
 # This job does not currently work because latex is not installed in the image. I think
 # that to get this job working would only require installing texlive-base but other
