@@ -1194,6 +1194,9 @@ def call_single_time(
     xarray_obj.attrs["data_provider"] = "jma"
     xarray_obj.attrs["platform_name"] = highest_md["block_01"]["satellite_name"].lower()
     xarray_obj.attrs["area_definition"] = area_def
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # If metadata_only requested, return here.
     if metadata_only:

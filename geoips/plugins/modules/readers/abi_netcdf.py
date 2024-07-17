@@ -719,6 +719,9 @@ def call_single_time(
     xarray_obj.attrs["end_datetime"] = edt
     xarray_obj.attrs["source_name"] = "abi"
     xarray_obj.attrs["data_provider"] = "noaa"
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # G16 -> goes-16
     xarray_obj.attrs["platform_name"] = highest_md["file_info"]["platform_ID"].replace(
