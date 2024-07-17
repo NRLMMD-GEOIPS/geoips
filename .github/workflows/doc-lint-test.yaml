@@ -239,7 +239,6 @@ jobs:
           current_release_note=`cat $BASE_GEOIPS_PATH/update_this_release_note`
           echo "git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
           ret=$(git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
-
           echo "Release note files modified this PR:"
           for file in ${ret[@]}; do
               echo "    $file"
