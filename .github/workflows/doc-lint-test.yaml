@@ -234,6 +234,8 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
       - name: Detect new and modified release files
         run: |
           echo "Checking for new and modified release note files in $PWD"
