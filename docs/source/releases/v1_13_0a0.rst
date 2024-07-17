@@ -11,7 +11,6 @@ Version 1.13.0a0 (2024-04-24)
   * Initial Stage of the GeoIPS CLI
   * CLI Changes - new implementation of 'geoips run' and more args for 'geiops list'
   * Improve error message when user missing ``pixelmatch``
-  * Added 'expose' command
 
 * Documentation
 
