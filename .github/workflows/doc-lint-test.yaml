@@ -316,7 +316,7 @@ jobs:
             echo "::error::Building html docs ${ret##*:}"
             exit 1
           fi
-          echo "BUILT_DOCS_PATH=$BASE_GEOIPS_PATH/build/sphinx/html" >> $GITHUB_OUTPUT
+          echo "BUILT_DOCS_PATH=$PWD/build/sphinx/html" >> $GITHUB_OUTPUT
       - name: Upload HTML Docs
         uses: actions/upload-artifact@v4
         with:
