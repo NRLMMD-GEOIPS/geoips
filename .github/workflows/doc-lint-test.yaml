@@ -52,6 +52,7 @@ jobs:
       # Flags for enabling/disabling various parts of the workflow
       # Default to enabled unless overridden by a repository-level variable
       CI_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }}
+      CHECK_NEW_RELEASE_NOTE: true #${{ steps.get_job_flags.outputs.CHECK_NEW_RELEASE_NOTE }}
       CI_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_PDF }}
       CI_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_LINT_BANDIT }}
       CI_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_LINT_DOC8 }}
@@ -199,6 +200,46 @@ jobs:
         run: |
           docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest-stable
           docker push ${IMAGE_NAME}:doclinttest-stable
+#################################################
+# Release Note Added
+
+  check_new_release_note:
+    if: >
+      always() &&
+      needs.set_variables.outputs.CHECK_NEW_RELEASE_NOTE == 'true' &&
+      (needs.build_doclinttest_image.result == 'success' ||
+      needs.build_doclinttest_image.result == 'skipped')
+    runs-on: ${{ vars.RUNNER }}
+    needs: [build_doclinttest_image, set_variables]
+    container:
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      credentials:
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
+    steps:
+      - name: Detect new and modified release files
+        run: |
+          update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
+          release_notes_dir="$BASE_GEOIPS_PATH/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          ls $release_notes_dir
+          current_release_note=`cat $BASE_GEOIPS_PATH/update_this_release_note`
+          echo "git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
+          ret=$(git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
+
+          echo "Release note files modified this PR:"
+          for file in ${ret[@]}; do
+              echo "    $file"
+          done
+          if [ ${#errors[@]} -eq 0 ]; then
+              echo "FAILED: No release note changes detected"
+              echo "Please use brassy to enter change logs in $release_notes_dir"
+              exit 1
+          else
+              echo "PASSED"
+          fi
+
 
 #################################################
 # Documentation builds
@@ -227,27 +268,6 @@ jobs:
 
       - name: Install geoips documentation packages
         run: pip install -e .[doc]
-
-      - name: Detect new and modified release files
-        run: |
-          update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
-          release_notes_dir="$BASE_GEOIPS_PATH/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
-          ls $release_notes_dir
-          current_release_note=`cat $BASE_GEOIPS_PATH/update_this_release_note`
-          echo "git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
-          ret=$(git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
-
-          echo "Release note files modified this PR:"
-          for file in ${ret[@]}; do
-              echo "    $file"
-          done
-          if [ ${#errors[@]} -eq 0 ]; then
-              echo "FAILED: No release note changes detected"
-              echo "Please use brassy to enter change logs in $release_notes_dir"
-              exit 1
-          else
-              echo "PASSED"
-          fi
 
       - name: Build release notes from yaml files
         id: release-note-generator
