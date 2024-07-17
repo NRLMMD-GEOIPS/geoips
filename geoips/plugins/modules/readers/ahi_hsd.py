@@ -979,11 +979,11 @@ def call(
         for GeoIPS-formatted xarray Datasets.
     """
     LOG.interactive("AHI reader test_arg: %s", test_arg)
-    all_metadata = [
-        call_single_time([x], metadata_only=True)["METADATA"] for x in fnames
-    ]
+    all_metadata = readers.concatenate_metadata(
+        [call_single_time([x], metadata_only=True)["METADATA"] for x in fnames]
+    )
     if metadata_only:
-        return readers.concatenate_metadata(all_metadata)
+        return all_metadata
     start_times = [x.start_datetime for x in all_metadata]
     times = list(set(start_times))
     import collections
