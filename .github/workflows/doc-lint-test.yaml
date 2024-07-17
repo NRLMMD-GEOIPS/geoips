@@ -227,6 +227,8 @@ jobs:
           release_notes_dir="$BASE_GEOIPS_PATH/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           ls $release_notes_dir
           current_release_note=`cat $BASE_GEOIPS_PATH/update_this_release_note`
+          echo "Listing git branches"
+          git branch -a
           echo "git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
           ret=$(git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
           echo "Release note files modified this PR:"
