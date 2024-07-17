@@ -286,9 +286,6 @@ jobs:
       - name: Configure Git safe directory
         run: git config --global --add safe.directory $PWD
 
-      - name: Install geoips documentation packages
-        run: pip install -e .[doc]
-
       - name: Build release notes from yaml files
         id: release-note-generator
         run: |
