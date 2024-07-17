@@ -3,16 +3,19 @@
 
 """General high level utilities for geoips processing."""
 
-import json
+import argparse
+import inspect
 import os
 from copy import deepcopy
-import inspect
+from shutil import get_terminal_size
+import json
+from tabulate import tabulate
 
 # import yaml
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import PluginRegistryError
+from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 
 LOG = logging.getLogger(__name__)
 
@@ -370,6 +373,108 @@ def merge_nested_dicts(dest, src, in_place=True, replace=False):
         return final_dest
 
 
+def expose_geoips_commands(pkg_name=None, _test_log=None):
+    """Expose a list of commands that operate in the GeoIPS environment.
+
+    Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',
+    or 'pyproject.toml:[project.entry-points.console_scripts]'
+
+    Parameters
+    ----------
+    pkg_name: str (default = None)
+        - The name of the GeoIPS Plugin Package whose command's will be exposed.
+        - If None, assume this was called via the commandline and retrieve package_name
+          via that manner. Otherwise use the supplied package_name.
+    _test_log: logging.Logger (default = None)
+        - If provided, use this logger instead. This is added as an optional argument
+          so we can check the output of this command for our Unit Tests.
+    """
+    pkg_name, log = _get_pkg_name_and_logger(pkg_name, _test_log)
+    # Get a list of console_script entrypoints specific to the provided package
+    eps = list(
+        filter(
+            lambda ep: pkg_name in ep.value,
+            metadata.entry_points().select(group="console_scripts"),
+        )
+    )
+    log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    log.interactive(f"Available {pkg_name.title()} Commands")
+    log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    if eps:
+        table_data = [[ep.name, ep.value] for ep in eps]
+        # Log the commands found in a tabular fashion
+        log.interactive(
+            tabulate(
+                table_data,
+                headers=["Command Name", "Command Path"],
+                tablefmt="rounded_grid",
+                maxcolwidths=get_terminal_size().columns // 2,
+            )
+        )
+        # Otherwise let the user know that there were not commands found for this
+        # package.
+    else:
+        log.interactive(f"No '{pkg_name.title()}' Commands were found.")
+
+
+def _get_pkg_name_and_logger(pkg_name, provided_log):
+    """Return the corresponding package name and logger for exposing package commands.
+
+    If pkg_name is None, retrieve pkg_name from the commandline arguments
+    (either -p <package_name> or default 'geoips'). If log is None, set log to the LOG
+    attribute found in this module.
+
+    If either variable isn't None, use what's provided instead. This is used for
+    unit testing primarily.
+
+    Parameters
+    ----------
+    pkg_name: str
+        - The name of the GeoIPS Plugin Package whose command's will be exposed.
+        - If None, assume this was called via the commandline and retrieve package_name
+          via that manner. Otherwise use the supplied package_name.
+        - If supplied, pkg_name must be one of pip installed 'geoips.plugin_packages'.
+          ie. 'recenter_tc', 'geoips_clavrx', 'data_fusion', <your_custom_pkg>, ...
+    provided_log: logging.Logger
+        - If None, retrieve the LOG attribute from this module, otherwise use the
+          provided logger so we can check the output of this function for unit tests.
+
+    Returns
+    -------
+    pkg_name, log: str, logging.Logger
+        - The name of the package to retrieve commands from and the logger used to
+          output it.
+    """
+    plugin_packages = [
+        str(ep.value) for ep in metadata.entry_points(group="geoips.plugin_packages")
+    ]
+    if provided_log:
+        log = provided_log
+    else:
+        log = LOG
+    if pkg_name is None:
+        # This function was called via the command line or None was passed.
+        argparser = argparse.ArgumentParser("expose command")
+        argparser.add_argument(
+            "--package_name",
+            "-p",
+            type=str.lower,
+            default="geoips",
+            choices=plugin_packages,
+            help="GeoIPS Plugin package to expose.",
+        )
+        ARGS = argparser.parse_args()
+        pkg_name = ARGS.package_name
+    else:
+        # This function was called via python
+        if pkg_name not in plugin_packages:
+            raise PluginPackageNotFoundError(
+                f"No such package named '{pkg_name}' found. Make sure that package is "
+                "installed with a package manager such as pip."
+            )
+    return pkg_name, log
+
+
 def is_editable(package_name):
     """Return whether or not 'package_name' has been installed in editable mode.
 
@@ -395,8 +500,8 @@ def is_editable(package_name):
     if package_name not in plugin_package_names:
         raise ValueError(
             f"Package '{package_name}' is not an installed package. Please install it "
-            "before running this command via 'pip install <path_to_package_name>' "
-            "optionally with the '-e' flag."
+            "before running this command; ie via 'pip install <path_to_package_name>' "
+            "optionally with the '-e' flag. You can also use another package manager."
         )
     dist_info = metadata.distribution(package_name).read_text("direct_url.json")
     # If dist_info is None, package was not installed from source and it was installed
