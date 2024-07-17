@@ -181,15 +181,24 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Create tags
+        run: |
+          tags="${DOCLINTTEST_IMAGE},${BUILDCACHE_IMAGE})"
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            tags="${tags},${IMAGE_NAME}:doclinttest-stable"
+          else
+            tags="${tags},${IMAGE_NAME}:doclinttest-latest"
+          fi
+          echo "PUSH_TAGS=${tags}"
+          echo "PUSH_TAGS=${tags}" >> $GITHUB_ENV
+
       - name: Build and Push image
         uses: docker/build-push-action@v6
         with:
           context: .
           target: doclinttest
           push: true
-          tags: |
-            ${{ env.DOCLINTTEST_IMAGE }}
-            ${{ env.BUILDCACHE_IMAGE }}
+          tags: ${{ env.PUSH_TAGS }}
           file: "Dockerfile"
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=ghcr.io/${{ env.BUILDCACHE_IMAGE }},mode=max
