@@ -984,13 +984,14 @@ def call(
     )
     if metadata_only:
         return all_metadata
-    start_times = [x.start_datetime for x in all_metadata]
+
+    start_times = [dt for dt in all_metadata["METADATA"].attrs["source_file_datetimes"]]
     times = list(set(start_times))
     import collections
 
     ingested_xarrays = collections.defaultdict(list)
     for time in times:
-        scan_time_files = [x.start_datetime == time for x in all_metadata]
+        scan_time_files = [dt == time for dt in start_times]
         data_dict = call_single_time(
             np.array(fnames)[scan_time_files],
             metadata_only=metadata_only,
