@@ -11,6 +11,7 @@ Version 1.14.0a0 (2024-07-16)
   * Fix failing test data CLI unit tests
   * Correct typo causing product family xrdict_area_product_to_outlist failure
   * Fix push of doclinttest-stable image to ghcr.io
+  * Update Geostationary readers to support multiple scan times
 
 * Documentation Updates
 
@@ -68,6 +69,26 @@ but from any branch to ensure that the doclinttest-stable step will succeed.
 ::
 
     modified: .github/workflows/doc-lint-test.yaml
+
+Update Geostationary readers to support multiple scan times
+-----------------------------------------------------------
+
+*From GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times*
+
+Geostationary readers previously could only handle one scan time per run through.
+This is a limiting factor to these readers and one or more scientists at CIRA needed
+these readers to be able to handle multiple scan times per use. We've made the
+corresponding updates to geostaionary readers that were requested could read
+multiple scan times. If this PR goes well, it might be a good idea to support this
+functionality on other readers in the future.
+
+::
+
+    modified: geoips/interfaces/module_based/readers.py
+    modified: geoips/plugins/modules/readers/abi_netcdf.py
+    modified: geoips/plugins/modules/readers/ahi_hsd.py
+    modified: geoips/plugins/modules/readers/seviri_hrit.py
+    modified: tests/scripts/seviri.WV-Upper.unprojected_image.sh
 
 Documentation Updates
 =====================
