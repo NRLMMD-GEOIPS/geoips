@@ -222,22 +222,19 @@ jobs:
     env:
       CURR_REPO: ${{ github.event.repository.name }}
     steps:
-      - name: Checkout current repo default branch
-        uses: actions/checkout@v3 # v3 is the latest for checkout
-        with:
-          fetch-depth: 0
-          path: ${{ env.BASE_GEOIPS_PATH }}
+      - name: Checkout code
+        uses: actions/checkout@v4
       - name: Detect new and modified release files
         run: |
-          echo "Checking for new and modified release note files in $BASE_GEOIPS_PATH"
-          update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
-          release_notes_dir="$BASE_GEOIPS_PATH/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          echo "Checking for new and modified release note files in $PWD"
+          update_this_file="$(cat update_this_release_note)"
+          release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           ls $release_notes_dir
-          current_release_note=`cat $BASE_GEOIPS_PATH/update_this_release_note`
+          current_release_note=`cat update_this_release_note`
           echo "Listing git branches"
           git branch -a
-          echo "git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
-          ret=$(git -C $BASE_GEOIPS_PATH diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
+          echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
+          ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
           echo "Release note files modified this PR:"
           for file in ${ret[@]}; do
               echo "    $file"
