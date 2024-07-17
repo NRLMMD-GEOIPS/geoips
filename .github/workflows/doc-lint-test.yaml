@@ -52,7 +52,7 @@ jobs:
       # Flags for enabling/disabling various parts of the workflow
       # Default to enabled unless overridden by a repository-level variable
       CI_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }}
-      CHECK_NEW_RELEASE_NOTE: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }} #${{ steps.get_job_flags.outputs.CHECK_NEW_RELEASE_NOTE }}
+      CHECK_NEW_RELEASE_NOTE: ${{ steps.get_job_flags.outputs.CHECK_NEW_RELEASE_NOTE }}
       CI_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_PDF }}
       CI_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_LINT_BANDIT }}
       CI_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_LINT_DOC8 }}
