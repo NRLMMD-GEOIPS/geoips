@@ -200,11 +200,10 @@ jobs:
         run: |
           docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest-stable
           docker push ${IMAGE_NAME}:doclinttest-stable
-          
+
 #################################################
 # Release Note Added
 #################################################
-
   check_new_release_note:
     if: >
       always() &&
@@ -223,6 +222,7 @@ jobs:
     steps:
       - name: Detect new and modified release files
         run: |
+          echo "Checking for new and modified release note files"
           update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
           release_notes_dir="$BASE_GEOIPS_PATH/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           ls $release_notes_dir
@@ -241,7 +241,6 @@ jobs:
           else
               echo "PASSED"
           fi
-
 
 #################################################
 # Documentation builds
@@ -277,13 +276,13 @@ jobs:
           update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
           release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           release_version="$(basename $update_this_file .rst)"
-          echo "Running brassy on directory: $release_notes_dir" 
+          echo "Running brassy on directory: $release_notes_dir"
           brassy --release-version $release_version --no-rich --output-file $update_this_file $release_notes_dir
           echo "release_note_file=$update_this_file" >> $GITHUB_OUTPUT
           cat $update_this_file
       - name: Pinken release note
         run: pink ${{ steps.release-note-generator.outputs.release_note_file }}
-          
+
       - name: Upload release note
         uses: actions/upload-artifact@v4
         with:
