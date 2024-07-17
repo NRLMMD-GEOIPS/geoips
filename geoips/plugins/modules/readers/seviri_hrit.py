@@ -187,11 +187,9 @@ def compare_dicts(d1, d2, skip=None):
 def get_top_level_metadata(fnames, sect):
     """Get top level metadata."""
     md = {}
-    source_file = fnames[0]
     for fname in fnames:
         df = HritFile(fname)
         if "block_2" in df.metadata.keys():
-            source_file = fname
             break
     if "GEOS" in df.metadata.get("block_2", {}).get("projection", {}):
         md["sector_name"] = "Full-Disk"
@@ -220,7 +218,7 @@ def get_top_level_metadata(fnames, sect):
     #     raise HritError('Unknown satname encountered: {}'.format(msg_satname))
     md["platform_name"] = msg_satname[0:3] + "-" + msg_satname[-1]  # msg-1 or msg-4
     md["source_name"] = "seviri"
-    md["source_file"] = source_file
+    md["source_file_names"] = [os.path.basename(fname) for fname in fnames]
     md["area_definition"] = sect
     md["sample_distance_km"] = 3.0
 

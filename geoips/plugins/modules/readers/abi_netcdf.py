@@ -585,6 +585,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         dict_xarrays[dname] = merged_dset
 
     metadata = data_dict["METADATA"]
+    metadata.attrs["source_file_names"] = [os.path.basename(fname) for fname in fnames]
     metadata.attrs["start_datetime"] = min(times)
     metadata.attrs["end_datetime"] = max(times)
     dict_xarrays["METADATA"] = metadata
@@ -716,7 +717,6 @@ def call_single_time(
     xarray_obj.attrs["start_datetime"] = sdt
     xarray_obj.attrs["end_datetime"] = edt
     xarray_obj.attrs["source_name"] = "abi"
-    xarray_obj.attrs["source_file"] = fnames[0]
     xarray_obj.attrs["data_provider"] = "noaa"
 
     # G16 -> goes-16
