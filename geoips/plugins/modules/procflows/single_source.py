@@ -55,12 +55,17 @@ from geoips.interfaces import (
 OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG = [
     "xrdict_varlist_outfnames_to_outlist",
     "xrdict_area_product_outfnames_to_outlist",
+    "image",
+    "unprojected",
+    "image_overlay",
+    "xarray_data",
 ]
 # These output families do NOT take in a list of filenames, and an arbitrary
 # list of output products can be returned - there is no expected output file
 # list
 OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG = [
     "xrdict_area_product_to_outlist",
+    "xrdict_to_outlist",
 ]
 
 FILENAME_FORMATS_WITHOUT_COVG = [
@@ -76,6 +81,7 @@ FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
 PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
     "sectored_xarray_dict_to_output_format",
     "unsectored_xarray_dict_to_output_format",
+    "unsectored_xarray_dict_to_algorithm_to_output_format",
     "unsectored_xarray_dict_area_to_output_format",
 ]
 
@@ -201,7 +207,7 @@ def add_attrs_from_area_def(final_xarray, source_xarray, area_def):
     # MLS I think this should actually just be final_xarray and final_xarray,
     # no source_xarray!  We might be losing information...
     # Ensure we have the "adjustment"id" in the filename appropriately
-    if "adjustment_id" in area_def.sector_info:
+    if area_def and "adjustment_id" in area_def.sector_info:
         final_xarray = add_filename_extra_field(
             source_xarray, "adjustment_id", area_def.sector_info["adjustment_id"]
         )
@@ -543,6 +549,11 @@ def apply_alg_first(
     elif alg_plugin.family in ["xarray_dict_to_xarray"]:
         # This one uses sect_xarrays
         alg_xarray = apply_alg_xarray_dict_to_xarray(alg_plugin, alg_args, sect_xarrays)
+    elif alg_plugin.family in ["xarray_dict_to_xarray_dict"]:
+        # This one uses sect_xarrays
+        alg_xarray = apply_alg_xarray_dict_to_xarray_dict(
+            alg_plugin, alg_args, sect_xarrays
+        )
     elif alg_plugin.family in ["xarray_to_xarray"]:
         # This one uses variables, not variable_names
         alg_xarray = apply_alg_xarray_to_xarray(
@@ -635,6 +646,19 @@ def apply_alg_xarray_dict_to_xarray(alg_plugin, alg_args, sect_xarrays):
     )
     alg_xarray = alg_plugin(sect_xarrays, **alg_args)
     return alg_xarray
+
+
+def apply_alg_xarray_dict_to_xarray_dict(alg_plugin, alg_args, sect_xarrays):
+    """Apply xarray_dict_to_xarray algorithm."""
+    # Format the call signature for passing a dictionary of xarrays,
+    # plus area_def, and return a single numpy array
+    LOG.interactive(
+        "  Applying '%s' family algorithm '%s' to data...",
+        alg_plugin.family,
+        alg_plugin.name,
+    )
+    alg_xarray_dict = alg_plugin(sect_xarrays, **alg_args)
+    return alg_xarray_dict
 
 
 def apply_alg_xarray_dict_area_def_to_numpy(
@@ -829,6 +853,8 @@ def process_xarray_dict_to_output_format(
     )
 
     output_plugin = output_formatters.get_plugin(output_formatter)
+    # Default to empty dict for output_fnames
+    output_fnames = {}
 
     # Only get output filenames if needed
     if output_plugin.family in OUTPUT_FAMILIES_WITH_OUTFNAMES_ARG:
@@ -887,6 +913,12 @@ def process_xarray_dict_to_output_format(
         LOG.info(
             "Not checking output file list for output family %s", output_plugin.family
         )
+    elif output_plugin.family == "xrdict_to_outlist":
+        curr_products = output_plugin(xobjs, **output_formatter_kwargs)
+        # No input filename list, no check that output filename list matches
+        LOG.info(
+            "Not checking output file list for output family %s", output_plugin.family
+        )
 
     else:
         raise TypeError(
@@ -910,7 +942,6 @@ def process_xarray_dict_to_output_format(
             area_def=area_def,
         )
     else:
-        # Ensure final_products is defined
         final_products = curr_products
 
     return final_products
@@ -1111,6 +1142,7 @@ def plot_data(
             output_fnames=list(output_fnames.keys()),
             **output_kwargs,
         )
+        # Disabling output_fnames check
         if output_products != list(output_fnames.keys()):
             raise ValueError("Did not produce expected products")
     else:
@@ -1501,6 +1533,7 @@ def get_alg_xarray(
         "algorithm_colormapper",
         "algorithm_interpolator_colormapper",
         "algorithm",
+        "unsectored_xarray_dict_to_algorithm_to_output_format",
     ]:
         # All of these apply the algorithm first, so go ahead and
         # apply the algorithm.
@@ -1518,15 +1551,18 @@ def get_alg_xarray(
             area_def,
         )
 
-        # Now apply the intepolator after applying the algorithm.
-        final_xarray = apply_interp_after_alg(
-            alg_xarray,
-            interp_plugin,
-            interp_args,
-            prod_plugin,
-            area_def,
-            processed_xarrays,
-        )
+        if prod_plugin.family in ["algorithm_interpolator_colormapper"]:
+            # Now apply the intepolator after applying the algorithm.
+            final_xarray = apply_interp_after_alg(
+                alg_xarray,
+                interp_plugin,
+                interp_args,
+                prod_plugin,
+                area_def,
+                processed_xarrays,
+            )
+        else:
+            final_xarray = alg_xarray
 
         # MLS This appears to update alg_xarray, not final_xarray, with the
         # area_def information.  So this might not be right..
@@ -1821,12 +1857,24 @@ def call(fnames, command_line_args=None):
     # If we have a product of type "unsectored_xarray_dict_to_output_format"
     # process it here
     # This will not have any required area_defs
-    if prod_plugin.family == "unsectored_xarray_dict_to_output_format":
+    if prod_plugin.family in [
+        "unsectored_xarray_dict_to_output_format",
+        "unsectored_xarray_dict_to_algorithm_to_output_format",
+    ]:
         LOG.interactive(
             "Reading full dataset " "for unsectored products " "with reader '%s'...",
             reader_plugin.name,
         )
         xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
+        xdict = get_alg_xarray(
+            xdict,
+            area_def=None,
+            prod_plugin=prod_plugin,
+            resector=False,
+            resampled_read=resampled_read,
+            window_start_time=window_start_time,
+            window_end_time=window_end_time,
+        )
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
