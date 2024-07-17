@@ -183,7 +183,7 @@ jobs:
 
       - name: Create tags
         run: |
-          tags="${DOCLINTTEST_IMAGE},${BUILDCACHE_IMAGE})"
+          tags="${DOCLINTTEST_IMAGE},${BUILDCACHE_IMAGE}"
           if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
             tags="${tags},${IMAGE_NAME}:doclinttest-stable"
           else
