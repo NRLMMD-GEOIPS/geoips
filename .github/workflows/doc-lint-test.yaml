@@ -226,10 +226,10 @@ jobs:
         uses: actions/checkout@v3 # v3 is the latest for checkout
         with:
           fetch-depth: 0
-          path: BASE_GEOIPS_PATH
+          path: ${{ env.BASE_GEOIPS_PATH }}
       - name: Detect new and modified release files
         run: |
-          echo "Checking for new and modified release note files"
+          echo "Checking for new and modified release note files in $BASE_GEOIPS_PATH"
           update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
           release_notes_dir="$BASE_GEOIPS_PATH/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
           ls $release_notes_dir
