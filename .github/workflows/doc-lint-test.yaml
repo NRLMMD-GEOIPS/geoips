@@ -203,22 +203,6 @@ jobs:
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=ghcr.io/${{ env.BUILDCACHE_IMAGE }},mode=max
 
-      - name: List Docker Images
-        run: docker image ls
-
-      # This is a test to ensure that the next step will work on main
-      - name: Push a "latest" tag regardless of which branch we're on
-        run: |
-          docker tag ${DOCLINTTEST_IMAGE} ${IMAGE_NAME}:doclinttest-latest
-          docker push ${IMAGE_NAME}:doclinttest-latest
-
-      # This is used for building docs, linting, and testing other plugins
-      - name: Push "stable" tag if on main branch
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker tag ${DOCLINTTEST_IMAGE} ${IMAGE_NAME}:doclinttest-stable
-          docker push ${IMAGE_NAME}:doclinttest-stable
-
 #################################################
 # Documentation builds
 #################################################
