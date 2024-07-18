@@ -1,0 +1,15 @@
+continuous integration:
+- description: 'test'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'test'
