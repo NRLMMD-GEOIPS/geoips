@@ -341,8 +341,9 @@ jobs:
                  :maxdepth: 1
 
                  latest"
-             #echo "$new_content"
+             echo "Injecting latest rst into the release index file"
              sed -i '11i $new_content" $release_index
+             echo "The new release index file:"
              cat $release_index
           else
             echo "try again"
