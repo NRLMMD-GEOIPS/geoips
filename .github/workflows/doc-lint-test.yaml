@@ -235,7 +235,7 @@ jobs:
       - name: Detect new and modified release files
         run: |
           update_this_file="$(cat update_this_release_note)"
-          release_notes_dir="$PWD/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          release_notes_dir="$PWD/$(dirname $update_this_file)"
           echo "Checking for no edits to the .rst release note in dir $release_notes_dir"
           echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst"
           ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst)
