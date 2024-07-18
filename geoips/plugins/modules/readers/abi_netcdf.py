@@ -12,6 +12,7 @@ import numpy as np
 
 from scipy.ndimage import zoom
 
+from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -539,6 +540,95 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    all_metadata = readers.concatenate_metadata(
+        [call_single_time([x], metadata_only=True)["METADATA"] for x in fnames]
+    )
+    if metadata_only:
+        return all_metadata
+
+    start_times = [dt for dt in all_metadata["METADATA"].attrs["source_file_datetimes"]]
+    times = list(set(start_times))
+    import collections
+
+    ingested_xarrays = collections.defaultdict(list)
+    for time in times:
+        scan_time_files = [dt == time for dt in start_times]
+        data_dict = call_single_time(
+            np.array(fnames)[scan_time_files],
+            metadata_only=metadata_only,
+            chans=chans,
+            area_def=area_def,
+            self_register=self_register,
+        )
+        for (
+            dname,
+            dset,
+        ) in data_dict.items():
+            ingested_xarrays[dname].append(dset)
+
+    if len(times) == 1:
+        # No need to stack if we are only reading in one scan time
+        # This is likely temporary to maintain backwards compatibility
+        return data_dict
+
+    import xarray
+
+    # merged_dset = xarray.Dataset()
+    # Now that we've ingested all scan times, stack along time dimension
+    dict_xarrays = {}
+    for dname, list_xarrays in ingested_xarrays.items():
+        if dname == "METADATA":
+            continue
+        merged_dset = xarray.concat(list_xarrays, dim="time_dim")
+        merged_dset.attrs["start_datetime"] = min(times)
+        merged_dset.attrs["end_datetime"] = max(times)
+        merged_dset = merged_dset.assign_coords({"time_dim": times})
+        dict_xarrays[dname] = merged_dset
+
+    metadata = data_dict["METADATA"]
+    metadata.attrs["source_file_names"] = [os.path.basename(fname) for fname in fnames]
+    metadata.attrs["start_datetime"] = min(times)
+    metadata.attrs["end_datetime"] = max(times)
+    dict_xarrays["METADATA"] = metadata
+    return dict_xarrays
+
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """
+    Read ABI NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     gvars = {}
     datavars = {}
     standard_metadata = {}
@@ -629,6 +719,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_obj.attrs["end_datetime"] = edt
     xarray_obj.attrs["source_name"] = "abi"
     xarray_obj.attrs["data_provider"] = "noaa"
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # G16 -> goes-16
     xarray_obj.attrs["platform_name"] = highest_md["file_info"]["platform_ID"].replace(
