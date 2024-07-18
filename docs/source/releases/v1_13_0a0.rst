@@ -350,7 +350,6 @@ When a user uses the image output checker with ``--compare-path`` without
 This change improves the error, and directs the user on how to ameliorate
 the issue.
 
-
 Documentation
 =============
 
