@@ -22,15 +22,25 @@ bug-fix:
     hardcoded portion of a unit test for that command that could result in failed tests
     if certain packages had console scripts. We've refactored this command to be dynamic,
     and now should pass no matter what packages are provided.
+
+    Bug #4 was related to commandline instructions unit tests, specifically the tests
+    that checked whether or not a file was newer than another file. These work locally,
+    but git causes problems with the files write time and these tests sometimes fail.
+    Since we are confident in the functionality of this code, we've decided to remove
+    these unit tests for the time being.
   title: 'Fix duplicate logs, cartopy version, and expose unit test'
   related-issue: |
     *From GEOIPS#685: 2024-07-17, Fix unit test that will fail if any plugin packages with console scripts are installed*
   files:
     modified:
-      - "geoips/commandline/commandline_interface.py"
-      - "geoips/commandline/log_setup.py"
-      - "pyproject.toml"
-      - "tests/unit_tests/commandline/test_expose.py"
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/log_setup.py
+      - pyproject.toml
+      - tests/unit_tests/commandline/test_expose.py
+      - tests/unit_tests/commandline/test_get_commandline_instructions.py
+    removed:
+      - tests/unit_tests/commandline/cmd_instructions/json_newer/*
+      - tests/unit_tests/commandline/cmd_instructions/yaml_newer/*
 installation:
 - description: |
     *From GEOIPS#666: 2024-07-17, Final bug fixes prior to workshop*
