@@ -341,8 +341,8 @@ jobs:
                  :maxdepth: 1
 
                  latest"
-             echo "$new_content"
-             sed -i -e 's/*************/.. toctree::|    :maxdepth: 1|    |    latest.rst/g' $release_index | tr '|' '\n' > $release_index
+             #echo "$new_content"
+             sed -i '11i $new_content" $release_index
              cat $release_index
           else
             echo "try again"
