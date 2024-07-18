@@ -4,4 +4,4 @@ documentation:
     change easier.
   title: 'Add top level descriptions to minor releases'
   files:
-    - modified: ["docs/source/releases/index.rst"]
+    modified: ["docs/source/releases/index.rst"]

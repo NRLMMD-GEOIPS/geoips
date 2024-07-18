@@ -12,7 +12,7 @@ bug-fix:
   title: "Correct typo causing product family xrdict_area_product_to_outlist failure"
   related-issue: "GEOIPS#666 - Final Bug Fixes Prior to Workshop"
   files:
-    - modified: ["geoips/plugins/modules/procflows/single_source.py"]
+    modified: ["geoips/plugins/modules/procflows/single_source.py"]
 
 - description: |
     Fix failing test data CLI unit tests. `test_geoips_config_install.py` and
@@ -22,19 +22,19 @@ bug-fix:
   title: "Fix failing test data CLI unit tests"
   related-issue: "GEOIPS#666 - Final Bug Fixes Prior to Workshop"
   files:
-    - modified: ["tests/unit_tests/commandline/test_log_setup.py", "tests/unit_tests/commandline/cli_top_level_tester.py"]
-    - deleted: ["tests/unit_tests/commandline/test_geoips_config_install.py"]
+    modified: ["tests/unit_tests/commandline/test_log_setup.py", "tests/unit_tests/commandline/cli_top_level_tester.py"]
+    deleted: ["tests/unit_tests/commandline/test_geoips_config_install.py"]
 
 documentation:
 - description: "Add pinkrst and brassy to dependencies."
   title: "Add pinkrst and brassy to dependencies"
   related-issue: "GEOIPS#675 - Add brassy and pinkrst to geoips lint dependencies"
   files:
-    - modified: ["pyproject.toml"]
+    modified: ["pyproject.toml"]
 
 - description: "Update LICENSE and DISTRIBUTION to latest approved version."
   title: "Update LICENSE and DISTRIBUTION to latest approved version"
   related-issue: "GEOIPS#666 - Final Bug Fixes Prior to Workshop"
   files:
-    - modified: ["LICENSE", "DISTRIBUTION"]
+    modified: ["LICENSE", "DISTRIBUTION"]
 
