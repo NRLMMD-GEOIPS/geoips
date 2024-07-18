@@ -337,6 +337,11 @@ jobs:
           echo "release_note_file=$update_this_file" >> $GITHUB_OUTPUT
           if [ $release_version = "latest" ]; then
              release_index="docs/source/releases/index.rst"
+             new_content=".. toctree::
+                 :maxdepth: 1
+
+                 latest"
+             echo $new_content
              sed -i -e 's/*************/.. toctree::|    :maxdepth: 1|    |    latest.rst/g' $release_index | tr '|' '\n' > $release_index
              cat $release_index
           else
