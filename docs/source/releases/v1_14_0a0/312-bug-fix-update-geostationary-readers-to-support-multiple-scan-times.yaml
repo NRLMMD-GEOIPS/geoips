@@ -13,7 +13,7 @@ bug fix:
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
   title: 'Update Geostationary readers to support multiple scan times'
   files:
-    - modified:
+    modified:
       - geoips/interfaces/module_based/readers.py
       - geoips/plugins/modules/readers/abi_netcdf.py
       - geoips/plugins/modules/readers/ahi_hsd.py
