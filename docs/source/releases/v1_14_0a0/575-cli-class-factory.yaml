@@ -17,10 +17,11 @@ Refactoring Updates:
     previously.
   title: 'Refactored ``geoips list interface`` to use a class factory'
   files:
-    - modified:
+    modified:
       - docs/source/userguide/command_line.rst
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_list.py
       - tests/unit_tests/commandline/cli_top_level_tester.py
       - tests/unit_tests/commandline/test_geoips_list_interface.py
+
