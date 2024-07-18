@@ -238,11 +238,13 @@ jobs:
           echo "Checking for no edits to the .rst release note in $update_this_file"
           echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $update_this_file"
           ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $update_this_file)
-          echo $ret 
+          for file in ${ret[@]}; do
+              echo "    $file"
+          done
           if [ ${#ret[@]} -eq 0 ]; then
               echo "PASSED"
           else
-              echo "FAILED: Rlease note changes detected"
+              echo "FAILED: Release note changes detected"
               echo "Please use brassy to enter change logs in $release_notes_dir"
               echo "DO NOT EDIT THE .RST FILE DIRECTLY :))"
               exit 1
