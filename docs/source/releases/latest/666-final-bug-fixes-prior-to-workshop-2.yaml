@@ -26,7 +26,7 @@ bug-fix:
   related-issue: |
     *From GEOIPS#685: 2024-07-17, Fix unit test that will fail if any plugin packages with console scripts are installed*
   files:
-    - modified:
+    modified:
       - "geoips/commandline/commandline_interface.py"
       - "geoips/commandline/log_setup.py"
       - "pyproject.toml"
