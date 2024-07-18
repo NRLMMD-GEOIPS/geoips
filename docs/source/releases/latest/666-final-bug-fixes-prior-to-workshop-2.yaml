@@ -31,3 +31,30 @@ bug-fix:
       - "geoips/commandline/log_setup.py"
       - "pyproject.toml"
       - "tests/unit_tests/commandline/test_expose.py"
+installation:
+- description: |
+    *From GEOIPS#666: 2024-07-17, Final bug fixes prior to workshop*
+
+    Remove all references to template_fusion_plugin.  No longer supporting
+    template_fusion_plugin - only template_basic_plugin with very basic
+    plugins, and geoips_plugin_example with more extensive examples.
+  title: "Remove references to template_fusion_plugin from full install and test"
+  related-issue:
+    number: 666
+  files:
+    - modified:
+      - "tests/integration_tests/full_install.sh"
+      - "tests/integration_tests/full_test.sh"
+- description: |
+    *From GEOIPS#666: 2024-07-17, Final bug fixes prior to workshop*
+
+    Add base and full environment dumps from version 1.13.0.
+  title: "Add base and full pip and mamba environment files"
+  related-issue:
+    number: 666
+  files:
+    - modified:
+      - environments/mamba_base_package_list_1.13.0_20240713.yml
+      - environments/mamba_full_package_list_1.13.0_20240717.yml
+      - environments/pip_base_requirements_1.13.0_20240713.txt
+      - environments/pip_full_requirements_1.13.0_20240717.txt
