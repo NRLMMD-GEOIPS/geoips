@@ -238,6 +238,7 @@ jobs:
           echo "Checking for no edits to the .rst release note in $update_this_file"
           echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $update_this_file"
           ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $update_this_file)
+          echo $ret 
           if [ ${#ret[@]} -eq 0 ]; then
               echo "PASSED"
           else
