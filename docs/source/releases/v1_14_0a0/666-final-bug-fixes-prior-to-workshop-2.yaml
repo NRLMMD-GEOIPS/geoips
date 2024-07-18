@@ -1,0 +1,36 @@
+bug-fix:
+- description: |
+    *From GEOIPS#685: 2024-07-17, Fix unit test that will fail if any plugin packages with console scripts are installed*
+
+    There are a few lingering bugs that need fixed before the workshop starts in August.
+    These were relatively simple to fix so I merged three bug fixes into this PR.
+
+    Bug #1 managed to stay in GeoIPS for a while, and resulted in duplicate log statements
+    for every log level. This was caused by ``geoips.commandline.log_setup:setup_logging``
+    and would result in ``LOG X (num times setup_logging called)`` per a program's execution.
+    To fix this, I added two global variables in ``setup_logging``, once of which tests if
+    that function has already been called, the second being a ``log`` variable that will be
+    returned the first time, and every time after this function is called. With this update,
+    we need to make sure that the lowest log-level requested should be called FIRST.
+    Otherwise, it will be obfuscated by higher level log levels.
+
+    Bug #2 was a simple fix, and was just a version change for Cartopy in pyproject.toml.
+    There was a minor pixel difference in some tests outputs using version 0.22.0, so we
+    updated this to gt=0.23.0.
+
+    Bug #3 was a possible bug that was introduced by the expose command. There was a
+    hardcoded portion of a unit test for that command that could result in failed tests
+    if certain packages had console scripts. We've refactored this command to be dynamic,
+    and now should pass no matter what packages are provided.
+  title: 'Fix duplicate logs, cartopy version, and expose unit test'
+  related-issue: |
+    *From GEOIPS#685: 2024-07-17, Fix unit test that will fail if any plugin packages with console scripts are installed*
+  files:
+    - modified:
+        - "geoips/commandline/commandline_interface.py"
+    - modified:
+      - "geoips/commandline/log_setup.py"
+    - modified:
+      - "pyproject.toml"
+    - modified:
+      - "tests/unit_tests/commandline/test_expose.py"
