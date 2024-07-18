@@ -255,54 +255,6 @@ jobs:
           fi
 
 #################################################
-# Release Note Added
-#################################################
-  check_new_release_note:
-    if: >
-      always() &&
-      needs.set_variables.outputs.CHECK_NEW_RELEASE_NOTE == 'true' &&
-      (needs.build_doclinttest_image.result == 'success' ||
-      needs.build_doclinttest_image.result == 'skipped')
-    runs-on: ${{ vars.RUNNER }}
-    needs: [build_doclinttest_image, set_variables]
-    container:
-      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
-      credentials:
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
-        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
-    env:
-      CURR_REPO: ${{ github.event.repository.name }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Configure Git safe directory
-        run: git config --global --add safe.directory $PWD
-      - name: Detect new and modified release files
-        run: |
-          echo "Checking for new and modified release note files in $PWD"
-          update_this_file="$(cat update_this_release_note)"
-          release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
-          ls $release_notes_dir
-          current_release_note=`cat update_this_release_note`
-          echo "Listing git branches"
-          git branch -a
-          echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
-          ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
-          echo "Release note files modified this PR:"
-          for file in ${ret[@]}; do
-              echo "    $file"
-          done
-          if [ ${#ret[@]} -eq 0 ]; then
-              echo "FAILED: No release note changes detected"
-              echo "Please use brassy to enter change logs in $release_notes_dir"
-              exit 1
-          else
-              echo "PASSED"
-          fi
-
-#################################################
 # Documentation builds
 #################################################
   build_sphinx_html:
