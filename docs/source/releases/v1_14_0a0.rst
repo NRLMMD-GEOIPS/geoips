@@ -8,7 +8,6 @@ Version 1.14.0a0 (2024-07-16)
 
 * Bug Fixes
 
-  * Fix memusg.py bugs that occur on Mac
   * Fix failing test data CLI unit tests
   * Correct typo causing product family xrdict_area_product_to_outlist failure
   * Fix push of doclinttest-stable image to ghcr.io
@@ -24,24 +23,6 @@ Version 1.14.0a0 (2024-07-16)
 
 Bug Fixes
 =========
-
-Fix memusg.py bugs that occur on Mac
-------------------------------------
-
-This branch was needed as there was recently a bug introduced on Mac that would prevent
-any use of GeoIPS. This was introduced in geoips/utils/memusg.py, where a Process method
-was used that was only available on Linux, FreeBSD, SunOS. The method was
-``Process.cpu_num`` and was used in tracking information about the CPU Count used during
-a certain GeoIPS Process. Unfortunately, this is unavailable on Mac and caused bugs when
-trying to run GeoIPS.
-
-To fix this, we added a ``platform.system() == Linux`` check for ``Process.cpu_num``
-calls which ensured that function would only be ran if on a Linux system. Otherwise skip
-that call and don't collect inforamation on that variable.
-
-::
-
-    modified: geoips/utils/memusg.py
 
 Correct typo causing product family xrdict_area_product_to_outlist failure
 --------------------------------------------------------------------------
