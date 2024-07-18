@@ -9,7 +9,6 @@ Version 1.14.0a0 (2024-07-16)
 * Bug Fixes
 
   * Fix failing test data CLI unit tests
-  * Correct typo causing product family xrdict_area_product_to_outlist failure
   * Fix push of doclinttest-stable image to ghcr.io
 
 * Documentation Updates
@@ -19,25 +18,6 @@ Version 1.14.0a0 (2024-07-16)
 
 Bug Fixes
 =========
-
-Correct typo causing product family xrdict_area_product_to_outlist failure
---------------------------------------------------------------------------
-
-*From GEOIPS#666: 2024-07-16, Final Bug Fixes Prior to Workshop*
-
-Product families that did not have pre-defined output lists and expected data
-passed unmodified from the readers to the output formatters were failing due to
-a missing else statement ensuring the list of final_products was set even when
-the output file list was not pre-defined.  Add else statement to set final_products
-to curr_products when output file list not defined.
-
-This resolved an error with product family xrdict_area_product_to_outlist when
-it was requested without sectoring, but it worked if sectoring was requested
-(followed a different route through the code for each).
-
-::
-
-  modified: geoips/plugins/modules/procflows/single_source.py
 
 Fix failing test data CLI unit tests
 ------------------------------------
