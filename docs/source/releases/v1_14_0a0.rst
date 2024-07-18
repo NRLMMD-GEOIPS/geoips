@@ -11,7 +11,6 @@ Version 1.14.0a0 (2024-07-16)
   * Fix failing test data CLI unit tests
   * Correct typo causing product family xrdict_area_product_to_outlist failure
   * Fix push of doclinttest-stable image to ghcr.io
-  * Fix duplicate logs, cartopy version, and expose unit test
 
 * Documentation Updates
 
