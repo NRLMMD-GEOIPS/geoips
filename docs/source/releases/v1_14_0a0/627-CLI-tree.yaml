@@ -71,10 +71,10 @@ enhancement:
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
   title: 'New ``geoips tree`` command'
   files:
-    - added:
+    added:
       - geoips/commandline/geoips_tree.py
       - tests/unit_tests/commandline/test_geoips_tree.py
-    - modified:
+    modified:
       - docs/source/userguide/command_line.rst
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/commandline_interface.py
