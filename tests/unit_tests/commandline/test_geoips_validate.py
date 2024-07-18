@@ -30,15 +30,15 @@ class TestGeoipsValidate(BaseCliTest):
             # validate some subset plugins from all installed packages
             for pkg_name in self.plugin_package_names:
                 pkg_path = str(resources.files(pkg_name) / "plugins")
-            for plugin_type in ["modules", "yaml"]:
-                if plugin_type == "modules":
-                    plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
-                else:
-                    plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
-                plugin_paths = sorted(glob(plugin_path_str, recursive=True))
-                for plugin_path in plugin_paths:
-                    if rand() > rand_threshold:
-                        self._cmd_list.append(base_args + [plugin_path])
+                for plugin_type in ["modules", "yaml"]:
+                    if plugin_type == "modules":
+                        plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
+                    else:
+                        plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
+                    plugin_paths = sorted(glob(plugin_path_str, recursive=True))
+                    for plugin_path in plugin_paths:
+                        if rand() > rand_threshold:
+                            self._cmd_list.append(base_args + [plugin_path])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
         return self._cmd_list
