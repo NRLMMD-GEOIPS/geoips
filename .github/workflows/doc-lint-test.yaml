@@ -347,7 +347,7 @@ jobs:
              echo "The new release index file:"
              cat $release_index
           else
-            echo "try again"
+            echo "Release note is not latest, so not injecting."
           fi
       - name: Pinken release note
         run: pink ${{ steps.release-note-generator.outputs.release_note_file }}
