@@ -206,13 +206,6 @@ jobs:
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=ghcr.io/${{ env.BUILDCACHE_IMAGE }},mode=max
 
-      # This is used for building docs, linting, and testing other plugins
-      - name: Push additional tag if on main branch
-        if: github.ref == 'refs/heads/main'
-        run: |
-          docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest-stable
-          docker push ${IMAGE_NAME}:doclinttest-stable
-
 #################################################
 # Release Note Added
 #################################################
