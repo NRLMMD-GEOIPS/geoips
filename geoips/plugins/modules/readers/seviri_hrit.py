@@ -27,7 +27,7 @@ from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
-from .utils.geostationary_geolocation import (
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation,
 )
 
