@@ -27,8 +27,6 @@ cloudpickle==3.0.0
 colorama==0.4.6
 configobj==5.0.8
 contourpy==1.2.1
-# Editable Git install with no remote (cool_plugins==1.11.7.post6.dev0)
--e /users/surratt/geoips/cool_plugins
 coverage==7.6.0
 crashtest==0.4.1
 cycler==0.12.1
