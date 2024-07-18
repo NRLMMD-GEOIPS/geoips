@@ -235,13 +235,14 @@ jobs:
       - name: Detect new and modified release files
         run: |
           update_this_file="$(cat update_this_release_note)"
-          echo "Checking for no edits to the .rst release note in $update_this_file"
-          echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $update_this_file"
-          ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $update_this_file)
+          release_notes_dir="$PWD/$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          echo "Checking for no edits to the .rst release note in dir $release_notes_dir"
+          echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst"
+          ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst)
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          if [ ${#ret[@]} -eq 0 ]; then
+          if [[ "${ret}" != *"$update_this_file"* ]]; then
               echo "PASSED"
           else
               echo "FAILED: Release note changes detected"
