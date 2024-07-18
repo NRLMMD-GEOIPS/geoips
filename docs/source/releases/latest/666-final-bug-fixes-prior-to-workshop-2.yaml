@@ -42,7 +42,7 @@ installation:
   related-issue:
     number: 666
   files:
-    - modified:
+    modified:
       - "tests/integration_tests/full_install.sh"
       - "tests/integration_tests/full_test.sh"
 - description: |
@@ -53,7 +53,7 @@ installation:
   related-issue:
     number: 666
   files:
-    - modified:
+    modified:
       - environments/mamba_base_package_list_1.13.0_20240713.yml
       - environments/mamba_full_package_list_1.13.0_20240717.yml
       - environments/pip_base_requirements_1.13.0_20240713.txt
