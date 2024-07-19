@@ -1,5 +1,5 @@
 continuous_integration:
-  description: |
+- description: |
     Moved the yaml release files from ``docs/source/release/v(version number)/*`` to ``docs/source/release/latest/*``, which now builds to ``latest.rst``.
     Added ``latest.rst`` because brassy does not automatically build .rst files at the moment. 
     Ideally, brassy would create ``latest.rst``, which could be pulled down and built into the docs locally.
