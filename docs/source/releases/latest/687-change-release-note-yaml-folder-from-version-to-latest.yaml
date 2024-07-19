@@ -13,6 +13,6 @@ continuous_integration:
     modified:
       - '.github/workflows/doc-lint-test.yaml'
       - 'docs/source/releases/index.rst'
-  related_issue:
+  related-issue:
     number: 687
   title: 'Change release note .yaml folder from version to latest'
