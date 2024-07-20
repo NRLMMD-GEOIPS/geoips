@@ -5,9 +5,16 @@
 
 .. _release_notes:
 
-*************
 Release Notes
 *************
+
+Latest (version on cutting edge of git)
+---------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   latest
 
 Version 1.14
 ------------
@@ -43,7 +50,6 @@ issues with create_plugin_registries, ATMS platform names, and pytest dependenci
    v1_12_2a0
    v1_12_1
    v1_12_0
-
 
 Version 1.11
 ------------

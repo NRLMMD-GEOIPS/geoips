@@ -234,15 +234,16 @@ jobs:
         run: git config --global --add safe.directory $PWD
       - name: Detect new and modified release files
         run: |
-          update_this_file="$(cat update_this_release_note)"
-          release_notes_dir="$PWD/$(dirname $update_this_file)"
+          #update_this_file="$(cat update_this_release_note)"
+          release_notes_dir="$PWD/docs/source/releases" #/$(dirname $update_this_file)"
           echo "Checking for no edits to the .rst release note in dir $release_notes_dir"
           echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst"
           ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst)
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          if [[ "${ret}" != *"$update_this_file"* ]]; then
+          # if [[ "${ret}" != *"$update_this_file"* ]]; then
+          if [[ "${ret}" != *"latest.rst"* ]]; then
               echo "PASSED"
           else
               echo "FAILED: Release note changes detected"
@@ -279,10 +280,10 @@ jobs:
       - name: Detect new and modified release files
         run: |
           echo "Checking for new and modified release note files in $PWD"
-          update_this_file="$(cat update_this_release_note)"
-          release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          #update_this_file="$(cat update_this_release_note)"
+          release_notes_dir="$PWD/docs/source/releases/latest" #/$(dirname $update_this_file)"
           ls $release_notes_dir
-          current_release_note=`cat update_this_release_note`
+          #current_release_note=`cat update_this_release_note`
           echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
           ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
           echo "Release note files modified this PR:"
@@ -325,13 +326,16 @@ jobs:
       - name: Build release notes from yaml files
         id: release-note-generator
         run: |
-          update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
-          release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
-          release_version="$(basename $update_this_file .rst)"
+          # update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
+          # release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          release_notes_dir="$PWD/docs/source/releases/latest" #/$(dirname $update_this_file)"
+          update_this_file="$PWD/docs/source/releases/latest.rst"
+          #release_version="$(basename $update_this_file .rst)"
+          release_version="latest"
           echo "Running brassy on directory: $release_notes_dir"
           brassy --release-version $release_version --no-rich --output-file $update_this_file $release_notes_dir
+          echo "Done writing!"
           echo "release_note_file=$update_this_file" >> $GITHUB_OUTPUT
-          cat $update_this_file
       - name: Pinken release note
         run: pink ${{ steps.release-note-generator.outputs.release_note_file }}
 
