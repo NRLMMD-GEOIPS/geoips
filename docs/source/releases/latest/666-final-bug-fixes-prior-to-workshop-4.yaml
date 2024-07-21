@@ -1,0 +1,16 @@
+bug fix:
+- description: |
+    Update build_docs.sh to call brassy to auto-generate the release notes prior
+    to doc build.
+
+    Also add latest.rst to .gitignore because we will now auto-generate it within
+    the doc build, so we do not want it explicitly changed within the repo.
+  files:
+    modified:
+    - '.gitignore'
+    - 'docs/build_docs.sh'
+    - 'docs/source/releases/latest.rst'
+  related-issue:
+    number: 666
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  title: 'Update build_docs.sh to auto-generate <version>.rst with brassy'
