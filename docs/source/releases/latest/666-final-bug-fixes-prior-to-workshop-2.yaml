@@ -38,7 +38,7 @@ bug-fix:
       - pyproject.toml
       - tests/unit_tests/commandline/test_expose.py
       - tests/unit_tests/commandline/test_get_commandline_instructions.py
-    removed:
+    deleted:
       - tests/unit_tests/commandline/cmd_instructions/json_newer/*
       - tests/unit_tests/commandline/cmd_instructions/yaml_newer/*
 installation:
