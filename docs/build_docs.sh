@@ -89,6 +89,12 @@ if [[ "$4" != "" ]]; then
 else
     geoipsdocpath="$GEOIPS_PACKAGES_DIR/geoips/docs"
 fi
+if [[ "$5" != "" ]]; then
+    echo "passed geoips_vers=$5"
+    geoips_vers=$5
+else
+    geoips_vers=latest
+fi
 if [[ ! -d "$geoipsdocpath" ]]; then
     echo "***************************************************************************"
     echo "ERROR: GeoIPS docs path, with templates, does not exist:"
@@ -140,6 +146,27 @@ if [[ -d $docbasepath/build/sphinx ]]; then
     echo "$docbasepath/build/sphinx removed."
     echo "***"
     echo ""
+fi
+
+current_release_notes=`ls docs/source/releases/latest/*`
+if [[ "$current_release_notes" != "" ]]; then
+    echo "Running brassy to generate current release note ${geoips_vers}.rst"
+    echo ""
+    echo "touch $docbasepath/docs/source/releases/${geoips_vers}.rst"
+    echo "brassy --release-version $geoips_vers --no-rich \"
+    echo "    --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \"
+    echo "    $docbasepath/docs/source/releases/latest"
+    echo ""
+
+    touch $docbasepath/docs/source/releases/${geoips_vers}.rst
+    brassy --release-version $geoips_vers --no-rich \
+        --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \
+        $docbasepath/docs/source/releases/latest
+    if [[ "$?" != "0" ]]; then
+        echo "FAILED brassy ${geoips_vers}.rst release note generation failed."
+        echo "Please resolve release note formatting noted above and retry"
+        exit 1
+    fi
 fi
 
 buildfrom_docpath=$docbasepath/build/buildfrom_docs
