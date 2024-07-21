@@ -1,0 +1,10 @@
+testing:
+- description: |
+    Make pytest_long called via "all_test_data" vs "all"
+  files:
+    modified:
+    - 'tests/utils/check_code.sh'
+  related-issue:
+    number: 666
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  title: 'Turn off pytest_long temporarily from check_code.sh'
