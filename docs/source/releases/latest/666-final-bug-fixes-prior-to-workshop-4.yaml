@@ -12,7 +12,7 @@ bug fix:
     - '.gitignore'
     - 'docs/build_docs.sh'
     - 'docs/source/releases/index.rst'
-    new:
+    added:
     - 'docs/update_release_note_index.py'
     deleted:
     - 'docs/source/releases/latest.rst'
