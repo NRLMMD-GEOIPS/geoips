@@ -328,7 +328,7 @@ if [[ "$pdf_required" == "True" ]]; then
         echo "  html documentation."
         echo ""
         echo "Reverting $docbasepath/docs/source/releases/index.rst"
-        git checkout -C $docbasepath docs/source/releases/index.rst
+        git -C $docbasepath checkout docs/source/releases/index.rst
         exit 1
     fi
     # do not include release notes in the PDF
