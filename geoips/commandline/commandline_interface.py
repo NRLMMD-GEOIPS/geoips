@@ -7,14 +7,12 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
 
-import logging
 from os.path import basename
 import sys
 
 from colorama import Fore, Style
 
 from geoips.commandline.cmd_instructions import get_cmd_instructions
-from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_get import GeoipsGet
@@ -23,8 +21,10 @@ from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_validate import GeoipsValidate
 
-setup_logging()
-LOG = logging.getLogger(__name__)
+
+# Logging utitilies will be set up once PR 659, Apply Scope to CLI Arguments, has been
+# merged. Until that point we'll set up no logging in the CLI as it will duplicate all
+# log statements used in our procflows.
 
 
 class GeoipsCLI(GeoipsCommand):
