@@ -239,7 +239,7 @@ jobs:
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          if [ ${#ret[@]} -eq 0 ]; then
+          if [ -z "$ret" ]; then
               echo "PASSED"
           else
               echo "FAILED: Release note changes detected"
