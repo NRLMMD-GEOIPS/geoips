@@ -167,6 +167,14 @@ if [[ "$current_release_notes" != "" ]]; then
         echo "Please resolve release note formatting noted above and retry"
         exit 1
     fi
+    echo "Adding latest section to release note index"
+    echo "python $docbasepath/docs/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers"
+    python $docbasepath/docs/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers
+    if [[ "$?" != "0" ]]; then
+        echo "FAILED update_release_note_index.py for version ${geoips_vers}"
+        echo "Please resolve release note formatting noted above and retry"
+        exit 1
+    fi
 fi
 
 buildfrom_docpath=$docbasepath/build/buildfrom_docs
