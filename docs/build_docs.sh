@@ -163,6 +163,17 @@ if [[ -d $docbasepath/build/sphinx ]]; then
     echo "***"
     echo ""
 fi
+# Since we revert index.rst at the end of this script, make sure the
+# user does not have any local modifications before starting.
+git_status_index=`git -C $docbasepath status docs/source/releases/index.rst`
+if [[ "$git_status_index" == *"docs/source/releases/index.rst"* ]]; then
+    echo "***************************************************************************"
+    echo "ERROR: Do not modify docs/source/releases/index.rst directly"
+    echo "Auto-generated within build_docs.sh using brassy."
+    echo "Please revert your changes and try again."
+    echo "***************************************************************************"
+    exit 1
+fi
 
 # Release notes are ALWAYS written in the "latest" folder, whether we are
 # producing the generic "latest.rst" release note, or the specific
@@ -312,6 +323,9 @@ if [[ "$pdf_required" == "True" ]]; then
         echo "  try 'conda install latexcodec' if in anaconda"
         echo "  or re-run with html_only to only build"
         echo "  html documentation."
+        echo ""
+        echo "Reverting $docbasepath/docs/source/releases/index.rst"
+        git -C $docbasepath checkout docs/source/releases/index.rst
         exit 1
     fi
     # do not include release notes in the PDF
@@ -404,6 +418,15 @@ if [[ "$html_required" == "True" ]]; then
     fi
 fi
 
+echo ""
+echo "***"
+# docs/source/releases/index.rst should only be auto-generated,
+# so revert the changes we just made.  Note we checked at the beginning
+# if this was already modified, and exited if there were any local modifications,
+# to ensure the user had not manually modified it.
+# git -C $docbasepath status docs/source/releases/index.rst
+echo "Reverting $docbasepath/docs/source/releases/index.rst"
+git -C $docbasepath checkout docs/source/releases/index.rst
 date -u
 echo "***"
 echo ""
