@@ -69,20 +69,17 @@ if [[ ! -d "$docbasepath/$pkgname" ]]; then
     exit 1
 fi
 echo "package path=$docbasepath/$pkgname"
-# Attempt to import the current package.  If the import fails, we know
-# the doc build will fail, so pip install before attempting to build.
-which python
-python -c "import $pkgname"
+# Use pip show to determine whether the current package has been installed.
+# If the exit status is not zero, the package is not correctly installed.
+# In that case, raise an error.
+which pip
+pip show $pkgname
 retval=$?
 if [[ "$retval" != "0" ]]; then
-    # Likely in the future we will just exit 1 here if package is not installed.
-    # For now, pip install to ensure GitHub Actions pass when plugin package
-    # is not installed prior to build_docs.sh being called.
     echo "***************************************************************************"
     echo "ERROR: Package $pkgname is not installed"
-    echo "For now, pip installing $docbasepath, in future will fail with exit 1"
-    pip install -e $docbasepath
     echo "***************************************************************************"
+    exit 1
 else
     echo "***************************************************************************"
     echo "Package $pkgname is already installed!"
