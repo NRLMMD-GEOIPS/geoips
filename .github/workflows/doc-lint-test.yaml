@@ -52,6 +52,7 @@ jobs:
       # Flags for enabling/disabling various parts of the workflow
       # Default to enabled unless overridden by a repository-level variable
       CI_BUILD_SPHINX_HTML: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_HTML }}
+      CHECK_NEW_RELEASE_NOTE: ${{ steps.get_job_flags.outputs.CHECK_NEW_RELEASE_NOTE }}
       CI_BUILD_SPHINX_PDF: ${{ steps.get_job_flags.outputs.CI_BUILD_SPHINX_PDF }}
       CI_LINT_BANDIT: ${{ steps.get_job_flags.outputs.CI_LINT_BANDIT }}
       CI_LINT_DOC8: ${{ steps.get_job_flags.outputs.CI_LINT_DOC8 }}
@@ -96,7 +97,8 @@ jobs:
         id: get_job_flags
         run: |
           # Define an array of flags and their corresponding secret values
-          flags=(CI_BUILD_SPHINX_HTML \
+          flags=(CHECK_NEW_RELEASE_NOTE\
+                 CI_BUILD_SPHINX_HTML \
                  CI_BUILD_SPHINX_PDF \
                  CI_LINT_BANDIT \
                  CI_LINT_DOC8 \
@@ -107,6 +109,7 @@ jobs:
           for flag in "${flags[@]}"; do
               # Dynamically construct the variable name and access the corresponding secret
               case $flag in
+                  CHECK_NEW_RELEASE_NOTE) val="${{ vars.CHECK_NEW_RELEASE_NOTE }}" ;;
                   CI_BUILD_SPHINX_HTML) val="${{ vars.CI_BUILD_SPHINX_HTML }}" ;;
                   CI_BUILD_SPHINX_PDF) val="${{ vars.CI_BUILD_SPHINX_PDF }}" ;;
                   CI_LINT_BANDIT) val="${{ vars.CI_LINT_BANDIT }}" ;;
@@ -151,6 +154,7 @@ jobs:
     needs: set_variables
     if: ${{ github.event.repository.name == 'geoips' }}
     env:
+      IMAGE_NAME: ${{ needs.set_variables.outputs.IMAGE_NAME }}
       BUILDCACHE_IMAGE: ${{ needs.set_variables.outputs.IMAGE_NAME }}:buildcache
       DOCLINTTEST_IMAGE: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
     # Can't write to registry without this
@@ -180,25 +184,119 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-buildx-
 
+      - name: Create tags
+        run: |
+          tags="${DOCLINTTEST_IMAGE},${BUILDCACHE_IMAGE}"
+          if [[ "${GITHUB_REF}" == "refs/heads/main" ]]; then
+            tags="${tags},${IMAGE_NAME}:doclinttest-stable"
+          else
+            tags="${tags},${IMAGE_NAME}:doclinttest-latest"
+          fi
+          echo "PUSH_TAGS=${tags}"
+          echo "PUSH_TAGS=${tags}" >> $GITHUB_ENV
+
       - name: Build and Push image
         uses: docker/build-push-action@v6
         with:
           context: .
           target: doclinttest
           push: true
-          tags: |
-            ${{ env.DOCLINTTEST_IMAGE }}
-            ${{ env.BUILDCACHE_IMAGE }}
+          tags: ${{ env.PUSH_TAGS }}
           file: "Dockerfile"
           cache-from: type=registry,ref=${{ env.BUILDCACHE_IMAGE }}
           cache-to: type=registry,ref=ghcr.io/${{ env.BUILDCACHE_IMAGE }},mode=max
 
-      # This is used for building docs, linting, and testing other plugins
-      - name: Push additional tag if on main branch
-        if: github.ref == 'refs/heads/main'
+
+#################################################
+# OLD Release Note NOT Added
+#################################################
+  check_no_edits_to_rst_release_note:
+    if: >
+      always() &&
+      needs.set_variables.outputs.CHECK_NEW_RELEASE_NOTE == 'true' &&
+      (needs.build_doclinttest_image.result == 'success' ||
+      needs.build_doclinttest_image.result == 'skipped')
+    runs-on: ${{ vars.RUNNER }}
+    needs: [build_doclinttest_image, set_variables]
+    container:
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      credentials:
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+      - name: Detect new and modified release files
         run: |
-          docker tag ${IMAGE_NAME}:${GITHUB_SHA} ${IMAGE_NAME}:doclinttest-stable
-          docker push ${IMAGE_NAME}:doclinttest-stable
+          #update_this_file="$(cat update_this_release_note)"
+          release_notes_dir="$PWD/docs/source/releases" #/$(dirname $update_this_file)"
+          echo "Checking for no edits to the .rst release note in dir $release_notes_dir"
+          echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst"
+          ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.rst)
+          for file in ${ret[@]}; do
+              echo "    $file"
+          done
+          # if [[ "${ret}" != *"$update_this_file"* ]]; then
+          if [[ "${ret}" != *"latest.rst"* ]]; then
+              echo "PASSED"
+          else
+              echo "FAILED: Release note changes detected"
+              echo "Please use brassy to enter change logs in $release_notes_dir"
+              echo "DO NOT EDIT THE .RST FILE DIRECTLY :))"
+              exit 1
+          fi
+
+#################################################
+# Release Note Added
+#################################################
+  check_new_release_note:
+    if: >
+      always() &&
+      needs.set_variables.outputs.CHECK_NEW_RELEASE_NOTE == 'true' &&
+      (needs.build_doclinttest_image.result == 'success' ||
+      needs.build_doclinttest_image.result == 'skipped')
+    runs-on: ${{ vars.RUNNER }}
+    needs: [build_doclinttest_image, set_variables]
+    container:
+      image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      credentials:
+        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+    env:
+      CURR_REPO: ${{ github.event.repository.name }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Configure Git safe directory
+        run: git config --global --add safe.directory $PWD
+      - name: Detect new and modified release files
+        run: |
+          echo "Checking for new and modified release note files in $PWD"
+          #update_this_file="$(cat update_this_release_note)"
+          release_notes_dir="$PWD/docs/source/releases/latest" #/$(dirname $update_this_file)"
+          ls $release_notes_dir
+          #current_release_note=`cat update_this_release_note`
+          echo "git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml"
+          ret=$(git -C . diff --name-only --diff-filter=AM remotes/origin/main -- $release_notes_dir/*.yaml)
+          echo "Release note files modified this PR:"
+          for file in ${ret[@]}; do
+              echo "    $file"
+          done
+          if [ ${#ret[@]} -eq 0 ]; then
+              echo "FAILED: No release note changes detected"
+              echo "Please use brassy to enter change logs in $release_notes_dir"
+              exit 1
+          else
+              echo "PASSED"
+          fi
 
 #################################################
 # Documentation builds
@@ -225,10 +323,31 @@ jobs:
       - name: Configure Git safe directory
         run: git config --global --add safe.directory $PWD
 
-      - name: Install geoips documentation packages
-        run: pip install -e .[doc]
+      - name: Build release notes from yaml files
+        id: release-note-generator
+        run: |
+          # update_this_file="$(cat $BASE_GEOIPS_PATH/update_this_release_note)"
+          # release_notes_dir="$(dirname $update_this_file)/$(basename $update_this_file .rst)"
+          release_notes_dir="$PWD/docs/source/releases/latest" #/$(dirname $update_this_file)"
+          update_this_file="$PWD/docs/source/releases/latest.rst"
+          #release_version="$(basename $update_this_file .rst)"
+          release_version="latest"
+          echo "Running brassy on directory: $release_notes_dir"
+          brassy --release-version $release_version --no-rich --output-file $update_this_file $release_notes_dir
+          echo "Done writing!"
+          echo "release_note_file=$update_this_file" >> $GITHUB_OUTPUT
+      - name: Pinken release note
+        run: pink ${{ steps.release-note-generator.outputs.release_note_file }}
+
+      - name: Upload release note
+        uses: actions/upload-artifact@v4
+        with:
+          name: Release Note
+          path: ${{ steps.release-note-generator.outputs.release_note_file }}
+          if-no-files-found: error
 
       - name: Run build html
+        id: build-html-docs
         run: |
           echo "Build html docs"
           # Call build_docs.sh from the geoips default branch
@@ -243,6 +362,13 @@ jobs:
             echo "::error::Building html docs ${ret##*:}"
             exit 1
           fi
+          echo "BUILT_DOCS_PATH=$PWD/build/sphinx/html" >> $GITHUB_OUTPUT
+      - name: Upload HTML Docs
+        uses: actions/upload-artifact@v4
+        with:
+          name: HTML Docs
+          path: ${{ steps.build-html-docs.outputs.BUILT_DOCS_PATH }}
+          if-no-files-found: error
 
 # This job does not currently work because latex is not installed in the image. I think
 # that to get this job working would only require installing texlive-base but other
