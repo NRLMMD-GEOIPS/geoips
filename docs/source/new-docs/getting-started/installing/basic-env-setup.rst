@@ -120,7 +120,7 @@ every time you want to run or work on GeoIPS. Eg.
 Install GeoIPS
 --------------
 
-We can use ``pip`` to install all GeoIPS Python dependencies, and GeoIPS itself.
+We can use ``pip`` to install all GeoIPS Python dependencies, tests for GeoIPS and GeoIPS itself.
 
 First, clone the GeoIPS git repository:
 
@@ -131,7 +131,7 @@ First, clone the GeoIPS git repository:
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
-    pip install "$GEOIPS_PACKAGES_DIR/geoips"
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[test]"
 
 If you want to install GeoIPS with all optional dependencies, you can use:
 
