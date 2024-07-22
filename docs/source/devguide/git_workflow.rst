@@ -60,17 +60,17 @@ GeoIPS git workflow
 ..   * Click **"Create branch"**
 ..   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
-FROM WEB: NON-MEMBERS: Create fork of repo
-===================================================================
-* **NOTE: NRLMMD-GEOIPS members will branch following steps above,
-  **skip this section if you are a member**
-* Navigate to desired repository
-* Click drop down next to "Fork"
-* Click "+ Create a new fork"
-* Select appropriate owner/organization to own the fork
-  (could be your individual github username)
-* Uncheck "copy main branch only"
-* Click "create fork"
+.. FROM WEB: NON-MEMBERS: Create fork of repo
+.. ===================================================================
+.. * **NOTE: NRLMMD-GEOIPS members will branch following steps above,
+..   **skip this section if you are a member**
+.. * Navigate to desired repository
+.. * Click drop down next to "Fork"
+.. * Click "+ Create a new fork"
+.. * Select appropriate owner/organization to own the fork
+..   (could be your individual github username)
+.. * Uncheck "copy main branch only"
+.. * Click "create fork"
 
 .. ******************************
 .. GeoIPS command line workflow
@@ -101,12 +101,12 @@ FROM WEB: NON-MEMBERS: Create fork of repo
 
 .. * Use enforced commit message format for all commits
 
-  * Please follow
-    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.rst>`_
-  * Summary line <= 120 characters
-  * Blank line (if commit message is more than one line)
-  * OPTIONAL: additional details
-  * Issue ID
+  .. * Please follow
+  ..   `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.rst>`_
+  .. * Summary line <= 120 characters
+  .. * Blank line (if commit message is more than one line)
+  .. * OPTIONAL: additional details
+  .. * Issue ID
 
 .. * Update release notes in each repository with changes related to this Issue
 
@@ -220,8 +220,8 @@ FROM WEB: NON-MEMBERS: Create fork of repo
 .. FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 .. ======================================================================
 
-* Could require approvals / merges from multiple pull requests in
-  multiple repos before closing Issue
-* Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
-* Ensure all related Issue and Pull Request cards were automatically
-  moved to the "Done" column
+.. * Could require approvals / merges from multiple pull requests in
+..   multiple repos before closing Issue
+.. * Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
+.. * Ensure all related Issue and Pull Request cards were automatically
+..   moved to the "Done" column

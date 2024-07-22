@@ -16,13 +16,13 @@
 Contributors Guide
 ##################
 
-The GeoIPS Team encourages active participation by the user and developer community,
-so we welcome any and all feedback on and updates to the code base.
+We encourage active participation by the user and developer community and appreciate
+feedback on and updates to the code base.
 
 Each step in this process can be completed by one or more individuals
-(we encourage collaboration!), so feel free to submit Issues even if
+(we encourage collaboration!), so feel free to submit issues even if
 you have no intention of resolving it yourself. And feel free to
-submit a Pull Request even if all tests are not complete - someone
+submit a pull request even if all tests are not complete - someone
 else may have time to finalize for approval even if you are unable.
 
 Contribution Process
@@ -43,5 +43,5 @@ Contributions generally follow the process of:
 
 5. Merge your changes into the main code base! :ref:`merge_pr_close`
 
-If you have any questions or need further clarification, please feel free to reach out
-to ``geoips@nrlmry.navy.mil`` or reach out to our `GeoIPS Slack Channel <https://geoips.slack.com/>`_.
+If you have any questions or need further clarification, please see our
+:ref:`contact page<contact_us>`!
