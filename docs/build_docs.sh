@@ -166,6 +166,8 @@ if [[ -d $docbasepath/build/sphinx ]]; then
     echo "***"
     echo ""
 fi
+# Since we revert index.rst at the end of this script, make sure the
+# user does not have any local modifications before starting.
 git_status_index=`git -C $docbasepath status docs/source/releases/index.rst`
 if [[ "$git_status_index" == *"docs/source/releases/index.rst"* ]]; then
     echo "***************************************************************************"
@@ -420,10 +422,14 @@ if [[ "$html_required" == "True" ]]; then
 fi
 
 echo ""
+echo "***"
+# docs/source/releases/index.rst should only be auto-generated,
+# so revert the changes we just made.  Note we checked at the beginning
+# if this was already modified, and exited if there were any local modifications,
+# to ensure the user had not manually modified it.
 # git -C $docbasepath status docs/source/releases/index.rst
 echo "Reverting $docbasepath/docs/source/releases/index.rst"
 git -C $docbasepath checkout docs/source/releases/index.rst
-
 date -u
 echo "***"
 echo ""
