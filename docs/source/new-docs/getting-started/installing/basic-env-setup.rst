@@ -91,11 +91,7 @@ requirements for GeoIPS.
 
 .. code:: bash
 
-    mamba create -y -n geoips -c conda-forge python=3.10 openblas git
-
-.. note::
-
-    If you would like to run plugins that require fortran, you will need to install ``gfortran``.
+    mamba create -y -n geoips -c conda-forge python=3.10 openblas git gfortran
 
 .. warning::
 
@@ -105,7 +101,7 @@ requirements for GeoIPS.
 
         .. code:: bash
 
-            mamba create -y -n geoips -c conda-forge python=3.10 openblas git **pyhdf**
+            mamba create -y -n geoips -c conda-forge python=3.10 openblas git gfortran **pyhdf**
 
 Activate the conda environment
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
