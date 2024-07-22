@@ -320,6 +320,9 @@ jobs:
       - name: Configure Git safe directory
         run: git config --global --add safe.directory $PWD
 
+      - name: Install package
+        run: pip install .
+
       - name: Build release notes from yaml files
         id: release-note-generator
         run: |
