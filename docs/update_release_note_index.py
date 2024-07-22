@@ -3,11 +3,11 @@ import os
 from glob import glob
 from sys import argv, exit
 
-index_filename=argv[1]
+index_filename = argv[1]
 add_version = argv[2]
 if add_version != "latest":
     print("Actual versions not yet supported - only latest")
-    exit(1) 
+    exit(1)
     # Something like this for adding actual version to index.rst
     # major, minor, bug_fix = add_version.split(".")
     # minor_version = f"{major}.{minor}"
@@ -38,7 +38,7 @@ with open(index_filename, "r") as fobj:
             #     new_lines += ["-----------------------"]
             #     new_linst += [""]
         last_line = line
-    
+
     new_lines += [last_line]
 with open(index_filename, "w") as fobj:
     fobj.writelines(new_lines)
