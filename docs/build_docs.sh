@@ -148,7 +148,12 @@ if [[ -d $docbasepath/build/sphinx ]]; then
     echo ""
 fi
 
+# Release notes are ALWAYS written in the "latest" folder, whether we are
+# producing the generic "latest.rst" release note, or the specific
+# vX_Y_Z.rst release note for an actual version release.
 current_release_notes=`ls docs/source/releases/latest/*`
+# If we found any current YAML release notes, we need to generate the
+# release RST file, and update index.rst with the current release version.
 if [[ "$current_release_notes" != "" ]]; then
     echo "Running brassy to generate current release note ${geoips_vers}.rst"
     echo ""
@@ -158,19 +163,26 @@ if [[ "$current_release_notes" != "" ]]; then
     echo "    $docbasepath/docs/source/releases/latest"
     echo ""
 
+    # Right now brassy does not auto-generate vers.rst, so we must touch it in
+    # advance.
     touch $docbasepath/docs/source/releases/${geoips_vers}.rst
+    # Brassy creates the rst file!
     brassy --release-version $geoips_vers --no-rich \
         --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \
         $docbasepath/docs/source/releases/latest
     if [[ "$?" != "0" ]]; then
+        # Exit here if brassy failed, because the doc build will subsequently fail.
         echo "FAILED brassy ${geoips_vers}.rst release note generation failed."
         echo "Please resolve release note formatting noted above and retry"
         exit 1
     fi
+    # Ensure index.rst is updated with the latest release notes.
+    # This will eventually likely be rolled into brassy.
     echo "Adding latest section to release note index"
     echo "python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers"
     python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers
     if [[ "$?" != "0" ]]; then
+        # If this failed, exit here, because doc build will subsequently fail.
         echo "FAILED update_release_note_index.py for version ${geoips_vers}"
         echo "Please resolve release note formatting noted above and retry"
         exit 1
