@@ -134,7 +134,7 @@ If you want to install GeoIPS with all optional dependencies, you can use:
 .. code:: bash
 
     # Ensure geoips python environment enabled before installing geoips
-    pip install "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
+    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
 
 The optional dependencies are:
 
