@@ -71,7 +71,9 @@ fi
 echo "package path=$docbasepath/$pkgname"
 # Attempt to import the current package.  If the import fails, we know
 # the doc build will fail, so pip install before attempting to build.
-retval=`python -c "import $pkgname"`
+which python
+python -c "import $pkgname"
+retval=$?
 if [[ "$retval" != "0" ]]; then
     # Likely in the future we will just exit 1 here if package is not installed.
     # For now, pip install to ensure GitHub Actions pass when plugin package
@@ -168,7 +170,7 @@ fi
 # Release notes are ALWAYS written in the "latest" folder, whether we are
 # producing the generic "latest.rst" release note, or the specific
 # vX_Y_Z.rst release note for an actual version release.
-current_release_notes=`ls docs/source/releases/latest/*`
+current_release_notes=`ls $docbasepath/docs/source/releases/latest/*`
 # If we found any current YAML release notes, we need to generate the
 # release RST file, and update index.rst with the current release version.
 if [[ "$current_release_notes" != "" ]]; then
