@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Processing workflow for config-based processing."""
 
@@ -16,9 +7,14 @@ import logging
 from copy import deepcopy
 from glob import glob
 from os.path import exists
+from os.path import basename
+from os import getpid
+from datetime import datetime
 
+from geoips.commandline.args import check_command_line_args
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.utils.memusg import print_mem_usage
+from geoips.utils.memusg import PidLog
+
 from geoips.geoips_utils import output_process_times
 from geoips.dev.product import (
     get_covg_from_product,
@@ -84,6 +80,14 @@ LOG = logging.getLogger(__name__)
 interface = "procflows"
 family = "standard"
 name = "config_based"
+
+
+# get geoips version
+try:
+    geoips_version = gpaths["GEOIPS_VERS"]
+except KeyError:
+    LOG.warning("No geoips system defined, setting geoips version to 0.0.0")
+    geoips_version = "0.0.0"
 
 
 def update_output_dict_from_command_line_args(output_dict, command_line_args=None):
@@ -244,6 +248,11 @@ def get_bg_xarray(
         #          sect_xarray[product_name].to_masked_array().min(),
         #          sect_xarray[product_name].to_masked_array().max())
 
+        LOG.interactive(
+            "Interpolating %s xarray with args %s",
+            sect_xarray.source_name,
+            str(interp_args),
+        )
         alg_xarray = interp_plugin(
             area_def, sect_xarray, alg_xarray, varlist=[prod_plugin.name], **interp_args
         )
@@ -269,6 +278,11 @@ def get_bg_xarray(
             resampled_read=resampled_read,
             window_start_time=window_start_time,
             window_end_time=window_end_time,
+        )
+        LOG.interactive(
+            "Interpolating %s xarray with varlist %s",
+            sect_xarray.source_name,
+            prod_plugin.name,
         )
         alg_xarray = interp_plugin(
             area_def, sect_xarray, alg_xarray, varlist=[prod_plugin.name]
@@ -527,6 +541,7 @@ def process_unsectored_data_outputs(
                                     xobjs,
                                     available_sectors_dict,
                                     output_dict,
+                                    geoips_version,
                                 )
                                 final_products[cpath]["database writes"] += [
                                     product_added
@@ -791,7 +806,10 @@ def call(fnames, command_line_args=None):
         0 for successful completion,
         non-zero for error (incorrect comparison, or failed run)
     """
-    from datetime import datetime
+    ss_pid = getpid()
+    pid_track = PidLog(ss_pid, logstr="MEMUSG")
+
+    LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
 
     process_datetimes = {}
     process_datetimes["overall_start"] = datetime.utcnow()
@@ -799,8 +817,6 @@ def call(fnames, command_line_args=None):
     removed_products = []
     saved_products = []
     num_jobs = 0
-
-    from geoips.commandline.args import check_command_line_args
 
     # These args should always be checked
     check_args = [
@@ -970,14 +986,15 @@ def call(fnames, command_line_args=None):
             bg_product_name,
         )
         bg_variables = get_required_variables(prod_plugin)
+        LOG.interactive("Variables '%s'...", bg_variables)
 
     if product_db:
         from os import getenv
 
-        if not getenv("GEOIPS_DB_USER") or not getenv("GEOIPS_DB_PASS"):
-            raise ValueError("Need to set both $GEOIPS_DB_USER and $GEOIPS_DB_PASS")
+        if not getenv("GEOIPS_DB_URI"):
+            raise ValueError("Need to set both $GEOIPS_DB_URI")
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
     reader_plugin = readers.get_plugin(config_dict["reader_name"])
     LOG.interactive(
         "Reading metadata from datasets using reader '%s'...", reader_plugin.name
@@ -989,7 +1006,7 @@ def call(fnames, command_line_args=None):
         LOG.interactive("SKIPPING ALL PROCESSING no products required for current time")
         return 0
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
     variables = get_variables_from_available_outputs_dict(
         config_dict["outputs"], source_name
     )
@@ -1004,13 +1021,13 @@ def call(fnames, command_line_args=None):
         resampled_read = True
 
     if not resampled_read and not sectored_read:
-        print_mem_usage("MEMUSG", verbose=False)
+        pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
         LOG.interactive("Reading full dataset using reader '%s'...", reader_plugin.name)
         xobjs = reader_plugin(
             fnames, metadata_only=False, chans=variables, **reader_kwargs
         )
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
 
     # command_line_args take priority over config args - if someone passes something in
     # explicitly, it will be used rather than config "default"
@@ -1030,7 +1047,7 @@ def call(fnames, command_line_args=None):
         command_line_args,
         write_to_product_db=product_db,
     )
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
 
     list_area_defs = get_area_def_list_from_dict(area_defs)
 
@@ -1067,7 +1084,7 @@ def call(fnames, command_line_args=None):
             # If we read separately for each sector (geostationary), then must set
             # xobjs within area_def loop
             if sectored_read:
-                print_mem_usage("MEMUSG", verbose=False)
+                pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
                 # This will return potentially multiple sectored datasets of different
                 # shapes/resolutions. Note currently get_sectored_read and
                 # get_resampled_read are identical, because we have no
@@ -1088,7 +1105,7 @@ def call(fnames, command_line_args=None):
                 if not xobjs:
                     continue
             if resampled_read:
-                print_mem_usage("MEMUSG", verbose=False)
+                pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
                 # This will return one resampled dataset
                 # Note currently get_sectored_read and get_resampled_read are identical,
                 # because we have no sectored_read based readers.
@@ -1108,7 +1125,7 @@ def call(fnames, command_line_args=None):
                 if not xobjs:
                     continue
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
             area_def = area_defs[area_def_id][sector_type]["area_def"]
 
             # Padded region to ensure we have enough data for recentering, etc.
@@ -1122,7 +1139,7 @@ def call(fnames, command_line_args=None):
             else:
                 pad_area_def = area_def
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
             # See if this sector_type is used at all for product output, if not, skip
             # it.
             if not is_required_sector_type(config_dict["outputs"], sector_type):
@@ -1179,7 +1196,7 @@ def call(fnames, command_line_args=None):
             else:
                 pad_sect_xarrays = xobjs
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
 
             # See what variables are left after sectoring (could lose some due to
             # day/night)
@@ -1222,7 +1239,7 @@ def call(fnames, command_line_args=None):
                 # If we haven't created the bg_alg_xarray for the current sector_type
                 # yet, process it and add to the dictionary
                 if sector_type not in bg_alg_xarrays:
-                    print_mem_usage("MEMUSG", verbose=False)
+                    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
                     bg_pad_sect_xarrays = None
                     try:
                         LOG.interactive(
@@ -1236,7 +1253,9 @@ def call(fnames, command_line_args=None):
                             area_def=pad_area_def,
                         )
                         if presector_data:
-                            LOG.interactive("Sectoring background data")
+                            LOG.interactive(
+                                "Sectoring background data, variables %s", bg_variables
+                            )
                             # window start/end time override hours before/after sector
                             # time.
                             bg_pad_sect_xarrays = sector_xarrays(
@@ -1267,7 +1286,7 @@ def call(fnames, command_line_args=None):
                             bg_prod_plugin,
                             resampled_read=bg_resampled_read,
                         )
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
 
             # Must adjust the area definition AFTER sectoring xarray (to get valid
             # start/end time
@@ -1316,7 +1335,7 @@ def call(fnames, command_line_args=None):
                             sect_xarrays = pad_sect_xarrays
                     else:
                         sect_xarrays = pad_sect_xarrays
-                    print_mem_usage("MEMUSG", verbose=False)
+                    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
                     # If we didn't get any data, continue to the next sector_type
                     # Note we can have coverage for pad_sect_xarrays, but none for
                     # sect_xarrays - ensure we also skip no coverage for sect_xarrays
@@ -1389,7 +1408,7 @@ def call(fnames, command_line_args=None):
                     "\n\n\n\nAFTER ADJUSTMENT area definition: %s\n\n\n\n", area_def
                 )
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
             # The exact sectored arrays, without padding.
             # Note this must be sectored AFTER sector_adjuster - to ensure we get all
             # the data. Do NOT sector if we are using a reader_defined or self_register
@@ -1416,7 +1435,7 @@ def call(fnames, command_line_args=None):
             else:
                 sect_xarrays = pad_sect_xarrays
 
-            print_mem_usage("MEMUSG", verbose=False)
+            pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
             # If we didn't get any data, continue to the next sector_type
             # Note we can have coverage for pad_sect_xarrays, but none for sect_xarrays
             # - ensure we also skip no coverage for sect_xarrays
@@ -1546,12 +1565,18 @@ def call(fnames, command_line_args=None):
                         final_products[cpath]["files"] += curr_output_products
                         if product_db:
                             for fprod in curr_output_products:
+                                LOG.interactive(
+                                    "GEOIPS_VERS writing to db {}".format(
+                                        geoips_version
+                                    )
+                                )
                                 product_added = write_to_database(
                                     fprod,
                                     product_name,
                                     pad_sect_xarrays["METADATA"],
                                     config_dict["available_sectors"],
                                     output_dict,
+                                    geoips_version,
                                     area_def=area_def,
                                 )
                                 if product_added is not None:
@@ -1809,6 +1834,7 @@ def call(fnames, command_line_args=None):
                                 alg_xarray,
                                 config_dict["available_sectors"],
                                 output_dict,
+                                geoips_version,
                                 coverage=covg,
                                 area_def=area_def,
                             )
@@ -1830,7 +1856,7 @@ def call(fnames, command_line_args=None):
                     process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
                     num_jobs += 1
 
-    print_mem_usage("MEMUSG", verbose=False)
+    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
     process_datetimes["overall_end"] = datetime.utcnow()
 
     LOG.interactive("\n\n\nProcessing complete! Checking outputs...\n\n\n")
@@ -1861,7 +1887,6 @@ def call(fnames, command_line_args=None):
 
     successful_comparison_dirs = 0
     failed_comparison_dirs = 0
-    from os.path import basename
 
     LOG.interactive(
         "\n\n\nThe following products were produced from procflow %s\n\n",
@@ -1924,7 +1949,7 @@ def call(fnames, command_line_args=None):
                         )
                     )
 
-    mem_usage_stats = print_mem_usage("MEMUSG", verbose=True)
+    mem_usage_stats = pid_track.print_mem_usg(logstr="MEMUSG", verbose=True)
     LOG.interactive("READER_NAME: %s", config_dict["reader_name"])
     num_products = sum(
         [len(final_products[cpath]["files"]) for cpath in final_products]
@@ -1944,6 +1969,7 @@ def call(fnames, command_line_args=None):
     LOG.interactive("NUM_SUCCESSFUL_COMPARISON_DIRS: %s", successful_comparison_dirs)
     LOG.interactive("NUM_FAILED_COMPARISON_DIRS: %s", failed_comparison_dirs)
     output_process_times(process_datetimes, num_jobs)
+    LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
     if product_db:
         all_sectors_use_tcdb = all(
             [
@@ -1959,9 +1985,11 @@ def call(fnames, command_line_args=None):
             sector_type = "dynamic_tc"
         else:
             sector_type = "static"
+
         write_stats_to_database(
             procflow_name="config_based",
             platform=xobjs["METADATA"].platform_name.lower(),
+            geoips_vers=geoips_version,
             source=xobjs["METADATA"].source_name,
             product="multi",
             sector_type=sector_type,
@@ -1970,4 +1998,6 @@ def call(fnames, command_line_args=None):
             num_products_deleted=len(removed_products),
             resource_usage_dict=mem_usage_stats,
         )
+    else:
+        LOG.interactive("NO PRODDB GEOIPS_VERS {}".format(geoips_version))
     return retval

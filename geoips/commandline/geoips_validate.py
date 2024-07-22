@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """GeoIPS CLI "validate" command.
 
 Validates the appropriate plugin based on the arguments provided using the associated
@@ -15,14 +18,14 @@ from geoips import interfaces
 
 
 class GeoipsValidate(GeoipsExecutableCommand):
-    """Validate Sub-Command for validating package plugins."""
+    """Validate Command for validating package plugins."""
 
-    command_name = "validate"
-    subcommand_classes = []
+    name = "validate"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the validate-subparser fot the Validate Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "file_path",
             type=str,
             help="File path which represents a GeoIPS Plugin that we want to validate.",
@@ -37,7 +40,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
         """
         fpath = Path(args.file_path)
         if not exists(fpath):
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Provided filepath '{fpath}' doesn't exist. Provide a valid path.",
             )
         interface, plugin, plugin_name = self.get_interface_and_plugin(fpath)
@@ -47,9 +50,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             is_valid = interface.plugin_is_valid(plugin_name)
         if not is_valid:
             # if it's not valid, report that to the user
-            self.subcommand_parser.error(
-                f"Plugin '{plugin_name}' found at {fpath} is invalid."
-            )
+            self.parser.error(f"Plugin '{plugin_name}' found at {fpath} is invalid.")
         else:
             # otherwise let them know they're good to go
             print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
@@ -80,7 +81,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             interface_type = "yaml_based"
             plugin = yaml.safe_load(open(fpath, "r"))
         else:
-            self.subcommand_parser.error(
+            self.parser.error(
                 "Only '.py' and '.yaml' files are accepted at this time. Try again."
             )
         try:
@@ -96,7 +97,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             # Report such error.
             err_str = f"Plugin found at {fpath} doesn't have 'interface' and/or "
             err_str += "'name' attribute[s]. This plugin is invalid."
-            self.subcommand_parser.error(err_str)
+            self.parser.error(err_str)
         # get the correct geoips interface associated with the plugin
         interface = getattr(interfaces, interface_name)
         return interface, plugin, plugin_name

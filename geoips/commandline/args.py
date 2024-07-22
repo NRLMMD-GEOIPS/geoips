@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Command line script for kicking off geoips based procflows."""
 
@@ -186,7 +177,6 @@ def get_argparser(
         add_args_func = add_args
     if check_args_func is None:
         check_args_func = check_command_line_args
-
     parser = argparse.ArgumentParser(description=description)
     add_args_func(parser, arglist)
     return parser
@@ -223,7 +213,7 @@ def get_command_line_args(
     return argdict
 
 
-def add_args(parser, arglist=None):
+def add_args(parser, arglist=None, legacy=False):
     """List of available standard arguments for calling data processing command line.
 
     Parameters
@@ -233,6 +223,9 @@ def add_args(parser, arglist=None):
     arglist : list, optional
         list of requested arguments to add to the ArgumentParser, default None.
         if None, include all arguments
+    legacy : bool, optional
+        Represents whether or not a legacy 'run_procflow' or 'data_fusion_procflow'
+        was called
 
     Returns
     -------
@@ -512,14 +505,18 @@ def add_args(parser, arglist=None):
         title="Processing workflow specifications"
     )
     if arglist is None or "procflow" in arglist:
+        if legacy:
+            help_str = (
+                "Specify procflow that should be followed for this file, located in "
+                "geoips.plugins.modules.procflows.myprocflowname.name. The procflow "
+                "string should be the procflow module file name (excluding '.py' )."
+            )
+        else:
+            help_str = argparse.SUPPRESS
         procflow_group.add_argument(
             "--procflow",
             default=None,
-            help="""Specify procflow that should be followed for this file, located in:
-                            geoips*.plugins.modules.procflows.
-                                myprocflowname.myprocflowname,
-                            The procflow string should be the procflow module
-                            name (no .py)""",
+            help=help_str,
         )
 
     if arglist is None or "filename_formatter" in arglist:

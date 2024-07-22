@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `get plugin` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -11,12 +14,12 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetPlugin(BaseCliTest):
-    """Unit Testing Class for Get Plugin Sub-Command."""
+    """Unit Testing Class for Get Plugin Command."""
 
     rand_threshold = 0.10
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A stochastic list of commands used for the GeoipsGetPlugin command.
 
         This includes failing cases as well.
@@ -121,10 +124,10 @@ test_sub_cmd = TestGeoipsGetPlugin()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips get plugin ...' commands.
 
     This test covers every valid combination of commands for the 'geoips get plugin'
@@ -136,4 +139,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'get', 'plugin'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args=args)

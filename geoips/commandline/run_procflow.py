@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Command line script for kicking off geoips based procflows.
 
@@ -21,14 +12,19 @@ from geoips.commandline.args import get_command_line_args
 from geoips.interfaces import procflows
 
 
-def main(get_command_line_args_func=None):
+def main(get_command_line_args_func=None, ARGS=None):
     """Script to kick off processing based on command line args.
 
     Parameters
     ----------
     get_command_line_args_func : function, optional
-        Function to use in place of "get_command_line_args", default None
-        If None, use geoips.commandline.args.get_command_line_args
+        - Function to use in place of "get_command_line_args", default None
+          If None, use geoips.commandline.args.get_command_line_args
+    ARGS: argparse Namespace
+        - The arguments provided to 'geoips run' / 'run_procflow'. If ARGS are provided,
+          this means we have called this function via 'geoips run' and the arguments
+          were obtained via the GeoIPS CLI alongside geoips.commandline.args:add_args
+          For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments
     """
     DATETIMES = {}
     DATETIMES["start"] = datetime.utcnow()
@@ -36,9 +32,11 @@ def main(get_command_line_args_func=None):
     if get_command_line_args_func is None:
         get_command_line_args_func = get_command_line_args
     # arglist=None allows all possible arguments.
-    ARGS = get_command_line_args_func(
-        arglist=None, description="Run data file processing"
-    )
+    if ARGS is None:
+        ARGS = get_command_line_args_func(
+            arglist=None,
+            description="Run data file processing",
+        )
 
     COMMAND_LINE_ARGS = ARGS.__dict__
     if COMMAND_LINE_ARGS.get("logging_level"):

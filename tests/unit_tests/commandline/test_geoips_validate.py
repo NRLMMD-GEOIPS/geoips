@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `validate` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -15,7 +18,7 @@ class TestGeoipsValidate(BaseCliTest):
     """Unit Testing Class for 'geoips validate' Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of stochastic call signatures for the GeoipsValidate command.
 
         This includes failing cases as well.
@@ -27,15 +30,15 @@ class TestGeoipsValidate(BaseCliTest):
             # validate some subset plugins from all installed packages
             for pkg_name in self.plugin_package_names:
                 pkg_path = str(resources.files(pkg_name) / "plugins")
-            for plugin_type in ["modules", "yaml"]:
-                if plugin_type == "modules":
-                    plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
-                else:
-                    plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
-                plugin_paths = sorted(glob(plugin_path_str, recursive=True))
-                for plugin_path in plugin_paths:
-                    if rand() > rand_threshold:
-                        self._cmd_list.append(base_args + [plugin_path])
+                for plugin_type in ["modules", "yaml"]:
+                    if plugin_type == "modules":
+                        plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.py"
+                    else:
+                        plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
+                    plugin_paths = sorted(glob(plugin_path_str, recursive=True))
+                    for plugin_path in plugin_paths:
+                        if rand() > rand_threshold:
+                            self._cmd_list.append(base_args + [plugin_path])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
         return self._cmd_list
@@ -78,10 +81,10 @@ test_sub_cmd = TestGeoipsValidate()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips validate ...' commands.
 
     This test covers every valid combination of commands for the 'geoips validate'
@@ -93,4 +96,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'validate'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)

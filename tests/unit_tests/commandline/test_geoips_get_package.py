@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `get package` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -9,10 +12,10 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsGetPackage(BaseCliTest):
-    """Unit Testing Class for Get Package Sub-Command."""
+    """Unit Testing Class for Get Package Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of every possible call signature for the GeoipsGetPackage command.
 
         This includes failing cases as well.
@@ -62,9 +65,10 @@ class TestGeoipsGetPackage(BaseCliTest):
             # Checking that output from geoips get package command is valid
             expected_outputs = [
                 "Docstring",
-                "Documentation Link",
                 "GeoIPS Package",
                 "Package Path",
+                "Source Code",
+                "Version Number",
             ]
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output
@@ -75,10 +79,10 @@ test_sub_cmd = TestGeoipsGetPackage()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips get package ...' commands.
 
     This test covers every valid combination of commands for the 'geoips get package'
@@ -90,4 +94,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'get', 'package'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)

@@ -1,14 +1,7 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 ###################
 GeoIPS git workflow
@@ -67,19 +60,17 @@ GeoIPS git workflow
 ..   * Click **"Create branch"**
 ..   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
-.. ..
-
-.. FROM WEB: NON-MEMBERS: Create fork of repo
-.. ===================================================================
-.. * **NOTE: NRLMMD-GEOIPS members will branch following steps above,
-..   **skip this section if you are a member**
-.. * Navigate to desired repository
-.. * Click drop down next to "Fork"
-.. * Click "+ Create a new fork"
-.. * Select appropriate owner/organization to own the fork
-..   (could be your individual github username)
-.. * Uncheck "copy main branch only"
-.. * Click "create fork"
+FROM WEB: NON-MEMBERS: Create fork of repo
+===================================================================
+* **NOTE: NRLMMD-GEOIPS members will branch following steps above,
+  **skip this section if you are a member**
+* Navigate to desired repository
+* Click drop down next to "Fork"
+* Click "+ Create a new fork"
+* Select appropriate owner/organization to own the fork
+  (could be your individual github username)
+* Uncheck "copy main branch only"
+* Click "create fork"
 
 .. ******************************
 .. GeoIPS command line workflow
@@ -110,12 +101,12 @@ GeoIPS git workflow
 
 .. * Use enforced commit message format for all commits
 
-..   * Please follow
-..     `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.rst>`_
-..   * Summary line <= 120 characters
-..   * Blank line (if commit message is more than one line)
-..   * OPTIONAL: additional details
-..   * Issue ID
+  * Please follow
+    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.rst>`_
+  * Summary line <= 120 characters
+  * Blank line (if commit message is more than one line)
+  * OPTIONAL: additional details
+  * Issue ID
 
 .. * Update release notes in each repository with changes related to this Issue
 
@@ -229,9 +220,8 @@ GeoIPS git workflow
 .. FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 .. ======================================================================
 
-.. * Could require approvals / merges from multiple pull requests in
-..   multiple repos before closing Issue
-.. * Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
-.. * Ensure all related Issue and Pull Request cards were automatically
-..   moved to the "Done" column
-
+* Could require approvals / merges from multiple pull requests in
+  multiple repos before closing Issue
+* Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
+* Ensure all related Issue and Pull Request cards were automatically
+  moved to the "Done" column

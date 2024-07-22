@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Module for retrieving help information for the GeoIPS Command Line Interface.
 
@@ -52,7 +43,7 @@ def get_cmd_instructions(ancillary_dirname=None):
     """Return a dictionary of instructions for each command, obtained by a yaml file.
 
     This has been placed as a module attribute so we don't perform this process for
-    every CLI sub-command. It was taking too long to initialize the CLI and this was a
+    every CLI command. It was taking too long to initialize the CLI and this was a
     large partof that. See
     https://github.com/NRLMMD-GEOIPS/geoips/pull/444#discussion_r1541864672 for more
     information.
@@ -70,7 +61,7 @@ def get_cmd_instructions(ancillary_dirname=None):
     Returns
     -------
     cmd_instructions: dict
-        - Dictionary of help instructions for every CLI sub-command
+        - Dictionary of help instructions for every CLI command
     """
     if ancillary_dirname is None or not isinstance(ancillary_dirname, str):
         # use the default command instructions
