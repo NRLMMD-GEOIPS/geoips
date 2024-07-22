@@ -75,6 +75,11 @@ if [[ "$retval" != "0" ]]; then
     echo "ERROR: Package $pkgname is not installed"
     echo "For now, pip installing $docbasepath, in future will fail"
     pip install -e $docbasepath
+    echo "***************************************************************************"
+else
+    echo "***************************************************************************"
+    echo "Package $pkgname is already installed!"
+    echo "***************************************************************************"
 fi
 
 pdf_required="True"
