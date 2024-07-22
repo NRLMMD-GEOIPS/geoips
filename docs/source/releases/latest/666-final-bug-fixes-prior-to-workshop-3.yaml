@@ -7,4 +7,4 @@ testing:
   related-issue:
     number: 666
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
-  title: 'Turn off pytest_long temporarily from check_code.sh'
+  title: 'Call pytest_long from check_code.sh via all_test_data vs all'
