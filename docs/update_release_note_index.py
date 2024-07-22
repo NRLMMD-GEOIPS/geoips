@@ -1,4 +1,5 @@
 #!/bin/env python
+"""Update release note index with latest version release reference."""
 from sys import argv, exit
 
 index_filename = argv[1]
