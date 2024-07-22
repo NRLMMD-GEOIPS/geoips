@@ -69,6 +69,13 @@ if [[ ! -d "$docbasepath/$pkgname" ]]; then
     exit 1
 fi
 echo "package path=$docbasepath/$pkgname"
+retval=`python -c "import $pkgname"`
+if [[ "$retval" != "0" ]]; then
+    echo "***************************************************************************"
+    echo "ERROR: Package $pkgname is not installed"
+    echo "For now, pip installing $docbasepath, in future will fail"
+    pip install -e $docbasepath
+fi
 
 pdf_required="True"
 html_required="True"
