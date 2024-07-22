@@ -24,9 +24,6 @@ on:
 
   # Triggers the workflow when pull request created and updated
   pull_request:
-    # Sequence of patterns matched against refs/heads
-    branches:
-      - main
 
   # Triggers when a new release is created
   release:
