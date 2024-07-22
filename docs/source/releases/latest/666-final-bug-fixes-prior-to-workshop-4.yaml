@@ -3,12 +3,18 @@ bug fix:
     Update build_docs.sh to call brassy to auto-generate the release notes prior
     to doc build.
 
-    Also add latest.rst to .gitignore because we will now auto-generate it within
-    the doc build, so we do not want it explicitly changed within the repo.
+    Also from doc build, call new script to update the release note index to add a
+    "latest" section if there are latest YAML release notes. We may want to use this
+    script to add versioned sections to index.rst in the future as well, but
+    for now it only auto-adds latest.
   files:
     modified:
     - '.gitignore'
     - 'docs/build_docs.sh'
+    - 'docs/source/releases/index.rst'
+    new:
+    - 'docs/update_release_note_index.py'
+    deleted:
     - 'docs/source/releases/latest.rst'
   related-issue:
     number: 666
