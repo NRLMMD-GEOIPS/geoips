@@ -286,7 +286,7 @@ jobs:
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          if [ ${#ret[@]} -eq 0 ]; then
+          if [ -z "$ret" ]; then
               echo "FAILED: No yaml release note changes detected"
               echo "Please use brassy to enter change logs in $release_notes_dir"
               exit 1
