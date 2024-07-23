@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Code to implement GeoIPS Command Line Interface (CLI).
 
@@ -16,14 +7,12 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
 
-import logging
 from os.path import basename
 import sys
 
 from colorama import Fore, Style
 
 from geoips.commandline.cmd_instructions import get_cmd_instructions
-from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_get import GeoipsGet
@@ -32,8 +21,10 @@ from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_validate import GeoipsValidate
 
-setup_logging()
-LOG = logging.getLogger(__name__)
+
+# Logging utitilies will be set up once PR 659, Apply Scope to CLI Arguments, has been
+# merged. Until that point we'll set up no logging in the CLI as it will duplicate all
+# log statements used in our procflows.
 
 
 class GeoipsCLI(GeoipsCommand):

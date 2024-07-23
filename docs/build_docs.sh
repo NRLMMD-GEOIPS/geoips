@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
 # Build Sphinx doc
@@ -78,6 +69,22 @@ if [[ ! -d "$docbasepath/$pkgname" ]]; then
     exit 1
 fi
 echo "package path=$docbasepath/$pkgname"
+# Use pip show to determine whether the current package has been installed.
+# If the exit status is not zero, the package is not correctly installed.
+# In that case, raise an error.
+which pip
+pip show $pkgname
+retval=$?
+if [[ "$retval" != "0" ]]; then
+    echo "***************************************************************************"
+    echo "ERROR: Package $pkgname is not installed"
+    echo "***************************************************************************"
+    exit 1
+else
+    echo "***************************************************************************"
+    echo "Package $pkgname is already installed!"
+    echo "***************************************************************************"
+fi
 
 pdf_required="True"
 html_required="True"
@@ -97,6 +104,12 @@ if [[ "$4" != "" ]]; then
     geoipsdocpath=`realpath $4`
 else
     geoipsdocpath="$GEOIPS_PACKAGES_DIR/geoips/docs"
+fi
+if [[ "$5" != "" ]]; then
+    echo "passed geoips_vers=$5"
+    geoips_vers=$5
+else
+    geoips_vers=latest
 fi
 if [[ ! -d "$geoipsdocpath" ]]; then
     echo "***************************************************************************"
@@ -149,6 +162,58 @@ if [[ -d $docbasepath/build/sphinx ]]; then
     echo "$docbasepath/build/sphinx removed."
     echo "***"
     echo ""
+fi
+# Since we revert index.rst at the end of this script, make sure the
+# user does not have any local modifications before starting.
+git_status_index=`git -C $docbasepath status docs/source/releases/index.rst`
+if [[ "$git_status_index" == *"docs/source/releases/index.rst"* ]]; then
+    echo "***************************************************************************"
+    echo "ERROR: Do not modify docs/source/releases/index.rst directly"
+    echo "Auto-generated within build_docs.sh using brassy."
+    echo "Please revert your changes and try again."
+    echo "***************************************************************************"
+    exit 1
+fi
+
+# Release notes are ALWAYS written in the "latest" folder, whether we are
+# producing the generic "latest.rst" release note, or the specific
+# vX_Y_Z.rst release note for an actual version release.
+current_release_notes=`ls $docbasepath/docs/source/releases/latest/*`
+# If we found any current YAML release notes, we need to generate the
+# release RST file, and update index.rst with the current release version.
+if [[ "$current_release_notes" != "" ]]; then
+    echo "Running brassy to generate current release note ${geoips_vers}.rst"
+    echo ""
+    echo "touch $docbasepath/docs/source/releases/${geoips_vers}.rst"
+    echo "brassy --release-version $geoips_vers --no-rich \"
+    echo "    --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \"
+    echo "    $docbasepath/docs/source/releases/latest"
+    echo ""
+
+    # Right now brassy does not auto-generate vers.rst, so we must touch it in
+    # advance.
+    touch $docbasepath/docs/source/releases/${geoips_vers}.rst
+    # Brassy creates the rst file!
+    brassy --release-version $geoips_vers --no-rich \
+        --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \
+        $docbasepath/docs/source/releases/latest
+    if [[ "$?" != "0" ]]; then
+        # Exit here if brassy failed, because the doc build will subsequently fail.
+        echo "FAILED brassy ${geoips_vers}.rst release note generation failed."
+        echo "Please resolve release note formatting noted above and retry"
+        exit 1
+    fi
+    # Ensure index.rst is updated with the latest release notes.
+    # This will eventually likely be rolled into brassy.
+    echo "Adding latest section to release note index"
+    echo "python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers"
+    python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers
+    if [[ "$?" != "0" ]]; then
+        # If this failed, exit here, because doc build will subsequently fail.
+        echo "FAILED update_release_note_index.py for version ${geoips_vers}"
+        echo "Please resolve release note formatting noted above and retry"
+        exit 1
+    fi
 fi
 
 buildfrom_docpath=$docbasepath/build/buildfrom_docs
@@ -258,6 +323,9 @@ if [[ "$pdf_required" == "True" ]]; then
         echo "  try 'conda install latexcodec' if in anaconda"
         echo "  or re-run with html_only to only build"
         echo "  html documentation."
+        echo ""
+        echo "Reverting $docbasepath/docs/source/releases/index.rst"
+        git -C $docbasepath checkout docs/source/releases/index.rst
         exit 1
     fi
     # do not include release notes in the PDF
@@ -350,6 +418,15 @@ if [[ "$html_required" == "True" ]]; then
     fi
 fi
 
+echo ""
+echo "***"
+# docs/source/releases/index.rst should only be auto-generated,
+# so revert the changes we just made.  Note we checked at the beginning
+# if this was already modified, and exited if there were any local modifications,
+# to ensure the user had not manually modified it.
+# git -C $docbasepath status docs/source/releases/index.rst
+echo "Reverting $docbasepath/docs/source/releases/index.rst"
+git -C $docbasepath checkout docs/source/releases/index.rst
 date -u
 echo "***"
 echo ""
