@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `list test-datasets` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -9,10 +12,10 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListTestDatasets(BaseCliTest):
-    """Unit Testing Class for List Test Datasets Sub-Command."""
+    """Unit Testing Class for List Test Datasets Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of every possible call signature for the GeoipsListTestDatasets cmd.
 
         This includes failing cases as well.
@@ -37,8 +40,8 @@ class TestGeoipsListTestDatasets(BaseCliTest):
         """
         # bad command has been provided, check the contents of the error message
         assert args != ["geoips", "list", "test-datasets"]
-        usg_str = "usage: geoips [-h]"
-        assert usg_str in error
+        assert "usage: To use, type `geoips list test-datasets`" in error
+        assert "Error: '-p' flag is not supported for this command" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list test-datasets ...' successful output is correct.
@@ -71,10 +74,10 @@ test_sub_cmd = TestGeoipsListTestDatasets()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips list test-datasets ...' commands.
 
     This test covers every valid combination of commands for the
@@ -87,4 +90,4 @@ def test_all_command_combinations(args):
         - List of arguments to call the CLI with
           (ie. ['geoips', 'list', 'test-datasets'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)

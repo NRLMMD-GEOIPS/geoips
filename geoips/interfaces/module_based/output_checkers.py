@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Output Checkers interface module."""
 
@@ -1021,7 +1012,7 @@ class OutputCheckersInterface(BaseModuleInterface):
         return checker_name
 
     def get_plugin(self, name):
-        """Return the output checker plugin corresponding to checker_name."""
+        """Get the output checker plugin corresponding to checker_name."""
         plug = super().get_plugin(name)
         if self.valid_plugin(plug):
             return plug

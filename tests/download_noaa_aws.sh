@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
 # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
@@ -35,7 +26,7 @@ fi
 
 if [[ "$1" == "" || "$bad_command" == "1" ]]; then
     echo "Usage: $0 <satellite> YYYY MM DD HH MN <testdata_dir> <rclone_conf>"
-    echo "    satellite: goes16, goes17, himawari8"
+    echo "    satellite: goes16, goes17, himawari8, himawari9, geokompsat"
     echo "    testdata_dir: if 'default' or not specified, defaults to: "
     echo "       \$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/<satellite>/<YYYYmmdd>/<HHMN>"
     echo "    rclone_conf: if 'default' or not specified, defaults to:"
@@ -71,8 +62,8 @@ fi
 
 mkdir -p $testdata_dir
 
-if [[ "$satellite" == "himawari8" ]]; then
-    rclone_path="publicAWS:noaa-himawari8/AHI-L1b-FLDK/$yyyy/$mm/$dd/$hh$mn/"
+if [[ "$satellite" == "himawari8" || "$satellite" == "himawari9" ]]; then
+    rclone_path="publicAWS:noaa-$satellite/AHI-L1b-FLDK/$yyyy/$mm/$dd/$hh$mn/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     for fname in $files; do

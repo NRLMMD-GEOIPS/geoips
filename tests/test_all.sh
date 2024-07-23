@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
 
@@ -36,6 +27,10 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.sh $repopath $pkgname html_only" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ahi.tc.WV.geotiff.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.static.Infrared.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.static.Visible.imagery_annotated.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.tc.WV.geotiff.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ami.WV-Upper.unprojected_image.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/amsr2.config_based_overlay_output.sh" \
@@ -47,9 +42,8 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
+  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/cli_dummy_script.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/geokompsat.static.Visible.imagery_annotated.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/geokompsat.tc.WV.geotiff.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \

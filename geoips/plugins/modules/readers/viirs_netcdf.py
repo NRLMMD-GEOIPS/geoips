@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """VIIRS NetCDF reader.
 
@@ -656,12 +647,20 @@ def call(
                             ncvar.getncattr(attrname)
                         )
 
-        xarrays[data_type].attrs["resolution_km"] = (
-            float(ncdf_file.LongName[-4:-1]) / 1000.0
-        )
+        # LongName is something like:
+        # 'VIIRS/JPSS1 Day/Night Band 6-Min L1B Swath SDR 750m NRT'
+        # or
+        # 'VIIRS/NPP Day/Night Band 6-Min L1B Swath 750m'
+        long_name_parts = ncdf_file.LongName.split(" ")
+        if long_name_parts[-1] == "NRT":
+            resolution_m = long_name_parts[-2]
+        else:
+            resolution_m = long_name_parts[-1]
+        resolution_m = int(resolution_m.replace("m", ""))
+        LOG.info("Resolution: %s", resolution_m)
+        xarrays[data_type].attrs["resolution_km"] = resolution_m / 1000.0
 
         # close the files
-
         ncdf_file.close()
 
     # Geolocation resampling

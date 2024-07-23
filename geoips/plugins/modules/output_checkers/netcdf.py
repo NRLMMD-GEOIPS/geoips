@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Test script for representative product comparisons."""
 
@@ -208,13 +199,14 @@ def outputs_match(plugin, output_product, compare_product):
     try:
         xarray.testing.assert_identical(compare_xobj, out_xobj)
     except AssertionError as resp:
-        log_with_emphasis(LOG.info, "INFORMATIONAL ONLY assert_identical differences")
+        lines = ["INFORMATIONAL ONLY assert_identical differences"]
         for line in str(resp).split("\n"):
-            log_with_emphasis(LOG.info, line)
+            lines += [line]
         for varname in compare_xobj.variables:
             log_object_diff_values(
                 out_xobj, compare_xobj, varname, log_function=LOG.info
             )
+        log_with_emphasis(LOG.info, *lines)
 
     if retval is False:
         with open(out_difftxt, "w") as fobj:

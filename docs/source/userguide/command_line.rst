@@ -1,16 +1,7 @@
- .. dropdown:: Distribution Statement
+.. dropdown:: Distribution Statement
 
-   | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-   | # # #
-   | # # # Author:
-   | # # # Naval Research Laboratory, Marine Meteorology Division
-   | # # #
-   | # # # This program is free software: you can redistribute it and/or modify it under
-   | # # # the terms of the NRLMMD License included with this program. This program is
-   | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-   | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-   | # # # for more details. If you did not receive the license, for more information see:
-   | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _command_line:
 
@@ -35,6 +26,17 @@ sections now.
 CLI Use Cases
 *************
 
+For your ease of use, we've provided a complete  listing of all available GeoIPS CLI
+commands below. This diagrams what commands are available, and the required and/or
+optional arguments that go alongside these commands.
+
+.. dropdown:: GeoIPS CLI Commands
+
+    .. admonition:: Usage: geoips
+
+        .. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
+            :prog: geoips
+
 .. _information_retrieval:
 
 Information Retrieval
@@ -53,7 +55,7 @@ artifact. The purpose of any ``get`` command is to describe the selected GeoIPS 
 in a verbose manner. While the outputted information may differ by each get command, the
 ultimate purpose of each command is to provide both users and developers detailed
 information about each artifact. This will help implementing their own artifacts, and
-also clarify what each artifact does / needs to intergrate correctly within the GeoIPS
+also clarify what each artifact does / needs to integrate correctly within the GeoIPS
 environment. It currently implements 4 sub-commands, which we'll describe below.
 
 ``get family`` is a get sub-command which retrieves information specific to an
@@ -95,9 +97,10 @@ what GeoIPS Interfaces are available, run the command ``geoips list interfaces``
 Package. Information included when calling this command is:
 
     * Docstring
-    * Documentation Link
     * GeoIPS Package
     * Package Path
+    * Source Code
+    * Version Number
 
 For an example of how to run this command, see below. If you want more information about
 what GeoIPS Packages are available, run the command ``geoips list packages``.
@@ -134,21 +137,35 @@ command, the ultimate purpose of each command is to provide both users and devel
 a listing of what artifacts exist, where they can be found, and a general description
 of what the artifact does. This will help users and developers gain a sense of what's,
 available, where it can be found, and what has been implemented across the GeoIPS
-environment. It currently implements 5 sub-commands, which we'll describe below.
+environment. It currently implements 7 sub-commands, which we'll describe below. For any
+``list`` command, there are three shared arguments: ``--long/-l``, ``--columns/-c``, and
+``--package_name/-p``. You can apply any of these optional arguments to any
+``geoips list`` command to specialize the output of the ``list`` command. All ``list``
+commands default to a ``--long`` listing. If you only wanted specific columns to be
+outputted for a ``geoips list packages`` command, you could run it like this.
+
+.. code-block:: bash
+
+    geoips list packages --columns package docstring version
+
+The command above would list all GeoIPS Plugin Packages with information including their
+package name, docstring, and current version number. For a listing of what columns you
+can filter by, run ``geoips list <cmd_name> --columns help``.
 
 ``list interface`` is a list sub-command which retrieves a listing of implemented
 plugins of a certain interface. This can also be applied to a certain GeoIPS package.
 Information included when calling this command is:
 
-    * Family Name
+    * Family
     * GeoIPS Packages
     * Interface Name
     * Interface Type
     * Plugin Name
+    * Source Names (if applicable)
     * Relative Path
 
 For an example of how to run this command, see below, one of which applies this command
-to a specific packages. To see which packages are available, run
+to a specific package. To see which packages are available, run
 ``geoips list packages``.
 
 ::
@@ -170,12 +187,12 @@ Information included when calling this command in implemented mode is:
 
 Information included when calling this command in general mode is:
 
-    * Absolute Path
-    * Docstring
     * GeoIPS Package
-    * Interface Name
     * Interface Type
+    * Interface Name
     * Supported Families
+    * Docstring
+    * Absolute Path
 
 For an example of how to run both modes of this command, see below.
 
@@ -184,6 +201,7 @@ Implemented Mode Options
 
     geoips list interfaces -i
     geoips list interfaces -i -p <package_name>
+    geoips list interfaces -p <package_name>
 
 General Mode
 ::
@@ -193,9 +211,10 @@ General Mode
 ``list packages`` is a list sub-command which retrieves a listing of GeoIPS Packages,
 alongside the information shown below.
 
-    * Docstring
     * GeoIPS Package
+    * Docstring
     * Package Path
+    * Version Number
 
 For an example of how to run this command, see below.
 ::
@@ -206,9 +225,9 @@ For an example of how to run this command, see below.
 all, or a certain GeoIPS package. Information included when calling this command is:
 
     * GeoIPS Package
-    * Family Name
     * Interface Name
     * Interface Type
+    * Family
     * Plugin Name
     * Relative Path
 
@@ -221,12 +240,13 @@ plugins from a certain GeoIPS package.
 
 ``list scripts`` is a list sub-command which retrieves a listing of test scripts from
 all, or a certain GeoIPS Package. For this command to find your test script, you must
-place the script under ``_package_name_/tests/scripts/``. These test scripts can then be
-ran using ``geoips run _package_name_ _script_name_``.
+place the script under ``<package_name>/tests/scripts/``. These test scripts can then be
+ran using ``geoips run <package_name> <script_name>``. This command can only be ran if
+the specified plugin package[s] are installed in *editable* mode.
 Information included when calling this command is:
 
     * GeoIPS Package
-    * File Name
+    * Filename
 
 For an example of how to run this command, see below. One of the commands below lists
 test scripts from a certain GeoIPS package.
@@ -236,8 +256,8 @@ test scripts from a certain GeoIPS package.
     geoips list scripts -p <package_name>
 
 ``list test-datasets`` is a list sub-command which retrieves a listing of test datasets
-used for testing GeoIPS process workflows. Currently, we rely on the test-datasets shown
-below to properly test GeoIPS.
+used for testing GeoIPS processing workflows. Currently, we rely on the test-datasets
+shown below to properly test GeoIPS.
 
 List of test-datasets needed for testing GeoIPS:
 
@@ -261,38 +281,57 @@ For an example of how to run this command, see below.
 
     geoips list test-datasets
 
+``list unit-tests`` is a list sub-command which retrieves a listing of unit tests from
+all, or a certain GeoIPS Package. For this command to find your unit tets, you must
+place the unit tests under ``<package_name>/tests/unit_tests/``. These test scripts can
+then be ran using ``pytest -v /path/to/<package_name/tests/unit_tests/<unit_test_dir>``.
+This command can only be ran if the specified plugin package[s] are installed in
+*editable* mode.
+Information included when calling this command is:
+
+    * GeoIPS Package
+    * Unit Test Directory
+    * Unit Test Name
+
+For an example of how to run this command, see below. One of the commands below lists
+unit tests from a certain GeoIPS package.
+::
+
+    geoips list unit-tests
+    geoips list unit-tests -p <package_name>
+
 .. _performing_processes:
 
 Performing Processes
 ====================
 
-The other use case of the GeoIPS CLI is for performing GeoIPS processes. This will be
-largely updated as we continue to develop the CLI, but for the time being we implement
-3 processes that can be completed via the CLI. This includes plugin validation,
-running test scripts, and installing test datasets used by GeoIPS.
+The other use case of the GeoIPS CLI is for performing GeoIPS processes. We currently
+implement 4 commands which perform some sort of process. This includes plugin
+validation, executing test scripts, installing test datasets used by GeoIPS, and running
+a processing workflow as ``run_procflow`` previously did. The latter is the most
+significant change as we've rerouted all ``run_procflow`` & ``data_fusion_procflow``
+commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actually
+change the implementation of how procflows were ran, this makes all procflow calls be
+easily integrated as a CLI process.
 
-We envision this type of CLI usage to eventually implement running ``process workflows``
-as ``run_procflow`` currently does. For example, we eventually want ``geoips run`` to
-mimic what ``run_procflow`` does under the hood right now.
-
-Shown below are three types of GeoIPS Commands which will invoke processes related to
+Shown below are 4 types of GeoIPS Commands which will invoke processes related to
 the command provided.
 
 Config Command
 --------------
 
-Currently, GeoIPS relies on test datasets to perform testing on the process workflows
+Currently, GeoIPS relies on test datasets to perform testing on the processing workflows
 which we've created. These test datasets are installed via a bash script before any
 testing can be done. To make this process easier and more configurable, we've
 implemented a ``geoips config`` command, which encapsulates configuration settings that
 we can implement via the CLI.
 
-We currently only implement the ``geoips config install _test_dataset_name_`` command
+We currently only implement the ``geoips config install <test_dataset_name>`` command
 for installing test datasets, though we'll support other config commands as we continue
 to develop the GeoIPS CLI.
 
 ``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing implemented process workflows. For a listing of test datasets available for
+testing implemented processing workflows. For a listing of test datasets available for
 installation, run this command ``geoips list test-datasets``.
 
 To install a specific test dataset, run the command below.
@@ -305,30 +344,70 @@ To install a specific test dataset, run the command below.
 Run Command
 -----------
 
-Currently, GeoIPS creates all outputs defined by products via a process workflow
-(procflow). These process workflows are defined via a bash script, which tells GeoIPS
-what plugins will be used, and how they will be processed. While this works for the time
+Currently, GeoIPS creates all outputs defined by products via a processing workflow
+(procflow). These processing workflows are written as a bash script, which tells GeoIPS
+what plugins will be used and how they will be processed. While this works for the time
 being, we are largely refactoring the way in which outputs will be produced by using an
-order-based procflow. We eventually want to specify the order in which this procflow
-runs using the ``geoips run`` command.
+order-based procflow. We eventually want to specify the order in which a procflow
+executes using a ``steps`` attribute in your ``product`` / ``product_defaults``.
 
-To start the development of this type of command, we've implemented simple functionality
-which will run a procflow bash script. While this isn't what we envision for the future,
-it provides the user an easy command to run any bash script created for producing
-specific product outputs.
+``run`` does exactly what ``run_procflow`` and ``data_fusion_procflow`` currently do. To
+preserve test scripts that were written prior to this PR, we've implemented a
+``legacy run`` format which will process your test scripts the exact same manner in
+which ``run_procflow`` or ``data_fusion_procflow`` did in the past. While these commands
+won't point to the same entrypoint as they did before, they make use of the GeoIPS CLI
+to call ``geoips run`` which will execute the same functionality as it did before.
 
 ``run`` follows the procflow defined by a bash script and produces the same output of
-such bash script if it were ran ``./_script_name_``. For a listing of available scripts
-that are able to be ran, run ``geoips list scripts -p _package_name``, where ``-p`` is
-an optional flag representing the package we want to list scripts from.
+such bash script if it were ran ``./<script_name>``. While you technically can execute a
+``run`` command directly in the commandline, we heavily suggest creating a bash script
+for testing and reusability's sake. We've overwritten all ``geoips`` and ``data_fusion``
+test scripts to make use of the new CLI procflow functionality. Shown below, are the
+differences between executing a legacy procflow and the new CLI-based procflows. While
+both work and execute the same process, we recommend transitioning your scripts to the
+CLI-based method as we may remove support for legacy formats in the future.
 
-To run such a script, enter the command shown below.
+Legacy Procflow (abi.static.Infrared.imagery_annotated.sh)
 
-::
+.. code-block:: bash
 
-    geoips run abi.static.Infrared.imagery_annotated.sh
-    geoips run -p geoips_clavrx ahi.Cloud-Top-Height.imagery_clean.sh
-    geoips run -p <package_name> <script_name>
+    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+        --procflow single_source \
+        --reader_name abi_netcdf \
+        --product_name Infrared \
+        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --resampled_read \
+        --logging_level info \
+        --sector_list goes_east
+    retval=$?
+
+    exit $retval
+
+New CLI-based Procflow (abi.static.Infrared.imagery_annotated.sh)
+
+.. code-block:: bash
+
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+        --reader_name abi_netcdf \
+        --product_name Infrared \
+        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --resampled_read \
+        --logging_level info \
+        --sector_list goes_east
+    retval=$?
+
+    exit $retval
+
+As you can see, the only difference between the two formats is the first line and the
+``--procflow`` line. With the new CLI-based format, all you need to do is replace
+``run_procflow`` / ``data_fusion_procflow`` with ``geoips run <procflow_name>`` and
+remove the ``--procflow`` line. That's it!
+
+To execute the ``run`` command, just run a bash script via ``./path/to/script.sh``.
 
 Test Command
 ------------
@@ -341,7 +420,7 @@ and where / why that is happening.
 
 These tests are a very useful feature, however are not that easy to run in the current
 status of our codebase. To alleviate that issue, we've created a ``geoips test`` command
-which can execute linting, integration, scripts, and unit testing. Together, these
+which can execute linting, and output / integration test scripts. Together, these
 testing protocols ensure that our environment is working as expected.
 
 Shown below, we'll demonstrate how to test each of these protocols so that the user can
@@ -349,37 +428,37 @@ easily ensure that what they're developing is working as expected. We recommend 
 to develop in a test-driven-development (TDD) manner, so that you can check that your
 code is working as you develop it on the fly.
 
+``linting`` runs the main three linters that are supported by the main GeoIPS package.
+Those three linters are ``bandit``, ``black``, and ``flake8``. We may support more
+linters in the future, but as this documentation was written, those are the three in
+which we currently support.
+
 To test that your code adheres to GeoIPS Linting protocols, run the command below.
 
 ::
 
+    geoips test linting (defaults to 'geoips' package)
     geoips test linting -p <package_name>
+
+``script`` executes an output-based test script which will return a numerical value
+based on the output of the test. A 0 is a success, and any other number will denote what
+failed and why that occurred. The ``script`` command can also execute ``integration``
+tests (which are only supported in the 'geoips' package). These sorts of tests ensure
+that all new functionality of the main GeoIPS code integrate correctly and accurately.
 
 To run a test (bash) script, or run your integration tests, you must first place your
 integration / normal test scripts in the following file locations.
 
-    * Normal Test scripts: ``<package_name>/tests/scripts/<script_name>``
+    * Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
     * Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
 
 Once you've created your script in the appropriate location, follow the command below.
 
 ::
 
+    geoips test script <script_name> (defaults to 'geoips' package)
     geoips test script -p <package_name> <script_name>
-    geoips test script -i -p <package_name> <script_name>
-
-To run your (python) unit tests, you must create those tests in a specific file
-location, similar to the scripts command shown above. Unit tests must be located in this
-format: ``<package_name>/tests/unit_tests/<unit_test_dir_name>/*.py``.
-
-Once those tests have been placed in the appropriate location, follow the command below.
-
-::
-
-    geoips test unit-test command_line
-    geoips test unit-test command_line -n test_geoips_list_packages.py
-    geoips test unit-test -p <package_name> <unit_test_dir_name>
-    geoips test unit-test -p <package_name> <unit_test_dir_name> -n <script_name>
+    geoips test script --integration <script_name> (no '-p' as this is only supported for 'geoips' package)
 
 Validate Command
 ----------------
@@ -394,7 +473,7 @@ created is valid.
 
 ``validate`` follows the interface defined validation-protocol for a certain plugin.
 To get a listing of plugins available for validation, run the command
-``geoips list plugins -p _package_name_``, where ``-p`` is an optional flag representing
+``geoips list plugins -p <package_name>``, where ``-p`` is an optional flag representing
 the package we want to list plugins from.
 
 To validate a plugin we will need the full path to the plugin you want validated. See
@@ -402,4 +481,5 @@ an example of this shown below.
 
 ::
 
-    geoips validate /full/path/to/plugin.<ext>
+    geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
+    geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>
