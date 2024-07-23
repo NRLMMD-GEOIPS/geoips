@@ -239,13 +239,12 @@ jobs:
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          # if [[ "${ret}" != *"$update_this_file"* ]]; then
-          if [[ "${ret}" != *"latest.rst"* ]]; then
+          if [ -z "$ret" ]; then
               echo "PASSED"
           else
               echo "FAILED: Release note changes detected"
               echo "Please use brassy to enter change logs in $release_notes_dir"
-              echo "DO NOT EDIT THE .RST FILE DIRECTLY :))"
+              echo "DO NOT EDIT .RST FILES DIRECTLY :))"
               exit 1
           fi
 
@@ -287,8 +286,8 @@ jobs:
           for file in ${ret[@]}; do
               echo "    $file"
           done
-          if [ ${#ret[@]} -eq 0 ]; then
-              echo "FAILED: No release note changes detected"
+          if [ -z "$ret" ]; then
+              echo "FAILED: No yaml release note changes detected"
               echo "Please use brassy to enter change logs in $release_notes_dir"
               exit 1
           else
