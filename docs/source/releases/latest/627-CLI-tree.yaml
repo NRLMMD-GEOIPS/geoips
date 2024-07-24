@@ -50,10 +50,10 @@ enhancement:
     command. Shown below are these optional arguments and descriptions of what each argument
     does.
 
-    * ``--colored``
+    * ``--color``
 
       * The output of ``geoips tree`` might be a little hard to interpret. If you want the
-        output of ``geoips tree`` to be colored by depth, make sure to use the ``--colored``
+        output of ``geoips tree`` to be colored by depth, make sure to use the ``--color``
         flag. (Defaults to False)
 
     * ``--max_depth``
