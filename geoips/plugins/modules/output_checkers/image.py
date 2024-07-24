@@ -84,7 +84,7 @@ def correct_file_format(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, threshold=0.05):
+def outputs_match(plugin, output_product, compare_product, threshold):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -147,21 +147,25 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     thresholded_retval = pixelmatch(
         out_img, comp_img, diff_img, includeAA=True, alpha=0.33, threshold=threshold
     )
-    # Currently, return 0 ONLY if the images are exactly matched.  Eventually
-    # we may update this to allow returning 0 for "close enough" matches.
-    if np.all(diff_arr == 0) and thresholded_retval == 0:
-        fullimg_retval = 0
-    else:
-        fullimg_retval = 1
     # Write out the exact image difference.
     LOG.info("**Saving exact difference image")
     diff_img.save(exact_out_diffimg)
     LOG.info("**Done running compare")
 
+    bad_inds = np.where(diff_arr != 0)
+    num_mismatched_exactly = len(diff_arr[bad_inds])
+    num_mismatched_by_threshold = thresholded_retval
+    num_total_pixels = diff_img.size[0] * diff_img.size[1]
+    bad_threshold_pct = num_mismatched_by_threshold / num_total_pixels
+    bad_exact_pct = num_mismatched_exactly / num_total_pixels
+
     # If the images do not match exactly, print the output image, comparison image,
     # and exact diff image to log, for easy viewing.  Return False.
-    if thresholded_retval != 0:
-        bad_inds = np.where(diff_arr != 0)
+
+    # NOTE: We should discuss what values we'd like to set, or be dynamic for testing
+    # bad_threshold_pct and bad_exact_pct. This is just a first value and will likely
+    # change once we've decided what percentage of failures we'll allow.
+    if bad_threshold_pct > 0.00001 or bad_exact_pct > 0.0001:
         log_with_emphasis(LOG.interactive, "BAD Images do NOT match within tolerance")
         message = f"{thresholded_retval} mismatched pixels "
         message += f"exceeding threshold {threshold}"
@@ -176,20 +180,15 @@ def outputs_match(plugin, output_product, compare_product, threshold=0.05):
             f"exact diff image: {exact_out_diffimg}",
         )
         return False
-
-    # If the images match exactly, just output to GOOD comparison log to info level
-    # (only bad comparisons to interactive level)
-    if fullimg_retval != 0:
-        if thresholded_retval == 0:
-            bad_inds = np.where(diff_arr != 0)
-        message = f"{len(diff_arr[bad_inds])} mismatched pixels from exact comparison"
+    else:
+        # If the images match exactly, just output to GOOD comparison log to info level
+        # (only bad comparisons to interactive level)
+        message = f"{num_mismatched_exactly} mismatched pixels from exact comparison"
         log_with_emphasis(
             LOG.interactive,
             "GOOD Images match within tolerance",
             message,
         )
-    else:
-        log_with_emphasis(LOG.info, "GOOD Images match exactly")
 
     return True
 
