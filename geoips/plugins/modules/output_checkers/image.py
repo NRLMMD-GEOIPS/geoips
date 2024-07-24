@@ -84,7 +84,7 @@ def correct_file_format(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, threshold):
+def outputs_match(plugin, output_product, compare_product, threshold=0.05):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -165,7 +165,7 @@ def outputs_match(plugin, output_product, compare_product, threshold):
     # NOTE: We should discuss what values we'd like to set, or be dynamic for testing
     # bad_threshold_pct and bad_exact_pct. This is just a first value and will likely
     # change once we've decided what percentage of failures we'll allow.
-    if bad_threshold_pct > 0.00001 or bad_exact_pct > 0.0001:
+    if bad_threshold_pct > (threshold / 1000) or bad_exact_pct > (threshold / 100):
         log_with_emphasis(LOG.interactive, "BAD Images do NOT match within tolerance")
         message = f"{thresholded_retval} mismatched pixels "
         message += f"exceeding threshold {threshold}"
