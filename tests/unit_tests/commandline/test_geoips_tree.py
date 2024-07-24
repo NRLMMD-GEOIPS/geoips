@@ -37,7 +37,7 @@ class TestGeoipsTree(BaseCliTest):
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with invalid depth
-            self._cmd_list.append(base_args + ["--max-depth", "0"])
+            self._cmd_list.append(base_args + ["--max-depth", "-1"])
         return self._cmd_list
 
     @property

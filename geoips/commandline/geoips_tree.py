@@ -183,9 +183,9 @@ class GeoipsTree(GeoipsExecutableCommand):
         """
         print()
         depth = args.max_depth
-        if depth < 1:
+        if depth < 0:
             raise self.parser.error(
-                f"Invalid depth value: {depth}. Must be greater than or equal to 1."
+                f"Invalid depth value: {depth}. Must be greater than or equal to 0."
             )
         self.print_tree(
             self.top_level_parser,

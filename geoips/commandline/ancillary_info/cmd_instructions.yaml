@@ -293,7 +293,7 @@ instructions:
     help_str: |
       Print a tree of all of the available GeoIPS CLI commands. This will display every
       command in a top-down tree which gives a visual structure of how the CLI can be
-      ran. <--max-depth> must be greater than or equal to 1, where depth denotes the
+      ran. <--max-depth> must be greater than or equal to 0, where depth denotes the
       level of the command you'd like to display. Ie. <0> geoips <1> list <2> scripts.
     usage_str: |
       To use, type `geoips tree <--max-depth> <int> <--color> <--short-name>`.

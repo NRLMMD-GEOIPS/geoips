@@ -359,7 +359,7 @@ class BaseCliTest(abc.ABC):
             case _ if ("--long" in args and "--columns" in args):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
-            case _ if ("--max-depth" in args and "0" in args):
+            case _ if ("--max-depth" in args and "-1" in args):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
             case _:
@@ -404,8 +404,7 @@ class BaseCliTest(abc.ABC):
             output, error = output.decode(), error.decode()
             prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
-        if len(error) and not len(output):
-            print(error)
+        if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)
