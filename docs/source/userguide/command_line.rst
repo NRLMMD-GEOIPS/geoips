@@ -184,7 +184,8 @@ can filter by, run ``geoips list <cmd_name> --columns help``.
 
 :ref:`geoips list interface <geoips_list_interface>`
 
-``list interface`` is a list sub-command which retrieves a listing of implemented
+``list <interface_name>`` is a list sub-command which retrieves a listing of implemented
+
 plugins of a certain interface. This can also be applied to a certain GeoIPS package.
 Information included when calling this command is:
 
@@ -202,8 +203,8 @@ to a specific package. To see which packages are available, run
 
 ::
 
-    geoips list interface algorithms
-    geoips list interface <interface_name> -p <package_name>
+    geoips list algorithms
+    geoips list <interface_name> -p <package_name>
 
 .. _geoips_list_interfaces:
 

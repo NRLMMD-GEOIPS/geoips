@@ -94,8 +94,12 @@ instructions:
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
-      available for listing are: ["interface", "interfaces", "packages", "plugins",
-      "scripts", "test-datasets", "unit-tests"].
+      available for listing are: ["algorithms", "colormappers", "coverage_checkers",
+      "filename_formatters", "interpolators", "output_checkers", "output_formatters",
+      "procflows", "readers", "sector_adjusters", "sector_metadata_generators",
+      "sector_spec_generators", "title_formatters", "feature_annotators",
+      "gridline_annotators", "product_defaults", "products", "sectors", "interfaces",
+      "packages", "plugins", "scripts", "test-datasets", "unit-tests"].
     usage_str: |
       To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
@@ -109,18 +113,18 @@ instructions:
     output_info:
       - N/A
   list_interface:
-  geoips_list_interface:
+  geoips_list_interface: &list-single-interface
     help_str: |
-      List off plugins found under a certain interface. This is useful for seeing what
+      List off plugins found under this interface. This is useful for seeing what
       plugins have been implemented through all, or a certain, GeoIPS Package. This
       information can then be used with
-      `geoips get-plugin <interface_name> <plugin_name>` to get more information about a
+      `geoips get <interface_name> <plugin_name>` to get more information about a
       certain plugin.
     usage_str: |
-      To use, type `geoips list interface <interface_name>`. Optionally includes `-p`
+      To use, type `geoips list <interface_name>`. Optionally includes `-p`
       flag for seeing what plugins are in a certain package (-p). For example, to see
       what plugins under a certain interface have been created in a single package,
-      run `geoips list interface <interface_name> -p <pkg_name>`, or you can remove the
+      run `geoips list <interface_name> -p <pkg_name>`, or you can remove the
       `-p` flag to see what's been created in every package.
     output_info:
       - Family
@@ -129,6 +133,24 @@ instructions:
       - Package
       - Plugin Name
       - Relative Path
+  geoips_list_algorithms: *list-single-interface
+  geoips_list_colormappers: *list-single-interface
+  geoips_list_coverage_checkers: *list-single-interface
+  geoips_list_filename_formatters: *list-single-interface
+  geoips_list_interpolators: *list-single-interface
+  geoips_list_output_checkers: *list-single-interface
+  geoips_list_output_formatters: *list-single-interface
+  geoips_list_procflows: *list-single-interface
+  geoips_list_readers: *list-single-interface
+  geoips_list_sector_adjusters: *list-single-interface
+  geoips_list_sector_metadata_generators: *list-single-interface
+  geoips_list_sector_spec_generators: *list-single-interface
+  geoips_list_title_formatters: *list-single-interface
+  geoips_list_feature_annotators: *list-single-interface
+  geoips_list_gridline_annotators: *list-single-interface
+  geoips_list_product_defaults: *list-single-interface
+  geoips_list_products: *list-single-interface
+  geoips_list_sectors: *list-single-interface
   geoips_list_interfaces:
     help_str: |
       List off every GeoIPS Interface. This is useful for seeing what is

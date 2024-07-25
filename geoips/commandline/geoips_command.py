@@ -532,3 +532,75 @@ class GeoipsListCommon(GeoipsExecutableCommand):
     def __call__(self, args):
         """Exectutable function for GeoipsListCommon Class. Not implemented."""
         pass
+
+
+class CommandClassFactory:
+    """An abstract class factory for creating CLI-based Command Classes.
+
+    This architecture can be used to generate CLI command classes for specific use
+    cases. A couple which we'll implement early on is are:
+
+    * GeoipsListSingleInterface:
+
+        * GeoipsListAlgorithms
+        * GeoipsListColormappers
+        * ...
+        * GeoipsListTitleFormatters
+
+    * GeoipsGetPlugin
+
+        * GeoipsGetAlgorithm
+        * GeoipsGetColormapper
+        * ...
+        * GeoipsGetTitleFormatter
+
+    This class has been created to reduce the verbosity of geoips commands without
+    having to copy-paste classes specifc to a certain interface.
+    """
+
+    def __init__(self, base_class, class_names, add_attrs={}):
+        """Initialize the class factory and generate a list of classes.
+
+        Parameters
+        ----------
+        base_class: Class
+            - The base class to build each generated class with..
+            - Ie. if we were creating a class factory for GeoipsListSingleInterface, the
+              base class would be 'GeoipsListSingleInterface'.
+        class_names: list of str
+            - The names of the classes that we'd like to generate.
+            - Ie. if we were creating a class factory for GeoipsListSingleInterface, the
+              classes to generate would be a list of strings that represent all
+              available interfaces (interfaces.__all__).
+            - The classes would then look like:
+                - "GeoipsListAlgorithms"
+                - "GeoipsListColormappers"
+                - ...
+                - "<base_class_name><name>"
+        add_attrs: dict (optional)
+            - A dictionary of attributes we'd like to assign to each command class
+            - If specified and has overlapping keys to those specified below, this
+              dictionary will override the defaults.
+        """
+        self.base_class = base_class
+        self.base_class_name = self.base_class.__name__
+        self.classes = []
+        for cname in class_names:
+            default_attrs = {
+                "name": cname,
+                "command_classes": [],
+                "add_arguments": base_class.add_arguments,
+                "__call__": base_class.__call__,
+            }
+            # Combine with additional attributes, overwriting defaults where applicable.
+            class_attrs = {**default_attrs, **add_attrs}
+            # Add the class of <base_class_name><cname> to the constructors 'classes'
+            # attribute. Don't actually initialize these classes as we'll be doing that
+            # later once we have the required information.
+            self.classes.append(
+                type(
+                    f"{self.base_class_name}{cname.title().replace('_', '')}",
+                    (base_class,),
+                    class_attrs,
+                )
+            )
