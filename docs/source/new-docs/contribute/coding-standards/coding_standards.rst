@@ -12,7 +12,7 @@
 .. contents::
 
 Summary
-=======
+-------
 
 The goal is consistency. In style, we're in the right even if we're all wrong together.
 GeoIPS code is meant to be re-used by many, and we expect that the code will be read
@@ -99,7 +99,7 @@ Internal Style Standards
 ------------------------
 
 Bring code to standard in a dedicated PR
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We want to separate formatting/standardizing and functional changes to the code so
 reviewing code is less painful. Please, if you're improving the functionality of code
@@ -114,7 +114,7 @@ and need to bring it to standard:
 If easier, you can make the improvement before bringing the code to standard.
 
 If you touch code, it should meet standards
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 We strongly recommend you update any functions you work on
 if they do not meet the standard. At CIRA, this is a requirement for
@@ -127,13 +127,13 @@ A good rule of thumb is that if you edit something and it doesn't have a docstri
 add it. If you edit more than 20% of a function/class/module, please edit the rest.
 
 Imports shouldn't be buried without a reason
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 If an import needs to be buried for efficiency reasons or namespace conflicts,
 this should be documented in the docstrings.
 
 Linting/Formatting
-^^^^^^^^^^^^^^^^^^
+==================
 
 The GeoIPS project makes use of several linting tools to help maintain code quality. The
 full suite of linters can be installed by installing the "test" dependencies via pip.
@@ -141,7 +141,7 @@ For example, if you installed GeoIPS using `pip install .` the linters can be in
 using `pip install .[test]` the following tools to ensure code quality:
 
 Black
-^^^^^
+-----
 
 We use the `Black formatter <https://github.com/psf/black>`_ with its default
 settings. As stated in the Black documentation, it is an uncompromizing code
@@ -150,7 +150,7 @@ automatically while writing code has also reduced development time since
 developers don't need to think about formatting.
 
 Flake8
-^^^^^^
+------
 
 We use the `Flake8 linter <https://flake8.pycqa.org/en/latest/>`_ to enforce
 PEP8 code standards. We also add several plugins to Flake8 to enforce additional
@@ -182,24 +182,3 @@ statistics=True
 per-file-ignores =
   /*/interfaces/__init__.py:F401
 ```
-
-Github Conventions
-------------------
-
-Pull Request Workflow
-^^^^^^^^^^^^^^^^^^^^^
-
-`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow
-<https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow>`__
-
-`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow
-<https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow>`__
-
-Issue Workflow
-^^^^^^^^^^^^^^
-
-`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow
-<https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow>`__
-
-Other Conventions
------------------
