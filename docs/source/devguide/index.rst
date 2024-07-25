@@ -10,9 +10,10 @@ Developer Guide
 .. toctree::
    :maxdepth: 2
 
-   software_requirements_specification
    contributors
-   dev_setup
+   ../new-docs/coding-standards/coding-standards
    git_workflow
+   dev_setup
    unit_tests
    xarray_standards
+   software_requirements_specification
