@@ -15,6 +15,7 @@ from importlib import metadata
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import is_editable
 
+
 gcli = GeoipsCLI()
 
 
@@ -25,7 +26,7 @@ class BaseCliTest(abc.ABC):
     _get_interface_args = ["geoips", "get", "interface"]
     _get_package_args = ["geoips", "get", "package"]
     _get_plugin_args = ["geoips", "get", "plugin"]
-    _list_interface_args = ["geoips", "list", "interface"]
+    _list_interface_args = ["geoips", "list"]
     _list_interfaces_args = ["geoips", "list", "interfaces"]
     _list_plugins_args = ["geoips", "list", "plugins"]
     _list_packages_args = ["geoips", "list", "packages"]
