@@ -168,17 +168,17 @@ We modify the default behavior of flake8 slightly to make it work well with Blac
 ignore specific errors, and configure plugins. GeoIPS specific settings for
 flake8 include the following:
 
-```toml
-[flake8]
-max-line-length=88
-count=True
-ignore=E203,W503,E712
-extend-exclude=_version.py,lib,*_docs,geoips_dev_utils
-docstring-convention=numpy
-rst-roles=class,func,ref
-rst-directives=envvar,exception
-rst-substitutions=version
-statistics=True
-per-file-ignores =
-  /*/interfaces/__init__.py:F401
-```
+.. code-block:: toml
+
+    [flake8]
+    max-line-length=88
+    count=True
+    ignore=E203,W503,E712
+    extend-exclude=_version.py,lib,*_docs,geoips_dev_utils
+    docstring-convention=numpy
+    rst-roles=class,func,ref
+    rst-directives=envvar,exception
+    rst-substitutions=version
+    statistics=True
+    per-file-ignores =
+      /*/interfaces/__init__.py:F401
