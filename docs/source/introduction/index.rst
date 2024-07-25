@@ -13,6 +13,4 @@ Introduction
    :maxdepth: 2
 
    description_geoips
-   function_summary
-   examples_output
-   conduct
+   ../new-docs/contribute/code-of-conduct
