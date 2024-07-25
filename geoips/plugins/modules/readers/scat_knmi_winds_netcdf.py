@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
 
@@ -16,6 +7,7 @@ import logging
 from os.path import basename
 from copy import deepcopy
 from glob import glob
+import numpy
 
 LOG = logging.getLogger(__name__)
 
@@ -91,7 +83,6 @@ def read_knmi_data(wind_xarray):
         {"lat": "latitude", "lon": "longitude", "time": "time"}
     )
     import xarray
-    import numpy
 
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
@@ -169,6 +160,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         except ValueError:
             # <=2023.08 versions of xarray would filter bad dates
             # current versions >=2023.9 raise Value Errors now
+            # Note: This is important for oscat, but not for any other sensors.
+            # This persists in versions as new as 2024.02.0 and I don't expect
+            # that it will be "fixed" because oscat's times are non-conforming
+            # with the CF standard.
             wind_xarray = xarray.open_dataset(str(fname), decode_times=False)
             # filters out negative dates, converting them to NaT
             wind_xarray = fix_datetime(wind_xarray)
@@ -268,4 +263,4 @@ def get_test_files(test_data_dir):
 
 def get_test_parameters():
     """Generate test data key for unit testing."""
-    return {"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}
+    return [{"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}]

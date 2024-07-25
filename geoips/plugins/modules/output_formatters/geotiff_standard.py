@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Geotiff image rasterio-based output format."""
 
@@ -90,19 +81,32 @@ def call(
             res_deg_x = (lons[-1][-1] - lons[0][0]) / width
             res_deg_y = (lats[0][0] - lats[-1][-1]) / height
 
+            # Flipped
             maxlat = area_def.area_extent_ll[-1]
+            # Orig
+            # minlat = area_def.area_extent_ll[1]
             minlon = area_def.area_extent_ll[0]
 
             # Note the original implementation here, following the
             # rasterio documentation, resulted in upside down imagery.
             # https://github.com/rasterio/rasterio/issues/1683
             # Updates 20231005 resolved the flipped geotiff imagery.
+            # Flipped
             transform = Affine.translation(
                 minlon - res_deg_x / 2, maxlat - res_deg_y / 2
             ) * Affine.scale(res_deg_x, -res_deg_y)
+            # Orig
+            # transform = Affine.translation(
+            #     minlon - res_deg_y / 2, minlat - res_deg_x / 2
+            # ) * Affine.scale(res_deg_y, res_deg_x)
 
             # crs = rasterio.crs.CRS.from_proj4(area_def.proj4_string)
+            # Test with "EPSG:4326" crs
+            # crs = "EPSG:4326"
+            # Flipped
             crs = "+proj=longlat"
+            # Orig
+            # crs = "+proj=latlong"
 
             profile = rasterio.profiles.DefaultGTiffProfile(count=1)
             profile.update(dtype=rasterio.uint8, count=1, compress="lzw")
@@ -116,8 +120,8 @@ def call(
                 transform=transform,
                 **profile,
             ) as dst:
-                dst.write(plot_data.astype(rasterio.uint8), indexes=1)
                 cmap_dict = get_rasterio_cmap_dict(mpl_colors_info["cmap"])
                 dst.write_colormap(1, cmap_dict)
+                dst.write(plot_data.astype(rasterio.uint8), indexes=1)
 
     return output_fnames

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Advanced Himawari Imager Data Reader."""
 
@@ -1307,6 +1298,13 @@ def call(
         try:
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
+            for varname, var in gvars[res].items():
+                gvars[res][varname] = np.ma.array(
+                    var, mask=gvars[res]["satellite_zenith_angle"].mask
+                )
+                gvars[res][varname] = np.ma.masked_where(
+                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
+                )
         except KeyError:
             pass
     for ds in datavars.keys():

@@ -1,0 +1,38 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.13.1 (2024-06-01)
+*****************************
+
+* Update 'update_this_release_note'
+* Add release note for v1.13.1
+
+Release Process
+===============
+
+Add release note for v1.13.1
+----------------------------
+
+*From GEOIPS#513: 2024-06-01, 1.12.4 updates*
+
+All updates until the next release (v1.13.1) will be included in
+this release note.
+
+::
+
+  modified: docs/source/releases/v1_13_1.rst
+  modified: docs/source/releases/index.rst
+
+Update 'update_this_release_note'
+---------------------------------
+
+*From GEOIPS#513: 2024-06-01, 1.12.4 release process updates*
+
+All updates until the next release (v1.13.1) will be included in
+the release note specified in this file.
+
+::
+
+  modified: update_this_release_note

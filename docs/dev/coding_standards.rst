@@ -1,3 +1,8 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
 =================================
 🖍️ Coding Standards Reference Doc
 =================================
@@ -26,6 +31,71 @@ right in the case of a conflict with this document.
 External Style Standards
 ------------------------
 
+`PEP 8 <https://peps.python.org/pep-0008/>`__
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+A nice version of PEP8 can be found at: `PEP8.org <https://pep8.org/>`
+
+Some highlights below for reference.
+
+Function Names
+""""""""""""""
+
+Function names should be lowercase, with words separated by
+underscores as necessary to improve readability.
+
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Class Names
+"""""""""""
+
+Class names should normally use the CapWords convention.
+
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Exception Names
+"""""""""""""""
+
+Because exceptions should be classes, the class naming convention applies here.
+However, you should use the suffix "Error" on your exception names
+(if the exception actually is an error).
+
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Module Names
+""""""""""""
+
+Modules should have **short**, **all-lowercase names**.
+Underscores can be used in the module name if it improves readability.
+`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
+
+Imports
+^^^^^^^
+Imports should usually be on separate lines, e.g.:
+
+Yes:
+
+.. code-block:: python
+
+    import os
+    import sys
+
+No:
+
+.. code-block:: python
+
+    import os, sys
+
+It's okay to say this though:
+
+.. code-block:: python
+
+    from subprocess import Popen, PIPE
+
+Imports are always put at the top of the file, just after any module comments and
+docstrings, and before module globals and constants.
+
+`PEP8 Imports Standards <https://pep8.org/#imports>`__
 
 Numpy Docstrings
 ^^^^^^^^^^^^^^^^
@@ -101,77 +171,42 @@ Sections:
 #. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
 #. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
 
-`PEP 8 <https://peps.python.org/pep-0008/>`__
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-A nice version of PEP8 can be found at: `PEP8.org <https://pep8.org/>`
-
-Some highlights below for reference.
-
-Function Names
-""""""""""""""
-
-Function names should be lowercase, with words separated by
-underscores as necessary to improve readability.
-
-`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
-
-Class Names
-"""""""""""
-
-Class names should normally use the CapWords convention.
-
-`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
-
-Exception Names
-"""""""""""""""
-
-Because exceptions should be classes, the class naming convention applies here.
-However, you should use the suffix "Error" on your exception names
-(if the exception actually is an error).
-
-`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
-
-Module Names
-""""""""""""
-
-Modules should have **short**, **all-lowercase names**.
-Underscores can be used in the module name if it improves readability.
-`PEP8 Names Standards <https://pep8.org/#naming-conventions>`__
-
-Imports
-^^^^^^^
-Imports should usually be on separate lines, e.g.:
-
-Yes:
-
-.. code-block:: python
-
-    import os
-    import sys
-
-No:
-
-.. code-block:: python
-
-    import os, sys
-
-It's okay to say this though:
-
-.. code-block:: python
-
-    from subprocess import Popen, PIPE
-
-Imports are always put at the top of the file, just after any module comments and
-docstrings, and before module globals and constants.
-
-`PEP8 Imports Standards <https://pep8.org/#imports>`__
-
 Internal Style Standards
 -------------------------
 
 Imports Shouldn't Be Buried Without a Reason
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+=======
+Bring code to standard in a dedicated PR
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We want to separate formatting/standardizing and functional changes to the code so
+reviewing code is less painful. Please, if you're improving the functionality of code
+and need to bring it to standard:
+
+1. Make a new branch (branch1)
+2. Bring the code to standard
+3. Open a PR and make a new branch from branch1 (branch2)
+4. Make improvements to the functionality of the code on branch 2
+5. Open a second PR for branch 2
+
+If easier, you can make the improvement before bringing the code to standard.
+
+If you touch code, it should meet standards
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+We strongly recommend you update any functions you work on
+if they do not meet the standard. At CIRA, this is a requirement for
+PRs to be merged. For others, it's just a strong recommendation -
+however, we don't want the burden of updating code to prevent you from contributing.
+Please don't spend hours updating a 100,000 line module because you fixed a typo.
+use discretion on when updates are needed.
+
+A good rule of thumb is that if you edit something and it doesn't have a docstring,
+add it. If you edit more than 20% of a function/class/module, please edit the rest.
+
+Imports shouldn't be buried without a reason
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 If an import needs to be buried for efficiency reasons or namespace conflicts,
 this should be documented in the docstrings.

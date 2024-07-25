@@ -1,21 +1,13 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
 import yaml
 import inspect
 import logging
-from os.path import exists, splitext
+from os.path import basename, splitext
+from glob import glob
 
 from importlib.resources import files
 from importlib import util
@@ -25,15 +17,7 @@ import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
-from geoips.errors import EntryPointError, PluginError, PluginRegistryError
-
-from geoips.geoips_utils import (
-    find_entry_point,
-    # get_all_entry_points,
-    # load_all_yaml_plugins,
-)
-
-# from geoips.interfaces import product_defaults
+from geoips.errors import PluginError, PluginRegistryError
 
 LOG = logging.getLogger(__name__)
 
@@ -383,6 +367,8 @@ class BaseYamlInterface(BaseInterface):
     """
 
     validator = YamlPluginValidator()
+    interface_type = "yaml_based"
+    name = "BaseYamlInterface"
 
     def __new__(cls):
         """YAML plugin interface new method."""
@@ -392,7 +378,12 @@ class BaseYamlInterface(BaseInterface):
 
     def __init__(self):
         """YAML plugin interface init method."""
-        pass
+        self.supported_families = [
+            basename(fname).split(".")[0]
+            for fname in sorted(
+                glob(str(files("geoips") / f"schema/{self.name}/*.yaml"))
+            )
+        ]
 
     def _create_registered_plugin_names(self, yaml_plugin):
         """Create a plugin name for plugin registry.
@@ -588,6 +579,9 @@ class BaseModuleInterface(BaseInterface):
     the GeoIPS algorithm plugins.
     """
 
+    interface_type = "module_based"
+    required_args = {}
+
     def __repr__(self):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
@@ -609,7 +603,7 @@ class BaseModuleInterface(BaseInterface):
 
     def __init__(self):
         """Initialize module plugin interface."""
-        pass
+        self.supported_families = list(self.required_args.keys())
 
     @classmethod
     def _plugin_module_to_obj(cls, name, module, obj_attrs={}):
@@ -712,33 +706,24 @@ class BaseModuleInterface(BaseInterface):
           If the specified plugin isn't found within the interface.
         """
         # Find the plugin module
-        try:
-            if exists(name):
-                # This is used! For output checkers at least.
-                module = find_entry_point(self.name, name)
-            else:
-                registered_module_plugins = self.registered_module_based_plugins
-                package = registered_module_plugins[self.name][name]["package"]
-                relpath = registered_module_plugins[self.name][name]["relpath"]
-                module_path = splitext(relpath.replace("/", "."))[0]
-                module_path = f"{package}.{module_path}"
-                abspath = files(package) / relpath
-                spec = util.spec_from_file_location(module_path, abspath)
-                module = util.module_from_spec(spec)
-                spec.loader.exec_module(module)
-            # module = find_entry_point(self.name, name)
-        except EntryPointError as resp:
-            raise PluginError(
-                f"{resp}:\nPlugin '{name}' not found for '{self.name}' interface. "
-                f"\nCheck 'pyproject.toml' for typos, "
-                f"\nthat path in pyproject.toml matches path to '{name}' module, "
-                f"\ncheck top level attributes on module '{name}' "
-                f"(interface, family, name), "
-                f"\n and check that you are attempting to use the correct plugin name "
-                f"\n(ie, check in product YAMLs or command line that you are"
-                f" attempting to access the correct plugin name)"
-            ) from resp
         # Convert the module into an object
+        registered_module_plugins = self.registered_module_based_plugins
+        if name not in registered_module_plugins[self.name]:
+            raise PluginError(
+                f"Plugin '{name}', "
+                f"from interface '{self.name}' "
+                f"appears to not exist."
+                f"\nCreate plugin, then call create_plugin_registries?"
+            )
+
+        package = registered_module_plugins[self.name][name]["package"]
+        relpath = registered_module_plugins[self.name][name]["relpath"]
+        module_path = splitext(relpath.replace("/", "."))[0]
+        module_path = f"{package}.{module_path}"
+        abspath = files(package) / relpath
+        spec = util.spec_from_file_location(module_path, abspath)
+        module = util.module_from_spec(spec)
+        spec.loader.exec_module(module)
         return self._plugin_module_to_obj(name, module)
 
     def get_plugins(self):

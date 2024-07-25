@@ -1,14 +1,7 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _describe-readers:
 
@@ -96,6 +89,10 @@ of these in further detail now.
     * Perform operations on the inputs, typically to convert them to a format
       understandable by GeoIPS. This could be using ``np.meshgrid(lats, lons)`` to
       create a 2D array of latitude and longitude, or whatever else you envision.
+
+* Unit tests 
+    * Unit testing to help test conformity and validity of the reader and test data.
+      For more details see :ref:`unit_tests`.
 
 See below for an example of all three functions signatures in action.
 

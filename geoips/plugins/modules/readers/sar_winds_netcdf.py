@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from SAR netcdf data."""
 
@@ -169,9 +160,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     if (
         hasattr(wind_xarray, "source")
-        and "SAR" in wind_xarray.source
+        and ("SAR" in wind_xarray.source or "SAR" in wind_xarray.title)
         and hasattr(wind_xarray, "title")
-        and "SAR" in wind_xarray.title
     ):
         wind_xarrays = []
         columns = None
@@ -304,4 +294,4 @@ def get_test_files(test_data_dir):
 
 def get_test_parameters():
     """Generate test data key for unit testing."""
-    return {"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}
+    return [{"data_key": "WINDSPEED", "data_var": "wind_speed_kts"}]

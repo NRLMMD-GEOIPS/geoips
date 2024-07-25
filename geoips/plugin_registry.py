@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """PluginRegistry class to interface with the JSON plugin registries.
 
@@ -26,29 +17,15 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import resources, metadata
-import sys
+from importlib import metadata, resources
 import os
 import logging
 from geoips.errors import PluginRegistryError
 import yaml
 import json
 
+
 LOG = logging.getLogger(__name__)
-
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    # NOTE: When there is a .egg-info directory in the plugin package top
-    # level (ie, from setuptools pip install -e), it seems to return that
-    # package twice in this list.  For now, just use the full list with
-    # duplicates.
-    if sys.version_info[:3] >= (3, 10, 0):
-        eps = metadata.entry_points(group=group)
-    else:
-        eps = metadata.entry_points()[group]
-
-    return eps
 
 
 class PluginRegistry:
@@ -68,7 +45,7 @@ class PluginRegistry:
         else:
             self._is_test = False
             self.registry_files = []  # Collect the paths to the registry files here
-            for pkg in get_entry_point_group("geoips.plugin_packages"):
+            for pkg in metadata.entry_points(group="geoips.plugin_packages"):
                 try:
                     self.registry_files.append(
                         str(resources.files(pkg.value) / "registered_plugins.json")

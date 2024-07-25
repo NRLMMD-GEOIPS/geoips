@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Module containing user-specified IR-BD algorithm colormap."""
 
@@ -60,7 +51,7 @@ def call(data_range=[-90.0, 40.0]):
         (9.01, 28),
         (28.01, max_tb),
     ]
-    LOG.info("inside util= ", max_tb)
+    LOG.info("inside util= %s", max_tb)
 
     # matching TerraScan Color scheme: noaa_bd_151
     transition_colors = [

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Collection of base path names used throughout GeoIPS.
 
@@ -180,24 +171,19 @@ if not getenv("SHAREDSCRATCH"):
 else:
     PATHS["SHAREDSCRATCH"] = getenv("SHAREDSCRATCH").rstrip("/")
 
-# This is the default ANCILDATDIR specified in $GEOIPS/geoips/geoalgs/Makefile
-# These MUST match or geoalgs won't find ancildat files
-# (ANCILDATDIR gets built into fortran routines).
-# Used to be $GEOIPS/geoips/geoalgs/dat, but decided it shouldn't be relative to
-# source by default...
-# Also note I added GEOALGSAUTOGENDATA - these were going directly in ancildat
-# previously, which can get rather crowded with TCs and other dynamic sectors.
-# Also, separating the auto-generated files from the source files allows for
+if not getenv("GEOIPS_ANCILDAT"):
+    PATHS["GEOIPS_ANCILDAT"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat")
+elif getenv("GEOIPS_ANCILDAT"):
+    PATHS["GEOIPS_ANCILDAT"] = getenv("GEOIPS_ANCILDAT").rstrip("/")
+# Separating the auto-generated files from the source files allows for
 # individual users to read from the shared ancildat, and write to their own
 # auto-generated location
-if not getenv("ANCILDATDIR"):
-    PATHS["ANCILDATDIR"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat")
-    PATHS["ANCILDATEXTERNAL"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat_external")
-    PATHS["ANCILDATAUTOGEN"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat_autogen")
-else:
-    PATHS["ANCILDATDIR"] = getenv("ANCILDATDIR").rstrip("/")
-    PATHS["ANCILDATEXTERNAL"] = pathjoin(getenv("ANCILDATDIR"), "external")
-    PATHS["ANCILDATAUTOGEN"] = pathjoin(getenv("ANCILDATDIR"), "autogen")
+if not getenv("GEOIPS_ANCILDAT_AUTOGEN"):
+    PATHS["GEOIPS_ANCILDAT_AUTOGEN"] = pathjoin(
+        PATHS["GEOIPS_OUTDIRS"], "ancildat_autogen"
+    )
+elif getenv("GEOIPS_ANCILDAT_AUTOGEN"):
+    PATHS["GEOIPS_ANCILDAT_AUTOGEN"] = getenv("GEOIPS_ANCILDAT_AUTOGEN").rstrip("/")
 
 if not getenv("LOGDIR"):
     PATHS["LOGDIR"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "logs")
@@ -208,6 +194,12 @@ if not getenv("GEOIPSDATA"):
     PATHS["GEOIPSDATA"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "geoipsdata")
 else:
     PATHS["GEOIPSDATA"] = getenv("GEOIPSDATA").rstrip("/")
+
+if not getenv("GEOIPS_VERS"):
+    PATHS["GEOIPS_VERS"] = "0.0.0"
+else:
+    PATHS["GEOIPS_VERS"] = getenv("GEOIPS_VERS")
+
 
 if getenv("TCWWW"):
     PATHS["TCWWW"] = getenv("TCWWW").rstrip("/")

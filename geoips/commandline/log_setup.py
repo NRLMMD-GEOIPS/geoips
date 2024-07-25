@@ -1,20 +1,15 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Geoips module for setting up logging handlers with a specified verbosity."""
 
 import logging
 import sys
 from textwrap import wrap
+
+
+logging_setup_done = False
+log = None
 
 
 def log_with_emphasis(print_func, *messages):
@@ -34,10 +29,16 @@ def log_with_emphasis(print_func, *messages):
         The messages to be logged with emphasis
     """
     wrapped_messages = []
-    messages = filter(lambda s: len(s) > 0, messages)
+    # Even though only strings should be passed here, we are going to allow any type of
+    # object to be passed for the time being. Best not to overthink the situation and
+    # just cast for the time being.
+    messages = filter(lambda s: len(str(s)) > 0, messages)
+
     for message in messages:
         # wrap the message to a specified length
-        wrapped_messages += wrap(message, width=74, break_long_words=False)
+        wrapped_messages += wrap(
+            message, width=74, break_long_words=False, break_on_hyphens=False
+        )
     try:
         max_message_len = min(74, max([len(wmessage) for wmessage in wrapped_messages]))
     except ValueError as e:
@@ -176,7 +177,7 @@ class LogLevelAdder:
 add_logging_level = LogLevelAdder()
 
 
-def setup_logging(logging_level="INTERACTIVE", verbose=True):
+def setup_logging(logging_level=None, verbose=True):
     """Get a new logger instance for GeoIPS.
 
     Get a new logger instance for GeoIPS. This will set the logger's logging level, its
@@ -189,25 +190,50 @@ def setup_logging(logging_level="INTERACTIVE", verbose=True):
     instance via `LOG = logging.getLogger(__name__)` and it will behave the same as the
     root logger.
 
+    If this function was called previously in the program's traceback in any other
+    location, then setup_logging will default to the log setup in the very first call.
+    This is done so log statements aren't duplicated the number of times this function
+    has been called. Therefore, it is smart to ensure that the first call to this
+    function is the lowest log level you'ld like to capture.
+
     Parameters
     ----------
-    logging_level : str, default="INTERACTIVE"
+    logging_level : str, default=None
         Sets the minimum log level for which log output will be written to stdout.
+        If None, will default to "INTERACTIVE".  This allows using env var
+        GEOIPS_LOGGING_LEVEL to override default (applied in run_procflow).
     verbose : bool, default=True
         Determines which log formatter will be used. If `True`, a longer format will be
         used, providing more information, but also cluttering the screen. If `False`, a
         shorter format will be used.
+
+    Globals
+    -------
+    logging_setup_done: bool
+        - Whether or not this function has already been called
+    log: logging.RootLogger
+        - A root logging object that has the GeoIPS log format applied. This will only
+          be set once in a program's execution.
     """
-    log = logging.getLogger()
-    log.setLevel(getattr(logging, logging_level))
-    fmt = logging.Formatter(
-        "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
-        "%d_%H%M%S",
-    )
-    if not verbose:
-        fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
-    stream_hndlr = logging.StreamHandler(sys.stdout)
-    stream_hndlr.setFormatter(fmt)
-    stream_hndlr.setLevel(logging.INFO)
-    log.addHandler(stream_hndlr)
+    global logging_setup_done, log
+
+    if not logging_setup_done:
+        log = logging.getLogger()
+        # If logging_level was not specified, default to INTERACTIVE here.
+        if not logging_level:
+            logging_level = "INTERACTIVE"
+        log.setLevel(getattr(logging, logging_level))
+        fmt = logging.Formatter(
+            "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
+            "%d_%H%M%S",
+        )
+        if not verbose:
+            fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
+        stream_hndlr = logging.StreamHandler(sys.stdout)
+        stream_hndlr.setFormatter(fmt)
+        stream_hndlr.setLevel(logging.INFO)
+        log.addHandler(stream_hndlr)
+
+        logging_setup_done = True
+
     return log

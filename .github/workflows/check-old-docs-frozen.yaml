@@ -1,0 +1,43 @@
+name: Old docs have not been changed
+defaults:
+  run:
+    shell: bash
+
+env:
+  COMMIT_INTO: remotes/origin/main
+
+on:
+  # Triggers the workflow when pull request created and updated
+  pull_request:
+    # Sequence of patterns matched against refs/heads
+    branches:
+      - main
+  # Allows run of this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  old_docs_change_detection:
+    runs-on: ${{ vars.RUNNER }}
+    steps:
+      - name: Checkout current repo default branch
+        uses: actions/checkout@v3 # v3 is the latest for checkout
+        with:
+          fetch-depth: 0
+          path: geoips_plugin_repo
+      - name: Detect new and modified release files
+        run: |
+          echo "git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source/"
+          ret=$(git -C $PWD/geoips_plugin_repo diff --name-only --diff-filter=AM \
+              ${COMMIT_INTO} -- $PWD/geoips_plugin_repo/docs/source)
+          echo "Old docs files modified this PR:"
+          for file in ${ret[@]}; do
+              echo "    MODIFIED: $file"
+          done
+          for file in ${ret[@]}; do
+              if [[ "$file" != *"docs/source/releases"* && "$file" != *"docs/source/new-docs"* ]]; then
+                  echo "    File outside of docs/source/releases modified: $file"
+                  echo "    Please update docs in new-docs directory"
+                  exit 1
+              fi
+          done
+          echo "PASSED, no docs files modified outside releases or new-docs"

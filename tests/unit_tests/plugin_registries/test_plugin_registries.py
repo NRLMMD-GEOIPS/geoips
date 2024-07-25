@@ -1,19 +1,10 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """TestPluginRegistry Class used for Unit Testing the Plugin Registries."""
 
 from glob import glob
-from importlib import import_module
+from importlib import import_module, metadata
 import logging
 from os.path import basename, splitext
 from pprint import pformat
@@ -21,7 +12,7 @@ import pytest
 import json
 import yaml
 
-from geoips.plugin_registry import PluginRegistry, get_entry_point_group
+from geoips.plugin_registry import PluginRegistry
 from geoips.errors import PluginRegistryError
 
 LOG = logging.getLogger(__name__)
@@ -159,7 +150,7 @@ class PluginRegistryValidator(PluginRegistry):
         # We must avoid actually importing the interfaces within
         # the geoips repo - or we will end up with a circular import
         # due to BaseInterface.
-        for pkg in get_entry_point_group("geoips.plugin_packages"):
+        for pkg in metadata.entry_points(group="geoips.plugin_packages"):
             try:
                 mod = import_module(f"{pkg.value}.interfaces")
             except ModuleNotFoundError as resp:

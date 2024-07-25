@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test module for testing functionality of geoips/xarray_utils/data.py."""
 
 from importlib import resources

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Geoips plugin for driving pyresample Gaussian interpolation."""
 
@@ -20,7 +11,7 @@ from geoips.plugins.modules.interpolators.utils.interp_pyresample import (
     interp_kd_tree,
     get_data_box_definition,
 )
-from geoips.geoips_utils import copy_standard_metadata
+from geoips.geoips_utils import copy_standard_metadata, remove_unsupported_kwargs
 
 LOG = logging.getLogger(__name__)
 
@@ -37,6 +28,7 @@ def call(
     array_num=None,
     sigmaval=None,
     drop_nan=False,
+    **kwargs,
 ):
     """Pyresample interp_kd_tree gaussian interpolation GeoIPS plugin."""
     LOG.info(
@@ -96,6 +88,7 @@ def call(
     if sigmaval is None:
         sigmaval = 10000
 
+    kd_kwargs = remove_unsupported_kwargs(interp_kd_tree, kwargs)
     interp_data = interp_kd_tree(
         vars_to_interp,
         area_def,
@@ -103,6 +96,7 @@ def call(
         input_xarray.interpolation_radius_of_influence,
         interp_type="gauss",
         sigmas=sigmaval,
+        **kd_kwargs,
     )
     if output_xarray is None:
         output_xarray = xarray.Dataset()
