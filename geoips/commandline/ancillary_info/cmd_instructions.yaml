@@ -300,7 +300,7 @@ instructions:
     output_info:
       - The tree of available GeoIPS CLI commands up to '--max-depth' levels, where
         depth denotes the level of the command you'd like to display.
-        Ie. <0> geoips <1> list <2> scripts.
+        I.e. <0> geoips <1> list <2> scripts.
         Can be colored output if wanted and can define whether or not we want the full
         command string or just the name of the command at the specified depth.
   geoips_validate:

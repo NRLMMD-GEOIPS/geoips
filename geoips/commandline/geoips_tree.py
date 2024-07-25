@@ -1,12 +1,13 @@
 """GeoIPS CLI "tree" command.
 
-Single 'geoips tree' command which will display GeoIPS CLI commands up to a --max_depth
+Single 'geoips tree' command which will display GeoIPS CLI commands up to a --max-depth
 value.
 """
 
 from colorama import Fore, Style
 
 from geoips.commandline.geoips_command import GeoipsExecutableCommand
+from geoips.filenames.base_paths import PATHS as gpaths
 
 
 class GeoipsTree(GeoipsExecutableCommand):
@@ -14,6 +15,9 @@ class GeoipsTree(GeoipsExecutableCommand):
 
     Can be configured to print in a colored fashion, up to a maximum depth, and whether
     or not we want the full command string or just the command name at it's depth.
+
+    Where depth denotes the level of the command you'd like to display.
+    I.e. <0> geoips <1> list <2> scripts
     """
 
     name = "tree"
@@ -43,7 +47,9 @@ class GeoipsTree(GeoipsExecutableCommand):
     def cmd_line_url(self):
         """The url to the GeoIPS documentation for the GeoIPS CLI."""
         if not hasattr(self, "_cmd_line_url"):
-            self._cmd_line_url = r"https://nrlmmd-geoips.github.io/geoips/userguide/command_line.html"  # NOQA
+            self._cmd_line_url = (
+                f"{gpaths['GEOIPS_DOCS_URL']}{r'userguide/command_line.html'}"
+            )
         return self._cmd_line_url
 
     def link(self, uri, label=None):
@@ -82,7 +88,7 @@ class GeoipsTree(GeoipsExecutableCommand):
             help=(
                 "The depth of the command tree to print out."
                 "Where depth denotes the level of the command you'd like to display."
-                "\nIe. <0> geoips <1> list <2> scripts"
+                "\nI.e. <0> geoips <1> list <2> scripts"
             ),
         )
         self.parser.add_argument(
