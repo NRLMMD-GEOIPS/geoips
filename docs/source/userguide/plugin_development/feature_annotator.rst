@@ -5,9 +5,8 @@
 
 .. _create-feature-annotator:
 
-*********************************************
 Extend GeoIPS with a New Feature Annotator
-*********************************************
+******************************************
 
 GeoIPS Feature Annotators describe the format of the features shown in your imagery.
 Currently, all of the images you have created use the default GeoIPS feature annotator.

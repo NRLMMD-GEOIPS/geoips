@@ -3,13 +3,11 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-=================================
 🖍️ Coding Standards Reference Doc
 =================================
 
 *"Although that way may not be obvious at first unless you're Dutch."*
 - the Zen of Python
-
 
 .. contents::
 
@@ -98,7 +96,7 @@ docstrings, and before module globals and constants.
 `PEP8 Imports Standards <https://pep8.org/#imports>`__
 
 Internal Style Standards
--------------------------
+------------------------
 
 Bring code to standard in a dedicated PR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -133,7 +131,6 @@ Imports shouldn't be buried without a reason
 
 If an import needs to be buried for efficiency reasons or namespace conflicts,
 this should be documented in the docstrings.
-
 
 Linting/Formatting
 ^^^^^^^^^^^^^^^^^^
@@ -192,14 +189,17 @@ Github Conventions
 Pull Request Workflow
 ^^^^^^^^^^^^^^^^^^^^^
 
-`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow <https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow>`__
+`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow
+<https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-pull-request-workflow>`__
 
-`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow <https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow>`__
+`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow
+<https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-merge-pr-and-close-issue-workflow>`__
 
 Issue Workflow
 ^^^^^^^^^^^^^^
 
-`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow <https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow>`__
+`https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow
+<https://nrlmmd-geoips.github.io/geoips/devguide/git_workflow.html#geoips-github-issue-creation-workflow>`__
 
 Other Conventions
 -----------------

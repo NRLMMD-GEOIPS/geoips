@@ -5,7 +5,6 @@
 
 .. _expert-installation:
 
-****************************************************
 Expert User Installation (Administrative privileges)
 ****************************************************
 

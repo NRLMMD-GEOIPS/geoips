@@ -1,13 +1,12 @@
 :orphan:
 
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
 Documentation and Style Strategy
-===========================================
+================================
 
 GeoIPS uses Sphinx with the Napoleon extension for automated documentation generation.
 
@@ -18,9 +17,8 @@ documentation (including this page), along with a **build_docs.sh** script that
 will setup sphinx and build complete documentation from the high level rst
 files as well as docstrings contained within the GeoIPS source code.
 
-
 GeoIPS Syntax and Style Checking
-------------------------------------
+--------------------------------
 
 GeoIPS uses the NumPy docstring format within the code base for simplicity:
 

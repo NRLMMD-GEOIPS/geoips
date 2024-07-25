@@ -5,7 +5,6 @@
 
 .. _plugin-extend:
 
-**************************
 Extend GeoIPS with Plugins
 **************************
 
@@ -193,9 +192,8 @@ Developing YAML-based plugin
 Example Module-based Plugins
 ============================
 
-
 Algorithms
------------
+----------
 
 :ref:`Create an Algorithm<add-an-algorithm>`
 

@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-***************
 Developer Guide
 ***************
 
@@ -11,7 +10,7 @@ Developer Guide
    :maxdepth: 2
 
    contributors
-   ../new-docs/coding-standards/coding-standards
+   /new-docs/contribute/coding-standards/coding_standards
    git_workflow
    dev_setup
    unit_tests

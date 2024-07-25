@@ -15,7 +15,6 @@ you have no intention of resolving it yourself. And feel free to
 submit a Pull Request even if all tests are not complete - someone
 else may have time to finalize for approval even if you are unable.
 
-
 See `GeoIPS Git Workflow <git_workflow>` for more information on our git/GitHub workflow
 and `Developer Environmental Setup <dev_setup>` for instructions for setting up your
 developmental environment.

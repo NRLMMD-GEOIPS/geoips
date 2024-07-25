@@ -5,7 +5,6 @@
 
 .. _add-an-algorithm:
 
-**********************************
 Extend GeoIPS with a new Algorithm
 **********************************
 
@@ -67,7 +66,8 @@ Copy and paste this code into your algorithm file (feel free to remove the comme
 
     def call(
         xobj, # Xarray dataset holding xarrays
-        variables, # list of required input variables for algorithm. Note: Python lists are ordered, so you can count on your list of variables being in the order in which you define them in your product plugin variables
+        variables, # list of required input variables for algorithm. Note: Python lists are ordered, so you can count on
+        your list of variables being in the order in which you define them in your product plugin variables
         product_name,
         output_data_range,  # Range of values that your algorithm will output
         scale_factor,  # Adding a scale factor here for use in converting input meters to output kilometers
@@ -110,7 +110,8 @@ calculated.
 Adding Your Algorithm to GeoIPS Namespace
 -----------------------------------------
 
-Now that we've created our custom algorithm, we need to add an `entry-point <https://packaging.python.org/en/latest/specifications/entry-points/>`_
+Now that we've created our custom algorithm, we need to add an `entry-point
+<https://packaging.python.org/en/latest/specifications/entry-points/>`_
 for it in pyproject.toml so that GeoIPS can locate it in it's namespace during runtime.
 This must be done anytime a new module-based plugin is created. (note: not needed for
 yaml-based plugins.)
@@ -153,4 +154,3 @@ via GeoIPS.
 
 In other words, you should implement your product in a fashion similar to what is done
 in the :ref:`My-Cloud-Depth product definition<cloud-depth-product>`.
-
