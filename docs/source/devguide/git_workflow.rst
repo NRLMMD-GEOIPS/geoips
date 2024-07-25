@@ -10,6 +10,21 @@ GeoIPS git workflow
 Follow these steps when making modifications to geoips-based
 packages or plugins
 
+Contributions generally follow the process of:
+
+1. Submit a GitHub Issue for a bug fix or feature request. :ref:`create_issue`
+2. Branch off a given Issue in order to make the required changes :ref:`create_branch`
+3. Create a github Pull Request in order for your changes to be reviewed
+   prior to being merged to the integration branch :ref:`create_pull`
+4. Ensure all required tests pass prior to PR approval (more info coming soon)
+
+   * Unit tests
+   * Integration tests
+   * Code formatting/style tests
+   * Documentation formatting/style tests
+
+5. Merge your changes into the main code base! :ref:`merge_pr_close`
+
 .. _create_issue:
 
 ***************************************
