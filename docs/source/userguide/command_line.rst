@@ -613,12 +613,12 @@ does.
     output of ``geoips tree`` to be colored by depth, make sure to use the ``--colored``
     flag. (Defaults to False)
 
-* ``--max_depth``
+* ``--max-depth``
 
   * How many levels of the tree we'd like to expose. Defaults to two levels, which is
     shown above.
 
-* ``--short_name``
+* ``--short-name``
 
   * The output of ``geoips tree`` provides the full command string at each level. If you
     just want the literal command name and every level, make sure to provide this flag.

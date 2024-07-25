@@ -56,12 +56,12 @@ enhancement:
         output of ``geoips tree`` to be colored by depth, make sure to use the ``--color``
         flag. (Defaults to False)
 
-    * ``--max_depth``
+    * ``--max-depth``
 
       * How many levels of the tree we'd like to expose. Defaults to two levels, which is
         shown above.
 
-    * ``--short_name``
+    * ``--short-name``
 
       * The output of ``geoips tree`` provides the full command string at each level. If you
         just want the literal command name and every level, make sure to provide this flag.
@@ -79,4 +79,5 @@ enhancement:
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/commandline_interface.py
       - geoips/commandline/geoips_command.py
+      - geoips/filenames/base_paths.py
       - tests/unit_tests/commandline/cli_top_level_tester.py
