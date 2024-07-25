@@ -11,7 +11,6 @@ User Guide
 
    geoips_structure
    command_line
-   function_list
    plugin_extend
    plugin_registries
    plugin_development/algorithm
