@@ -19,6 +19,7 @@ from geoips.commandline.geoips_get import GeoipsGet
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
+from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 
 
@@ -42,6 +43,7 @@ class GeoipsCLI(GeoipsCommand):
         GeoipsList,
         GeoipsRun,
         GeoipsTest,
+        GeoipsTree,
         GeoipsValidate,
     ]
 
