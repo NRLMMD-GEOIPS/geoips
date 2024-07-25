@@ -32,3 +32,6 @@ Done looks like:
      - Here is an example page: `Kubernets <https://kubernetes.io/docs/contribute/>`_
 
  - A PR from your feature branch to ``main`` 😊
+
+
+See existing documentation at `this page <./../../devguide/index>`
