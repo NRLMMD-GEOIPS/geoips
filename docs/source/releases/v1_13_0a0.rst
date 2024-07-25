@@ -25,8 +25,6 @@ Version 1.13.0a0 (2024-04-24)
 * Refactoring Updates
 
   * Removed all support for Python versions less than 3.10.0
-  * Refactored ``geoips list interface`` to use a class factory
-  * Refactored ``geoips get <interface_name>`` commands to use a class factory
 
 * Bug fixes
 
@@ -329,96 +327,6 @@ implement those changes.
     modified: geoips/create_plugin_registries.py
     modified: geoips/plugin_registry.py
     modified: geoips/geoips_utils.py
-
-Refactored ``geoips list interface`` to use a class factory
------------------------------------------------------------
-
-*From GEOIPS#576: 2024-05-11, CLI: Reduce number of command layers where possible and appropriate*
-*From GEOIPS#573: 2024-05-11, Use class factories to generate subcommands for commands like ``geoips get family`` and ``geoips get interface``*
-
-While this PR doesn't fix all of the problems addressed in the issues above, it is our
-initial attempt at creating a class factory for certain CLI commands to reduce the
-verbage needed to execute those commands. Spefically in this branch, we've addressed the
-command class ``GeoipsListSingleInterface``. We now use the aforementioned class as a
-base class to build ``GeoipsListSingleInterface<interface_name>`` classes at runtime.
-
-By doing so, we can now run ``geoips list <interface_name>`` rather than
-``geoips list interface <interface_name>``. This improves the readability of this
-command and makes it much easier to type via the CLI. We expect in future PRs to address
-similar commands, such as ``geoips get family <family_name>`` and
-``geoips get plugin <interface_name> <plugin_name>`` for the reasons mentioned
-previously.
-
-::
-
-    modified: docs/source/userguide/command_line.rst
-    modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-    modified: geoips/commandline/geoips_command.py
-    modified: geoips/commandline/geoips_list.py
-    modified: tests/unit_tests/commandline/cli_top_level_tester.py
-    modified: tests/unit_tests/commandline/test_geoips_list_interface.py
-
-Refactored ``geoips get <interface_name>`` commands to use a class factory
---------------------------------------------------------------------------
-
-*From GEOIPS#576: 2024-05-11, CLI: Reduce number of command layers where possible and appropriate*
-*From GEOIPS#573: 2024-05-11, Use class factories to generate subcommands for commands like ``geoips get family`` and ``geoips get interface``*
-
-This branch refactors commands which use the form of ``geoips get <interface_name>`` to
-make use of class factories. Before, we had to run commands such as:
-
-* ``geoips get interface <interface_name>``
-* ``geoips get family <interface_name> <family_name>``
-* ``geoips get plugin <interface_name> <family_name>``
-
-The aforementioned commands were overly verbose and needed some refactoring to reduce
-the levels required to execute a certain command. In this branch, we refactored
-``GeoipsGetInterface`` to be a base command for ``get <interface_name>``,
-``get <interface_name> family <family_name>``, and
-``get <interface_name> <plugin_name>``. This resulted in the removal of
-``GeoipsGetFamily`` and ``GeoipsGetPlugin`` and the refactoring of
-``GeoipsGetInterface`` to include the functionality of those other commands. We can use
-class factories for each interface to execute these commands now.
-
-On top of this, we implemented aliases for a variety of CLI commands. For an exact
-listing of aliases available for each command, see
-``geoips/commandline/ancillary_info/alias_mapping.yaml``, which includes aliases
-supported for each command. Now, we can run a verbose command such as:
-
-* ``geoips list algorithms -p geoips``
-
-and replace it with
-
-* ``geoips ls algs -p geoips``
-
-This also reduces the verbosity of certain CLI commands. Note, the unit tests have been
-modified to reflect these changes.
-
-::
-
-    modified: .gitignore
-    modified: pyproject.toml
-    modified: docs/source/_templates/conf_PKG.py
-    modified: docs/source/userguide/command_line.rst
-    modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-    modified: geoips/commandline/cmd_instructions.py
-    modified: geoips/commandline/commandline_interface.py
-    modified: geoips/commandline/geoips_command.py
-    modified: geoips/commandline/geoips_get.py
-    modified: tests/unit_tests/commandline/cli_top_level_tester.py
-    modified: tests/unit_tests/commandline/test_geoips_get_family.py
-    modified: tests/unit_tests/commandline/test_geoips_get_interface.py
-    modified: tests/unit_tests/commandline/test_geoips_get_package.py
-    modified: tests/unit_tests/commandline/test_geoips_get_plugin.py
-    modified: tests/unit_tests/commandline/test_geoips_list_interface.py
-    modified: tests/unit_tests/commandline/test_geoips_list_interfaces.py
-    modified: tests/unit_tests/commandline/test_geoips_list_packages.py
-    modified: tests/unit_tests/commandline/test_geoips_list_plugins.py
-    modified: tests/unit_tests/commandline/test_geoips_list_scripts.py
-    modified: tests/unit_tests/commandline/test_geoips_list_test_datasets.py
-    modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
-    modified: tests/unit_tests/commandline/test_get_commandline_instructions.py
-    added: geoips/commandline/ancillary_info/alias_mapping.yaml
 
 Bug Fixes
 =========

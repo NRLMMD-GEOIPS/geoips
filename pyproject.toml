@@ -66,7 +66,7 @@ pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
 xarray = "<2024.3"     # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
-cartopy = ">=0.22.0"   # No longer requires libgeos
+cartopy = ">=0.23.0"   # No longer requires libgeos; 0.22.0 works but 0.23.0 is needed for tests to pass
 ephem = "*"            # Required for overpass predictor
 h5py = "*"             # hdf5 readers (GMI)
 isodate = "*"          # Required for overpass predictor
