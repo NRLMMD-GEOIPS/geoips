@@ -11,6 +11,6 @@ documentation:
     moved:
     - ''
   related-issue:
-    number: 0
+    number: 502
     repo_url: ''
   title: 'Add numpy docstrings and examples to coding standards document'
