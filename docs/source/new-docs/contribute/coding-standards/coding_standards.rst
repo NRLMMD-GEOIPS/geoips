@@ -168,7 +168,7 @@ We modify the default behavior of flake8 slightly to make it work well with Blac
 ignore specific errors, and configure plugins. GeoIPS specific settings for
 flake8 include the following:
 
-.. code-block:: toml
+.. code-block::
 
     [flake8]
     max-line-length=88
