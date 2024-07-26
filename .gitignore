@@ -13,6 +13,8 @@ profiling/
 
 # auto-generated command instructions file
 geoips/commandline/ancillary_info/cmd_instructions.json
+# auto-generated release note file for latest changes
+docs/source/releases/latest.rst
 # auto-generated plugin registry file
 registered_plugins.json
 # auto-generated version file, created at run-time

@@ -59,7 +59,7 @@ class TestGeoipsListInterface(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list interface...' error output is correct.
+        """Check that the 'geoips list <interface_name> ...' error output is correct.
 
         Parameters
         ----------
@@ -73,7 +73,7 @@ class TestGeoipsListInterface(BaseCliTest):
                 "error: argument --columns/-c: not allowed with argument --long/-l"
                 in error.replace("\n", "")
             )
-        elif args[3] in interfaces.__all__:
+        elif args[2] in interfaces.__all__:
             # interface exists, so check that the package name is incorrect
             assert args[-1] not in self.plugin_package_names
             usg_str = (
@@ -82,11 +82,14 @@ class TestGeoipsListInterface(BaseCliTest):
             )
             assert usg_str in error.replace("\n", "")
         else:
-            assert args[3] not in interfaces.__all__
-        assert "usage: To use, type `geoips list interface <interface_name>`" in error
+            assert args[2] not in interfaces.__all__
+        assert (
+            "usage: To use, type `geoips list <interface_name>`" in error
+            or "usage: To use, type `geoips list <cmd> <sub-cmd>`" in error
+        )
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips list interface ...' successful output is correct.
+        """Check that the 'geoips list <interface_name> ...' success output is correct.
 
         Parameters
         ----------
@@ -96,7 +99,7 @@ class TestGeoipsListInterface(BaseCliTest):
             - Multiline str representing the output of the CLI call
         """
         # The args provided are valid, so test that the output is actually correct
-        interface = getattr(interfaces, args[3])
+        interface = getattr(interfaces, args[2])
         interface_type = interface.interface_type
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a
@@ -134,16 +137,17 @@ test_sub_cmd = TestGeoipsListInterface()
     ids=test_sub_cmd.generate_id,
 )
 def test_command_combinations(monkeypatch, args):
-    """Test all 'geoips list interface ...' commands.
+    """Test all 'geoips list <interface_name> ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips list interface'
-    command. We also test invalid commands, to ensure that the proper help documentation
-    is provided for those using the command incorrectly.
+    This test covers every valid combination of commands for the
+    'geoips list <interface_name>' command. We also test invalid commands, to ensure
+    that the proper help documentation is provided for those using the command
+    incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
         - List of arguments to call the CLI with
-          (ie. ['geoips', 'list', 'interface', 'algorithms'])
+          (ie. ['geoips', 'list', 'algorithms'])
     """
     test_sub_cmd.test_command_combinations(monkeypatch, args)
