@@ -32,7 +32,7 @@ class TestGeoipsTestSector(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._test_sector_args
+            base_args = ["geoips", "test", "sector"]
             self._cmd_list = []
             # Only creating two sectors here as they'll hit the same code locations.
             # Just want to make sure we get 100% coverage and don't create a ton of new

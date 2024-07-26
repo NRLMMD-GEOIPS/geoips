@@ -23,10 +23,12 @@ class TestGeoipsGetInterface(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_interface_args
+            base_args = ["geoips", "get"]
             # add arguments for retrieving each GeoIPS Interface
             for interface_name in interfaces.__all__:
-                self._cmd_list.append(base_args + [interface_name])
+                interface_name = interface_name.replace("_", "-")
+                for alias in self.alias_mapping[interface_name] + [interface_name]:
+                    self._cmd_list.append(base_args + [alias])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
@@ -45,7 +47,7 @@ class TestGeoipsGetInterface(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips get interface <interface_name>`"
+        err_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
         assert err_str in error
 
     def check_output(self, args, output):
@@ -60,7 +62,7 @@ class TestGeoipsGetInterface(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "usage: To use, type `geoips get interface <interface_name>`"
+            usg_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
             assert usg_str in output
         else:
             # Checking that output from geoips get package command is valid

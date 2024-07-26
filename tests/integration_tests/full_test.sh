@@ -36,9 +36,6 @@ data_fusion_pkgname=data_fusion
 template_basic_plugin_repopath=$GEOIPS_PACKAGES_DIR/template_basic_plugin
 template_basic_plugin_pkgname=my_package
 
-template_fusion_plugin_repopath=$GEOIPS_PACKAGES_DIR/template_fusion_plugin
-template_fusion_plugin_pkgname=my_fusion_package
-
 geoips_plugin_example_repopath=$GEOIPS_PACKAGES_DIR/geoips_plugin_example
 geoips_plugin_example_pkgname=geoips_plugin_example
 
@@ -58,7 +55,6 @@ for call in \
   "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only" \
-  "$geoips_repopath/docs/build_docs.sh $template_fusion_plugin_repopath $template_fusion_plugin_pkgname html_only" \
   "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
   "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh" \
@@ -104,7 +100,6 @@ for call in \
   "$recenter_tc_repopath/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
   "$recenter_tc_repopath/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
   "$template_basic_plugin_repopath/tests/test_all.sh" \
-  "$template_fusion_plugin_repopath/tests/test_all.sh" \
   "$geoips_plugin_example_repopath/tests/test_all.sh" \
   "$geoips_clavrx_repopath/tests/test_all.sh" \
   "$data_fusion_repopath/tests/test_all.sh"
