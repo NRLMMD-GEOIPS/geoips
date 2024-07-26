@@ -22,14 +22,17 @@ class TestGeoipsGetPackage(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_package_args
+            base_args = ["geoips", "get"]
             # add arguments for retrieving each package
             for pkg_name in self.plugin_package_names:
-                self._cmd_list.append(base_args + [pkg_name])
+                for alias in self.alias_mapping["package"] + ["package"]:
+                    self._cmd_list.append(base_args + [alias, pkg_name])
             # Add argument list to retrieve help message
-            self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(base_args + ["pkg", "-h"])
+            self._cmd_list.append(base_args + ["package", "-h"])
             # Add argument list with non_existent_package
-            self._cmd_list.append(base_args + ["non_existent_package"])
+            self._cmd_list.append(base_args + ["pkg", "non_existent_package"])
+            self._cmd_list.append(base_args + ["package", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):

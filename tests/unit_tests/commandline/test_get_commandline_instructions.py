@@ -7,7 +7,7 @@ from os import listdir, remove
 from os.path import dirname, exists
 import pytest
 
-from geoips.commandline.cmd_instructions import get_cmd_instructions
+from geoips.commandline.cmd_instructions import get_instructions
 from geoips.commandline.commandline_interface import GeoipsCLI
 
 
@@ -43,9 +43,9 @@ def test_instruction_cases(dir_name):
             GeoipsCLI(instructions_dir=cmd_dir)
     elif "missing" in dir_name:
         if dir_name == "json_missing":
-            get_cmd_instructions(ancillary_dirname=cmd_dir)
+            get_instructions(ancillary_dirname=cmd_dir)
             assert exists(f"{cmd_dir}/cmd_instructions.json")
             remove(f"{cmd_dir}/cmd_instructions.json")
         else:
             with pytest.raises(FileNotFoundError):
-                get_cmd_instructions(ancillary_dirname=cmd_dir)
+                get_instructions(ancillary_dirname=cmd_dir)

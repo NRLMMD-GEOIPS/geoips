@@ -19,7 +19,7 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions
+from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 
 
 class PluginPackages:
@@ -135,6 +135,7 @@ class GeoipsCommand(abc.ABC):
         self.legacy = legacy
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
+        self.alias_mapping = alias_mapping
         if self.parent:
             # Set the combined name of the provided object. For example, if this was the
             # parent 'list' command, it would be 'geoips_list'. If it was a child of
@@ -166,9 +167,13 @@ class GeoipsCommand(abc.ABC):
                 # invocation of the CLI.
                 self.cmd_instructions = cmd_instructions
             try:
-                # attempt to create a sepate sub-parser for the specific command
-                # class being initialized
-                # So we can separate the commands arguments in a tree-like structure
+                # If the command's name exists w/in the alias mapping, then
+                # add thoss aliases to the parser, otherwise just set it as an empty
+                # list.
+                aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
+                # Attempt to create a sepate sub-parser for the specific command
+                # class being initialized so we can separate the commands arguments
+                # in a tree-like structure
                 self.parser = parent.subparsers.add_parser(
                     self.name,
                     description=self.cmd_instructions["instructions"][
@@ -182,6 +187,8 @@ class GeoipsCommand(abc.ABC):
                     ],
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
+                    aliases=aliases,
+                    formatter_class=argparse.RawTextHelpFormatter,
                 )
             except KeyError:
                 raise KeyError(
@@ -190,10 +197,11 @@ class GeoipsCommand(abc.ABC):
                     f"'{self.combined_name}' key."
                 )
         else:
-            # otherwise initialize a top-level parser for this command.
+            # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser(
                 self.name,
                 parents=[ParentParsers.geoips_parser],
+                formatter_class=argparse.RawTextHelpFormatter,
             )
             self.combined_name = self.name
 
@@ -232,7 +240,7 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions."
+                help=f"{self.name} instructions.",
             )
             for subcmd_cls in self.command_classes:
                 subcmd_cls(parent=self, legacy=self.legacy)
@@ -560,24 +568,24 @@ class CommandClassFactory:
 
     * GeoipsListSingleInterface:
 
-        * GeoipsListAlgorithms
-        * GeoipsListColormappers
+        * GeoipsListSingleInterfaceAlgorithms
+        * GeoipsListSingleInterfaceColormappers
         * ...
-        * GeoipsListTitleFormatters
+        * GeoipsListSingleInterfaceTitleFormatters
 
-    * GeoipsGetPlugin
+    * GeoipsGetInterface
 
-        * GeoipsGetAlgorithm
-        * GeoipsGetColormapper
+        * GeoipsGetInterfaceAlgorithm
+        * GeoipsGetInterfaceColormapper
         * ...
-        * GeoipsGetTitleFormatter
+        * GeoipsGetInterfaceTitleFormatter
 
     This class has been created to reduce the verbosity of geoips commands without
     having to copy-paste classes specifc to a certain interface.
     """
 
-    def __init__(self, base_class, class_names, add_attrs={}):
-        """Initialize the class factory and generate a list of classes.
+    def __init__(self, base_class, class_name, add_attrs={}):
+        """Initialize the class factory and generate a class derived from base_class.
 
         Parameters
         ----------
@@ -585,16 +593,16 @@ class CommandClassFactory:
             - The base class to build each generated class with..
             - Ie. if we were creating a class factory for GeoipsListSingleInterface, the
               base class would be 'GeoipsListSingleInterface'.
-        class_names: list of str
-            - The names of the classes that we'd like to generate.
+        class_name: str
+            - The name of the class that we'd like to generate.
             - Ie. if we were creating a class factory for GeoipsListSingleInterface, the
-              classes to generate would be a list of strings that represent all
-              available interfaces (interfaces.__all__).
+              class to generate would be a strign that represents all the class for the
+              associated interface we'd like to generate ('algorithms', ...).
             - The classes would then look like:
                 - "GeoipsListAlgorithms"
                 - "GeoipsListColormappers"
                 - ...
-                - "<base_class_name><name>"
+                - "<base_class_name><class_name>"
         add_attrs: dict (optional)
             - A dictionary of attributes we'd like to assign to each command class
             - If specified and has overlapping keys to those specified below, this
@@ -602,23 +610,19 @@ class CommandClassFactory:
         """
         self.base_class = base_class
         self.base_class_name = self.base_class.__name__
-        self.classes = []
-        for cname in class_names:
-            default_attrs = {
-                "name": cname,
-                "command_classes": [],
-                "add_arguments": base_class.add_arguments,
-                "__call__": base_class.__call__,
-            }
-            # Combine with additional attributes, overwriting defaults where applicable.
-            class_attrs = {**default_attrs, **add_attrs}
-            # Add the class of <base_class_name><cname> to the constructors 'classes'
-            # attribute. Don't actually initialize these classes as we'll be doing that
-            # later once we have the required information.
-            self.classes.append(
-                type(
-                    f"{self.base_class_name}{cname.title().replace('_', '')}",
-                    (base_class,),
-                    class_attrs,
-                )
-            )
+        default_attrs = {
+            "name": class_name,
+            "command_classes": [],
+            "add_arguments": base_class.add_arguments,
+            "__call__": base_class.__call__,
+        }
+        # Combine with additional attributes, overwriting defaults where applicable.
+        class_attrs = {**default_attrs, **add_attrs}
+        # Add the class of <base_class_name><class_name> to the constructors 'classes'
+        # attribute. Don't actually initialize these classes as we'll be doing that
+        # later once we have the required information.
+        self.generated_class = type(
+            f"{self.base_class_name}{class_name.title().replace('_', '')}",
+            (base_class,),
+            class_attrs,
+        )
