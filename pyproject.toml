@@ -98,6 +98,7 @@ sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
 brassy = { version = "*", optional = true }
+sphinx-argparse = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
