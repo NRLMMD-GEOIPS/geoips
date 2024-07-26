@@ -15,6 +15,7 @@ from importlib import metadata
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.geoips_utils import is_editable
 
+
 gcli = GeoipsCLI()
 
 
@@ -25,7 +26,7 @@ class BaseCliTest(abc.ABC):
     _get_interface_args = ["geoips", "get", "interface"]
     _get_package_args = ["geoips", "get", "package"]
     _get_plugin_args = ["geoips", "get", "plugin"]
-    _list_interface_args = ["geoips", "list", "interface"]
+    _list_interface_args = ["geoips", "list"]
     _list_interfaces_args = ["geoips", "list", "interfaces"]
     _list_plugins_args = ["geoips", "list", "plugins"]
     _list_packages_args = ["geoips", "list", "packages"]
@@ -359,6 +360,9 @@ class BaseCliTest(abc.ABC):
             case _ if ("--long" in args and "--columns" in args):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
+            case _ if ("--max-depth" in args and "-1" in args):
+                # Can't capture argparse.ArgumentError output using monkeypatch... yet
+                return False
             case _:
                 # Monkeypatch works for the provided arguments!
                 return True
@@ -377,7 +381,6 @@ class BaseCliTest(abc.ABC):
         """
         if args is None:
             return
-        print(f"Calling args: {args}")
         monkeypatch_viable = self.viable_monkeypatch(args)
         if monkeypatch_viable:
             # The arguments provided were valid for monkeypatch so we will be using it
@@ -402,8 +405,7 @@ class BaseCliTest(abc.ABC):
             output, error = output.decode(), error.decode()
             prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
-        if len(error) and not len(output):
-            print(error)
+        if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)
