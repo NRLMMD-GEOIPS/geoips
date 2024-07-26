@@ -52,6 +52,58 @@ class PluginPackages:
 plugin_packages = PluginPackages()
 
 
+class ParentParsers:
+    """Object containing shared arguments for commands in a hierarchical order.
+
+    The name of the parsers in this class directly link to the name of the top-level
+    command which will share its arguments. For example, since our top-level command is
+    'geoips' (see GeoipsCLI), then the arguments created by 'geoips_parser' will be
+    shared amongst all of its child commands. As such, every argument created by
+    'list_parser' will be shared by 'list' commands, and so on. So long as the name of
+    the class matches the structure <class_name>_parser, then the arguments will be
+    shared correctly.
+    """
+
+    geoips_parser = argparse.ArgumentParser(add_help=False)
+    geoips_parser.add_argument(
+        "--log_level",
+        "-log",
+        type=str,
+        default="interactive",
+        choices=["debug", "error", "info", "interactive", "warning"],
+        help="The logging level to use for output via the CLI.",
+    )
+
+    list_parser = argparse.ArgumentParser(add_help=False)
+    list_parser.add_argument(
+        "--package_name",
+        "-p",
+        type=str,
+        default="all",
+        choices=plugin_packages.entrypoints,
+        help="The GeoIPS package to list from.",
+    )
+    mutex_group = list_parser.add_mutually_exclusive_group()
+    mutex_group.add_argument(
+        "--long",
+        "-l",
+        default=True,
+        action="store_true",
+        help="Flag representing the 'long' listing of a certain command.",
+    )
+    mutex_group.add_argument(
+        "--columns",
+        "-c",
+        type=str,
+        nargs="+",
+        default=None,
+        help="""Specific Headers of Data you'd like to see listed.
+                For more in formation on headers available, run
+                'geoips list <cmd> <positional_args> --columns help'.
+                """,
+    )
+
+
 class GeoipsCommand(abc.ABC):
     """Abstract Base Class for top-level GeoIPS Command Classes, such as get or list.
 
@@ -90,16 +142,20 @@ class GeoipsCommand(abc.ABC):
             # list, for example 'scripts', combined name would be 'geoips_list_scripts'
             self.combined_name = f"{parent.combined_name}_{self.name}"
 
-            # We need to create a Geoips<cmd>Common Class for arguments
-            # that are shared between common commands. For example, we've created
-            # a 'GeoipsListCommon' class which adds arguments that will be shared
-            # by each GeoipsList<cmd> class. Ie. if GeoipsListCommon has
-            # arguments --package, --columns, etc., and all of those arguments
-            # would be inherited by each GeoipsList<cmd>
-            if "list" in self.combined_name:
-                parent_parsers = [GeoipsListCommon().parser]
-            else:
-                parent_parsers = []
+            # The logic below traverses up from the current command class through all
+            # of its parents. For example, if this was GeoipsListPackages, the parent
+            # traversal would look like GeoipsList -> GeoipsCLI, which would result in
+            # parent_parsers looking like [geoips_parser, list_parser]. All of the
+            # arguments created by those parent parsers would be inherited by
+            # GeoipsListPackages
+            curr_parent = self.parent
+            self.parent_parsers = []
+            while curr_parent and hasattr(ParentParsers, f"{curr_parent.name}_parser"):
+                self.parent_parsers.insert(
+                    0,
+                    getattr(ParentParsers, f"{curr_parent.name}_parser"),
+                )
+                curr_parent = curr_parent.parent
 
             if parent.cmd_instructions:
                 # this is used for testing purposes to ensure failure for invalid
@@ -129,7 +185,7 @@ class GeoipsCommand(abc.ABC):
                     usage=self.cmd_instructions["instructions"][self.combined_name][
                         "usage_str"
                     ],
-                    parents=parent_parsers,
+                    parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
                     formatter_class=argparse.RawTextHelpFormatter,
@@ -143,6 +199,8 @@ class GeoipsCommand(abc.ABC):
         else:
             # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser(
+                self.name,
+                parents=[ParentParsers.geoips_parser],
                 formatter_class=argparse.RawTextHelpFormatter,
             )
             self.combined_name = self.name
@@ -500,47 +558,6 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     plugin_entry.append(plugin_dict[plugin_key][header])
             table_data.append(plugin_entry)
         return table_data
-
-
-class GeoipsListCommon(GeoipsExecutableCommand):
-    """Class containing common optional arguments shared between list commands."""
-
-    name = "list_common"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the list-subparser for the List Command."""
-        self.parser.add_argument(
-            "--package_name",
-            "-p",
-            type=str,
-            default="all",
-            choices=self.plugin_package_names,
-            help="The GeoIPS package to list from.",
-        )
-        mutex_group = self.parser.add_mutually_exclusive_group()
-        mutex_group.add_argument(
-            "--long",
-            "-l",
-            default=True,
-            action="store_true",
-            help="Flag representing the 'long' listing of a certain command.",
-        )
-        mutex_group.add_argument(
-            "--columns",
-            "-c",
-            type=str,
-            nargs="+",
-            default=None,
-            help="""Specific Headers of Data you'd like to see listed.
-                    For more in formation on headers available, run
-                    'geoips list <cmd> <positional_args> --columns help'.
-                    """,
-        )
-
-    def __call__(self, args):
-        """Exectutable function for GeoipsListCommon Class. Not implemented."""
-        pass
 
 
 class CommandClassFactory:

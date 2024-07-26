@@ -5,12 +5,12 @@
 
 import abc
 import contextlib
+from importlib import metadata
 import io
 from numpy import any
 import pytest
 import subprocess
 import sys
-from importlib import metadata
 
 from geoips.commandline.cmd_instructions import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
