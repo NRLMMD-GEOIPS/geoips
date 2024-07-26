@@ -14,7 +14,7 @@ bug fix:
     repo_url: ''
   title: ''
 continuous integration:
-- description: 'Disable check_new_release_note on `main`'
+- description: 'Disable check_new_release_note on ``main`` because it compares against ``main``... and thus always fails.'
   files:
     added:
     - ''
@@ -27,7 +27,7 @@ continuous integration:
   related-issue:
     number: 715
     repo_url: ''
-  title: ''
+  title: 'Disable check_new_release_note on ``main``'
 deprecation:
 - description: ''
   files:
