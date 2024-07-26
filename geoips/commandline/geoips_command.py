@@ -191,7 +191,10 @@ class GeoipsCommand(abc.ABC):
                 )
         else:
             # otherwise initialize a top-level parser for this command.
-            self.parser = argparse.ArgumentParser()
+            self.parser = argparse.ArgumentParser(
+                self.name,
+                parents=[ParentParsers.geoips_parser],
+            )
             self.combined_name = self.name
 
         self.add_subparsers()
