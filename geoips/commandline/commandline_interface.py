@@ -12,7 +12,7 @@ import sys
 
 from colorama import Fore, Style
 
-from geoips.commandline.cmd_instructions import get_cmd_instructions
+from geoips.commandline.cmd_instructions import get_instructions
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_get import GeoipsGet
@@ -68,7 +68,7 @@ class GeoipsCLI(GeoipsCommand):
             # Instructions dir has been provided, use the instructions found in that
             # directory so we can test that the correct functionality occurs for any
             # given instruction file state.
-            self.cmd_instructions = get_cmd_instructions(instructions_dir)
+            self.cmd_instructions = get_instructions(instructions_dir)
         else:
             # Otherwise use the default instructions which we know are correct
             # (and if they're not, the appropriate error will be raised.)

@@ -48,8 +48,8 @@ Information Retrieval
 
 The GeoIPS CLI Implements two top-level commands which retrieve information about GeoIPS
 artifacts based on the sub-commands provided. These two top-level commands are ``get``
-and ``list``. Each command shown below can be ran with a ``-h`` flag to provide help
-instructions for the command you are running.
+and ``list`` (``ls``). Each command shown below can be ran with a ``-h`` flag to provide
+help instructions for the command you are running.
 
 .. _geoips_get:
 
@@ -66,12 +66,38 @@ information about each artifact. This will help implementing their own artifacts
 also clarify what each artifact does / needs to integrate correctly within the GeoIPS
 environment. It currently implements 4 sub-commands, which we'll describe below.
 
+.. _geoips_get_interface:
+
+:ref:`geoips get interface <geoips_get_interface>`
+
+``get <interface_name>`` is a get sub-command which retrieves information specific to a
+GeoIPS interface. Information included when calling this command is:
+
+    * Absolute Path
+    * Docstring
+    * Interface
+    * Interface Type
+    * Supported Families
+
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. If you want more information
+about what GeoIPS Interfaces are available, run the command ``geoips list interfaces``.
+
+::
+
+    geoips get alg
+    geoips get algs
+    geoips get algorithm
+    geoips get algorithms
+    geoips get <interface_name>
+
 .. _geoips_get_family:
 
 :ref:`geoips get family <geoips_get_family>`
 
-``get family`` is a get sub-command which retrieves information specific to an
-interface's family. Information included when calling this command is:
+``get <interface_name> family <family_name>`` (or ``fam``) is a get sub-command which
+retrieves information specific to an interface's family. Information included when
+calling this command is:
 
     * Docstring
     * Family Name
@@ -88,27 +114,6 @@ which will include a column representing the supported families of each interfac
     geoips get family algorithms single_channel
     geoips get family <interface_name> <family_name>
 
-.. _geoips_get_interface:
-
-:ref:`geoips get interface <geoips_get_interface>`
-
-``get interface`` is a get sub-command which retrieves information specific to a GeoIPS
-interface. Information included when calling this command is:
-
-    * Absolute Path
-    * Docstring
-    * Interface
-    * Interface Type
-    * Supported Families
-
-For an example of how to run this command, see below. If you want more information about
-what GeoIPS Interfaces are available, run the command ``geoips list interfaces``.
-
-::
-
-    geoips get interface algorithms
-    geoips get interface <interface_name>
-
 .. _geoips_get_package:
 
 :ref:`geoips get package <geoips_get_package>`
@@ -117,25 +122,34 @@ what GeoIPS Interfaces are available, run the command ``geoips list interfaces``
 Package. Information included when calling this command is:
 
     * Docstring
-    * GeoIPS Package
-    * Package Path
-    * Source Code
-    * Version Number
+    * Family Name
+    * Interface Name
+    * Interface Type
+    * Required Args / Schema
 
-For an example of how to run this command, see below. If you want more information about
-what GeoIPS Packages are available, run the command ``geoips list packages``.
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. If you want more information about
+what families belong to a certain interface, run the command ``geoips list interfaces``,
+which will include a column representing the supported families of each interface.
 
 ::
 
-    geoips get package recenter_tc
-    geoips get package <package_name>
+    geoips get alg fam single_channel
+    geoips get algs fam single_channel
+    geoips get algorithm family single_channel
+    geoips get algorithms family single_channel
+    geoips get prod_def fam interpolator_algorithm_colormapper
+    geoips get prod_defs fam interpolator_algorithm_colormapper
+    geoips get product_default family interpolator_algorithm_colormapper
+    geoips get product_defaults family interpolator_algorithm_colormapper
+    geoips get <interface_name> family <family_name>
 
 .. _geoips_get_plugin:
 
 :ref:`geoips get plugin <geoips_get_plugin>`
 
-``get plugin`` is a get sub-command which retrieves information specific to a GeoIPS
-Plugin. Information included when calling this command is:
+``get <interface_name> <plugin_name>`` is a get sub-command which retrieves information
+specific to a GeoIPS Plugin. Information included when calling this command is:
 
     * Docstring
     * Family
@@ -144,13 +158,37 @@ Plugin. Information included when calling this command is:
     * Plugin Type
     * Relative Path
 
-For an example of how to run this command, see below. If you want more information about
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. If you want more information about
 what plugins are available, run the command ``geoips list plugins``.
 
 ::
 
-    geoips get plugin algorithms single_channel
-    geoips get plugin <interface_name> <plugin_name>
+    geoips get alg single_channel
+    geoips get algs single_channel
+    geoips get algorithm single_channel
+    geoips get algorithms single_channel
+    geoips get <interface_name> <plugin_name>
+
+``get package <package_name>`` (or ``get pkg <package_name>``) is a get sub-command
+which retrieves information specific to a GeoIPS Package. Information included when
+calling this command is:
+
+    * Docstring
+    * GeoIPS Package
+    * Package Path
+    * Source Code
+    * Version Number
+
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. If you want more information about
+what GeoIPS Packages are available, run the command ``geoips list packages``.
+
+::
+
+    geoips get pkg geoips
+    geoips get package geoips
+    geoips get package <package_name>
 
 .. _geoips_list:
 
@@ -174,6 +212,8 @@ outputted for a ``geoips list packages`` command, you could run it like this.
 
 .. code-block:: bash
 
+    geoips ls pkgs --columns package docstring version
+    geoips list pkgs --columns package docstring version
     geoips list packages --columns package docstring version
 
 The command above would list all GeoIPS Plugin Packages with information including their
@@ -198,11 +238,14 @@ Information included when calling this command is:
     * Relative Path
 
 For an example of how to run this command, see below, one of which applies this command
-to a specific package. To see which packages are available, run
-``geoips list packages``.
+to a specific package. Notice the use of aliases in case you want to use these commands
+in shorthand style. To see which packages are available, run ``geoips list packages``.
 
 ::
 
+    geoips ls alg
+    geoips ls algs
+    geoips list algorithm
     geoips list algorithms
     geoips list <interface_name> -p <package_name>
 
@@ -249,25 +292,28 @@ General Mode
 
 :ref:`geoips list packages <geoips_list_packages>`
 
-``list packages`` is a list sub-command which retrieves a listing of GeoIPS Packages,
-alongside the information shown below.
+``list packages`` (or ``list pkgs``) is a list sub-command which retrieves a listing of
+GeoIPS Packages, alongside the information shown below.
 
     * GeoIPS Package
     * Docstring
     * Package Path
     * Version Number
 
-For an example of how to run this command, see below.
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style.
 ::
 
+    geoips ls pkgs
     geoips list packages
 
 .. _geoips_list_plugins:
 
 :ref:`geoips list plugins <geoips_list_plugins>`
 
-``list plugins`` is a get sub-command which retrieves a listing of plugins found within
-all, or a certain GeoIPS package. Information included when calling this command is:
+``list plugins`` (or ``list plgs``) is a get sub-command which retrieves a listing of
+plugins found within all, or a certain GeoIPS package. Information included when calling
+this command is:
 
     * GeoIPS Package
     * Interface Name
@@ -276,11 +322,14 @@ all, or a certain GeoIPS package. Information included when calling this command
     * Plugin Name
     * Relative Path
 
-For an example of how to run this command, see below. One of the commands below lists
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. One of the commands below lists
 plugins from a certain GeoIPS package.
 ::
 
-    geoips list plugins
+    geoips ls plgs
+    geoips list plgs
+    geoips ls plugins
     geoips list plugins -p <package_name>
 
 .. _geoips_list_scripts:
@@ -297,10 +346,12 @@ Information included when calling this command is:
     * GeoIPS Package
     * Filename
 
-For an example of how to run this command, see below. One of the commands below lists
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. One of the commands below lists
 test scripts from a certain GeoIPS package.
 ::
 
+    geoips ls scripts
     geoips list scripts
     geoips list scripts -p <package_name>
 
@@ -329,9 +380,11 @@ Information included when calling this command is:
     * Data Host
     * Dataset Name
 
-For an example of how to run this command, see below.
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style.
 ::
 
+    geoips ls test-datasets
     geoips list test-datasets
 
 .. _geoips_list_unit-tests:
@@ -350,11 +403,12 @@ Information included when calling this command is:
     * Unit Test Directory
     * Unit Test Name
 
-For an example of how to run this command, see below. One of the commands below lists
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. One of the commands below lists
 unit tests from a certain GeoIPS package.
 ::
 
-    geoips list unit-tests
+    geoips ls unit-tests
     geoips list unit-tests -p <package_name>
 
 .. _performing_processes:
@@ -384,8 +438,8 @@ Config Command
 Currently, GeoIPS relies on test datasets to perform testing on the processing workflows
 which we've created. These test datasets are installed via a bash script before any
 testing can be done. To make this process easier and more configurable, we've
-implemented a ``geoips config`` command, which encapsulates configuration settings that
-we can implement via the CLI.
+implemented a ``geoips config`` (or ``geoips cfg``) command, which encapsulates
+configuration settings that we can implement via the CLI.
 
 We currently only implement the ``geoips config install <test_dataset_name>`` command
 for installing test datasets, though we'll support other config commands as we continue
@@ -403,6 +457,7 @@ To install a specific test dataset, run the command below.
 
 ::
 
+    geoips cfg install test_data_clavrx
     geoips config install test_data_clavrx
     geoips config install <test_dataset_name>
 
@@ -640,15 +695,17 @@ inherit from such interface work correctly. We make use of this validation funct
 from the command line, so users can easily check whether or not the plugin they've
 created is valid.
 
-``validate`` follows the interface defined validation-protocol for a certain plugin.
-To get a listing of plugins available for validation, run the command
+``validate`` (or ``val``) follows the interface defined validation-protocol for a
+certain plugin. To get a listing of plugins available for validation, run the command
 ``geoips list plugins -p <package_name>``, where ``-p`` is an optional flag representing
 the package we want to list plugins from.
 
 To validate a plugin we will need the full path to the plugin you want validated. See
-an example of this shown below.
+an example of this shown below.Notice the use of aliases in case
+you want to use these commands in shorthand style.
 
 ::
 
+    geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>

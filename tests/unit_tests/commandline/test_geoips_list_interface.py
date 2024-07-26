@@ -26,19 +26,34 @@ class TestGeoipsListInterface(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._list_interface_args
-            for pkg_name in self.plugin_package_names + ["all"]:
-                for interface_name in interfaces.__all__:
-                    if pkg_name != "all":
-                        args = base_args + [interface_name, "-p", pkg_name]
-                    else:
-                        args = base_args + [interface_name]
-                    self._cmd_list.append(args)
+            base_args = ["geoips", "list"]
+            alias_args = ["geoips", "ls"]
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names + ["all"]:
+                    for interface_name in interfaces.__all__:
+                        interface_name = interface_name.replace("_", "-")
+                        if pkg_name != "all":
+                            args = argset + [interface_name, "-p", pkg_name]
+                        else:
+                            args = argset + [interface_name]
+                        self._cmd_list.append(args)
             # Add argument list with a non-existent interface
             self._cmd_list.append(base_args + ["non_existent_interface"])
+            self._cmd_list.append(alias_args + ["non_existent_interface"])
             # Add argument list that utilizes the --column optional arg
             self._cmd_list.append(
                 base_args
+                + [
+                    "algorithms",
+                    "--columns",
+                    "package",
+                    "interface",
+                    "plugin_type",
+                    "relpath",
+                ]
+            )
+            self._cmd_list.append(
+                alias_args
                 + [
                     "algorithms",
                     "--columns",
@@ -52,9 +67,15 @@ class TestGeoipsListInterface(BaseCliTest):
             self._cmd_list.append(
                 base_args + ["algorithms", "-p", "non_existent_package"]
             )
+            self._cmd_list.append(
+                alias_args + ["algorithms", "-p", "non_existent_package"]
+            )
             # Add argument list with an existing interface but w/ conflicting opt args
             self._cmd_list.append(
                 base_args + ["readers", "--long", "--columns", "package", "interface"]
+            )
+            self._cmd_list.append(
+                alias_args + ["readers", "--long", "--columns", "package", "interface"]
             )
         return self._cmd_list
 
@@ -99,7 +120,7 @@ class TestGeoipsListInterface(BaseCliTest):
             - Multiline str representing the output of the CLI call
         """
         # The args provided are valid, so test that the output is actually correct
-        interface = getattr(interfaces, args[2])
+        interface = getattr(interfaces, args[2].replace("-", "_"))
         interface_type = interface.interface_type
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a

@@ -549,7 +549,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         args: Namespace()
             - The list argument namespace to parse through
         """
-        interface_name = self.name
+        interface_name = self.name.replace("-", "_")
         package_name = args.package_name
         try:
             interface = getattr(interfaces, interface_name)
@@ -665,10 +665,15 @@ class GeoipsList(GeoipsCommand):
     """Top-Level List Command for listing off GeoIPS Artifacts."""
 
     name = "list"
-    generated_classes = CommandClassFactory(
-        GeoipsListSingleInterface,
-        interfaces.__all__,
-    ).classes
+    generated_classes = []
+    for int_name in interfaces.__all__:
+        generated_classes.append(
+            CommandClassFactory(
+                GeoipsListSingleInterface,
+                int_name.replace("_", "-"),
+            ).generated_class
+        )
+
     command_classes = generated_classes + [
         GeoipsListInterfaces,
         GeoipsListPackages,
