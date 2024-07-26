@@ -20,6 +20,7 @@ Refactoring Updates:
   files:
     added:
       - tests/unit_tests/commandline/test_geoips_test_sector.py
+      - docs/source/images/command_line_examples/canada.png
     deleted:
       - geoips/commandline/create_sector_image.py
     modified:
@@ -27,4 +28,5 @@ Refactoring Updates:
       - geoips/commandline/geoips_test.py
       - pyproject.toml
       - tests/scripts/console_script_create_sector_image.sh
-      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - docs/source/userguide/command_line.rst
+      - docs/source/userguide/plugin_development/static_sector.rst
