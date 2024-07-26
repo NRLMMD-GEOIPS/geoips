@@ -5,7 +5,7 @@ Linters
 
 Linters scan your code for any syntactic inconsistencies such as invalid indentation. 
 
-Linters and formatters used by GeoIPS can be installed from the ``lint`` extra. Eg.
+Both the linters and formatters in GeoIPS can be installed using `pip install .[lint]`
 
 .. code-block:: bash
 
