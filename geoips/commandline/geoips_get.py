@@ -37,7 +37,7 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
             * Docstring
             * Interface Name
             * Interface Type
-            * Supported Familiesncillary information such as
+            * Supported Families
 
     * Plugin:
         * Command Signature:
