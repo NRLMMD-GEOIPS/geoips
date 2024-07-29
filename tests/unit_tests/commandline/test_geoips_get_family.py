@@ -1,7 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Unit test for GeoIPS CLI `get family` command.
+"""Unit test for GeoIPS CLI `describe family` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -12,18 +12,18 @@ from geoips import interfaces
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
-class TestGeoipsGetFamily(BaseCliTest):
-    """Unit Testing Class for Get Family Command."""
+class TestGeoipsDescribeFamily(BaseCliTest):
+    """Unit Testing Class for Describe Family Command."""
 
     @property
     def command_combinations(self):
-        """A list of every possible call signature for the GeoipsGetFamily command.
+        """A list of every possible call signature for the GeoipsDescribeFamily command.
 
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = ["geoips", "get"]
+            base_args = ["geoips", "describe"]
             # add each family argument from every interface to the command arg list
             for interface_name in interfaces.__all__:
                 interface = getattr(interfaces, interface_name)
@@ -53,7 +53,7 @@ class TestGeoipsGetFamily(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that `geoips get <interface_name> family ...` error output is correct.
+        """Ensure that `geoips describe <interface_name> family ...` error is correct.
 
         Parameters
         ----------
@@ -64,11 +64,11 @@ class TestGeoipsGetFamily(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
+        err_str = "usage: To use, type `geoips describe <interface_name> <sub-cmd> ...`"
         assert err_str in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips get family ...' successful output is correct.
+        """Ensure that 'geoips describe <interface_name> family ...' success is correct.
 
         Parameters
         ----------
@@ -79,10 +79,12 @@ class TestGeoipsGetFamily(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "usage: To use, type `geoips get <interface_name> <sub-cmd> ...`"
+            usg_str = (
+                "usage: To use, type `geoips describe <interface_name> <sub-cmd> ...`"
+            )
             assert usg_str in output
         else:
-            # Checking that output from geoips get plugin command is valid
+            # Checking that output from geoips describe plugin command is valid
             expected_outputs = [
                 "Docstring",
                 "Family Name",
@@ -95,7 +97,7 @@ class TestGeoipsGetFamily(BaseCliTest):
                 assert f"{output_item}:" in output
 
 
-test_sub_cmd = TestGeoipsGetFamily()
+test_sub_cmd = TestGeoipsDescribeFamily()
 
 
 @pytest.mark.parametrize(
@@ -104,17 +106,17 @@ test_sub_cmd = TestGeoipsGetFamily()
     ids=test_sub_cmd.generate_id,
 )
 def test_command_combinations(monkeypatch, args):
-    """Test all 'geoips get <interface_name> family <family_name> ...' commands.
+    """Test all 'geoips describe <interface_name> family <family_name> ...' commands.
 
     This test covers every valid combination of commands for the
-    'geoips get <interface_name> family <family_name>' command. We also test invalid
-    commands, to ensure that the proper help documentation is provided for those using
-    the command incorrectly.
+    'geoips describe <interface_name> family <family_name>' command. We also test
+    invalid commands, to ensure that the proper help documentation is provided for those
+    using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
         - List of arguments to call the CLI with ie:
-        - ['geoips', 'get', <interface_name>, 'family', <family_name>])
+        - ['geoips', 'describe', <interface_name>, 'family', <family_name>])
     """
     test_sub_cmd.test_command_combinations(monkeypatch, args)

@@ -4,7 +4,7 @@
 """Code to implement GeoipsCommand Abstract Base Class for the CLI.
 
 Will implement a plethora of commands, but for the meantime, we'll work on
-'geoips config','geoips get', 'geoips list', 'geoips run', 'geoips test', and
+'geoips config','geoips describe', 'geoips list', 'geoips run', 'geoips test', and
 'geoips validate'.
 """
 
@@ -105,7 +105,7 @@ class ParentParsers:
 
 
 class GeoipsCommand(abc.ABC):
-    """Abstract Base Class for top-level GeoIPS Command Classes, such as get or list.
+    """Abstract Base Class for top-level GeoIPS Command Classes, such as run or list.
 
     This class is a blueprint of what each top-level GeoIPS Command Classes should
     implement. Includes shared attributes and an ``add_suparsers`` function which is
@@ -232,7 +232,7 @@ class GeoipsCommand(abc.ABC):
 
         This is done so we can limit the scope of what arguments are accepted for each
         geoips <cmd> command. This is only done for the top-level command, such as
-        "list", "run", "get", etc.
+        "list", "run", "describe", etc.
 
         For example, if this were the GeoipsList Command Class, we would create a
         self.list_subparsers attribute, which we then add individual parsers for each
@@ -326,7 +326,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
         """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
 
         Color the key, value pairs cyan, yellow to highlight the text in a human
-        readable manner. This is done for every `geoips get ...` command.
+        readable manner. This is done for every `geoips describe ...` command.
 
         Parameters
         ----------
@@ -573,12 +573,12 @@ class CommandClassFactory:
         * ...
         * GeoipsListSingleInterfaceTitleFormatters
 
-    * GeoipsGetInterface
+    * GeoipsDescribeArtifact
 
-        * GeoipsGetInterfaceAlgorithm
-        * GeoipsGetInterfaceColormapper
+        * GeoipsGetArtifactAlgorithm
+        * GeoipsGetArtifactColormapper
         * ...
-        * GeoipsGetInterfaceTitleFormatter
+        * GeoipsGetArtifactTitleFormatter
 
     This class has been created to reduce the verbosity of geoips commands without
     having to copy-paste classes specifc to a certain interface.
