@@ -1,6 +1,9 @@
 documentation:
 - description: |
-    Throughout GeoIPS, we have inconsistent coding standards. The numpy docstring format is an external standard we already use, and so we want that to be explicit in our documentation. This adds explicit info on using numpy docstrings, as well as examples.
+    Throughout GeoIPS, we have inconsistent coding standards.
+    The numpy docstring format is an external standard we already use, 
+    and so we want that to be explicit in our documentation. 
+    This adds explicit info on using numpy docstrings, as well as examples.
   files:
     added:
     - ''
