@@ -20,7 +20,7 @@ instructions:
   geoips_describe: &geoips-describe-artifact
     help_str: |
       Retrieve information about a GeoIPS artifact. For this command, an artifact is one
-      of ['interface', 'plugin', 'family']. To describe more information on how to
+      of ['interface', 'plugin', 'family']. To get more information on how to
       retrieve these artifacts, see below.
 
       * Interface:
@@ -176,7 +176,7 @@ instructions:
       List off plugins found under this interface. This is useful for seeing what
       plugins have been implemented through all, or a certain, GeoIPS Package. This
       information can then be used with
-      `geoips describe <interface_name> <plugin_name>` to describe more information
+      `geoips describe <interface_name> <plugin_name>` to retrieve more information
       about a certain plugin.
     usage_str: |
       To use, type `geoips list <interface_name>`. Optionally includes `-p`
@@ -215,7 +215,7 @@ instructions:
       available throughout GeoIPS, but can also be extended to see what interfaces have
       been implemented in other geoips package, or just a certain package. This
       information can then be used with `geoips describe-interface <interface_name>` to
-      describe more information about a certain interface.
+      retrieve more information about a certain interface.
     usage_str: |
       To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for
       seeing what has been implemented (-i) in a certain package (-p), or all packages.
@@ -234,7 +234,7 @@ instructions:
     help_str: |
       List off plugins found under all, or a specified GeoIPS package. This information
       can then be used with `geoips describe-plugin <interface_name> <plugin_name>` to
-      describe more information about a certain plugin.
+      retrieve more information about a certain plugin.
     usage_str: |
       To use, type `geoips list plugins`. Optionally includes `-p` flag for
       seeing what plugins are in a certain package (-p). For example, to see what
