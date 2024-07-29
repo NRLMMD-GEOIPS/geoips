@@ -1,5 +1,5 @@
 documentation:
-- description: ''
+- description: 'Removed old files, tidied up prose and integrated new docs into old docs via links/toctrees.'
   files:
     added:
     - ''
