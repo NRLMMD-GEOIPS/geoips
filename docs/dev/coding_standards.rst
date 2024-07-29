@@ -174,9 +174,6 @@ Sections:
 Internal Style Standards
 -------------------------
 
-Imports Shouldn't Be Buried Without a Reason
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-=======
 Bring code to standard in a dedicated PR
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
