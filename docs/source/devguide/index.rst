@@ -10,7 +10,7 @@ Developer Guide
    :maxdepth: 2
 
    contributors
-   /new-docs/contribute/coding-standards/coding_standards
+   ../new-docs/contribute/code-of-conduct
    git_workflow
    dev_setup
    unit_tests
