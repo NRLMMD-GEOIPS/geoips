@@ -21,7 +21,7 @@ class TestGeoipsTestLinting(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._test_linting_args
+            base_args = ["geoips", "test", "linting"]
             self._cmd_list = [base_args]
             # select a small random amount of tests to call via geoips run
             for pkg_name in self.plugin_package_names:
