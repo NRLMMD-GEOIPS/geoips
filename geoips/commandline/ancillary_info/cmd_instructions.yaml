@@ -214,7 +214,7 @@ instructions:
       List off every GeoIPS Interface. This is useful for seeing what is
       available throughout GeoIPS, but can also be extended to see what interfaces have
       been implemented in other geoips package, or just a certain package. This
-      information can then be used with `geoips describe-interface <interface_name>` to
+      information can then be used with `geoips describe <interface_name>` to
       retrieve more information about a certain interface.
     usage_str: |
       To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for
@@ -233,7 +233,7 @@ instructions:
   geoips_list_plugins:
     help_str: |
       List off plugins found under all, or a specified GeoIPS package. This information
-      can then be used with `geoips describe-plugin <interface_name> <plugin_name>` to
+      can then be used with `geoips describe <interface_name> <plugin_name>` to
       retrieve more information about a certain plugin.
     usage_str: |
       To use, type `geoips list plugins`. Optionally includes `-p` flag for
@@ -297,7 +297,7 @@ instructions:
     help_str: |
       Run a specified geoips process workflow (procflow) plugin. See
       'geoips run single_source' or 'geoips run data_fusion' for more information of
-      what arguments to providel
+      what arguments to provide.
     usage_str: |
       To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
