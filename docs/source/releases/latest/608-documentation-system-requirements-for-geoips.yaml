@@ -1,5 +1,8 @@
 documentation:
-- description: 'Added system requirements to the documentation. This includes minimum and recommended requirements for users and developers as well as language limiting the applicability of the system requirements.'
+- description: |
+    Added system requirements to the documentation. This includes minimum and recommended
+    requirements for users and developers as well as language limiting the applicability
+    of the system requirements.
   files:
     added:
     - ''
