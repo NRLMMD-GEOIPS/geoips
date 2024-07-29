@@ -58,7 +58,6 @@ documentation:
       - 'docs/source/new-docs/contribute/code-of-conduct/index.rst'
       - 'docs/source/new-docs/contribute/coding-standards/git-github.rst'
       - 'docs/source/userguide/function_list.rst'
-    moved:
   related-issue:
     number: 0
     repo_url: ''
