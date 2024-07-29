@@ -144,7 +144,7 @@ Black
 -----
 
 We use the `Black formatter <https://github.com/psf/black>`_ with its default
-settings. As stated in the Black documentation, it is an uncompromizing code
+settings. As stated in the Black documentation, it is an uncompromising code
 formatter, but it has resulted in significantly more readable code. Applying it
 automatically while writing code has also reduced development time since
 developers don't need to think about formatting.
