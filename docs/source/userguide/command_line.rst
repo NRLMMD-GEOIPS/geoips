@@ -54,7 +54,7 @@ flag to provide help instructions for the command you are running.
 .. _geoips_describe:
 
 Describe Command
------------
+----------------
 
 :ref:`geoips describe <geoips_describe>`
 
