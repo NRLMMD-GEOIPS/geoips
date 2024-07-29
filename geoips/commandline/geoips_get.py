@@ -10,38 +10,170 @@ from importlib import metadata, resources, import_module
 
 import yaml
 
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.commandline.geoips_command import (
+    CommandClassFactory,
+    GeoipsCommand,
+    GeoipsExecutableCommand,
+)
 from geoips.create_plugin_registries import format_docstring
 from geoips import interfaces
 
 
-class GeoipsGetFamily(GeoipsExecutableCommand):
-    """Get Command which retrieves and outputs information about a GeoIPS Family.
+class GeoipsGetInterface(GeoipsExecutableCommand):
+    """Get Command which retrieves information about a from or about a GeoIPS interface.
 
-    This is called via `geoips get family <interface_name> <family_name>`. Data included
-    when calling this command is shown below, outputted in a yaml-based format.
+    Where this artifact is one of ['interface', 'plugin', 'family'.]
+
+    This is called via `geoips get <interface_name> <opt_args>`. Data included when
+    calling this command is shown below, outputted in a yaml-based format.
+
+    * Interface:
+        * Command Signature:
+            * `geoips get <interface_name>`
+        * Artifact Listing:
+            * `geoips list interfaces`
+        * output_info:
+            * Absolute Path
+            * Docstring
+            * Interface Name
+            * Interface Type
+            * Supported Families
+
+    * Plugin:
+        * Command Signature:
+            * `geoips get <interface_name> <plugin_name>`
+        * Artifact Listing:
+            * `geoips list plugins <-p> <package_name>`
+        * Output Info:
+            * Docstring
+            * Family Name
+            * GeoIPS Package
+            * Interface Name
+            * Plugin Type
+            * call_sig / source_names / Product Defaults (dependent on Plugin Type)
+            * Relative Path
+
+    * Family:
+        * Command Signature:
+            * `geoips get <interface_name> family <family_name>`
+        * Artifact Listing:
+            * `geoips list interfaces --columns interface supported_families`
+        * Output Info:
+            * Docstring
+            * Family Name
+            * Family Path
+            * Interface Name
+            * Interface Type
+            * Required Arguments / Schema
     """
 
-    name = "family"
+    name = "interface"
     command_classes = []
 
     def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Family Command."""
+        """Add arguments to the get-subparser for the Get Interface Command."""
         self.parser.add_argument(
-            "interface_name",
-            type=str.lower,
-            default="algorithms",
-            choices=interfaces.__all__,
-            help="GeoIPS Interface to retrieve.",
+            "plugin_name",
+            type=str,
+            default=None,
+            nargs="?",
+            help="GeoIPS Plugin to select from the provided interface.",
         )
         self.parser.add_argument(
             "family_name",
             type=str,
-            help="GeoIPS Plugin to select from the provided interface.",
+            default=None,
+            nargs="?",
+            choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
+            help="GeoIPS Family to select from the provided interface.",
         )
+        pass
 
     def __call__(self, args):
-        """CLI 'geoips get family <interface_name> <family_name>' command.
+        """CLI 'geoips get <interface_name>' command.
+
+        This occurs when a user has requested a interface in the manner shown above.
+        Outputs to the teriminal the following data in a dictionary format if available.
+
+        Printed to Terminal
+        -------------------
+        yaml-based output: dict
+            - Absolute Path
+            - Docstring
+            - Interface Name
+            - Interface Type
+            - Supported Families
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        if (
+            args.plugin_name
+            and args.plugin_name != "family"
+            and args.plugin_name != "fam"
+        ):
+            self.get_plugin(args)
+        elif (
+            args.plugin_name == "family" or args.plugin_name == "fam"
+        ) and args.family_name:
+            self.get_family(args)
+        elif args.plugin_name is None and args.family_name is None:
+            self.get_interface()
+        else:
+            self.parser.error(
+                "Invalid command ran for 'geoips get <interface_name>. Please run "
+                "'geoips get -h' for more information on how to run this command."
+            )
+
+    def get_plugin(self, args):
+        """CLI 'geoips get <interface_name> <plugin_name>' command.
+
+        This occurs when a user has requested a plugin in the manner shown above.
+        Outputs to the teriminal the following data in a dictionary format if available.
+
+        Printed to Terminal
+        -------------------
+        yaml-based output: dict
+            - Docstring
+            - Family Name
+            - GeoIPS Package
+            - Interface Name
+            - Plugin Type
+            - call_sig / source_names / Product Defaults (dependent on Plugin Type)
+            - Relative Path
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        interface_name = self.name.replace("-", "_")
+        plugin_name = args.plugin_name
+        try:
+            interface = getattr(interfaces, interface_name)
+        except AttributeError:
+            self.parser.error(
+                f"Interface: {interface_name} doesn't exist. Provide a valid interface."
+            )
+        # If plugin_name is not None, then the user has requested a plugin within
+        # an interface, rather than the interface itself
+        interface_registry = interface.plugin_registry.registered_plugins[
+            interface.interface_type
+        ][interface.name]
+        # Ensure the provided plugin exists within the interface's plugin registry
+        self.ensure_plugin_exists(interface.name, interface_registry, plugin_name)
+        if interface.name == "products":
+            source_name, plugin_name = plugin_name.split(".", 1)
+            plugin_entry = interface_registry[source_name][plugin_name]
+            self._output_dictionary_highlighted(plugin_entry)
+        else:
+            plugin_entry = interface_registry[plugin_name]
+            self._output_dictionary_highlighted(plugin_entry)
+
+    def get_family(self, args):
+        """CLI 'geoips get <interface_name> family <family_name>' command.
 
         This occurs when a user has requested a family in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
@@ -61,7 +193,7 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        interface_name = args.interface_name
+        interface_name = self.name.replace("-", "_")
         family_name = args.family_name
         try:
             interface = getattr(interfaces, interface_name)
@@ -107,29 +239,8 @@ class GeoipsGetFamily(GeoipsExecutableCommand):
         }
         self._output_dictionary_highlighted(family_entry)
 
-
-class GeoipsGetInterface(GeoipsExecutableCommand):
-    """Get Command which retrieves information about a GeoIPS Interface.
-
-    This is called via `geoips get interface <interface_name>`. Data included when
-    calling this command is shown below, outputted in a yaml-based format.
-    """
-
-    name = "interface"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Interface Command."""
-        self.parser.add_argument(
-            "interface_name",
-            type=str.lower,
-            default="algorithms",
-            choices=interfaces.__all__,
-            help="GeoIPS Interface to retrieve.",
-        )
-
-    def __call__(self, args):
-        """CLI 'geoips get interface <interface_name>' command.
+    def get_interface(self):
+        """CLI 'geoips get <interface_name>' command.
 
         This occurs when a user has requested a interface in the manner shown above.
         Outputs to the teriminal the following data in a dictionary format if available.
@@ -142,13 +253,8 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
             - Interface Name
             - Interface Type
             - Supported Families
-
-        Parameters
-        ----------
-        args: Argparse Namespace()
-            - The list argument namespace to parse through
         """
-        interface_name = args.interface_name
+        interface_name = self.name.replace("-", "_")
         try:
             interface = getattr(interfaces, interface_name)
         except AttributeError:
@@ -169,6 +275,38 @@ class GeoipsGetInterface(GeoipsExecutableCommand):
             "supported_families": interface.supported_families,
         }
         self._output_dictionary_highlighted(interface_entry)
+
+    def ensure_plugin_exists(self, interface_name, interface_registry, plugin_name):
+        """Ensure that the given plugin exists within an interface's plugin registry.
+
+        If the plugin is not found within the interface's registry, raise a KeyError,
+        otherwise, just return.
+
+        Parameters
+        ----------
+        interface_name: str
+            - The name of the selected GeoIPS Interface
+        interface_registry: dict
+            - The plugin registry for the selected GeoIPS Interface
+        plugin_name: str
+            - The name of the plugin from the selected interface
+        """
+        if interface_name == "products":
+            if "." not in plugin_name:
+                err_str = (
+                    "Product plugins must be retrieved via `<source_name>."
+                    f"<plugin_name>`. Requested {plugin_name} doesn't match that."
+                )
+                raise KeyError(err_str)
+            source_name, plugin_name = plugin_name.split(".", 1)
+            if plugin_name not in interface_registry[source_name].keys():
+                raise KeyError(
+                    f"{plugin_name} not found under Products {source_name} entry."
+                )
+        elif plugin_name not in interface_registry.keys():
+            self.parser.error(
+                f"{plugin_name} doesn't exist within Interface {interface_name}."
+            )
 
 
 class GeoipsGetPackage(GeoipsExecutableCommand):
@@ -225,118 +363,18 @@ class GeoipsGetPackage(GeoipsExecutableCommand):
         self._output_dictionary_highlighted(package_entry)
 
 
-class GeoipsGetPlugin(GeoipsExecutableCommand):
-    """Get Command which retrieves information about a certain GeoIPS Plugin.
-
-    This is called via `geoips get plugin <interface_name> <plugin_name>`. Data included
-    when calling this command is shown below, outputted in a yaml-based format.
-    """
-
-    name = "plugin"
-    command_classes = []
-
-    def add_arguments(self):
-        """Add arguments to the get-subparser for the Get Plugin Command."""
-        self.parser.add_argument(
-            "interface_name",
-            type=str.lower,
-            default="algorithms",
-            choices=interfaces.__all__,
-            help="GeoIPS Interface to retrieve.",
-        )
-        self.parser.add_argument(
-            "plugin_name",
-            type=str,
-            default=None,
-            nargs="?",
-            help="GeoIPS Plugin to select from the provided interface.",
-        )
-
-    def __call__(self, args):
-        """CLI 'geoips get plugin <interface_name> <plugin_name>' command.
-
-        This occurs when a user has requested a plugin in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
-
-        Printed to Terminal
-        -------------------
-        yaml-based output: dict
-            - Docstring
-            - Family Name
-            - GeoIPS Package
-            - Interface Name
-            - Plugin Type
-            - call_sig / source_names / Product Defaults (dependent on Plugin Type)
-            - Relative Path
-
-        Parameters
-        ----------
-        args: Argparse Namespace()
-            - The list argument namespace to parse through
-        """
-        interface_name = args.interface_name
-        plugin_name = args.plugin_name
-        try:
-            interface = getattr(interfaces, interface_name)
-        except AttributeError:
-            self.parser.error(
-                f"Interface: {interface_name} doesn't exist. Provide a valid interface."
-            )
-        # If plugin_name is not None, then the user has requested a plugin within
-        # an interface, rather than the interface itself
-        interface_registry = interface.plugin_registry.registered_plugins[
-            interface.interface_type
-        ][interface.name]
-        # Ensure the provided plugin exists within the interface's plugin registry
-        self.ensure_plugin_exists(interface.name, interface_registry, plugin_name)
-        if interface.name == "products":
-            source_name, plugin_name = plugin_name.split(".", 1)
-            plugin_entry = interface_registry[source_name][plugin_name]
-            self._output_dictionary_highlighted(plugin_entry)
-        else:
-            plugin_entry = interface_registry[plugin_name]
-            self._output_dictionary_highlighted(plugin_entry)
-
-    def ensure_plugin_exists(self, interface_name, interface_registry, plugin_name):
-        """Ensure that the given plugin exists within an interface's plugin registry.
-
-        If the plugin is not found within the interface's registry, raise a KeyError,
-        otherwise, just return.
-
-        Parameters
-        ----------
-        interface_name: str
-            - The name of the selected GeoIPS Interface
-        interface_registry: dict
-            - The plugin registry for the selected GeoIPS Interface
-        plugin_name: str
-            - The name of the plugin from the selected interface
-        """
-        if interface_name == "products":
-            if "." not in plugin_name:
-                err_str = (
-                    "Product plugins must be retrieved via `<source_name>."
-                    f"<plugin_name>`. Requested {plugin_name} doesn't match that."
-                )
-                raise KeyError(err_str)
-            source_name, plugin_name = plugin_name.split(".", 1)
-            if plugin_name not in interface_registry[source_name].keys():
-                raise KeyError(
-                    f"{plugin_name} not found under Products {source_name} entry."
-                )
-        elif plugin_name not in interface_registry.keys():
-            self.parser.error(
-                f"{plugin_name} doesn't exist within Interface {interface_name}."
-            )
-
-
 class GeoipsGet(GeoipsCommand):
     """Top-Level Get Command Class for retrieving information about GeoIPS Artifacts."""
 
     name = "get"
-    command_classes = [
-        GeoipsGetFamily,
-        GeoipsGetInterface,
-        GeoipsGetPackage,
-        GeoipsGetPlugin,
-    ]
+
+    generated_classes = []
+    for int_name in interfaces.__all__:
+        generated_classes.append(
+            CommandClassFactory(
+                GeoipsGetInterface,
+                int_name.replace("_", "-"),
+            ).generated_class
+        )
+
+    command_classes = generated_classes + [GeoipsGetPackage]

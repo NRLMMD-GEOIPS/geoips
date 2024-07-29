@@ -22,6 +22,8 @@ PATHS = {}
 
 # Get the base package directory
 PATHS["BASE_PATH"] = pathjoin(dirname(__file__), "..")
+# URL of the most GeoIPS GitHub hosted documentation.
+PATHS["GEOIPS_DOCS_URL"] = r"https://nrlmmd-geoips.github.io/geoips/"
 
 PATHS["GEOIPS_OPERATIONAL_USER"] = False
 if getenv("GEOIPS_OPERATIONAL_USER"):

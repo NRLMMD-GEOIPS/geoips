@@ -25,15 +25,21 @@ class TestGeoipsListUnitTests(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_unit_tests_args
-            self._cmd_list = [base_args]
-            for pkg_name in self.plugin_package_names:
-                self._cmd_list.append(base_args + ["-p", pkg_name])
+            base_args = ["geoips", "list", "unit-tests"]
+            alias_args = ["geoips", "ls", "unit-tests"]
+            self._cmd_list = [base_args, alias_args]
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names:
+                    self._cmd_list.append(argset + ["-p", pkg_name])
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(["geoips", "list", "unit-tests", "-h"])
+            self._cmd_list.append(["geoips", "ls", "unit-tests", "-h"])
             # Add argument list with a non-existent package
             self._cmd_list.append(
                 ["geoips", "list", "unit-tests", "-p", "non_existent_package"]
+            )
+            self._cmd_list.append(
+                ["geoips", "ls", "unit-tests", "-p", "non_existent_package"]
             )
         return self._cmd_list
 
@@ -50,7 +56,11 @@ class TestGeoipsListUnitTests(BaseCliTest):
         editable = self.assert_non_editable_error_or_wrong_package(args, error)
         if editable:
             # bad command has been provided, check the contents of the error message
-            assert args != ["geoips", "list", "unit-tests"]
+            assert args != ["geoips", "list", "unit-tests"] and args != [
+                "geoips",
+                "ls",
+                "unit-tests",
+            ]
             assert "usage: To use, type `geoips list unit-tests" in error
 
     def check_output(self, args, output):
@@ -65,7 +75,7 @@ class TestGeoipsListUnitTests(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list", "unit-tests", "-h"]
+            assert "-h" in args
             assert "usage: To use, type `geoips list unit-tests" in output
         else:
             # The args provided are valid, so test that the output is actually correct

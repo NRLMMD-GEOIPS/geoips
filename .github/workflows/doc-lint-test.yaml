@@ -254,6 +254,7 @@ jobs:
   check_new_release_note:
     if: >
       always() &&
+      github.ref != 'refs/heads/main' &&
       needs.set_variables.outputs.CHECK_NEW_RELEASE_NOTE == 'true' &&
       (needs.build_doclinttest_image.result == 'success' ||
       needs.build_doclinttest_image.result == 'skipped')
