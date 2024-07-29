@@ -82,7 +82,7 @@ Developer System Requirements
 Developers will be required to install test datasets for the GeoIPS integration
 tests (40GB) and a complete, static set of Cartopy shape files (20GB). This requires
 an additional 60GB of space. It is recommended that this data is placed on a local
-solid state dive for speed purposes.
+solid state drive for speed purposes.
 
 Operational System Requirements
 -------------------------------
