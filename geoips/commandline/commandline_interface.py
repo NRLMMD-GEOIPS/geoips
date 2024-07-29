@@ -15,7 +15,7 @@ from colorama import Fore, Style
 from geoips.commandline.cmd_instructions import get_instructions
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
-from geoips.commandline.geoips_get import GeoipsDescribe
+from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
