@@ -20,7 +20,7 @@ from geoips import interfaces
 
 
 class GeoipsDescribeArtifact(GeoipsExecutableCommand):
-    """Command which describes information about a GeoIPS artifact.
+    """Command which returns information describing a GeoIPS artifact.
 
     Where this artifact is one of ['interface', 'plugin', 'family'.]
 
