@@ -1,0 +1,111 @@
+bug fix:
+- description: |
+    *For GEOIPS/geoips#666, 2024-07-30, workshop bug fixes*
+
+    Ensure all xarray dict based product families are supported within the single
+    source procflow, including sectored and unsectored dictionaries of xarrays,
+    algorithm and no algorithm application, and with and without area defs. Note
+    ALL are not supported, but better identified what is missing / supported now.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/single_source.py'
+    moved:
+    - ''
+  related-issue:
+    number: 666
+    repo_url: ''
+  title: 'Add support for algorithm application for xarray dict based families'
+continuous integration:
+- description: ''
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: ''
+deprecation:
+- description: ''
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: ''
+documentation:
+- description: ''
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: ''
+enhancement:
+- description: ''
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: ''
+performance:
+- description: ''
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: ''
+removal:
+- description: ''
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: ''

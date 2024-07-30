@@ -78,12 +78,34 @@ FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
     "xarray_area_product_to_filename",
 ]
 
-PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
-    "sectored_xarray_dict_to_output_format",
+# Organizing lists at the top of the single source procflow of all of the
+# xarray-dict based product families to better track how they flow through
+# the procflow.  In the end, there should be one of
+# each xarray-dict based family (with/without algorithm, with/without area,
+# with/without sectoring for the area-based ones)
+# Including lists at the top so we can more easily identify what families
+# are used/supported in the procflows, and if we notice duplicate supported
+# families we can add them to this list.
+PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITHOUT_AREA = [
     "unsectored_xarray_dict_to_output_format",
+]
+PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITH_ALGORITHM_WITHOUT_AREA = [
     "unsectored_xarray_dict_to_algorithm_to_output_format",
+]
+PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA = [
     "unsectored_xarray_dict_area_to_output_format",
 ]
+PRODUCT_FAMILIES_OF_SECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA = [
+    "sectored_xarray_dict_to_output_format",
+]
+PRODUCT_FAMILIES_OF_XARRAY_DICT_WITH_AREA = (
+    PRODUCT_FAMILIES_OF_SECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA
+    + PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA
+)
+PRODUCT_FAMILIES_OF_XARRAY_DICT_WITHOUT_AREA = (
+    PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITHOUT_AREA
+    + PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITH_ALGORITHM_WITHOUT_AREA
+)
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -821,11 +843,17 @@ def process_sectored_data_output(
 ):
     """Process sectored data output.
 
-    If product family is 'sectored_xarray_dict_to_output_format', call
+    If current product family requires a sectored dictionary of xarrays, does
+    not apply an algorithm, and DOES require an area definition, call
     'process_xarray_dict_to_output_format', store the result in a list, and return it.
     """
     output_products = []
-    if prod_plugin.family == "sectored_xarray_dict_to_output_format":
+    # Currently this only supports NOT applying an algorithm.  Could expand
+    # to additionally support algorithm application.
+    if (
+        prod_plugin.family
+        in PRODUCT_FAMILIES_OF_SECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA
+    ):
         output_products += process_xarray_dict_to_output_format(
             xobjs, variables, prod_plugin, output_dict, area_def=area_def
         )
@@ -838,7 +866,13 @@ def process_xarray_dict_to_output_format(
     """Process xarray dict to output format."""
     output_formatter = get_output_formatter(output_dict)
     output_formatter_kwargs = get_output_formatter_kwargs(output_dict)
-    supported_product_types = PRODUCT_FAMILIES_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT
+    # All xarray dict based products can be processed here - this function is
+    # called from both within the loop through all area_defs, and before it.
+    # As well as for both sectored / non-sectored products.
+    supported_product_types = (
+        PRODUCT_FAMILIES_OF_XARRAY_DICT_WITH_AREA
+        + PRODUCT_FAMILIES_OF_XARRAY_DICT_WITHOUT_AREA
+    )
 
     if prod_plugin.family not in supported_product_types:
         raise TypeError(
@@ -1529,12 +1563,16 @@ def get_alg_xarray(
 
     # If we want to run the algorithm prior to interpolation, apply the algorithm here,
     # and return either the unprojected result or interpolated result appropriately.
-    if prod_plugin.family in [
-        "algorithm_colormapper",
-        "algorithm_interpolator_colormapper",
-        "algorithm",
-        "unsectored_xarray_dict_to_algorithm_to_output_format",
-    ]:
+    # For the xarray dict option, it should probably be more general than JUST
+    # unsectored xarray dict with algorithm / without area, but that was the
+    # originally supported family. An issue could be created to support xarray
+    # dict formats more generally.
+    if (
+        prod_plugin.family
+        in ["algorithm_colormapper", "algorithm_interpolator_colormapper", "algorithm"]
+        + PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITH_ALGORITHM_WITHOUT_AREA
+    ):
+        LOG.interactive("  Applying algorithms...")
         # All of these apply the algorithm first, so go ahead and
         # apply the algorithm.
         # Some use variables and some use variable_names... So pass both.
@@ -1572,6 +1610,7 @@ def get_alg_xarray(
 
     # NOTE if algorithm specified first in product_type, we will not get to this point!
     # Returned from above if statement
+    LOG.interactive("  Applying interpolators...")
 
     # For products that first require interpolator, start with interpolator.
     # These appear to consistently use curr_sect_xarrays and variables.
@@ -1594,6 +1633,8 @@ def get_alg_xarray(
     # is what we wanted. Also not sure how much this is going to change outputs.
     copy_standard_metadata(sect_xarrays["METADATA"], interp_xarray, force=False)
 
+    LOG.interactive("  Applying algorithms after interpolators...")
+
     # Now apply the algorithm after interpolating. Don't reapply if it is
     # found in processed_xarrays.
     interp_xarray = apply_alg_after_interp(
@@ -1612,6 +1653,7 @@ def get_alg_xarray(
     # MLS This was originally using sect_xarray, which would have just been
     # the last sect_xarray when looping through the datasets.  Not sure that
     # is what we wanted. Also not sure how much this is going to change outputs.
+    LOG.interactive("  Setting metadata on final xarray...")
     copy_standard_metadata(sect_xarrays["METADATA"], interp_xarray, force=False)
     # Attach final product_name to the interp_xarray as well (the end goal of
     # this routine).
@@ -1846,51 +1888,79 @@ def call(fnames, command_line_args=None):
         and not resampled_read
     ):
         pid_track.print_mem_usg()
-        LOG.interactive(
-            "Reading full dataset " "with reader '%s'...", reader_plugin.name
-        )
+        LOG.interactive("Reading full dataset with reader '%s'...", reader_plugin.name)
         xobjs = reader_plugin(
             fnames, metadata_only=False, chans=variables, **reader_kwargs
         )
 
     pid_track.print_mem_usg()
-    # If we have a product of type "unsectored_xarray_dict_to_output_format"
-    # process it here
-    # This will not have any required area_defs
-    if prod_plugin.family in [
-        "unsectored_xarray_dict_to_output_format",
-        "unsectored_xarray_dict_to_algorithm_to_output_format",
-    ]:
+    # If we have a product of a family that does not require an area definition,
+    # and operates on dictionaries of xarrays, process it here.
+    # This will not have any required area_defs, so will never make it into
+    # the loop through all area_defs below.
+    if prod_plugin.family in PRODUCT_FAMILIES_OF_XARRAY_DICT_WITHOUT_AREA:
         LOG.interactive(
-            "Reading full dataset " "for unsectored products " "with reader '%s'...",
+            "Reading full dataset for unsectored products with reader '%s'...",
             reader_plugin.name,
         )
         xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
-        xdict = get_alg_xarray(
-            xdict,
-            area_def=None,
-            prod_plugin=prod_plugin,
-            resector=False,
-            resampled_read=resampled_read,
-            window_start_time=window_start_time,
-            window_end_time=window_end_time,
-        )
+        # If this product family requires an algorithm to be applied, apply here.
+        if (
+            prod_plugin.family
+            in PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITH_ALGORITHM_WITHOUT_AREA
+        ):
+            xdict = get_alg_xarray(
+                xdict,
+                area_def=None,
+                prod_plugin=prod_plugin,
+                resector=False,
+                resampled_read=resampled_read,
+                window_start_time=window_start_time,
+                window_end_time=window_end_time,
+            )
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
-    elif prod_plugin.family == "unsectored_xarray_dict_area_to_output_format":
+    # If we do NOT want to apply an algorithm to a dataset, but we DO want
+    # to allow sectoring to a given area, just read in the data at this point,
+    # and sectoring will be handled within the loop over all area defs below.
+    # This looks like we are missing an option for applying an algorithm
+    # and sectoring the dataset to a given area. We may need to create an
+    # issue to resolve this missing "order of operations" if anyone needs it
+    # before the order based procflow is finalized.
+    elif (
+        prod_plugin.family
+        in PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA
+    ):
         LOG.interactive(
-            "Reading full dataset " "for unsectored products " "with reader '%s'...",
+            "Reading full dataset for unsectored products requiring area "
+            "definition, using reader '%s'...",
             reader_plugin.name,
         )
+        # Note we only read in the data in this case, and do NOT process to
+        # the final products.  Since we use the area definitions for these
+        # product families, the final products will be obtained during the
+        # loop through all area defs below.
         xdict = reader_plugin(fnames, metadata_only=False, **reader_kwargs)
 
     pid_track.print_mem_usg()
 
     new_attrs = {"filename_extra_fields": {}}
-    # setup for TC products
+    # This is the main loop over all area defs - used for any processing that
+    # either sectors or interpolates the datasets (even products that self
+    # register to one of the existing datasets will use area definitions -
+    # an area definition is created from the dataset that is being self
+    # registered to in that case).  Only cases where no sectoring or
+    # interpolation are needed will bypass this loop
+    # (PRODUCT_FAMILIES_OF_XARRAY_DICT_WITHOUT_AREA).
     for area_def in area_defs:
-        if prod_plugin.family == "unsectored_xarray_dict_area_to_output_format":
+        # If the current product is of family that DOES NOT require sectoring,
+        # DOES NOT apply an algorithm, and DOES require an area_definition,
+        # then process it here.
+        if (
+            prod_plugin.family
+            in PRODUCT_FAMILIES_OF_UNSECTORED_XARRAY_DICT_WITHOUT_ALGORITHM_WITH_AREA
+        ):
             LOG.interactive(
                 "Producing outputs for unsectored product '%s'...", prod_plugin.name
             )
