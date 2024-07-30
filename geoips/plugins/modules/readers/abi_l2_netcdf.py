@@ -6,6 +6,7 @@
 # Python Standard Libraries
 from datetime import datetime
 import logging
+from numpy import isnan
 
 
 # Installed Libraries
@@ -119,6 +120,7 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
     else:
         lats = geo["fldk_lats"]
         lons = geo["fldk_lons"]
+    ll_mask = (isnan(lats)) | (lats < -90) | (lats > 90)
     xarrays = []
     for fname in fnames:
         log.info("Reading %s" % fname)
@@ -147,6 +149,8 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
             xarray = area_dataset
         xarray["latitude"] = (("y", "x"), lats)
         xarray["longitude"] = (("y", "x"), lons)
+        for ll in ["latitude", "longitude"]:
+            xarray[ll] = xarray[ll].where(~ll_mask)
         # Add metadata needed by downstream GeoIPS utils
         xarray.attrs = dict(xarray.attrs, **geoips_attrs)
         xarray.attrs["start_datetime"] = xarray.start_time
