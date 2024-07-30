@@ -107,40 +107,6 @@ calculated.
 
     return xobj
 
-Adding Your Algorithm to GeoIPS Namespace
------------------------------------------
-
-Now that we've created our custom algorithm, we need to add an `entry-point
-<https://packaging.python.org/en/latest/specifications/entry-points/>`_
-for it in pyproject.toml so that GeoIPS can locate it in it's namespace during runtime.
-This must be done anytime a new module-based plugin is created. (note: not needed for
-yaml-based plugins.)
-
-Module-based plugins must be registered to an entry-point namespace. This allows
-GeoIPS to find your plugin, even though it is in a different package!
-The namespaces are named for their interface (e.g. ``geoips.algorithms``,
-``geoips.interpolators``, etc.).
-
-Add your entrypoint:
-::
-
-    cd $MY_PKG_DIR
-
-Edit ``pyproject.toml`` to include the code shown below. Note: if you named your package
-somehting other that ``cool_plugins``, replace that with your package name.
-
-.. code-block:: toml
-
-    [project.entry-points."geoips.algorithms"]
-    pmw_89test = "cool_plugins.plugins.modules.algorithms.pmw_89test"
-    my_cloud_depth = "cool_plugins.plugins.modules.algorithms.my_cloud_depth"
-
-Reinstall your package
-::
-
-    pip install -e $MY_PKG_DIR
-    # This is required anytime pyproject.toml is edited!
-
 If you have already created a Product defined in the :ref:`Products<create-a-product>`
 section, we should revisit our :ref:`My-Cloud-Depth product definition<cloud-depth-product>`
 to use the algorithm we just created. Note: If you haven't yet created this product, see the
