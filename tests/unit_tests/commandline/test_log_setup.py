@@ -10,7 +10,6 @@ Tests the following functions:
 
 import pytest
 
-import os
 import random
 import string
 from geoips import logging
