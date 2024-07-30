@@ -164,7 +164,9 @@ base_test.sh returns 0!  Not required.
   fi
 
   mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
-  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment
+
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment \
   $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
-  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment
+
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment \
   $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
