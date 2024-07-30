@@ -575,10 +575,10 @@ class CommandClassFactory:
 
     * GeoipsDescribeArtifact
 
-        * GeoipsGetArtifactAlgorithm
-        * GeoipsGetArtifactColormapper
+        * GeoipsDescribeArtifactAlgorithm
+        * GeoipsDescribeArtifactColormapper
         * ...
-        * GeoipsGetArtifactTitleFormatter
+        * GeoipsDescribeArtifactTitleFormatter
 
     This class has been created to reduce the verbosity of geoips commands without
     having to copy-paste classes specifc to a certain interface.
