@@ -13,7 +13,6 @@ import pytest
 import random
 import string
 from geoips import logging
-from glob import glob
 from geoips.commandline.log_setup import log_with_emphasis
 
 LOG = logging.getLogger(__name__)
