@@ -46,31 +46,32 @@ Information Retrieval
 =====================
 
 The GeoIPS CLI Implements two top-level commands which retrieve information about GeoIPS
-artifacts based on the sub-commands provided. These two top-level commands are ``get``
-and ``list`` (``ls``). Each command shown below can be ran with a ``-h`` flag to provide
-help instructions for the command you are running.
+artifacts based on the sub-commands provided. These two top-level commands are
+``describe`` and ``list`` (``ls``). Each command shown below can be ran with a ``-h``
+flag to provide help instructions for the command you are running.
 
-.. _geoips_get:
+.. _geoips_describe:
 
-Get Command
------------
+Describe Command
+----------------
 
-:ref:`geoips get <geoips_get>`
+:ref:`geoips describe <geoips_describe>`
 
-``get`` is a GeoIPS CLI command which retrieves information specific to a single GeoIPS
-artifact. The purpose of any ``get`` command is to describe the selected GeoIPS artifact
-in a verbose manner. While the outputted information may differ by each get command, the
-ultimate purpose of each command is to provide both users and developers detailed
-information about each artifact. This will help implementing their own artifacts, and
-also clarify what each artifact does / needs to integrate correctly within the GeoIPS
-environment. It currently implements 4 sub-commands, which we'll describe below.
+``describe`` is a GeoIPS CLI command which retrieves information specific to a single
+GeoIPS artifact. The purpose of any ``describe`` command is to describe the selected
+GeoIPS artifact in a verbose manner. While the outputted information may differ by each
+describe  command, the ultimate purpose of each command is to provide both users and
+developers detailed information about each artifact. This will help implementing their
+own artifacts, and also clarify what each artifact does / needs to integrate correctly
+within the GeoIPS environment. It currently implements 4 sub-commands, which we'll
+describe below.
 
-.. _geoips_get_interface:
+.. _geoips_describe_interface:
 
-:ref:`geoips get interface <geoips_get_interface>`
+:ref:`geoips describe interface <geoips_describe_interface>`
 
-``get <interface_name>`` is a get sub-command which retrieves information specific to a
-GeoIPS interface. Information included when calling this command is:
+``describe <interface_name>`` is a describe sub-command which retrieves information
+specific to a GeoIPS interface. Information included when calling this command is:
 
     * Absolute Path
     * Docstring
@@ -84,19 +85,19 @@ about what GeoIPS Interfaces are available, run the command ``geoips list interf
 
 ::
 
-    geoips get alg
-    geoips get algs
-    geoips get algorithm
-    geoips get algorithms
-    geoips get <interface_name>
+    geoips describe alg
+    geoips describe algs
+    geoips describe algorithm
+    geoips describe algorithms
+    geoips describe <interface_name>
 
-.. _geoips_get_family:
+.. _geoips_describe_family:
 
-:ref:`geoips get family <geoips_get_family>`
+:ref:`geoips describe family <geoips_describe_family>`
 
-``get <interface_name> family <family_name>`` (or ``fam``) is a get sub-command which
-retrieves information specific to an interface's family. Information included when
-calling this command is:
+``describe <interface_name> family <family_name>`` (or ``fam``) is a describe
+sub-command which retrieves information specific to an interface's family. Information
+included when calling this command is:
 
     * Docstring
     * Family Name
@@ -110,15 +111,15 @@ which will include a column representing the supported families of each interfac
 
 ::
 
-    geoips get family algorithms single_channel
-    geoips get family <interface_name> <family_name>
+    geoips describe algorithms family single_channel
+    geoips describe <interface_name> family <family_name>
 
-.. _geoips_get_package:
+.. _geoips_describe_package:
 
-:ref:`geoips get package <geoips_get_package>`
+:ref:`geoips describe package <geoips_describe_package>`
 
-``get package`` is a get sub-command which retrieves information specific to a GeoIPS
-Package. Information included when calling this command is:
+``describe package`` is a describe sub-command which retrieves information specific to a
+GeoIPS Package. Information included when calling this command is:
 
     * Docstring
     * Family Name
@@ -133,22 +134,23 @@ which will include a column representing the supported families of each interfac
 
 ::
 
-    geoips get alg fam single_channel
-    geoips get algs fam single_channel
-    geoips get algorithm family single_channel
-    geoips get algorithms family single_channel
-    geoips get prod_def fam interpolator_algorithm_colormapper
-    geoips get prod_defs fam interpolator_algorithm_colormapper
-    geoips get product_default family interpolator_algorithm_colormapper
-    geoips get product_defaults family interpolator_algorithm_colormapper
-    geoips get <interface_name> family <family_name>
+    geoips describe alg fam single_channel
+    geoips describe algs fam single_channel
+    geoips describe algorithm family single_channel
+    geoips describe algorithms family single_channel
+    geoips describe prod-def fam interpolator_algorithm_colormapper
+    geoips describe prod-defs fam interpolator_algorithm_colormapper
+    geoips describe product_default family interpolator_algorithm_colormapper
+    geoips describe product_defaults family interpolator_algorithm_colormapper
+    geoips describe <interface_name> family <family_name>
 
-.. _geoips_get_plugin:
+.. _geoips_describe_plugin:
 
-:ref:`geoips get plugin <geoips_get_plugin>`
+:ref:`geoips describe plugin <geoips_describe_plugin>`
 
-``get <interface_name> <plugin_name>`` is a get sub-command which retrieves information
-specific to a GeoIPS Plugin. Information included when calling this command is:
+``describe <interface_name> <plugin_name>`` is a describe sub-command which retrieves
+information specific to a GeoIPS Plugin. Information included when calling this command
+is:
 
     * Docstring
     * Family
@@ -163,15 +165,15 @@ what plugins are available, run the command ``geoips list plugins``.
 
 ::
 
-    geoips get alg single_channel
-    geoips get algs single_channel
-    geoips get algorithm single_channel
-    geoips get algorithms single_channel
-    geoips get <interface_name> <plugin_name>
+    geoips describe alg single_channel
+    geoips describe algs single_channel
+    geoips describe algorithm single_channel
+    geoips describe algorithms single_channel
+    geoips describe <interface_name> <plugin_name>
 
-``get package <package_name>`` (or ``get pkg <package_name>``) is a get sub-command
-which retrieves information specific to a GeoIPS Package. Information included when
-calling this command is:
+``describe package <package_name>`` (or ``describe pkg <package_name>``) is a describe
+sub-command which retrieves information specific to a GeoIPS Package. Information
+included when calling this command is:
 
     * Docstring
     * GeoIPS Package
@@ -185,9 +187,9 @@ what GeoIPS Packages are available, run the command ``geoips list packages``.
 
 ::
 
-    geoips get pkg geoips
-    geoips get package geoips
-    geoips get package <package_name>
+    geoips desc pkg geoips
+    geoips describe package geoips
+    geoips describe package <package_name>
 
 .. _geoips_list:
 
@@ -310,7 +312,7 @@ you want to use these commands in shorthand style.
 
 :ref:`geoips list plugins <geoips_list_plugins>`
 
-``list plugins`` (or ``list plgs``) is a get sub-command which retrieves a listing of
+``list plugins`` (or ``list plgs``) is a list sub-command which retrieves a listing of
 plugins found within all, or a certain GeoIPS package. Information included when calling
 this command is:
 
@@ -661,11 +663,11 @@ The output of running ``geoips tree`` is shown below.
     geoips
         geoips config
             geoips config install
-        geoips get
-            geoips get family
-            geoips get interface
-            geoips get package
-            geoips get plugin
+        geoips describe
+            geoips describe family
+            geoips describe interface
+            geoips describe package
+            geoips describe plugin
         geoips list
             geoips list interface
             geoips list interfaces
