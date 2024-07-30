@@ -1,7 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Unit test for GeoIPS CLI `get plugin` command.
+"""Unit test for GeoIPS CLI `describe plugin` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
@@ -13,20 +13,20 @@ from geoips import interfaces
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
-class TestGeoipsGetPlugin(BaseCliTest):
-    """Unit Testing Class for Get Plugin Command."""
+class TestGeoipsDescribePlugin(BaseCliTest):
+    """Unit Testing Class for Describe Plugin Command."""
 
     rand_threshold = 0.10
 
     @property
     def command_combinations(self):
-        """A stochastic list of commands used for the GeoipsGetPlugin command.
+        """A stochastic list of commands used for the GeoipsDescribePlugin command.
 
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._get_plugin_args
+            base_args = ["geoips", "describe"]
             # validate all plugins from package all packages
             for interface_name in interfaces.__all__:
                 interface = getattr(interfaces, interface_name)
@@ -45,22 +45,25 @@ class TestGeoipsGetPlugin(BaseCliTest):
                     interface.interface_type
                 ][interface_name]
                 for idx, plugin_name in enumerate(interface_registry):
-                    # Randomly select some plugins to perform 'get plugin' on. Doing
-                    # this because there are too many plugins to test in a timely manner
-                    if interface.name == "products":
-                        for subplg_name in interface_registry[plugin_name]:
-                            do_get_plugin = rand() < self.rand_threshold
-                            if do_get_plugin or idx == 0:
-                                combined_name = f"{plugin_name}.{subplg_name}"
+                    interface_name = interface_name.replace("_", "-")
+                    for alias in self.alias_mapping[interface_name] + [interface_name]:
+                        # Randomly select some plugins to perform 'describe plugin' on.
+                        # Doing this because there are too many plugins to test in a
+                        # timely manner
+                        if interface.name == "products":
+                            for subplg_name in interface_registry[plugin_name]:
+                                do_describe_plugin = rand() < self.rand_threshold
+                                if do_describe_plugin or idx == 0:
+                                    combined_name = f"{plugin_name}.{subplg_name}"
+                                    self._cmd_list.append(
+                                        base_args + [alias, combined_name],
+                                    )
+                        else:
+                            do_describe_plugin = rand() < self.rand_threshold
+                            if do_describe_plugin or idx == 0:
                                 self._cmd_list.append(
-                                    base_args + [interface.name, combined_name],
+                                    base_args + [alias, plugin_name],
                                 )
-                    else:
-                        do_get_plugin = rand() < self.rand_threshold
-                        if do_get_plugin or idx == 0:
-                            self._cmd_list.append(
-                                base_args + [interface.name, plugin_name],
-                            )
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
             # Add argument list with non_existent_interface
@@ -70,7 +73,7 @@ class TestGeoipsGetPlugin(BaseCliTest):
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips get plugin ...' error output is correct.
+        """Ensure that the 'geoips describe plugin ...' error output is correct.
 
         Parameters
         ----------
@@ -81,12 +84,11 @@ class TestGeoipsGetPlugin(BaseCliTest):
         """
         # An error occurred using args. Assert that args is not valid and check the
         # output of the error.
-        err_str = "usage: To use, type `geoips get plugin <interface_name> "
-        err_str += "<plugin_name>`"
+        err_str = "usage: To use, type `geoips describe <interface_name> <sub-cmd> ...`"
         assert err_str in error
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips get plugin ...' successful output is correct.
+        """Ensure that the 'geoips describe plugin ...' successful output is correct.
 
         Parameters
         ----------
@@ -97,11 +99,12 @@ class TestGeoipsGetPlugin(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            usg_str = "usage: To use, type `geoips get plugin <interface_name> "
-            usg_str += "<plugin_name>`"
+            usg_str = (
+                "usage: To use, type `geoips describe <interface_name> <sub-cmd> ...`"
+            )
             assert usg_str in output
         else:
-            # Checking that output from geoips get plugin command is valid
+            # Checking that output from geoips describe plugin command is valid
             interface_name = args[3]
             expected_outputs = [
                 "docstring",
@@ -119,7 +122,7 @@ class TestGeoipsGetPlugin(BaseCliTest):
                 assert f"{output_item}:" in output
 
 
-test_sub_cmd = TestGeoipsGetPlugin()
+test_sub_cmd = TestGeoipsDescribePlugin()
 
 
 @pytest.mark.parametrize(
@@ -128,15 +131,15 @@ test_sub_cmd = TestGeoipsGetPlugin()
     ids=test_sub_cmd.generate_id,
 )
 def test_command_combinations(monkeypatch, args):
-    """Test all 'geoips get plugin ...' commands.
+    """Test all 'geoips describe plugin ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips get plugin'
-    command. We also test invalid commands, to ensure that the proper help documentation
-    is provided for those using the command incorrectly.
+    This test covers every valid combination of commands for the 'geoips describe
+    plugin' command. We also test invalid commands, to ensure that the proper help
+    documentation is provided for those using the command incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
-        - List of arguments to call the CLI with (ie. ['geoips', 'get', 'plugin'])
+        - List of arguments to call the CLI with (ie. ['geoips', 'describe', 'plugin'])
     """
     test_sub_cmd.test_command_combinations(monkeypatch, args=args)
