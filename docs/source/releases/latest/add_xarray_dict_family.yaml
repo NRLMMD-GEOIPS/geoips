@@ -2,6 +2,32 @@ bug fix:
 - description: |
     *From GEOIPS/geoips#666: 2024-07-16, Final Bug Fixes Prior to Workshop*
 
+    Primary functional change
+
+    * Only check for percentage pixel diffs with the thresholded call to pixelmatch
+    * Only include exact check for purposes of reporting and outputing exact diff image.
+
+    A few additional updates to help figure out the best way forward for comparison
+
+    * Return immediately if the arrays are identical (avoid running pixelmatch)
+    * Ensure we run exact and thresholded pixelmatch if the arrays are not identical
+    * Output separate exact and thresholded diff images
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/output_checkers/image.py'
+    moved:
+    - ''
+  related-issue:
+    number: 666
+    repo_url: ''
+  title: 'Remove exact comparison failures from image output checker plugin'
+- description: |
+    *From GEOIPS/geoips#666: 2024-07-16, Final Bug Fixes Prior to Workshop*
+
     Ensure all xarray dict based product families are supported within the single
     source procflow, including sectored and unsectored dictionaries of xarrays,
     algorithm and no algorithm application, and with and without area defs. Note
