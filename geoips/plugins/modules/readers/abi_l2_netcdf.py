@@ -99,7 +99,7 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
         "vertical_data_type": "surface",
         "source_name": "abi",
         "data_provider": "noaa",
-        "interpolation_radius_of_influence": 2000,
+        "interpolation_radius_of_influence": 50000,
     }
     if area_def:
         geoips_attrs["area_id"] = area_def.area_id
