@@ -84,6 +84,8 @@ plugins:
   - plgs
 config:
   - cfg
+describe:
+  - desc
 list:
   - ls
 validate:
