@@ -38,6 +38,22 @@ bug fix:
     number: 666
     url: GEOIPS/geoips#666
   title: 'Fix typo causing product family xrdict_area_product_to_outlist failure'
+- description: |
+    *From GEOIPS/geoips#666: 2024-07-30, Final Bug Fixes Prior to Workshop*
+
+    This test script unnecessarily requires test data. It was updated to skip
+    the test if $GEOIPS_TESTDATA_DIR doesn't exist, but then it would still fail if some
+    test data was available, but not the test data required for the abi reader.
+    Comment this test out altogether for now - we should create a new one at some
+    point that does not require test data if we want to test the interactive logs
+    from a directly imported plugin.
+  files:
+    modified:
+    - 'tests/unit_tests/commandline/test_log_setup.py'
+  related-issue: |
+    number: 666
+    url: GEOIPS/geoips#666
+  title: 'Remove interactive log from plugin unit test'
 continuous integration:
 - description: ''
   files:
