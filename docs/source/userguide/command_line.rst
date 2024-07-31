@@ -6,7 +6,7 @@
 .. _command_line:
 
 Command Line Interface (CLI)
-**********************
+****************************
 
 .. _geoips:
 
@@ -27,12 +27,10 @@ CLI commands are split up into two groups by their actions:
  - :ref:`Information retrieval commands<information_retrieval>`
  - :ref:`Action performing commands<performing_processes>`
 
-CLI Use Cases
-*************
+CLI Functionality
+*****************
 
-For your ease of use, we've provided a complete  listing of all available GeoIPS CLI
-commands below. This diagrams what commands are available, and the required and/or
-optional arguments that go alongside these commands.
+Below is a complete listing of all available GeoIPS CLI commands and their arguments.
 
 .. dropdown:: GeoIPS CLI Commands
 
@@ -46,33 +44,33 @@ optional arguments that go alongside these commands.
 Information Retrieval
 =====================
 
-The GeoIPS CLI Implements two top-level commands which retrieve information about GeoIPS
-artifacts based on the sub-commands provided. These two top-level commands are
-``describe`` and ``list`` (``ls``). Each command shown below can be ran with a ``-h``
-flag to provide help instructions for the command you are running.
+The CLI Implements two top-level commands which retrieve information about GeoIPS
+artifacts: ``describe`` and ``list`` (``ls``).
+
+Each command shown below can be ran with a ``-h``
+flag to provide associated help instructions.
 
 .. _geoips_describe:
 
-Describe Command
-----------------
+Describe
+--------
 
 :ref:`geoips describe <geoips_describe>`
 
-``describe`` is a GeoIPS CLI command which retrieves information specific to a single
-GeoIPS artifact. The purpose of any ``describe`` command is to describe the selected
-GeoIPS artifact in a verbose manner. While the outputted information may differ by each
-describe  command, the ultimate purpose of each command is to provide both users and
-developers detailed information about each artifact. This will help implementing their
-own artifacts, and also clarify what each artifact does / needs to integrate correctly
-within the GeoIPS environment. It currently implements 4 sub-commands, which we'll
-describe below.
+``describe`` retrieves detailed information about a GeoIPS artifact.
+
+Outputted information may differ by each describe command.
+It implements four sub-commands described below.
+
+Information about artifact functionality and requirements
+is useful during use and/or development.
 
 .. _geoips_describe_interface:
 
 :ref:`geoips describe interface <geoips_describe_interface>`
 
-``describe <interface_name>`` is a describe sub-command which retrieves information
-specific to a GeoIPS interface. Information included when calling this command is:
+``describe <interface_name>`` retrieves information specific to an interface.
+It returns:
 
     * Absolute Path
     * Docstring
@@ -80,9 +78,11 @@ specific to a GeoIPS interface. Information included when calling this command i
     * Interface Type
     * Supported Families
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information
-about what GeoIPS Interfaces are available, run the command ``geoips list interfaces``.
+For more information about available GeoIPS Interfaces,
+see the :ref:`geoips list <geoips_list>` command.
+
+You can use aliases to run this command.
+For example, Algorithm has the following aliases
 
 ::
 
@@ -92,13 +92,17 @@ about what GeoIPS Interfaces are available, run the command ``geoips list interf
     geoips describe algorithms
     geoips describe <interface_name>
 
+Family
+^^^^^^
+
 .. _geoips_describe_family:
 
 :ref:`geoips describe family <geoips_describe_family>`
 
-``describe <interface_name> family <family_name>`` (or ``fam``) is a describe
-sub-command which retrieves information specific to an interface's family. Information
-included when calling this command is:
+``describe <interface_name> family <family_name>`` (or ``fam``) is a
+sub-command of ``describe`` which retrieves information about an interface's family.
+
+It returns an interfaces families:
 
     * Docstring
     * Family Name
@@ -106,14 +110,17 @@ included when calling this command is:
     * Interface Type
     * Required Args / Schema
 
-For an example of how to run this command, see below. If you want more information about
-what families belong to a certain interface, run the command ``geoips list interfaces``,
-which will include a column representing the supported families of each interface.
+For example:
 
 ::
 
     geoips describe algorithms family single_channel
-    geoips describe <interface_name> family <family_name>
+
+For more information about available GeoIPS Interfaces,
+see the :ref:`geoips list <geoips_list>` command.
+
+Package
+^^^^^^^
 
 .. _geoips_describe_package:
 
