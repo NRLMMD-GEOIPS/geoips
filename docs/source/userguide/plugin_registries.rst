@@ -5,10 +5,8 @@
 
 .. _plugin-registries:
 
-
-**********************************
 GeoIPS Plugin Registries
-**********************************
+************************
 
 GeoIPS makes use of plugin registries to reduce start up time. The process of
 locating, loading, and validating all of the plugins in GeoIPS is slow. To
@@ -20,7 +18,7 @@ the legacy dynamic system to the current pre-built plugin registry cache
 reduced startup time for the GeoIPS CLI twenty-fold.
 
 When to Create/Update Plugin Registries
-----------------------------------------
+---------------------------------------
 The plugin registries must be created/updated any time one of the following
 occurs:
 
@@ -191,4 +189,3 @@ their related scripts:
 * Finally, the unit tests that ensure the correct functionality of plugin registries,
   can be found `in the test_plugin_registries.py file
   <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/unit_tests/plugin_registries/test_plugin_registries.py>`_.
-

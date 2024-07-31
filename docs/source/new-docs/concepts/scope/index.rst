@@ -40,3 +40,5 @@ Done looks like:
      - Features we removed and will not re-implement
 
  - A PR from your feature branch to ``main`` 😊
+
+Currently, we have docs at `this old page <./../../../introduction/description_geoips>`.
