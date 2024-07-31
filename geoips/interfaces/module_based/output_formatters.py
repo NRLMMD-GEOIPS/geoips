@@ -33,6 +33,9 @@ class OutputFormattersInterface(BaseModuleInterface):
             "area_def",
             "product_name",
         ],
+        "xrdict_to_outlist": [
+            "xarray_dict",
+        ],
         "xrdict_varlist_outfnames_to_outlist": [
             "xarray_dict",
             "varlist",
@@ -77,6 +80,7 @@ class OutputFormattersInterface(BaseModuleInterface):
         "xrdict_area_varlist_to_outlist": [],
         "xrdict_area_product_outfnames_to_outlist": [],
         "xrdict_area_product_to_outlist": [],
+        "xrdict_to_outlist": [],
     }
 
 
