@@ -175,8 +175,8 @@ def test_log_interactive_geoips(caplog):
 #     """Use ABI reader, which calls log.interactive.
 #
 #     It used to be that plugins loaded via get_plugin outside of GeoIPS could not call
-#     log.interactive. They would raise an AttributeError. This is to ensure that problem
-#     has been fixed and remains fixed.
+#     log.interactive. They would raise an AttributeError. This is to ensure that
+#     problem has been fixed and remains fixed.
 #     """
 #     from geoips.interfaces import readers
 #
