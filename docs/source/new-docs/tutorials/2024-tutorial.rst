@@ -1,10 +1,5 @@
 :orphan:
 
-Documentation for Product Pluign Development by Extending GeoIPS
-================================================================
-
-.. _plugin-extend:
-
 Product Creation by Extending GeoIPS
 ************************************
 
