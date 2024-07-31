@@ -3,18 +3,31 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-###################
 GeoIPS git workflow
 ###################
 
 Follow these steps when making modifications to geoips-based
 packages or plugins
 
+Contributions generally follow the process of:
+
+1. Submit a GitHub Issue for a bug fix or feature request. :ref:`create_issue`
+2. Branch off a given Issue in order to make the required changes :ref:`create_branch`
+3. Create a github Pull Request in order for your changes to be reviewed
+   prior to being merged to the integration branch :ref:`create_pull`
+4. Ensure all required tests pass prior to PR approval (more info coming soon)
+
+   * Unit tests
+   * Integration tests
+   * Code formatting/style tests
+   * Documentation formatting/style tests
+
+5. Merge your changes into the main code base! :ref:`merge_pr_close`
+
 .. _create_issue:
 
-***************************************
 GeoIPS GitHub Issue Creation Workflow
-***************************************
+*************************************
 
 FROM WEB: Create an Issue for something that needs to be done
 =============================================================
@@ -41,7 +54,7 @@ FROM WEB: Create an Issue for something that needs to be done
 .. _create_branch:
 
 FROM WEB: MEMBERS: Create Branch from Existing Issue
-===================================================================
+====================================================
 
 **NOTE: Those who are NOT members of the GeoIPS organization will fork,**
 **not branch. Skip to NON MEMBERS section**
@@ -61,7 +74,7 @@ FROM WEB: MEMBERS: Create Branch from Existing Issue
   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
 FROM WEB: NON-MEMBERS: Create fork of repo
-===================================================================
+==========================================
 * **NOTE: NRLMMD-GEOIPS members will branch following steps above,
   **skip this section if you are a member**
 * Navigate to desired repository
@@ -72,12 +85,11 @@ FROM WEB: NON-MEMBERS: Create fork of repo
 * Uncheck "copy main branch only"
 * Click "create fork"
 
-******************************
 GeoIPS command line workflow
-******************************
+****************************
 
 FROM COMMAND LINE: Switch to new branch, Make changes as usual
-===============================================================
+==============================================================
 
 * Navigate to repository of your choice
 
@@ -122,7 +134,7 @@ FROM COMMAND LINE: Switch to new branch, Make changes as usual
         * <repo>/tests/test_all.sh
 
 Push changes to github
-=============================================================
+======================
 
 * **From command line**: When you have made all of the changes required
   for the current Issue, push changes to GitHub
@@ -130,12 +142,10 @@ Push changes to github
   * Perform once for each repository with changes related to this Issue
   * git push
 
-
 .. _create_pull:
 
-*************************************
 GeoIPS GitHub Pull Request workflow
-*************************************
+***********************************
 
 FROM WEB: Create pull request from new ticket branch to "dev" branch
 ====================================================================
@@ -160,7 +170,8 @@ Issue.
   * Click green “Create pull request” button
 * Fill Auto-populated template with appropriate content:
 
-  * Generated from `Global Pull Request Template <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
+  * Generated from `Global Pull Request Template
+    <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
   * **Important to follow template title and contents directions**
     **for ease of review**
   * **Pull request will not be approved if template is not followed appropriately**
@@ -177,9 +188,8 @@ Issue.
 
 .. _pr_review:
 
-********************************************************
 GeoIPS GitHub Pull Request Review and Approval workflow
-********************************************************
+*******************************************************
 
 FROM WEB: Wait for PR review and approval
 =========================================
@@ -199,9 +209,8 @@ Reviewers can approve the PR by:
 
 .. _merge_pr_close:
 
-******************************************
 GeoIPS Merge PR and Close Issue workflow
-******************************************
+****************************************
 
 FROM WEB: Merge pull requests
 =============================

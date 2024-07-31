@@ -5,9 +5,8 @@
 
 .. _create-a-product:
 
-**********************************
 Extend GeoIPS with new Products
-**********************************
+*******************************
 
 This section discusses how to create multiple products for CLAVR-x data, specifically
 Cloud-Top-Height, Cloud-Base-Height, and Cloud-Depth. Products are the cornerstone
@@ -113,7 +112,8 @@ As shown above, we define which procflow we want to use, which reader,
 what product will be displayed, how to output it, which filename formatter will be used,
 the minimum coverage needed to create an output (% based), as well as the sector used to
 plot the data. Many more items can be added if wanted. If you'd like some examples of
-that, feel free to peruse the `GeoIPS Scripts Directory <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
+that, feel free to peruse the `GeoIPS Scripts Directory
+<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
 
 Once these changes have been created, we can run our test script to produce Cloud Top
 Height Imagery. To do so, run your script using the line shown below.
@@ -141,7 +141,8 @@ for My-Cloud-Base-Height.
 
 Now, edit my_clavrx_products.yaml. Here are some helpful hints:
   * The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called "cld_height_base"
-  * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if you'd like!)
+  * The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if
+    you'd like!)
 
 The correct products implementation for 'my_clavrx_products.yaml' is shown below.
 Hopefully, you didn't have to make any changes after seeing this! Developing products,
@@ -213,7 +214,8 @@ Edit my_clavrx_products.yaml. Here is a helful hint to get you started:
           spec:
             variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
 
-We now have two variables, but if we examine the `Cloud-Height Product Defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
+We now have two variables, but if we examine the `Cloud-Height Product Defaults
+<https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
 we see that it uses the ``single_channel`` algorithm. This doesn't work for our use case,
 since the ``single_channel`` algorithm just manipulates a single data variable and
 plots it. Therefore, we need a new algorithm! See the
