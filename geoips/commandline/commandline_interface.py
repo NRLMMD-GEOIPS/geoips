@@ -115,6 +115,7 @@ def support_legacy_procflows():
     supported_procflows = ["config_based", "data_fusion", "single_source"]
     if (
         basename(sys.argv[0]) == "geoips"
+        and len(sys.argv) > 2
         and sys.argv[1] == "run"
         and (len(sys.argv) < 3 or sys.argv[2] not in supported_procflows)
     ):
