@@ -129,7 +129,7 @@ class GeoipsTree(GeoipsExecutableCommand):
             ),
         )
 
-    def print_tree(self, parser, colored=False, level=0, max_depth=2, short_name=False):
+    def print_tree(self, parser, color=False, level=0, max_depth=2, short_name=False):
         """Display GeoIPS CLI commands up to 'max_depth' in a tree-like fashion.
 
         This function is recursively called up to 'max_depth' to generate that tree of
@@ -141,7 +141,7 @@ class GeoipsTree(GeoipsExecutableCommand):
         ----------
         parser: argparse.ArgumentParser
             - The parser associated with the command at the current depth.
-        colored: bool
+        color: bool
             - Whether or not we want the output to be colored by depth.
         level: int
             - The current depth of the command tree (starts at 0).
@@ -189,7 +189,7 @@ class GeoipsTree(GeoipsExecutableCommand):
         # hyperlink = self.link(url, cmd_txt)
         hyperlink = cmd_txt
 
-        if colored:
+        if color:
             # print the command tree in a colored fashion
             color = self.level_to_color.get(level, Fore.WHITE)
             print(f"{indent}{color}{hyperlink}{Style.RESET_ALL}")
@@ -214,7 +214,7 @@ class GeoipsTree(GeoipsExecutableCommand):
                 if choice not in self.cmd_aliases:
                     self.print_tree(
                         subparser,
-                        colored=colored,
+                        color=color,
                         level=level + 1,
                         max_depth=max_depth,
                         short_name=short_name,
@@ -236,7 +236,7 @@ class GeoipsTree(GeoipsExecutableCommand):
             )
         self.print_tree(
             self.top_level_parser,
-            colored=args.color,
+            color=args.color,
             max_depth=depth,
             short_name=args.short_name,
         )
