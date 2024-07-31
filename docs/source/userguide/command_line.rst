@@ -22,7 +22,7 @@ The GeoIPS CLI provides a user-friendly interface to interact with ``artifacts``
 manner. A ``GeoIPS artifact`` is a piece of data or functionality, such as an Interface, Package, Plugin,
 Family, Test Script, Test Dataset, etc.
 
-The CLI is split up into two groups:
+CLI commands are split up into two groups by their actions:
 
  - :ref:`Information retrieval commands<information_retrieval>`
  - :ref:`Action performing commands<performing_processes>`
