@@ -150,7 +150,7 @@ def outputs_match(plugin, output_product, compare_product, threshold):
     # diff_arr.min/max return nan if there are any nans in the array.
     # For the record, I don't think PIL Image would have nan values, but
     # this should be safe (since NaNs will result in moving onto the pixelmatch tests).
-    if (diff_arr.min() == 0 and diff_arr.max() == 0):
+    if diff_arr.min() == 0 and diff_arr.max() == 0:
         # If the images match exactly, just output to GOOD comparison log to info level
         # (only bad comparisons to interactive level)
         log_with_emphasis(
