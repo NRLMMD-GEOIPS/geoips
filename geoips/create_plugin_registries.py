@@ -225,6 +225,12 @@ def registry_sanity_check(plugin_packages, save_type):
                                             # the package Product plugin,
                                             # raise a PluginRegistryError
                                             # and remove the registries.
+                                            pkg_relpath = "not defined"
+                                            if "relpath" in pkg_plugin:
+                                                pkg_relpath = pkg_plugin["relpath"]
+                                            subplg_relpath = "not defined"
+                                            if "relpath" in sub_plg:
+                                                subplg_relpath = sub_plg["relpath"]
                                             error_message += """
                                                 Error with packages:
                                                 [{}, {}]:
@@ -233,14 +239,14 @@ def registry_sanity_check(plugin_packages, save_type):
                                                 plugin name [{}] found under
                                                 subplg name [{}]
                                                 relpath: {}
-                                                subplg relpath: {}""".format(
+                                                subplg relpath: {}\n""".format(
                                                 comp_pkg.value,
                                                 pkg.value,
                                                 interface,
                                                 sub_plg,
                                                 plugin,
-                                                pkg_plugin["relpath"],
-                                                sub_plg["relpath"],
+                                                pkg_relpath,
+                                                subplg_relpath,
                                             )
     if error_message:
         remove_registries(plugin_packages)
