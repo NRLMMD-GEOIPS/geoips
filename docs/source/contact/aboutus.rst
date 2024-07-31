@@ -3,8 +3,7 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-********
 About Us
 ********
 
-contact geoips@nrlmry.navy.mil
+You can contact us at geoips@nrlmry.navy.mil
