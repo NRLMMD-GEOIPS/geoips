@@ -145,7 +145,12 @@ def outputs_match(plugin, output_product, compare_product, threshold):
         log_with_emphasis(LOG.interactive, message)
         return False
     # Don't bother doing pixelmatch if the arrays are identical.
-    if diff_arr.min() == diff_arr.max():
+    # Make sure the min/max values are both 0 in the diff image.
+    # If there happen to be any nans in the diff_arr, this test will fail, because
+    # diff_arr.min/max return nan if there are any nans in the array.
+    # For the record, I don't think PIL Image would have nan values, but
+    # this should be safe (since NaNs will result in moving onto the pixelmatch tests).
+    if (diff_arr.min() == 0 and diff_arr.max() == 0):
         # If the images match exactly, just output to GOOD comparison log to info level
         # (only bad comparisons to interactive level)
         log_with_emphasis(
