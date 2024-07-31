@@ -5,26 +5,27 @@
 
 .. _command_line:
 
-Command Line Interface
+Command Line Interface (CLI)
 **********************
 
 .. _geoips:
 
 :ref:`GeoIPS CLI <geoips>`
 
-The GeoIPS Command Line Interface (CLI) is currently under development, but we'll keep
-updated instructions in this documentation that reflect the current state of the CLI.
+.. warning::
 
-The GeoIPS CLI is used to interrogate / utilize GeoIPS ``artifacts`` in a user-friendly
-manner. A ``GeoIPS artifact`` is an term used to reflect the chosen piece of data or
-functionality implemented in GeoIPS. This could be a GeoIPS Interface, Package, Plugin,
-Family, Test Script, Test Dataset, etc. that is used and/or implemented throughout the
-GeoIPS Environment.
+    The CLI is currently under development.
+    This means the functionality may change without warning!
+    Please consult this documentation for up-to-date info on the CLI.
 
-The CLI is split up into two groups as of right now. CLI commands which
-:ref:`retrieve information<information_retrieval>` from GeoIPS and CLI commands which
-:ref:`perform processes<performing_processes>` via GeoIPS. We'll dive into each of those
-sections now.
+The GeoIPS CLI provides a user-friendly interface to interact with ``artifacts`` in a user-friendly
+manner. A ``GeoIPS artifact`` is a piece of data or functionality, such as an Interface, Package, Plugin,
+Family, Test Script, Test Dataset, etc.
+
+The CLI is split up into two groups:
+
+ - :ref:`Information retrieval commands<information_retrieval>`
+ - :ref:`Action performing commands<performing_processes>`
 
 CLI Use Cases
 *************
