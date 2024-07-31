@@ -47,8 +47,8 @@ Information Retrieval
 
 The GeoIPS CLI Implements two top-level commands which retrieve information about GeoIPS
 artifacts based on the sub-commands provided. These two top-level commands are
-``describe`` and ``list`` (``ls``). Each command shown below can be ran with a ``-h``
-flag to provide help instructions for the command you are running.
+``describe`` (``desc``) and ``list`` (``ls``). Each command shown below can be ran with
+a ``-h`` flag to provide help instructions for the command you are running.
 
 .. _geoips_describe:
 
@@ -58,7 +58,7 @@ Describe Command
 :ref:`geoips describe <geoips_describe>`
 
 ``describe`` is a GeoIPS CLI command which retrieves information specific to a single
-GeoIPS artifact. The purpose of any ``describe`` command is to describe the selected
+GeoIPS artifact. The purpose of any ``describe`` command is to lay out the selected
 GeoIPS artifact in a verbose manner. While the outputted information may differ by each
 describe  command, the ultimate purpose of each command is to provide both users and
 developers detailed information about each artifact. This will help implementing their
@@ -101,28 +101,7 @@ included when calling this command is:
 
     * Docstring
     * Family Name
-    * Interface Name
-    * Interface Type
-    * Required Args / Schema
-
-For an example of how to run this command, see below. If you want more information about
-what families belong to a certain interface, run the command ``geoips list interfaces``,
-which will include a column representing the supported families of each interface.
-
-::
-
-    geoips describe algorithms family single_channel
-    geoips describe <interface_name> family <family_name>
-
-.. _geoips_describe_package:
-
-:ref:`geoips describe package <geoips_describe_package>`
-
-``describe package`` is a describe sub-command which retrieves information specific to a
-GeoIPS Package. Information included when calling this command is:
-
-    * Docstring
-    * Family Name
+    * Family Path
     * Interface Name
     * Interface Type
     * Required Args / Schema
@@ -130,7 +109,9 @@ GeoIPS Package. Information included when calling this command is:
 For an example of how to run this command, see below. Notice the use of aliases in case
 you want to use these commands in shorthand style. If you want more information about
 what families belong to a certain interface, run the command ``geoips list interfaces``,
-which will include a column representing the supported families of each interface.
+which will include a column representing the supported families of each interface. You
+can also run ``geoips list interfaces --columns interface supported_families`` for a
+concise depiction of what families belong to each interface.
 
 ::
 
@@ -144,32 +125,9 @@ which will include a column representing the supported families of each interfac
     geoips describe product_defaults family interpolator_algorithm_colormapper
     geoips describe <interface_name> family <family_name>
 
-.. _geoips_describe_plugin:
+.. _geoips_describe_package:
 
-:ref:`geoips describe plugin <geoips_describe_plugin>`
-
-``describe <interface_name> <plugin_name>`` is a describe sub-command which retrieves
-information specific to a GeoIPS Plugin. Information included when calling this command
-is:
-
-    * Docstring
-    * Family
-    * Interface
-    * GeoIPS Package
-    * Plugin Type
-    * Relative Path
-
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what plugins are available, run the command ``geoips list plugins``.
-
-::
-
-    geoips describe alg single_channel
-    geoips describe algs single_channel
-    geoips describe algorithm single_channel
-    geoips describe algorithms single_channel
-    geoips describe <interface_name> <plugin_name>
+:ref:`geoips describe package <geoips_describe_package>`
 
 ``describe package <package_name>`` (or ``describe pkg <package_name>``) is a describe
 sub-command which retrieves information specific to a GeoIPS Package. Information
@@ -187,9 +145,43 @@ what GeoIPS Packages are available, run the command ``geoips list packages``.
 
 ::
 
-    geoips desc pkg geoips
+    geoips describe pkg geoips
     geoips describe package geoips
     geoips describe package <package_name>
+
+.. _geoips_describe_plugin:
+
+:ref:`geoips describe plugin <geoips_describe_plugin>`
+
+``describe <interface_name> <plugin_name>`` is a describe sub-command which retrieves
+information specific to a GeoIPS Plugin. Information included when calling this command
+is:
+
+    * Docstring
+    * Family
+    * Interface
+    * GeoIPS Package
+    * Plugin Type
+    * Product Defaults (if applicable)
+    * Relative Path
+    * Signature (if applicable)
+    * Source Names (if applicable)
+
+
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. If you want more information about
+what plugins are available, run the command ``geoips list plugins``. Note, if you are
+trying to describe a product, the plugin name is a combination of it's source name and
+product name. I.e. for the product ``Infrared`` coming from source ``abi``, the command
+call would look like ``geoips describe product abi.Infrared``.
+
+::
+
+    geoips describe alg single_channel
+    geoips describe algs single_channel
+    geoips describe algorithm single_channel
+    geoips describe algorithms single_channel
+    geoips describe <interface_name> <plugin_name>
 
 .. _geoips_list:
 
@@ -230,10 +222,10 @@ can filter by, run ``geoips list <cmd_name> --columns help``.
 plugins of a certain interface. This can also be applied to a certain GeoIPS package.
 Information included when calling this command is:
 
-    * Family
-    * GeoIPS Packages
+    * GeoIPS Package
     * Interface Name
     * Interface Type
+    * Family
     * Plugin Name
     * Source Names (if applicable)
     * Relative Path
@@ -321,6 +313,7 @@ this command is:
     * Interface Type
     * Family
     * Plugin Name
+    * Source Names
     * Relative Path
 
 For an example of how to run this command, see below. Notice the use of aliases in case
@@ -341,7 +334,7 @@ plugins from a certain GeoIPS package.
 all, or a certain GeoIPS Package. For this command to find your test script, you must
 place the script under ``<package_name>/tests/scripts/``. These test scripts can then be
 ran using ``geoips run <package_name> <script_name>``. This command can only be ran if
-the specified plugin package[s] are installed in *editable* mode.
+the specified plugin package(s) are installed in *editable* mode.
 Information included when calling this command is:
 
     * GeoIPS Package
@@ -396,7 +389,7 @@ you want to use these commands in shorthand style.
 all, or a certain GeoIPS Package. For this command to find your unit tets, you must
 place the unit tests under ``<package_name>/tests/unit_tests/``. These test scripts can
 then be ran using ``pytest -v /path/to/<package_name/tests/unit_tests/<unit_test_dir>``.
-This command can only be ran if the specified plugin package[s] are installed in
+This command can only be ran if the specified plugin package(s) are installed in
 *editable* mode.
 Information included when calling this command is:
 
@@ -600,7 +593,7 @@ To produce a sector image is quite simple. All you have to do is:
 
     * ``geoips test sector <sector_name>``
 
-This an additional output directory can be specified if you want this image to be saved
+An additional output directory can be specified if you want the sector image to be saved
 in a different location.
 
     * ``geoips test sector <sector_name> --outdir <output_directory_path>``
@@ -664,12 +657,44 @@ The output of running ``geoips tree`` is shown below.
         geoips config
             geoips config install
         geoips describe
-            geoips describe family
-            geoips describe interface
+            geoips describe algorithms
+            geoips describe colormappers
+            geoips describe coverage-checkers
+            geoips describe feature-annotators
+            geoips describe filename-formatters
+            geoips describe gridline-annotators
+            geoips describe interpolators
+            geoips describe output-checkers
+            geoips describe output-formatters
+            geoips describe procflows
+            geoips describe product-defaults
+            geoips describe products
+            geoips describe readers
+            geoips describe sector-adjusters
+            geoips describe sector-metadata-generators
+            geoips describe sector-spec-generators
+            geoips describe sectors
+            geoips describe title-formatters
             geoips describe package
-            geoips describe plugin
         geoips list
-            geoips list interface
+            geoips list algorithms
+            geoips list colormappers
+            geoips list coverage-checkers
+            geoips list feature-annotators
+            geoips list filename-formatters
+            geoips list gridline-annotators
+            geoips list interpolators
+            geoips list output-checkers
+            geoips list output-formatters
+            geoips list procflows
+            geoips list product-defaults
+            geoips list products
+            geoips list readers
+            geoips list sector-adjusters
+            geoips list sector-metadata-generators
+            geoips list sector-spec-generators
+            geoips list sectors
+            geoips list title-formatters
             geoips list interfaces
             geoips list packages
             geoips list plugins
@@ -683,6 +708,7 @@ The output of running ``geoips tree`` is shown below.
         geoips test
             geoips test linting
             geoips test script
+            geoips test sector
         geoips tree
         geoips validate
 
@@ -690,11 +716,11 @@ The output of running ``geoips tree`` is shown below.
 command. Shown below are these optional arguments and descriptions of what each argument
 does.
 
-* ``--colored``
+* ``--color``
 
   * The output of ``geoips tree`` might be a little hard to interpret. If you want the
-    output of ``geoips tree`` to be colored by depth, make sure to use the ``--colored``
-    flag. (Defaults to False)
+    output of ``geoips tree`` to be highlighted by depth, make sure to use the
+    ``--color`` flag. (Defaults to False)
 
 * ``--max-depth``
 
@@ -728,7 +754,7 @@ certain plugin. To get a listing of plugins available for validation, run the co
 the package we want to list plugins from.
 
 To validate a plugin we will need the full path to the plugin you want validated. See
-an example of this shown below.Notice the use of aliases in case
+an example of this shown below. Notice the use of aliases in case
 you want to use these commands in shorthand style.
 
 ::
