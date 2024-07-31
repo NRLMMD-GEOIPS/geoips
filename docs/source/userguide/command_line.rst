@@ -27,17 +27,15 @@ CLI commands are split up into two groups by their actions:
  - :ref:`Information retrieval commands<information_retrieval>`
  - :ref:`Action performing commands<performing_processes>`
 
-CLI Functionality
-*****************
+Functionality
+*************
 
 Below is a complete listing of all available GeoIPS CLI commands and their arguments.
 
 .. dropdown:: GeoIPS CLI Commands
 
-    .. admonition:: Usage: geoips
-
-        .. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
-            :prog: geoips
+    .. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
+        :prog: geoips
 
 .. _information_retrieval:
 
@@ -84,7 +82,7 @@ see the :ref:`geoips list <geoips_list>` command.
 You can use aliases to run this command.
 For example, Algorithm has the following aliases
 
-::
+.. code-block:: bash
 
     geoips describe alg
     geoips describe algs
@@ -100,9 +98,9 @@ Family
 :ref:`geoips describe family <geoips_describe_family>`
 
 ``describe <interface_name> family <family_name>`` (or ``fam``) is a
-sub-command of ``describe`` which retrieves information about an interface's family.
+sub-command of ``describe``
 
-It returns an interfaces families:
+It returns the following information about an interface's family:
 
     * Docstring
     * Family Name
@@ -112,12 +110,9 @@ It returns an interfaces families:
 
 For example:
 
-::
+code-block:: bash
 
     geoips describe algorithms family single_channel
-
-For more information about available GeoIPS Interfaces,
-see the :ref:`geoips list <geoips_list>` command.
 
 Package
 ^^^^^^^
@@ -126,8 +121,8 @@ Package
 
 :ref:`geoips describe package <geoips_describe_package>`
 
-``describe package`` is a describe sub-command which retrieves information specific to a
-GeoIPS Package. Information included when calling this command is:
+``describe package`` is a sub-command of describe.
+It returns the following information about a Package:
 
     * Docstring
     * Family Name
@@ -135,69 +130,61 @@ GeoIPS Package. Information included when calling this command is:
     * Interface Type
     * Required Args / Schema
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what families belong to a certain interface, run the command ``geoips list interfaces``,
-which will include a column representing the supported families of each interface.
+For example:
 
-::
+.. code-block:: bash
+
+    geoips describe algorithm family single_channel
+
+You can use aliases to run this command.
+For example:
+
+.. code-block:: bash
 
     geoips describe alg fam single_channel
     geoips describe algs fam single_channel
     geoips describe algorithm family single_channel
     geoips describe algorithms family single_channel
+
     geoips describe prod-def fam interpolator_algorithm_colormapper
     geoips describe prod-defs fam interpolator_algorithm_colormapper
     geoips describe product_default family interpolator_algorithm_colormapper
     geoips describe product_defaults family interpolator_algorithm_colormapper
     geoips describe <interface_name> family <family_name>
 
+Plugin
+^^^^^^
+
 .. _geoips_describe_plugin:
 
 :ref:`geoips describe plugin <geoips_describe_plugin>`
 
-``describe <interface_name> <plugin_name>`` is a describe sub-command which retrieves
-information specific to a GeoIPS Plugin. Information included when calling this command
-is:
+``describe plugin`` is a sub-command of describe.
+It returns the following information about a Plugin:
 
     * Docstring
-    * Family
-    * Interface
+    * Family Name
+    * Interface Name
+    * Interface Type
     * GeoIPS Package
     * Plugin Type
     * Relative Path
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what plugins are available, run the command ``geoips list plugins``.
+For example:
 
-::
+.. code-block:: bash
 
     geoips describe alg single_channel
-    geoips describe algs single_channel
+
+You can use aliases to run this command.
+For example:
+
+.. code-block:: bash
+
     geoips describe algorithm single_channel
     geoips describe algorithms single_channel
-    geoips describe <interface_name> <plugin_name>
-
-``describe package <package_name>`` (or ``describe pkg <package_name>``) is a describe
-sub-command which retrieves information specific to a GeoIPS Package. Information
-included when calling this command is:
-
-    * Docstring
-    * GeoIPS Package
-    * Package Path
-    * Source Code
-    * Version Number
-
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what GeoIPS Packages are available, run the command ``geoips list packages``.
-
-::
-
-    geoips desc pkg geoips
-    geoips describe package geoips
-    geoips describe package <package_name>
+    geoips describe alg single_channel
+    geoips describe algs single_channel
 
 .. _geoips_list:
 
@@ -206,29 +193,17 @@ List Command
 
 :ref:`geoips list <geoips_list>`
 
-``list`` is a GeoIPS CLI command which retrieves a general set of information specific
-to a GeoIPS artifact type. While the outputted information may differ by each list
-command, the ultimate purpose of each command is to provide both users and developers
-a listing of what artifacts exist, where they can be found, and a general description
-of what the artifact does. This will help users and developers gain a sense of what's,
-available, where it can be found, and what has been implemented across the GeoIPS
-environment. It currently implements 7 sub-commands, which we'll describe below. For any
-``list`` command, there are three shared arguments: ``--long/-l``, ``--columns/-c``, and
-``--package_name/-p``. You can apply any of these optional arguments to any
-``geoips list`` command to specialize the output of the ``list`` command. All ``list``
-commands default to a ``--long`` listing. If you only wanted specific columns to be
-outputted for a ``geoips list packages`` command, you could run it like this.
+``list`` returns information about a GeoIPS artifact type.
 
-.. code-block:: bash
+Outputted information includes:
 
-    geoips ls pkgs --columns package docstring version
-    geoips list pkgs --columns package docstring version
-    geoips list packages --columns package docstring version
+ - Lists of existing artifacts
+ - Artifact locations
+ - Artifact functionality
 
-The command above would list all GeoIPS Plugin Packages with information including their
-package name, docstring, and current version number. For a listing of what columns you
-can filter by, run ``geoips list <cmd_name> --columns help``.
 
+Interface
+^^^^^^^^^
 .. _geoips_list_interface:
 
 :ref:`geoips list interface <geoips_list_interface>`
@@ -419,6 +394,35 @@ unit tests from a certain GeoIPS package.
 
     geoips ls unit-tests
     geoips list unit-tests -p <package_name>
+
+Output Formatting
+^^^^^^^^^^^^^^^^^
+
+Outputs of the ``list`` can be specified with the following arguments:
+
+ - ``--long`` or ``-l`` (the default)
+ - ``--columns`` or ``-c`` (display only specified columns)
+ - ``--package_name`` or ``-p``
+
+For example, to display only the ``package`` and ``docstring``
+columns from the ``geoips list packages`` command:
+
+.. code-block:: bash
+
+    geoips list packages --columns package docstring
+
+For a list of what columns you can filter by, pass ``help`` to the ``--columns`` argument.
+
+For example:
+
+.. code-block:: bash
+
+    ``geoips list <cmd_name> --columns help``.
+
+..
+
+    TODO: Missing documentation about --package_name
+
 
 .. _performing_processes:
 
