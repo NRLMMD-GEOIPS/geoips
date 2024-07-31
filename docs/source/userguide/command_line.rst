@@ -201,17 +201,16 @@ Outputted information includes:
  - Artifact locations
  - Artifact functionality
 
-
 Interface
 ^^^^^^^^^
+
 .. _geoips_list_interface:
 
 :ref:`geoips list interface <geoips_list_interface>`
 
-``list <interface_name>`` is a list sub-command which retrieves a listing of implemented
+``list <interface_name>`` is a sub-command of list.
 
-plugins of a certain interface. This can also be applied to a certain GeoIPS package.
-Information included when calling this command is:
+It returns a list of an interfaces plugins with the follwing plugin information:
 
     * Family
     * GeoIPS Packages
@@ -221,17 +220,29 @@ Information included when calling this command is:
     * Source Names (if applicable)
     * Relative Path
 
-For an example of how to run this command, see below, one of which applies this command
-to a specific package. Notice the use of aliases in case you want to use these commands
-in shorthand style. To see which packages are available, run ``geoips list packages``.
+For example:
 
-::
+.. code-block:: bash
+
+    geoips list algorithms
+
+You can also filter by package name with ``--package_name`` or ``-p``. For example:
+
+.. code-block:: bash
+
+    geoips list interfaces --package_name geoips
+
+You can use aliases to run this command.
+For example:
+
+code-block:: bash
 
     geoips ls alg
     geoips ls algs
     geoips list algorithm
     geoips list algorithms
     geoips list <interface_name> -p <package_name>
+
 
 .. _geoips_list_interfaces:
 
