@@ -6,7 +6,7 @@
 .. _xarray_standards:
 
 Xarray and NetCDF Metadata Standards
-======================================
+====================================
 
 All GeoIPS readers read data into xarray Datasets - a separate dataset for
 each shape/resolution of data - and contain standard metadata information for
@@ -15,7 +15,6 @@ standardized processing.
 Readers should return a dictionary of the resulting xarray Datasets,
 with human readable keys for the different datasets
 (no standard for dictionary key names).
-
 
 Xarray Standard Variables
 -------------------------
@@ -89,9 +88,8 @@ The following optional attributes can be used within processing if available.
     in external viewers (such as the Automated Tropical Cyclone
     Forecasting System)
 
-
 NetCDF CF Standards
---------------------------
+-------------------
 All additional attributes should follow the
 **NetCDF Climate and Forecast (CF) Conventions**.
 

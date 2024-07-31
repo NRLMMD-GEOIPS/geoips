@@ -5,7 +5,6 @@
 
 .. _plugin-extend:
 
-**************************
 Extend GeoIPS with Plugins
 **************************
 
@@ -184,80 +183,34 @@ those steps before moving forward.
 We will now go hands on in creating a :ref:`Product<create-a-product>` for your custom
 GeoIPS Package.
 
-Developing Module-based plugin
-==============================
 
-Developing YAML-based plugin
-============================
+..
+   This is commented out for the workshop, but TODO should be populated later.
+   - Example Module-based Plugins
+   - Algorithms
+      - :ref:`Create an Algorithm<add-an-algorithm>`
+   - Colormappers
+      - :ref:`Create a Colormapper<create-colormappers>`
+   - Filename formatters
+   - Interpolators
+   - Output Formatters
+      - :ref:`Create an Output Formatter<create-output-formatter>`
+   - ProcFlows
+   - Readers
+      - :ref:`Get to Know Readers<describe-readers>`
+   - Title Formatters
+   - Example YAML-based Plugins
+   - Feature Annotators
+      - :ref:`Create a New Feature Annotator<create-feature-annotator>`
+   - Gridline Annotators
+      - :ref:`Create a New Gridline Annotator<create-gridline-annotator>`
+   - Product Defaults
+      - :ref:`Create New Product Defaults<create-product-defaults>`
+   - Products
+      - :ref:`Create New Products<create-a-product>`
+   - Dynamic Sectors
+   - Static Sectors
+      - :ref:`Create a Static Sector<create-a-static_sector>`
+   - ProcFlow Configurations
+   .. _entry-points: https://packaging.python.org/en/latest/specifications/entry-points/
 
-Example Module-based Plugins
-============================
-
-
-Algorithms
------------
-
-:ref:`Create an Algorithm<add-an-algorithm>`
-
-Colormappers
-------------
-
-:ref:`Create a Colormapper<create-colormappers>`
-
-Filename formatters
--------------------
-
-Interpolators
--------------
-
-Output Formatters
------------------
-
-:ref:`Create an Output Formatter<create-output-formatter>`
-
-ProcFlows
----------
-
-Readers
--------
-
-:ref:`Get to Know Readers<describe-readers>`
-
-Title Formatters
-----------------
-
-Example YAML-based Plugins
-==========================
-
-Feature Annotators
-------------------
-
-:ref:`Create a New Feature Annotator<create-feature-annotator>`
-
-Gridline Annotators
--------------------
-
-:ref:`Create a New Gridline Annotator<create-gridline-annotator>`
-
-Product Defaults
-----------------
-
-:ref:`Create New Product Defaults<create-product-defaults>`
-
-Products
---------
-
-:ref:`Create New Products<create-a-product>`
-
-Dynamic Sectors
----------------
-
-Static Sectors
---------------
-
-:ref:`Create a Static Sector<create-a-static_sector>`
-
-ProcFlow Configurations
------------------------
-
-.. _entry-points: https://packaging.python.org/en/latest/specifications/entry-points/

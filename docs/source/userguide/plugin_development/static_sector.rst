@@ -5,7 +5,6 @@
 
 .. _create-a-static_sector:
 
-**************************************
 Extend GeoIPS with a new Static Sector
 **************************************
 
@@ -81,7 +80,8 @@ plugin with CLAVR-x data.
 
 The commands you ran in the previously create a custom conus sector.
 my_conus_sector.yaml will be an example plugin, showing you that you can create
-sectors just like `conus.yaml <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/static/conus.yaml>`_,
+sectors just like `conus.yaml
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/static/conus.yaml>`_,
 to your own specifications. You can create a sector anywhere on the globe, in the
 fashion we just displayed above.
 
