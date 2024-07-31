@@ -5,9 +5,8 @@
 
 .. _create-gridline-annotator:
 
-**********************************************
 Extend GeoIPS with a New Gridline Annotator
-**********************************************
+*******************************************
 
 GeoIPS Gridline Annotators describe the format of the grd lines shown in your imagery.
 Every image you've created using GeoIPS so far has employed the default GeoIPS Gridline

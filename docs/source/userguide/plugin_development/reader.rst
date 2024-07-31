@@ -5,7 +5,6 @@
 
 .. _describe-readers:
 
-*******************************
 Learn More about GeoIPS Readers
 *******************************
 
@@ -38,7 +37,8 @@ variables.
 
 The ``source_name`` set it your reader correlates to the ``source_names`` property in
 your products plugin. As an example, ``my_clavrx_products.yaml`` data is read in by the
-`clavrx_hdf4 reader <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/modules/readers/clavrx_hdf4.py>`_,
+`clavrx_hdf4 reader
+<https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/modules/readers/clavrx_hdf4.py>`_,
 which sets it source name as ``clavrx``. See line 125 of that file for proof! In every
 product of ``my_clavrx_products.yaml``, we set the source name as ``clavrx`` since that
 is the reader we want to use to load in our data. See ``My-Cloud-Top-Height`` below for
@@ -90,7 +90,7 @@ of these in further detail now.
       understandable by GeoIPS. This could be using ``np.meshgrid(lats, lons)`` to
       create a 2D array of latitude and longitude, or whatever else you envision.
 
-* Unit tests 
+* Unit tests
     * Unit testing to help test conformity and validity of the reader and test data.
       For more details see :ref:`unit_tests`.
 
@@ -102,7 +102,8 @@ See below for an example of all three functions signatures in action.
 
     def read_atms_file(fname, xarray_atms):  # Read Function
 
-    def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=None):  # Call Function, with important kwargs
+    def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=None):  # Call Function, with
+    important kwargs
 
 There are a few keypoints of the call function that should be talked about. First off,
 is the metadata required by GeoIPS that is associated with your data. Mainly, there are

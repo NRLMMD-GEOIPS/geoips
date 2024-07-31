@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-*********************
 Description of GeoIPS
 *********************
 
@@ -22,7 +21,8 @@ have simple inputs and outputs (Python numpy or dask arrays or xarrays, dictiona
 portability and simplified interfacing between modules.
 
 Some of the primary benefits / requirements of GeoIPS include:
-    * Seamless application to proprietary data types and products (no reference to external functionality within the main code base)
+    * Seamless application to proprietary data types and products (no reference to external functionality within the
+      main code base)
     * Consistent product application across multiple sensors (both open source and proprietary)
     * Flexible workflow to allow efficient real-time processing as well as interactive processing
     * Modular interfaces to facilitate product development
@@ -33,7 +33,6 @@ Some of the primary benefits / requirements of GeoIPS include:
 
 .. image:: ../images/geoips_overview/GeoIPS_Structure_Overview.png
    :width: 800
-
 
 GeoIPS Scope
 ============

@@ -1,10 +1,12 @@
+:orphan:
+
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
 Documentation and Style Strategy
-===========================================
+================================
 
 GeoIPS uses Sphinx with the Napoleon extension for automated documentation generation.
 
@@ -15,9 +17,8 @@ documentation (including this page), along with a **build_docs.sh** script that
 will setup sphinx and build complete documentation from the high level rst
 files as well as docstrings contained within the GeoIPS source code.
 
-
 GeoIPS Syntax and Style Checking
-------------------------------------
+--------------------------------
 
 GeoIPS uses the NumPy docstring format within the code base for simplicity:
 
@@ -29,7 +30,7 @@ enforce numpy docstring formatting.  Sphinx is used to validate the
 formatting and syntax within RST files themselves.
 
 Corresponding configuration files for both black and flake8 can be found
-in the geoips directory ``.config/``. 
+in the geoips directory ``.config/``.
 
 All branches must pass the ``geoips/tests/utils/check_code.sh`` script
 prior to any Pull Requests being approved and merged.  Please ensure this
