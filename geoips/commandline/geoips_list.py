@@ -666,7 +666,7 @@ class GeoipsList(GeoipsCommand):
 
     name = "list"
     generated_classes = []
-    for int_name in interfaces.__all__:
+    for int_name in sorted(interfaces.__all__):
         generated_classes.append(
             CommandClassFactory(
                 GeoipsListSingleInterface,
