@@ -268,11 +268,11 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             / f"interfaces/{interface.interface_type}/{interface.name}.py"
         )
         interface_entry = {
-            "interface": interface.name,
-            "interface_type": interface.interface_type,
-            "docstring": format_docstring(interface.__doc__),
-            "abspath": interface_path,
-            "supported_families": interface.supported_families,
+            "Interface": interface.name,
+            "Interface Type": interface.interface_type,
+            "Docstring": format_docstring(interface.__doc__),
+            "Absolute Path": interface_path,
+            "Supported Families": interface.supported_families,
         }
         self._output_dictionary_highlighted(interface_entry)
 

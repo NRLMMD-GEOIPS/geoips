@@ -339,6 +339,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
             # Color the keys in cyan and values in yellow
             if ":" in line:
                 key, value = line.split(":", 1)
+                key = key.title().replace("_", " ")
+                if key in ["Package", "Geoips Package"]:
+                    key = "GeoIPS Package"
+                elif key == "Relpath":
+                    key = "Relative Path"
                 formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
                 formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
