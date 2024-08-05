@@ -7,3 +7,5 @@
 
 Functionality of GeoIPS
 =======================
+
+Currently, we have docs at `this old page <./../../../introduction/description_geoips>`.

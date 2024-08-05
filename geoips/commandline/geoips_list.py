@@ -16,7 +16,11 @@ import sys
 from tabulate import tabulate
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.commandline.geoips_command import (
+    CommandClassFactory,
+    GeoipsCommand,
+    GeoipsExecutableCommand,
+)
 from geoips.geoips_utils import is_editable
 from geoips import interfaces
 
@@ -412,7 +416,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
 
             pkg_entry = []
             docstring = import_module(package_name).__doc__
-            for header in default_headers:
+            for header in headers:
                 if header == "package":
                     pkg_name_requested = True
                     pkg_entry.append(package_name)
@@ -520,13 +524,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             - <package_name> is any GeoIPS package that is installed and recognized by
               the GeoIPS Library
         """
-        self.parser.add_argument(
-            "interface_name",
-            type=str.lower,
-            default="algorithms",
-            choices=interfaces.__all__,
-            help="GeoIPS Interfaces to list plugins_from",
-        )
+        pass
 
     def __call__(self, args):
         """List all elements of the selected list option.
@@ -551,7 +549,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         args: Namespace()
             - The list argument namespace to parse through
         """
-        interface_name = args.interface_name
+        interface_name = self.name.replace("-", "_")
         package_name = args.package_name
         try:
             interface = getattr(interfaces, interface_name)
@@ -667,8 +665,16 @@ class GeoipsList(GeoipsCommand):
     """Top-Level List Command for listing off GeoIPS Artifacts."""
 
     name = "list"
-    command_classes = [
-        GeoipsListSingleInterface,
+    generated_classes = []
+    for int_name in sorted(interfaces.__all__):
+        generated_classes.append(
+            CommandClassFactory(
+                GeoipsListSingleInterface,
+                int_name.replace("_", "-"),
+            ).generated_class
+        )
+
+    command_classes = generated_classes + [
         GeoipsListInterfaces,
         GeoipsListPackages,
         GeoipsListPlugins,

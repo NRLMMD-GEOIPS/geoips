@@ -98,6 +98,7 @@ sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
 brassy = { version = "*", optional = true }
+sphinx-argparse = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
@@ -124,6 +125,7 @@ ipython = { version = "*", optional = true }
 doc = [
     "pydata-sphinx-theme",       # Required for building documentation
     "sphinx",                    # Required for building documentation, v7.2 errors
+    "sphinx-argparse",           # Required for building documentation for the CLI, which uses autoprogram
     "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
     "m2r2",                      # Required for rendering markdown into RST-based documentation
@@ -157,7 +159,6 @@ geoips = "geoips"
 
 [tool.poetry.scripts]
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
-create_sector_image = "geoips.commandline.create_sector_image:main"
 list_available_plugins = "geoips.commandline.list_available_plugins:main"
 run_procflow = "geoips.commandline.commandline_interface:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"

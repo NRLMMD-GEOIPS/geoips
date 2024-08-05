@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-************
 Introduction
 ************
 
@@ -13,6 +12,3 @@ Introduction
    :maxdepth: 2
 
    description_geoips
-   function_summary
-   examples_output
-   conduct

@@ -12,13 +12,14 @@ import sys
 
 from colorama import Fore, Style
 
-from geoips.commandline.cmd_instructions import get_cmd_instructions
+from geoips.commandline.cmd_instructions import get_instructions
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
-from geoips.commandline.geoips_get import GeoipsGet
+from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
+from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 
 
@@ -38,10 +39,11 @@ class GeoipsCLI(GeoipsCommand):
     name = "geoips"  # Needed since we inherit from GeoipsCommand
     command_classes = [
         GeoipsConfig,
-        GeoipsGet,
+        GeoipsDescribe,
         GeoipsList,
         GeoipsRun,
         GeoipsTest,
+        GeoipsTree,
         GeoipsValidate,
     ]
 
@@ -66,7 +68,7 @@ class GeoipsCLI(GeoipsCommand):
             # Instructions dir has been provided, use the instructions found in that
             # directory so we can test that the correct functionality occurs for any
             # given instruction file state.
-            self.cmd_instructions = get_cmd_instructions(instructions_dir)
+            self.cmd_instructions = get_instructions(instructions_dir)
         else:
             # Otherwise use the default instructions which we know are correct
             # (and if they're not, the appropriate error will be raised.)
@@ -76,6 +78,13 @@ class GeoipsCLI(GeoipsCommand):
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
+        # NOTE: We should discuss how we want to share the selected LOG to child classes
+        # They can all use the functionality below, however that would be redundant and
+        # there is likely a better way to fix this. Unfortunately 'parse_known_args'
+        # didn't work and this is our best solution for the time being.
+
+        # self.LOG = getattr(LOG, self.GEOIPS_ARGS.log_level)
+        # self.LOG("LOG LEVEL = {self.GEOIPS_ARGS.log_level}")
         if hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
@@ -106,6 +115,7 @@ def support_legacy_procflows():
     supported_procflows = ["config_based", "data_fusion", "single_source"]
     if (
         basename(sys.argv[0]) == "geoips"
+        and len(sys.argv) > 2
         and sys.argv[1] == "run"
         and (len(sys.argv) < 3 or sys.argv[2] not in supported_procflows)
     ):

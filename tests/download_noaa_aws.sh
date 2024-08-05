@@ -54,16 +54,18 @@ if [[ "$8" == "" || "$8" == "default" ]]; then
 else
     rclone_conf="$8"
 fi
-if [[ "$9" == "" ]]; then
-    wildcard_list=""
+if [[ "$9" == "" || "$9" == "default" ]]; then
+    collection=""
 else
-    wildcard_list="$9"
+    collection=$9
 fi
+wildcard_list=${10:-""}
 
 mkdir -p $testdata_dir
 
 if [[ "$satellite" == "himawari8" || "$satellite" == "himawari9" ]]; then
-    rclone_path="publicAWS:noaa-$satellite/AHI-L1b-FLDK/$yyyy/$mm/$dd/$hh$mn/"
+    collection=${collection:-"AHI-L1b-FLDK"}
+    rclone_path="publicAWS:noaa-$satellite/$collection/$yyyy/$mm/$dd/$hh$mn/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     for fname in $files; do
@@ -80,7 +82,8 @@ if [[ "$satellite" == "himawari8" || "$satellite" == "himawari9" ]]; then
         fi
     done
 elif [[ "$satellite" == "geokompsat" ]]; then
-    rclone_path="publicAWS:noaa-gk2a-pds/AMI/L1B/FD/$yyyy$mm/$dd/$hh/"
+    collection=${collection:-"AMI/L1B/FD"}
+    rclone_path="publicAWS:noaa-gk2a-pds/$collection/$yyyy$mm/$dd/$hh/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     echo "COMPARE: ${yyyy}${mm}${dd}${hh}${mn}"
@@ -101,7 +104,8 @@ elif [[ "$satellite" == "geokompsat" ]]; then
         fi
     done
 else
-    rclone_path="publicAWS:noaa-$satellite/ABI-L1b-RadF/$yyyy/$jday/$hh/"
+    collection=${collection:-"ABI-L1b-RadF"}
+    rclone_path="publicAWS:noaa-$satellite/$collection/$yyyy/$jday/$hh/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     for fname in $files; do
