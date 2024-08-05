@@ -478,8 +478,9 @@ For example:
 Performing Processes
 ====================
 
-The other use case of the GeoIPS CLI is for performing GeoIPS processes. We currently
-implement 4 commands which perform some sort of process. This includes plugin
+The CLI can kick off functionality built into GeoIPS. Below, we describe commands that
+do this.
+
 validation, executing test scripts, installing test datasets used by GeoIPS, and running
 a processing workflow as ``run_procflow`` previously did. The latter is the most
 significant change as we've rerouted all ``run_procflow`` & ``data_fusion_procflow``
@@ -487,41 +488,52 @@ commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actual
 change the implementation of how procflows were ran, this makes all procflow calls be
 easily integrated as a CLI process.
 
-Shown below are 4 types of GeoIPS Commands which will invoke processes related to
-the command provided.
-
 .. _geoips_config:
 
-Config Command
---------------
+Config
+------
 
 :ref:`geoips config <geoips_config>`
 
-Currently, GeoIPS relies on test datasets to perform testing on the processing workflows
-which we've created. These test datasets are installed via a bash script before any
-testing can be done. To make this process easier and more configurable, we've
-implemented a ``geoips config`` (or ``geoips cfg``) command, which encapsulates
-configuration settings that we can implement via the CLI.
+``geoips config`` (or ``geoips cfg``) makes testing easier by providing easy access to
+configuration options.
 
-We currently only implement the ``geoips config install <test_dataset_name>`` command
-for installing test datasets, though we'll support other config commands as we continue
-to develop the GeoIPS CLI.
+.. note::
+
+    As we continue to develop the GeoIPS CLI,
+    we expect the functionality of this command to grow.
+
+config install
+^^^^^^^^^^^^^^
 
 .. _geoips_config_install:
 
 :ref:`geoips config install <geoips_config_install>`
 
+GeoIPS relies on test datasets to test its processing workflows.
+Test datasets must be installed before tests can be run.
+
 ``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing implemented processing workflows. For a listing of test datasets available for
-installation, run this command ``geoips list test-datasets``.
+testing processing workflows.
 
-To install a specific test dataset, run the command below.
+For example:
 
-::
+.. code-block:: bash
+
+    geoips config install <test_dataset_name>
+    geoips config install test_data_clavrx
+
+.. note::
+
+    To list installable test datasets,
+    see ``geoips list test-datasets``.
+
+This command provides the alias ``cfg`` (short for ``config``) for convenience.
+For example:
+
+.. code-block:: bash
 
     geoips cfg install test_data_clavrx
-    geoips config install test_data_clavrx
-    geoips config install <test_dataset_name>
 
 .. _geoips_run:
 
@@ -542,30 +554,52 @@ Run Command
 
 :ref:`geoips run data fusion <geoips_run_data_fusion>`
 
-Currently, GeoIPS creates all outputs defined by products via a processing workflow
-(procflow). These processing workflows are written as a bash script, which tells GeoIPS
-what plugins will be used and how they will be processed. While this works for the time
-being, we are largely refactoring the way in which outputs will be produced by using an
-order-based procflow. We eventually want to specify the order in which a procflow
-executes using a ``steps`` attribute in your ``product`` / ``product_defaults``.
+GeoIPS creates outputs (as defined by products)
+via a processing workflow, aka a procflow.
 
-``run`` does exactly what ``run_procflow`` and ``data_fusion_procflow`` currently do. To
-preserve test scripts that were written prior to this PR, we've implemented a
-``legacy run`` format which will process your test scripts the exact same manner in
-which ``run_procflow`` or ``data_fusion_procflow`` did in the past. While these commands
-won't point to the same entrypoint as they did before, they make use of the GeoIPS CLI
-to call ``geoips run`` which will execute the same functionality as it did before.
+Procflows are bash scripts that call GeoIPS with configuration options.
+
+.. warning::
+
+    We are actively changing the way procflows work.
+
+    This approach is problematic,
+    and we are refactoring GeoIPS's procflows into an order-based framework.
+
+    The new framework will allow users to specify the order in which a procflow
+    executes via a ``steps`` attribute.
+
+.. warning::
+
+    ``run`` replaces ``run_procflow`` and ``data_fusion_procflow``.
+
+    ``legacy run`` provides backwards compatibility with
+    these commands by wrapping ``geoips run``
+
+    We recommend transitioning your scripts to use ``run``
+    as backwards compatibility may be removed in the future.
 
 ``run`` follows the procflow defined by a bash script and produces the same output of
-such bash script if it were ran ``./<script_name>``. While you technically can execute a
-``run`` command directly in the commandline, we heavily suggest creating a bash script
-for testing and reusability's sake. We've overwritten all ``geoips`` and ``data_fusion``
-test scripts to make use of the new CLI procflow functionality. Shown below, are the
-differences between executing a legacy procflow and the new CLI-based procflows. While
-both work and execute the same process, we recommend transitioning your scripts to the
-CLI-based method as we may remove support for legacy formats in the future.
+such bash script if it were ran ``./<script_name>``.
 
-Legacy Procflow (abi.static.Infrared.imagery_annotated.sh)
+Here is an example of the new CLI-based procflow,
+and how it compares to the - now legacy - procflows of old.
+
+New CLI-based Procflow (abi.static.Infrared.imagery_annotated)
+
+.. code-block:: bash
+
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+        --reader_name abi_netcdf \
+        --product_name Infrared \
+        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --resampled_read \
+        --logging_level info \
+        --sector_list goes_east
+
+Legacy Procflow (abi.static.Infrared.imagery_annotated)
 
 .. code-block:: bash
 
@@ -579,95 +613,74 @@ Legacy Procflow (abi.static.Infrared.imagery_annotated.sh)
         --resampled_read \
         --logging_level info \
         --sector_list goes_east
-    retval=$?
 
-    exit $retval
-
-New CLI-based Procflow (abi.static.Infrared.imagery_annotated.sh)
-
-.. code-block:: bash
-
-    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-        --reader_name abi_netcdf \
-        --product_name Infrared \
-        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
-        --output_formatter imagery_annotated \
-        --filename_formatter geoips_fname \
-        --resampled_read \
-        --logging_level info \
-        --sector_list goes_east
-    retval=$?
-
-    exit $retval
-
-As you can see, the only difference between the two formats is the first line and the
-``--procflow`` line. With the new CLI-based format, all you need to do is replace
+The only difference between the two examples above are the first line and the
+``--procflow`` line. With the new format, all you need to do update is replace
 ``run_procflow`` / ``data_fusion_procflow`` with ``geoips run <procflow_name>`` and
 remove the ``--procflow`` line. That's it!
 
-To execute the ``run`` command, just run a bash script via ``./path/to/script.sh``.
-
 .. _geoips_test:
 
-Test Command
-------------
+test
+----
 
 :ref:`geoips test <geoips_test>`
 
-GeoIPS, and other GeoIPS packages currently implement tests to ensure that they
-integrate together correctly, and that they each operate correctly at an atomic level.
-While more tests are needed to ensure that every piece of GeoIPS is working fine, we
-are able to get a general sense as to whether or not things are working or are broken,
-and where / why that is happening.
+GeoIPS and GeoIPS packages implement tests and linters to
+confirm functionality, uniform syntax and interoperability.
 
-These tests are a very useful feature, however are not that easy to run in the current
-status of our codebase. To alleviate that issue, we've created a ``geoips test`` command
-which can execute linting, and output / integration test scripts. Together, these
-testing protocols ensure that our environment is working as expected.
+``geoips test`` can execute linting, and output / integration test scripts.
 
-Shown below, we'll demonstrate how to test each of these protocols so that the user can
-easily ensure that what they're developing is working as expected. We recommend trying
-to develop in a test-driven-development (TDD) manner, so that you can check that your
-code is working as you develop it on the fly.
+Checking code often is a good practice.
+
+test linting
+^^^^^^^^^^^^
 
 .. _geoips_test_linting:
 
 :ref:`geoips test linting <geoips_test_linting>`
 
-``linting`` runs the main three linters that are supported by the main GeoIPS package.
-Those three linters are ``bandit``, ``black``, and ``flake8``. We may support more
-linters in the future, but as this documentation was written, those are the three in
-which we currently support.
+This command runs ``bandit``, ``black``, and ``flake8``.
 
-To test that your code adheres to GeoIPS Linting protocols, run the command below.
+.. note::
 
-::
+    We may support more linters in the future.
 
-    geoips test linting (defaults to 'geoips' package)
-    geoips test linting -p <package_name>
+For example:
+
+.. code-block:: bash
+
+    geoips test linting # (defaults to 'geoips' package)
+    geoips test linting -p <package_name> # only runs tests in provided plugin package
+
+test sector
+^^^^^^^^^^^
 
 .. _geoips_test_sector:
 
 :ref:`geoips test sector <geoips_test_sector>`
 
-``sector`` produces a .png image based on the provided sector plugin name. This sector
-must be an entry within any Plugin Package's registered_plugins.(yaml/json) file. Once,
-you've created a new sector plugin, make sure to run ``create_plugin_registries`` to get
-this sector added to your registry. Once added, you can run this command to produce an
-image of your sector to easily test whether or not it captures the region you expected
-and if the resolution of that sector is correct.
+``sector`` produces a .png image based on the provided sector plugin name. The sector
+must be an entry within any Plugin Package's registered_plugins.(yaml/json) file.
 
-To produce a sector image is quite simple. All you have to do is:
+For example:
 
-    * ``geoips test sector <sector_name>``
+.. code-block:: bash
 
-This an additional output directory can be specified if you want this image to be saved
-in a different location.
+    geoips test sector <sector_name>
+
+An output directory can be specified with ``--outdir``. For example:
 
     * ``geoips test sector <sector_name> --outdir <output_directory_path>``
 
-For example, if you were to run ``geoips test sector canada``, the following image would
-be created at ``$GEOIPS_OUTDIRS/canada.png``.
+After creating a new sector plugin, run ``create_plugin_registries``
+to add the sector to your registry.
+
+Once added, this command can produce an image to
+help confirm the region and resolution of that sector.
+
+For example, if you were to run ``geoips test sector canada``, the image below would
+be saved to ``$GEOIPS_OUTDIRS/canada.png``.
 
 .. image:: ../images/command_line_examples/canada.png
    :width: 800
@@ -677,45 +690,55 @@ be created at ``$GEOIPS_OUTDIRS/canada.png``.
 :ref:`geoips test script <geoips_test_script>`
 
 ``script`` executes an output-based test script which will return a numerical value
-based on the output of the test. A 0 is a success, and any other number will denote what
-failed and why that occurred. The ``script`` command can also execute ``integration``
-tests (which are only supported in the 'geoips' package). These sorts of tests ensure
-that all new functionality of the main GeoIPS code integrate correctly and accurately.
+based on the output of the test.
 
-To run a test (bash) script, or run your integration tests, you must first place your
-integration / normal test scripts in the following file locations.
+A 0 is a success. Any non-zero number indicate a failure,
+and sometimes provide information on what kind of failure occurred.
+
+.. note::
+
+    ``script`` only supports bash scripts ending in ``.sh``
+
+For example:
+
+.. code-block:: bash
+
+    geoips test script <script_name> (defaults to 'geoips' package)
+
+```script`` can execute integration tests in the 'geoips' package.
+
+For example:
+
+.. code-block:: bash
+
+    geoips test script --integration <script_name>
+
+To run a test script, or run your integration tests, you must first place your
+integration / normal test scripts in one of these file locations:
 
     * Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
     * Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
 
-Once you've created your script in the appropriate location, follow the command below.
+You can run test scripts in plugin packages by specifying the
+plugin package with ``-p`` or ``--package_name``. For example:
 
-::
+.. code-block:: bash
 
-    geoips test script <script_name> (defaults to 'geoips' package)
+    geoips test script --package_name <package_name> <script_name>
     geoips test script -p <package_name> <script_name>
-    geoips test script --integration <script_name> (no '-p' as this is only supported for 'geoips' package)
 
 .. _geoips_tree:
 
-Tree Command
-------------
+tree
+----
 
 :ref:`geoips tree <geoips_tree>`
 
-The GeoIPS CLI provides a variety of commands which aren't necessarily easily exposed
-via ``geoips -h``. To improve this issue, we've added a ``geoips tree`` command which
-exposes all GeoIPS CLI commands in a tree-like fashion. This way, we can expose all
-commands that are available via the GeoIPS CLI, and expose the depth in which these
-commands exist.
+Only some GeoIPS CLI commands are exposed via ``geoips -h``.
 
-By displaying the commands in a depthwise structure, users can understand what commands
-are available and how they are called.
+``geoips tree`` lists all GeoIPS CLI commands in a tree-like fashion.
 
-If you just call ``geoips tree``, you'll get the full command tree in a non-colored,
-verbose output.
-
-The output of running ``geoips tree`` is shown below.
+For example, running ``geoips tree`` returns:
 
 .. code-block:: bash
 
@@ -747,9 +770,7 @@ The output of running ``geoips tree`` is shown below.
         geoips tree
         geoips validate
 
-``geoips tree`` additionaly provides optional arguments to filter the output of this
-command. Shown below are these optional arguments and descriptions of what each argument
-does.
+``geoips tree`` provides arguments to filter its output.
 
 * ``--colored``
 
