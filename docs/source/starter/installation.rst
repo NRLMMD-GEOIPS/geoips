@@ -148,10 +148,10 @@ look something like below, indicating that none of the tests failed:
     Number data types run: 3
     Number data types failed: 0
 
-7. Capture working requirements.txt for base install
-----------------------------------------------------
+7. OPTIONAL: Capture working requirements.txt for base install
+--------------------------------------------------------------
 
-These can be commited to the repository for reference - only commit if
+OPTIONAL: These can be commited to the repository for reference - only commit if
 base_test.sh returns 0!  Not required.
 
 .. code:: bash
