@@ -27,6 +27,7 @@ if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
     # <<< conda initialize <<<
 fi
 
+export PATH="$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin:$PATH"
 whichconda=`which conda 2> /dev/null`
 if [[ "$whichconda" != "" ]]; then
     if conda env list | grep -q --regex '^geoips_conda'; then

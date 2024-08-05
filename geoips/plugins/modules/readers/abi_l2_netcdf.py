@@ -1,20 +1,12 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """ABI Level 2 NetCDF reader."""
 
 # Python Standard Libraries
 from datetime import datetime
 import logging
+from numpy import isnan
 
 
 # Installed Libraries
@@ -107,7 +99,7 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
         "vertical_data_type": "surface",
         "source_name": "abi",
         "data_provider": "noaa",
-        "interpolation_radius_of_influence": 2000,
+        "interpolation_radius_of_influence": 50000,
     }
     if area_def:
         geoips_attrs["area_id"] = area_def.area_id
@@ -128,6 +120,7 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
     else:
         lats = geo["fldk_lats"]
         lons = geo["fldk_lons"]
+    ll_mask = (isnan(lats)) | (lats < -90) | (lats > 90)
     xarrays = []
     for fname in fnames:
         log.info("Reading %s" % fname)
@@ -156,6 +149,8 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
             xarray = area_dataset
         xarray["latitude"] = (("y", "x"), lats)
         xarray["longitude"] = (("y", "x"), lons)
+        for ll in ["latitude", "longitude"]:
+            xarray[ll] = xarray[ll].where(~ll_mask)
         # Add metadata needed by downstream GeoIPS utils
         xarray.attrs = dict(xarray.attrs, **geoips_attrs)
         xarray.attrs["start_datetime"] = xarray.start_time

@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `list plugins` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -11,24 +14,36 @@ from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
 class TestGeoipsListPlugins(BaseCliTest):
-    """Unit Testing Class for List Plugins Sub-Command."""
+    """Unit Testing Class for List Plugins Command."""
 
     @property
-    def all_possible_subcommand_combinations(self):
+    def command_combinations(self):
         """A list of every possible call signature for the GeoipsListPlugins command.
 
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            self._cmd_list = [self._list_plugins_args]
-            for pkg_name in self.plugin_package_names:
-                self._cmd_list.append(self._list_plugins_args + ["-p", pkg_name])
+            base_args = ["geoips", "list", "plugins"]
+            alias_args = ["geoips", "ls", "plugins"]
+            self._cmd_list = [base_args, alias_args]
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names:
+                    self._cmd_list.append(argset + ["-p", pkg_name])
+            # Add argument list invoking the --columns flag
+            self._cmd_list.append(base_args + ["--columns", "package", "interface"])
+            self._cmd_list.append(base_args + ["--columns", "plugin_type", "family"])
+            self._cmd_list.append(base_args + ["--columns", "relpath", "source_names"])
+            self._cmd_list.append(base_args + ["--columns", "plugin_name", "relpath"])
+            self._cmd_list.append(alias_args + ["--columns", "package", "interface"])
+            self._cmd_list.append(alias_args + ["--columns", "plugin_type", "family"])
+            self._cmd_list.append(alias_args + ["--columns", "relpath", "source_names"])
+            self._cmd_list.append(alias_args + ["--columns", "plugin_name", "relpath"])
             # Add argument list which invokes the help message for this command
-            self._cmd_list.append(["geoips", "list", "plugins", "-h"])
+            self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(alias_args + ["-h"])
             # Add argument list with a non-existent package name
-            self._cmd_list.append(
-                ["geoips", "list", "plugins", "-p", "non_existent_package"]
-            )
+            self._cmd_list.append(base_args + ["-p", "non_existent_package"])
+            self._cmd_list.append(alias_args + ["-p", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -42,7 +57,11 @@ class TestGeoipsListPlugins(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "plugins"]
+        assert args != ["geoips", "list", "plugins"] and args != [
+            "geoips",
+            "ls",
+            "plugins",
+        ]
         assert "usage: To use, type `geoips list plugins`" in error
 
     def check_output(self, args, output):
@@ -57,21 +76,21 @@ class TestGeoipsListPlugins(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list", "plugins", "-h"]
+            assert "-h" in args
             assert "To use, type `geoips list plugins`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
-            headers = [
-                "GeoIPS Package",
-                "Interface",
-                "Interface Type",
-                "Family",
-                "Plugin Name",
-                "Relative Path",
-            ]
+            selected_cols = self.retrieve_selected_columns(args)
+            headers = {
+                "GeoIPS Package": "package",
+                "Interface Name": "interface",
+                "Interface Type": "plugin_type",
+                "Family": "family",
+                "Plugin Name": "plugin_name",
+                "Relative Path": "relpath",
+            }
             # Assert that the correct headers exist in the CLI output
-            for header in headers:
-                assert header in output or "has no plugins" in output
+            self.assert_correct_headers_in_output(output, headers, selected_cols)
 
             if "-p" in args:
                 # certain package has been selected, ensure we found every pkg-plugin
@@ -106,10 +125,10 @@ test_sub_cmd = TestGeoipsListPlugins()
 
 @pytest.mark.parametrize(
     "args",
-    test_sub_cmd.all_possible_subcommand_combinations,
+    test_sub_cmd.command_combinations,
     ids=test_sub_cmd.generate_id,
 )
-def test_all_command_combinations(args):
+def test_command_combinations(monkeypatch, args):
     """Test all 'geoips list plugins ...' commands.
 
     This test covers every valid combination of commands for the
@@ -121,4 +140,4 @@ def test_all_command_combinations(args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'list', 'plugins'])
     """
-    test_sub_cmd.test_all_command_combinations(args)
+    test_sub_cmd.test_command_combinations(monkeypatch, args)

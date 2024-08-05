@@ -1,20 +1,12 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _create-product-defaults:
 
-******************************************
 Extend GeoIPS with new Product Defaults
-******************************************
+***************************************
 
 Lets first discuss what product defaults are. Product Defaults, as their name implies,
 are defaults for commonly used GeoIPS products. They allow you to create default product
@@ -29,8 +21,11 @@ GeoIPS has a number of product_defaults plugins defined to help you not reinvent
     * You can absolutely define all of the available options within your product plugin
 
 To give you a better idea of what we are talking about, feel free to view some files in these folders.
-    * `Pre-defined CLAVR-x product defaults <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/tree/main/geoips_clavrx/plugins/yaml/product_defaults>`_ (part of the CLAVR-x plugin)
-    * `Pre-defined GeoIPS product defaults <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/product_defaults>`_
+    * `Pre-defined CLAVR-x product defaults
+      <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/tree/main/geoips_clavrx/plugins/yaml/product_defaults>`_ (part of
+      the CLAVR-x plugin)
+    * `Pre-defined GeoIPS product defaults
+      <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/product_defaults>`_
 
 If you have product definition parameters that you want to reuse (i.e. if you're
 copy/pasting product definition parameters!), consider creating a product default for

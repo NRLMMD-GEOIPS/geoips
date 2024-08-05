@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """GeoIPS CLI "test" command.
 
 Runs the appropriate tests based on the arguments provided.
@@ -7,19 +10,24 @@ from glob import glob
 from importlib import resources
 
 # from os import listdir
-from os.path import basename
+from os import environ, makedirs
+from os.path import basename, exists, join
+import sys
 
 # from pytest import main as invoke_pytest
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.errors import PluginError
+from geoips.geoips_utils import is_editable
+from geoips.interfaces import sectors
 
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
-#     """Test Sub-Command for running GeoIPS Unit Tests."""
+#     """Test Command for running GeoIPS Unit Tests."""
 
-#     command_name = "unit-test"
-#     subcommand_classes = []
+#     name = "unit-test"
+#     command_classes = []
 
 #     def add_arguments(self):
 #         """Instantiate the arguments that are supported for the test unit-test command. # NOQA
@@ -33,12 +41,12 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #               the GeoIPS Library
 #             - <test_name> is the name of the unit test being ran
 #         """
-#         self.subcommand_parser.add_argument(
+#         self.parser.add_argument(
 #             "directory_name",
 #             type=str,
 #             help="GeoIPS Packages Unit Test Directory Name where unit tests are held.", # NOQA
 #         )
-#         self.subcommand_parser.add_argument(
+#         self.parser.add_argument(
 #             "--package_name",
 #             "-p",
 #             type=str,
@@ -46,7 +54,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #             choices=self.plugin_package_names,
 #             help="GeoIPS Package containing the unit-tests to be ran.",
 #         )
-#         self.subcommand_parser.add_argument(
+#         self.parser.add_argument(
 #             "--name_of_test",
 #             "-n",
 #             type=str,
@@ -68,7 +76,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #             listdir(unit_test_dir)
 #         except FileNotFoundError:
 #             err_str = f"No unit tests directory found for package '{package_name}'."
-#             self.subcommand_parser.error(err_str)
+#             self.parser.error(err_str)
 
 #         if dir_name not in listdir(unit_test_dir):
 #             # The specified unit test directory does not exist at the specified location # NOQA
@@ -76,7 +84,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #             err_str = f"Directory '{dir_name}' not found under {package_name}'s unit "
 #             err_str += f"tests directory '{unit_test_dir}'. Please select one of the "
 #             err_str += f"following unit test directories:\n {listdir(unit_test_dir)}"
-#             self.subcommand_parser.error(err_str)
+#             self.parser.error(err_str)
 #         elif test_name is not None:
 #             # We've specified a specific Unit Test to run out of
 #             # <package_name>/tests/unit_tests/<dir_name>/<script_name>, ensure that
@@ -89,7 +97,7 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #                 err_str = f"Unit Test '{test_name}' not found under the directory "
 #                 err_str += f"'{unit_test_dir}', please select one of the options shown " # NOQA
 #                 err_str += f"below.\ns {fnames}"
-#                 self.subcommand_parser.error(err_str)
+#                 self.parser.error(err_str)
 #         else:
 #             # script name wasn't specified, run all unit tests found under
 #             # <package_name>/tests/unit_tests/<dir_name>
@@ -99,11 +107,80 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 #         invoke_pytest(["-v", test_path])
 
 
-class GeoipsTestScript(GeoipsExecutableCommand):
-    """Test Sub-Command for running GeoIPS Test Scripts."""
+class GeoipsTestSector(GeoipsExecutableCommand):
+    """Test Command for creating a sector image based on the provided sector name.
 
-    command_name = "script"
-    subcommand_classes = []
+    This used to be ran via 'create_sector_image', however we are trying to consolidate
+    all independent console scripts to be used via the CLI. When this command is called
+    an image of the provided sector will be created so we can view whether or not it
+    matches the region of the globe we'd like to study.
+    """
+
+    name = "sector"
+    command_classes = []
+
+    def add_arguments(self):
+        """Instantiate the arguments that are supported for the test sector command.
+
+        Currently the "geoips test sector" command supports this format:
+            - geoips test sector <sector_name> --outdir <output_directory_path>
+        Where:
+            - <sector_name> is the name of any GeoIPS Sector Plugin that has an entry in
+              any package's plugin registry.
+            - --outdir is the full path to the directory in which you'd like to create
+              the sector image.
+        """
+        self.parser.add_argument(
+            "sector_name",
+            type=str,
+            help="Name of the sector plugin to create an image from.",
+        )
+        self.parser.add_argument(
+            "--outdir",
+            "-o",
+            type=str,
+            default=f"{environ['GEOIPS_OUTDIRS']}",
+            help="The output directory to create your sector image in.",
+        )
+
+    def __call__(self, args):
+        """Create the provided sector image based off the arguments provided.
+
+        This will retrieve the selected sector plugin from any GeoIPS Plugin package,
+        then create an image of that sector. This is a good way to quickly test whether
+        or not your sector plugin covers the area you expected with the correct
+        resolution.
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        sector_name = args.sector_name
+        outdir = args.outdir
+        # If the path to outdir doesn't already exist, make that path
+        if not exists(outdir):
+            makedirs(outdir)
+        # Create an image for the requested sector, including just the map and white
+        # background.
+        fname = join(outdir, f"{sector_name}.png")
+        try:
+            sect = sectors.get_plugin(sector_name)
+        except PluginError:
+            raise self.parser.error(
+                f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
+                "found under 'geoips list interface sectors' or create a new plugin "
+                f"named '{sector_name}' and run 'create_plugin_registries'."
+            )
+        print(f"Creating {fname}.")
+        sect.create_test_plot(fname)
+
+
+class GeoipsTestScript(GeoipsExecutableCommand):
+    """Test Command for running GeoIPS Test Scripts."""
+
+    name = "script"
+    command_classes = []
 
     def add_arguments(self):
         """Instantiate the arguments that are supported for the test script command.
@@ -116,12 +193,12 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             - <script_name> is the name of the bash script being tested
             - '--integration' represents whether or not this is an 'integration' test
         """
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "script_name",
             type=str,
             help="GeoIPS Script to be tested",
         )
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "--package_name",
             "-p",
             type=str,
@@ -129,7 +206,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             choices=self.plugin_package_names,
             help="GeoIPS Package containing the script to be tested",
         )
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "--integration",
             default=False,
             action="store_true",
@@ -159,11 +236,25 @@ class GeoipsTestScript(GeoipsExecutableCommand):
                 # testing
                 err_str = "Only package 'geoips' has integration tests. Package "
                 err_str += f"'{package_name}' doesn't have those tests. Try again."
-                self.subcommand_parser.error(err_str)
+                self.parser.error(err_str)
             dir_name = "integration_tests"
         else:
             dir_name = "scripts"
-
+        if not is_editable(package_name):
+            # Package is installed in non-editable mode and we will not be able to
+            # access unit tests. Raise a runtime error reporting this.
+            print(
+                f"Error: Package '{package_name}' is installed in non-editable mode and"
+                " we are not able to access it's unit tests. For this command to "
+                f"work, please install '{package_name}' in editable mode via: "
+                f"'pip install -e <path_to_{package_name}>'",
+                file=sys.stderr,
+            )
+            # We use a print to sys.stderr so monkeypatch unit tests can catch this
+            # output
+            raise RuntimeError(
+                f"Package '{package_name}' isn't installed in editable mode."
+            )
         test_dir = str(resources.files(package_name) / f"../tests/{dir_name}")
         fnames = [basename(fpath) for fpath in glob(f"{test_dir}/*.sh")]
 
@@ -174,7 +265,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             err_str = f"Script '{script_name}' doesn't exist within '{test_dir}/'. "
             err_str += "Please select a valid script from this directory listing:\n"
             err_str += str_fnames
-            self.subcommand_parser.error(err_str)
+            self.parser.error(err_str)
 
         script_path = f"{test_dir}/{script_name}"
         # Run the corresponding test
@@ -182,14 +273,14 @@ class GeoipsTestScript(GeoipsExecutableCommand):
 
 
 class GeoipsTestLinting(GeoipsExecutableCommand):
-    """Test Sub-Command for running GeoIPS Linting Services."""
+    """Test Command for running GeoIPS Linting Services."""
 
-    command_name = "linting"
-    subcommand_classes = []
+    name = "linting"
+    command_classes = []
 
     def add_arguments(self):
         """Add arguments to the test-subparser for the Test Linting Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "--package_name",
             "-p",
             type=str,
@@ -201,6 +292,21 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
     def __call__(self, args):
         """Run all GeoIPS Linting Tests on the provided package."""
         package_name = args.package_name
+        if not is_editable(package_name):
+            # Package is installed in non-editable mode and we will not be able to
+            # access unit tests. Raise a runtime error reporting this.
+            print(
+                f"Error: Package '{package_name}' is installed in non-editable mode and"
+                " we are not able to access it's unit tests. For this command to "
+                f"work, please install '{package_name}' in editable mode via: "
+                f"'pip install -e <path_to_{package_name}>'",
+                file=sys.stderr,
+            )
+            # We use a print to sys.stderr so monkeypatch unit tests can catch this
+            # output
+            raise RuntimeError(
+                f"Package '{package_name}' isn't installed in editable mode."
+            )
         lint_path = str(resources.files("geoips") / "../tests/utils/check_code.sh")
         package_path = str(resources.files(package_name) / "../.")
         for linter in ["bandit", "black", "flake8"]:
@@ -210,6 +316,6 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
 class GeoipsTest(GeoipsCommand):
     """Top-Level Test Command for testing GeoIPS and its corresponding Packages."""
 
-    command_name = "test"
-    subcommand_classes = [GeoipsTestLinting, GeoipsTestScript]
-    # subcommand_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]
+    name = "test"
+    command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestSector]
+    # command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]

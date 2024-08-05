@@ -1,6 +1,6 @@
 {
-    "name": "I_am_invalid",
-    "because_my_name_is_not_instructions": {
+    "name": "geoips_cmd_instructions",
+    "instructions": {
         "config": {
             "help_str": "Various configuration-based commands for setting up your geoips environment.\nCurrently supports `geoips config install <test_dataset_name>` command.\n",
             "usage_str": "To use, type `geoips config <sub-cmd> <sub-sub-command> ...`\n",

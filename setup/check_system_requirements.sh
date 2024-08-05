@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
@@ -46,15 +37,15 @@ echo "Install log: $install_log"
 
 # These are the download locations used by the test_data function
 test_data_urls=(
-    "https://io.cira.colostate.edu/s/mQ2HbE2Js4E9rba/download/test_data_viirs.tgz"
-    "https://io.cira.colostate.edu/s/CezXWwXg4qR2b94/download/test_data_smap.tgz"
-    "https://io.cira.colostate.edu/s/HyHLZ9F8bnfcTcd/download/test_data_scat.tgz"
-    "https://io.cira.colostate.edu/s/snxx8S5sQL3AL7f/download/test_data_sar.tgz"
-    "https://io.cira.colostate.edu/s/fkiPS3jyrQGqgPN/download/test_data_noaa_aws.tgz"
-    "https://io.cira.colostate.edu/s/LT92NiFSA8ZSNDP/download/test_data_gpm.tgz"
-    "https://io.cira.colostate.edu/s/DSz2nZsiPMDeLEP/download/test_data_fusion.tgz"
-    "https://io.cira.colostate.edu/s/ACLKdS2Cpgd2qkc/download/test_data_clavrx.tgz"
-    "https://io.cira.colostate.edu/s/FmWwX2ft7KDQ8N9/download/test_data_amsr2.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_fusion.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_noaa_aws.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_amsr2_1.6.0.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_clavrx_1.10.0.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0.tgz"
+    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_viirs_1.6.0.tgz"
 )
 
 # Requirements to run base geoips tests
@@ -207,7 +198,9 @@ if [[ "$1" == "python" ]]; then
     python --version >> $install_log 2>&1
     retval=$?
     if [[ "$retval" != "0" ]]; then
-        echo "WARNING: 'python --version' failed, please install python >= 3.9 before proceeding"
+        echo "WARNING: 'python --version' failed, please install python >= 3.9 before proceeding."
+	echo "If you have python3 installed, please alias it to python."
+        echo "For more info see https://askubuntu.com/a/321000/314655"
         exit 1
     else
         echo "SUCCESS: 'python' appears to be installed successfully"
@@ -336,7 +329,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
     test_data_url="$GEOIPS_REPO_URL/${test_data_name}.git"
     if [[ "$test_data_source_location" != "github" ]]; then
         for url in ${test_data_urls[@]}; do
-            if [[ "${url}" == *"${test_data_name}.tgz" ]]; then
+            if [[ "${url}" == *"${test_data_name}"*".tgz" ]]; then
                 test_data_url="${url}"
                 break
             fi
@@ -364,18 +357,47 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
         fi
         echo "Installing $test_data_name_string .... "
         echo "  $test_data_dir/ from $test_data_url via $test_data_source_location"
-        python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir >> $install_log 2>&1
-        retval=$?
-        if  [[ "$retval" == "0" ]]; then
-            echo "SUCCESS: Pulled ${test_data_name} from ${test_data_url}"
+        if [[ "$test_data_source_location" == "github" ]]; then
+            python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir >> $install_log 2>&1
+            retval=$?
+            if  [[ "$retval" == "0" ]]; then
+                echo "SUCCESS: Pulled ${test_data_name} from ${test_data_url}"
+            else
+                echo "FAILED: Failed to pull ${test_data_name} from ${test_data_url}"
+                echo "        try deleting and re-running"
+                exit 1
+            fi
+            # If this is a github repo, then check if current-branch exists
+            # and switch to it if so. Allow branch not existing.
+            if [[ "$switch_to_branch" != "" ]]; then
+                echo "git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1"
+                git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1
+                if [[ "$?" != "0" ]]; then
+                    echo "Branch $switch_to_branch did not exist, staying on current branch"
+                else
+                    echo "SUCCESS: successfully switch to branch $switch_to_branch"
+                fi
+            fi
         else
-            echo "FAILED: Failed to pull ${test_data_name} from ${test_data_url}"
-            echo "        try deleting and re-running"
-            exit 1
-        fi
-        if [[ "$test_data_source_location" != "github" ]]; then
-            echo "tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
-            tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+            echo "DOWNLOADING: NextCloud Dataset $test_data_name @ $test_data_url"
+            echo "python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
+            python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+            # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
+            matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)
+            folder_count=$(echo "$matching_folders" | wc -l)
+            if [[ "$folder_count" -ne 1 ]]; then
+                echo "Error: Expected exactly one matching folder starting with $test_data_name but found $folder_count."
+                echo "Please delete or rename folders starting with $test_data_name in $GEOIPS_TESTDATA_DIR before running this script again."
+                exit 1
+            fi
+            # if only one match was found, this was the installed dataset and we are good
+            # to rename the top folder of it to test_data_name. This way full_install.sh will
+            # not download the data again as it's able to identify that it's installed.
+            folder_name=$(echo "$matching_folders")
+            if [[ "$folder_name" != "$test_data_name" ]]; then
+                # if folder_name doesn't equal test_data_name then rename that folder
+                mv $GEOIPS_TESTDATA_DIR/$folder_name $test_data_dir
+            fi
             retval=$?
             if  [[ "$retval" == "0" ]]; then
                 echo "SUCCESS: Decompressed ${test_data_name}"
@@ -384,7 +406,6 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
                 echo "        try deleting and re-running"
                 exit 1
             fi
-		else
             # If this is a github repo, then check if current-branch exists
             # and switch to it if so. Allow branch not existing.
             if [[ "$switch_to_branch" != "" ]]; then

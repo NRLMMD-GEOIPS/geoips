@@ -1,14 +1,7 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 ::
 
@@ -38,15 +31,15 @@
       merged pull request in the release notes.
 
 2. Only include headers for categories that have current updates (do NOT
-   include empty headers - if there are no "Breaking Changes" do not include the
-   "Breaking Changes" header)
+   include empty headers - if there are no "Breaking Changes" do not include
+   the "Breaking Changes" header)
 
 3. Include a list of files for each "Summary of change" section.
 
    -  Simple changes can just have the list of modified files directly
       under the “Summary of change” section, without additional details.
 
-4. Issue ID should match related linked issue, like: GEOIPS/geoips#27
+4. Issue ID should match related linked issue, like: NRLMMD-GEOIPS/geoips#27
 5. Ensure your entries are included directly in the release note file:
    docs/source/releases/vX_Y_Z.rst
 
