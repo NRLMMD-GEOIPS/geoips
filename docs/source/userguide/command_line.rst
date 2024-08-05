@@ -1,7 +1,7 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is protected under the license referenced at
- | # # # https://github.com/NRLMMD-GEOIPS.
+ This source code is protected under the license referenced at
+ https://github.com/NRLMMD-GEOIPS.
 
 .. _command_line:
 
@@ -11,11 +11,11 @@ Command Line Interface (CLI)
 .. warning::
 
     The CLI is currently under development.
-    This means the functionality may change without warning!
+    The CLI may change without warning!
     Please consult this documentation for up-to-date info on the CLI.
 
-The CLI interacts with GeoIPS ``artifacts``.
-A ``GeoIPS artifact`` is a piece of data or functionality,
+The CLI interacts with GeoIPS artifacts.
+A GeoIPS artifact is a piece of data or functionality,
 such as an Interface, Package, Plugin,
 Family, Test Script, Test Dataset, etc.
 
@@ -23,6 +23,10 @@ CLI commands are split up into two groups by their utility:
 
  - `Information retrieval`_ commands
  - `Action performing commands <#performing-processes>`_
+
+.. contents:: Table of Contents
+    :local:
+    :backlinks: none
 
 Information Retrieval
 =====================
@@ -50,11 +54,11 @@ describe interface
 ``describe <interface_name>`` retrieves information specific to an interface.
 It returns:
 
-    * Absolute Path
-    * Docstring
-    * Interface
-    * Interface Type
-    * Supported Families
+* Absolute Path
+* Docstring
+* Interface
+* Interface Type
+* Supported Families
 
 For more information about available GeoIPS Interfaces,
 see the `list <#list>`_ command.
@@ -78,16 +82,16 @@ sub-command of ``describe``
 
 It returns the following information about an interface's family:
 
-    * Docstring
-    * Family Name
-    * Family Path
-    * Interface Name
-    * Interface Type
-    * Required Args / Schema
+* Docstring
+* Family Name
+* Family Path
+* Interface Name
+* Interface Type
+* Required Args / Schema
 
 For example:
 
-code-block:: bash
+.. code-block:: bash
 
     geoips describe prod-def fam interpolator_algorithm_colormapper
     geoips describe prod-defs fam interpolator_algorithm_colormapper
@@ -101,11 +105,11 @@ describe package
 ``describe package`` is a sub-command of describe.
 It returns the following information about a Package:
 
-    * Docstring
-    * GeoIPS Package
-    * Package Path
-    * Source Code
-    * Version Number
+* Docstring
+* GeoIPS Package
+* Package Path
+* Source Code
+* Version Number
 
 For example:
 
@@ -126,16 +130,16 @@ describe plugin
 ``describe plugin`` is a sub-command of describe.
 It returns the following information about a Plugin:
 
-    * Docstring
-    * Family Name
-    * Interface Name
-    * Interface Type
-    * GeoIPS Package
-    * Plugin Type
-    * Product Defaults (if applicable)
-    * Relative Path
-    * Signature (if applicable)
-    * Source Names (if applicable)
+* Docstring
+* Family Name
+* Interface Name
+* Interface Type
+* GeoIPS Package
+* Plugin Type
+* Product Defaults (if applicable)
+* Relative Path
+* Signature (if applicable)
+* Source Names (if applicable)
 
 For example:
 
@@ -169,12 +173,12 @@ list interface
 
 By default it returns the following for native interfaces:
 
-    * GeoIPS Package
-    * Interface Type
-    * Interface Name
-    * Supported Families
-    * Docstring
-    * Absolute Path
+* GeoIPS Package
+* Interface Type
+* Interface Name
+* Supported Families
+* Docstring
+* Absolute Path
 
 Implemented Mode
 """"""""""""""""
@@ -187,9 +191,9 @@ packages, or a certain package.
 
 When running in implemented mode, it returns:
 
-    * GeoIPS Package
-    * Interface Type
-    * Interface Name
+* GeoIPS Package
+* Interface Type
+* Interface Name
 
 For example:
 
@@ -219,13 +223,13 @@ list interface
 
 It returns a list of an interfaces plugins with the following plugin information:
 
-    * GeoIPS Package
-    * Interface Name
-    * Interface Type
-    * Family
-    * Plugin Name
-    * Source Names (if applicable)
-    * Relative Path
+* GeoIPS Package
+* Interface Name
+* Interface Type
+* Family
+* Plugin Name
+* Source Names (if applicable)
+* Relative Path
 
 For example:
 
@@ -255,10 +259,10 @@ For example:
 
 It returns a list of GeoIPS Packages with the following package information:
 
-    * Package Name
-    * Docstring
-    * Package Path
-    * Version Number
+* Package Name
+* Docstring
+* Package Path
+* Version Number
 
 For an example of how to run this command, see below. Notice the use of aliases in case
 you want to use these commands in shorthand style.
@@ -280,13 +284,13 @@ list plugins
 
 It returns the following information about plugins:
 
-    * GeoIPS Package
-    * Interface Name
-    * Interface Type
-    * Family
-    * Plugin Name
-    * Source Names
-    * Relative Path
+* GeoIPS Package
+* Interface Name
+* Interface Type
+* Family
+* Plugin Name
+* Source Names
+* Relative Path
 
 For example:
 
@@ -326,13 +330,9 @@ For each test script, this command returns:
     For this command to find test scripts,
     they must be `.sh` files located at ``<package_install_location>/tests/scripts/``.
 
-..
-    .. note::
-        Once in place, test scripts can be run with the run command.
+.. note::
 
-        TODO: Add link to run command
-        This command can only be ran if
-        the specified plugin packages are installed in *editable* mode.
+    Test scripts can be run with the `run`_ command
 
 For example:
 
@@ -357,15 +357,15 @@ For each test dataset, this command returns:
 
 We require these datasets for testing GeoIPS:
 
-    * test_data_amsr2
-    * test_data_clavrx
-    * test_data_fusion
-    * test_data_gpm
-    * test_data_noaa_aws
-    * test_data_sar
-    * test_data_scat
-    * test_data_smap
-    * test_data_viirs
+* test_data_amsr2
+* test_data_clavrx
+* test_data_fusion
+* test_data_gpm
+* test_data_noaa_aws
+* test_data_sar
+* test_data_scat
+* test_data_smap
+* test_data_viirs
 
 For example:
 
@@ -381,9 +381,9 @@ It returns a list of unit-tests from plugin packages that are installed in edita
 
 For each unit-test, the following information is returned:
 
-    * GeoIPS Package
-    * Unit Test Directory
-    * Unit Test Name
+* GeoIPS Package
+* Unit Test Directory
+* Unit Test Name
 
 .. note::
     For this command to find your unit tets, you must
@@ -420,7 +420,7 @@ For example:
 
 .. code-block:: bash
 
-    ``geoips list <cmd_name> --columns help``.
+    geoips list <cmd_name> --columns help
 
 Performing Processes
 ====================
@@ -716,9 +716,7 @@ For example, running ``geoips tree`` returns:
 
 * ``--short-name``: return only literal command names
 
-..
-
-    TODO: ^ explain what --short-name does in more detail
+.. TODO: ^ explain what --short-name does in more detail
 
 validate
 --------
