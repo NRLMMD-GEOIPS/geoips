@@ -20,8 +20,8 @@ Family, Test Script, Test Dataset, etc.
 
 CLI commands are split up into two groups by their utility:
 
- - :ref:`Information retrieval commands<information_retrieval>`
- - :ref:`Action performing commands<performing_processes>`
+ - `Information retrieval`_ commands
+ - `Action performing commands<#performing_processes>`_
 
 Information Retrieval
 =====================
