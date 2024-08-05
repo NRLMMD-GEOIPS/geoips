@@ -159,7 +159,6 @@ It returns the following information about a Plugin:
     * Signature (if applicable)
     * Source Names (if applicable)
 
-
 For example:
 
 .. code-block:: bash
@@ -176,10 +175,8 @@ For example:
     geoips describe alg single_channel
     geoips describe algs single_channel
 
-.. _geoips_list:
-
-List
-------------
+list
+----
 
 :ref:`geoips list <geoips_list>`
 
@@ -224,7 +221,6 @@ For example:
 .. code-block:: bash
 
     geoips list interfaces -i
-
 
 .. _geoips_list:
 
@@ -338,6 +334,7 @@ For example:
 You can filter by package with ``--package-name`` or ``-p``. For example:
 
 .. code-block:: bash
+
     geoips list plugins -p <package_name>
 
 You can use aliases to run this command.
@@ -360,7 +357,6 @@ Scripts
 It returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable mode.
 
 For each test script, this command returns:
-
 
     * GeoIPS Package
     * Filename
@@ -440,7 +436,6 @@ For each unit-test, the following information is returned:
 .. note::
     For this command to find your unit tets, you must
     place the unit tests under ``<package_install_location>/tests/unit_tests/``.
-
 
 For example:
 
@@ -807,22 +802,15 @@ For example, running ``geoips tree`` returns:
 
 ``geoips tree`` provides arguments to filter its output.
 
-* ``--color``
+* ``--color``: highlights output by depth
 
-  * The output of ``geoips tree`` might be a little hard to interpret. If you want the
-    output of ``geoips tree`` to be highlighted by depth, make sure to use the
-    ``--color`` flag. (Defaults to False)
+* ``--max-depth``: limits tree levels outputted. Defaults to two levels.
 
-* ``--max-depth``
+* ``--short-name``: return only literal command names
 
-  * How many levels of the tree we'd like to expose. Defaults to two levels, which is
-    shown above.
+..
 
-* ``--short-name``
-
-  * The output of ``geoips tree`` provides the full command string at each level. If you
-    just want the literal command name and every level, make sure to provide this flag.
-    (Defaults to False)
+    TODO: ^ explain what --short-name does in more detail
 
 .. _geoips_validate:
 
@@ -831,33 +819,28 @@ Validate Command
 
 :ref:`geoips validate <geoips_validate>`
 
-GeoIPS runs off of plugins. While you can search the documentation and/or schemas
-defined for these plugins, this is not an easy way of telling whether or not the plugin
-you've created adheres to the GeoIPS protocols defined for each plugin. Every GeoIPS
-interface implements validation functionality for ensuring that the plugins that
-inherit from such interface work correctly. We make use of this validation functionality
-from the command line, so users can easily check whether or not the plugin they've
-created is valid.
+``validate`` (or ``val``) runs interface defined validation-protocols on plugins.
 
-``validate`` (or ``val``) follows the interface defined validation-protocol for a
-certain plugin. To get a listing of plugins available for validation, run the command
-``geoips list plugins -p <package_name>``, where ``-p`` is an optional flag representing
-the package we want to list plugins from.
+.. note::
+    To list plugins available for validation, see ``geoips list plugins`` above.
 
-To validate a plugin we will need the full path to the plugin you want validated. See
-an example of this shown below. Notice the use of aliases in case
-you want to use these commands in shorthand style.
+A plugins full location path is needed to validate it.
 
-::
+For example:
 
-    geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
+.. code-block:: bash
+
     geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>
 
-Functionality Summary
-*********************
+This command has a shortened alias ``val`` for convenience. For example:
 
-.. dropdown:: GeoIPS CLI Commands
+.. code-block:: bash
 
-    .. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
-        :prog: geoips
+    geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
+
+CLI API
+*******
+
+.. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
+    :prog: geoips
