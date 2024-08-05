@@ -306,7 +306,7 @@ This command uses aliases. For example:
 
 .. _geoips_list_plugins:
 
-:ref:`geoips list plugins <geoips_list_plugins>`
+:ref:`geoips list plugins <_geoips_list_plugins>`
 
 ``list plugins`` is a sub-command of list.
 
