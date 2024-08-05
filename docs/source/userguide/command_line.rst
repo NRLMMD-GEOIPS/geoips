@@ -474,10 +474,8 @@ For example:
 
     geoips cfg install test_data_clavrx
 
-.. _geoips_run:
-
-Run Command
------------
+run
+---
 
 GeoIPS creates outputs (as defined by products)
 via a processing workflow, aka a procflow.
