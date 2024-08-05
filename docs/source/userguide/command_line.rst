@@ -8,10 +8,6 @@
 Command Line Interface (CLI)
 ****************************
 
-.. _geoips:
-
-:ref:`GeoIPS CLI <geoips>`
-
 .. warning::
 
     The CLI is currently under development.
@@ -27,8 +23,6 @@ CLI commands are split up into two groups by their utility:
  - :ref:`Information retrieval commands<information_retrieval>`
  - :ref:`Action performing commands<performing_processes>`
 
-.. _information_retrieval:
-
 Information Retrieval
 =====================
 
@@ -38,12 +32,8 @@ artifacts: ``describe`` and ``list`` (``ls``).
 Each command shown below can be ran with a ``-h``
 flag to provide associated help instructions.
 
-.. _geoips_describe:
-
-Describe
+describe
 --------
-
-:ref:`geoips describe <geoips_describe>`
 
 ``describe`` retrieves detailed information about a GeoIPS artifact.
 
@@ -53,9 +43,8 @@ It implements four sub-commands described below.
 Information about artifact functionality and requirements
 is useful during use and/or development.
 
-.. _geoips_describe_interface:
-
-:ref:`geoips describe interface <geoips_describe_interface>`
+describe interface
+^^^^^^^^^^^^^^^^^^
 
 ``describe <interface_name>`` retrieves information specific to an interface.
 It returns:
@@ -80,12 +69,8 @@ For example, Algorithm has the following aliases
     geoips describe algorithms
     geoips describe <interface_name>
 
-Family
-^^^^^^
-
-.. _geoips_describe_family:
-
-:ref:`geoips describe family <geoips_describe_family>`
+describe family
+^^^^^^^^^^^^^^^
 
 ``describe <interface_name> family <family_name>`` (or ``fam``) is a
 sub-command of ``describe``
@@ -109,12 +94,8 @@ code-block:: bash
     geoips describe product_defaults family interpolator_algorithm_colormapper
     geoips describe <interface_name> family <family_name>
 
-Package
-^^^^^^^
-
-.. _geoips_describe_package:
-
-:ref:`geoips describe package <geoips_describe_package>`
+describe package
+^^^^^^^^^^^^^^^^
 
 ``describe package`` is a sub-command of describe.
 It returns the following information about a Package:
@@ -138,12 +119,8 @@ For example:
 
     geoips describe pkg geoips
 
-Plugin
-^^^^^^
-
-.. _geoips_describe_plugin:
-
-:ref:`geoips describe plugin <geoips_describe_plugin>`
+describe plugin
+^^^^^^^^^^^^^^^
 
 ``describe plugin`` is a sub-command of describe.
 It returns the following information about a Plugin:
@@ -178,17 +155,14 @@ For example:
 list
 ----
 
-:ref:`geoips list <geoips_list>`
-
 ``list`` returns information about a GeoIPS artifact, such as:
 
  - Lists of existing artifacts
  - Artifact locations
  - Artifact functionality
 
-.. _geoips_list_interfaces:
-
-:ref:`geoips list interfaces <geoips_list_interfaces>`
+list interface
+^^^^^^^^^^^^^^
 
 ``list interfaces`` is a sub-command of list. It returns a list of GeoIPS interfaces.
 
@@ -201,8 +175,8 @@ By default it returns the following for native interfaces:
     * Docstring
     * Absolute Path
 
-Implemented
-^^^^^^^^^^^
+Implemented Mode
+""""""""""""""""
 
 The ``list interfaces`` command has an "implemented" mode.
 
@@ -222,8 +196,6 @@ For example:
 
     geoips list interfaces -i
 
-.. _geoips_list:
-
 Both the general and implemented outputs can
 be filtered by package with ``--package_name`` or ``-p``.
 
@@ -239,8 +211,8 @@ or
 
     geoips list interfaces -i --package_name <package_name>
 
-interface
-^^^^^^^^^
+list interface
+^^^^^^^^^^^^^^
 
 ``list <interface_name>`` is a sub-command of list.
 
@@ -278,10 +250,6 @@ For example:
     geoips list algorithm
     geoips list algorithms
 
-.. _geoips_list_packages:
-
-:ref:`geoips list packages <_geoips_list_packages>`
-
 ``list packages`` is a sub-command of list.
 
 It returns a list of GeoIPS Packages with the following package information:
@@ -304,9 +272,8 @@ This command uses aliases. For example:
 
     geoips ls pkgs
 
-.. _geoips_list_plugins:
-
-:ref:`geoips list plugins <_geoips_list_plugins>`
+list plugins
+^^^^^^^^^^^^
 
 ``list plugins`` is a sub-command of list.
 
@@ -342,12 +309,8 @@ For example:
     geoips list plgs
     geoips ls plugins
 
-Scripts
-^^^^^^^
-
-.. _geoips_list_scripts:
-
-:ref:`geoips list scripts <geoips_list_scripts>`
+list scripts
+^^^^^^^^^^^^
 
 ``list scripts`` is a sub-command of list.
 It returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable mode.
@@ -385,10 +348,6 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 test-datasets
 ^^^^^^^^^^^^^
 
-.. _geoips_list_test-datasets:
-
-:ref:`geoips list test-datasets <geoips_list_test-datasets>`
-
 ``list test-datasets`` is a sub-command of list.
 For each test dataset, this command returns:
 
@@ -415,10 +374,6 @@ For example:
 
 unit-tests
 ^^^^^^^^^^
-
-.. _geoips_list_unit-tests:
-
-:ref:`geoips list unit-tests <geoips_list_unit-tests>`
 
 ``list unit-tests`` is a sub-command of ``list``.
 It returns a list of unit-tests from plugin packages that are installed in editable mode.
@@ -466,8 +421,6 @@ For example:
 
     ``geoips list <cmd_name> --columns help``.
 
-.. _performing_processes:
-
 Performing Processes
 ====================
 
@@ -481,12 +434,8 @@ commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actual
 change the implementation of how procflows were ran, this makes all procflow calls be
 easily integrated as a CLI process.
 
-.. _geoips_config:
-
-Config
+config
 ------
-
-:ref:`geoips config <geoips_config>`
 
 ``geoips config`` (or ``geoips cfg``) makes testing easier by providing easy access to
 configuration options.
@@ -498,10 +447,6 @@ configuration options.
 
 config install
 ^^^^^^^^^^^^^^
-
-.. _geoips_config_install:
-
-:ref:`geoips config install <geoips_config_install>`
 
 GeoIPS relies on test datasets to test its processing workflows.
 Test datasets must be installed before tests can be run.
@@ -532,20 +477,6 @@ For example:
 
 Run Command
 -----------
-
-.. _geoips_run_single_source:
-
-.. _geoips_run_config_based:
-
-.. _geoips_run_data_fusion:
-
-:ref:`geoips run <geoips_run>`
-
-:ref:`geoips run single source <geoips_run_single_source>`
-
-:ref:`geoips run config_based <geoips_run_config_based>`
-
-:ref:`geoips run data fusion <geoips_run_data_fusion>`
 
 GeoIPS creates outputs (as defined by products)
 via a processing workflow, aka a procflow.
@@ -612,12 +543,8 @@ The only difference between the two examples above are the first line and the
 ``run_procflow`` / ``data_fusion_procflow`` with ``geoips run <procflow_name>`` and
 remove the ``--procflow`` line. That's it!
 
-.. _geoips_test:
-
 test
 ----
-
-:ref:`geoips test <geoips_test>`
 
 GeoIPS and GeoIPS packages implement tests and linters to
 confirm functionality, uniform syntax and interoperability.
@@ -628,10 +555,6 @@ Checking code often is a good practice.
 
 test linting
 ^^^^^^^^^^^^
-
-.. _geoips_test_linting:
-
-:ref:`geoips test linting <geoips_test_linting>`
 
 This command runs ``bandit``, ``black``, and ``flake8``.
 
@@ -648,10 +571,6 @@ For example:
 
 test sector
 ^^^^^^^^^^^
-
-.. _geoips_test_sector:
-
-:ref:`geoips test sector <geoips_test_sector>`
 
 ``sector`` produces a .png image based on the provided sector plugin name. The sector
 must be an entry within any Plugin Package's registered_plugins.(yaml/json) file.
@@ -677,10 +596,6 @@ be saved to ``$GEOIPS_OUTDIRS/canada.png``.
 
 .. image:: ../images/command_line_examples/canada.png
    :width: 800
-
-.. _geoips_test_script:
-
-:ref:`geoips test script <geoips_test_script>`
 
 ``script`` executes an output-based test script which will return a numerical value
 based on the output of the test.
@@ -720,12 +635,8 @@ plugin package with ``-p`` or ``--package_name``. For example:
     geoips test script --package_name <package_name> <script_name>
     geoips test script -p <package_name> <script_name>
 
-.. _geoips_tree:
-
 tree
 ----
-
-:ref:`geoips tree <geoips_tree>`
 
 Only some GeoIPS CLI commands are exposed via ``geoips -h``.
 
@@ -808,12 +719,8 @@ For example, running ``geoips tree`` returns:
 
     TODO: ^ explain what --short-name does in more detail
 
-.. _geoips_validate:
-
-Validate Command
-----------------
-
-:ref:`geoips validate <geoips_validate>`
+validate
+--------
 
 ``validate`` (or ``val``) runs interface defined validation-protocols on plugins.
 
@@ -835,8 +742,8 @@ This command has a shortened alias ``val`` for convenience. For example:
 
     geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
 
-CLI API
-*******
+CLI Autogenerated Docs
+**********************
 
 .. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
     :prog: geoips
