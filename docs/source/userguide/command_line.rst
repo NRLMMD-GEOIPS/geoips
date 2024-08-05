@@ -24,6 +24,8 @@ CLI commands are split up into two groups by their utility:
  - `Information retrieval`_ commands
  - `Action performing commands <#performing-processes>`_
 
+You can find the automatically created CLI usage documentation `here <./command_line_autodoc>`_.
+
 .. contents:: Table of Contents
     :local:
     :backlinks: none
@@ -475,7 +477,7 @@ For example:
     geoips cfg install test_data_clavrx
 
 run
----
+-----------
 
 GeoIPS creates outputs (as defined by products)
 via a processing workflow, aka a procflow.
@@ -738,9 +740,3 @@ This command has a shortened alias ``val`` for convenience. For example:
 .. code-block:: bash
 
     geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
-
-Command Arguments
-*****************
-
-.. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
-    :prog: geoips
