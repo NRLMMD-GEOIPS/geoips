@@ -21,7 +21,7 @@ Family, Test Script, Test Dataset, etc.
 CLI commands are split up into two groups by their utility:
 
  - `Information retrieval`_ commands
- - `Action performing commands<#performing_processes>`_
+ - `Action performing commands<#performing-processes>`_
 
 Information Retrieval
 =====================
