@@ -239,12 +239,8 @@ or
 
     geoips list interfaces -i --package_name <package_name>
 
-Interface
+interface
 ^^^^^^^^^
-
-.. _geoips_list_interface:
-
-:ref:`geoips list <interface_name> <geoips_list_interface>`
 
 ``list <interface_name>`` is a sub-command of list.
 
@@ -284,7 +280,7 @@ For example:
 
 .. _geoips_list_packages:
 
-:ref:`geoips list packages <geoips_list_packages>`
+:ref:`geoips list packages <_geoips_list_packages>`
 
 ``list packages`` is a sub-command of list.
 
