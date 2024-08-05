@@ -11,6 +11,7 @@ User Guide
 
    geoips_structure
    command_line
+   command_line_autodoc
    plugin_extend
    plugin_registries
    plugin_development/algorithm
