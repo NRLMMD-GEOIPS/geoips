@@ -15,7 +15,8 @@ Command Line Interface (CLI)
     Please consult this documentation for up-to-date info on the CLI.
 
 The CLI interacts with GeoIPS ``artifacts``.
-A ``GeoIPS artifact`` is a piece of data or functionality, such as an Interface, Package, Plugin,
+A ``GeoIPS artifact`` is a piece of data or functionality,
+such as an Interface, Package, Plugin,
 Family, Test Script, Test Dataset, etc.
 
 CLI commands are split up into two groups by their utility:
@@ -56,7 +57,7 @@ It returns:
     * Supported Families
 
 For more information about available GeoIPS Interfaces,
-see the :ref:`geoips list <geoips_list>` command.
+see the `list <#list>`_ command.
 
 You can use aliases to run this command.
 For example, Algorithm has the following aliases
