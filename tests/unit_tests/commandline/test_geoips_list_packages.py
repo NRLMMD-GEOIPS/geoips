@@ -100,7 +100,8 @@ class TestGeoipsListPackages(BaseCliTest):
             self.assert_correct_headers_in_output(output, headers, selected_cols)
             # Assert that we found every installed package
             for pkg_name in self.plugin_package_names:
-                assert pkg_name in output
+                if "--columns" not in args or "package" in selected_cols:
+                    assert pkg_name in output
 
 
 test_sub_cmd = TestGeoipsListPackages()

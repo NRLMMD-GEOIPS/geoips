@@ -74,12 +74,8 @@ sectors:
   - sector
 package:
   - pkg
-  - pkgs
-  - packages
 packages:
-  - pkg
   - pkgs
-  - package
 plugins:
   - plgs
 config:

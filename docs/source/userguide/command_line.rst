@@ -94,6 +94,7 @@ It returns the following information about an interface's family:
 
     * Docstring
     * Family Name
+    * Family Path
     * Interface Name
     * Interface Type
     * Required Args / Schema
@@ -102,7 +103,11 @@ For example:
 
 code-block:: bash
 
-    geoips describe algorithms family single_channel
+    geoips describe prod-def fam interpolator_algorithm_colormapper
+    geoips describe prod-defs fam interpolator_algorithm_colormapper
+    geoips describe product_default family interpolator_algorithm_colormapper
+    geoips describe product_defaults family interpolator_algorithm_colormapper
+    geoips describe <interface_name> family <family_name>
 
 Package
 ^^^^^^^
@@ -115,10 +120,10 @@ Package
 It returns the following information about a Package:
 
     * Docstring
-    * Family Name
-    * Interface Name
-    * Interface Type
-    * Required Args / Schema
+    * GeoIPS Package
+    * Package Path
+    * Source Code
+    * Version Number
 
 For example:
 
@@ -131,16 +136,7 @@ For example:
 
 .. code-block:: bash
 
-    geoips describe alg fam single_channel
-    geoips describe algs fam single_channel
-    geoips describe algorithm family single_channel
-    geoips describe algorithms family single_channel
-
-    geoips describe prod-def fam interpolator_algorithm_colormapper
-    geoips describe prod-defs fam interpolator_algorithm_colormapper
-    geoips describe product_default family interpolator_algorithm_colormapper
-    geoips describe product_defaults family interpolator_algorithm_colormapper
-    geoips describe <interface_name> family <family_name>
+    geoips describe pkg geoips
 
 Plugin
 ^^^^^^
@@ -158,7 +154,11 @@ It returns the following information about a Plugin:
     * Interface Type
     * GeoIPS Package
     * Plugin Type
+    * Product Defaults (if applicable)
     * Relative Path
+    * Signature (if applicable)
+    * Source Names (if applicable)
+
 
 For example:
 
@@ -178,14 +178,12 @@ For example:
 
 .. _geoips_list:
 
-List Command
+List
 ------------
 
 :ref:`geoips list <geoips_list>`
 
-``list`` returns information about a GeoIPS artifact type.
-
-Outputted information includes:
+``list`` returns information about a GeoIPS artifact, such as:
 
  - Lists of existing artifacts
  - Artifact locations
@@ -227,8 +225,8 @@ For example:
 
     geoips list interfaces -i
 
-Filtering by Package
-^^^^^^^^^^^^^^^^^^^^
+
+.. _geoips_list:
 
 Both the general and implemented outputs can
 be filtered by package with ``--package_name`` or ``-p``.
@@ -256,10 +254,10 @@ Interface
 
 It returns a list of an interfaces plugins with the following plugin information:
 
-    * Family
-    * GeoIPS Packages
+    * GeoIPS Package
     * Interface Name
     * Interface Type
+    * Family
     * Plugin Name
     * Source Names (if applicable)
     * Relative Path
@@ -327,6 +325,7 @@ It returns the following information about plugins:
     * Interface Type
     * Family
     * Plugin Name
+    * Source Names
     * Relative Path
 
 For example:
@@ -361,6 +360,7 @@ Scripts
 It returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable mode.
 
 For each test script, this command returns:
+
 
     * GeoIPS Package
     * Filename
@@ -441,6 +441,7 @@ For each unit-test, the following information is returned:
     For this command to find your unit tets, you must
     place the unit tests under ``<package_install_location>/tests/unit_tests/``.
 
+
 For example:
 
 .. code-block:: bash
@@ -448,6 +449,7 @@ For example:
     geoips list unit-tests -p <package_name>
 
 The output can be filtered by package with ``--package_name`` or ``-p``.
+The specified plugin package(s) must be installed in editable mode.
 
 For example, to display only the ``package`` and ``docstring``
 columns from the ``geoips list packages`` command:
@@ -669,7 +671,7 @@ For example:
 
     geoips test sector <sector_name>
 
-An output directory can be specified with ``--outdir``. For example:
+An additional output directory can be specified with ``--outdir``. For example:
 
     * ``geoips test sector <sector_name> --outdir <output_directory_path>``
 
@@ -748,12 +750,44 @@ For example, running ``geoips tree`` returns:
         geoips config
             geoips config install
         geoips describe
-            geoips describe family
-            geoips describe interface
+            geoips describe algorithms
+            geoips describe colormappers
+            geoips describe coverage-checkers
+            geoips describe feature-annotators
+            geoips describe filename-formatters
+            geoips describe gridline-annotators
+            geoips describe interpolators
+            geoips describe output-checkers
+            geoips describe output-formatters
+            geoips describe procflows
+            geoips describe product-defaults
+            geoips describe products
+            geoips describe readers
+            geoips describe sector-adjusters
+            geoips describe sector-metadata-generators
+            geoips describe sector-spec-generators
+            geoips describe sectors
+            geoips describe title-formatters
             geoips describe package
-            geoips describe plugin
         geoips list
-            geoips list interface
+            geoips list algorithms
+            geoips list colormappers
+            geoips list coverage-checkers
+            geoips list feature-annotators
+            geoips list filename-formatters
+            geoips list gridline-annotators
+            geoips list interpolators
+            geoips list output-checkers
+            geoips list output-formatters
+            geoips list procflows
+            geoips list product-defaults
+            geoips list products
+            geoips list readers
+            geoips list sector-adjusters
+            geoips list sector-metadata-generators
+            geoips list sector-spec-generators
+            geoips list sectors
+            geoips list title-formatters
             geoips list interfaces
             geoips list packages
             geoips list plugins
@@ -767,16 +801,17 @@ For example, running ``geoips tree`` returns:
         geoips test
             geoips test linting
             geoips test script
+            geoips test sector
         geoips tree
         geoips validate
 
 ``geoips tree`` provides arguments to filter its output.
 
-* ``--colored``
+* ``--color``
 
   * The output of ``geoips tree`` might be a little hard to interpret. If you want the
-    output of ``geoips tree`` to be colored by depth, make sure to use the ``--colored``
-    flag. (Defaults to False)
+    output of ``geoips tree`` to be highlighted by depth, make sure to use the
+    ``--color`` flag. (Defaults to False)
 
 * ``--max-depth``
 
@@ -810,7 +845,7 @@ certain plugin. To get a listing of plugins available for validation, run the co
 the package we want to list plugins from.
 
 To validate a plugin we will need the full path to the plugin you want validated. See
-an example of this shown below.Notice the use of aliases in case
+an example of this shown below. Notice the use of aliases in case
 you want to use these commands in shorthand style.
 
 ::

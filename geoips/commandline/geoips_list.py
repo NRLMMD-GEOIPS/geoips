@@ -416,7 +416,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
 
             pkg_entry = []
             docstring = import_module(package_name).__doc__
-            for header in default_headers:
+            for header in headers:
                 if header == "package":
                     pkg_name_requested = True
                     pkg_entry.append(package_name)
@@ -666,7 +666,7 @@ class GeoipsList(GeoipsCommand):
 
     name = "list"
     generated_classes = []
-    for int_name in interfaces.__all__:
+    for int_name in sorted(interfaces.__all__):
         generated_classes.append(
             CommandClassFactory(
                 GeoipsListSingleInterface,
