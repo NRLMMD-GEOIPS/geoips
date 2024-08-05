@@ -1,0 +1,16 @@
+documentation:
+- description: 'Copy-edited CLI documentation for correct rst, clarity and brevity.'
+  files:
+    added:
+    - 'docs/source/userguide/command_line_autodoc.rst'
+    deleted:
+    - ''
+    modified:
+    - 'docs/source/userguide/command_line.rst'
+    - 'docs/source/userguide/index.rst'
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Copy-edited CLI documentation'
