@@ -354,8 +354,8 @@ test-datasets
 ``list test-datasets`` is a sub-command of list.
 For each test dataset, this command returns:
 
-    * Data Host
-    * Dataset Name
+* Data Host
+* Dataset Name
 
 We require these datasets for testing GeoIPS:
 
@@ -614,7 +614,7 @@ For example:
 
     geoips test script <script_name> (defaults to 'geoips' package)
 
-```script`` can execute integration tests in the 'geoips' package.
+``script`` can execute integration tests in the 'geoips' package.
 
 For example:
 
