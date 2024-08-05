@@ -21,242 +21,167 @@ by setting appropriate environment variables.
 
 # Python Standard Libraries
 import logging
-from os import getenv
-from os.path import exists, dirname, join as pathjoin
+import os
 import socket
 
 LOG = logging.getLogger(__name__)
 
 # At a minimum, GEOIPS_OUTDIRS must be defined.
-if not getenv("GEOIPS_OUTDIRS"):
+if not os.getenv("GEOIPS_OUTDIRS"):
     raise KeyError(
-        "GEOIPS_OUTDIRS must be set in your environment.  "
+        "GEOIPS_OUTDIRS must be set in your environment."
         "Please set GEOIPS_OUTDIRS and try again"
     )
 
-base_path = (pathjoin(dirname(__file__), ".."),)  # Get the base package directory
 
-PATHS = {
-    "BASE_PATH": base_path,
-    "GEOIPS_OPERATIONAL_USER": getenv("GEOIPS_OPERATIONAL_USER", False),
-    "GEOIPS_OUTDIRS": getenv("GEOIPS_OUTDIRS").rstrip("/"),
-    "GEOIPS_PACKAGES_DIR": getenv(
-        "GEOIPS_PACKAGES_DIR", pathjoin(base_path, "..", "..")
-    ),
-    "GEOIPS_BASEDIR": getenv(
-        "GEOIPS_PACKAGES_DIR", pathjoin(PATHS["GEOIPS_PACKAGES_DIR"], "..")
-    ),
-    ### NEED TO FIGURE THIS ONE OUT ^^^ RELIES ON PREV VARIABLE
-}
-
-PATHS = {key: item.rstrip("/").rstrip("\\") for key, item in PATHS}
+def get_env_path(var_name, default_path, rstrip_path=True):
+    """Retrieve environment variable or return a default path."""
+    env_value = os.getenv(var_name)
+    if env_value:
+        if rstrip_path:
+            return env_value.rstrip("/")
+        else:
+            return env_value
+    else:
+        return default_path
 
 
-if not getenv("GEOIPS_BASEDIR"):
-    PATHS["GEOIPS_BASEDIR"] = pathjoin(PATHS["GEOIPS_PACKAGES_DIR"], "..")
-else:
-    PATHS["GEOIPS_BASEDIR"] = getenv("GEOIPS_BASEDIR").rstrip("/")
+def initialize_paths():
+    """Initialize the PATHS dictionary with environment paths and defaults."""
+    paths = {}
 
-if getenv("GEOIPS_TESTDATA_DIR"):
-    PATHS["GEOIPS_TESTDATA_DIR"] = getenv("GEOIPS_TESTDATA_DIR")
-else:
-    PATHS["GEOIPS_TESTDATA_DIR"] = PATHS["GEOIPS_BASEDIR"] + "/test_data"
+    # Base and Documentation Paths
+    paths["BASE_PATH"] = os.path.join(os.path.dirname(__file__), "..")
+    paths["GEOIPS_DOCS_URL"] = r"https://nrlmmd-geoips.github.io/geoips/"
 
-if getenv("GEOIPS_DEPENDENCIES_DIR"):
-    PATHS["GEOIPS_DEPENDENCIES_DIR"] = getenv("GEOIPS_DEPENDENCIES_DIR")
-else:
-    PATHS["GEOIPS_DEPENDENCIES_DIR"] = PATHS["GEOIPS_BASEDIR"] + "/geoips_dependencies"
+    # Operational User
+    paths["GEOIPS_OPERATIONAL_USER"] = os.getenv("GEOIPS_OPERATIONAL_USER", False)
 
-# Location for writing out presectored data files, but unregistered
-if getenv("PRESECTORED_DATA_PATH"):
-    PATHS["PRESECTORED_DATA_PATH"] = getenv("PRESECTORED_DATA_PATH").rstrip("/")
-else:
-    PATHS["PRESECTORED_DATA_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "sectored"
+    # Output Directories
+    geoips_outdirs = os.getenv("GEOIPS_OUTDIRS")
+    if not geoips_outdirs:
+        raise KeyError(
+            "GEOIPS_OUTDIRS must be set in your environment. "
+            "Please set GEOIPS_OUTDIRS and try again"
+        )
+    paths["GEOIPS_OUTDIRS"] = geoips_outdirs.rstrip("/")
+
+    # Package Directories
+    geoips_packages_dir = get_env_path(
+        "GEOIPS_PACKAGES_DIR", os.path.join(paths["BASE_PATH"], "..", "..")
+    )
+    if os.path.exists(geoips_packages_dir):
+        paths["GEOIPS_PACKAGES_DIR"] = geoips_packages_dir
+
+    # Base Directory
+    paths["GEOIPS_BASEDIR"] = get_env_path(
+        "GEOIPS_BASEDIR", os.path.join(paths["GEOIPS_PACKAGES_DIR"], "..")
     )
 
-# Location for writing out preread, but unsectored/registered, data files
-if getenv("PREREAD_DATA_PATH"):
-    PATHS["PREREAD_DATA_PATH"] = getenv("PREREAD_DATA_PATH").rstrip("/")
-else:
-    PATHS["PREREAD_DATA_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "unsectored"
+    # Test Data Directory
+    paths["GEOIPS_TESTDATA_DIR"] = get_env_path(
+        "GEOIPS_TESTDATA_DIR", paths["GEOIPS_BASEDIR"] + "/test_data"
     )
 
-# Location for writing out preregistered data files, but no algorithms applied
-if getenv("PREREGISTERED_DATA_PATH"):
-    PATHS["PREREGISTERED_DATA_PATH"] = getenv("PREREGISTERED_DATA_PATH").rstrip("/")
-else:
-    PATHS["PREREGISTERED_DATA_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "registered"
+    # Dependencies Directory
+    paths["GEOIPS_DEPENDENCIES_DIR"] = get_env_path(
+        "GEOIPS_DEPENDENCIES_DIR", paths["GEOIPS_BASEDIR"] + "/geoips_dependencies"
     )
 
-# Location for writing out precalculated data files (algorithms applied)
-if getenv("PRECALCULATED_DATA_PATH"):
-    PATHS["PRECALCULATED_DATA_PATH"] = getenv("PRECALCULATED_DATA_PATH").rstrip("/")
-else:
-    PATHS["PRECALCULATED_DATA_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "algorithms"
+    # Data Processing Paths
+    data_paths = {
+        "PRESECTORED_DATA_PATH": "preprocessed/sectored",
+        "PREREAD_DATA_PATH": "preprocessed/unsectored",
+        "PREREGISTERED_DATA_PATH": "preprocessed/registered",
+        "PRECALCULATED_DATA_PATH": "preprocessed/algorithms",
+        "CLEAN_IMAGERY_PATH": "preprocessed/clean_imagery",
+        "ANNOTATED_IMAGERY_PATH": "preprocessed/annotated_imagery",
+        "FINAL_DATA_PATH": "preprocessed/final",
+        "PREGENERATED_GEOLOCATION_PATH": "preprocessed/geolocation",
+    }
+
+    for key, subdir in data_paths.items():
+        paths[key] = get_env_path(key, os.path.join(paths["GEOIPS_OUTDIRS"], subdir))
+
+    # Copyright Information
+    paths["GEOIPS_COPYRIGHT"] = os.getenv("GEOIPS_COPYRIGHT", "NRL-Monterey")
+    paths["GEOIPS_COPYRIGHT_ABBREVIATED"] = os.getenv(
+        "GEOIPS_COPYRIGHT_ABBREVIATED", "NRLMRY"
     )
 
-# Location for writing out pregenerated "clean" imagery files
-if getenv("CLEAN_IMAGERY_PATH"):
-    PATHS["CLEAN_IMAGERY_PATH"] = getenv("CLEAN_IMAGERY_PATH").rstrip("/")
-else:
-    PATHS["CLEAN_IMAGERY_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "clean_imagery"
+    # Configuration and Queue
+    paths["GEOIPS_RCFILE"] = os.getenv("GEOIPS_RCFILE", "")
+    paths["DEFAULT_QUEUE"] = os.getenv("DEFAULT_QUEUE", None)
+
+    # Hostname and Home Directory
+    paths["BOXNAME"] = socket.gethostname()
+    if not os.getenv("HOME"):
+        # need home drive default for windows
+        paths["HOME"] = os.getenv("HOMEDRIVE") + os.getenv("HOMEPATH")
+    else:
+        paths["HOME"] = os.getenv("HOME").rstrip("/")
+
+    # Scratch Directories
+    scratch_dir = get_env_path(
+        "SCRATCH", os.path.join(paths["GEOIPS_OUTDIRS"], "scratch")
+    )
+    paths["SCRATCH"] = scratch_dir
+    paths["LOCALSCRATCH"] = get_env_path("LOCALSCRATCH", scratch_dir)
+    paths["SHAREDSCRATCH"] = get_env_path("SHAREDSCRATCH", scratch_dir)
+
+    # Ancillary Data Directories
+    paths["GEOIPS_ANCILDAT"] = get_env_path(
+        "GEOIPS_ANCILDAT", os.path.join(paths["GEOIPS_OUTDIRS"], "ancildat")
+    )
+    paths["GEOIPS_ANCILDAT_AUTOGEN"] = get_env_path(
+        "GEOIPS_ANCILDAT_AUTOGEN",
+        os.path.join(paths["GEOIPS_OUTDIRS"], "ancildat_autogen"),
     )
 
-# Location for writing out pregenerated "clean" imagery files
-if getenv("ANNOTATED_IMAGERY_PATH"):
-    PATHS["ANNOTATED_IMAGERY_PATH"] = getenv("ANNOTATED_IMAGERY_PATH").rstrip("/")
-else:
-    PATHS["ANNOTATED_IMAGERY_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "annotated_imagery"
+    # Log and Data Directories
+    paths["LOGDIR"] = get_env_path(
+        "LOGDIR", os.path.join(paths["GEOIPS_OUTDIRS"], "logs")
+    )
+    paths["GEOIPSDATA"] = get_env_path(
+        "GEOIPSDATA", os.path.join(paths["GEOIPS_OUTDIRS"], "geoipsdata")
     )
 
-# Location for writing out precalculated data files (algorithms applied)
-if getenv("FINAL_DATA_PATH"):
-    PATHS["FINAL_DATA_PATH"] = getenv("FINAL_DATA_PATH").rstrip("/")
-else:
-    PATHS["FINAL_DATA_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "final"
+    # Version
+    paths["GEOIPS_VERS"] = os.getenv("GEOIPS_VERS", "0.0.0")
+
+    # WWW Paths
+    www_paths = {
+        "TCWWW": "preprocessed/tcwww",
+        "PUBLICWWW": "preprocessed/publicwww",
+        "PRIVATEWWW": "preprocessed/privatewww",
+    }
+
+    for key, subdir in www_paths.items():
+        paths[key] = get_env_path(key, os.path.join(paths["GEOIPS_OUTDIRS"], subdir))
+        paths[f"{key}_URL"] = get_env_path(f"{key}_URL", paths[key])
+
+    # Tropical Cyclone Paths
+    paths["TC_DECKS_DB"] = get_env_path(
+        "TC_DECKS_DB",
+        os.path.join(paths["GEOIPS_OUTDIRS"], "longterm_files/tc/tc_decks.db"),
+    )
+    paths["TC_DECKS_DIR"] = get_env_path(
+        "TC_DECKS_DIR", os.path.join(paths["GEOIPS_OUTDIRS"], "longterm_files/tc/decks")
     )
 
-# Location for writing out pregenerated geolocation netcdf files
-if getenv("PREGENERATED_GEOLOCATION_PATH"):
-    PATHS["PREGENERATED_GEOLOCATION_PATH"] = getenv(
-        "PREGENERATED_GEOLOCATION_PATH"
-    ).rstrip("/")
-else:
-    PATHS["PREGENERATED_GEOLOCATION_PATH"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "geolocation"
+    # Template Paths
+    paths["TC_TEMPLATE"] = get_env_path(
+        "TC_TEMPLATE",
+        os.path.join(
+            paths["BASE_PATH"], "plugins/yaml/sectors/dynamic/tc_web_template.yaml"
+        ),
     )
 
-# GEOIPS_COPYRIGHT determines what organization name displays in imagery titles, etc.
-PATHS["GEOIPS_COPYRIGHT"] = "NRL-Monterey"
-if getenv("GEOIPS_COPYRIGHT"):
-    PATHS["GEOIPS_COPYRIGHT"] = getenv("GEOIPS_COPYRIGHT")
-
-# GEOIPS_COPYRIGHT_ABBREVIATED provides an abbreviated version of the
-# copyright, best for filenames, etc.
-PATHS["GEOIPS_COPYRIGHT_ABBREVIATED"] = "NRLMRY"
-if getenv("GEOIPS_COPYRIGHT_ABBREVIATED"):
-    PATHS["GEOIPS_COPYRIGHT_ABBREVIATED"] = getenv("GEOIPS_COPYRIGHT_ABBREVIATED")
-
-PATHS["GEOIPS_RCFILE"] = ""
-if getenv("GEOIPS_RCFILE"):
-    PATHS["GEOIPS_RCFILE"] = getenv("GEOIPS_RCFILE")
-
-PATHS["TC_TEMPLATE"] = pathjoin(
-    PATHS["BASE_PATH"], "plugins", "yaml", "sectors", "dynamic", "tc_web_template.yaml"
-)
-if getenv("TC_TEMPLATE"):
-    PATHS["TC_TEMPLATE"] = getenv("TC_TEMPLATE")
-
-PATHS["DEFAULT_QUEUE"] = None
-if getenv("DEFAULT_QUEUE"):
-    PATHS["DEFAULT_QUEUE"] = getenv("DEFAULT_QUEUE")
-
-PATHS["BOXNAME"] = socket.gethostname()
-if not getenv("HOME"):
-    # Windows
-    PATHS["HOME"] = getenv("HOMEDRIVE") + getenv("HOMEPATH")
-else:
-    PATHS["HOME"] = getenv("HOME").rstrip("/")
-
-if not getenv("SCRATCH"):
-    PATHS["SCRATCH"] = pathjoin(getenv("GEOIPS_OUTDIRS"), "scratch")
-else:
-    PATHS["SCRATCH"] = getenv("SCRATCH").rstrip("/")
-
-if not getenv("LOCALSCRATCH"):
-    PATHS["LOCALSCRATCH"] = PATHS["SCRATCH"]
-else:
-    PATHS["LOCALSCRATCH"] = getenv("LOCALSCRATCH").rstrip("/")
-
-if not getenv("SHAREDSCRATCH"):
-    PATHS["SHAREDSCRATCH"] = PATHS["SCRATCH"]
-else:
-    PATHS["SHAREDSCRATCH"] = getenv("SHAREDSCRATCH").rstrip("/")
-
-if not getenv("GEOIPS_ANCILDAT"):
-    PATHS["GEOIPS_ANCILDAT"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "ancildat")
-elif getenv("GEOIPS_ANCILDAT"):
-    PATHS["GEOIPS_ANCILDAT"] = getenv("GEOIPS_ANCILDAT").rstrip("/")
-# Separating the auto-generated files from the source files allows for
-# individual users to read from the shared ancildat, and write to their own
-# auto-generated location
-if not getenv("GEOIPS_ANCILDAT_AUTOGEN"):
-    PATHS["GEOIPS_ANCILDAT_AUTOGEN"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "ancildat_autogen"
-    )
-elif getenv("GEOIPS_ANCILDAT_AUTOGEN"):
-    PATHS["GEOIPS_ANCILDAT_AUTOGEN"] = getenv("GEOIPS_ANCILDAT_AUTOGEN").rstrip("/")
-
-if not getenv("LOGDIR"):
-    PATHS["LOGDIR"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "logs")
-else:
-    PATHS["LOGDIR"] = getenv("LOGDIR").rstrip("/")
-
-if not getenv("GEOIPSDATA"):
-    PATHS["GEOIPSDATA"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "geoipsdata")
-else:
-    PATHS["GEOIPSDATA"] = getenv("GEOIPSDATA").rstrip("/")
-
-if getenv("TCWWW"):
-    PATHS["TCWWW"] = getenv("TCWWW").rstrip("/")
-else:
-    PATHS["TCWWW"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "preprocessed", "tcwww")
-
-if getenv("TCWWW_URL"):
-    PATHS["TCWWW_URL"] = getenv("TCWWW_URL").rstrip("/")
-else:
-    PATHS["TCWWW_URL"] = PATHS["TCWWW"]
-
-if getenv("PUBLICWWW"):
-    PATHS["PUBLICWWW"] = getenv("PUBLICWWW").rstrip("/")
-else:
-    PATHS["PUBLICWWW"] = pathjoin(PATHS["GEOIPS_OUTDIRS"], "preprocessed", "publicwww")
-
-if getenv("PUBLICWWW_URL"):
-    PATHS["PUBLICWWW_URL"] = getenv("PUBLICWWW_URL").rstrip("/")
-else:
-    PATHS["PUBLICWWW_URL"] = PATHS["PUBLICWWW"]
-
-paths = (
-    ("PRIVATEWWW", ("preprocessed", "privatewww")),
-    ("PUBLICWWW_URL"),
-)
-
-if getenv("PRIVATEWWW"):
-    PATHS["PRIVATEWWW"] = getenv("PRIVATEWWW").rstrip("/")
-else:
-    PATHS["PRIVATEWWW"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "preprocessed", "privatewww"
-    )
-
-if getenv("PRIVATEWWW_URL"):
-    PATHS["PRIVATEWWW_URL"] = getenv("PRIVATEWWW_URL").rstrip("/")
-else:
-    PATHS["PRIVATEWWW_URL"] = PATHS["PRIVATEWWW"]
-
-PATHS["TC_DECKS_DB"] = pathjoin(
-    PATHS["GEOIPS_OUTDIRS"], "longterm_files", "tc", "tc_decks.db"
-)
-if getenv("TC_DECKS_DB"):
-    PATHS["TC_DECKS_DB"] = getenv("TC_DECKS_DB")
-
-if getenv("TC_DECKS_DIR"):
-    PATHS["TC_DECKS_DIR"] = getenv("TC_DECKS_DIR").rstrip("/")
-else:
-    PATHS["TC_DECKS_DIR"] = pathjoin(
-        PATHS["GEOIPS_OUTDIRS"], "longterm_files", "tc", "decks"
-    )
+    return paths
 
 
 def make_dirs(path):
-    """Make directories, catching exceptions if directory already exists.
+    """Make directories, catching exceptions if directory already os.path.exists.
 
     Parameters
     ----------
@@ -270,7 +195,7 @@ def make_dirs(path):
     """
     from os import makedirs
 
-    if not exists(path):
+    if not os.path.exists(path):
         try:
             LOG.info("Creating directory %s", path)
             makedirs(path, mode=0o755)
@@ -282,3 +207,7 @@ def make_dirs(path):
                 path,
             )
     return path
+
+
+# Initialize the PATHS dictionary
+PATHS = initialize_paths()
