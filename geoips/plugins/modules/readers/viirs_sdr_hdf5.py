@@ -8,7 +8,6 @@ V1.1.0:  NRL-Monterey, Aug. 2024
 
 """
 
-
 # Python Standard Libraries
 import logging
 import os

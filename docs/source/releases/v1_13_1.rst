@@ -8,20 +8,6 @@ Version 1.13.1 (2024-06-01)
 
 * Update 'update_this_release_note'
 * Add release note for v1.13.1
-* Added VIIRS HDF5 reader
-
-Enhancements
-============
-
-Add VIIRS HDF5 SDR reader
--------------------------
-
-Created reader for VIIRS HDF5 SDR data, correcting for bowtie
-distortion for single and multiple files.
-
-::
-
-  created: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
 
 Release Process
 ===============
