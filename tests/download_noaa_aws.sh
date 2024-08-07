@@ -25,7 +25,7 @@ if [[ "$8" == "" && -z "$GEOIPS_PACKAGES_DIR" ]]; then
 fi
 
 if [[ "$1" == "" || "$bad_command" == "1" ]]; then
-    echo "Usage: $0 <satellite> YYYY MM DD HH MN <testdata_dir> <rclone_conf> <wildcard_list>"
+    echo "Usage: $0 <satellite> YYYY MM DD HH MN <testdata_dir> <rclone_conf> <collection> <wildcard_list>"
     echo "    satellite:"
     echo "        goes16"
     echo "        goes17"
@@ -43,9 +43,18 @@ if [[ "$1" == "" || "$bad_command" == "1" ]]; then
     echo "        if 'default' or not specified, defaults to:"
     echo "        \$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf"
     echo "    collection:"
+    echo "        If not defined, defaults to L1B full disk for geostationary"
+    echo "        Since there are so many NOAA/NPP products, no sensible default.."
+    echo "        This refers to the initial subdirectory found in the NOAA AWS"
+    echo "          S3 buckets (prior to the date-based subdirs)"
+    echo "          ie: noaa-nesdis-snpp-pds.s3.amazonaws.com/VIIRS-IMG-GEO-TC"
+    echo "        examples of collections (you can find all available collections"
+    echo "          by navigating the S3 buckets on the web)"
     echo "        viirs"
     echo "           VIIRS-IMG-GEO-TC"
     echo "           VIIRS-I5-SDR"
+    echo "        ahi"
+    echo "           AHI-L1b-FLDK"
     echo "    wildcard_list: "
     echo "        list of strings to match in filenames (ie, channels)."
     echo "        Defaults to all files for dtg"
