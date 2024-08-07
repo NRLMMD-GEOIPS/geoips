@@ -4,5 +4,5 @@ enchancement:
     distortion for single and multiple files.
   title: 'Add VIIRS HDF5 SDR reader'
   files:
-    created:
+    added:
       - geoips/plugins/modules/readers/viirs_sdr_hdf5.py
