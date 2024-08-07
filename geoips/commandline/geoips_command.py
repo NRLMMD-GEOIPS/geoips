@@ -43,7 +43,10 @@ class PluginPackages:
             ep.value
             for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
-        self.paths = [dirname(epvalue) for epvalue in self.entrypoints]
+        self.paths = [
+            dirname(resources.files(ep.value))
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
+        ]
 
 
 plugin_packages = PluginPackages()
