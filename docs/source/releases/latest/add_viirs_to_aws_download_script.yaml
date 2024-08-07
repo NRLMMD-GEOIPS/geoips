@@ -10,21 +10,25 @@ testing:
     moved:
     - ''
   title: 'Add NOAA-20, NOAA-21, and NPP downloads to NOAA AWS download script'
-continuous integration:
-- description: ''
+bug fixes:
+- description: |
+    Resolve algorithm_interpolator_colormapper typo in single_source procflow
+    Pass in xarray.Dataset() rather than alg_xarray as the "interp_xarray" to
+    the "perform_interpolation" function. Previously the xarray was not being
+    interpolated, because it thought the alg_xarray was the pre-interpolated array.
+    This bug was introduced when refactoring single source to avoid
+    re-interpolating.  We should probably add an integration test for this
+    product family.
   files:
     added:
     - ''
     deleted:
     - ''
     modified:
-    - ''
+    - 'geoips/plugins/modules/procflows/single_source.py'
     moved:
     - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
+  title: 'Resolve algorithm_colormapper typo in single_source procflow'
 deprecation:
 - description: ''
   files:
