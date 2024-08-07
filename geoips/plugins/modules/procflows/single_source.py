@@ -609,7 +609,7 @@ def apply_interp_after_alg(
             interp_plugin,
             area_def,
             alg_xarray,
-            alg_xarray,
+            xarray.Dataset(),
             interp_args,
             processed_xarrays,
         )
