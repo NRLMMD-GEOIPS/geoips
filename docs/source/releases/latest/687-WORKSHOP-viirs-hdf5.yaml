@@ -1,0 +1,8 @@
+enchancement:
+- description: |
+    Created reader for VIIRS HDF5 SDR data, correcting for bowtie
+    distortion for single and multiple files.
+  title: 'Add VIIRS HDF5 SDR reader'
+  files:
+    added:
+      - geoips/plugins/modules/readers/viirs_sdr_hdf5.py
