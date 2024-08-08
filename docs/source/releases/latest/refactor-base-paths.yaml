@@ -1,29 +1,26 @@
 bug fix:
 - description: |
-    Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. `/read_only`), it would print:
+    Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. ``/read_only``), it would print:
 
     .. code-block:: bash
 
-                "/read_only: We thought /read_only did not exist, but then it did. "
-                "Not trying to make directory",
+        "/read_only: We thought /read_only did not exist, but then it did. "
+        "Not trying to make directory",
 
     This is was for anything that could trigger any of these OS Errors:
    
-    ├── OSError
-      │    ├── BlockingIOError
-      │    ├── ChildProcessError
-      │    ├── ConnectionError
-      │    │    ├── BrokenPipeError
-      │    │    ├── ConnectionAbortedError
-      │    │    ├── ConnectionRefusedError
-      │    │    └── ConnectionResetError
-      │    ├── FileNotFoundError
-      │    ├── InterruptedError
-      │    ├── IsADirectoryError
-      │    ├── NotADirectoryError
-      │    ├── PermissionError
-      │    ├── ProcessLookupError
-      │    └── TimeoutError
+    - OSError
+    - BlockingIOError
+    - ChildProcessError
+    - ConnectionError
+    - BrokenPipeError
+    - FileNotFoundError
+    - InterruptedError
+    - IsADirectoryError
+    - NotADirectoryError
+    - PermissionError
+    - ProcessLookupError
+    - TimeoutError
 
     Which is far beyond the FileExistsError that was originally supposed to be caught.
   files:
