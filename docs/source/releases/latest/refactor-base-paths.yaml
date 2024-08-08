@@ -1,0 +1,68 @@
+bug fix:
+- description: |
+    Fixes found issue with make_dirs. Previously, if make_dirs was passed a read only directory (eg. ``/read_only``), it would print:
+
+    .. code-block:: bash
+
+        "/read_only: We thought /read_only did not exist, but then it did. "
+        "Not trying to make directory",
+
+    This is was for anything that could trigger any of these OS Errors:
+   
+    - OSError
+    - BlockingIOError
+    - ChildProcessError
+    - ConnectionError
+    - BrokenPipeError
+    - FileNotFoundError
+    - InterruptedError
+    - IsADirectoryError
+    - NotADirectoryError
+    - PermissionError
+    - ProcessLookupError
+    - TimeoutError
+
+    Which is far beyond the FileExistsError that was originally supposed to be caught.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Fix dir creation bug on OSError'
+documentation:
+- description: 'Docstrings for base_paths were out of date. They have now been updated.'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Write docstrings for base_paths'
+Refactor:
+- description: 'Base paths was originally very short, but has been added to over time. The original structure did not scale well. The file original file very difficult to read, comprehend and/or maintain. File has been refactored.'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Refactor base_paths'
