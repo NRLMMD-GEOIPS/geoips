@@ -42,7 +42,9 @@ def initialize_paths():
     paths = {}
 
     # Base and Documentation Paths
-    paths["BASE_PATH"] = os.path.join(os.path.dirname(__file__), "..")
+    paths["BASE_PATH"] = os.path.abspath(
+        os.path.join(os.path.dirname(__file__), os.pardir)
+    )
 
     # Output Directories
     if not os.getenv("GEOIPS_OUTDIRS"):
@@ -51,9 +53,12 @@ def initialize_paths():
             "Please set GEOIPS_OUTDIRS and try again"
         )
     paths["GEOIPS_OUTDIRS"] = os.getenv("GEOIPS_OUTDIRS").rstrip("/")
-    paths["GEOIPS_PACKAGES_DIR"] = os.path.join(paths["BASE_PATH"], "..", "..")
+    paths["GEOIPS_PACKAGES_DIR"] = os.path.abspath(
+        os.path.join(paths["BASE_PATH"], os.pardir, os.pardir)
+    )
     paths["GEOIPS_BASEDIR"] = get_env_var(
-        "GEOIPS_BASEDIR", os.path.join(paths["GEOIPS_PACKAGES_DIR"], "..")
+        "GEOIPS_BASEDIR",
+        os.path.abspath(os.path.join(paths["GEOIPS_PACKAGES_DIR"], os.pardir)),
     )
 
     geoips_global_variables = {
@@ -117,7 +122,7 @@ def initialize_paths():
 
     for top_directory, sub_directories in derivative_directory_paths.items():
         for key, sub_path in sub_directories.items():
-            paths[key] = os.path.join(top_directory, sub_path)
+            paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
 
     if not os.getenv("HOME"):
         # need home drive default for windows
@@ -129,11 +134,12 @@ def initialize_paths():
     www_paths = ["TCWWW", "PUBLICWWW", "PRIVATEWWW"]
     for path in www_paths:
         paths[f"{path}_URL"] = get_env_var(f"{path}_URL", paths[path])
+
     return paths
 
 
 def make_dirs(path):
-    """Make directories, catching exceptions if directory already os.path.exists.
+    """Make directories, catching exceptions if directory already exists.
 
     Parameters
     ----------
@@ -147,9 +153,17 @@ def make_dirs(path):
     """
     from os import makedirs
 
-    LOG.info("Creating directory %s if it doesn't exist already.", path)
-    makedirs(path, mode=0o755, exist_ok=True)
-
+    if not exists(path):
+        try:
+            LOG.info("Creating directory %s", path)
+            makedirs(path, mode=0o755)
+        except OSError as resp:
+            LOG.warning(
+                "%s: We thought %s did not exist, but then it did. "
+                "Not trying to make directory",
+                resp,
+                path,
+            )
     return path
 
 
