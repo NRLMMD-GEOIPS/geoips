@@ -43,7 +43,6 @@ def get_env_var(var_name, default, rstrip_path=True):
     str
         The value of the environment variable or the default value if not set.
     """
-
     env_value = os.getenv(var_name)
     if env_value:
         if rstrip_path:
