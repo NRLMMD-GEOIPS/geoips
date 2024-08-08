@@ -153,17 +153,8 @@ def make_dirs(path):
     """
     from os import makedirs
 
-    if not exists(path):
-        try:
-            LOG.info("Creating directory %s", path)
-            makedirs(path, mode=0o755)
-        except OSError as resp:
-            LOG.warning(
-                "%s: We thought %s did not exist, but then it did. "
-                "Not trying to make directory",
-                resp,
-                path,
-            )
+    LOG.info("Creating directory %s if it doesn't already exist.", path)
+    makedirs(path, mode=0o755, exist_ok=True)
     return path
 
 
