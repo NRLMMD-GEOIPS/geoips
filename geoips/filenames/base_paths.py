@@ -1,32 +1,51 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Collection of base path names used throughout GeoIPS.
+"""
+Module for setting paths used throughout GeoIPS.
 
-Everything defaults to subdirectories relative to the
-REQUIRED environment variable GEOIPS_OUTDIRS.
+This module sets various directory paths required for GeoIPS.
+`GEOIPS_OUTDIRS` serves as the base reference for all other variables.
+It defaults to the values set in environment variables.
+It also provides a function for creating directories.
 
-Individual GEOIPS_OUTDIRS relative paths can be overridden
-by setting appropriate environment variables.
+
+Functions:
+- get_env_var: Retrieve an environment variable or a provided default value,
+  with an optional path rstrip functionality.
+- initialize_paths: Returns a dictionary with GeoIPS directories and variables.
+- make_dirs: Create directories if they don't already exist.
+
+Attributes:
+- PATHS: Dictionary containing initialized paths for various GeoIPS
+  directories and URLs.
+
+Environment Variables:
+- GEOIPS_OUTDIRS (required): Base output directory for GeoIPS.
 """
 
-# Python Standard Libraries
 import logging
 import os
 import socket
 
-LOG = logging.getLogger(__name__)
-
-# At a minimum, GEOIPS_OUTDIRS must be defined.
-if not os.getenv("GEOIPS_OUTDIRS"):
-    raise KeyError(
-        "GEOIPS_OUTDIRS must be set in your environment."
-        "Please set GEOIPS_OUTDIRS and try again."
-    )
-
 
 def get_env_var(var_name, default, rstrip_path=True):
-    """Retrieve environment variable or provided default, optionally rstrip a '/'."""
+    """Retrieve environment variable or provided default, optionally rstrip a '/'.
+    Parameters
+    ----------
+    var_name : str
+        The name of the environment variable.
+    default : str
+        The default value to return if the environment variable is not set.
+    rstrip_path : bool, optional
+        If True, strip trailing slashes from the returned path (default is True).
+
+    Returns
+    -------
+    str
+        The value of the environment variable or the default value if not set.
+    """
+
     env_value = os.getenv(var_name)
     if env_value:
         if rstrip_path:
@@ -38,7 +57,19 @@ def get_env_var(var_name, default, rstrip_path=True):
 
 
 def initialize_paths():
-    """Initialize the PATHS dictionary with environment paths and defaults."""
+    """
+    Initialize and return a dictionary of paths used throughout GeoIPS.
+
+    Returns
+    -------
+    dict
+        A dictionary containing various paths used by GeoIPS.
+
+    Raises
+    ------
+    KeyError
+        If the required environment variable GEOIPS_OUTDIRS is not set.
+    """
     paths = {}
 
     # Base and Documentation Paths
@@ -151,12 +182,12 @@ def make_dirs(path):
     str
         Path if successfully created
     """
-    from os import makedirs
-
     LOG.info("Creating directory %s if it doesn't already exist.", path)
-    makedirs(path, mode=0o755, exist_ok=True)
+    os.makedirs(path, mode=0o755, exist_ok=True)
     return path
 
+
+LOG = logging.getLogger(__name__)
 
 # Initialize the PATHS dictionary
 PATHS = initialize_paths()
