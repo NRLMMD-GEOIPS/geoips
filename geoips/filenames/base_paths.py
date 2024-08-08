@@ -51,7 +51,7 @@ def initialize_paths():
             "Please set GEOIPS_OUTDIRS and try again"
         )
     paths["GEOIPS_OUTDIRS"] = os.getenv("GEOIPS_OUTDIRS").rstrip("/")
-    paths["GEOIPS_PACKAGES_DIR"] = (os.path.join(paths["BASE_PATH"], "..", ".."),)
+    paths["GEOIPS_PACKAGES_DIR"] = os.path.join(paths["BASE_PATH"], "..", "..")
     paths["GEOIPS_BASEDIR"] = get_env_var(
         "GEOIPS_BASEDIR", os.path.join(paths["GEOIPS_PACKAGES_DIR"], "..")
     )
@@ -97,7 +97,7 @@ def initialize_paths():
             "LOCALSCRATCH": "scratch",
             "SHAREDSCRATCH": "scratch",
             # Log and Data Directories
-            "LOGDIR": "geoipsdata",
+            "LOGDIR": "logs",
             "GEOIPSDATA": "geoipsdata",
             # Ancillary Data Directories
             "GEOIPS_ANCILDAT_AUTOGEN": "ancildat_autogen",
@@ -111,9 +111,7 @@ def initialize_paths():
             "TC_DECKS_DIR": "longterm_files/tc/decks",
         },
         paths["BASE_PATH"]: {
-            "TC_TEMPLATE": [
-                "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
-            ],
+            "TC_TEMPLATE": "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
         },
     }
 
@@ -131,7 +129,6 @@ def initialize_paths():
     www_paths = ["TCWWW", "PUBLICWWW", "PRIVATEWWW"]
     for path in www_paths:
         paths[f"{path}_URL"] = get_env_var(f"{path}_URL", paths[path])
-
     return paths
 
 
