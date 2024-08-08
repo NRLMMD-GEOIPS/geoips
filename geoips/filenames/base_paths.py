@@ -1,8 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""
-Module for setting paths used throughout GeoIPS.
+"""Module for setting paths used throughout GeoIPS.
 
 This module sets various directory paths required for GeoIPS.
 `GEOIPS_OUTDIRS` serves as the base reference for all other variables.
@@ -11,14 +10,12 @@ It also provides a function for creating directories.
 
 
 Functions:
-- get_env_var: Retrieve an environment variable or a provided default value,
-  with an optional path rstrip functionality.
+- get_env_var: Retrieve an environment variable or a provided default value.
 - initialize_paths: Returns a dictionary with GeoIPS directories and variables.
 - make_dirs: Create directories if they don't already exist.
 
 Attributes:
-- PATHS: Dictionary containing initialized paths for various GeoIPS
-  directories and URLs.
+- PATHS: Dictionary with initialized paths for various GeoIPS directories and URLs.
 
 Environment Variables:
 - GEOIPS_OUTDIRS (required): Base output directory for GeoIPS.
@@ -31,6 +28,7 @@ import socket
 
 def get_env_var(var_name, default, rstrip_path=True):
     """Retrieve environment variable or provided default, optionally rstrip a '/'.
+
     Parameters
     ----------
     var_name : str
