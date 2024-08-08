@@ -9,12 +9,14 @@ It defaults to the values set in environment variables.
 It also provides a function for creating directories.
 
 
-Functions:
+Functions
+---------
 - get_env_var: Retrieve an environment variable or a provided default value.
 - initialize_paths: Returns a dictionary with GeoIPS directories and variables.
 - make_dirs: Create directories if they don't already exist.
 
-Attributes:
+Attributes
+----------
 - PATHS: Dictionary with initialized paths for various GeoIPS directories and URLs.
 
 Environment Variables:
