@@ -137,8 +137,8 @@ the process of creating a new plugin package containing one or more custom plugi
 
     .. code-block:: shell
 
-      echo $MY_PKG_NAME : should reflect your package name
-      echo $MY_PKG_DIR  : should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
+      echo $MY_PKG_NAME : #should reflect your package name
+      echo $MY_PKG_DIR  : #should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
 #.  Owning tutorial template package: change it's name, set the git branch to main, change it's remote repo URL, and
 push
