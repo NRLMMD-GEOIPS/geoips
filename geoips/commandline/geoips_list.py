@@ -63,6 +63,12 @@ class GeoipsListSourceNames(GeoipsExecutableCommand):
         interface_registry = self._get_registry_by_interface_and_package(
             interfaces.readers, package_name
         )
+        if interface_registry is None:
+            print(
+                f"\nPlugin Package '{package_name}' has no reader plugins and "
+                "therefore no implemented source_names."
+            )
+            return
         headers = self._get_headers_by_command(args, default_headers)
         src_name_mapping = self.match_readers_with_source_name(interface_registry)
         src_name_info = []
