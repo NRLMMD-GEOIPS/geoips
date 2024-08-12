@@ -1,6 +1,22 @@
 enhancement:
 - description: |
     *From GEOIPS#737: 2024-8-12, Discuss how to handle reader ``source_names`` attribute*
+
+    This branch creates a requested command from the 2024 GeoIPS Tutorial, called
+    'geoips list source-names'. This was created as source_names are a buried, but
+    essential feature of reader plugins, and this information isn't included in CLI
+    commands except when listing / describing product plugins. This also doesn't
+    guarantee that all source names are actually exposed via the CLI, only those which
+    are used within products. This new command searches throughout GeoIPS and
+    corresponding plugin packages for source_names implemented in reader plugins. We
+    added a new ``source_names`` attribute to core GeoIPS readers which we then add to
+    reader entries in plugin registries. This information can then be retrieved
+    using the CLI to easily expose source_names, and the readers which make use of those
+    source_names.
+
+    We now deprecate reader plugins which do not make use of the module-level
+    ``source_names`` attribute. Reader plugins which don't have that attribute included
+    will be fully deprecated when GeoIPS v2.0.0 is released.
   files:
     modified:
       - docs/source/userguide/command_line.rst
