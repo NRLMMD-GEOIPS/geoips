@@ -18,6 +18,7 @@ log = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "abi_l2_netcdf"
+source_names = ["abi"]
 
 
 def get_metadata(fname):

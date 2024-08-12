@@ -44,6 +44,7 @@ LOG.info("info on imported functions")
 interface = "readers"
 family = "standard"
 name = "modis_hdf4"
+source_names = ["modis"]
 
 # define functions
 

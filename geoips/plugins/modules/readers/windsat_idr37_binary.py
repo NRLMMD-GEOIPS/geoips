@@ -141,6 +141,7 @@ gvar_info = {
 interface = "readers"
 family = "standard"
 name = "windsat_idr37_binary"
+source_names = ["windsat"]
 
 # NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
 # variables are needed in this for moving through the binary file correctly. There is

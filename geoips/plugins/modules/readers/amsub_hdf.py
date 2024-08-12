@@ -65,6 +65,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "amsub_hdf"
+source_names = ["amsu-b"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
