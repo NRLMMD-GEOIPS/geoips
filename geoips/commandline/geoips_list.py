@@ -124,7 +124,6 @@ class GeoipsListSourceNames(GeoipsExecutableCommand):
         return src_name_mapping
 
 
-
 class GeoipsListUnitTests(GeoipsExecutableCommand):
     """List Command for listing out available unit tests.
 

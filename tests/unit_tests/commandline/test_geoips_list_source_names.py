@@ -11,7 +11,6 @@ from importlib import resources
 from pathlib import Path
 import pytest
 
-from geoips import interfaces
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
