@@ -124,7 +124,17 @@ ALL_CHANS = {
     ],  # 1.6um  Near-IR Snow/Ice
     "HIGH": ["B03Rad", "B03Ref"],  # 0.86um Near-IR Veggie
 }
-
+# Update this variable if abi_netcdf files add new variables which can be used to
+# compose new products
+ALL_DATASETS = [
+    "Infrared",
+    "Infrared-Gray",
+    "IR-BD",
+    "WV",
+    "WV-Lower",
+    "WV-Upper",
+    "Visible",
+]
 
 def metadata_to_datetime(metadata):
     """Use information from the metadata to get the image datetime."""

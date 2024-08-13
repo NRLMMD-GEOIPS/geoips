@@ -860,22 +860,27 @@ def add_module_plugin(package, relpath, plugins):
         "relpath": relpath,
     }
     if interface_name == "readers":
-        if hasattr(module, "source_names"):
-            plugins[interface_name][name]["source_names"] = module.source_names
-        else:
-            warnings.warn(
-                (
-                    f"Plugin package '{package}'s reader"
-                    f" plugin '{name}' is using a deprecated source_names "
-                    "implementation. Please add a module-level 'source_names' "
-                    "attribute to this plugin and re-run "
-                    "'create_plugin_registries'. This will be fully deprecated "
-                    "when GeoIPS v2.0.0 is released."
-                ),
-                DeprecationWarning,
-                stacklevel=2,
-            )
-            plugins[interface_name][name]["source_names"] = ["N/A"]
+        for expected_attr in ["ALL_CHANS", "ALL_DATASETS", "source_names"]:
+            if hasattr(module, expected_attr):
+                plugins[interface_name][name][expected_attr] = getattr(
+                    module,
+                    expected_attr,
+                )
+            else:
+                warnings.warn(
+                    (
+                        f"Plugin package '{package}'s reader"
+                        f" plugin '{name}' is using a deprecated {expected_attr} "
+                        f"implementation. Please add a module-level '{expected_attr}' "
+                        "attribute to this plugin and re-run "
+                        "'create_plugin_registries'. This will be fully deprecated "
+                        "when GeoIPS v2.0.0 is released."
+                    ),
+                    DeprecationWarning,
+                    stacklevel=2,
+                )
+                plugins[interface_name][name][expected_attr] = ["N/A"]
+
     del module
     # Return the final error message - an exception will be raised at the very
     # end after collecting and reporting on all errors if there were any errors

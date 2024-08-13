@@ -322,7 +322,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
         """
         pass
 
-    def _output_dictionary_highlighted(self, dict_entry):
+    def _output_dictionary_highlighted(self, dict_entry, new_line=True):
         """Print to terminal the yaml-dumped dictionary of a certain interface/plugin.
 
         Color the key, value pairs cyan, yellow to highlight the text in a human
@@ -332,9 +332,12 @@ class GeoipsExecutableCommand(GeoipsCommand):
         ----------
         plugin_entry: dict
             - The dictionary of info for a certain plugin in the plugin registry.
+        new_line: bool
+            - Whether or not we should print a new line as soon as this is called
         """
         yaml_text = yaml.dump(dict_entry, default_flow_style=False)
-        print()
+        if new_line:
+            print()
         for line in yaml_text.split("\n"):
             # Color the keys in cyan and values in yellow
             if ":" in line:
@@ -348,7 +351,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
                 formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
             else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                formatted_line = "  " + Fore.YELLOW + line + Style.RESET_ALL
                 print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):

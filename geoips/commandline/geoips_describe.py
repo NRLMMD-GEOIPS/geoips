@@ -6,8 +6,10 @@
 Retrieves the appropriate family/interface/package/plugin based on the args provided.
 """
 
+from glob import glob
 from importlib import metadata, resources, import_module
 
+from colorama import Fore, Style
 import yaml
 
 from geoips.commandline.geoips_command import (
@@ -309,6 +311,110 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             )
 
 
+class GeoipsDescribeData(GeoipsExecutableCommand):
+    """Describe Command which retrieves info about data files read by a certain reader.
+
+    This is called via `geoips describe data <reader_name> <file_paths>`. Data included
+    when calling this command is shown below, outputted in a yaml-based format.
+    """
+
+    name = "data"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the describe-subparser for the describe data Command."""
+        self.parser.add_argument(
+            "reader_name",
+            type=str.lower,
+            choices=list(
+                interfaces.readers.registered_module_based_plugins["readers"].keys()
+            ),
+            help="GeoIPS Reader plugin name. This will read your files.",
+        )
+        self.parser.add_argument(
+            "file_paths",
+            type=str,
+            nargs="+",
+            help="Files to describe. This can be an absolute path or a wildcard path.",
+        )
+
+    def __call__(self, args):
+        """CLI 'geoips describe data <reader_name> <file_paths>' command.
+
+        This occurs when a user has requested a description of data files in the manner
+        shown above. Outputs to the teriminal the following data in a dictionary format
+        if available.
+
+        Printed to Terminal
+        -------------------
+        yaml-based output: dict
+            - METADATA
+            - Variables
+            - Composite Datasets
+            - Source Names
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        reader_name = args.reader_name
+        file_paths = args.file_paths
+        rdr_fpaths = []
+        for fpath in file_paths:
+            rdr_fpaths += glob(fpath)
+        # If rdr_fpaths is empty, then the file paths provided didn't exist
+        if not len(rdr_fpaths):
+            self.parser.error(
+                "File paths provided don't appear to exist. Please provide valid file "
+                "paths."
+            )
+        reader_plugin = interfaces.readers.get_plugin(reader_name)
+        file_md = reader_plugin(rdr_fpaths, metadata_only=True)["METADATA"].attrs
+        reader_registry = interfaces.readers.registered_module_based_plugins["readers"][
+            reader_name
+        ]
+        data_entry = {
+            "Variables": reader_registry["ALL_CHANS"],
+            "Composite_Datasets": reader_registry["ALL_DATASETS"],
+            "Source Names": reader_registry["source_names"],
+        }
+        self.output_metadata_highlighted(file_md)
+        self._output_dictionary_highlighted(data_entry, new_line=False)
+
+    def output_metadata_highlighted(self, md_dict, indent=0):
+        """Output the provided md_dict (xarray object attributes) with color.
+
+        This will be a yaml-based format highlighted as <key>: <value>, recursively
+        where appicable.
+
+        Parameters
+        ----------
+        md_dict: dict
+            - Dictionary of metadata coming from the files provided to this class'
+              __call__ function.
+        indent: int
+            - The indentation index of the current md_dict.
+        """
+        if indent == 0:
+            # Print a top level METADATA key
+            print(f"{Fore.CYAN}METADATA:{Style.RESET_ALL}")
+            self.output_metadata_highlighted(md_dict, indent=indent+1)
+        else:
+            # Loop through and print each attribute of the metadata provided
+            for key, value in md_dict.items():
+                curr_dict = md_dict[key]
+                formatted_line = "  " * indent
+                if isinstance(value, dict):
+                    formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL}"
+                    print(formatted_line)
+                    self.output_metadata_highlighted(curr_dict, indent=indent+1)
+                else:
+                    value = str(value).replace("\n", "")
+                    formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL} "
+                    formatted_line += f"{Fore.YELLOW }{value}{Style.RESET_ALL}"
+                    print(formatted_line)
+
 class GeoipsDescribePackage(GeoipsExecutableCommand):
     """Describe Command which retrieves information about a certain GeoIPS Package.
 
@@ -377,4 +483,7 @@ class GeoipsDescribe(GeoipsCommand):
             ).generated_class
         )
 
-    command_classes = generated_classes + [GeoipsDescribePackage]
+    command_classes = generated_classes + [
+        GeoipsDescribeData,
+        GeoipsDescribePackage,
+    ]
