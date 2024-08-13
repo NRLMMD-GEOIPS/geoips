@@ -9,7 +9,9 @@ The other models defined here are intended to validate particular field types
 within plugin models.
 """
 
+import keyword
 from pydantic import BaseModel, constr
+from typing import Tuple
 from typing_extensions import Annotated
 from pydantic.functional_validators import AfterValidator
 from matplotlib.artist import Artist
@@ -19,6 +21,12 @@ from cartopy import feature
 
 def python_identifier(val: str) -> str:
     """Validate if a string is a valid Python identifier.
+
+    Validate if a string is a valid Python identifier and not a reserved Python keyword.
+    See https://docs.python.org/3/reference/lexical_analysis.html#identifiers for more
+    information on Python identifiers and reserved keywords.
+
+    Validation is performed by calling `str.isidentifier` and `keyword.iskeyword`.
 
     Parameters
     ----------
@@ -35,6 +43,8 @@ def python_identifier(val: str) -> str:
     """
     if not val.isidentifier():
         raise ValueError(f"{val} is not a valid Python identifier")
+    if keyword.iskeyword(val):
+        raise ValueError(f"{val} is a reserved Python keyword")
     return val
 
 
@@ -46,9 +56,14 @@ class Plugin(BaseModel):
     interface: PythonIdentifier
     family: PythonIdentifier
     name: PythonIdentifier
+    # Should write a test to ensure this is a valid numpy docstring
     docstring: str
     package: PythonIdentifier = None
+    # Should write a test to ensure this is a valid relative path
+    # Probably try instantiating pathlib.Path, then check that isabs() is False
     relpath: str = None
+    # Should write a test to ensure this is a valid relative path
+    # Probably try instantiating pathlib.Path, then check that isabs() is True
     abspath: str = None
 
 
@@ -83,6 +98,18 @@ def cartopy_feature_args(args: dict) -> dict:
 
 
 CartopyFeatureArgs = Annotated[dict, AfterValidator(cartopy_feature_args)]
+
+
+def lat_lon_coordinate(arg: Tuple[float, float]) -> Tuple[float, float]:
+    """Validate a latitude and longitude coordinate."""
+    if arg[0] < -90 or arg[0] > 90:
+        raise ValueError("Latitude must be between -90 and 90")
+    if arg[1] < -180 or arg[1] > 180:
+        raise ValueError("Longitude must be between -180 and 180")
+    return arg
+
+
+LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
 
 
 if __name__ == "__main__":
