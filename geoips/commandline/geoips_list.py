@@ -87,7 +87,7 @@ class GeoipsListSourceNames(GeoipsExecutableCommand):
         print("-" * len(f"'{package_name}' Reader Source Names"))
         print(
             tabulate(
-                src_name_info,
+                sorted(src_name_info),
                 headers=headers.values(),
                 tablefmt="rounded_grid",
                 maxcolwidths=self.terminal_width // len(headers),
