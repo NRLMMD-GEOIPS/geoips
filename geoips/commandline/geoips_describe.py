@@ -374,46 +374,43 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
         reader_registry = interfaces.readers.registered_module_based_plugins["readers"][
             reader_name
         ]
-        data_entry = {
-            "Variables": reader_registry["ALL_CHANS"],
-            "Composite_Datasets": reader_registry["ALL_DATASETS"],
-            "Source Names": reader_registry["source_names"],
-        }
-        self.output_metadata_highlighted(file_md)
-        self._output_dictionary_highlighted(data_entry, new_line=False)
+        data_entry = interfaces.readers.quick_view(rdr_fpaths)
+        data_entry["METADATA"] = file_md
+        data_entry["Source Names"] = reader_registry["source_names"]
+        self._output_dictionary_highlighted(data_entry)
 
-    def output_metadata_highlighted(self, md_dict, indent=0):
-        """Output the provided md_dict (xarray object attributes) with color.
+    def _output_dictionary_highlighted(self, in_dict, indent=0):
+        """Output the provided in_dct (xarray object vals / attrs) with color.
 
         This will be a yaml-based format highlighted as <key>: <value>, recursively
         where appicable.
 
         Parameters
         ----------
-        md_dict: dict
-            - Dictionary of metadata coming from the files provided to this class'
-              __call__ function.
+        in_dict: dict
+            - Dictionary of xarray-based information coming from the files provided to
+              this class' __call__ function.
         indent: int
             - The indentation index of the current md_dict.
         """
-        if indent == 0:
-            # Print a top level METADATA key
-            print(f"{Fore.CYAN}METADATA:{Style.RESET_ALL}")
-            self.output_metadata_highlighted(md_dict, indent=indent+1)
-        else:
-            # Loop through and print each attribute of the metadata provided
-            for key, value in md_dict.items():
-                curr_dict = md_dict[key]
-                formatted_line = "  " * indent
-                if isinstance(value, dict):
-                    formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL}"
-                    print(formatted_line)
-                    self.output_metadata_highlighted(curr_dict, indent=indent+1)
-                else:
-                    value = str(value).replace("\n", "")
-                    formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL} "
-                    formatted_line += f"{Fore.YELLOW }{value}{Style.RESET_ALL}"
-                    print(formatted_line)
+        # if indent == 0:
+        #     # Print a top level METADATA key
+        #     print(f"{Fore.CYAN}METADATA:{Style.RESET_ALL}")
+        #     self._output_dictionary_highlighted(in_dict, indent=indent+1)
+        # else:
+        # Loop through and print each attribute of the metadata provided
+        for key, value in in_dict.items():
+            curr_dict = in_dict[key]
+            formatted_line = "  " * indent
+            if isinstance(value, dict):
+                formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL}"
+                print(formatted_line)
+                self._output_dictionary_highlighted(curr_dict, indent=indent+1)
+            else:
+                value = str(value).replace("\n", "")
+                formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL} "
+                formatted_line += f"{Fore.YELLOW }{value}{Style.RESET_ALL}"
+                print(formatted_line)
 
 class GeoipsDescribePackage(GeoipsExecutableCommand):
     """Describe Command which retrieves information about a certain GeoIPS Package.
