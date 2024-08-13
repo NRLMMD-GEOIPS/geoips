@@ -7,14 +7,14 @@
 Provides a GeoIPS wrapper for Satpy reader functionality. For more detailed
 documentation of Satpy, see the documentation here:
 https://satpy.readthedocs.io/en/stable/. This reader creates a Scene object with
-the provided filenames and specified reader, then loads provided channels. (The
-satpy_reader, and fnames arguments are passed to the Scene constructor)  The
+the provided filenames and specified reader, then loads provided channels. The
+satpy_reader, and fnames arguments are passed to the Scene constructor.  The
 Scene object is then reorganized into a Dictionary of XArray Dataset objects as
 required by the GeoIPS reader interface.  The various additional arguments to
 the Scene constructor and its load method are provided as optional arguments to
 the call function in this plugin.  This allows any arguments required by a
 particular Satpy reader to be passed via the GeoIPS command line interface
-reader_kwargs argument. The reader_kwargs argument should contain a JSON string
+reader_kwargs argument. The reader_kwargs argument should provide a string
 containing a JSON Object mapping call arguments with their desired values.
 
 In order to map the structure of a Satpy Scene to the Dictionary of Datasets, an
@@ -34,8 +34,9 @@ and is not guaranteed to work with all of Satpy's readers.
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
+import dask
 import pyresample.geometry
 import satpy
 import xarray as xr
@@ -47,28 +48,29 @@ family = "standard"
 name = "generic_satpy"
 
 
+DEFAULT_COORD_CHUNK = 4096
+
+
 def call(
     fnames: List[str],
     source_name: str,
-    platform_name: str,
+    satpy_reader: str,
+    channel_groups: Dict[str, List[str]],
+    platform_name: Optional[str] = None,
     metadata_only: bool = False,
     chans: Optional[List[str]] = None,
     area_def: Optional[pyresample.geometry.AreaDefinition] = None,
     self_register: bool = False,
-    satpy_reader: str = "abi_L1b",
-    channel_groups: Dict[str, List[str]] = {"0.5km": ["C02"]},
     roi: float = 3000,
-    filter_parameters: Optional[Dict[str, Any]] = None,
     satpy_reader_kwargs: Optional[Dict[str, Any]] = None,
     calibration: Union[List[str], str] = "*",
     resolution: Union[List[float], float] = "*",
     polarization: Union[List[str], str] = "*",
     level: Union[List[float], str] = "*",
     modifiers: Union[List[str], str] = "*",
-    generate: bool = True,
-    unload: bool = True,
     load_kwargs: Optional[Dict[str, Any]] = None,
-    force_compute: bool = False,
+    force_compute: bool = True,
+    coord_chunks: int = DEFAULT_COORD_CHUNK,
 ) -> Dict[str, xr.DataArray]:
     if platform_name is None:
         platform_name = satpy_reader
@@ -76,7 +78,6 @@ def call(
     scene = satpy.Scene(
         filenames=fnames,
         reader=satpy_reader,
-        filter_parameters=filter_parameters,
         reader_kwargs=satpy_reader_kwargs,
     )
 
@@ -94,8 +95,6 @@ def call(
         polarization=polarization,
         level=level,
         modifiers=modifiers,
-        generate=generate,
-        unload=unload,
         **load_kwargs,
     )
 
@@ -108,12 +107,10 @@ def call(
             channel = scene[channel_name]
             if is_first_channel:
                 is_first_channel = False
-                lons_np, lats_np = channel.attrs["area"].get_lonlats()
-                lons = xr.DataArray(lons_np, dims={"y": channel.y, "x": channel.x})
-                lats = xr.DataArray(lats_np, dims={"y": channel.y, "x": channel.x})
+                lons, lats = _compute_coords(channel, coord_chunks)
 
             if force_compute and not metadata_only:
-                channel.data = channel.data.compute()
+                channel = channel.compute()
 
             data_dict[channel_name] = channel
 
@@ -132,3 +129,17 @@ def call(
         output_datasets["METADATA"] = group_dataset[[]]
 
     return output_datasets
+
+
+def _compute_coords(
+    channel: xr.DataArray, coord_chunks: int
+) -> Tuple[xr.DataArray, xr.DataArray]:
+    lons_dask, lats_dask = channel.attrs["area"].get_lonlats(chunks=coord_chunks)
+    lons_np, lats_np = dask.array.compute(lons_dask, lats_dask)
+
+    coord_x = channel.coords["x"]
+    coord_y = channel.coords["y"]
+    lons = xr.DataArray(lons_np, dims={"y": coord_y, "x": coord_x})
+    lats = xr.DataArray(lats_np, dims={"y": coord_y, "x": coord_x})
+
+    return lons, lats
