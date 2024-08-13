@@ -11,21 +11,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "geoips_netcdf"
-source_names = [
-    "abi",
-    "ami",
-    "amsr2",
-    "ascatuhr",
-    "gvar",
-    "mimic",
-    "sar-spd",
-    "ascat",
-    "oscat",
-    "hscat",
-    "smap-spd",
-    "smos-spd",
-    "viirs",
-]
+source_names = ["any"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
