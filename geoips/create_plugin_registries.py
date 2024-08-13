@@ -860,7 +860,9 @@ def add_module_plugin(package, relpath, plugins):
         "relpath": relpath,
     }
     if interface_name == "readers":
-        for expected_attr in ["ALL_CHANS", "ALL_DATASETS", "source_names"]:
+        # This is a for loop in case we add new attributes that we'll eventually require
+        # being added to reader modules
+        for expected_attr in ["source_names"]:
             if hasattr(module, expected_attr):
                 plugins[interface_name][name][expected_attr] = getattr(
                     module,

@@ -405,12 +405,13 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
             if isinstance(value, dict):
                 formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL}"
                 print(formatted_line)
-                self._output_dictionary_highlighted(curr_dict, indent=indent+1)
+                self._output_dictionary_highlighted(curr_dict, indent=indent + 1)
             else:
                 value = str(value).replace("\n", "")
                 formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL} "
                 formatted_line += f"{Fore.YELLOW }{value}{Style.RESET_ALL}"
                 print(formatted_line)
+
 
 class GeoipsDescribePackage(GeoipsExecutableCommand):
     """Describe Command which retrieves information about a certain GeoIPS Package.
