@@ -453,7 +453,7 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
             self._output_dictionary_highlighted(data_entry)
 
     def _output_dictionary_highlighted(self, in_dict, indent=0):
-        """Output the provided in_dct (xarray object vals / attrs) with color.
+        """Output the provided in_dict (xarray object vals / attrs) with color.
 
         This will be a yaml-based format highlighted as <key>: <value>, recursively
         where appicable.
@@ -484,7 +484,7 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
             elif isinstance(value, list):
                 print(formatted_line)
                 formatted_line = "  " * (indent + 1)
-                for item in value:
+                for item in sorted(value):
                     # Recursively call this function if the instance of item is a
                     # dictionary. This way we can indent the dictionary in a structured
                     # manner to see what information belongs to each key.
