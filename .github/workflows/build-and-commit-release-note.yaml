@@ -25,9 +25,13 @@ jobs:
         shell: bash
         run: |
           echo git tag
+          git tag
           echo git tag --sort=-creatordate
+          git tag --sort=-creatordate
           echo git tag --sort=-creatordate | grep -v osr
+          git tag --sort=-creatordate | grep -v osr
           echo git tag --sort=-creatordate | grep -v osr | head -n 1
+          git tag --sort=-creatordate | grep -v osr | head -n 1
           export GEOIPS_VERS=`git -C . tag --sort=-creatordate | grep -v osr | head -n 1`
           echo "version=$GEOIPS_VERS" >> $GITHUB_OUTPUT
           echo "Version is $GEOIPS_VERS"
