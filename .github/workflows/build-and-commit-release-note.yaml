@@ -22,7 +22,6 @@ jobs:
         id: extract_branch
 
       - name: Extract version
-        shell: bash
         run: |
           echo git tag --sort=-creatordate | grep -v osr
           echo `git tag --sort=-creatordate | grep -v osr`
