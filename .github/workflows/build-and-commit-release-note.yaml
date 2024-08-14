@@ -55,9 +55,10 @@ jobs:
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git switch ${{ steps.extract_branch.outputs.branch }}
           git add -f ./docs/source/releases/latest.rst # -f bc latest.rst in .gitignore
           git commit -m "Add Built Release Note"
 
       - name: Push new release note to branch
         run: |
-          git push HEAD:${{ steps.extract_branch.outputs.branch }}
+          git push
