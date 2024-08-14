@@ -58,14 +58,13 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout -b \
             update-release-note-${{ steps.extract_branch.outputs.branch }}
-          git status
           git add -f ./docs/source/releases/latest.rst # -f bc latest.rst in .gitignore
           git commit -m "Add Built Release Note"
-          git status
 
       - name: Push new release note to new branch
         run: |
-          git push
+          git push --set-upstream origin \
+            update-release-note-${{ steps.extract_branch.outputs.branch }}
 
       - name: create pull request
         run: |
