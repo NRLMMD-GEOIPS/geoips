@@ -2,9 +2,7 @@ name: Generate Release Note with Brassy
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - "738-commit-brassy-generated-release-note-on-pr-merge"
+  merge_group:
 
 jobs:
   generate_release:
@@ -51,28 +49,14 @@ jobs:
 
           rm RELEASE_NOTE_HEADER
 
-      - name: Commit new release note to new branch
+      - name: Commit new release note
         run: |
           git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-          git checkout -b \
-            update-release-note-${{ steps.extract_branch.outputs.branch }}
           git add -f ./docs/source/releases/latest.rst # -f bc latest.rst in .gitignore
           git commit -m "Add Built Release Note"
 
-      - name: Push new release note to new branch
+      - name: Push new release note to branch
         run: |
-          git push --set-upstream origin \
-            update-release-note-${{ steps.extract_branch.outputs.branch }}
-
-      - name: create pull request
-        run: |
-          gh pr create \
-            --base ${{ steps.extract_branch.outputs.branch }} \
-            --head update-release-note-${{ steps.extract_branch.outputs.branch }} \
-            --title 'Merge new release note into CURRENT_BRANCH' \
-            --body 'Created by manually run Github action.'
-            --dry-run
-        env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          git push
