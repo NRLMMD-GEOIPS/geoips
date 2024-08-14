@@ -1,4 +1,4 @@
-name: Run Brassy Command
+name: Generate Release Note with Brassy
 
 on:
   workflow_dispatch:
@@ -7,65 +7,66 @@ on:
       - "738-commit-brassy-generated-release-note-on-pr-merge"
 
 jobs:
-  run-brassy:
+  generate_release:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-    - name: Extract branch name
-      shell: bash
-      run: |
-        echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-      id: extract_branch
+      - name: Extract branch name
+        shell: bash
+        run: |
+          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
 
-    - name: Extract version
-      shell: bash
-      run: |
-        export GEOIPS_VERS=`git -C . tag --sort=-creatordate | grep -v osr | head -n 1`
-        echo "version=$GEOIPS_VERS" >> $GITHUB_OUTPUT
-        echo "Version is $GEOIPS_VERS"
-      id: extract_version
+      - name: Extract version
+        shell: bash
+        run: |
+          export GEOIPS_VERS=`git -C . tag --sort=-creatordate | grep -v osr | head -n 1`
+          echo "version=$GEOIPS_VERS" >> $GITHUB_OUTPUT
+          echo "Version is $GEOIPS_VERS"
+        id: extract_version
 
-    - name: Install Brassy
-      run: |
-        pip3 install brassy
+      - name: Install Brassy
+        run: |
+          pip3 install brassy
 
-    - name: Run Brassy on file
-      run: |
-        touch RELEASE_NOTE_HEADER
-        echo ".. dropdown:: Distribution Statement" >> RELEASE_NOTE_HEADER
-        echo " " >> RELEASE_NOTE_HEADER
-        echo " | # # # This source code is protected under the license referenced at" \
-         >> RELEASE_NOTE_HEADER
-        echo " | # # # https://github.com/NRLMMD-GEOIPS." \
-         >> RELEASE_NOTE_HEADER
+      - name: Run Brassy on file
+        run: |
+          touch RELEASE_NOTE_HEADER
+          echo ".. dropdown:: Distribution Statement" >> RELEASE_NOTE_HEADER
+          echo " " >> RELEASE_NOTE_HEADER
+          echo " | # # # This source code is protected under the license referenced at" \
+          >> RELEASE_NOTE_HEADER
+          echo " | # # # https://github.com/NRLMMD-GEOIPS." \
+          >> RELEASE_NOTE_HEADER
 
-        brassy ./docs/source/releases/latest \
-         --output-file ./docs/source/releases/latest.rst \
-         --prefix-file RELEASE_NOTE_HEADER \
-         --no-rich \
-         --release-version ${{ steps.extract_version.outputs.version }}
+          brassy ./docs/source/releases/latest \
+          --output-file ./docs/source/releases/latest.rst \
+          --prefix-file RELEASE_NOTE_HEADER \
+          --no-rich \
+          --release-version ${{ steps.extract_version.outputs.version }}
 
-         rm RELEASE_NOTE_HEADER
+          rm RELEASE_NOTE_HEADER
 
-    - name: Commit changes to new branch
-      uses: EndBug/add-and-commit@v9
-      with:
-        message: "Add built release note"
-        # force needed because latest.rst is in .gitignore
-        add: "./docs/source/releases/latest.rst --force"
-        author_name: "GitHub Action"
-        author_email: "action@github.com"
-        new_branch: "update-release-note-${{ steps.extract_branch.outputs.branch }}"
+      - name: Commit new release note to new branch
+        run: |
+          git config --global user.name 'GitHub Actions"
+          git config --global user.email 'github-actions@github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout -b \
+            update-release-note-${{ steps.extract_branch.outputs.branch }}
+          git add ./docs/source/releases/latest.rst
+          git commit -m "Add Built Release Note"
+          git push
 
-    - name: create pull request
-      run: |
-        gh pr create \
-          --base ${{ steps.extract_branch.outputs.branch }} \
-          --head update-release-note-${{ steps.extract_branch.outputs.branch }} \
-          --title 'Merge new release note into CURRENT_BRANCH' \
-          --body 'Created by manually run Github action.'
-          --dry-run
-      env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: create pull request
+        run: |
+          gh pr create \
+            --base ${{ steps.extract_branch.outputs.branch }} \
+            --head update-release-note-${{ steps.extract_branch.outputs.branch }} \
+            --title 'Merge new release note into CURRENT_BRANCH' \
+            --body 'Created by manually run Github action.'
+            --dry-run
+        env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
