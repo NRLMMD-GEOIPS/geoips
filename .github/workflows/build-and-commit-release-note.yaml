@@ -41,6 +41,8 @@ jobs:
           echo " | # # # https://github.com/NRLMMD-GEOIPS." \
           >> RELEASE_NOTE_HEADER
 
+          git status
+
           brassy ./docs/source/releases/latest \
           --output-file ./docs/source/releases/latest.rst \
           --prefix-file RELEASE_NOTE_HEADER \
