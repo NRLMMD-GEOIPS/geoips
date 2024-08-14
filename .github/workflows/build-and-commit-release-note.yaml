@@ -23,7 +23,7 @@ jobs:
 
       - name: Extract version
         run: |
-          git fetch --tags origin # needed bc action above doesn't pull tags
+          git fetch --quiet --tags origin # needed bc action above doesn't pull tags
           export GEOIPS_VERS=`git -C . tag --sort=-creatordate | grep -v osr | head -n 1`
           echo "version=$GEOIPS_VERS" >> $GITHUB_OUTPUT
           echo "Version is $GEOIPS_VERS"
@@ -58,6 +58,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout -b \
             update-release-note-${{ steps.extract_branch.outputs.branch }}
+          git status
           git add -f ./docs/source/releases/latest.rst # -f bc latest.rst in .gitignore
           git commit -m "Add Built Release Note"
           git status
