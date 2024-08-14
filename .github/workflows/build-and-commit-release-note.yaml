@@ -6,9 +6,6 @@ on:
     # Pattern matched against refs/tags
     tags:
       - '**' # Push events to every tag including hierarchical tags like v1.0/beta
-  push:
-    branches:
-      - "738-commit-brassy-generated-release-note-on-pr-merge"
 
 jobs:
   generate_release:
