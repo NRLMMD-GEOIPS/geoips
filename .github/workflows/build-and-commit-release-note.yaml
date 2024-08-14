@@ -23,11 +23,7 @@ jobs:
 
       - name: Extract version
         run: |
-          git fetch --tags origin
-          echo git tag --sort=-creatordate | grep -v osr
-          echo `git tag --sort=-creatordate | grep -v osr`
-          echo git tag --sort=-creatordate | grep -v osr | head -n 1
-          git tag --sort=-creatordate | grep -v osr | head -n 1
+          git fetch --tags origin # needed bc action above doesn't pull tags
           export GEOIPS_VERS=`git -C . tag --sort=-creatordate | grep -v osr | head -n 1`
           echo "version=$GEOIPS_VERS" >> $GITHUB_OUTPUT
           echo "Version is $GEOIPS_VERS"
@@ -59,7 +55,7 @@ jobs:
 
       - name: Commit new release note to new branch
         run: |
-          git config --global user.name 'GitHub Actions"
+          git config --global user.name 'GitHub Actions'
           git config --global user.email 'github-actions@github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout -b \
