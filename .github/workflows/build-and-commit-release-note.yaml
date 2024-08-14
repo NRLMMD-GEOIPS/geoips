@@ -60,4 +60,4 @@ jobs:
 
       - name: Push new release note to branch
         run: |
-          git push
+          git push HEAD:${{ steps.extract_branch.outputs.branch }}
