@@ -3,8 +3,8 @@ name: Run Brassy Command
 on:
   workflow_dispatch:
   push:
-  branches:
-    - "738-commit-brassy-generated-release-note-on-pr-merge"
+    branches:
+      - "738-commit-brassy-generated-release-note-on-pr-merge"
 
 jobs:
   run-brassy:
