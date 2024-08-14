@@ -203,6 +203,13 @@ class GeoipsCommand(abc.ABC):
                 parents=[ParentParsers.geoips_parser],
                 formatter_class=argparse.RawTextHelpFormatter,
             )
+            self.parser.add_argument(
+                "-v",
+                "--version",
+                default=False,
+                action="store_true",
+                help="Specify the version number of your current GeoIPS installation.",
+            )
             self.combined_name = self.name
 
         self.add_subparsers()

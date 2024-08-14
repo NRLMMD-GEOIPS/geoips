@@ -7,6 +7,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
 
+from importlib.metadata import version
 from os.path import basename
 import sys
 
@@ -85,7 +86,12 @@ class GeoipsCLI(GeoipsCommand):
 
         # self.LOG = getattr(LOG, self.GEOIPS_ARGS.log_level)
         # self.LOG("LOG LEVEL = {self.GEOIPS_ARGS.log_level}")
-        if hasattr(self.GEOIPS_ARGS, "exe_command"):
+        if self.GEOIPS_ARGS.version:
+            # Print out the current installed version of GeoIPS
+            # This will only work when 'geoips --version' is called, and this is by
+            # design.
+            print(f"\nGeoIPS Version = {version('geoips')}")
+        elif hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
             self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
