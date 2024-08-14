@@ -10,10 +10,59 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
 
+    - name: Extract branch name
+      shell: bash
+      run: |
+        echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+      id: extract_branch
+
+    - name: Extract version
+      shell: bash
+      run: |
+        export GEOIPS_VERS=`git -C . tag --sort=-creatordate | grep -v osr | head -n 1`
+        echo "version=$GEOIPS_VERS" >> $GITHUB_OUTPUT
+        echo "Version is $GEOIPS_VERS"
+      id: extract_version
+
     - name: Install Brassy
       run: |
         pip3 install brassy
 
     - name: Run Brassy on file
       run: |
-        pwd && ls
+        touch RELEASE_NOTE_HEADER
+        echo ".. dropdown:: Distribution Statement" >> RELEASE_NOTE_HEADER
+        echo " " >> RELEASE_NOTE_HEADER
+        echo " | # # # This source code is protected under the license referenced at" \
+         >> RELEASE_NOTE_HEADER
+        echo " | # # # https://github.com/NRLMMD-GEOIPS." \
+         >> RELEASE_NOTE_HEADER
+
+        brassy ./docs/source/releases/latest \
+         --output-file ./docs/source/releases/latest.rst \
+         --prefix-file RELEASE_NOTE_HEADER \
+         --no-rich \
+         --release-version ${{ steps.extract_version.outputs.version }}
+
+         rm RELEASE_NOTE_HEADER
+
+    - name: Commit changes to new branch
+      uses: EndBug/add-and-commit@v9
+      with:
+        message: "Add built release note"
+        # force needed because latest.rst is in .gitignore
+        add: "./docs/source/releases/latest.rst --force"
+        author_name: "GitHub Action"
+        author_email: "action@github.com"
+        new_branch: "update-release-note-${{ steps.extract_branch.outputs.branch }}"
+
+    - name: create pull request
+      run: |
+        gh pr create \
+          --base ${{ steps.extract_branch.outputs.branch }} \
+          --head update-release-note-${{ steps.extract_branch.outputs.branch }} \
+          --title 'Merge new release note into CURRENT_BRANCH' \
+          --body 'Created by manually run Github action.'
+          --dry-run
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
