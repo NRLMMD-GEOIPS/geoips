@@ -23,6 +23,7 @@ jobs:
 
       - name: Extract version
         run: |
+          git status
           echo git tag --sort=-creatordate | grep -v osr
           echo `git tag --sort=-creatordate | grep -v osr`
           echo git tag --sort=-creatordate | grep -v osr | head -n 1
