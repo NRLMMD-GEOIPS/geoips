@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: postage_geokompsat
+docstring: "Postage Sector at nadir location of GeoKompsat-2A"
+metadata:
+  region:
+    continent: Asia
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: postage_geokompsat
+  description: Postage Sector at nadir location of GeoKompsat-2A
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 128.2
+    proj: eqc
+    units: m
+  resolution:
+    - 10
+    - 10
+  shape:
+    height: 10
+    width: 10
+  center: [0, 0]

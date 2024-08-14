@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: postage_meteosat10
+docstring: "Postage Sector at nadir location of Meteosat10"
+metadata:
+  region:
+    continent: Europe
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: postage_meteosat10
+  description: Postage Sector at nadir location of Meteosat10
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 9.5
+    proj: eqc
+    units: m
+  resolution:
+    - 10
+    - 10
+  shape:
+    height: 10
+    width: 10
+  center: [0, 0]
