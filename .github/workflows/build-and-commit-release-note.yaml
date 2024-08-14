@@ -24,10 +24,6 @@ jobs:
       - name: Extract version
         shell: bash
         run: |
-          echo git tag
-          git tag
-          echo git tag --sort=-creatordate
-          git tag --sort=-creatordate
           echo git tag --sort=-creatordate | grep -v osr
           git tag --sort=-creatordate | grep -v osr
           echo git tag --sort=-creatordate | grep -v osr | head -n 1
