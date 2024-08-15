@@ -52,8 +52,11 @@ jobs:
           echo " | # # # https://github.com/NRLMMD-GEOIPS." \
           >> RELEASE_NOTE_HEADER
 
+          output_file = v$(`echo ${{ steps.extract_version.outputs.version }}| tr . _`).rst
+          echo $output_file
+
           brassy ./docs/source/releases/latest \
-          --output-file ./docs/source/releases/latest.rst \
+          --output-file ./docs/source/releases/$output_file \
           --prefix-file RELEASE_NOTE_HEADER \
           --no-rich \
           --release-version ${{ steps.extract_version.outputs.version }}
@@ -67,7 +70,7 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout -b \
             update-release-note-${{ steps.extract_branch.outputs.branch }}
-          git add -f ./docs/source/releases/latest.rst # -f bc latest.rst in .gitignore
+          git add ./docs/source/releases/*.rst
           git commit -m "Add Built Release Note"
           git rm ./docs/source/releases/latest/*.yaml
           git commit -m "Remove old yaml files"
@@ -82,7 +85,8 @@ jobs:
           gh pr create \
             --base ${{ steps.extract_branch.outputs.branch }} \
             --head update-release-note-${{ steps.extract_branch.outputs.branch }} \
-            --title 'Merge new release note into CURRENT_BRANCH' \
+            --title \
+            'Merge new release note into ${{ steps.extract_branch.outputs.branch }}' \
             --body 'Created by manually run Github action.'
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
