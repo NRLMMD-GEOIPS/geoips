@@ -16,9 +16,11 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: |
-          export branch=${{ github.head_ref || github.ref_name }} 
-          echo "branch=${{ github.head_ref || github.ref_name }}" >> $GITHUB_OUTPUT
           echo "Branch is $branch"
+          raw=$(git branch -r --contains ${{ github.ref }})
+          branch=${raw##*/}
+          echo "branch=$branch" >> $GITHUB_OUTPUT
+          echo "Branch is $branch."
         id: extract_branch
         
 
