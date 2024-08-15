@@ -16,10 +16,11 @@ jobs:
       - name: Extract branch name
         shell: bash
         run: |
-          export branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}
-          echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+          export branch=${{ github.head_ref || github.ref_name }} 
+          echo "branch=${{ github.head_ref || github.ref_name }}" >> $GITHUB_OUTPUT
           echo "Branch is $branch"
         id: extract_branch
+        
 
       - name: Extract version
         run: |
