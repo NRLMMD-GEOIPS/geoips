@@ -52,7 +52,7 @@ jobs:
           echo " | # # # https://github.com/NRLMMD-GEOIPS." \
           >> RELEASE_NOTE_HEADER
 
-          export output_file = v$(echo "${{ steps.extract_version.outputs.version }}" | tr . _).rst
+          export output_file=v$(echo "${{ steps.extract_version.outputs.version }}" | tr . _).rst
           echo $output_file
 
           brassy ./docs/source/releases/latest \
