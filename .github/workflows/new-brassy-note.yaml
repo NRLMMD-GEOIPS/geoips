@@ -12,7 +12,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
           fetch-depth: 0
+          fetch-tags: true
 
       - name: Extract branch name
         shell: bash
@@ -26,7 +28,7 @@ jobs:
           echo "branch=$branch" >> $GITHUB_OUTPUT
           echo "Branch is $branch."
         id: extract_branch
-        
+
 
       - name: Extract version
         run: |
