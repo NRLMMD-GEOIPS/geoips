@@ -12,12 +12,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+          fetch-depth: 0
 
       - name: Extract branch name
         shell: bash
         run: |
-          export branch=$(git branch -r --contains ${{ github.ref }}) --format "%(refname:lstrip=3)"
-          echo $branch
           git rev-parse --abbrev-ref HEAD
           echo ${{ github.ref }}
           export raw=$(git branch -r --contains ${{ github.ref }})
