@@ -83,7 +83,6 @@ jobs:
             --base ${{ steps.extract_branch.outputs.branch }} \
             --head update-release-note-${{ steps.extract_branch.outputs.branch }} \
             --title 'Merge new release note into CURRENT_BRANCH' \
-            --body 'Created by manually run Github action.' \
-            --dry-run
+            --body 'Created by manually run Github action.'
         env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
