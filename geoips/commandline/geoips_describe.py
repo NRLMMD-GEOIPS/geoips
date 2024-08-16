@@ -361,14 +361,14 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
         )
         self.parser.add_argument(
             "-md",
-            "--metadata_only",
+            "--metadata-only",
             default=False,
             action="store_true",
             help="Whether or not we just want metadata returned.",
         )
         self.parser.add_argument(
             "-qc",
-            "--quality_check",
+            "--quality-check",
             default=False,
             action="store_true",
             help=(
@@ -388,9 +388,10 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
         Printed to Terminal
         -------------------
         yaml-based output: dict
-            - METADATA
-            - Variables
-            - Composite Datasets
+            - Datasets
+            - Coords
+            - Dims
+            - Metadata
             - Source Names
 
         Parameters
@@ -419,23 +420,23 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
         # that is not an error nor relevant to the CLI
         with suppress_output():
             file_md = reader_plugin(rdr_fpaths, metadata_only=True)["METADATA"].attrs
-        data_entry = {"METADATA": file_md}
+        data_entry = {"Metadata": file_md}
 
-        if not args.metadata_only and not args.quality_check:
+        if not args.metadata_only:
             # Grab additional information about the files' coords, dims, and vars
             reader_registry = interfaces.readers.registered_module_based_plugins[
                 "readers"
             ][reader_name]
-            # Suppress the output of running a reader as they sometimes spit out output
+            # Suppress the output of running a reade r as they sometimes spit out output
             # that is not an error nor relevant to the CLI
             with suppress_output():
                 xobjs = reader_plugin(
                     rdr_fpaths, metadata_only=False, area_def=area_def
                 )
-            file_info, roi = self._get_coords_dims_vars(xobjs)
+            file_info, roi = self._get_coords_dims_datasets(xobjs)
             # # Merge file_info dictionary into data_entry dictionary
             data_entry.update(file_info)
-            data_entry["METADATA"]["interpolation_radius_of_influence"] = roi
+            data_entry["Metadata"]["interpolation_radius_of_influence"] = roi
             data_entry["Source Names"] = reader_registry["source_names"]
 
         if args.quality_check:
@@ -506,8 +507,8 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
                 formatted_line += f"{Fore.YELLOW }{value}{Style.RESET_ALL}"
                 print(formatted_line)
 
-    def _get_coords_dims_vars(self, xobjs):
-        """Extract dims, coords, and vars for the incoming xarray object[s].
+    def _get_coords_dims_datasets(self, xobjs):
+        """Extract dims, coords, and datasets for the incoming xarray object[s].
 
         Metadata can be collected from the file paths using
         <reader_plugin>(fpaths, metadata_only=True).
@@ -519,9 +520,9 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
         Returns
         -------
         data_dict: dict
-            - A dictionary whose keys include ["coords", "dims", "variables"], of which
+            - A dictionary whose keys include ["coords", "dims", "datasets"], of which
               the values corresponding to those keys are information about each
-              coordinate, dimension, and variable.
+              coordinate, dimension, and dataset.
         """
         self.variables = set([])
         self.coords = {}
@@ -542,7 +543,7 @@ class GeoipsDescribeData(GeoipsExecutableCommand):
         data_dict = {
             "Coordinates": self.coords,
             "Dimensions": self.dims,
-            "Variables": list(self.variables),
+            "Datasets": list(self.variables),
         }
         return data_dict, self.roi
 
