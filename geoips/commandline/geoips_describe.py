@@ -6,8 +6,10 @@
 Retrieves the appropriate family/interface/package/plugin based on the args provided.
 """
 
+from glob import glob
 from importlib import metadata, resources, import_module
 
+from colorama import Fore, Style
 import yaml
 
 from geoips.commandline.geoips_command import (
@@ -17,6 +19,7 @@ from geoips.commandline.geoips_command import (
 )
 from geoips.create_plugin_registries import format_docstring
 from geoips import interfaces
+from geoips.utils.context_managers import suppress_output
 
 
 class GeoipsDescribeArtifact(GeoipsExecutableCommand):
@@ -309,6 +312,264 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             )
 
 
+class GeoipsDescribeData(GeoipsExecutableCommand):
+    """Describe Command which retrieves info about data files read by a certain reader.
+
+    This is called via `geoips describe data <reader_name> <file_paths>`. Data included
+    when calling this command is shown below, outputted in a yaml-based format.
+    """
+
+    name = "data"
+    command_classes = []
+
+    xr_std_vars = set(["latitude", "longitude"])
+    xr_std_attrs = set(
+        [
+            "source_name",
+            "platform_name",
+            "data_provider",
+            "start_datetime",
+            "end_datetime",
+            "interpolation_radius_of_influence",
+        ]
+    )
+
+    reader_sector_mapping = {
+        "abi_l2_netcdf": "postage_goes16",
+        "abi_netcdf": "postage_goes16",
+        "ahi_hsd": "postage_himawari",
+        "ami_netcdf": "postage_geokompsat",
+        "abi_l2_netcdf": "postage_goes16",
+        "seviri_hrit": "postage_meteosat11",
+    }
+
+    def add_arguments(self):
+        """Add arguments to the describe-subparser for the describe data command."""
+        self.parser.add_argument(
+            "reader_name",
+            type=str.lower,
+            choices=list(
+                interfaces.readers.registered_module_based_plugins["readers"].keys()
+            ),
+            help="GeoIPS Reader plugin name. This will read your files.",
+        )
+        self.parser.add_argument(
+            "file_paths",
+            type=str,
+            nargs="+",
+            help="Files to describe. This can be an absolute path or a wildcard path.",
+        )
+        self.parser.add_argument(
+            "-md",
+            "--metadata-only",
+            default=False,
+            action="store_true",
+            help="Whether or not we just want metadata returned.",
+        )
+        self.parser.add_argument(
+            "-qc",
+            "--quality-check",
+            default=False,
+            action="store_true",
+            help=(
+                "Flag depicting whether or not the data returns adheres to GeoIPS "
+                "metadata standards. If this flag is set to True, we will be "
+                "confirming that the metadata returned includes all required variables."
+            ),
+        )
+
+    def __call__(self, args):
+        """CLI 'geoips describe data <reader_name> <file_paths>' command.
+
+        This occurs when a user has requested a description of data files in the manner
+        shown above. Outputs to the teriminal the following data in a dictionary format
+        if available.
+
+        Printed to Terminal
+        -------------------
+        yaml-based output: dict
+            - Datasets
+            - Coords
+            - Dims
+            - Metadata
+            - Source Names
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        reader_name = args.reader_name
+        file_paths = args.file_paths
+        rdr_fpaths = []
+        for fpath in file_paths:
+            rdr_fpaths += glob(fpath)
+        # If rdr_fpaths is empty, then the file paths provided didn't exist
+        if not len(rdr_fpaths):
+            self.parser.error(
+                "File paths provided don't appear to exist. Please provide valid file "
+                "paths."
+            )
+
+        reader_plugin = interfaces.readers.get_plugin(reader_name)
+        area_def = None
+        if reader_name in self.reader_sector_mapping:
+            sector_name = self.reader_sector_mapping[reader_name]
+            area_def = interfaces.sectors.get_plugin(sector_name).area_definition
+        # Suppress the output of running a reader as they sometimes spit out output
+        # that is not an error nor relevant to the CLI
+        with suppress_output():
+            file_md = reader_plugin(rdr_fpaths, metadata_only=True)["METADATA"].attrs
+        data_entry = {"Metadata": file_md}
+
+        if not args.metadata_only:
+            # Grab additional information about the files' coords, dims, and vars
+            reader_registry = interfaces.readers.registered_module_based_plugins[
+                "readers"
+            ][reader_name]
+            # Suppress the output of running a reade r as they sometimes spit out output
+            # that is not an error nor relevant to the CLI
+            with suppress_output():
+                xobjs = reader_plugin(
+                    rdr_fpaths, metadata_only=False, area_def=area_def
+                )
+            file_info, roi = self._get_coords_dims_datasets(xobjs)
+            # # Merge file_info dictionary into data_entry dictionary
+            data_entry.update(file_info)
+            data_entry["Metadata"]["interpolation_radius_of_influence"] = roi
+            data_entry["Source Names"] = reader_registry["source_names"]
+
+        if args.quality_check:
+            # Check to see whether or not the metadata returned includes all of the
+            # GeoIPS required xarray attributes
+            found_attrs = set(file_md.keys())
+            diff = self.xr_std_attrs.difference(found_attrs)
+            if len(diff):
+                print(f"\nMetadata returned is missing required attributes {diff}.")
+            else:
+                print("\nMetadata returned adheres to GeoIPS metadata standards.")
+        else:
+            # If quality check wasn't ran, then output the dictionary of information
+            # describing the data that would be read by the requested reader plugin
+            self._output_dictionary_highlighted(data_entry)
+
+    def _output_dictionary_highlighted(self, in_dict, indent=0):
+        """Output the provided in_dict (xarray object vals / attrs) with color.
+
+        This will be a yaml-based format highlighted as <key>: <value>, recursively
+        where appicable.
+
+        We are overriding GeoipsExecutableCommand's _output_dictionary_highlighted here
+        as the function is very similar, but requires different parameters for our use
+        case.
+
+        Parameters
+        ----------
+        in_dict: dict
+            - Dictionary of xarray-based information coming from the files provided to
+              this class' __call__ function.
+        indent: int
+            - The indentation index of the current md_dict.
+        """
+        # Loop through and print each {key: value} pair of the dictionary provided
+        for key, value in in_dict.items():
+            curr_dict = in_dict[key]
+            formatted_line = "  " * indent
+            formatted_line += f"{Fore.CYAN}{key}:{Style.RESET_ALL} "
+            if isinstance(value, dict):
+                # Recursively call this function if the value of {key: value} is a
+                # dictionary. This way we can indent the dictionary in a structured
+                # manner to see what information belongs to each key.
+                print(formatted_line)
+                self._output_dictionary_highlighted(curr_dict, indent=indent + 1)
+            elif isinstance(value, list):
+                print(formatted_line)
+                formatted_line = "  " * (indent + 1)
+                for item in sorted(value):
+                    # Recursively call this function if the instance of item is a
+                    # dictionary. This way we can indent the dictionary in a structured
+                    # manner to see what information belongs to each key.
+                    if isinstance(item, dict):
+                        self._output_dictionary_highlighted(item, indent=indent + 1)
+                    else:
+                        # Output each item of the list in a separate line, like:
+                        # Key:
+                        #   - val1
+                        #   - val2 ...
+                        itemized = (
+                            f"{formatted_line}{Fore.YELLOW }- {item}{Style.RESET_ALL}"
+                        )
+                        print(itemized)
+            else:
+                # If the value is not a dictionary, print it out at the same level as
+                # the current key. I.e. 'key: value'
+                value = str(value).replace("\n", "")
+                formatted_line += f"{Fore.YELLOW }{value}{Style.RESET_ALL}"
+                print(formatted_line)
+
+    def _get_coords_dims_datasets(self, xobjs):
+        """Extract dims, coords, and datasets for the incoming xarray object[s].
+
+        Metadata can be collected from the file paths using
+        <reader_plugin>(fpaths, metadata_only=True).
+
+        Parameters
+        ----------
+        xobjs: xarray object (xobj) or dict of xobjs
+
+        Returns
+        -------
+        data_dict: dict
+            - A dictionary whose keys include ["coords", "dims", "datasets"], of which
+              the values corresponding to those keys are information about each
+              coordinate, dimension, and dataset.
+        """
+        self.variables = set([])
+        self.coords = {}
+        self.dims = {}
+        self.roi = None
+
+        if isinstance(xobjs, dict):
+            # If xobjs is a dictionary of xarray objects, then loop over each key that
+            # is not the metadata xobj, extracting coords, dims, and variables
+            for key in xobjs:
+                if key.lower() != "metadata":
+                    self._extract_data_single_xobj(xobjs[key])
+        else:
+            # Otherwise extract coords, dims, and variables from the provided xarray
+            # object
+            self._extract_data_single_xobj(xobjs)
+
+        data_dict = {
+            "Coordinates": self.coords,
+            "Dimensions": self.dims,
+            "Datasets": list(self.variables),
+        }
+        return data_dict, self.roi
+
+    def _extract_data_single_xobj(self, xobj):
+        """Extract dims, coords, and vars for the incoming xarray object[s].
+
+        Metadata can be collected from the file paths using
+        <reader_plugin>(fpaths, metadata_only=True).
+
+        Parameters
+        ----------
+        xobjs: xarray object (xobj) or dict of xobjs
+        """
+        for dim_key in xobj.dims:
+            self.dims[dim_key] = xobj.dims[dim_key]
+        for coord_key in xobj.coords:
+            if xobj.coords[coord_key].attrs.get("long_name"):
+                self.coords[coord_key] = xobj.coords[coord_key].attrs["long_name"]
+            else:
+                self.coords[coord_key] = coord_key
+        for var_key in xobj.variables:
+            self.variables.add(var_key)
+        if xobj.attrs.get("interpolation_radius_of_influence"):
+            self.roi = xobj.attrs["interpolation_radius_of_influence"]
+
+
 class GeoipsDescribePackage(GeoipsExecutableCommand):
     """Describe Command which retrieves information about a certain GeoIPS Package.
 
@@ -377,4 +638,7 @@ class GeoipsDescribe(GeoipsCommand):
             ).generated_class
         )
 
-    command_classes = generated_classes + [GeoipsDescribePackage]
+    command_classes = generated_classes + [
+        GeoipsDescribeData,
+        GeoipsDescribePackage,
+    ]

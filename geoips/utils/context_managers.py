@@ -3,8 +3,10 @@
 
 """Module for handling optional dependencies throughout GeoIPS."""
 
-import logging
 from contextlib import contextmanager
+import logging
+import os
+import sys
 import traceback
 
 LOG = logging.getLogger(__name__)
@@ -29,4 +31,25 @@ def import_optional_dependencies(loglevel="info"):
         err_str += "If you need it, install it."
 
         getattr(LOG, loglevel)(err_str)
-        # print(err_str)
+
+
+@contextmanager
+def suppress_output():
+    """Suppress the output going to the terminal for case-specific situations.
+
+    This is used by the CLI to suppress warnings from 3rd Party packages that are not
+    relevant to the CLI and confuscate important output.
+
+    Use this for any case in which you are running a function[s], but don't want its
+    output to be sent to the terminal.
+    """
+    with open(os.devnull, "w") as devnull:
+        old_stdout = sys.stdout
+        old_stderr = sys.stderr
+        sys.stdout = devnull
+        sys.stderr = devnull
+        try:
+            yield
+        finally:
+            sys.stdout = old_stdout
+            sys.stderr = old_stderr

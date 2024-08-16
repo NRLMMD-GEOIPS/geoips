@@ -116,6 +116,19 @@ instructions:
   #     - Interface Name
   #     - Interface Type
   #     - Supported Families
+  geoips_describe_data:
+    help_str: |
+      Retrieve a description of data files in the manner shown below. See output_info
+      for each datum provided when this command is called. For a listing of available
+      GeoIPS readers, run: `geoips list readers`.
+    usage_str: |
+      To use, type `geoips describe data <reader_name> <file_paths>`, where
+      <reader_name> is a valid GeoIPS reader plugin name.
+    output_info:
+      - Metadata
+      - Variables
+      - Composite Datasets
+      - Source Names
   geoips_describe_package:
     help_str: |
       Retrieve the appropriate GeoIPS Package alongside descriptive information of

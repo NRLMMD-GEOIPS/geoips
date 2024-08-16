@@ -923,7 +923,21 @@ def get_band_metadata(all_metadata):
 
 
 def get_data(md, gvars, rad=False, ref=False, bt=False):
-    """Read data for a full channel's worth of files."""
+    """Read data for a full channel's worth of files.
+
+    Parameters
+    ----------
+    md: dict
+        - Dictionary of metadata for the incoming files
+    gvars: dict
+        - Dictionary of geolocated variables for locating data
+    rad: bool
+        - Whether or not we want to produce radiance data
+    ref: bool
+        - Whether or not we want to produce reflectance data
+    bt: bool
+        - Whether or not we want to produce radiance data
+    """
     # Coordinate arrays for reading
     if "Lines" in gvars and "Samples" in gvars:
         full_disk = False
