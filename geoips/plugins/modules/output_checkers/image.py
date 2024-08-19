@@ -4,7 +4,10 @@
 """Test script for representative product comparisons."""
 
 import logging
-from os.path import splitext
+from PIL import Image
+import numpy as np
+from os import makedirs
+from os.path import exists, join, splitext
 
 LOG = logging.getLogger(__name__)
 
@@ -13,12 +16,12 @@ family = "standard"
 name = "image"
 
 
+def get_numpy_seeded_random_generator():
+    return np.random.default_rng(seed=42)
+
+
 def get_test_files(test_data_dir):
     """Return a series of compare vs output image paths for testing purposes."""
-    from PIL import Image
-    import numpy as np
-    from os import makedirs
-    from os.path import exists, join
 
     savedir = join(test_data_dir, "scratch", "unit_tests", "test_images/")
     if not exists(savedir):
