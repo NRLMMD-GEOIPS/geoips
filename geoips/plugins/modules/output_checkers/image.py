@@ -138,8 +138,6 @@ def outputs_match(plugin, output_product, compare_product, threshold):
         compare_product, output_product, flag="exact_"
     )
     out_diffimg_fname = plugin.get_out_diff_fname(compare_product, output_product)
-    from PIL import Image
-    import numpy as np
 
     try:
         from pixelmatch.contrib.PIL import pixelmatch
