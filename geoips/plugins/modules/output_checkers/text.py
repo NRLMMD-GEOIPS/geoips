@@ -30,12 +30,12 @@ def write_percent_of_list_elements_to_file_and_return_filepath(
     list_with_lines,
     filename,
     percent_to_write,
-    random=predictable_random.random,
+    random_func=predictable_random.random,
 ):
     threshold = float(100 - percent_to_write) / 100
     with open(filename, "w") as f:
         for line in list_with_lines:
-            if random() > threshold:
+            if random_func() > threshold:
                 f.write(line)
 
 
