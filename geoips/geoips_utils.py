@@ -9,7 +9,9 @@ import os
 from copy import deepcopy
 from shutil import get_terminal_size
 import json
+
 from tabulate import tabulate
+import numpy as np
 
 # import yaml
 import logging
