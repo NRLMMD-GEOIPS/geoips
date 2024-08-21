@@ -1,0 +1,33 @@
+enhancement:
+- description: |
+    This branch creates a new 'driver_config' yaml-based interface which provides
+    configuration details on how to run your driver. Default information included in
+    these yamls is 'basedir', 'output_types', 'products', 'sector_mapping', and 'paths'.
+    There are three types of families for this new interface, with the possibility of
+    adding more in the future. Currently, this PR creates families 'multiprocessing',
+    'sequential', and 'slurm'. As their names denote, this is the type of processing
+    we'll use to run our driver. 'multiprocessing' and 'sequential' depict how processes
+    will be distributed at runtime. 'slurm' means that we will make use of the job
+    scheduler named 'slurm' for running our processes.
+
+    This branch adds a new plugin class called 'DriverConfigsPlugin', which is similar
+    to all other yaml plugins, but adds new functionality by assigning the values of
+    each key in the yaml plugin's spec as an attribute to the plugin class. Now in our
+    drivers, we can access information in the spec easily via <plugin>.<spec_key>.
+
+    This branch did not modify geoips.interfaces.base at all and is largely just an
+    enhancement which provides a new interface for users interested in driving GeoIPS.
+
+    No new plugins were added to GeoIPS. Though, if wanted, we could add simple examples
+    in GeoIPS to provide users with information on how to create these plugins. 3 real
+    plugins have been created in a separate package I've been developing.
+  files:
+    added:
+      - geoips/interfaces/yaml_based/driver_configs.py
+      - geoips/schema/driver_configs/bases/paths.yaml
+      - geoips/schema/driver_configs/sector_mapping.yaml
+      - geoips/schema/driver_configs/multiprocess.yaml
+      - geoips/schema/driver_configs/default.yaml
+    modified:
+      - geoips/interfaces/__init__.py
+  title: Driver Configs Yaml Interface
