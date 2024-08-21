@@ -1,0 +1,23 @@
+$id: driver_configs.multiprocess
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: multiprocess
+  spec:
+    $ref: "driver_configs.specs.default"
+    required:
+      - processing_type
+      - core_count
+    unevaluatedProperties: true
+    properties:
+      processing_type:
+        type: string
+        enum:
+          - Pool
+          - Process
+          - Queue
+      core_count: # Recommendend to implement the value of min(os.cpu_count() // 4, len(products))
+        type: integer

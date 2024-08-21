@@ -1,0 +1,24 @@
+$id: driver_configs.specs.default
+type: object
+required:
+  - basedir
+  - output_types
+  - products
+  - sector_mapping
+  - paths
+unevaluatedProperties: true
+properties:
+  basedir:
+    type: string
+  output_types:
+    type: array
+    items:
+      type: string
+  products:
+    type: array
+    items:
+      type: string
+  sector_mapping:
+    $ref: "driver_configs.bases.sector_mapping"
+  paths:
+    $ref: "driver_configs.bases.paths"
