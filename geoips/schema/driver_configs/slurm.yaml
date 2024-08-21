@@ -1,0 +1,22 @@
+$id: driver_configs.slurm
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: slurm
+  spec:
+    $ref: "driver_configs.specs.default"
+    required:
+      - mem_per_cpu
+      - ntasks
+      - partition
+    unevaluatedProperties: true
+    properties:
+      partition:
+        type: string
+      mem_per_cpu: # Units in Megabytes
+        type: integer
+      ntasks:
+        type: integer
