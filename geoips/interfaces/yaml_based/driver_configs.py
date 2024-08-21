@@ -3,6 +3,8 @@
 
 """Driver configs interface module."""
 
+from types import SimpleNamespace
+
 from geoips.interfaces.base import BaseYamlInterface, BaseYamlPlugin
 
 
@@ -23,50 +25,31 @@ class DriverConfigsPlugin(BaseYamlPlugin):
                 produce an output
     """
 
-    @property
-    def basedir(self):
-        """Base directory where your files could arrive to."""
-        if not hasattr(self, "_basedir"):
-            self._basedir = self["spec"]["basedir"]
-        return self._basedir
+    def __init__(self, obj_attrs):
+        """Initialize the DriverConfigs plugin object, then assign new attributes.
 
-    @property
-    def output_types(self):
-        """List of output types GeoIPS will create with your driver."""
-        if not hasattr(self, "_output_types"):
-            self._output_types = self["spec"]["output_types"]
-        return self._output_types
+        Where each attribute assigned to 'self' is each key found in the class' 'spec'
+        object contained in its yaml file.
 
-    @property
-    def products(self):
-        """List of products GeoIPS will create with your driver."""
-        if not hasattr(self, "_products"):
-            self._products = self["spec"]["products"]
-        return self._products
+        Will include by default:
+            - basedir
+            - output_types
+            - products
+            - sector_mapping
+            - paths
+        Extra defaults are allowed.
 
-    @property
-    def sector_mapping(self):
-        """Dictionary of 'satellite_sector_name': 'geoips_sector_name'.
-
-        Maps sectors that may appear in the arriving data file paths to a geoips sector.
+        Parameters
+        ----------
+        obj_attrs: dict
+            - A dictionary of attributes to assign to the class.
         """
-        if not hasattr(self, "_sector_mapping"):
-            self._sector_mapping = self["spec"]["sector_mapping"]
-        return self._sector_mapping
-
-    @property
-    def paths(self):
-        """Dictionary of relative file paths based on sat, sensor, sector.
-
-        An entry for CLAVR-x GOES16 data could look like:
-        'GOES16':
-          'ABI':
-            'RadC': <some_path>
-            'RadF': <some_path>
-        """
-        if not hasattr(self, "_paths"):
-            self._paths = self["spec"]["paths"]
-        return self._paths
+        # Initialize the class using 'BaseYamlPlugin'
+        super().__init__(obj_attrs)
+        # Now assign each key of 'spec' as an attribute to this class. See
+        # schema.yaml.driver_configs.specs.default for more information.
+        for key in self["spec"]:
+            setattr(self, key, self["spec"][key])
 
 
 class DriverConfigsInterface(BaseYamlInterface):
