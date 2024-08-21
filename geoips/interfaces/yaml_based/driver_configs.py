@@ -3,8 +3,6 @@
 
 """Driver configs interface module."""
 
-from types import SimpleNamespace
-
 from geoips.interfaces.base import BaseYamlInterface, BaseYamlPlugin
 
 
@@ -37,6 +35,7 @@ class DriverConfigsPlugin(BaseYamlPlugin):
             - products
             - sector_mapping
             - paths
+
         Extra defaults are allowed.
 
         Parameters
