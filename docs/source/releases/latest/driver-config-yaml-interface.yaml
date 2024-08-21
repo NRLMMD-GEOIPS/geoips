@@ -24,10 +24,15 @@ enhancement:
   files:
     added:
       - geoips/interfaces/yaml_based/driver_configs.py
+      - geoips/plugins/yaml/driver_configs/abi.yaml
       - geoips/schema/driver_configs/bases/paths.yaml
-      - geoips/schema/driver_configs/sector_mapping.yaml
+      - geoips/schema/driver_configs/bases/sector_mapping.yaml
       - geoips/schema/driver_configs/multiprocess.yaml
-      - geoips/schema/driver_configs/default.yaml
+      - geoips/schema/driver_configs/sequential.yaml
+      - geoips/schema/driver_configs/slurm.yaml
+      - geoips/schema/driver_configs/specs/default.yaml
     modified:
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/interfaces/__init__.py
   title: Driver Configs Yaml Interface
