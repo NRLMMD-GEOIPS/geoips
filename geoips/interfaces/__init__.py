@@ -21,30 +21,19 @@ from geoips.interfaces.module_based.output_checkers import output_checkers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
-from geoips.interfaces.module_based.output_formatters import (
-    output_formatters,
-)
+from geoips.interfaces.module_based.output_formatters import output_formatters
 from geoips.interfaces.module_based.procflows import procflows
 from geoips.interfaces.module_based.readers import readers
-from geoips.interfaces.module_based.sector_adjusters import (
-    sector_adjusters,
-)
+from geoips.interfaces.module_based.sector_adjusters import sector_adjusters
 from geoips.interfaces.module_based.sector_metadata_generators import (
     sector_metadata_generators,
 )
-from geoips.interfaces.module_based.sector_spec_generators import (
-    sector_spec_generators,
-)
-from geoips.interfaces.module_based.title_formatters import (
-    title_formatters,
-)
+from geoips.interfaces.module_based.sector_spec_generators import sector_spec_generators
+from geoips.interfaces.module_based.title_formatters import title_formatters
 
-from geoips.interfaces.yaml_based.feature_annotators import (
-    feature_annotators,
-)
-from geoips.interfaces.yaml_based.gridline_annotators import (
-    gridline_annotators,
-)
+from geoips.interfaces.yaml_based.driver_configs import driver_configs
+from geoips.interfaces.yaml_based.feature_annotators import feature_annotators
+from geoips.interfaces.yaml_based.gridline_annotators import gridline_annotators
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
 from geoips.interfaces.yaml_based.products import products
 from geoips.interfaces.yaml_based.sectors import sectors
@@ -68,6 +57,7 @@ module_based_interfaces = [
     "title_formatters",
 ]
 yaml_based_interfaces = [
+    "driver_configs",
     "feature_annotators",
     "gridline_annotators",
     "product_defaults",
