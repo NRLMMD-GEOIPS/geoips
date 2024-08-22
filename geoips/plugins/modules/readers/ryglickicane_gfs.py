@@ -5,19 +5,61 @@
 # Python Standard Libraries
 import logging
 from os.path import basename
+from operator import itemgetter
+
 
 # Installed libraries
 import xarray as xr
 import pygrib as pyg
+import numpy as np
+
+
+tmp_attrs = ['units','pressureUnits']
+
+def grb_to_xr(grb_obj):
+    """Takes in preselected grb values."""
+    # get unq levels
+    lvls = np.asarray(sorted(set((i['level'] for i in grb_obj))))
+    lats, lons = grb_obj[0].latlons()
+    # get unq vars
+    tmp_vars = set((i['name'] for i in grb_obj))
+    varlist = {}
+    for i in tmp_vars:
+        key = '_'.join(i.lower().split(' '))
+        tmp_data = next(j for j in grb_obj if j['name'] == i)
+
+        # data_attrs = itemgetter(*tmp_attrs)(next(tmp_data).attrs)
+        data_attrs = {k:tmp_data[k] for k in tmp_attrs}
+
+        varlist[key] = xr.DataArray(data=[j.values for j in grb_obj if j['name'] == i],
+                                    dims=('pres','xi','yi'),
+                                    attrs=data_attrs)
+
+    varlist['lat'] = xr.DataArray(lats,dims=('xi','yi'))
+    varlist['lon'] = xr.DataArray(lons,dims=('xi','yi'))
+    varlist['pres'] = xr.DataArray(lvls,dims=('pres'))
+    return varlist
+        
 
 
 def read_atmos(filenames):
     """Read gfs common parameters.
     """
     print("Reading ATMOS file")
+    xr_list = []
+    for f in filenames:
+        # read each file
 
-    
+        # 2 second read, yikes
+        pg_frame = pyg.open(f)
 
+        # Pressure
+        tmp_pres = pg_frame.select(typeOfLevel='isobaricInhPa')
+        xr_pres = grb_to_xr(tmp_pres)
+
+        xr_list.append(xr_pres)
+
+        
 
 
     return None
@@ -96,8 +138,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     if len(gfs_type) > 1:
         raise FileExistsError("Multiple file types given, please feed in one gfs file type.")
     if "gfs" in gfs_type:
-        read_atmos(fnames)
+        xr_array = read_atmos(fnames)
     elif "gfs_wave" in gfs_type:
-        read_wave(fnames)
+        xr_array = read_wave(fnames)
 
-    return None
+    return xr_array
