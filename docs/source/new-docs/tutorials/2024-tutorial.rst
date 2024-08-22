@@ -118,8 +118,7 @@ for GeoIPS CLAVR-x.
       export MY_PKG_URL=<your package’s URL on version control platform(GitLab)> #your package VCS url
 
    .. NOTE::
-    Choose a name for your package making sure that it is in lower case, starting with a letter,
-    and only contains letters, numbers, and underscores.
+      Select a package name that is all lowercase, begins with a letter, and sticks to just letters, numbers, and underscores.
 
 #. Navigate to your product plugin directory and clone the example repository of customized plugin development,
 `Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_ that would guide us through
