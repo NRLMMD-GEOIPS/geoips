@@ -6,8 +6,10 @@
 """Download data from a specified URL."""
 
 import sys
-import requests
+import urllib
+import tempfile
 from subprocess import check_output
+import urllib.request
 
 
 def download_test_data(url, dest=None):
@@ -20,8 +22,10 @@ def download_test_data(url, dest=None):
         check_output(["git", "clone", url, dest])
         print("done git clone")
     else:
-        resp = requests.get(url, stream=True, timeout=15)
-        sys.stdout.buffer.write(resp.raw.read())
+        with tempfile.NamedTemporaryFile(delete_on_close=False) as f:
+            with urllib.request.urlopen(url) as url_stream:
+                urllib.request.urlretrieve(url_stream, f)
+            print(f.name)
 
 
 if __name__ == "__main__":
