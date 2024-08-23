@@ -53,7 +53,7 @@ def sizeof_fmt(num, suffix="B"):
 def download_from_git(repo_url, destination):
     try:
         output_to_console(
-            f"Cloning repository from {repo_url} to {destination}...", style="bold cyan"
+            f"Cloning repository from {repo_url} to {destination}", style="bold cyan"
         )
         subprocess.check_output(["git", "clone", repo_url, destination])
         output_to_console("Repository successfully cloned.", style="bold green")
@@ -73,11 +73,11 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
             file_length = int(r.headers.get("content-length", 0))
             with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
                 output_to_console(
-                    f"Downloading and extracting {sizeof_fmt(file_length)}... ",
+                    f"File is {sizeof_fmt(file_length)}... ",
                     style="cyan",
                 )
                 tar.extractall(path=dest)
-        output_to_console("Files successfully downloaded and extracted.", style="green")
+        output_to_console("Success. Files downloaded and extracted.", style="green")
     except Exception as e:
         output_to_console(f"Failed to download or extract files.", style="bold red")
         raise e
