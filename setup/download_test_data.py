@@ -17,6 +17,13 @@ try:
 except ModuleNotFoundError as e:
     use_rich = False
 
+try:
+    from rich_argparse import RichHelpFormatter
+
+    use_rich_formatter = True
+except ModuleNotFoundError as e:
+    use_rich_formatter = False
+
 # Initialize console with a default value
 console = None
 
@@ -69,7 +76,12 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
 
 def main():
     global use_rich
-    parser = argparse.ArgumentParser(description="Download test data for GeoIPS")
+    parser = argparse.ArgumentParser(
+        description="Download test data for GeoIPS",
+        formatter_class=(
+            RichHelpFormatter if use_rich_formatter else argparse.HelpFormatter
+        ),
+    )
     parser.add_argument("url", help="The URL to the .tgz file.")
     parser.add_argument("output_dir", help="The directory to extract files to.")
     parser.add_argument(
