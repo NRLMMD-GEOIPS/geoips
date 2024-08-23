@@ -41,6 +41,15 @@ def output_to_console(message, style=None):
         print(message)
 
 
+def sizeof_fmt(num, suffix="B"):
+    # from https://stackoverflow.com/a/1094933/2503170
+    for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
+        if abs(num) < 1024.0:
+            return f"{num:3.1f}{unit}{suffix}"
+        num /= 1024.0
+    return f"{num:.1f}Yi{suffix}"
+
+
 def download_from_git(repo_url, destination):
     try:
         output_to_console(
@@ -64,7 +73,7 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
             file_length = int(r.headers.get("content-length", 0))
             with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
                 output_to_console(
-                    f"Downloading and extracting {file_length} bytes... ",
+                    f"Downloading and extracting {sizeof_fmt(file_length)}... ",
                     style="cyan",
                 )
                 tar.extractall(path=dest)
