@@ -8,6 +8,7 @@ import subprocess
 import requests
 import tarfile
 import argparse
+import tempfile
 
 try:
     from rich.console import Console
@@ -61,7 +62,7 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
         with requests.get(url, stream=True) as r:
             r.raise_for_status()
             file_length = int(r.headers.get("content-length", 0))
-            with open(dest, "wb") as f:
+            with tempfile.TemporaryFile() as f:
                 with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
                     output_to_console(
                         "Downloading and extracting {file_length} bytes... ",
