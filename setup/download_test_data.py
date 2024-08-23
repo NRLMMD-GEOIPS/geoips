@@ -65,7 +65,7 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
             with tempfile.TemporaryFile() as f:
                 with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
                     output_to_console(
-                        "Downloading and extracting {file_length} bytes... ",
+                        f"Downloading and extracting {file_length} bytes... ",
                         style="cyan",
                     )
                     tar.extractall(path=dest)
