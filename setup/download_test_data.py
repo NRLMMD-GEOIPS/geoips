@@ -62,13 +62,12 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
         with requests.get(url, stream=True) as r:
             r.raise_for_status()
             file_length = int(r.headers.get("content-length", 0))
-            with tempfile.TemporaryFile() as f:
-                with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
-                    output_to_console(
-                        f"Downloading and extracting {file_length} bytes... ",
-                        style="cyan",
-                    )
-                    tar.extractall(path=dest)
+            with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
+                output_to_console(
+                    f"Downloading and extracting {file_length} bytes... ",
+                    style="cyan",
+                )
+                tar.extractall(path=dest)
         output_to_console("Files successfully downloaded and extracted.", style="green")
     except Exception as e:
         output_to_console(f"Failed to download or extract files.", style="bold red")
