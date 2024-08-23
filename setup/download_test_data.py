@@ -8,12 +8,17 @@ import subprocess
 import requests
 import tarfile
 import argparse
-from rich.console import Console
-from rich.progress import Progress
+
+try:
+    from rich.console import Console
+    from rich.progress import Progress
+
+    use_rich = True
+except ModuleNotFoundError as e:
+    use_rich = False
 
 # Initialize console with a default value
 console = None
-use_rich = True
 
 
 def setup_rich_console(use_rich):
