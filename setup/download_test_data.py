@@ -9,8 +9,21 @@ import requests
 import tarfile
 import argparse
 
+import yaml
+
 
 def get_argparse_formatter():
+    """
+    Determine and return the appropriate argument parser help formatter.
+
+    Tries to import ``RichHelpFormatter`` from the ``rich_argparse`` package. If the
+    import fails, it defaults to using the argparse default: ``argparse.HelpFormatter``.
+
+    Returns
+    -------
+    argparse.HelpFormatter or rich_argparse.RichHelpFormatter
+        The formatter class to use for argument parsing help messages.
+    """
     try:
         from rich_argparse import RichHelpFormatter
 
@@ -20,6 +33,27 @@ def get_argparse_formatter():
 
 
 def setup_rich_console(use_rich):
+    """
+    Set up global ``output_to_console`` function using `rich` if available.
+
+    Sets global variable ``output_to_console`` to a function that handles
+    styled output using ``rich`` if ``use_rich`` is True and ``rich`` is installed,
+    otherwise falls back to using standard print function.
+
+    Parameters
+    ----------
+    use_rich : bool
+        If True, attempts to use the `rich` library for styled console output.
+
+    Returns
+    -------
+    None
+
+    Global Variables
+    ----------------
+    output_to_console : function
+        A function to handle console output, with or without styling.
+    """
     global output_to_console
     if use_rich:
         try:
@@ -34,7 +68,25 @@ def setup_rich_console(use_rich):
 
 
 def sizeof_fmt(num, suffix="B"):
-    # from https://stackoverflow.com/a/1094933/2503170
+    """
+    Convert a byte size into a human-readable string (eg. MiB).
+
+    Parameters
+    ----------
+    num : int
+        The size in bytes to convert.
+    suffix : str, optional
+        The suffix to append to the size (default is "B" for bytes).
+
+    Returns
+    -------
+    str
+        The size converted into a human-readable string with appropriate units.
+
+    Notes
+    -----
+    This function is adapted from: https://stackoverflow.com/a/1094933/2503170
+    """
     for unit in ("", "Ki", "Mi", "Gi", "Ti", "Pi", "Ei", "Zi"):
         if abs(num) < 1024.0:
             return f"{num:3.1f} {unit}{suffix}"
@@ -43,6 +95,25 @@ def sizeof_fmt(num, suffix="B"):
 
 
 def download_from_git(repo_url, destination):
+    """
+    Clone a git repository from the specified URL to given destination.
+
+    Parameters
+    ----------
+    repo_url : str
+        The URL of the git repository to clone.
+    destination : str
+        The local directory where the repository should be cloned.
+
+    Returns
+    -------
+    None
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the git clone command fails.
+    """
     try:
         output_to_console(
             f"Cloning repository from {repo_url} to {destination}", style="bold cyan"
@@ -53,9 +124,39 @@ def download_from_git(repo_url, destination):
         output_to_console(
             f"Failed to clone repository: {e.output.decode('utf-8')}", style="bold red"
         )
+        raise e
 
 
 def download_and_extract_compressed_tar(url, dest, comp="gz"):
+    """
+    Downloads a compressed tar file from a URL and extracts its contents.
+
+    This function streams the download of a compressed tar file,
+    supporting various compression types (e.g., gzip by default),
+    and extracts the files directly to the specified destination directory.
+    It does this in memory in chunks to prevent a memory overflow on large files and
+    for a speed increase by never having to re-read data off of slower non-RAM memory.
+
+    Parameters
+    ----------
+    url : str
+        The URL of the compressed tar file to download
+    dest : str
+        The directory where the contents of the tar file should be extracted.
+        If the directory does not exist,
+        it should be created prior to calling this function.
+    comp : str, optional
+        The compression type used in the tar file. Accepted values include:
+        - "gz" for gzip compression (default).
+        - "bz2" for bzip2 compression.
+        - "xz" for xz compression.
+        This parameter determines how the tar file will be read and decompressed.
+
+    Returns
+    -------
+    None
+    """
+
     output_to_console(
         f"Downloading and extracting {url} to {dest}...", style="bold cyan"
     )
@@ -75,18 +176,49 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
         raise e
 
 
+def get_test_data_urls():
+    with open("test-data-urls.yaml", "r") as f:
+        data = yaml.safe_load(f)
+        return data["test_data_urls"]
+
+
 def main():
-    global use_rich
+    """
+    Main function to handle command-line arguments and initiate the download process.
+
+    Determines what function to call based off of input value.
+    Also configures the console output style based on user preferences.
+
+    Returns
+    -------
+    None
+    """
     parser = argparse.ArgumentParser(
         description="Download test data for GeoIPS",
         formatter_class=get_argparse_formatter(),
     )
-    parser.add_argument("url", help="The URL to the .tgz file.")
-    parser.add_argument("output_dir", help="The directory to extract files to.")
+    parser.add_argument(
+        "input",
+        help="The test data set to download, URL to the .tgz file or URL to git repo.",
+        nargs="?",
+        default=None,
+    )
+    parser.add_argument(
+        "--output-dir",
+        help="The directory to extract/clone files to.",
+        default=None,
+    )
     parser.add_argument(
         "--no-rich",
         action="store_true",
         help="Disable rich text formatting and progress bars.",
+    )
+    parser.add_argument(
+        "--list-test-datasets",
+        action="store_true",
+        default=False,
+        help="List test data sets available for download.",
+        required=False,
     )
 
     args = parser.parse_args()
@@ -94,10 +226,29 @@ def main():
     use_rich = not args.no_rich
     setup_rich_console(use_rich)
 
-    if ".git" in args.url:
-        download_from_git(args.url, args.output_dir)
-    elif ".tgz" in args.url:
-        download_and_extract_compressed_tar(args.url, args.output_dir)
+    test_data_urls = get_test_data_urls()
+    if args.list_test_datasets:
+        output_to_console("Available data sets:\n", style="")
+        for key in test_data_urls.keys():
+            output_to_console(f"\t{key}", style="cyan")
+        exit()
+
+    if not (args.input and args.output_dir):
+        output_to_console("Invalid arguments.", style="bold red")
+        parser.print_help()
+        exit(1)
+
+    if args.input in test_data_urls.keys():
+        output_to_console(f"Recognized test data set [{args.input}]", style="cyan")
+        url = test_data_urls[args.input]
+        output_to_console(f"Trying to download from url {url}", style="cyan")
+    else:
+        url = args.input
+
+    if ".git" in url:
+        download_from_git(url, args.output_dir)
+    elif ".tgz" in url:
+        download_and_extract_compressed_tar(url, args.output_dir)
     else:
         output_to_console(
             "Error: Cannot handle non-git non-tgz urls.", style="bold red"
