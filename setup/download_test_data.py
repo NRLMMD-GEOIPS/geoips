@@ -8,7 +8,6 @@ import subprocess
 import requests
 import tarfile
 import argparse
-import tempfile
 
 
 def get_argparse_formatter():
