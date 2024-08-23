@@ -10,35 +10,28 @@ import tarfile
 import argparse
 import tempfile
 
-try:
-    from rich.console import Console
-    from rich.progress import Progress
 
-    use_rich = True
-except ModuleNotFoundError as e:
-    use_rich = False
+def get_argparse_formatter():
+    try:
+        from rich_argparse import RichHelpFormatter
 
-try:
-    from rich_argparse import RichHelpFormatter
-
-    use_rich_formatter = True
-except ModuleNotFoundError as e:
-    use_rich_formatter = False
-
-# Initialize console with a default value
-console = None
+        return RichHelpFormatter
+    except ModuleNotFoundError as e:
+        return argparse.HelpFormatter
 
 
 def setup_rich_console(use_rich):
-    global console
-    console = Console() if use_rich else None
+    global output_to_console
+    if use_rich:
+        try:
+            from rich.console import Console
 
-
-def output_to_console(message, style=None):
-    if console:
-        console.print(message, style=style)
-    else:
-        print(message)
+            con = Console()
+            output_to_console = lambda msg, style: con.print(msg, style=style)
+            return
+        except ModuleNotFoundError:
+            pass
+    output_to_console = lambda msg, style: print(msg)
 
 
 def sizeof_fmt(num, suffix="B"):

@@ -380,7 +380,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             fi
         else
             echo "DOWNLOADING: NextCloud Dataset $test_data_name @ $test_data_url"
-            $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir >> $install_log 2>&1
+            python3 $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir
             # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
             matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)
             folder_count=$(echo "$matching_folders" | wc -l)
