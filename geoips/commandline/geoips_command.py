@@ -64,16 +64,6 @@ class ParentParsers:
     shared correctly.
     """
 
-    geoips_parser = argparse.ArgumentParser(add_help=False)
-    geoips_parser.add_argument(
-        "--log_level",
-        "-log",
-        type=str,
-        default="interactive",
-        choices=["debug", "error", "info", "interactive", "warning"],
-        help="The logging level to use for output via the CLI.",
-    )
-
     list_parser = argparse.ArgumentParser(add_help=False)
     list_parser.add_argument(
         "--package_name",
@@ -112,7 +102,7 @@ class GeoipsCommand(abc.ABC):
     used for initializing command classes of a certain GeoIPS Command.
     """
 
-    def __init__(self, parent=None, legacy=False):
+    def __init__(self, LOG, parent=None, legacy=False):
         """Initialize GeoipsCommand with a subparser and default to the command func.
 
         Do this for each GeoipsCLI.geoips_command_classes. This will instantiate
@@ -121,6 +111,11 @@ class GeoipsCommand(abc.ABC):
 
         Parameters
         ----------
+        LOG: Logger Object
+            - Logging utility which can be used by any command class. Defaults to
+              LOG.interactive, however, can be changed to one of the values in
+              ["debug", "error", "info", "interactive", "warning"] if
+              '--log_level/--log <log_level_name>' is specified at the command line.
         parent: optional - GeoipsCommand Class
             - The parent command class that possibly is initializing it's child.
               Ex. GeoipsList would invoke this init function for each of its subcommand
@@ -133,6 +128,7 @@ class GeoipsCommand(abc.ABC):
               suppressing or displaying help information for '--procflow'.
         """
         self.legacy = legacy
+        self.LOG = LOG
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
         self.alias_mapping = alias_mapping
@@ -200,7 +196,7 @@ class GeoipsCommand(abc.ABC):
             # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser(
                 self.name,
-                parents=[ParentParsers.geoips_parser],
+                parents=[],
                 formatter_class=argparse.RawTextHelpFormatter,
             )
             self.combined_name = self.name
@@ -243,7 +239,7 @@ class GeoipsCommand(abc.ABC):
                 help=f"{self.name} instructions.",
             )
             for subcmd_cls in self.command_classes:
-                subcmd_cls(parent=self, legacy=self.legacy)
+                subcmd_cls(LOG=self.LOG, parent=self, legacy=self.legacy)
 
     @property
     def plugin_package_names(self):
@@ -263,7 +259,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
     can implement.
     """
 
-    def __init__(self, parent=None, legacy=False):
+    def __init__(self, LOG, parent=None, legacy=False):
         """Initialize GeoipsExecutableCommand.
 
         This is a child of GeoipsCommand and will invoke the functionaly of
@@ -274,6 +270,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
         Parameters
         ----------
+        LOG: Logger Object
+            - Logging utility which can be used by any command class. Defaults to
+              LOG.interactive, however, can be changed to one of the values in
+              ["debug", "error", "info", "interactive", "warning"] if
+              '--log_level/--log <log_level_name>' is specified at the command line.
         parent: optional - GeoipsCommand Class
             - The parent command class that possibly is initializing it's child.
               Ex. GeoipsList would invoke this init function for each of its subcommand
@@ -285,7 +286,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
               the user called 'run_procflow' or 'data_fusion_procflow'. This is used for
               suppressing or displaying help information for '--procflow'.
         """
-        super().__init__(parent=parent, legacy=legacy)
+        super().__init__(LOG=LOG, parent=parent, legacy=legacy)
         # Since this class is exectuable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
