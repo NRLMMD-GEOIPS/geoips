@@ -57,6 +57,7 @@ module_based_interfaces = [
     "title_formatters",
 ]
 yaml_based_interfaces = [
+    "driver_config_defaults",
     "driver_configs",
     "feature_annotators",
     "gridline_annotators",
