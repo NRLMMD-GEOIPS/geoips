@@ -16,7 +16,7 @@ def get_argparse_formatter():
         from rich_argparse import RichHelpFormatter
 
         return RichHelpFormatter
-    except ModuleNotFoundError as e:
+    except ModuleNotFoundError:
         return argparse.HelpFormatter
 
 
@@ -80,9 +80,7 @@ def main():
     global use_rich
     parser = argparse.ArgumentParser(
         description="Download test data for GeoIPS",
-        formatter_class=(
-            RichHelpFormatter if use_rich_formatter else argparse.HelpFormatter
-        ),
+        formatter_class=get_argparse_formatter(),
     )
     parser.add_argument("url", help="The URL to the .tgz file.")
     parser.add_argument("output_dir", help="The directory to extract files to.")
