@@ -358,7 +358,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
         echo "Installing $test_data_name_string .... "
         echo "  $test_data_dir/ from $test_data_url via $test_data_source_location"
         if [[ "$test_data_source_location" == "github" ]]; then
-            python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir >> $install_log 2>&1
+            python3 $SCRIPT_DIR/download_test_data.py $test_data_url --output-dir $test_data_dir >> $install_log 2>&1
             retval=$?
             if  [[ "$retval" == "0" ]]; then
                 echo "SUCCESS: Pulled ${test_data_name} from ${test_data_url}"
@@ -380,7 +380,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             fi
         else
             echo "DOWNLOADING: NextCloud Dataset $test_data_name @ $test_data_url"
-            python3 $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir
+            python3 $SCRIPT_DIR/download_test_data.py $test_data_url --output-dir $test_data_dir
             # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
             matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)
             folder_count=$(echo "$matching_folders" | wc -l)

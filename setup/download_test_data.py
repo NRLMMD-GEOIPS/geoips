@@ -8,6 +8,7 @@ import subprocess
 import requests
 import tarfile
 import argparse
+import os
 
 import yaml
 
@@ -177,7 +178,8 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
 
 
 def get_test_data_urls():
-    with open("test-data-urls.yaml", "r") as f:
+    dirname, filename = os.path.split(os.path.abspath(__file__))
+    with open(os.path.join(dirname, "test-data-urls.yaml"), "r") as f:
         data = yaml.safe_load(f)
         return data["test_data_urls"]
 
