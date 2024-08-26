@@ -106,7 +106,7 @@ def download_from_git(repo_url, destination):
     destination : str
         The local directory where the repository should be cloned.
 
-    Returns
+    Return
     -------
     None
 
@@ -162,10 +162,10 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
         f"Downloading and extracting {url} to {dest}...", style="bold cyan"
     )
     try:
-        with requests.get(url, stream=True) as r:
+        with requests.get(url, stream=True, timeout=60 * 5) as r:
             r.raise_for_status()
             file_length = int(r.headers.get("content-length", 0))
-            with tarfile.open(fileobj=r.raw, mode=f"r|{comp}") as tar:
+            with tarfile.open(fileobj=r.raw, mode=f"r|{comp}", filter="data") as tar:
                 output_to_console(
                     f"File is {sizeof_fmt(file_length)}... ",
                     style="cyan",
