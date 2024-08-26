@@ -21,8 +21,6 @@ from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
-from geoips.commandline.log_setup import setup_logging
-from geoips.errors import CliError
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -71,47 +69,7 @@ class GeoipsCLI(GeoipsCommand):
             # (and if they're not, the appropriate error will be raised.)
             self.cmd_instructions = None
 
-        # Handle logging now so that we can use it in any function of our command line
-        # interface. This way, we can even add log statements before a class has been
-        # initialized, before arguments have been parsed, and during a command's call
-        # function as well.
-        log_level = "interactive"
-        if "--log_level" in sys.argv or "--log" in sys.argv:
-            # if either of these flags exist in sys.argv (command line arguments), then
-            # check to make sure that a valid log level is provided
-            log_idx = None
-            val_log_levels = ["debug", "error", "info", "interactive", "warning"]
-            for arg_idx, arg in enumerate(sys.argv):
-                if arg in ["--log_level", "--log"]:
-                    flag = arg
-                    log_idx = arg_idx
-                    break
-            # Provided we found a valid flag, the argument list is long enough to
-            # support a log level name (index after found flag), and the log_level
-            # provided is a valid level, then set log_level to the value provided
-            if (
-                log_idx is not None
-                and len(sys.argv) > log_idx + 1
-                and sys.argv[log_idx + 1] in val_log_levels
-            ):
-                log_level = sys.argv[log_idx + 1]
-                # Remove the arguments related to log level as they're not expected via
-                # the CLI
-                sys.argv.pop(log_idx + 1)
-                sys.argv.pop(log_idx)
-            else:
-                # Otherwise raise an error specifying what the user did wrong.
-                raise CliError(
-                    f"Error: Flag '{flag}' was provided but a log level value wasn't "
-                    f"provided or a matching entry in '{val_log_levels}'. Please "
-                    "provide a log_level which matches one of the corresponging values."
-                )
-        # Set up logging based on the log level provided or defaulted to
-        LOG = setup_logging(logging_level=log_level.upper())
-        # Get that level of the logger
-        LOG = getattr(LOG, log_level)
-        # Pass it to all of the child command classes
-        super().__init__(LOG=LOG, legacy=legacy)
+        super().__init__(legacy=legacy)
 
     def execute_command(self):
         """Execute the given command."""

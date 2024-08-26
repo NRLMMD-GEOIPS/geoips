@@ -20,6 +20,7 @@ from tabulate import tabulate
 import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+from geoips.commandline.log_setup import setup_logging
 
 
 class PluginPackages:
@@ -102,7 +103,7 @@ class GeoipsCommand(abc.ABC):
     used for initializing command classes of a certain GeoIPS Command.
     """
 
-    def __init__(self, LOG, parent=None, legacy=False):
+    def __init__(self, LOG=None, parent=None, legacy=False):
         """Initialize GeoipsCommand with a subparser and default to the command func.
 
         Do this for each GeoipsCLI.geoips_command_classes. This will instantiate
@@ -111,7 +112,7 @@ class GeoipsCommand(abc.ABC):
 
         Parameters
         ----------
-        LOG: Logger Object
+        LOG: optional - Logger Object
             - Logging utility which can be used by any command class. Defaults to
               LOG.interactive, however, can be changed to one of the values in
               ["debug", "error", "info", "interactive", "warning"] if
@@ -128,6 +129,9 @@ class GeoipsCommand(abc.ABC):
               suppressing or displaying help information for '--procflow'.
         """
         self.legacy = legacy
+        # This is the Logger Object, not the actual logger call function of 'log_level'.
+        # So, a command class would use the logger via:
+        # self.LOG.<log_level>(log_statement)
         self.LOG = LOG
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
@@ -199,6 +203,7 @@ class GeoipsCommand(abc.ABC):
                 parents=[],
                 formatter_class=argparse.RawTextHelpFormatter,
             )
+            self.LOG = self._get_cli_logger()
             self.combined_name = self.name
 
         self.add_subparsers()
@@ -206,6 +211,41 @@ class GeoipsCommand(abc.ABC):
             command=self.combined_name.replace("_", " "),
             command_parser=self.parser,
         )
+
+    def _get_cli_logger(self):
+        """Set up and retrieve the logger object for use in the CLI.
+
+        If either flag ['--log-level', '--log'] was provided with a valid log level
+        after that flag, then set up the logger using the provided log level as the
+        filter for what will be logged.
+
+        Log Levels
+        ----------
+        The log level filters what is logged when the CLI is ran. Filtering order shown
+        below. Log levels omit all levels that are below it:
+        - interactive
+        - debug
+        - info
+        - warning
+        - error
+        """
+        # Add the log-level argument
+        self.parser.add_argument(
+            "-log",
+            "--log-level",
+            type=str,
+            default="interactive",
+            choices=["interactive", "debug", "info", "warning", "error"],
+            help="Log level to output when using the CLI.",
+        )
+        # Parse it now, as we'll use this information among all of the child command
+        # classes
+        ARGS = self.parser.parse_known_args()
+        # Returns a tuple of (known_args, remaining_args)
+        log_level = ARGS[0].log_level
+        # Set up logging based on the log level provided or defaulted to
+        LOG = setup_logging(logging_level=log_level.upper())
+        return LOG
 
     @property
     @abc.abstractmethod
