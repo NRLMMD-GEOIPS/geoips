@@ -69,6 +69,34 @@ class GeoipsCLI(GeoipsCommand):
             # (and if they're not, the appropriate error will be raised.)
             self.cmd_instructions = None
 
+        # parse_known_args expects arguments in a specific order. So, currrently,
+        # 'geoips --log-level info <rest of command>' will work but
+        # 'geoips <rest of command> --log-level info' will not. The functionality below
+        # rearranges the log level arguments to match the working version. This way,
+        # users can add --log-level <log_level_name> anywhere in the command and it will
+        # work.
+        if set(sys.argv).intersection(set(["--log-level", "-log"])):
+            # One of the flags was found in the arguments provided
+            log_idx = max(
+                [
+                    idx if arg in ["--log-level", "-log"] else -1
+                    for idx, arg in enumerate(sys.argv)
+                ]
+            )
+            #  Make sure that the argument list is long enough for log level to be
+            # provided. It doesn't have to be correct, that validation will be done
+            # by argparse
+            if len(sys.argv) > log_idx + 1:
+                flag = sys.argv[log_idx]
+                log_level = sys.argv[log_idx + 1]
+                # Get the flag and log_level, remove them from the argument list, and
+                # insert them in working locations.
+                # I.e. geoips --log-level <log_level_name>
+                sys.argv.pop(log_idx + 1)
+                sys.argv.pop(log_idx)
+                sys.argv.insert(1, log_level)
+                sys.argv.insert(1, flag)
+
         super().__init__(legacy=legacy)
 
     def execute_command(self):
