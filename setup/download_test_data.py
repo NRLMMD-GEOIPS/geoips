@@ -175,7 +175,7 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                     style="cyan",
                 )
                 # using filter="data" for potential security vulnerability
-                # see https://docs.python.org/3/library/tarfile.html#tarfile-extraction-filter
+                # see docs.python.org/3/library/tarfile.html#tarfile-extraction-filter
                 # for more security information
                 tar.extractall(path=dest, filter="data")  # nosec
         output_to_console("Success. Files downloaded and extracted.", style="green")
