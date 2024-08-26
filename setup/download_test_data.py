@@ -216,6 +216,11 @@ def main():
         help="Disable rich text formatting and progress bars.",
     )
     parser.add_argument(
+        "--test-data-available",
+        action="store_true",
+        help="Returns 0 if available, else 1.",
+    )
+    parser.add_argument(
         "--list-test-datasets",
         action="store_true",
         default=False,
@@ -229,6 +234,17 @@ def main():
     setup_rich_console(use_rich)
 
     test_data_urls = get_test_data_urls()
+    if args.test_data_available:
+        if args.input in test_data_urls.keys():
+            output_to_console(
+                f"{args.input} is available for direct download.", style="green"
+            )
+            exit()
+        else:
+            output_to_console(
+                f"{args.input} is NOT available for direct download.", style="red"
+            )
+            exit(1)
     if args.list_test_datasets:
         output_to_console("Available data sets:\n", style="")
         for key in test_data_urls.keys():
