@@ -13,6 +13,11 @@ import xarray as xr
 import pygrib as pyg
 import numpy as np
 
+LOG = logging.getLogger(__name__)
+
+interface = "readers"
+family = "standard"
+name = "gfs_grib"
 
 surface_vars = ['Convective available potential energy','Convective inhibition','Temperature',
                 'Snow depth','Ice thickness','Precipitation rate','Vegetation','Sunshine Duration',
@@ -27,7 +32,7 @@ surf_attrs = ['units','shortName',
 def press_grb_to_xr(grb_obj):
     """Converts pressure grb values to xarray.Dataset."""
     # get unq levels
-    lvls = np.asarray(sorted(set((i['level'] for i in grb_obj))))
+    # lvls = np.asarray(sorted(set((i['level'] for i in grb_obj))))
     lats, lons = grb_obj[0].latlons()
     # get unq vars
     tmp_vars = set((i['name'] for i in grb_obj))
@@ -38,15 +43,33 @@ def press_grb_to_xr(grb_obj):
 
         # data_attrs = itemgetter(*tmp_attrs)(next(tmp_data).attrs)
         data_attrs = {k:tmp_data[k] for k in tmp_attrs}
+        tmp_press_lvls = sorted(set(j['level'] for j in grb_obj if j['name'] == i))
+
+        if len(tmp_press_lvls) == 22:
+            pres_dim = 'coarse_press'
+            cpres = tmp_press_lvls
+        elif len(tmp_press_lvls) == 33:
+            pres_dim = 'fine_press'
+            fpres = tmp_press_lvls
+        else:
+            pres_dim = 'unk_pres'
+
 
         varlist[key] = xr.DataArray(data=[j.values for j in grb_obj if j['name'] == i],
-                                    dims=('pres','xi','yi'),
+                                    dims=(pres_dim,'xi','yi'),
                                     attrs=data_attrs)
 
     varlist['lat'] = xr.DataArray(lats,dims=('xi','yi'))
     varlist['lon'] = xr.DataArray(lons,dims=('xi','yi'))
-    varlist['pres'] = xr.DataArray(lvls,dims=('pres'))
-    return varlist
+    # print(cpres,fpres)
+    varlist['coarse_press'] = xr.DataArray(cpres,dims=('coarse_press'))
+    varlist['fine_press'] = xr.DataArray(fpres,dims=('fine_press'))
+
+    #print(varlist)
+    #raise
+    xr_dset = xr.Dataset(varlist)
+    
+    return xr_dset
         
 
 def surf_grb_to_xr(grb_obj):
@@ -66,7 +89,9 @@ def surf_grb_to_xr(grb_obj):
 
     varlist['lat'] = xr.DataArray(lats,dims=('xi','yi'))
     varlist['lon'] = xr.DataArray(lons,dims=('xi','yi'))
-    return None
+
+    xr_dset = xr.Dataset(varlist)
+    return xr_dset
 
 
 def read_atmos(filenames):
@@ -101,13 +126,12 @@ def read_atmos(filenames):
         base_time.append(tmp_sl[0].analDate)
         fcst_time.append(tmp_sl[0].validDate)
 
-    if set(base_time) > 1:
-        # one set time with multiple forcasts
-        LOG.info("One forcast time")
-        base_time = base_time[0]
-    else:
-        LOG.info("Multiple base forcast times, attempting merge")
-    # track valid and analysis date
+
+    tvar = xr.DataArray(base_time,dims=('atime'))
+
+    for k in xr_list.keys():
+        xr_list[k] = xr.concat(xr_list[k],tvar)
+        xr_list[k]['forcast_time'] = xr.DataArray(fcst_time,dims=('atime'))
 
     return xr_list
 
