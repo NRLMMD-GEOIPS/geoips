@@ -174,7 +174,10 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                     f"File is {sizeof_fmt(file_length)}... ",
                     style="cyan",
                 )
-                tar.extractall(path=dest, filter="tar")
+                # using filter="data" for potential security vulnerability
+                # see https://docs.python.org/3/library/tarfile.html#tarfile-extraction-filter
+                # for more security information
+                tar.extractall(path=dest, filter="data")  # nosec
         output_to_console("Success. Files downloaded and extracted.", style="green")
     except Exception as e:
         output_to_console("Failed to download or extract files.", style="bold red")
@@ -208,7 +211,7 @@ def get_test_data_urls():
 
 def main():
     """
-    Main function to handle command-line arguments and initiate the download process.
+    Handle command-line arguments and initiate the download process.
 
     Determines what function to call based off of input value.
     Also configures the console output style based on user preferences.
