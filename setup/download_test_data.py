@@ -61,11 +61,16 @@ def setup_rich_console(use_rich):
             from rich.console import Console
 
             con = Console()
-            output_to_console = lambda msg, style: con.print(msg, style=style)
+
+            def output_to_console(msg, style):
+                con.print(msg, style=style)
+
             return
         except ModuleNotFoundError:
             pass
-    output_to_console = lambda msg, style: print(msg)
+
+    def output_to_console(msg, style):
+        print(msg)
 
 
 def sizeof_fmt(num, suffix="B"):
@@ -130,7 +135,7 @@ def download_from_git(repo_url, destination):
 
 def download_and_extract_compressed_tar(url, dest, comp="gz"):
     """
-    Downloads a compressed tar file from a URL and extracts its contents.
+    Download a compressed tar file from a URL and extract its contents.
 
     This function streams the download of a compressed tar file,
     supporting various compression types (e.g., gzip by default),
@@ -157,7 +162,6 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
     -------
     None
     """
-
     output_to_console(
         f"Downloading and extracting {url} to {dest}...", style="bold cyan"
     )
@@ -173,11 +177,29 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                 tar.extractall(path=dest)
         output_to_console("Success. Files downloaded and extracted.", style="green")
     except Exception as e:
-        output_to_console(f"Failed to download or extract files.", style="bold red")
+        output_to_console("Failed to download or extract files.", style="bold red")
         raise e
 
 
 def get_test_data_urls():
+    """
+    Retrieve test data URLs from a YAML configuration file.
+
+    This function reads a YAML file named `test-data-urls.yaml` located
+    in the same directory as the script and returns the URLs specified
+    under the `test_data_urls` key.
+
+    Returns
+    -------
+    list of str
+        A list of test data URLs.
+
+    Examples
+    --------
+    >>> urls = get_test_data_urls()
+    >>> print(urls)
+    ['https://example.com/data1.csv', 'https://example.com/data2.csv']
+    """
     dirname, filename = os.path.split(os.path.abspath(__file__))
     with open(os.path.join(dirname, "test-data-urls.yaml"), "r") as f:
         data = yaml.safe_load(f)
