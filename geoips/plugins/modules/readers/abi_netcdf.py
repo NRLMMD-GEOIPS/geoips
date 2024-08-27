@@ -544,6 +544,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         [call_single_time([x], metadata_only=True)["METADATA"] for x in fnames]
     )
     if metadata_only:
+        # from IPython import embed as shell
+
+        # shell()
         return all_metadata
 
     start_times = [dt for dt in all_metadata["METADATA"].attrs["source_file_datetimes"]]
@@ -569,6 +572,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     if len(times) == 1:
         # No need to stack if we are only reading in one scan time
         # This is likely temporary to maintain backwards compatibility
+
+        # This is not hit if we are provided multiple scan times.
         return data_dict
 
     import xarray
@@ -585,7 +590,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         merged_dset = merged_dset.assign_coords({"time_dim": times})
         dict_xarrays[dname] = merged_dset
 
-    metadata = data_dict["METADATA"]
+    metadata = all_metadata["METADATA"]
     metadata.attrs["source_file_names"] = [os.path.basename(fname) for fname in fnames]
     metadata.attrs["start_datetime"] = min(times)
     metadata.attrs["end_datetime"] = max(times)
