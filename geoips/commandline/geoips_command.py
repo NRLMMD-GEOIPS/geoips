@@ -65,6 +65,16 @@ class ParentParsers:
     shared correctly.
     """
 
+    geoips_parser = argparse.ArgumentParser()
+    geoips_parser.add_argument(
+        "-log",
+        "--log-level",
+        type=str,
+        default="interactive",
+        choices=["interactive", "debug", "info", "warning", "error"],
+        help="Log level to output when using the CLI.",
+    )
+
     list_parser = argparse.ArgumentParser(add_help=False)
     list_parser.add_argument(
         "--package_name",
@@ -200,7 +210,8 @@ class GeoipsCommand(abc.ABC):
             # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser(
                 self.name,
-                parents=[],
+                conflict_handler="resolve",
+                parents=[ParentParsers.geoips_parser],
                 formatter_class=argparse.RawTextHelpFormatter,
             )
             self.LOG = self._get_cli_logger()
@@ -229,20 +240,21 @@ class GeoipsCommand(abc.ABC):
         - warning
         - error
         """
-        # Add the log-level argument
-        self.parser.add_argument(
+        # An independent parser is needed as this overrides the help messages of the CLI
+        # by providing ``add_help=False``, we keep the custom help messages for the CLI
+        # and by providing a parent class to the top level CLI parser, then it will be
+        # shown in the help messages as well.
+        independent_parser = argparse.ArgumentParser(add_help=False)
+        independent_parser.add_argument(
             "-log",
             "--log-level",
             type=str,
             default="interactive",
             choices=["interactive", "debug", "info", "warning", "error"],
-            help="Log level to output when using the CLI.",
         )
-        # Parse it now, as we'll use this information among all of the child command
-        # classes
-        ARGS = self.parser.parse_known_args()
-        # Returns a tuple of (known_args, remaining_args)
-        log_level = ARGS[0].log_level
+        # Parse now, as we'll use logging among all of the child command classes
+        known_args, remaining_args = independent_parser.parse_known_args()  # NOQA
+        log_level = known_args.log_level
         # Set up logging based on the log level provided or defaulted to
         LOG = setup_logging(logging_level=log_level.upper())
         return LOG

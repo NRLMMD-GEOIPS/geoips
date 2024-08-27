@@ -83,7 +83,7 @@ class GeoipsCLI(GeoipsCommand):
                     for idx, arg in enumerate(sys.argv)
                 ]
             )
-            #  Make sure that the argument list is long enough for log level to be
+            # Make sure that the argument list is long enough for log level to be
             # provided. It doesn't have to be correct, that validation will be done
             # by argparse
             if len(sys.argv) > log_idx + 1:
