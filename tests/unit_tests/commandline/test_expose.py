@@ -34,18 +34,18 @@ def test_expose_pkg_cmds(pkg_name, caplog):
     """
     # 35 is the level of LOG.interactive, which we use in expose_geoips_commands
     caplog.set_level(35)
-    if pkg_name in ["geoips", "data_fusion"]:
+    eps = list(
+        filter(
+            lambda ep: pkg_name in ep.value,
+            metadata.entry_points().select(group="console_scripts"),
+        )
+    )
+    if len(eps):
         # Both of these packages have commands. geoips is implemented via poetry, and
         # data_fusion is implemented via setuptools. Either way, this should work
         # without an error being raised
         expose_geoips_commands(pkg_name, LOG)
         assert f"Available {pkg_name.title()} Commands" in caplog.text
-        eps = list(
-            filter(
-                lambda ep: pkg_name in ep.value,
-                metadata.entry_points().select(group="console_scripts"),
-            )
-        )
         # Replace calls are needed as we need to filter out the table chars
         # if the table was split due to terminal size
         replaced = str(
@@ -64,7 +64,6 @@ def test_expose_pkg_cmds(pkg_name, caplog):
         # None of these packaes have commands
         expose_geoips_commands(pkg_name, LOG)
         assert f"No '{pkg_name.title()}' Commands were found." in caplog.text
-
     else:
         # Calling this with a non-existent package should raise PackageNotFoundError
         with pytest.raises(PluginPackageNotFoundError):

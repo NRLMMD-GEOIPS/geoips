@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-***************
 Getting Started
 ***************
 
@@ -11,8 +10,8 @@ Getting Started
    :maxdepth: 2
 
    installation
+   mac_installation
+   windows_installation
    expert_installation
    starter_examples
    extending
-   mac_installation
-   windows_installation

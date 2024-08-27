@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-**********
 User Guide
 **********
 
@@ -12,7 +11,6 @@ User Guide
 
    geoips_structure
    command_line
-   function_list
    plugin_extend
    plugin_registries
    plugin_development/algorithm

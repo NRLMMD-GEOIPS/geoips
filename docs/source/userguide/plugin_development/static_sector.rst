@@ -5,7 +5,6 @@
 
 .. _create-a-static_sector:
 
-**************************************
 Extend GeoIPS with a new Static Sector
 **************************************
 
@@ -81,18 +80,19 @@ plugin with CLAVR-x data.
 
 The commands you ran in the previously create a custom conus sector.
 my_conus_sector.yaml will be an example plugin, showing you that you can create
-sectors just like `conus.yaml <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/static/conus.yaml>`_,
+sectors just like `conus.yaml
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/static/conus.yaml>`_,
 to your own specifications. You can create a sector anywhere on the globe, in the
 fashion we just displayed above.
 
 To quickly check whether or not you like the shape and resolution of your custom sector,
-you can use the command line function create_sector_image. This will plot and save
+you can use the command line function ``geoips test sector``. This will plot and save
 images containing the borders and coastlines of the inputted sectors. For example, to
 test your custom sector, run the following:
 ::
 
     cd $MY_PKG_DIR/$MY_PKG_NAME/
-    create_sector_image my_conus_sector
+    geoips test sector my_conus_sector
 
 Once completed, open the my_conus_sector.png image to see what your sector will look
 like.

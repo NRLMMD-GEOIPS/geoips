@@ -3,18 +3,17 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-***************
 Developer Guide
 ***************
 
 .. toctree::
    :maxdepth: 2
 
-   software_requirements_specification
    contributors
-   dev_setup
-   build_docs
+   ../new-docs/contribute/code-of-conduct
+   ../new-docs/contribute/coding_standards
    git_workflow
+   dev_setup
    unit_tests
-   documentation_strategy
    xarray_standards
+   software_requirements_specification

@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-************************************
 Linux-based Installation for Windows
 ************************************
 
@@ -21,7 +20,7 @@ workaround of the normally difficult windows installation.
 ------------
 
 Follow directions on
-`Microsoft WSL Install <https://learn.microsoft.com/en-us/windows/wsl/install>`_ 
+`Microsoft WSL Install <https://learn.microsoft.com/en-us/windows/wsl/install>`_
 which installs WSL2 and Unbuntu by default.
 Note, this does require adminstrator privileges on
 the windows machine.

@@ -5,7 +5,6 @@
 
 .. _release_notes:
 
-*************
 Release Notes
 *************
 
@@ -43,7 +42,6 @@ issues with create_plugin_registries, ATMS platform names, and pytest dependenci
    v1_12_2a0
    v1_12_1
    v1_12_0
-
 
 Version 1.11
 ------------

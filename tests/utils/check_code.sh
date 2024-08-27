@@ -176,7 +176,7 @@ if [[ "$test" == "pytest_short" || "$test" == "all" ]]; then
     fi
     echo "TEST COMPLETE pytest_short"
 fi
-if [[ "$test" == "pytest_long" || "$test" == "all" ]]; then
+if [[ "$test" == "pytest_long" || "$test" == "all_test_data" ]]; then
     echo ""
     echo "CALLING TEST:"
 

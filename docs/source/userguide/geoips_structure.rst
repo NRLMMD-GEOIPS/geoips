@@ -3,7 +3,6 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-*******************************
 Description of GeoIPS structure
 *******************************
 
@@ -36,7 +35,8 @@ The primary plugin interfaces include:
 * **processing workflows (procflows)** - drive a specific collection of steps for a particular type of processing
 * **static sectors** - specifications of domains of interest
 * **dynamic sectors** - specifications of dynamic domains of interest
-* **readers** - specifications for ingesting a specific data type, and storing in the GeoIPS xarray-based internal format
+* **readers** - specifications for ingesting a specific data type, and storing in the GeoIPS xarray-based internal
+  format
 * **products** - overall product specification, including interpolation routine,
   algorithm, colormaps, etc (see YAML-based interfaces)
 
@@ -63,54 +63,3 @@ Example of config based processing workflow
 
 .. image:: ../images/geoips_overview/Example_config_Processing_Workflow.png
    :width: 800
-
-Module-based interfaces
-=======================
-
-Algorithms
-----------
-
-Colormaps
----------
-
-Filename formatters
--------------------
-
-Interpolators
--------------
-
-Output formatters
------------------
-
-ProcFlows
----------
-
-Readers
--------
-
-Title formatters
-----------------
-
-YAML-based Interfaces
-=====================
-
-Feature Annotator
------------------
-
-Gridline Annotator
-------------------
-
-Product defaults
-----------------
-
-Products
---------
-
-Dynamic sectors
----------------
-
-Static sectors
---------------
-
-ProcFlow configurations
------------------------
