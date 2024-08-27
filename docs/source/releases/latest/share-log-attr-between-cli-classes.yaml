@@ -9,7 +9,11 @@ Refactoring Updates:
     levels that match or are of higher 'order' than the log level provided will be
     outputted. This functionality matches that used in 'run_procflow'. Logging is now
     a supported utility throughout the CLI, and can be used in any CLI class via
-    self.LOG.<log_level>(log_statement).
+    self.LOG.<log_level>(log_statement). Note that self.LOG.<log_level> does not have to
+    match the provided '--log-level' ran in the command. This flag is strictly just the
+    LOG level filter. I.e. if '--log-level info' was provided, levels
+    ['info', 'debug', 'interactive'] would be shown. The lower the level, the more
+    logging channels will output.
   files:
     modified:
       - geoips/commandline/commandline_interface.py
