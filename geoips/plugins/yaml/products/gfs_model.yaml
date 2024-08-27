@@ -1,0 +1,22 @@
+interface: products
+family: list
+name: gfs_model
+docstring: |
+  The gfs product_inputs configuration, which produces model products.
+spec:
+  products:
+    - name: Windspeed
+      source_names: [gfs]
+      docstring: |
+        The Infrared product_defaults configuration for viirs products.
+      product_defaults: model_windspeed
+      spec:
+        variables: ["windspeed_kts","fine_press","gfs_pressure:forcast_time"]
+
+    - name: Surface-Temp
+      source_names: [gfs]
+      docstring: |
+        The Infrared product_defaults configuration for viirs products.
+      product_defaults: windspeed
+      spec:
+        variables: ["windspeed_kts"]

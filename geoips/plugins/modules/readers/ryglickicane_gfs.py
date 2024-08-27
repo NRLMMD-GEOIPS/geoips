@@ -1,4 +1,8 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Reader to read GFS Files in GRIB format.
+    (Thorpe, Aug. 2024)
 
     Current support includes:
        - GFS
@@ -6,6 +10,7 @@
 
 This reader can take in multiple forcast times and multiple analysis times.
 """
+
 # Python Standard Libraries
 import logging
 from os.path import basename
@@ -14,6 +19,7 @@ from os.path import basename
 # Installed libraries
 import xarray as xr
 import pygrib as pyg
+import numpy as np
 
 LOG = logging.getLogger(__name__)
 
@@ -37,6 +43,26 @@ surface_vars = [
 # CAPE, CIN, and PWAT
 tmp_attrs = ["units", "pressureUnits"]
 surf_attrs = ["units", "shortName", "name", "typeOfLevel"]
+
+MS_TO_KTS = 1.94384
+
+
+def convert_uv_to_kts(xr_df):
+    sqrt_func = np.sqrt
+    arctan2_func = np.arctan2
+    degrees_func = np.degrees
+
+    ucomp = xr_df.u_component_of_wind.values
+    vcomp = xr_df.v_component_of_wind.values
+    wind_dims = xr_df.u_component_of_wind.dims
+
+    xr_df["windspeed_kts"] = xr.DataArray(
+        sqrt_func((ucomp**2) + (vcomp**2)) * MS_TO_KTS, dims=wind_dims
+    )
+    xr_df["winddir"] = xr.DataArray(
+        degrees_func(arctan2_func(-ucomp, -vcomp)) % 360, dims=wind_dims
+    )
+    return xr_df
 
 
 def press_grb_to_xr(grb_obj):
@@ -78,8 +104,8 @@ def press_grb_to_xr(grb_obj):
             attrs=data_attrs,
         )
 
-    varlist["lat"] = xr.DataArray(lats, dims=("xi", "yi"))
-    varlist["lon"] = xr.DataArray(lons, dims=("xi", "yi"))
+    varlist["latitude"] = xr.DataArray(lats, dims=("xi", "yi"))
+    varlist["longitude"] = xr.DataArray(lons, dims=("xi", "yi"))
 
     varlist["coarse_press"] = xr.DataArray(cpres, dims=("coarse_press"))
     varlist["fine_press"] = xr.DataArray(fpres, dims=("fine_press"))
@@ -115,8 +141,8 @@ def surf_grb_to_xr(grb_obj):
             data=i.values, dims=("xi", "yi"), attrs=data_attrs
         )
 
-    varlist["lat"] = xr.DataArray(lats, dims=("xi", "yi"))
-    varlist["lon"] = xr.DataArray(lons, dims=("xi", "yi"))
+    varlist["latitude"] = xr.DataArray(lats, dims=("xi", "yi"))
+    varlist["longitude"] = xr.DataArray(lons, dims=("xi", "yi"))
 
     xr_dset = xr.Dataset(varlist)
     return xr_dset
@@ -155,6 +181,8 @@ def read_atmos(filenames):
         tmp_sl = pg_frame.select(typeOfLevel="atmosphereSingleLayer")
         single_atm_xr = surf_grb_to_xr(tmp_sl)
 
+        xr_pres = convert_uv_to_kts(xr_pres)
+
         xr_list["gfs_pressure"].append(xr_pres)
         xr_list["gfs_surface"].append(surface_xr)
         xr_list["gfs_singlelayer"].append(single_atm_xr)
@@ -164,11 +192,28 @@ def read_atmos(filenames):
         fcst_time.append(tmp_sl[0].validDate)
 
     tvar = xr.DataArray(base_time, dims=("atime"))
+    bname = list(map(basename, filenames))
+    res = float(".".join(bname[0].split(".")[3].split("p"))) * 111
+
+    xr_attrs = {
+        "source_file_name": bname,
+        "start_datetime": base_time[0],
+        "end_datetime": fcst_time[-1],
+        "source_name": "gfs",
+        "platform_name": "model",
+        "data_provider": "NOAA",
+        "sample_distance_km": res,
+        "interpolation_radius_of_influence": 1000,
+    }
 
     for k in xr_list.keys():
         xr_list[k] = xr.concat(xr_list[k], tvar)
         xr_list[k]["forcast_time"] = xr.DataArray(fcst_time, dims=("atime"))
-
+        xr_list[k] = xr_list[k].assign_attrs(xr_attrs)
+        # fix lat lon shape (fix upstream)
+        xr_list[k]['latitude'] = xr_list[k]['latitude'][0]
+        xr_list[k]['longitude'] = xr_list[k]['longitude'][0]
+    
     return xr_list
 
 
@@ -210,28 +255,28 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     base_fnames = list(map(basename, fnames))
     fnames = sorted(fnames)
+
+    tmp_read = pyg.open(fnames[0])
+    tmp_val = tmp_read.read(1)[0]
+
+    dtime_start = tmp_val.analDate
+    dtime_end = tmp_val.validDate
+
+    # rough resolution from degrees
+    res = float(".".join(base_fnames[0].split(".")[3].split("p"))) * 111
+    tmp_xr = xr.Dataset(
+        attrs={
+            "source_file_name": base_fnames,
+            "start_datetime": dtime_start,
+            "end_datetime": dtime_end,
+            "source_name": "gfs",
+            "platform_name": "model",
+            "data_provider": "NOAA",
+            "sample_distance_km": res,
+            "interpolation_radius_of_influence": 1000,
+        }
+    )
     if metadata_only:
-
-        tmp_read = pyg.read(fnames[0])
-        tmp_val = tmp_read.read(1)[0]
-
-        dtime_start = tmp_val.analDate
-        dtime_end = tmp_val.validDate
-
-        # rough resolution from degrees
-        res = float(".".join(base_fnames[0].split(".")[3].split("p"))) * 111
-        tmp_xr = xr.Dataset(
-            attrs={
-                "source_file_name": base_fnames,
-                "start_datetime": dtime_start,
-                "end_datetime": dtime_end,
-                "source_name": "gfs",
-                "platform_name": "model",
-                "data_provider": "NOAA",
-                "sample_distance_km": res,
-                "interpolation_radius_of_influence": 1000,
-            }
-        )
         tmp_dict = {"METADATA": tmp_xr}
         return tmp_dict
 
@@ -244,5 +289,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xr_array = read_atmos(fnames)
     elif "gfs_wave" in gfs_type:
         xr_array = read_wave(fnames)
+
+    xr_array["METADATA"] = tmp_xr
 
     return xr_array
