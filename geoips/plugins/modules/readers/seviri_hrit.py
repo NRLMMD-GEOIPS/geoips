@@ -881,6 +881,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     if len(times) == 1:
         # No need to stack if we are only reading in one scan time
         # This is likely temporary to maintain backwards compatibility
+
+        # This is not hit if we are provided multiple scan times.
         return data_dict
 
     import xarray
@@ -897,7 +899,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         merged_dset = merged_dset.assign_coords({"time_dim": times})
         dict_xarrays[dname] = merged_dset
 
-    metadata = data_dict["METADATA"]
+    metadata = all_metadata["METADATA"]
     metadata.attrs["start_datetime"] = min(times)
     metadata.attrs["end_datetime"] = max(times)
     dict_xarrays["METADATA"] = metadata
