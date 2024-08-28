@@ -990,15 +990,14 @@ def process_xarray_dict_to_output_format(
             in_xobjs = xobjs[prod_plugin.name]
         else:
             in_xobjs = xobjs
-        # Produce your outputs
+        # Apply unprojected image output formatter
+        LOG.info("Applying output formatter of family %s", output_plugin.family)
         curr_products = output_plugin(
             in_xobjs,
             prod_plugin.name,
             output_fnames,
             **output_formatter_kwargs,
         )
-        # Apply unprojected image output formatter
-        LOG.info("Applying output formatter of family %s", output_plugin.family)
 
     else:
         raise TypeError(
