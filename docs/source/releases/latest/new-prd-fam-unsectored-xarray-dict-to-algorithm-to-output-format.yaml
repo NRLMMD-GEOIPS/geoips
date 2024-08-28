@@ -12,7 +12,13 @@ performance:
   files:
     added:
       - geoips/schema/product_defaults/unsectored_xarray_dict_to_algorithm_to_output_format.yaml
+      - tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png
+      - tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh
     modified:
       - geoips/plugins/modules/procflows/single_source.py
+      - geoips/plugins/yaml/products/seviri.yaml
+      - setup/check_system_requirements.sh
+      - tests/integration_tests/full_install.sh
+      - tests/integration_tests/full_test.sh
   title: New Product Family unsectored_xarray_dict_to_algorithm_to_output_format
 
