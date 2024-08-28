@@ -982,11 +982,15 @@ def process_xarray_dict_to_output_format(
                 " try again."
             )
         # Unprojected Output formatter expects the xarray including the data for your
-        # product rather than a dictionary containing that xarray
+        # product rather than a dictionary containing that xarray. We probably could
+        # just default to 'xobjs[prod_plugin.name]', however adding this conditional
+        # doesn't hurt in the case xobjs is an xarray.Dataset(). Shouldn't happen,
+        # but again, doesn't hurt to add this functionality.
         if isinstance(xobjs, dict):
             in_xobjs = xobjs[prod_plugin.name]
         else:
             in_xobjs = xobjs
+        # Produce your outputs
         curr_products = output_plugin(
             in_xobjs,
             prod_plugin.name,
