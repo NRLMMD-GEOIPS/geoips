@@ -11,6 +11,7 @@ import inspect
 import xarray
 
 # Internal utilities
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
@@ -953,6 +954,47 @@ def process_xarray_dict_to_output_format(
         LOG.info(
             "Not checking output file list for output family %s", output_plugin.family
         )
+
+    # We theoretically can do this for all output_formatters that don't require an area
+    # definition
+    elif output_plugin.family == "unprojected":
+        # If there is not a colormap dictionary already provided in output_formatter
+        # kwargs, then try to retrieve it here. If it's not possible, raise a
+        # PluginError which points out that no colormapper plugin was provided and
+        # therefore we can't produce an unprojected image.
+        if "mpl_colors_info" not in output_formatter_kwargs:
+            prd_plg = products.get_plugin(
+                prod_plugin["source_names"][0], prod_plugin.name
+            )
+            cmap_name = (
+                prd_plg["spec"].get("colormapper", {}).get("plugin", {}).get("name")
+            )
+            if cmap_name:
+                cmap_plg = colormappers.get_plugin(cmap_name)
+                output_formatter_kwargs["mpl_colors_info"] = cmap_plg(
+                    **prd_plg["spec"]["colormapper"]["plugin"]["arguments"]
+                )
+        else:
+            raise PluginError(
+                f"Error: product plugin '{prod_plugin.name}' does not have a "
+                "colormapper plugin that is needed for the 'unprojected_image'"
+                "output formatter. Please add a colormapper plugin to your product, and"
+                " try again."
+            )
+        # Unprojected Output formatter expects the xarray including the data for your
+        # product rather than a dictionary containing that xarray
+        if isinstance(xobjs, dict):
+            in_xobjs = xobjs[prod_plugin.name]
+        else:
+            in_xobjs = xobjs
+        curr_products = output_plugin(
+            in_xobjs,
+            prod_plugin.name,
+            output_fnames,
+            **output_formatter_kwargs,
+        )
+        # Apply unprojected image output formatter
+        LOG.info("Applying output formatter of family %s", output_plugin.family)
 
     else:
         raise TypeError(
