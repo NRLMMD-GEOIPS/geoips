@@ -1963,6 +1963,13 @@ def call(fnames, command_line_args=None):
                 window_start_time=window_start_time,
                 window_end_time=window_end_time,
             )
+        # This is a workaround so these products can use single source and other
+        # algorithms which don't return a dictionary of xarrays. Just convert this back
+        # to a dictionary under the hood and hope the metadata included in 'xdict.attrs'
+        # is enough for your filename formatter.
+        if not isinstance(xdict, dict):
+            xdict = {prod_plugin.name: xdict, "METADATA": xdict[[]]}
+
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
