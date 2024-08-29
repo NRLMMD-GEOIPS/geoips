@@ -4,6 +4,7 @@
 """Matplotlib-based unprojected image output."""
 
 import logging
+from os.path import basename, dirname, join
 
 import matplotlib.pyplot as plt
 import matplotlib
@@ -28,6 +29,7 @@ def call(
     x_size=None,
     y_size=None,
     savefig_kwargs=None,
+    is_3d=False,
 ):
     """Plot unprojected image to matplotlib figure."""
     if savefig_kwargs is None:
@@ -60,22 +62,42 @@ def call(
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
-    main_ax.imshow(
-        xarray_obj[product_name],
-        norm=mpl_colors_info["norm"],
-        cmap=mpl_colors_info["cmap"],
-    )
-
-    success_outputs = []
-    for fname in output_fnames:
-        LOG.info("Plotting %s with plt", fname)
-        # This just handles cleaning up the axes, creating directories, etc
-        success_outputs += save_image(
-            fig,
-            fname,
-            is_final=False,
-            image_datetime=xarray_obj.start_datetime,
-            savefig_kwargs=savefig_kwargs,
+    if is_3d:
+        slices = [
+            xarray_obj[product_name].data[slice]
+            for slice in range(xarray_obj[product_name].data.shape[0])
+        ]
+    else:
+        slices = [xarray_obj[product_name].data]
+    LOG.info("Before for loop")
+    for slice_idx, slice_data in enumerate(slices):
+        main_ax.clear()
+        LOG.info("Calling imshow")
+        main_ax.imshow(
+            slice_data,
+            norm=mpl_colors_info["norm"],
+            cmap=mpl_colors_info["cmap"],
         )
+
+        success_outputs = []
+        LOG.info("Fname for loop")
+        for fname in output_fnames:
+            if is_3d:
+                lvl_km = str(slice_idx * 0.5).split(".")
+                lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0."
+                final_fname = join(dirname(fname), f"{lvl_str}{basename(fname)}")
+            else:
+                final_fname = fname
+            LOG.info("Plotting %s with plt", fname)
+            # This just handles cleaning up the axes, creating directories, etc
+            LOG.info("Writing image")
+            success_outputs += save_image(
+                fig,
+                final_fname,
+                is_final=False,
+                image_datetime=xarray_obj.start_datetime,
+                savefig_kwargs=savefig_kwargs,
+            )
+            LOG.info("Saved image")
 
     return success_outputs
