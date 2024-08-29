@@ -10,6 +10,10 @@ coverage-checkers:
   - cchk
   - cchks
   - coverage-checker
+driver-configs:
+  - dconf
+  - dconfs
+  - driver-config
 filename-formatters:
   - ffmt
   - ffmts
