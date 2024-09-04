@@ -33,6 +33,7 @@ have been used with this plugin.  This plugin should be considered experimental
 and is not guaranteed to work with all of Satpy's readers.
 """
 
+import glob
 import logging
 from typing import Any, Dict, List, Optional, Tuple
 
@@ -133,3 +134,24 @@ def _compute_coords(
     lats = xr.DataArray(lats_np, dims={"y": coord_y, "x": coord_x})
 
     return lons, lats
+
+
+def get_test_files(test_data_dir):
+    """Generate testing xarray from test data."""
+    filepath = test_data_dir + "/test_data_noaa_aws/data/goes16/20200918/1950/*.nc"
+    filelist = glob.glob(filepath)
+    channel_groups = {"0.5km": ["C02"], "2km": ["C11", "C12", "C13"]}
+    tmp_xr = call(filelist, "abi", "abi_l1b", channel_groups, "goes16")
+    if len(filelist) == 0:
+        raise NameError("No files found")
+    return tmp_xr
+
+
+def get_test_parameters():
+    """Generate test data key for unit testing."""
+    return [
+        {"data_key": "0.5km", "data_var": "C02", "mean": 13.058826},
+        {"data_key": "2km", "data_var": "C11", "mean": 276.52844},
+        {"data_key": "2km", "data_var": "C12", "mean": 256.0734},
+        {"data_key": "2km", "data_var": "C13", "mean": 279.05426},
+    ]
