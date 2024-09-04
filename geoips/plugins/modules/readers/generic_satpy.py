@@ -34,7 +34,7 @@ and is not guaranteed to work with all of Satpy's readers.
 """
 
 import logging
-from typing import Any, Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple
 
 import dask
 import pyresample.geometry
@@ -63,11 +63,6 @@ def call(
     self_register: bool = False,
     roi: float = 3000,
     satpy_reader_kwargs: Optional[Dict[str, Any]] = None,
-    calibration: Union[List[str], str] = "*",
-    resolution: Union[List[float], float] = "*",
-    polarization: Union[List[str], str] = "*",
-    level: Union[List[float], str] = "*",
-    modifiers: Union[List[str], str] = "*",
     load_kwargs: Optional[Dict[str, Any]] = None,
     force_compute: bool = True,
     coord_chunks: int = DEFAULT_COORD_CHUNK,
@@ -90,11 +85,6 @@ def call(
 
     scene.load(
         all_channels,
-        calibration=calibration,
-        resolution=resolution,
-        polarization=polarization,
-        level=level,
-        modifiers=modifiers,
         **load_kwargs,
     )
 
