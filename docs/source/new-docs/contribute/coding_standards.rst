@@ -44,6 +44,7 @@ Classes
 """""""
 
 .. dropdown:: Example
+
   .. code-block:: python
 
     class Calculator:
@@ -139,6 +140,7 @@ Methods
 """""""
 
 .. dropdown:: Example
+
   .. code-block:: python
 
     def matrix_multiply(a, b, out=None):
@@ -250,7 +252,9 @@ Modules
 """""""
 
 .. dropdown:: Example
+
   .. code-block:: python
+
         """A simple mathematics module for common operations.
 
         This module provides basic mathematical operations such as addition, subtraction,
