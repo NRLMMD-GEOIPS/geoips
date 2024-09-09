@@ -75,7 +75,7 @@ If desired, the GeoIPS environment variables can be added to your
   .. code:: bash
 
       chmod u+x ./Mambaforge-Linux-x86_64.sh
-      # No terminal reconnect is required afterward.
+      # No terminal reconnection is required afterward.
       # Make sure you set env vars again if you restart your terminal !
       ./Mambaforge-Linux-x86_64.sh
       # Run source ~/.bashrc to apply the Conda configurations.
