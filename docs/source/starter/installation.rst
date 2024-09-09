@@ -69,8 +69,8 @@ If desired, the GeoIPS environment variables can be added to your
 
 - Make the installation script executable, and run the installer.
   Accept the license terms and cofirm the location.
-- You would see a message from installer asking to close and
-  re-open the shell at the end of installation which is not required.
+- You will see a message from the installer asking you to close and re-open
+  the shell at the end of the installation, but this step is not required.
 
   .. code:: bash
 
