@@ -174,10 +174,8 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                     f"File is {sizeof_fmt(file_length)}... ",
                     style="cyan",
                 )
-                # using filter="data" for potential security vulnerability
-                # see docs.python.org/3/library/tarfile.html#tarfile-extraction-filter
-                # for more security information
-                tar.extractall(path=dest, filter="data")  # nosec
+                # Trusting archives to not be malicious by not filtering files
+                tar.extractall(path=dest)  # nosec
         output_to_console("Success. Files downloaded and extracted.", style="green")
     except Exception as e:
         output_to_console("Failed to download or extract files.", style="bold red")
