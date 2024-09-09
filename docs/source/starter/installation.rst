@@ -87,7 +87,7 @@ If desired, the GeoIPS environment variables can be added to your
       # Clean up after yourself
       rm -f ./Mambaforge-Linux-x86_64.sh
 
-1. Create and activate a conda environment with some dependencies
+3. Create and activate a conda environment with some dependencies
 -----------------------------------------------------------------
 
 Next we'll create a conda environment named ``geoips`` that contains all system
