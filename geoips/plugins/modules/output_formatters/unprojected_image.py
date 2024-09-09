@@ -8,6 +8,7 @@ from os.path import basename, dirname, join
 
 import matplotlib.pyplot as plt
 import matplotlib
+import numpy as np
 
 from geoips.image_utils.mpl_utils import save_image
 
@@ -69,20 +70,29 @@ def call(
         ]
     else:
         slices = [xarray_obj[product_name].data]
-    LOG.info("Before for loop")
     for slice_idx, slice_data in enumerate(slices):
         main_ax.clear()
-        LOG.info("Calling imshow")
+        # Needs to be flipped upside-down as incoming data is flipped if unprojected.
+        # This is the case for family
+        # unsectored_xarray_dict_to_algorithm_to_output_format, but I'm not sure if it
+        # applies to all other families that use this output formatter. We should look
+        # into this.
         main_ax.imshow(
-            slice_data,
+            np.flipud(slice_data),
             norm=mpl_colors_info["norm"],
             cmap=mpl_colors_info["cmap"],
         )
 
         success_outputs = []
-        LOG.info("Fname for loop")
         for fname in output_fnames:
             if is_3d:
+                # This is generic for overcast data, on the order of (level) * 0.5 km.
+                # I.e. if level == 5, lvl_str == '02_50.'. This is an easy way to denote
+                # what height each image corresponds to, though I'm not sure if we
+                # should hardcode this string here. Maybe create a new filename
+                # formatter for that data or we can add a new argument to this plugin
+                # which handles fname conventions for 3D data. Such as a function which
+                # produces a pre-prended string to the corresponding fname.
                 lvl_km = str(slice_idx * 0.5).split(".")
                 lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0."
                 final_fname = join(dirname(fname), f"{lvl_str}{basename(fname)}")
@@ -90,7 +100,6 @@ def call(
                 final_fname = fname
             LOG.info("Plotting %s with plt", fname)
             # This just handles cleaning up the axes, creating directories, etc
-            LOG.info("Writing image")
             success_outputs += save_image(
                 fig,
                 final_fname,
@@ -98,6 +107,5 @@ def call(
                 image_datetime=xarray_obj.start_datetime,
                 savefig_kwargs=savefig_kwargs,
             )
-            LOG.info("Saved image")
 
     return success_outputs
