@@ -1,21 +1,14 @@
-# Import necessary modules like os, subprocess, and sys for system operations
+import shutil
+import os
 
-
-def print_separator():
-    """
-    Function to print a separator of asterisks for visual clarity.
-    """
-    print("***")
+import rich
+import rich_argparse
 
 
 def validate_arguments(args):
     """
     Validate input arguments. Must have at least two arguments: repo path and package name.
     """
-    if len(args) < 2:
-        print_separator()
-        print_error_message_for_args()
-        exit_script(1)
 
 
 def print_error_message_for_args():
@@ -30,17 +23,11 @@ def print_error_message_for_args():
     print("***************************************************************************")
 
 
-def check_sphinx_installed():
+def is_installed_and_in_path(program):
     """
-    Check if sphinx-apidoc is installed. If not, exit the script with an error.
+    Return True if provided program is is installed and accessible.
     """
-    sphinx_path = run_command("which sphinx-apidoc")
-    if not sphinx_path:
-        print_separator()
-        print("ERROR: sphinx must be installed prior to building documentation")
-        print("  pip install -e geoips[doc]")
-        print_separator()
-        exit_script(1)
+    return shutil.which(program) is not None
 
 
 def validate_repo_path(repo_path):
@@ -48,40 +35,27 @@ def validate_repo_path(repo_path):
     Validate if the repository path exists.
     """
     if not path_exists(repo_path):
-        print_separator()
         print(f"ERROR: Passed repository path does not exist: {repo_path}")
-        print_separator()
         exit_script(1)
-
-
-def realpath(path):
-    """
-    Get the absolute real path of the given directory.
-    """
-    # Simulate a realpath function
-    return os.path.abspath(path)
 
 
 def validate_package_installation(package_name):
     """
     Check if the package is installed using pip. Exit if not installed.
     """
+    # look at this: https://stackoverflow.com/questions/14050281/how-to-check-if-a-python-module-exists-without-importing-it#:~:text=Python%203%20%E2%89%A5%203.4%3A%20importlib.util.find_spec
     result = run_command(f"pip show {package_name}")
     if result.failed:
-        print_separator()
         print(f"ERROR: Package {package_name} is not installed")
-        print_separator()
-        exit_script(1)
     else:
-        print_separator()
         print(f"Package {package_name} is already installed!")
-        print_separator()
 
 
 def determine_build_requirements(args):
     """
     Determine whether the script should build PDF or HTML documentation based on input arguments.
     """
+    # TODO: REMOVE THIS FUNC
     pdf_required = True
     html_required = True
     if len(args) >= 3:
@@ -113,10 +87,9 @@ def validate_geoips_doc_path(geoips_doc_path):
     """
     Ensure that the geoips doc path exists.
     """
+    # TODO: REMOVE FUNC
     if not path_exists(geoips_doc_path):
-        print_separator()
         print(f"ERROR: GeoIPS docs path does not exist: {geoips_doc_path}")
-        print_separator()
         exit_script(1)
 
 
@@ -174,30 +147,6 @@ def update_release_note_index(geoips_doc_path, doc_base_path, geoips_version):
         exit_script(1)
 
 
-def build_pdf_docs_if_required(
-    buildfrom_doc_path, doc_base_path, pkgname, pdf_required
-):
-    """
-    Build PDF documentation if required, and check for LaTeX installation.
-    """
-    if pdf_required:
-        latex_installed = run_command("which latex")
-        if not latex_installed:
-            print("ERROR: LaTeX must be installed to build PDFs.")
-            revert_index_rst(doc_base_path)
-            exit_script(1)
-
-        # Build LaTeX using Sphinx
-        run_command(
-            f"sphinx-build {buildfrom_doc_path}/source {doc_base_path}/build/sphinx/latex -b latex -W --keep-going"
-        )
-
-        # Run make to build the PDF from LaTeX files
-        run_command(f"cd {doc_base_path}/build/sphinx/latex && make")
-        if make_failed:
-            exit_script(1)
-
-
 def build_html_docs_if_required(
     buildfrom_doc_path, doc_base_path, geoips_doc_path, html_required, geoips_doc_dir
 ):
@@ -224,20 +173,10 @@ def revert_index_rst(doc_base_path):
     run_command(f"git -C {doc_base_path} checkout docs/source/releases/index.rst")
 
 
-def exit_script(return_value):
-    """
-    Exit the script with a specific return value.
-    """
-    print(f"Exiting with status: {return_value}")
-    sys.exit(return_value)
-
-
-# Main function that coordinates the flow
 def main(args):
     """
     Main function that drives the entire script execution.
     """
-    print_separator()
     validate_arguments(args)
 
     repo_path = realpath(args[0])
