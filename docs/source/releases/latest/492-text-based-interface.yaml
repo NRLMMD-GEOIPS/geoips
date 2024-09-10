@@ -1,0 +1,81 @@
+enhancement:
+- description: |
+    *From GEOIPS#492: 2024-04-12, Need to Address Text-Based Plugins*
+
+    Related PRs:
+    * *From NRLMMD-GEOIPS/data_fusion#32: 2024-04-24, replaced all occurences of
+      ``matplotlib_linear_norm`` with ``linear_norm``*
+
+    While there are not many, GeoIPS has some text-based plugins which currently do not have
+    a supporting interface. Currently, we only have ascii palettes implemented as text based
+    plugins, and in truth, we do not treat them as we do other GeoIPS Plugins. Instead, the
+    ascii palettes defined in these plugins are used in tandom alongside GeoIPS Colormappers
+    to correctly get and apply the palette.
+
+    To prepare GeoIPS to be able to handle other types of text based plugins, we've decided
+    to create a Text-Based Interface which can handle text plugins. This Interface acts
+    similarly to both Yaml and Module based interfaces, and has functionality such as
+    ``get_plugin`` and ``get_plugins``. This PR only supports ``ascii palette``
+    text plugins, but was structured in a manner that could support other types of text
+    plugins in the future.
+
+    ``ascii_palette`` plugins have a ``colormap`` attrubute, which is a
+    ``Matplotlib.colors.ListedColormap`` which was created based on the ascii palette
+    defined in the plugins source file. This ``colormap`` attribute can then be used
+    alongside a colormapper to correctly apply the ascii palette to a certain output.
+
+    A large number of the yaml files below were modified because we've renamed colormapper
+    ``matplotlib_linear_norm`` to ``linear_norm`` instead. We did this because the original
+    name was inaccurate, as that colormapper didn't just produce matplotlib-based colormaps.
+  files:
+    added:
+      - geoips/interfaces/text_based/__init__.py
+      - geoips/interfaces/text_based/ascii_palettes.py
+      - geoips/plugins/modules/colormappers/ascii_based.py
+      - geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_cimss.yaml
+      - geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_purple.yaml
+      - geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_pwat.yaml
+      - geoips/plugins/yaml/products/test_ascii.yaml
+      - tests/scripts/mimic_coarse.static.ascii_tpw_cimss.imagery_annotated.sh
+      - tests/scripts/mimic_fine.tc.ascii_tpw_pwat.imagery_annotated.sh
+      - tests/unit_tests/plugins/text/ascii_palettes/test_ascii_palettes.py
+      - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/good.txt
+      - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/invalid_palette.txt
+      - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_docstring.txt
+      - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_palette.txt
+      - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_required_attr.txt
+    modified:
+      - geoips/create_plugin_registries.py
+      - geoips/errors.py
+      - geoips/geoips_utils.py
+      - geoips/image_utils/colormap_utils.py
+      - geoips/interfaces/__init__.py
+      - geoips/interfaces/base.py
+      - geoips/interfaces/module_based/colormappers.py
+      - pyproject.toml
+      - geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
+      - geoips/plugins/txt/ascii_palettes/tpw_purple.txt
+      - geoips/plugins/yaml/product_defaults/Uncorrected-Channel.yaml
+      - geoips/plugins/yaml/product_defaults/sfc_winds/incident-angle.yaml
+      - geoips/plugins/yaml/product_defaults/sfc_winds/nrcs.yaml
+      - geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
+      - geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
+      - geoips/plugins/yaml/product_defaults/visir/Infrared-Gray.yaml
+      - geoips/plugins/yaml/product_defaults/visir/Night-Vis-GeoIPS1.yaml
+      - geoips/plugins/yaml/product_defaults/visir/Night-Vis.yaml
+      - geoips/plugins/yaml/product_defaults/visir/Visible.yaml
+      - geoips/plugins/yaml/products/abi.yaml
+      - geoips/plugins/yaml/products/ahi.yaml
+      - geoips/plugins/yaml/products/ascat.yaml
+      - geoips/plugins/yaml/products/ascatuhr.yaml
+      - geoips/plugins/yaml/products/modis.yaml
+      - geoips/plugins/yaml/products/seviri.yaml
+      - geoips/plugins/yaml/products/viirs.yaml
+    moved:
+      - geoips/plugins/modules/colormappers/matplotlib_linear_norm.py --> linear_norm.py
+  related-issue:
+    number: 492
+    repo_url: https://github.com/NRLMMD-GEOIPS/geoips
+  title: 'Created Interface for Text-Based Plugins'
+
+
