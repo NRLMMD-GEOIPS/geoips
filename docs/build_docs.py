@@ -1,8 +1,78 @@
+import logging
+import argparse
+import logging.handlers
 import shutil
 import os
 
 import rich
+from rich.logging import RichHandler
+from rich.traceback import install as install_rich_tracebacks
 import rich_argparse
+
+
+def init_logger(use_rich):
+    logger = logging.getLogger("build_docs")
+    if use_rich:
+        install_rich_tracebacks()
+        logging_handlers = [RichHandler(rich_tracebacks=True)]
+    else:
+        logging_handlers = [logging.StreamHandler()]
+
+    logging.basicConfig(level=logging.DEBUG, datefmt="[%X]", handlers=logging_handlers)
+    logger.debug("Program initialized")
+    return logger
+
+
+def parse_args():
+    # Initialize parser with an example usage in the description
+    parser = argparse.ArgumentParser(
+        description=(
+            "Build Sphinx documentation for GeoIPS related packages.\n"
+            "Example: build_docs.py /path/to/repo geoips --geoips-version v1.0.0"
+        ),
+        formatter_class=rich_argparse.RichHelpFormatter,
+    )
+
+    # Required positional arguments
+    parser.add_argument(
+        "repo_path",
+        type=str,
+        help="Path to the repository (e.g., /path/to/geoips). Must be an existing directory.",
+    )
+    parser.add_argument(
+        "package_name",
+        type=str,
+        help="Name of the package to build (e.g., geoips, data_fusion).",
+    )
+
+    # Optional argument: path to documentation templates
+    default_docs_path = (
+        os.getenv("GEOIPS_PACKAGES_DIR", "") + "/geoips/docs"
+        if os.getenv("GEOIPS_PACKAGES_DIR")
+        else None
+    )
+    parser.add_argument(
+        "--docs-path",
+        type=str,
+        default=default_docs_path,
+        help=(
+            "Path to GeoIPS documentation templates. "
+            "Default is '$GEOIPS_PACKAGES_DIR/geoips/docs' if the environment variable is set."
+        ),
+    )
+
+    # Optional argument: version (default to 'latest')
+    parser.add_argument(
+        "--set-version",
+        type=str,
+        default="latest",
+        help="Version of the package. Default is 'latest'.",
+    )
+
+    # Parse arguments
+    args = parser.parse_args()
+
+    return args
 
 
 def validate_arguments(args):
@@ -173,18 +243,27 @@ def revert_index_rst(doc_base_path):
     run_command(f"git -C {doc_base_path} checkout docs/source/releases/index.rst")
 
 
-def main(args):
+def main(repo_path, package_name):
     """
     Main function that drives the entire script execution.
     """
-    validate_arguments(args)
+    log = init_logger(True)
 
-    repo_path = realpath(args[0])
-    pkgname = args[1]
+    log.info(f"Repo path is {repo_path}")
+    log.info(f"Package name is {package_name}")
+
+    for env_var in ["GEOIPS_REPO_URL", "GEOIPS_PACKAGES_DIR"]:
+        value = os.getenv(env_var, "UNSET")
+        log.debug(f"Environmental variable {env_var} is {value}")
+
+    if not is_installed_and_in_path("sphinx-autodoc"):
+        raise ModuleNotFoundError("!")
 
     check_sphinx_installed()
     validate_repo_path(repo_path)
     validate_package_installation(pkgname)
+
+    raise NotImplementedError("Nothing implemented beyond this")
 
     pdf_required, html_required = determine_build_requirements(args)
     geoips_doc_path, geoips_version = setup_doc_paths(args)
@@ -196,7 +275,6 @@ def main(args):
     generate_release_notes_if_needed(repo_path, geoips_version)
     update_release_note_index(geoips_doc_path, repo_path, geoips_version)
 
-    build_pdf_docs_if_required(repo_path, repo_path, pkgname, pdf_required)
     build_html_docs_if_required(
         repo_path,
         repo_path,
@@ -208,10 +286,11 @@ def main(args):
     revert_index_rst(repo_path)
 
     # Summarize return values and exit
-    print("Script completed successfully.")
-    exit_script(0)
+    log.info("Script completed successfully.")
 
 
 # Execute the main function with command line arguments
 if __name__ == "__main__":
-    main(sys.argv[1:])
+    args = parse_args()
+    # validate_arguments()
+    main(repo_path=args.repo_path, package_name=args.package_name)
