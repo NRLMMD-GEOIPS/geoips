@@ -1,16 +1,9 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
 
-Version 1.12.2a0 (2024-02-19)
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.12.2a0 (2024-02-21)
 *****************************
 
 * Enhancements
@@ -22,6 +15,7 @@ Version 1.12.2a0 (2024-02-19)
   * Introduced documentation for coding standards for bringing code to standard.
   * Introduced documentation for PEP8 standards.
   * Added documentation for current linters and configuration.
+
 * Bug fixes
 
   * Fix polar data not showing up in imagery
@@ -46,6 +40,9 @@ Version 1.12.2a0 (2024-02-19)
 * Testing Updates
 
   * Move pytest validation from plugin_registry.py to unit tests.
+* Documentation
+
+  * Add documentation about optional pdflatex dependency
 
 Testing Updates
 ===============

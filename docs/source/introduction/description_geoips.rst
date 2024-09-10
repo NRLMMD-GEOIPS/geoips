@@ -1,16 +1,8 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
 
-*********************
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
 Description of GeoIPS
 *********************
 
@@ -29,7 +21,8 @@ have simple inputs and outputs (Python numpy or dask arrays or xarrays, dictiona
 portability and simplified interfacing between modules.
 
 Some of the primary benefits / requirements of GeoIPS include:
-    * Seamless application to proprietary data types and products (no reference to external functionality within the main code base)
+    * Seamless application to proprietary data types and products (no reference to external functionality within the
+      main code base)
     * Consistent product application across multiple sensors (both open source and proprietary)
     * Flexible workflow to allow efficient real-time processing as well as interactive processing
     * Modular interfaces to facilitate product development
@@ -40,7 +33,6 @@ Some of the primary benefits / requirements of GeoIPS include:
 
 .. image:: ../images/geoips_overview/GeoIPS_Structure_Overview.png
    :width: 800
-
 
 GeoIPS Scope
 ============

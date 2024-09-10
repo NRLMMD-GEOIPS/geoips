@@ -1,20 +1,11 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Module for generating specific colormaps on the fly."""
 # Installed Libraries
 import logging
 import ast
-from matplotlib import cm
+from matplotlib import pyplot as plt
 
 from geoips.interfaces import ascii_palettes
 
@@ -52,7 +43,7 @@ def get_color_palette(source, name):
     """
     if source == "matplotlib" or source == "mpl":
         try:
-            cmap = cm.get_cmap(name)
+            cmap = plt.get_cmap(name)
         except ValueError:
             raise ValueError(f"Colormap {name} not found in source {source}")
     elif source == "ascii":
@@ -129,10 +120,9 @@ def set_matplotlib_colors_standard(
     """
     min_val = data_range[0]
     max_val = data_range[1]
-    from matplotlib import cm
 
     # cmap = cm.ScalarMappable(norm=colors.NoNorm(), cm.get_cmap(cmap_name))
-    mpl_cmap = cm.get_cmap(cmap_name)
+    mpl_cmap = plt.get_cmap(cmap_name)
 
     LOG.info("Setting norm")
     from matplotlib.colors import Normalize

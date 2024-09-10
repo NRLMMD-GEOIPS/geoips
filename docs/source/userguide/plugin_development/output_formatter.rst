@@ -1,18 +1,10 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _create-output-formatter:
 
-*****************************************
 Extend GeoIPS with a New Output Formatter
 *****************************************
 
@@ -34,7 +26,8 @@ Please see documentation for
 :ref:`additional info on these GeoIPS required attributes<required-attributes>`
 
 You can read more about them, including their required arguments and keyword arguments
-(kwargs) `here <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/interfaces/module_based/output_formatters.py>`_.
+(kwargs) `here
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/interfaces/module_based/output_formatters.py>`_.
 The arguments you supply your output formatter completely depend on the intent of your
 output. For example, if outputting an image, the arguments provided to the required
 Module-based ``call`` function, will be very different than that of a NetCDF output.
@@ -134,7 +127,8 @@ CLAVR-x data in a specific netcdf format. Copy and paste the code below into tha
           write_xarray_netcdf(prod_xarray, ncdf_fname)
       return output_fnames
 
-The file above is very simlar to GeoIPS `netcdf_geoips output formatter <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/output_formatters/netcdf_geoips.py>`_,
+The file above is very simlar to GeoIPS `netcdf_geoips output formatter
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/output_formatters/netcdf_geoips.py>`_,
 however, in this case we add additional attributes to our xarray. When creating your own
 output formatter, feel free to add attributes specific to your own needs.
 

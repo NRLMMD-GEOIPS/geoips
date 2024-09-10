@@ -1,8 +1,12 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """GeoIPS CLI "config" command.
 
 Various configuration-based commands for setting up your geoips environment.
 """
 
+from numpy import any
 from os import listdir, environ
 from os.path import abspath, join
 import requests
@@ -13,14 +17,14 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
-    """Config Sub-Command Class for installing packages/data.
+    """Config Command Class for installing packages/data.
 
     Supports installation of packages and test data needed for testing and/or running
     your GeoIPS environment.
     """
 
-    command_name = "install"
-    subcommand_classes = []
+    name = "install"
+    command_classes = []
 
     @property
     def geoips_testdata_dir(self):
@@ -31,7 +35,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
-        self.subcommand_parser.add_argument(
+        self.parser.add_argument(
             "test_dataset_name",
             type=str.lower,
             choices=list(test_dataset_dict.keys()),
@@ -48,10 +52,10 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         test_dataset_name = args.test_dataset_name
         test_dataset_url = test_dataset_dict[test_dataset_name]
-        if test_dataset_name in listdir(self.geoips_testdata_dir):
+        if any([test_dataset_name in fol for fol in listdir(self.geoips_testdata_dir)]):
             print(
                 f"Test dataset '{test_dataset_name}' already exists under "
-                f"'{join(self.geoips_testdata_dir, test_dataset_name)}'. See that "
+                f"'{join(self.geoips_testdata_dir, test_dataset_name)}*/'. See that "
                 "location for the contents of the test dataset."
             )
         else:
@@ -80,7 +84,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         if resp.status_code == 200:
             self.extract_data_cautiously(resp, download_dir)
         else:
-            self.subcommand_parser.error(
+            self.parser.error(
                 f"Error retrieving data from {url}; Status Code {resp.status_code}."
             )
 
@@ -112,5 +116,5 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 class GeoipsConfig(GeoipsCommand):
     """Config top-level command for configuring your GeoIPS environment."""
 
-    command_name = "config"
-    subcommand_classes = [GeoipsConfigInstall]
+    name = "config"
+    command_classes = [GeoipsConfigInstall]

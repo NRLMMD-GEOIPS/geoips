@@ -1,19 +1,12 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _xarray_standards:
 
 Xarray and NetCDF Metadata Standards
-======================================
+====================================
 
 All GeoIPS readers read data into xarray Datasets - a separate dataset for
 each shape/resolution of data - and contain standard metadata information for
@@ -22,7 +15,6 @@ standardized processing.
 Readers should return a dictionary of the resulting xarray Datasets,
 with human readable keys for the different datasets
 (no standard for dictionary key names).
-
 
 Xarray Standard Variables
 -------------------------
@@ -96,9 +88,8 @@ The following optional attributes can be used within processing if available.
     in external viewers (such as the Automated Tropical Cyclone
     Forecasting System)
 
-
 NetCDF CF Standards
---------------------------
+-------------------
 All additional attributes should follow the
 **NetCDF Climate and Forecast (CF) Conventions**.
 

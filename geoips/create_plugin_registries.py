@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Generates all available plugins from all installed GeoIPS packages.
 
@@ -32,6 +23,7 @@ from os.path import (
     relpath as osrelpath,
 )
 from os import remove
+import re
 import sys
 import logging
 from geoips.commandline.log_setup import setup_logging
@@ -41,7 +33,39 @@ from geoips.errors import PluginError, PluginRegistryError
 import json
 from argparse import ArgumentParser
 
+
 LOG = logging.getLogger(__name__)
+
+
+def format_docstring(docstring, use_regex=True):
+    """Format the provided docstring placement in the plugin registry.
+
+    Found when using the CLI and inspecting the registry, some docstrings are formatted
+    in a hard to read manner and look pretty bad. This function will format these
+    docstrings to be easily readable, whether obtained via the CLI or manually inspected
+    in the plugin registry.
+
+    Parameters
+    ----------
+    docstring: str
+        - The docstring which we are going to format.
+    use_regex: bool, optional (default=False)
+        - Whether or not we want to apply regex formatting to the docstring. Usually
+          recommended as it will replace 'newline' chars but not purposeful
+          '.newline' strings.
+    """
+    if docstring:
+        if use_regex:
+            # Regex pattern for subbing out "\n" but not ".\n"
+            pattern = r"(?<!\.)\n"
+            docstring = re.sub(
+                pattern,
+                " ",
+                docstring.strip().replace("\n\n", "\n"),
+            )
+        else:
+            docstring = docstring.strip().replace("\n\n", "\n")
+    return docstring
 
 
 def remove_registries(plugin_packages):
@@ -200,6 +224,12 @@ def registry_sanity_check(plugin_packages, save_type):
                                             # the package Product plugin,
                                             # raise a PluginRegistryError
                                             # and remove the registries.
+                                            pkg_relpath = "not defined"
+                                            if "relpath" in pkg_plugin:
+                                                pkg_relpath = pkg_plugin["relpath"]
+                                            subplg_relpath = "not defined"
+                                            if "relpath" in sub_plg:
+                                                subplg_relpath = sub_plg["relpath"]
                                             error_message += """
                                                 Error with packages:
                                                 [{}, {}]:
@@ -208,14 +238,14 @@ def registry_sanity_check(plugin_packages, save_type):
                                                 plugin name [{}] found under
                                                 subplg name [{}]
                                                 relpath: {}
-                                                subplg relpath: {}""".format(
+                                                subplg relpath: {}\n""".format(
                                                 comp_pkg.value,
                                                 pkg.value,
                                                 interface,
                                                 sub_plg,
                                                 plugin,
-                                                pkg_plugin["relpath"],
-                                                sub_plg["relpath"],
+                                                pkg_relpath,
+                                                subplg_relpath,
                                             )
     if error_message:
         remove_registries(plugin_packages)
@@ -258,14 +288,6 @@ def check_plugin_exists(package, plugins, interface_name, plugin_name, relpath):
             relpath [{relpath}]
             """
     return ""
-
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    if sys.version_info[:3] >= (3, 10, 0):
-        return metadata.entry_points(group=group)
-    else:
-        return metadata.entry_points()[group]
 
 
 def write_registered_plugins(pkg_dir, plugins, save_type):
@@ -401,7 +423,7 @@ def create_plugin_registries(plugin_packages, save_type):
         # Remove all registries to prevent running geoips with an incomplete
         # or corrupt set of plugins.  Force user to resolve errors before
         # proceeding.
-        remove_registries(get_entry_point_group("geoips.plugin_packages"))
+        remove_registries(metadata.entry_points(group="geoips.plugin_packages"))
         # Now raise the error, including the error message with output
         # from every failed plugin/file during the attempted registry process.
         raise PluginRegistryError(error_message)
@@ -605,7 +627,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                 #         if not family:
                 #             family = plugins["product_defaults"][pd]["family"]
                 plugins[interface_name][subplg_source][subplg_product] = {
-                    "docstring": docstring,
+                    "docstring": format_docstring(docstring),
                     "family": family,
                     "interface": interface_module.name,
                     "package": plugin["package"],
@@ -625,7 +647,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
         # attributes should exist. Don't include product_defaults or source_names in
         # this info, because it doesn't apply to this type of plugin.
         plugins[interface_name][plugin["name"]] = {
-            "docstring": plugin["docstring"],
+            "docstring": format_docstring(plugin["docstring"]),
             "family": plugin["family"],
             "interface": plugin["interface"],
             "package": package,
@@ -843,7 +865,7 @@ def add_module_plugin(package, relpath, plugins):
     # is required to have these entries in the registry to be considered a valid
     # plugin.
     plugins[interface_name][name] = {
-        "docstring": module.__doc__,
+        "docstring": format_docstring(module.__doc__),
         "family": family,
         "interface": interface_name,
         "package": package,
@@ -911,7 +933,7 @@ def main():
     LOG = setup_logging(logging_level="INTERACTIVE")
     # Note: Python 3.9 appears to return duplicates when installed with setuptools.
     # These are filtered within the create_plugin_registries function.
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
     if package_name:
         for plugin_package in plugin_packages:
             if plugin_package.name == package_name:

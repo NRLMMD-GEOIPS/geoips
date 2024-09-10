@@ -1,21 +1,12 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _plugin-registries:
 
-
-**********************************
 GeoIPS Plugin Registries
-**********************************
+************************
 
 GeoIPS makes use of plugin registries to reduce start up time. The process of
 locating, loading, and validating all of the plugins in GeoIPS is slow. To
@@ -27,7 +18,7 @@ the legacy dynamic system to the current pre-built plugin registry cache
 reduced startup time for the GeoIPS CLI twenty-fold.
 
 When to Create/Update Plugin Registries
-----------------------------------------
+---------------------------------------
 The plugin registries must be created/updated any time one of the following
 occurs:
 
@@ -198,4 +189,3 @@ their related scripts:
 * Finally, the unit tests that ensure the correct functionality of plugin registries,
   can be found `in the test_plugin_registries.py file
   <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/unit_tests/plugin_registries/test_plugin_registries.py>`_.
-

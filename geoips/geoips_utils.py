@@ -1,28 +1,23 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """General high level utilities for geoips processing."""
 
+import argparse
+import inspect
 import os
 from copy import deepcopy
 import re
-import sys
 import inspect
+from shutil import get_terminal_size
+import json
+from tabulate import tabulate
 
 # import yaml
 import logging
 from importlib import metadata, resources
 
-from geoips.errors import PluginRegistryError
+from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 
 LOG = logging.getLogger(__name__)
 
@@ -36,20 +31,6 @@ def remove_unsupported_kwargs(module, requested_kwargs):
             LOG.warning("REMOVING UNSUPPORTED %s key %s", module, key)
             requested_kwargs.pop(key)
     return requested_kwargs
-
-
-def get_entry_point_group(group):
-    """Get entry point group."""
-    # NOTE: When there is a .egg-info directory in the plugin package top
-    # level (ie, from setuptools pip install -e), it seems to return that
-    # package twice in this list.  For now, just use the full list with
-    # duplicates.
-    if sys.version_info[:3] >= (3, 10, 0):
-        eps = metadata.entry_points(group=group)
-    else:
-        eps = metadata.entry_points()[group]
-
-    return eps
 
 
 def split_camel_case(input_string):
@@ -91,7 +72,7 @@ def find_all_txt_plugins(subdir=""):
     in ``.txt``. Return list of files
     """
     # Load all entry points for plugin packages
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
 
     # Loop over the plugin packages and load all of their yaml plugins
     txt_files = []
@@ -111,7 +92,7 @@ def load_all_yaml_plugins():
     # Load all entry points for plugin packages
     import json
 
-    plugin_packages = get_entry_point_group("geoips.plugin_packages")
+    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
     yaml_plugins = {}
     for pkg in plugin_packages:
         pkg_plug_path = str(resources.files(pkg.value) / "registered_plugins")
@@ -410,3 +391,151 @@ def merge_nested_dicts(dest, src, in_place=True, replace=False):
         raise
     if not in_place:
         return final_dest
+
+
+def expose_geoips_commands(pkg_name=None, _test_log=None):
+    """Expose a list of commands that operate in the GeoIPS environment.
+
+    Where, these commands are defined under 'pyproject.toml:[tool.poetry.scripts]',
+    or 'pyproject.toml:[project.entry-points.console_scripts]'
+
+    Parameters
+    ----------
+    pkg_name: str (default = None)
+        - The name of the GeoIPS Plugin Package whose command's will be exposed.
+        - If None, assume this was called via the commandline and retrieve package_name
+          via that manner. Otherwise use the supplied package_name.
+    _test_log: logging.Logger (default = None)
+        - If provided, use this logger instead. This is added as an optional argument
+          so we can check the output of this command for our Unit Tests.
+    """
+    pkg_name, log = _get_pkg_name_and_logger(pkg_name, _test_log)
+    # Get a list of console_script entrypoints specific to the provided package
+    eps = list(
+        filter(
+            lambda ep: pkg_name in ep.value,
+            metadata.entry_points().select(group="console_scripts"),
+        )
+    )
+    log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    log.interactive(f"Available {pkg_name.title()} Commands")
+    log.interactive("-" * len(f"Available {pkg_name.title()} Commands"))
+    if eps:
+        table_data = [[ep.name, ep.value] for ep in eps]
+        # Log the commands found in a tabular fashion
+        log.interactive(
+            tabulate(
+                table_data,
+                headers=["Command Name", "Command Path"],
+                tablefmt="rounded_grid",
+                maxcolwidths=get_terminal_size().columns // 2,
+            )
+        )
+        # Otherwise let the user know that there were not commands found for this
+        # package.
+    else:
+        log.interactive(f"No '{pkg_name.title()}' Commands were found.")
+
+
+def _get_pkg_name_and_logger(pkg_name, provided_log):
+    """Return the corresponding package name and logger for exposing package commands.
+
+    If pkg_name is None, retrieve pkg_name from the commandline arguments
+    (either -p <package_name> or default 'geoips'). If log is None, set log to the LOG
+    attribute found in this module.
+
+    If either variable isn't None, use what's provided instead. This is used for
+    unit testing primarily.
+
+    Parameters
+    ----------
+    pkg_name: str
+        - The name of the GeoIPS Plugin Package whose command's will be exposed.
+        - If None, assume this was called via the commandline and retrieve package_name
+          via that manner. Otherwise use the supplied package_name.
+        - If supplied, pkg_name must be one of pip installed 'geoips.plugin_packages'.
+          ie. 'recenter_tc', 'geoips_clavrx', 'data_fusion', <your_custom_pkg>, ...
+    provided_log: logging.Logger
+        - If None, retrieve the LOG attribute from this module, otherwise use the
+          provided logger so we can check the output of this function for unit tests.
+
+    Returns
+    -------
+    pkg_name, log: str, logging.Logger
+        - The name of the package to retrieve commands from and the logger used to
+          output it.
+    """
+    plugin_packages = [
+        str(ep.value) for ep in metadata.entry_points(group="geoips.plugin_packages")
+    ]
+    if provided_log:
+        log = provided_log
+    else:
+        log = LOG
+    if pkg_name is None:
+        # This function was called via the command line or None was passed.
+        argparser = argparse.ArgumentParser("expose command")
+        argparser.add_argument(
+            "--package_name",
+            "-p",
+            type=str.lower,
+            default="geoips",
+            choices=plugin_packages,
+            help="GeoIPS Plugin package to expose.",
+        )
+        ARGS = argparser.parse_args()
+        pkg_name = ARGS.package_name
+    else:
+        # This function was called via python
+        if pkg_name not in plugin_packages:
+            raise PluginPackageNotFoundError(
+                f"No such package named '{pkg_name}' found. Make sure that package is "
+                "installed with a package manager such as pip."
+            )
+    return pkg_name, log
+
+
+def is_editable(package_name):
+    """Return whether or not 'package_name' has been installed in editable mode.
+
+    Where editable mode is a local package installed via 'pip install -e <path_to_pkg>
+    and non-editable mode is a local package installed via 'pip install <pact_to_pkg>.
+
+    If the package under package_name doesn't exist, raise a ValueError reporting that.
+
+    Parameters
+    ----------
+    package_name: str
+        - The name of the pip installed local package. (ie. "geoips", "recenter_tc", ..)
+
+    Returns
+    -------
+    editable: bool
+        - The truth value as to whether or not the package was installed in editable
+          mode.
+    """
+    plugin_package_names = [
+        ep.value for ep in metadata.entry_points(group="geoips.plugin_packages")
+    ]
+    if package_name not in plugin_package_names:
+        raise ValueError(
+            f"Package '{package_name}' is not an installed package. Please install it "
+            "before running this command; ie via 'pip install <path_to_package_name>' "
+            "optionally with the '-e' flag. You can also use another package manager."
+        )
+    dist_info = metadata.distribution(package_name).read_text("direct_url.json")
+    # If dist_info is None, package was not installed from source and it was installed
+    # from a pre-built wheel. Therefore it is not in editable mode.
+    if dist_info:
+        # If dist_info is not None, that means we retrieved metadata about the installed
+        # package. Check to see if it's in editable mode or not.
+        json_dist = json.loads(dist_info)
+        if (
+            "dir_info" in json_dist.keys()
+            and "editable" in json_dist["dir_info"].keys()
+            and json_dist["dir_info"]["editable"]
+        ):
+            # If the 'editable' key exists and is True
+            return True
+    # Package is installed in non-editable mode
+    return False
