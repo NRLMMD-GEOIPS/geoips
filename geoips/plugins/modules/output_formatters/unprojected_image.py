@@ -63,6 +63,10 @@ def call(
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
+    # This needs to be done as output_formatter_kwargs can only be specified as strings
+    # (to my knowledge at least)
+    is_3d = str(is_3d) == "True"
+
     if is_3d:
         slices = [
             xarray_obj[product_name].data[slice]
@@ -95,7 +99,15 @@ def call(
                 # produces a pre-prended string to the corresponding fname.
                 lvl_km = str(slice_idx * 0.5).split(".")
                 lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0."
-                final_fname = join(dirname(fname), f"{lvl_str}{basename(fname)}")
+                # This is expected from basic_fname filename_formatter
+                date, time = basename(fname).split(".")[0:2]
+                # Making a directory with date.time/fname as there are 20 images per
+                # file for OVERCAST data
+                final_fname = join(
+                    dirname(fname),
+                    f"{date}.{time}",
+                    f"{lvl_str}{basename(fname)}",
+                )
             else:
                 final_fname = fname
             LOG.info("Plotting %s with plt", fname)
