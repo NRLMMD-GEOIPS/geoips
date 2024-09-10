@@ -4,7 +4,7 @@
 
 """Generic Satpy reader.
 
-Provides a GeoIPS wrapper for Satpy reader functionality. For more detailed
+Provides a GeoIPS wrapper for basi Satpy reader functionality. For more detailed
 documentation of Satpy, see the documentation here:
 https://satpy.readthedocs.io/en/stable/. This reader creates a Scene object with
 the provided filenames and specified reader, then loads provided channels. The
@@ -38,6 +38,7 @@ import logging
 from typing import Any, Dict, List, Optional, Tuple
 
 import dask
+import dask.array
 import pyresample.geometry
 import satpy
 import xarray as xr
@@ -68,6 +69,67 @@ def call(
     force_compute: bool = True,
     coord_chunks: int = DEFAULT_COORD_CHUNK,
 ) -> Dict[str, xr.DataArray]:
+    """Generic Satpy Reader.
+
+    Parameters
+    ----------
+        fnames : List[str]
+            * List of strings, full paths to files
+        source_name : str
+            * The GeoIPS plugin source name.
+        satpy_reader : str
+            * The name of the Satpy reader to use. See
+              https://satpy.readthedocs.io/en/stable/reading.html for a full
+              list of readers.
+        channel_groups : Dict[str, List[str]]
+            * A dictionary that groups desired channels by resolution.  The
+              read Satpy Scene will be unpacked into the structure described by
+              this dictionary. The keys should be strings representing the name
+              of each group and the values should be a list of channel names
+              that have the same resolution. The name of each group will be used
+              as the keys of the output dictionary and the list of channels will
+              be grouped together as a Dataset stored as the associated value to
+              the key.  So for example the following channel_groups dictionary
+              could be used to read a selection of visible and IR GOES16 data:
+              `{"0.5km":["C02"], "2km":["C13", "C14"]}`
+        platform_name : str, default=None:
+            * The GeoIPS plugin platform name. If set to `None`, then the Satpy
+              reader will be used.
+        metadata_only : bool, default=False:
+            * Return before actually reading data if True
+        chans : List[str], default=None
+            * Required by the GeoIPS interface, but is ignored by the reader.
+        area_def : pyresample.AreaDefinition, default=None
+            * Required by the GeoIPS interface, but is ignored by the reader.
+        self_register : str or bool, default=False
+            * Required by the GeoIPS interface, but is ignored by the reader.
+        roi : float, default=3000.0
+            * Radius of influence used by GeoIPS interpolator.
+        satpy_reader_kwargs : Dict[str, Any], default=None
+            * If provided, these kwargs will be passed to the `reader_kwargs`
+              argument of the Satpy `Scene` constructor.
+        load_kwargs : Dict[str, Any], default=None
+            * If provided, these kwargs will be passed to the `load` method of
+              the generated Satpy `Scene` object.
+        force_compute : bool, default=True
+            * When Satpy loads data, it provides `DataArray` objects populated
+              by Dask arrays.  By default, this reader will force these to be
+              computed prior to providing `Dataset`s downstream.  However, if
+              downstream code can handle receiving Dask arrays, then this flag
+              can be set to `False` to prevent the conversion.
+        coord_chunks : int, default=4096
+            * In order to ensure consistency when reading coordinate data from
+              a loaded `Scene`, the data will be read as a Dask array an then
+              converted to a Numpy array.  This argument controls the chunk size
+              used by Dask during this opration.
+
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+        * The `channel_groups` argument controls how to map the read Satpy
+          `Scene` object to this dictionary.
+    """
     if platform_name is None:
         platform_name = satpy_reader
 
