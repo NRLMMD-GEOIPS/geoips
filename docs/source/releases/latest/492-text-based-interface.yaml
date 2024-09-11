@@ -32,12 +32,6 @@ enhancement:
       - geoips/interfaces/text_based/__init__.py
       - geoips/interfaces/text_based/ascii_palettes.py
       - geoips/plugins/modules/colormappers/ascii_based.py
-      - geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_cimss.yaml
-      - geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_purple.yaml
-      - geoips/plugins/yaml/product_defaults/tpw_ascii/ascii_tpw_pwat.yaml
-      - geoips/plugins/yaml/products/test_ascii.yaml
-      - tests/scripts/mimic_coarse.static.ascii_tpw_cimss.imagery_annotated.sh
-      - tests/scripts/mimic_fine.tc.ascii_tpw_pwat.imagery_annotated.sh
       - tests/unit_tests/plugins/text/ascii_palettes/test_ascii_palettes.py
       - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/good.txt
       - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/invalid_palette.txt
@@ -45,21 +39,22 @@ enhancement:
       - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_palette.txt
       - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_required_attr.txt
     modified:
+      - docs/source/releases/v1_13_0a0.rst
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/create_plugin_registries.py
       - geoips/errors.py
       - geoips/geoips_utils.py
       - geoips/image_utils/colormap_utils.py
       - geoips/interfaces/__init__.py
       - geoips/interfaces/base.py
-      - geoips/interfaces/module_based/colormappers.py
-      - pyproject.toml
-      - geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
+      - geoips/plugins/modules/colormappers/linear_norm.py
       - geoips/plugins/txt/ascii_palettes/tpw_purple.txt
       - geoips/plugins/yaml/product_defaults/Uncorrected-Channel.yaml
       - geoips/plugins/yaml/product_defaults/sfc_winds/incident-angle.yaml
       - geoips/plugins/yaml/product_defaults/sfc_winds/nrcs.yaml
       - geoips/plugins/yaml/product_defaults/tpw/TPW-CIMSS.yaml
       - geoips/plugins/yaml/product_defaults/tpw/TPW-PURPLE.yaml
+      - geoips/plugins/yaml/product_defaults/tpw/TPW-PWAT.yaml
       - geoips/plugins/yaml/product_defaults/visir/Infrared-Gray.yaml
       - geoips/plugins/yaml/product_defaults/visir/Night-Vis-GeoIPS1.yaml
       - geoips/plugins/yaml/product_defaults/visir/Night-Vis.yaml
@@ -71,8 +66,12 @@ enhancement:
       - geoips/plugins/yaml/products/modis.yaml
       - geoips/plugins/yaml/products/seviri.yaml
       - geoips/plugins/yaml/products/viirs.yaml
+      - geoips/schema/product_defaults/bases/colormapper.yaml
     moved:
       - geoips/plugins/modules/colormappers/matplotlib_linear_norm.py --> linear_norm.py
+    deleted:
+      - geoips/plugins/modules/colormappers/tpw/__init__.py
+      - geoips/plugins/modules/colormappers/tpw/tpw_pwat.py
   related-issue:
     number: 492
     repo_url: https://github.com/NRLMMD-GEOIPS/geoips
