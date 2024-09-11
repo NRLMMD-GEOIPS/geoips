@@ -823,7 +823,9 @@ class BaseModuleInterface(BaseInterface):
         """
         # Find the plugin module
         # Convert the module into an object
-        registered_module_plugins = self.registered_module_based_plugins
+        registered_module_plugins = self.plugin_registry.registered_plugins[
+            "module_based"
+        ]
         if name not in registered_module_plugins[self.name]:
             raise PluginError(
                 f"Plugin '{name}', "
@@ -1016,7 +1018,7 @@ class BaseTextInterface(BaseInterface):
 
     def __init__(self):
         """Initialize module plugin interface."""
-        pass
+        self.supported_families = list(self.required_args.keys())
 
     def get_plugin(self, name):
         """Retrieve a plugin from this interface by name.

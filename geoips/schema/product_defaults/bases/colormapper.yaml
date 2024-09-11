@@ -54,3 +54,6 @@ properties:
           set_label_kwargs:
             type: object
             unevaluatedProperties: true
+          ascii_kwargs:
+            type: object
+            unevaluatedProperties: true

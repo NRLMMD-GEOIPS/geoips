@@ -5,7 +5,6 @@ import logging
 from matplotlib import colors
 import numpy
 from os.path import basename
-from types import SimpleNamespace
 
 from geoips.errors import AsciiPaletteError
 from geoips.interfaces.base import BaseTextInterface, BaseTextPlugin
@@ -13,17 +12,31 @@ from geoips.interfaces.base import BaseTextInterface, BaseTextPlugin
 LOG = logging.getLogger(__name__)
 
 
-def from_ascii(fpath, cmap_name=None, reverse=False):
+# Defaults are set for arguments here as this can be called by other modules/classes
+# besides AsciiPalettesPlugin
+def from_ascii(
+    fpath,
+    cmap_name=None,
+    reverse=False,
+    cmap_type="ListedColormap",
+    cmap_kwargs={},
+):
     """Create a ListedColormap instance from an ASCII file of RGB values.
 
     Parameters
     ----------
-    fname : str
-        Full path to ascii RGB colortable file
-    cmap_name : str, default=None (basename(fname))
-        Identifying name of colormap - if None, default to basename(fname)
-    reverse : bool, default=False
-        If True, reverse the colormap
+    fpath: str
+        - Full path to ascii RGB colortable file
+    cmap_name: str, default=None
+        - Identifying name of colormap - if None, default to basename(fpath)
+    reverse: bool, default=False
+        - If True, reverse the colormap
+    cmap_type: str, default="ListedColormap"
+        - The name of the Colormap-derived class from matplotlib.colors. Must be one of
+          "ListedColormap" or "LinearSegmentedColormap" or a TypeError will be raised.
+    cmap_kwargs: dict, default={}
+        - Dictionary of keyword arguments to use in the construction of your colormap
+          object, which are associated with your 'cmap_type'.
 
     Returns
     -------
@@ -80,93 +93,67 @@ def from_ascii(fpath, cmap_name=None, reverse=False):
 
     if cmap_name is not None:
         cmap_name = basename(fpath)
-    cmap = colors.ListedColormap(carray, name=cmap_name)
+
+    if cmap_type == "ListedColormap":
+        cmap_constructor = colors.ListedColormap
+    elif cmap_type == "LinearSegmentedColormap":
+        cmap_constructor = colors.LinearSegmentedColormap.from_list
+    else:
+        raise TypeError(
+            f"Error: provided matplotlib.colors Colormap '{cmap_type}' is not a valid "
+            f"colormap. Please choose one of "
+            "['ListedColormap', 'LinearSegmentedColormap'] and provide arguments for "
+            "those colormaps where applicable."
+        )
+
+    cmap = cmap_constructor(colors=carray, name=cmap_name, **cmap_kwargs)
+
     return cmap
 
 
 class AsciiPalettesPlugin(BaseTextPlugin):
     """Class representing an Ascii Palette Used to Construct a GeoIPS Colormapper."""
 
-    @property
-    def colormap(self):
-        """Ascii Palette derived from 'self.plugin_entry'.
-
-        Returns
-        -------
-        cmap: Matplotlob.colors.ListedColormap
-            - The colormap derived from the ascii palette
-        """
-        if not hasattr(self, "_colormap"):
-            path_to_ascii = str(
-                files(self.plugin_entry["package"]) / self.plugin_entry["relpath"]
-            )
-            self._colormap = from_ascii(path_to_ascii)
-        return self._colormap
-
-    def __call__(self, **kwargs):
-        """Generate a dictionary of colormap information used for linear norm cmaps.
-
-        This information used in both colorbar and image production throughout
-        GeoIPS image output specifications.
+    def __call__(
+        self,
+        reverse=False,
+        cmap_name=None,
+        cmap_type="ListedColormap",
+        cmap_kwargs={},
+    ):
+        """Return a matplotlib-based colormap object to be used w/ GeoIPS colormappers.
 
         Parameters
         ----------
-        kwargs: dict of arguments
-            - For a full list of arguments that will be provided to this function, see:
-              geoips.plugins.colormappers.ascii_based:call
+        cmap_name: str, default=None (basename(fname))
+            - Identifying name of colormap - if None, default to basename(fname)
+        reverse: bool, default=False
+            - If True, reverse the colormap
+        cmap_type: str, default="ListedColormap"
+            - The name of the Colormap-derived class from matplotlib.colors. Must be one
+              of "ListedColormap" or "LinearSegmentedColormap" or a TypeError will be
+              raised.
+        cmap_kwargs: dict, default={}
+            - Dictionary of keyword arguments to use in the construction of your
+              colormap object, which are associated with your 'cmap_type'.
 
         Returns
         -------
-        mpl_colors_info : dict
-            * Specifies matplotlib Colors parameters for use in both plotting and
-              colorbar generation
-
-        See Also
-        --------
-        :ref:`api`
-            See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
+        cmap : matplotlib.colors Colormap-derived Object
+            * Either a 'ListedColormap' or a 'LinearSegmentedColormap' derived from a
+              text ascii palette.
         """
-        min_val = None
-        max_val = None
-        kwargs = SimpleNamespace(**kwargs)
-        if kwargs.data_range is not None:
-            min_val = kwargs.data_range[0]
-            max_val = kwargs.data_range[1]
-
-        mpl_cmap = self.colormap
-
-        LOG.info("Setting norm")
-
-        mpl_norm = colors.Normalize(vmin=min_val, vmax=max_val)
-        if kwargs.cbar_ticks:
-            mpl_ticks = kwargs.cbar_ticks
-        elif min_val is not None:
-            mpl_ticks = [int(min_val), int(max_val)]
-        else:
-            mpl_ticks = None
-
-        if kwargs.cbar_tick_labels is None:
-            mpl_tick_labels = mpl_ticks
-
-        # Must be uniform or proportional, None not valid for Python 3
-        mpl_boundaries = None
-
-        mpl_colors_info = {
-            "cmap": mpl_cmap,
-            "norm": mpl_norm,
-            "boundaries": mpl_boundaries,
-            "colorbar": kwargs.create_colorbar,
-            "cbar_ticks": mpl_ticks,
-            "cbar_tick_labels": mpl_tick_labels,
-            "cbar_label": kwargs.cbar_label,
-            "cbar_spacing": kwargs.cbar_spacing,
-            "cbar_full_width": kwargs.cbar_full_width,
-            "colorbar_kwargs": kwargs.colorbar_kwargs,
-            "set_ticks_kwargs": kwargs.set_ticks_kwargs,
-            "set_label_kwargs": kwargs.set_label_kwargs,
-        }
-
-        return mpl_colors_info
+        path_to_ascii = str(
+            files(self.plugin_entry["package"]) / self.plugin_entry["relpath"]
+        )
+        cmap = from_ascii(
+            path_to_ascii,
+            reverse=reverse,
+            cmap_name=cmap_name,
+            cmap_type=cmap_type,
+            cmap_kwargs=cmap_kwargs,
+        )
+        return cmap
 
 
 class AsciiPaletteInterface(BaseTextInterface):

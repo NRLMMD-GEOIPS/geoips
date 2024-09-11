@@ -1,5 +1,7 @@
 """Generate dict of colormap info based on ascii-palette plugins."""
 
+from matplotlib import colors
+
 from geoips.interfaces import ascii_palettes
 
 interface = "colormappers"
@@ -19,8 +21,9 @@ def call(
     colorbar_kwargs=None,
     set_ticks_kwargs=None,
     set_label_kwargs=None,
+    ascii_kwargs={},
 ):
-    """Set the matplotlib colors information for matplotlib linear norm cmaps.
+    """Create a mpl Colors parameters dictionary using an ascii-based plugin.
 
     This information used in both colorbar and image production throughout
     GeoIPS image output specifications.
@@ -56,6 +59,9 @@ def call(
         * keyword arguments to pass through directly to "cbar.set_ticks"
     set_label_kwargs : dict, default=None
         * keyword arguments to pass through directly to "cbar.set_label"
+    ascii_kwargs : dict, default={}
+        * keyword arguments to pass through directly to
+          "geoips.interfaces.text_based.ascii_palettes.AsciiPalettesPlugin:call"
 
     Returns
     -------
@@ -68,17 +74,75 @@ def call(
     :ref:`api`
         See geoips.image_utils.mpl_utils.create_colorbar for field descriptions.
     """
-    palette_plug = ascii_palettes.get_plugin(cmap_name)
-    opt_args = {
-        "data_range": data_range,
-        "cbar_label": cbar_label,
-        "create_colorbar": create_colorbar,
+    if ascii_kwargs.get("norm_type"):
+        norm_type = ascii_kwargs.pop("norm_type")
+        # More normalization routines exist, however they take different arguments. The
+        # first three normalization methods share the same arguments and 'BoundaryNorm'
+        # can be constructed using data_range or cbar_ticks if specified.
+        if norm_type not in ["Normalize", "NoNorm", "LogNorm", "BoundaryNorm"]:
+            raise TypeError(
+                f"Error: supplied ascii_kwarg 'norm_type', with value '{norm_type}' is "
+                "not a valid Normalization routine of matplotlib.colors. Please "
+                f"provide one of: ['Normalize', 'NoNorm', 'LogNorm', 'BoundaryNorm']."
+            )
+    else:
+        norm_type = "Normalize"
+
+    boundaries = None
+    min_val = None
+    max_val = None
+    if data_range is not None:
+        min_val = data_range[0]
+        max_val = data_range[1]
+
+    # Call the requested ascii plugin
+    mpl_cmap = ascii_palettes.get_plugin(cmap_name)(**ascii_kwargs)
+
+    # Apply normalization routine. Defaults to 'colors.Normalization'
+    if norm_type != "BoundaryNorm":
+        mpl_norm = getattr(colors, norm_type)(vmin=min_val, vmax=max_val)
+    else:
+        # Apply BoundaryNorm routine. Assert that enough information has been provided
+        # to run this routine.
+        if data_range is None and cbar_ticks is None:
+            raise ValueError(
+                "Error: Normalization routine 'BoundaryNorm' was selected but no "
+                "information on the actual boundaries were supplied. Please either "
+                "specify 'cbar_ticks' or 'data_range'. 'cbar_ticks' have higher "
+                "priority than 'data_range'."
+            )
+        if cbar_ticks:
+            boundaries = cbar_ticks + [cbar_ticks[-1] + 1]
+        else:
+            boundaries = data_range + [data_range[-1] + 1]
+        mpl_norm = colors.BoundaryNorm(boundaries, mpl_cmap.N)
+
+    # Set ticks for colorbar
+    if cbar_ticks:
+        mpl_ticks = cbar_ticks
+    elif min_val is not None:
+        mpl_ticks = [int(min_val), int(max_val)]
+    else:
+        mpl_ticks = None
+
+    # Set tick labels for colorbar
+    if cbar_tick_labels is None:
+        mpl_tick_labels = mpl_ticks
+    else:
+        mpl_tick_labels = cbar_tick_labels
+
+    mpl_colors_info = {
+        "cmap": mpl_cmap,
+        "norm": mpl_norm,
+        "boundaries": None,
+        "colorbar": create_colorbar,
         "cbar_ticks": cbar_ticks,
-        "cbar_tick_labels": cbar_tick_labels,
+        "cbar_tick_labels": mpl_tick_labels,
+        "cbar_label": cbar_label,
         "cbar_spacing": cbar_spacing,
         "cbar_full_width": cbar_full_width,
         "colorbar_kwargs": colorbar_kwargs,
         "set_ticks_kwargs": set_ticks_kwargs,
         "set_label_kwargs": set_label_kwargs,
     }
-    return palette_plug(**opt_args)
+    return mpl_colors_info

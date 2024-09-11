@@ -12,7 +12,7 @@ from geoips.interfaces import ascii_palettes
 LOG = logging.getLogger(__name__)
 
 
-def get_color_palette(source, name):
+def get_color_palette(source, name, ascii_kwargs={}):
     """Get the associated color-palette given a name and source name.
 
     Where 'color-palette' is a colormap defined from a given source. This source name
@@ -34,6 +34,9 @@ def get_color_palette(source, name):
           ['matplotlib' / 'mpl', 'ascii']
     name: str
         - The name of the color palette we'd like to retrieve.
+    ascii_kwargs: dict, default={}
+        - keyword arguments to pass through directly to
+          "geoips.interfaces.text_based.ascii_palettes.AsciiPalettesPlugin:call"
 
     Returns
     -------
@@ -47,9 +50,8 @@ def get_color_palette(source, name):
         except ValueError:
             raise ValueError(f"Colormap {name} not found in source {source}")
     elif source == "ascii":
-        ascii_plugin = ascii_palettes.get_plugin(name)
+        cmap = ascii_palettes.get_plugin(name)(**ascii_kwargs)
         # Now get the colormap created from the defined ascii palette plugin
-        cmap = ascii_plugin.colormap
     elif source == "geoips":
         raise ValueError(
             f"Source '{source}' is no longer supported. Please either use "
