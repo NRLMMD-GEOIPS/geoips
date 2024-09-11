@@ -1,7 +1,7 @@
 """Unit Test Module checking all functionality for text-based ascii_palette plugins."""
 
 from glob import glob
-from matplotlib.colors import ListedColormap
+from matplotlib.colors import ListedColormap, LinearSegmentedColormap
 from os.path import basename
 import pytest
 
@@ -41,10 +41,14 @@ def test_ascii_palette_plugin(plugin):
     assert plugin.name in ascii_palettes.registry
     # assert that this plugin's interface is the ascii palette interface
     assert plugin.interface == "ascii_palettes"
-    # check that there has been a Matplotlib.colors.ListedColormap created the plugin
-    assert isinstance(plugin.colormap, ListedColormap)
     # make sure that the plugin has a __call__ method attached to it
     assert hasattr(plugin, "__call__")
+    # check that there has been a Matplotlib.colors.ListedColormap created the plugin
+    assert isinstance(plugin(), ListedColormap)
+    # check that there has been a Matplotlib.colors.ListedColormap created the plugin
+    assert isinstance(
+        plugin(cmap_type="LinearSegmentedColormap"), LinearSegmentedColormap
+    )
     # manually call _validate on the plugin, but remove an key from it's entry so
     # a PluginValidationError is thrown
     fam = ascii_palettes.registry[plugin.name].pop("family")
