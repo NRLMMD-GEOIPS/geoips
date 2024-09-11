@@ -59,6 +59,7 @@ def call(
     satpy_reader: str,
     channel_groups: Dict[str, List[str]],
     platform_name: Optional[str] = None,
+    platform_name_attr: str = "platform_name",
     metadata_only: bool = False,
     chans: Optional[List[str]] = None,
     area_def: Optional[pyresample.geometry.AreaDefinition] = None,
@@ -92,9 +93,17 @@ def call(
               the key.  So for example the following channel_groups dictionary
               could be used to read a selection of visible and IR GOES16 data:
               `{"0.5km":["C02"], "2km":["C13", "C14"]}`
-        platform_name : str, default=None:
-            * The GeoIPS plugin platform name. If set to `None`, then the Satpy
-              reader will be used.
+        platform_name : str, default=None
+            * The GeoIPS plugin platform name. If set to `None`, then the
+              platform name will be looked up from the attributes of the first
+              encountered channel. The `platform_name_attr` can be used to
+              control which attribute the platform name will be looked up from.
+        platform_name_attr : str, default="platform_name"
+            * The attribute used to look up the platform name if no platform
+              name is provided.  The attributes dictionary of the first channel
+              encountered by the code will be used to look up the platform name.
+              This assumes that the attribute is not nested within a
+              sub-dictionary of the attributes dictionary.
         metadata_only : bool, default=False:
             * Return before actually reading data if True
         chans : List[str], default=None
@@ -130,9 +139,6 @@ def call(
         * The `channel_groups` argument controls how to map the read Satpy
           `Scene` object to this dictionary.
     """
-    if platform_name is None:
-        platform_name = satpy_reader
-
     scene = satpy.Scene(
         filenames=fnames,
         reader=satpy_reader,
@@ -161,6 +167,9 @@ def call(
             if is_first_channel:
                 is_first_channel = False
                 lons, lats = _compute_coords(channel, coord_chunks)
+
+                if platform_name is None:
+                    platform_name = channel.attrs[platform_name_attr]
 
             if force_compute and not metadata_only:
                 channel = channel.compute()
