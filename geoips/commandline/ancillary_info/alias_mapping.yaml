@@ -2,6 +2,10 @@ algorithms:
   - alg
   - algs
   - algorithm
+ascii-palettes:
+  - apal
+  - apals
+  - ascii-palette
 colormappers:
   - cmap
   - cmaps
