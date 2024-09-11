@@ -62,3 +62,64 @@ spec:
             name: linear_norm
             arguments:
               cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
+    - name: Infrared-Ascii-tpw-cimss
+      source_names: [abi]
+      docstring: |
+        The Infrared-Ascii-tpw-cimss product_defaults configuration for abi product.
+        Uses tpw_cimss ascii palette for coloring abi Infrared data.
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT"]
+        colormapper:
+          plugin:
+            name: ascii_based
+            arguments:
+              cmap_name: tpw_cimss
+              data_range: [-90, 30]
+              cbar_ticks: [-90, -80, -70, -60, -50, -40, -30, -20, -10, 0, 10, 20, 30]
+              cbar_full_width: True
+              cbar_label: '11μm BT (°C)'
+              ascii_kwargs:
+                cmap_type: ListedColormap
+                cmap_kwargs:
+                  gamma: 1.35
+    - name: Infrared-Ascii-tpw-purple
+      source_names: [abi]
+      docstring: |
+        The Infrared-Ascii-tpw-purple product_defaults configuration for abi product.
+        Uses tpw_purple ascii palette for coloring abi Infrared data.
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT"]
+        colormapper:
+          plugin:
+            name: ascii_based
+            arguments:
+              cmap_name: tpw_purple
+              data_range: [-90, 30]
+              cbar_ticks: [-90, -80, -70, -60, -50, -40, -30, -20, -10, 0, 10, 20, 30]
+              cbar_full_width: True
+              cbar_label: '11μm BT (°C)'
+              ascii_kwargs:
+                cmap_type: LinearSegmentedColormap
+                cmap_kwargs:
+                  gamma: 0.65
+                norm_type: BoundaryNorm
+    - name: Infrared-Ascii-tpw-pwat
+      source_names: [abi]
+      docstring: |
+        The Infrared-Ascii-tpw-pwat product_defaults configuration for abi product.
+        Uses tpw_pwat ascii palette for coloring abi Infrared data.
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT"]
+        colormapper:
+          plugin:
+            name: ascii_based
+            arguments:
+              cmap_name: tpw_pwat
+              data_range: [-90, 30]
+              cbar_ticks: [-90, -80, -70, -60, -50, -40, -30, -20, -10, 0, 10, 20, 30]
+              cbar_full_width: True
+              cbar_label: '11μm BT (°C)'
+
