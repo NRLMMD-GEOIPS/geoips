@@ -40,7 +40,9 @@ enhancement:
       - tests/unit_tests/plugins/text/ascii_palettes/example_palettes/missing_required_attr.txt
     modified:
       - docs/source/releases/v1_13_0a0.rst
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_describe.py
       - geoips/create_plugin_registries.py
       - geoips/errors.py
       - geoips/geoips_utils.py
