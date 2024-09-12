@@ -1046,3 +1046,39 @@ class BaseTextInterface(BaseInterface):
                 f"Interface '{self.name}' has no plugin named '{name}'. Please create "
                 "this plugin and run 'create_plugin_registries'."
             )
+
+    def test_interface(self):
+        """Assert that I am is working as expected and all my plugins are valid.
+
+        Where 'I' is a text-based interface and plugins are all plugins that fall under
+        the aforementioned text-based interface.
+        """
+        plugins = self.get_plugins()
+        output = {
+            "all_valid": True,
+            "by_family": {},
+            "validity_check": {},
+            "family": {},
+            "func": {},
+            "docstring": {},
+        }
+        plugin_ids = {}
+        family_list = []
+
+        for plugin in plugins:
+            output["func"][plugin.name] = plugin
+            output["docstring"][plugin.name] = plugin.docstring
+            output["family"][plugin.name] = plugin.family
+            if plugin.family not in family_list:
+                family_list.append(plugin.family)
+                plugin_ids[plugin.family] = []
+            plugin_ids[plugin.family].append(plugin.name)
+            try:
+                plugin._validate(self, plugin.name)
+                output["validity_check"][plugin.name] = True
+            except PluginValidationError:
+                output["all_valid"] = False
+                output["validity_check"][plugin.name] = True
+
+        output["by_family"] = plugin_ids
+        return output
