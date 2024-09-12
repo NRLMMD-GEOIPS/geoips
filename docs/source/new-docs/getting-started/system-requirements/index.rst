@@ -1,32 +1,91 @@
 :orphan:
 
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
 System Requirements
 ===================
 
-Assigned to: Jeremy
-Due for review: June 3rd
+GeoIPS system requirements are dependent on how you intend to use
+GeoIPS. This document will outline the minimum and recommended system
+requirements for users and developers for the base GeoIPS system, only.
 
-Done looks like:
- - Work done on a feature branch, eg. documentation-system-requirements
- - Readable and followable, please use a grammar checker + spell checker
- - Passes doc8 checks, see the `sphinx RST Primer
-   <https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html#restructuredtext-primer>`_`
-   and checkout this tool I wrote for auto-formatting RST files:
-   `pink <https://github.com/biosafetylvl5/pinkrst/tree/main>`_
- - A description of how new developers should add new functionality
+*These requirements do not consider:*
 
-   - Does NOT include
+- Running multiple concurrent GeoIPS processes.
+- The requirements of plugin packages, whether official or unofficial.
+- The requirements of additional software that may be used in conjunction with
+  GeoIPS.
+- Handling of currently unsupported data sources or formats.
 
-     - How to install GeoIPS
-     - Notes about potential future system requirements, unless absolutely nessesary
-     - Info on how GeoIPS works
+If you plan to use GeoIPS with custom tooling, unsupported datsets, in a
+parallel/batch environment, we recommend that you perform your own testing to
+determine your requirements, especially for production settings.
 
-   - Does include
+Operating System and Proccessor Archetype Compatibility
+-------------------------------------------------------
 
-     - "Minimum" GeoIPS system requirements
-     - Recommended GeoIPS system requirements
-     - Here is an example page: `Autodesk Inventor 2025
-       <https://www.autodesk.com/support/technical/article/caas/sfdcarticles/sfdcarticles/System-requirements-for-Autodesk-Inventor-2025.html>`_
-     - This is a Reference page - please consult `this guide <https://docs.divio.com/documentation-system/reference/>`_
+We officially support RedHat and Debian flavors of Linux. We aim to also support MacOS, and Windows on
+both x86 and ARM processors. If you encounter an issue on Mac or Windows,
+please submit an issue and while we cannot guarantee anything, we will do our best to address it.
 
- - A PR from your feature branch to ``main`` 😊
++------------------+---------------------------------------------------------+
+| Operating System | Minimum Version                                         |
++==================+=========================================================+
+| Linux            | RedHat 8, AlmaLinux 8, RockyLinux 8 equivalent or later |
++------------------+---------------------------------------------------------+
+|                  | Debian 10 equivalent or later                           |
++------------------+---------------------------------------------------------+
+| MacOS            | 12 or later *(not officially supported)*                |
++------------------+---------------------------------------------------------+
+| Windows          | 10 or later *(not officially supported)*                |
++------------------+---------------------------------------------------------+
+
+At the moment, the installation instructions for GeoIPS (which you can find [HERE])
+work for these OS/processor archetype combos:
+
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+|                           | Conda              | Expert Install     | Docker (native)    | Docker (x86 emulation) |
++===========================+====================+====================+====================+========================+
+| Debian (x86)              | ✅                 | ✅                 | ✅                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Redhat (x86)              | ✅                 | ❓                 | ❓                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Mac (x86)                 | ❓                 | ❓                 | ❓                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Mac (arm)                 | ❌                 | ❓                 | ❌                 | ✅                     |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+| Windows with WSL2 (x86)   | ❓                 | ❓                 | ❓                 | N/A                    |
++---------------------------+--------------------+--------------------+--------------------+------------------------+
+
+User System Requirements
+------------------------
+
++----------+-------------+-------------+--------------------------------------+
+| Hardware | Minimum     | Recommended | Comments                             |
++==========+=============+=============+======================================+
+| CPU      | 2 CPU       | 4 CPU       |                                      |
++----------+-------------+-------------+--------------------------------------+
+|| Memory  || 12GB       || 128GB      || Enough for most GeoIPS imagery.     |
+||         ||            ||            || Some Geostationary imagery requires |
+||         ||            ||            || > 90GB RAM.                         |
++----------+-------------+-------------+--------------------------------------+
+| Storage  | 20GB on SSD | 20GB on SSD || Plus additional storage, as needed, |
+|          |             |             || for datasets.                       |
++----------+-------------+-------------+--------------------------------------+
+
+Developer System Requirements
+-----------------------------
+
+Developers will be required to install test datasets for the GeoIPS integration
+tests (40GB) and a complete, static set of Cartopy shape files (20GB). This requires
+an additional 60GB of space. It is recommended that this data is placed on a local
+solid state drive for speed purposes.
+
+Operational System Requirements
+-------------------------------
+If you are speccing out a system for an operational environment, please reach
+out to the GeoIPS team to discuss system needs and the impact of our future
+development plans on your system.

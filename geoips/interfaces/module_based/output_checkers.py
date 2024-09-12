@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Output Checkers interface module."""
 
@@ -94,7 +85,7 @@ def write_bad_comparisons_to_file(badcomps, compare_products, compare_strings, d
         LOG.interactive(f"  source {fname_cp}")
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "BADCOMPARES")
-        with open(fname_cp, "w") as fobj:
+        with open(fname_cp, "a") as fobj:
             for badcomp in badcomps:
                 if compare_strings is not None:
                     for compare_string in compare_strings:
@@ -110,7 +101,7 @@ def write_bad_comparisons_to_file(badcomps, compare_products, compare_strings, d
                     ]
                 ):
                     fobj.write(f"gzip {comparison_filename}\n")
-        with open(fname_badcptest, "w") as fobj:
+        with open(fname_badcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for badcomp in badcomps:
                 badcomp = badcomp.replace("IMAGE ", "")
@@ -174,7 +165,7 @@ def write_remove_temp_files_to_file(remove_temp_files, diffdir):
             len(remove_temp_files),
         )
         LOG.interactive(f"  source {fname_rmtemp}")
-        with open(fname_rmtemp, "w") as fobj:
+        with open(fname_rmtemp, "a") as fobj:
             for remove_temp_file in remove_temp_files:
                 fobj.write(f"rm -v {remove_temp_file}\n")
     return 0
@@ -249,7 +240,7 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
         # printed at the interactive log level
         LOG.interactive("  source {0}".format(fname_rm))
         test_path = join(diffdir, "MISSINGPRODUCTS")
-        with open(fname_rm, "w") as fobj:
+        with open(fname_rm, "a") as fobj:
             # Now loop through each missing product to write them to the file
             for missingproduct in missingproducts:
                 missingproduct_basename = basename(missingproduct)
@@ -274,7 +265,7 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                         LOG.interactive(f"    TEST OUTPUT: {file_for_comparison}")
         # This is just for testing purposes - write out copy commands to
         # copy the missing product into a test location for easy review.
-        with open(fname_missingprodcptest, "w") as fobj:
+        with open(fname_missingprodcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingproduct in missingproducts:
                 # For display purposes - tifs are easier to view
@@ -347,7 +338,7 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
         LOG.interactive("  source {0}".format(fname_cp))
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "MISSINGCOMPARE")
-        with open(fname_cp, "w") as fobj:
+        with open(fname_cp, "a") as fobj:
             for missingcomp in missingcomps:
                 # We are passing the missingcomp directly to the diff dir
                 # We have no knowledge if these should be gzipped or not,
@@ -355,7 +346,7 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
                 # gzip before commiting if desired.
                 fobj.write(f"  cp -v {missingcomp} {comparison_path}\n")
                 LOG.interactive(f"    CURR OUTPUT: {missingcomp}")
-        with open(fname_missingcompcptest, "w") as fobj:
+        with open(fname_missingcompcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingcomp in missingcomps:
                 # For display purposes - tifs are easier to view
@@ -420,7 +411,7 @@ def write_good_comparisons_to_file(goodcomps, compare_strings, diffdir):
         fname_goodcptest = join(diffdir, "cptest_GOODCOMPARE.txt")
         LOG.info(f"source {fname_goodcptest}")
         test_path = join(diffdir, "GOODCOMPARE")
-        with open(fname_goodcptest, "w") as fobj:
+        with open(fname_goodcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for goodcomp in goodcomps:
                 if compare_strings is not None:
@@ -761,7 +752,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 remove_temp_files += [output_product_for_comparison]
 
             log_with_emphasis(
-                LOG.info, "COMPARE {basename(output_product_for_comparison)}"
+                LOG.info, f"COMPARE {basename(output_product_for_comparison)}"
             )
             found_one = False
             for compare_product in compare_products:

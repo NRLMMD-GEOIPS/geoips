@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `test unit-test` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -14,16 +17,16 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 
 # class TestGeoipsTestUnitTest(BaseCliTest):
-#     """Unit Testing Class for Test Unit Test Sub-Command."""
+#     """Unit Testing Class for Test Unit Test Command."""
 
 #     @property
-#     def all_possible_subcommand_combinations(self):
+#     def command_combinations(self):
 #         """A stochastic list of commands used by the GeoipsTestUnitTest command.
 
 #         This includes failing cases as well.
 #         """
 #         if not hasattr(self, "_cmd_list"):
-#             base_args = self._test_unit_test_args
+#             base_args = ["geoips", "test", "unit-test"]
 #             self._cmd_list = [
 #                 base_args + ["commandline", "-n", "test_geoips_list_packages.py"]
 #             ]
@@ -92,10 +95,10 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 # @pytest.mark.parametrize(
 #     "args",
-#     test_sub_cmd.all_possible_subcommand_combinations,
+#     test_sub_cmd.command_combinations,
 #     ids=test_sub_cmd.generate_id,
 # )
-# def test_all_command_combinations(args):
+# def test_command_combinations(monkeypatch, args):
 #     """Test all 'geoips test unit-test ...' commands.
 
 #     This test covers every valid combination of commands for the 'geoips test unit-test' # NOQA
@@ -107,7 +110,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #     args: 2D array of str
 #         - List of arguments to call the CLI with (ie. ['geoips', 'test', 'unit-test'])
 #     """
-#     test_sub_cmd.test_all_command_combinations(args)
+#     test_sub_cmd.test_command_combinations(monkeypatch, args)
 
 # THIS SECTION WAS COMMENTED OUT BECAUSE WE DON"T WANT TO INVOKE PYTEST IN MAIN GEOIPS
 # AND THIS COMMAND IS LARGELY FOR EASE OF USE'S SAKE. WE MAY WANT TO USE IT LATER SO

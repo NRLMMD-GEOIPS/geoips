@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Simple test script to run "test_interface" for each interface."""
 from pprint import pformat
@@ -20,9 +11,6 @@ from geoips.interfaces.base import BaseInterface
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
 from geoips.utils.context_managers import import_optional_dependencies
-
-FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
-FAILED_INTERFACE_HEADER_POST = "interface:"
 
 FAILED_INTERFACE_HEADER_PRE = "FAILED: issues found within "
 FAILED_INTERFACE_HEADER_POST = "interface:"

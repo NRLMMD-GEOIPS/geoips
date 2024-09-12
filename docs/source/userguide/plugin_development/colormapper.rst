@@ -1,18 +1,10 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _create-a-colormapper:
 
-************************************
 Extend GeoIPS with a new Colormapper
 ************************************
 
@@ -31,7 +23,8 @@ Please see documentation for
 Using an ASCII Colormap
 -----------------------
 
-The `matplotlib_linear_norm plugin <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/matplotlib_linear_norm.py>`_
+The `matplotlib_linear_norm plugin
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/matplotlib_linear_norm.py>`_
 can also leverage ASCII colormap files installed within GeoIPS, installed within a
 plugin package, or stored in an arbitrary location on disk.
 
@@ -51,7 +44,8 @@ Commented lines are allowed (prefaced by “#”), to provide additional context
 the physical meaning of the colormap (ie, min and max expected values/units,
 transition points, etc).
 
-For an example, see the `tpw_purple colormap <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/txt/ascii_palettes/tpw_purple.txt>`_
+For an example, see the `tpw_purple colormap
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/txt/ascii_palettes/tpw_purple.txt>`_
 in the geoips package. If you would like to specify an arbitrary full path on disk
 rather than installing your ascii palette within your plugin package, additionally
 specify cmap_path. This is most useful for research, development, and testing purposes.
@@ -107,7 +101,8 @@ Using a Custom Python-based Colormapper
 Color information can also be specified via a python-based GeoIPS “colormapper” plugin,
 allowing customization using specific matplotlib commands and utilities. This is the
 most flexible method, and is used largely throughout GeoIPS products. For many examples
-of colormappers that make use of the python-based method, see this `link <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/colormappers>`_.
+of colormappers that make use of the python-based method, see this `link
+<https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/colormappers>`_.
 
 We will now step through a sample colormapper used for ``pmw_89pct``. As with every
 module-based plugin, it's required to have a ``call`` function, as well as those top
@@ -221,7 +216,6 @@ what you need for your own colormap.
     interface = "colormappers"
     family = "matplotlib"
     name = "colorful_cloud_height"
-
 
     def call(data_range=[0, 20]):
         """Colorful cloud height colormap."""

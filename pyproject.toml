@@ -3,10 +3,10 @@
 name = "geoips"                                          # geoips package available at the root of the project
 version = "0.0.0"                                        # 0.0.0 will be auto-updated with poetry dynamic versioning!
 description = "Geolocated Information Processing System"
-authors = ["Tom <tom.jerry@colostate.edu>"]
+authors = ["GeoIPS <geoips@nrlmry.navy.mil>"]
 
 # optional ones
-maintainers = ["Tom <tom.jerry@colostate.edu>"]
+maintainers = ["GeoIPS <geoips@nrlmry.navy.mil>"]
 #homepage = "set the url"   // optional
 repository = "https://github.com/NRLMMD-GEOIPS/geoips" #optional
 #documentation = "set the url"      // optional
@@ -56,17 +56,17 @@ requires = ["poetry-core>=1.0.0", "poetry-dynamic-versioning>=1.0.0,<2.0.0"]
 build-backend = "poetry_dynamic_versioning.backend"                          # object used to perform the build process
 
 [tool.poetry.dependencies] # must download to run
-python = ">=3.9"       # mandatory to declare the required python version
+python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = "*"          # Base requirement
-numpy = "*"            # Base requirement
+numpy = "<2.0.0"       # Base requirement
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
-xarray = "<2024.3"           # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
+xarray = "<2024.3"     # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
-cartopy = ">=0.22.0"   # No longer requires libgeos
+cartopy = ">=0.23.0"   # No longer requires libgeos; 0.22.0 works but 0.23.0 is needed for tests to pass
 ephem = "*"            # Required for overpass predictor
 h5py = "*"             # hdf5 readers (GMI)
 isodate = "*"          # Required for overpass predictor
@@ -77,12 +77,15 @@ pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
 pyorbital = "*"        # required by satpy
 pypublicdecompwt = "*" # Required to read SEVIRI data
-rasterio = "*"         # GEOTIFF output; Pinned to <1.3.10 due to the bug mentioned in #...
+rio-cogeo = "*"        # Cloud Optimized GEOTIFF output
+rasterio = "*"         # GEOTIFF output
+# version <1.3.10 required for bug in geotiff_standard
+# Remove version requirement when bug fixed
 referencing = "*"
-satpy = "*"            # efficiency improvements >= 0.33.1
-scikit-image = "*"     # Radius based center coverage checks
-tabulate = "*"         # Tables for the CLI
-colorama = "*"         # Easy terminal color codes
+satpy = "*"        # efficiency improvements >= 0.33.1
+scikit-image = "*" # Radius based center coverage checks
+tabulate = "*"     # Tables for the CLI
+colorama = "*"     # Easy terminal color codes
 
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
@@ -93,6 +96,9 @@ pydata-sphinx-theme = { version = "*", optional = true }
 sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
+m2r2 = { version = "*", optional = true }
+brassy = { version = "*", optional = true }
+sphinx-argparse = { version = "*", optional = true }
 # Lint group
 bandit = { version = "*", optional = true }
 black = { version = "*", optional = true }
@@ -103,6 +109,7 @@ flake8-docstrings = { version = "*", optional = true }
 flake8-rst = { version = "*", optional = true }
 prettier = { version = "*", optional = true }
 doc8 = { version = "*", optional = true }
+pinkrst = { version = "*", optional = true }
 # Test group
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
@@ -116,10 +123,13 @@ ipython = { version = "*", optional = true }
 
 [tool.poetry.extras]
 doc = [
-    "pydata-sphinx-theme", # Required for building documentation
-    "sphinx",              # Required for building documentation, v7.2 errors
-    "sphinx-design",       # Required for building documentation
+    "pydata-sphinx-theme",       # Required for building documentation
+    "sphinx",                    # Required for building documentation, v7.2 errors
+    "sphinx-argparse",           # Required for building documentation for the CLI, which uses autoprogram
+    "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
+    "m2r2",                      # Required for rendering markdown into RST-based documentation
+    "brassy",                    # Release Note Generation
 ]
 lint = [
     "bandit",                # Syntax/security checking
@@ -131,6 +141,7 @@ lint = [
     "flake8-rst",            # RST checking
     "prettier",              # YAML, JSON, etc linting
     "doc8",                  # RST linting
+    "pinkrst",               # RST Auto-formatting
 ]
 test = [
     "pytest",          # Required for unit tests
@@ -148,10 +159,10 @@ geoips = "geoips"
 
 [tool.poetry.scripts]
 convert_trackfile_to_yaml = "geoips.commandline.convert_trackfile_to_yaml:main"
-create_sector_image = "geoips.commandline.create_sector_image:main"
 list_available_plugins = "geoips.commandline.list_available_plugins:main"
-run_procflow = "geoips.commandline.run_procflow:main"
+run_procflow = "geoips.commandline.commandline_interface:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
 create_plugin_registries = "geoips.create_plugin_registries:main"
+expose = "geoips.geoips_utils:expose_geoips_commands"
 geoips = "geoips.commandline.commandline_interface:main"

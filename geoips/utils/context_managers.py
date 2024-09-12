@@ -1,20 +1,11 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Module for handling optional dependencies throughout GeoIPS."""
 
 import logging
 from contextlib import contextmanager
-import sys
+import traceback
 
 LOG = logging.getLogger(__name__)
 
@@ -32,8 +23,8 @@ def import_optional_dependencies(loglevel="info"):
     try:
         yield None
     except ImportError as err:
-        filename = sys.exc_info()[2].tb_frame.f_code.co_filename
-        lineno = sys.exc_info()[2].tb_frame.f_lineno
+        tb = traceback.extract_tb(err.__traceback__)
+        filename, lineno, _, _ = tb[-1]
         err_str = f"Failed to import {err.name} at {filename}:{lineno}. "
         err_str += "If you need it, install it."
 
