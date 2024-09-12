@@ -276,8 +276,8 @@ Documentation
 New Docs Structure + GitHub Actions
 -----------------------------------
 
-Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the "old docs" (all
-other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch.
+Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the
+"old docs" (all other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch.
 Added a banner to the documentation site to inform readers that the old docs are frozen and to link them to the new docs as a preview. Note that no new functionality has been added to
 GeoIPS.
 
