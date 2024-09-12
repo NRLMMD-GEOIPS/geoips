@@ -160,8 +160,8 @@ class AsciiPaletteInterface(BaseTextInterface):
     """Interface for the Ascii Palette (kid of Colormapper) to apply to the product."""
 
     name = "ascii_palettes"
-    required_args = {"standard": {}}
-    required_kwargs = {"standard": {}}
+    required_args = {"rgb": {}}
+    required_kwargs = {"rgb": {}}
     plugin_class = AsciiPalettesPlugin
 
 
