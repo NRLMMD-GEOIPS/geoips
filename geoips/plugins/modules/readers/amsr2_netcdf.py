@@ -1,7 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Read AMSR2 data products."""
+"""Read Advanced Microwave Scanning Radiometer (AMSR2) data products."""
 
 import logging
 from os.path import basename
@@ -63,19 +63,19 @@ name = "amsr2_netcdf"
 
 
 def read_amsr_winds(wind_xarray):
-    """Reformat AMSR xarray object appropriately.
+    """Reformat AMSR22 xarray object appropriately.
 
     * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
     MS_TO_KTS = 1.94384
-    LOG.info("Reading AMSR data")
+    LOG.info("Reading AMSR22 data")
     # Set attributes appropriately
     wind_xarray.attrs["source_name"] = "amsr2"
     wind_xarray.attrs["platform_name"] = "gcom-w1"
     wind_xarray.attrs["interpolation_radius_of_influence"] = 10000
-    # AMSR is one text file per datafile, so don't append
+    # AMSR2 is one text file per datafile, so don't append
     wind_xarray.attrs["overwrite_text_file"] = True
     wind_xarray.attrs["append_text_file"] = False
     # https://www.ospo.noaa.gov/Products/atmosphere/gpds/about_amsr2.html
@@ -144,7 +144,7 @@ def read_amsr_winds(wind_xarray):
 
 def read_amsr_mbt(full_xarray, varname, time_array=None):
     """
-    Reformat AMSR xarray object appropriately.
+    Reformat AMSR2 xarray object appropriately.
 
     * variables: latitude, longitude, time,
       brightness temperature variables
@@ -153,7 +153,7 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     """
     import xarray
 
-    LOG.info("Reading AMSR data %s", varname)
+    LOG.info("Reading AMSR2 data %s", varname)
     sub_xarray = xarray.Dataset()
     sub_xarray.attrs = full_xarray.attrs.copy()
     # Set attributes appropriately
