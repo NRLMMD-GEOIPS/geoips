@@ -98,15 +98,24 @@ def call(
                 # which handles fname conventions for 3D data. Such as a function which
                 # produces a pre-prended string to the corresponding fname.
                 lvl_km = str(slice_idx * 0.5).split(".")
-                lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0."
+                lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0"
+                suffix = f".{basename(fname).split('.')[-1]}"
+                # This is expected from ovcst_fname filename_formatter
+                if "OVCST" in basename(fname):
+                    # OVCST_<product_name>_<datetime>.png
+                    # <datetime> fmt = yyyymmddhhnnss
+                    datetime = basename(fname).split("_")[2][: -len(suffix)]
+                    date = datetime[:8]
+                    time = datetime[8:]
                 # This is expected from basic_fname filename_formatter
-                date, time = basename(fname).split(".")[0:2]
+                else:
+                    date, time = basename(fname).split(".")[0:2]
                 # Making a directory with date.time/fname as there are 20 images per
                 # file for OVERCAST data
                 final_fname = join(
                     dirname(fname),
                     f"{date}.{time}",
-                    f"{lvl_str}{basename(fname)}",
+                    f"{basename(fname)[:-len(suffix)]}_{lvl_str}{suffix}",
                 )
             else:
                 final_fname = fname
