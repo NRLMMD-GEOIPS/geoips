@@ -3,14 +3,16 @@
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
+import abc
 import yaml
 import inspect
 import logging
 from os.path import basename, splitext
 from glob import glob
+from subprocess import call
 
 from importlib.resources import files
-from importlib import util
+from importlib import util, reload
 from pathlib import Path
 import jsonschema
 import referencing
@@ -288,7 +290,7 @@ class BaseModulePlugin:
     pass
 
 
-class BaseInterface:
+class BaseInterface(abc.ABC):
     """Base class for GeoIPS interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
@@ -300,9 +302,9 @@ class BaseInterface:
     the GeoIPS algorithm plugins.
     """
 
-    from geoips.plugin_registry import plugin_registry
+    from geoips import plugin_registry as plugin_registry_module
 
-    plugin_registry = plugin_registry
+    plugin_registry = plugin_registry_module.plugin_registry
 
     def __new__(cls):
         """Plugin interface new method."""
@@ -316,6 +318,81 @@ class BaseInterface:
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
         return super(BaseInterface, cls).__new__(cls)
+
+    @abc.abstractmethod
+    def get_plugin(self, name, call_number=0):
+        """Abstract function for retrieving a plugin under a certain interface.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the yaml-based plugin. Either a single string or a tuple of
+              strings for product plugins.
+        call_number: integer (default=0)
+            - The number of times this function has been called from a single instance
+              of <interface>.get_plugin. I.e. if sectors.get_plugin("goes_east")
+              resulted in a recursive call of self.get_plugin("goes_east"), then
+              'call_number' would be incremented by one. This is not the same as
+              sectors.get_plugin("goes_east") in one part of the code, and another call
+              of sectors.get_plugin("goes_east") at another part of the code. This just
+              tracks recursive calls to this function, in the case we need to run
+              'create_plugin_registries' in the case that a plugin is missing the first
+              time this function is ran.
+        """
+        pass
+
+    def call_create_plugin_registries(self, yaml=False):
+        """Run command 'create_plugin_registries' as a subprocess.
+
+        This should be done whenever a plugin is attempted to be loaded but fails
+        because it isn't an entry in the plugin registry. If the plugin still cannot be
+        found after this function is ran, then report the issue to the user.
+
+        Parameters
+        ----------
+        yaml: boolean (default=False)
+            - Truth value as to whether or not we want to create a .yaml registry. If
+              false, then create the default .json registry instead.
+        """
+        args = ["create_plugin_registries"]
+        if yaml:
+            args += ["-s", "yaml"]
+        call(args, shell=False)
+        # Reload the interface's plugin_registry_module so that the plugin registry is
+        # in the most recent state.
+        reload(self.plugin_registry_module)
+
+    def retry_get_plugin(self, name, call_number, err_str):
+        """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
+
+        By running 'create_plugin_registries', we automate the registration of plugins
+        in GeoIPS. If the plugin persists not to be found, then we'll raise an
+        appropriate PluginError as denoted by 'err_str'.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the yaml plugin. Either a single string or a tuple of strings
+              for product plugins.
+        call_number: integer
+            - The number of times this function has been called from a single instance
+              of <interface>.get_plugin. I.e. if sectors.get_plugin("goes_east")
+              resulted in a recursive call of self.get_plugin("goes_east"), then
+              'call_number' would be incremented by one. This is not the same as
+              sectors.get_plugin("goes_east") in one part of the code, and another call
+              of sectors.get_plugin("goes_east") at another part of the code. This just
+              tracks recursive calls to this function, in the case we need to run
+              'create_plugin_registries' in the case that a plugin is missing the first
+              time this function is ran.
+        err_str: string
+            The error to be reported as a PluginError.
+        """
+        if call_number == 0:
+            LOG.interactive("Running create_plugin_registries due to a missing plugin.")
+            self.call_create_plugin_registries()
+            return self.get_plugin(name, call_number=call_number + 1)
+        else:
+            raise PluginError(err_str)
 
     @property
     def registered_module_based_plugins(self):
@@ -453,13 +530,29 @@ class BaseYamlInterface(BaseInterface):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
-    def get_plugin(self, name):
+    def get_plugin(self, name, call_number=0):
         """Get a plugin by its name.
 
         This default method can be overridden to provide different search
         functionality for an interface. An example of this is in the
         ProductsInterface which uses a tuple containing 'source_name' and
         'name'.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the yaml-based plugin. Either a single string or a tuple of
+              strings for product plugins.
+        call_number: integer (default=0)
+            - The number of times this function has been called from a single instance
+              of <interface>.get_plugin. I.e. if sectors.get_plugin("goes_east")
+              resulted in a recursive call of self.get_plugin("goes_east"), then
+              'call_number' would be incremented by one. This is not the same as
+              sectors.get_plugin("goes_east") in one part of the code, and another call
+              of sectors.get_plugin("goes_east") at another part of the code. This just
+              tracks recursive calls to this function, in the case we need to run
+              'create_plugin_registries' in the case that a plugin is missing the first
+              time this function is ran.
         """
         from importlib.resources import files
 
@@ -476,9 +569,10 @@ class BaseYamlInterface(BaseInterface):
                     "package"
                 ]
             except KeyError:
-                raise PluginError(
+                err_str = (
                     f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
                 )
+                return self.retry_get_plugin(name, call_number, err_str)
             abspath = str(files(package) / relpath)
             plugin = yaml.safe_load(open(abspath, "r"))
             plugin_found = False
@@ -488,9 +582,8 @@ class BaseYamlInterface(BaseInterface):
                     plugin = product
                     break
             if not plugin_found:
-                raise PluginError(
-                    "There is no plugin that has " + name[1] + " included in it."
-                )
+                err_str = "There is no plugin that has " + name[1] + " included in it."
+                return self.retry_get_plugin(name, call_number, err_str)
             plugin["interface"] = "products"
             plugin["package"] = package
             plugin["abspath"] = abspath
@@ -500,9 +593,8 @@ class BaseYamlInterface(BaseInterface):
                 relpath = registered_yaml_plugins[self.name][name]["relpath"]
                 package = registered_yaml_plugins[self.name][name]["package"]
             except KeyError:
-                raise PluginError(
-                    f"Plugin [{name}] doesn't exist under interface [{self.name}]"
-                )
+                err_str = f"Plugin [{name}] doesn't exist under interface [{self.name}]"
+                return self.retry_get_plugin(name, call_number, err_str)
             abspath = str(files(package) / relpath)
             plugin = yaml.safe_load(open(abspath, "r"))
             plugin["package"] = package
@@ -687,13 +779,23 @@ class BaseModuleInterface(BaseInterface):
         # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
         return type(plugin_type, (plugin_base_class,), obj_attrs)()
 
-    def get_plugin(self, name):
+    def get_plugin(self, name, call_number=0):
         """Retrieve a plugin from this interface by name.
 
         Parameters
         ----------
         name : str
           The name the desired plugin.
+        call_number: integer (default=0)
+            The number of times this function has been called from a single instance
+            of <interface>.get_plugin. I.e. if readers.get_plugin("abi_netcdf")
+            resulted in a recursive call of self.get_plugin("abi_netcdf"), then
+            'call_number' would be incremented by one. This is not the same as
+            readers.get_plugin("abi_netcdf") in one part of the code, and another call
+            of readers.get_plugin("abi_netcdf") at another part of the code. This just
+            tracks recursive calls to this function, in the case we need to run
+            'create_plugin_registries' in the case that a plugin is missing the first
+            time this function is ran.
 
         Returns
         -------
@@ -709,12 +811,13 @@ class BaseModuleInterface(BaseInterface):
         # Convert the module into an object
         registered_module_plugins = self.registered_module_based_plugins
         if name not in registered_module_plugins[self.name]:
-            raise PluginError(
+            err_str = (
                 f"Plugin '{name}', "
                 f"from interface '{self.name}' "
                 f"appears to not exist."
                 f"\nCreate plugin, then call create_plugin_registries?"
             )
+            return self.retry_get_plugin(name, call_number, err_str)
 
         package = registered_module_plugins[self.name][name]["package"]
         relpath = registered_module_plugins[self.name][name]["relpath"]
