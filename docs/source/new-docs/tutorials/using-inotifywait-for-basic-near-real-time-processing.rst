@@ -38,14 +38,21 @@ Create a shell script that will monitor a directory and process new files using 
     inotifywait -m -e close_write --format "%f" "$WATCH_DIR" | while read FILENAME
     do
         echo "Processing new file: $FILENAME"
-        geoips TODO: ADD REAL COMMAND --input-file "$WATCH_DIR/$FILENAME"
+        geoips run single_source \
+             --reader_name abi_netcdf \
+             --product_name Visible \
+             --output_formatter unprojected_image \
+             --filename_formatter geoips_fname \
+             --self_register_dataset MED \
+             --self_register_source abi \
+             "$WATCH_DIR/$FILENAME"
     done
 
-Save this script as ``geoips_watch.sh`` and give it execute permissions:
+Save this script as ``geoips-watch.sh`` and give it execute permissions:
 
 .. code-block:: bash
 
-    chmod +x geoips_watch.sh
+    chmod +x geoips-watch.sh
 
 Step 3: Run the Watch Script
 ----------------------------
@@ -54,7 +61,7 @@ Start the script to begin monitoring the directory for new files:
 
 .. code-block:: bash
 
-    ./geoips_watch.sh
+    ./geoips-watch.sh
 
 The script triggers a GeoIPS run when a new file is written.
 
