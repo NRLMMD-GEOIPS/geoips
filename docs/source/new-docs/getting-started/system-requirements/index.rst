@@ -68,13 +68,19 @@ User System Requirements
 +==========+=============+=============+======================================+
 | CPU      | 2 CPU       | 4 CPU       |                                      |
 +----------+-------------+-------------+--------------------------------------+
-|| Memory  || 12GB       || 128GB      || Enough for most GeoIPS imagery.     |
-||         ||            ||            || Some Geostationary imagery requires |
-||         ||            ||            || > 90GB RAM.                         |
+|| Memory  || 12GB       || 128GB      || RAM Requirements vary widely based  |
+||         ||            ||            || on the imagery you are working with.|
 +----------+-------------+-------------+--------------------------------------+
 | Storage  | 20GB on SSD | 20GB on SSD || Plus additional storage, as needed, |
 |          |             |             || for datasets.                       |
 +----------+-------------+-------------+--------------------------------------+
+
+Processing medium resolution next generation geostationary satellite data 
+(ABI, AHI) and polar orbiter satellite data with GeoIPS 
+requires at least 16GB memory.
+
+High resolution next generation geostationary satellite datasets 
+require at least 24GB memory.
 
 Developer System Requirements
 -----------------------------
