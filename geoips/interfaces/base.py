@@ -336,7 +336,7 @@ class BaseInterface(abc.ABC):
               sectors.get_plugin("goes_east") in one part of the code, and another call
               of sectors.get_plugin("goes_east") at another part of the code. This just
               tracks recursive calls to this function, in the case we need to run
-              'create_plugin_registries' in the case that a plugin is missing the first
+              'create_plugin_registries' if a plugin is missing the first
               time this function is ran.
         """
         pass
@@ -382,7 +382,7 @@ class BaseInterface(abc.ABC):
               sectors.get_plugin("goes_east") in one part of the code, and another call
               of sectors.get_plugin("goes_east") at another part of the code. This just
               tracks recursive calls to this function, in the case we need to run
-              'create_plugin_registries' in the case that a plugin is missing the first
+              'create_plugin_registries' if a plugin is missing the first
               time this function is ran.
         err_str: string
             The error to be reported as a PluginError.
@@ -551,7 +551,7 @@ class BaseYamlInterface(BaseInterface):
               sectors.get_plugin("goes_east") in one part of the code, and another call
               of sectors.get_plugin("goes_east") at another part of the code. This just
               tracks recursive calls to this function, in the case we need to run
-              'create_plugin_registries' in the case that a plugin is missing the first
+              'create_plugin_registries' if a plugin is missing the first
               time this function is ran.
         """
         from importlib.resources import files
@@ -794,7 +794,7 @@ class BaseModuleInterface(BaseInterface):
             readers.get_plugin("abi_netcdf") in one part of the code, and another call
             of readers.get_plugin("abi_netcdf") at another part of the code. This just
             tracks recursive calls to this function, in the case we need to run
-            'create_plugin_registries' in the case that a plugin is missing the first
+            'create_plugin_registries' if a plugin is missing the first
             time this function is ran.
 
         Returns
