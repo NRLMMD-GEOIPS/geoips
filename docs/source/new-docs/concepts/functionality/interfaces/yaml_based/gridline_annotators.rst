@@ -23,9 +23,9 @@ Gridline Annotator Specification
 ================================
 A gridline_annotator plugin is broken into 4 elements, one of them which is optional.
 The following sections will describe each element, and how each come together to format
-your gridlines on any annotated image that you create using GeoIPS.
+your gridlines in any annotated image that you create using GeoIPS.
 
-Every gridline_annotator plugin is
+Every gridline_annotator plugin is composed of:
 
 Labels
 ------
