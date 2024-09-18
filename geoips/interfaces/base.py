@@ -404,9 +404,9 @@ class BaseInterface(abc.ABC):
             # BaseYamlInterface or BaseModuleInterface 'get_plugin', then return such
             # information to the child class which overrode 'get_plugin'. Implementing
             # it this way ensures that will happen.
-            return self.__class__.__base__().get_plugin(
-                name, call_number=call_number + 1
-            )
+            base_interface_class = self.__class__.__base__()
+            base_interface_class.name = self.name
+            return base_interface_class.get_plugin(name, call_number=call_number + 1)
         else:
             raise err_type(err_str)
 
@@ -725,6 +725,7 @@ class BaseModuleInterface(BaseInterface):
     """
 
     interface_type = "module_based"
+    name = "BaseModuleInterface"
     required_args = {}
 
     def __repr__(self):
