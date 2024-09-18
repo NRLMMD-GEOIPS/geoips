@@ -7,7 +7,7 @@ import abc
 import yaml
 import inspect
 import logging
-from os.path import basename, splitext
+from os.path import basename, exists, splitext
 from glob import glob
 from subprocess import call
 
@@ -362,7 +362,7 @@ class BaseInterface(abc.ABC):
         # in the most recent state.
         reload(self.plugin_registry_module)
 
-    def retry_get_plugin(self, name, call_number, err_str):
+    def retry_get_plugin(self, name, call_number, err_str, err_type=PluginError):
         """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
 
         By running 'create_plugin_registries', we automate the registration of plugins
@@ -385,14 +385,16 @@ class BaseInterface(abc.ABC):
               'create_plugin_registries' if a plugin is missing the first
               time this function is ran.
         err_str: string
-            The error to be reported as a PluginError.
+            - The error to be reported.
+        err_type: Exception-based Class
+            - The class of exception to be raised.
         """
         if call_number == 0:
             LOG.interactive("Running create_plugin_registries due to a missing plugin.")
             self.call_create_plugin_registries()
             return self.get_plugin(name, call_number=call_number + 1)
         else:
-            raise PluginError(err_str)
+            raise err_type(err_str)
 
     @property
     def registered_module_based_plugins(self):
@@ -574,6 +576,18 @@ class BaseYamlInterface(BaseInterface):
                 )
                 return self.retry_get_plugin(name, call_number, err_str)
             abspath = str(files(package) / relpath)
+            # If abspath doesn't exist the registry is out of date with the actual
+            # contents of all, or a certain plugin package.
+            if not exists(abspath):
+                err_str = (
+                    f"Products plugin source: '{name[0]}', plugin: '{name[1]} exists in"
+                    f" the registry but its corresponding file at '{abspath}' cannot be"
+                    " found. Reinstall your package and re-run "
+                    "'create_plugin_registries'."
+                )
+                return self.retry_get_plugin(
+                    name, call_number, err_str, PluginRegistryError
+                )
             plugin = yaml.safe_load(open(abspath, "r"))
             plugin_found = False
             for product in plugin["spec"]["products"]:
@@ -596,6 +610,17 @@ class BaseYamlInterface(BaseInterface):
                 err_str = f"Plugin [{name}] doesn't exist under interface [{self.name}]"
                 return self.retry_get_plugin(name, call_number, err_str)
             abspath = str(files(package) / relpath)
+            # If abspath doesn't exist the registry is out of date with the actual
+            # contents of all, or a certain plugin package.
+            if not exists(abspath):
+                err_str = (
+                    f"Plugin '{name}' exists in the registry but its corresponding file"
+                    f" at '{abspath}' cannot be found. Reinstall your package and "
+                    "re-run 'create_plugin_registries'."
+                )
+                return self.retry_get_plugin(
+                    name, call_number, err_str, PluginRegistryError
+                )
             plugin = yaml.safe_load(open(abspath, "r"))
             plugin["package"] = package
             plugin["abspath"] = abspath
@@ -815,7 +840,7 @@ class BaseModuleInterface(BaseInterface):
                 f"Plugin '{name}', "
                 f"from interface '{self.name}' "
                 f"appears to not exist."
-                f"\nCreate plugin, then call create_plugin_registries?"
+                f"\nCreate plugin, then call create_plugin_registries."
             )
             return self.retry_get_plugin(name, call_number, err_str)
 
@@ -824,6 +849,17 @@ class BaseModuleInterface(BaseInterface):
         module_path = splitext(relpath.replace("/", "."))[0]
         module_path = f"{package}.{module_path}"
         abspath = files(package) / relpath
+        # If abspath doesn't exist the registry is out of date with the actual contents
+        # of all, or a certain plugin package.
+        if not exists(abspath):
+            err_str = (
+                f"Plugin '{name}' exists in the registry but its corresponding file at "
+                f"'{abspath}' cannot be found. Reinstall your package and re-run "
+                "'create_plugin_registries'."
+            )
+            return self.retry_get_plugin(
+                name, call_number, err_str, PluginRegistryError
+            )
         spec = util.spec_from_file_location(module_path, abspath)
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
