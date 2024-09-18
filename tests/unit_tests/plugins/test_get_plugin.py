@@ -75,10 +75,14 @@ def test_get_plugin(int_plug_tuple):
     # given a valid plugin name
     if test_result in ["normal", "out_of_sync", "non_existent_path"]:
         if isinstance(plugin_name, tuple):
-            assert curr_interface.get_plugin(plugin_name[0], plugin_name[1])
+            assert curr_interface.get_plugin(
+                plugin_name[0],
+                plugin_name[1],
+                rebuild_registries=True,
+            )
         else:
-            assert curr_interface.get_plugin(plugin_name)
+            assert curr_interface.get_plugin(plugin_name, rebuild_registries=True)
     # If this is in fact a plugin that does not exist, a plugin error will be raised.
     elif test_result == "no_plugin":
         with pytest.raises(PluginError):
-            curr_interface.get_plugin(plugin_name)
+            curr_interface.get_plugin(plugin_name, rebuild_registries=True)

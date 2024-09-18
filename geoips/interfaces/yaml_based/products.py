@@ -97,7 +97,9 @@ class ProductsInterface(BaseYamlInterface):
             names += [(source_name, yaml_plugin["name"])]
         return names
 
-    def get_plugin(self, source_name, name, product_spec_override=None, call_number=0):
+    def get_plugin(
+        self, source_name, name, product_spec_override=None, rebuild_registries=False
+    ):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.
 
         If product_spec_override dict is passed, values contained within
@@ -119,18 +121,13 @@ class ProductsInterface(BaseYamlInterface):
         dict : str
             - Dictionary specifying what information of the product's spec that is to be
               overridden at runtime.
-        call_number : integer (default=0)
-            - The number of times this function has been called from a single instance
-              of <interface>.get_plugin. I.e. if readers.get_plugin("abi_netcdf")
-              resulted in a recursive call of self.get_plugin("abi_netcdf"), then
-              'call_number' would be incremented by one. This is not the same as
-              readers.get_plugin("abi_netcdf") in one part of the code, and another call
-              of readers.get_plugin("abi_netcdf") at another part of the code. This just
-              tracks recursive calls to this function, in the case we need to run
-              'create_plugin_registries' if a plugin is missing the first
-              time this function is ran.
+        rebuild_registries: boolean (default=False)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              true and get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
         """
-        prod_plugin = super().get_plugin((source_name, name), call_number)
+        prod_plugin = super().get_plugin((source_name, name), rebuild_registries)
         if product_spec_override is not None:
             # Default to no override arguments
             override_args = {}

@@ -168,11 +168,16 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             if "non_existent" in sector_name:
                 # This occurs for a unit test that we are just checking the error output
                 # for. No need to rebuild the plugin registry, which can be specified by
-                # using call_number=-1
-                call_number = -1
+                # using rebuild_registries=False
+                rebuild_registries = False
             else:
-                call_number = 0
-            sect = sectors.get_plugin(sector_name, call_number=call_number)
+                # Otherwise, assume this is a new sector that is being developed, and
+                # automate plugin registry creation if it does not already exist as an
+                # entry in the registry.
+                rebuild_registries = 0
+            sect = sectors.get_plugin(
+                sector_name, rebuild_registries=rebuild_registries
+            )
         except PluginError:
             raise self.parser.error(
                 f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
