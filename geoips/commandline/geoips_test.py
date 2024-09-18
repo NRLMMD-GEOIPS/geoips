@@ -165,7 +165,14 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         # background.
         fname = join(outdir, f"{sector_name}.png")
         try:
-            sect = sectors.get_plugin(sector_name)
+            if "non_existent" in sector_name:
+                # This occurs for a unit test that we are just checking the error output
+                # for. No need to rebuild the plugin registry, which can be specified by
+                # using call_number=-1
+                call_number = -1
+            else:
+                call_number = 0
+            sect = sectors.get_plugin(sector_name, call_number=call_number)
         except PluginError:
             raise self.parser.error(
                 f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "

@@ -373,17 +373,7 @@ class BaseCliTest(abc.ABC):
             output, error = output.decode(), error.decode()
             prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
-        if (
-            len(error)
-            and (not len(output) or output == "\n")
-            or (
-                len(error)
-                and args == ["geoips", "test", "sector", "non_existent_sector"]
-            )
-        ):
-            # This produces either error, output and error, but output == "\n", or
-            # error and output but we only care about the error for the call to
-            # 'geoips test sector non_existent_sector'
+        if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)
