@@ -361,6 +361,7 @@ class BaseInterface(abc.ABC):
         # Reload the interface's plugin_registry_module so that the plugin registry is
         # in the most recent state.
         reload(self.plugin_registry_module)
+        self.plugin_registry = self.plugin_registry_module.plugin_registry
 
     def retry_get_plugin(self, name, call_number, err_str, err_type=PluginError):
         """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
@@ -409,8 +410,9 @@ class BaseInterface(abc.ABC):
                     self.plugin_registry.registered_plugins["module_based"]
                 )
             except (AttributeError, KeyError):
-                raise PluginRegistryError(
-                    "Plugin registries not found, please run 'create_plugin_registries'"
+                self.call_create_plugin_registries()
+                self._registered_module_based_plugins = (
+                    self.plugin_registry.registered_plugins["module_based"]
                 )
         return self._registered_module_based_plugins
 
@@ -427,8 +429,9 @@ class BaseInterface(abc.ABC):
                     self.plugin_registry.registered_plugins["yaml_based"]
                 )
             except (AttributeError, KeyError):
-                raise PluginRegistryError(
-                    "Plugin registries not found, please run 'create_plugin_registries'"
+                self.call_create_plugin_registries()
+                self._registered_yaml_based_plugins = (
+                    self.plugin_registry.registered_plugins["yaml_based"]
                 )
         return self._registered_yaml_based_plugins
 
@@ -585,6 +588,12 @@ class BaseYamlInterface(BaseInterface):
                     " found. Reinstall your package and re-run "
                     "'create_plugin_registries'."
                 )
+                # This error should never occur, but we're adding error handling here
+                # just in case. The reason it will never occur is that, if the path
+                # to such plugin does not exist, when create_plugin_registries is re-run
+                # that syncs up the path to the associated plugin. It cannot reach this
+                # point if the plugin name is invalid, so this point couldn't be hit
+                # twice
                 return self.retry_get_plugin(
                     name, call_number, err_str, PluginRegistryError
                 )
@@ -618,6 +627,12 @@ class BaseYamlInterface(BaseInterface):
                     f" at '{abspath}' cannot be found. Reinstall your package and "
                     "re-run 'create_plugin_registries'."
                 )
+                # This error should never occur, but we're adding error handling here
+                # just in case. The reason it will never occur is that, if the path
+                # to such plugin does not exist, when create_plugin_registries is re-run
+                # that syncs up the path to the associated plugin. It cannot reach this
+                # point if the plugin name is invalid, so this point couldn't be hit
+                # twice
                 return self.retry_get_plugin(
                     name, call_number, err_str, PluginRegistryError
                 )
@@ -810,17 +825,17 @@ class BaseModuleInterface(BaseInterface):
         Parameters
         ----------
         name : str
-          The name the desired plugin.
+            - The name the desired plugin.
         call_number: integer (default=0)
-            The number of times this function has been called from a single instance
-            of <interface>.get_plugin. I.e. if readers.get_plugin("abi_netcdf")
-            resulted in a recursive call of self.get_plugin("abi_netcdf"), then
-            'call_number' would be incremented by one. This is not the same as
-            readers.get_plugin("abi_netcdf") in one part of the code, and another call
-            of readers.get_plugin("abi_netcdf") at another part of the code. This just
-            tracks recursive calls to this function, in the case we need to run
-            'create_plugin_registries' if a plugin is missing the first
-            time this function is ran.
+            - The number of times this function has been called from a single instance
+              of <interface>.get_plugin. I.e. if readers.get_plugin("abi_netcdf")
+              resulted in a recursive call of self.get_plugin("abi_netcdf"), then
+              'call_number' would be incremented by one. This is not the same as
+              readers.get_plugin("abi_netcdf") in one part of the code, and another call
+              of readers.get_plugin("abi_netcdf") at another part of the code. This just
+              tracks recursive calls to this function, in the case we need to run
+              'create_plugin_registries' if a plugin is missing the first
+              time this function is ran.
 
         Returns
         -------
@@ -857,6 +872,12 @@ class BaseModuleInterface(BaseInterface):
                 f"'{abspath}' cannot be found. Reinstall your package and re-run "
                 "'create_plugin_registries'."
             )
+            # This error should never occur, but we're adding error handling here
+            # just in case. The reason it will never occur is that, if the path
+            # to such plugin does not exist, when create_plugin_registries is re-run
+            # that syncs up the path to the associated plugin. It cannot reach this
+            # point if the plugin name is invalid, so this point couldn't be hit
+            # twice
             return self.retry_get_plugin(
                 name, call_number, err_str, PluginRegistryError
             )

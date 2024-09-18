@@ -65,7 +65,7 @@ def gen_label(val):
 @pytest.mark.parametrize(
     "int_plug_tuple", yield_interface_plugin_tuples(), ids=gen_label
 )
-def test_is_plugin_valid(int_plug_tuple):
+def test_get_plugin(int_plug_tuple):
     """Test the functionality of 'get_plugin' for the provided interface and plugin."""
     interface_name = int_plug_tuple[0]
     plugin_name = int_plug_tuple[1]
