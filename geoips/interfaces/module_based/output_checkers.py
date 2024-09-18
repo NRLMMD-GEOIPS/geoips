@@ -1011,9 +1011,25 @@ class OutputCheckersInterface(BaseModuleInterface):
             raise TypeError("There isn't an output checker built for this data type.")
         return checker_name
 
-    def get_plugin(self, name):
-        """Return the output checker plugin corresponding to checker_name."""
-        plug = super().get_plugin(name)
+    def get_plugin(self, name, call_number=0):
+        """Return the output checker plugin corresponding to checker_name.
+
+        Parameters
+        ----------
+        name : str
+            - The name the desired plugin.
+        call_number: integer (default=0)
+            - The number of times this function has been called from a single instance
+              of <interface>.get_plugin. I.e. if readers.get_plugin("abi_netcdf")
+              resulted in a recursive call of self.get_plugin("abi_netcdf"), then
+              'call_number' would be incremented by one. This is not the same as
+              readers.get_plugin("abi_netcdf") in one part of the code, and another call
+              of readers.get_plugin("abi_netcdf") at another part of the code. This just
+              tracks recursive calls to this function, in the case we need to run
+              'create_plugin_registries' if a plugin is missing the first
+              time this function is ran.
+        """
+        plug = super().get_plugin(name, call_number)
         if self.valid_plugin(plug):
             return plug
 

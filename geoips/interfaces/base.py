@@ -338,6 +338,9 @@ class BaseInterface(abc.ABC):
               tracks recursive calls to this function, in the case we need to run
               'create_plugin_registries' if a plugin is missing the first
               time this function is ran.
+            - If call_number == -1, this means we should not rebuild the plugin registry
+              This occurs if we purposefully request a plugin that does not exist, which
+              occurs in data fusion and some unit tests.
         """
         pass
 
@@ -391,9 +394,19 @@ class BaseInterface(abc.ABC):
             - The class of exception to be raised.
         """
         if call_number == 0:
-            LOG.interactive("Running create_plugin_registries due to a missing plugin.")
+            LOG.interactive(
+                "Running 'create_plugin_registries' due to a missing plugin located "
+                f"under interface: '{self.name}', plugin_name: '{name}'."
+            )
             self.call_create_plugin_registries()
-            return self.get_plugin(name, call_number=call_number + 1)
+            # This is done as some interface classes override 'get_plugin' with
+            # additional parameters it it's call signature. We only want to call
+            # BaseYamlInterface or BaseModuleInterface 'get_plugin', then return such
+            # information to the child class which overrode 'get_plugin'. Implementing
+            # it this way ensures that will happen.
+            return self.__class__.__base__().get_plugin(
+                name, call_number=call_number + 1
+            )
         else:
             raise err_type(err_str)
 
