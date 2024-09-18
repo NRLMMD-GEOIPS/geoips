@@ -1,13 +1,16 @@
+import tempfile
+import importlib.util
 import logging
-import argparse
 import logging.handlers
+import argparse
 import shutil
 import os
 
-import rich
 from rich.logging import RichHandler
 from rich.traceback import install as install_rich_tracebacks
 import rich_argparse
+import pygit2
+import jinja2
 
 
 def init_logger(use_rich):
@@ -23,7 +26,7 @@ def init_logger(use_rich):
     return logger
 
 
-def parse_args():
+def parse_args_with_argparse():
     # Initialize parser with an example usage in the description
     parser = argparse.ArgumentParser(
         description=(
@@ -52,7 +55,7 @@ def parse_args():
         else None
     )
     parser.add_argument(
-        "--docs-path",
+        "--geoips-docs-path",
         type=str,
         default=default_docs_path,
         help=(
@@ -63,7 +66,7 @@ def parse_args():
 
     # Optional argument: version (default to 'latest')
     parser.add_argument(
-        "--set-version",
+        "--docs-version",
         type=str,
         default="latest",
         help="Version of the package. Default is 'latest'.",
@@ -100,197 +103,159 @@ def is_installed_and_in_path(program):
     return shutil.which(program) is not None
 
 
-def validate_repo_path(repo_path):
+def path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__name__)):
+    if not os.path.exists(repo_path):
+        logger.critical(f"Path does not exist: {repo_path}")
+        raise FileNotFoundError
+    try:
+        pygit2.Repository(repo_path)
+    except pygit2.GitError as e:
+        logger.critical(f"{repo_path} is not a valid git repo")
+        raise e
+
+
+def validate_package_installation(package_name, logger=logging.getLogger(__name__)):
     """
-    Validate if the repository path exists.
+    Check if the package is installed and available in the same python env as this program is running in
     """
-    if not path_exists(repo_path):
-        print(f"ERROR: Passed repository path does not exist: {repo_path}")
-        exit_script(1)
+    if importlib.util.find_spec(package_name) is None:
+        logger.critical(f"ERROR: Package {package_name} is not installed")
+        raise ModuleNotFoundError
 
 
-def validate_package_installation(package_name):
-    """
-    Check if the package is installed using pip. Exit if not installed.
-    """
-    # look at this: https://stackoverflow.com/questions/14050281/how-to-check-if-a-python-module-exists-without-importing-it#:~:text=Python%203%20%E2%89%A5%203.4%3A%20importlib.util.find_spec
-    result = run_command(f"pip show {package_name}")
-    if result.failed:
-        print(f"ERROR: Package {package_name} is not installed")
-    else:
-        print(f"Package {package_name} is already installed!")
-
-
-def determine_build_requirements(args):
-    """
-    Determine whether the script should build PDF or HTML documentation based on input arguments.
-    """
-    # TODO: REMOVE THIS FUNC
-    pdf_required = True
-    html_required = True
-    if len(args) >= 3:
-        if args[2] == "html_only":
-            pdf_required = False
-        elif args[2] == "pdf_only":
-            html_required = False
-    return pdf_required, html_required
-
-
-def setup_doc_paths(args):
-    """
-    Set up the default or custom paths for documentation.
-    """
-    if len(args) >= 4:
-        geoips_doc_path = realpath(args[3])
-    else:
-        geoips_doc_path = os.getenv("GEOIPS_PACKAGES_DIR") + "/geoips/docs"
-
-    if len(args) >= 5:
-        geoips_version = args[4]
-    else:
-        geoips_version = "latest"
-
-    return geoips_doc_path, geoips_version
-
-
-def validate_geoips_doc_path(geoips_doc_path):
-    """
-    Ensure that the geoips doc path exists.
-    """
-    # TODO: REMOVE FUNC
-    if not path_exists(geoips_doc_path):
-        print(f"ERROR: GeoIPS docs path does not exist: {geoips_doc_path}")
-        exit_script(1)
-
-
-def create_build_directories(doc_base_path):
-    """
-    Create the necessary build directories if they don't already exist.
-    """
-    if not path_exists(f"{doc_base_path}/build"):
-        create_directory(f"{doc_base_path}/build")
-
-    if path_exists(f"{doc_base_path}/build/buildfrom_docs"):
-        remove_directory(f"{doc_base_path}/build/buildfrom_docs")
-
-    if path_exists(f"{doc_base_path}/build/sphinx"):
-        remove_directory(f"{doc_base_path}/build/sphinx")
-
-
-def check_git_status_index_rst(doc_base_path):
-    """
-    Check if index.rst has local modifications and raise an error if found.
-    """
-    git_status = run_command(
-        f"git -C {doc_base_path} status docs/source/releases/index.rst"
-    )
-    if "docs/source/releases/index.rst" in git_status:
-        print_separator()
-        print("ERROR: Do not modify docs/source/releases/index.rst directly")
-        exit_script(1)
-
-
-def generate_release_notes_if_needed(doc_base_path, geoips_version):
-    """
-    Generate release notes using brassy if needed.
-    """
-    current_release_notes = list_directory(
-        f"{doc_base_path}/docs/source/releases/latest/*"
-    )
-    if current_release_notes:
-        touch_file(f"{doc_base_path}/docs/source/releases/{geoips_version}.rst")
-        run_command(
-            f"brassy --release-version {geoips_version} --no-rich --output-file {doc_base_path}/docs/source/releases/{geoips_version}.rst {doc_base_path}/docs/source/releases/latest"
-        )
-        if not brassy_successful:
-            exit_script(1)
-
-
-def update_release_note_index(geoips_doc_path, doc_base_path, geoips_version):
-    """
-    Update release note index using Python script.
-    """
-    run_command(
-        f"python {geoips_doc_path}/update_release_note_index.py {doc_base_path}/docs/source/releases/index.rst {geoips_version}"
-    )
-    if not update_successful:
-        exit_script(1)
-
-
-def build_html_docs_if_required(
-    buildfrom_doc_path, doc_base_path, geoips_doc_path, html_required, geoips_doc_dir
-):
-    """
-    Build HTML documentation if required.
-    """
-    if html_required:
-        # Build HTML using Sphinx
-        run_command(
-            f"sphinx-build {buildfrom_doc_path}/source {doc_base_path}/build/sphinx/html -b html -W"
-        )
-        # Update file and directory permissions
-        update_permissions(doc_base_path)
-
-        # Copy files to GEOIPS_DOCS_DIR if specified
-        if geoips_doc_dir:
-            copy_files(f"{doc_base_path}/build/sphinx/html/", geoips_doc_dir)
-
-
-def revert_index_rst(doc_base_path):
-    """
-    Revert the changes to docs/source/releases/index.rst using Git.
-    """
-    run_command(f"git -C {doc_base_path} checkout docs/source/releases/index.rst")
-
-
-def main(repo_path, package_name):
+def main(docs_base_path, package_name, geoips_docs_path, docs_version="latest"):
     """
     Main function that drives the entire script execution.
     """
     log = init_logger(True)
 
-    log.info(f"Repo path is {repo_path}")
-    log.info(f"Package name is {package_name}")
-
     for env_var in ["GEOIPS_REPO_URL", "GEOIPS_PACKAGES_DIR"]:
         value = os.getenv(env_var, "UNSET")
-        log.debug(f"Environmental variable {env_var} is {value}")
+        if value == "UNSET":
+            logger = log.warning
+        else:
+            logger = log.debug
+        logger(f"Environmental variable {env_var} is {value}")
 
     if not is_installed_and_in_path("sphinx-autodoc"):
-        raise ModuleNotFoundError("!")
+        # raise ModuleNotFoundError("!")  # better errors
+        pass
 
-    check_sphinx_installed()
-    validate_repo_path(repo_path)
-    validate_package_installation(pkgname)
+    # validate_package_installation(package_name, logger=log)
+    docs_path = os.path.join(docs_base_path, "docs")
 
-    raise NotImplementedError("Nothing implemented beyond this")
+    for path in (
+        docs_base_path,
+        docs_path,
+        geoips_docs_path,
+        os.path.join(docs_base_path, package_name),
+    ):
+        path_exists_and_is_git_repo(docs_base_path, logger=log)
 
-    pdf_required, html_required = determine_build_requirements(args)
-    geoips_doc_path, geoips_version = setup_doc_paths(args)
+    log.info(f"Repo path is {docs_base_path}")
+    log.info(f"Repo docs path is {docs_path}")
+    log.info(f"GeoIPS docs path is {geoips_docs_path}")
+    log.info(f"Package name is {package_name}")
+    log.info(f"Version is {docs_version}")
 
-    validate_geoips_doc_path(geoips_doc_path)
-    create_build_directories(repo_path)
+    """
+    docs_build_dir = os.path.join(docs_base_path, "build")
+    os.makedirs(docs_build_dir, exist_ok=True)
 
-    check_git_status_index_rst(repo_path)
-    generate_release_notes_if_needed(repo_path, geoips_version)
-    update_release_note_index(geoips_doc_path, repo_path, geoips_version)
+    for d in [
+        os.path.join(docs_build_dir, sub_path)
+        for sub_path in ["buildfrom_docs", "sphinx"]
+    ]:
+        try:
+            shutil.rmtree(d)
+        except FileNotFoundError:
+            pass
+    """
 
-    build_html_docs_if_required(
-        repo_path,
-        repo_path,
-        geoips_doc_path,
-        html_required,
-        os.getenv("GEOIPS_DOCSDIR"),
-    )
+    # generate release notes here, TODO
 
-    revert_index_rst(repo_path)
+    with tempfile.TemporaryDirectory() as docs_build_dir_container:
+        docs_build_dir = os.path.join(docs_build_dir_container, "build")
+        shutil.copytree(docs_path, docs_build_dir)
+        build_docs_source_dir = os.path.join(docs_path, "source")
+        template_path = os.path.join(docs_build_dir, "source", "_templates")
+        os.makedirs(template_path, exist_ok=True)
+        if not package_name == "geoips":
+            shutil.copy(
+                os.path.join(geoips_docs_path, "source", "_static"),
+                build_docs_source_dir,
+            )
+            shutil.copy(
+                os.path.join(geoips_docs_path, "source", "fancyhf.sty"),
+                build_docs_source_dir,
+            )
+            shutil.copy(
+                os.path.join(
+                    geoips_docs_path, "source", "_templates", "geoips_footer.html"
+                ),
+                template_path,
+            )
 
-    # Summarize return values and exit
-    log.info("Script completed successfully.")
+        template_conf_file_path = os.path.join(
+            geoips_docs_path, "source", "_templates", "sphinx_conf.template.py"
+        )
+        build_conf_file_path = os.path.join(build_docs_source_dir, "conf.py")
+
+        with open(template_conf_file_path, "rt") as template_conf_file:
+            with open(build_conf_file_path, "wt") as build_conf_file:
+                for line in template_conf_file:
+                    build_conf_file.write(line.replace("PKGNAME", package_name))
+
+        log.info("Docs build files setup")
+        log.info("Building docs")
+        # setup_optional_sections()
+
+        required_sections = ["releases"]
+
+        optional_sections = [
+            "starter",
+            "devguide",
+            "deployguide",
+            "opguide",
+            "contact",
+        ]
+
+        template_index_file_path = os.path.join(
+            geoips_docs_path, "source", "_templates", "index.template.rst"
+        )
+        build_index_file_path = os.path.join(build_docs_source_dir, "index.rst")
+
+        def replace_section_string(section, content):
+            return content.replace(section.upper() + "IDX", f"{section}/index")
+
+        with open(template_index_file_path, "rt") as template_index_file:
+            with open(build_conf_file_path, "wt") as build_index_file:
+                content = jinja2.Template(template_index_file.read()).render()
+                for section in required_sections:
+                    content = replace_section_string(section, content)
+                for section in optional_sections:
+                    if os.path.exists(
+                        os.path.join(docs_path, "source", section, "index.rst")
+                    ):
+                        content = replace_section_string(section, content)
+                build_index_file.write(content)
+
+        raise NotImplementedError("Nothing implemented beyond this")
+        run_sphinx_api_doc()
+        build_html_with_sphinx()
+        set_file_and_folder_permissions()
+        # TODO: copy files if DOCSDIR is set
+
+    return_error_codes()
 
 
 # Execute the main function with command line arguments
 if __name__ == "__main__":
-    args = parse_args()
+    args = parse_args_with_argparse()
     # validate_arguments()
-    main(repo_path=args.repo_path, package_name=args.package_name)
+    main(
+        docs_base_path=args.repo_path,
+        package_name=args.package_name,
+        geoips_docs_path=args.geoips_docs_path,
+        docs_version=args.docs_version,
+    )
