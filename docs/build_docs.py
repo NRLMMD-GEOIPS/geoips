@@ -137,6 +137,22 @@ def get_sections_from_conf_file():
     return required_sections, optional_sections
 
 
+def return_jinja2_rendered_file_content(template_path):
+    with open(template_path, "rt") as template_file:
+        return jinja2.Template(template_file.read()).render()
+
+
+# TODO FIX
+def update_content_for_section(content, section, is_optional=False):
+    section_path = os.path.join(build_dir, section, "index.rst")
+    if is_optional and not os.path.exists(section_path):
+        log.debug(f"Not adding optional section {section}")
+        return content.replace(get_section_replace_string(section), "")
+    if is_optional:
+        log.debug(f"Including optional section {section}")
+    return content.replace(get_section_replace_string(section), f"{section}/index")
+
+
 def generate_top_level_index_file(
     build_dir,
     geoips_docs_dir,
@@ -145,28 +161,27 @@ def generate_top_level_index_file(
     optional_sections,
     log=logging.getLogger(__name__),
 ):
+
     template_index_file_path = os.path.join(
         geoips_docs_dir, "source", "_templates", "index.template.rst"
     )
     build_index_file_path = os.path.join(build_dir, "index.rst")
-    with open(template_index_file_path, "rt") as template_index_file:
-        with open(build_index_file_path, "wt") as build_index_file:
-            content = jinja2.Template(template_index_file.read()).render()
-            for section in required_sections:
-                content = content.replace(
-                    get_section_replace_string(section), f"{section}/index"
-                )
-            for section in optional_sections:
-                if os.path.exists(os.path.join(build_dir, section, "index.rst")):
-                    log.debug(f"Including optional section {section}")
-                    content = content.replace(
-                        get_section_replace_string(section), f"{section}/index"
-                    )
-                else:
-                    log.debug(f"Not adding optional section {section}")
-                    content = content.replace(get_section_replace_string(section), "")
-            content = content.replace("PKGNAME", package_name)
-            build_index_file.write(content)
+
+    content = return_jinja2_rendered_file_content(template_index_file_path)
+
+    # Replace required sections
+    for section in required_sections:
+        content = update_content_for_section(content, section)
+
+    # Replace optional sections
+    for section in optional_sections:
+        content = update_content_for_section(content, section, is_optional=True)
+
+    # Replace package name
+    content = content.replace("PKGNAME", package_name)
+
+    with open(build_index_file_path, "wt") as build_index_file:
+        build_index_file.write(content)
 
 
 def copy_template_files_to_non_geoips_repo(geoips_docs_dir, build_dir):
