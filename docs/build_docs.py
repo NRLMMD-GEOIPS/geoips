@@ -11,6 +11,8 @@ from rich.traceback import install as install_rich_tracebacks
 import rich_argparse
 import pygit2
 import jinja2
+from sphinx.cmd.build import main as sphinx_build
+from sphinx.ext.apidoc import main as sphinx_apidoc
 
 
 def init_logger(use_rich):
@@ -82,28 +84,10 @@ def validate_arguments(args):
     """
     Validate input arguments. Must have at least two arguments: repo path and package name.
     """
+    # TODO
 
 
-def print_error_message_for_args():
-    """
-    Print usage instructions in case of missing arguments.
-    """
-    print("***************************************************************************")
-    print("ERROR: Must call with repo path and package name.  Example usage:")
-    print(
-        "    ./build_docs.sh path_to_repo package_name [html_only|pdf_only|html_pdf path_to_docs]"
-    )
-    print("***************************************************************************")
-
-
-def is_installed_and_in_path(program):
-    """
-    Return True if provided program is is installed and accessible.
-    """
-    return shutil.which(program) is not None
-
-
-def path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__name__)):
+def validate_path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__name__)):
     if not os.path.exists(repo_path):
         logger.critical(f"Path does not exist: {repo_path}")
         raise FileNotFoundError
@@ -114,7 +98,7 @@ def path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__name__)):
         raise e
 
 
-def validate_package_installation(package_name, logger=logging.getLogger(__name__)):
+def validate_package_is_installed(package_name, logger=logging.getLogger(__name__)):
     """
     Check if the package is installed and available in the same python env as this program is running in
     """
@@ -123,184 +107,219 @@ def validate_package_installation(package_name, logger=logging.getLogger(__name_
         raise ModuleNotFoundError
 
 
-def main(docs_base_path, package_name, geoips_docs_path, docs_version="latest"):
+def get_env_variables(log):
+    env_vars = {}
+    for env_var in ["GEOIPS_REPO_URL", "GEOIPS_PACKAGES_DIR"]:
+        env_vars[env_var] = os.getenv(env_var, "UNSET")
+        if env_vars[env_var] == "UNSET":
+            logger = log.warning
+        else:
+            logger = log.debug
+        logger(f"Environmental variable {env_var} is {env_vars[env_var]}")
+    return env_vars
+
+
+def get_section_replace_string(section):
+    return section.upper() + "IDX"
+
+
+def get_sections_from_conf_file():
+    required_sections = ["releases"]
+
+    optional_sections = [
+        "starter",
+        "devguide",
+        "deployguide",
+        "opguide",
+        "contact",
+    ]
+
+    return required_sections, optional_sections
+
+
+def generate_top_level_index_file(
+    build_dir,
+    geoips_docs_dir,
+    package_name,
+    required_sections,
+    optional_sections,
+    log=logging.getLogger(__name__),
+):
+    template_index_file_path = os.path.join(
+        geoips_docs_dir, "source", "_templates", "index.template.rst"
+    )
+    build_index_file_path = os.path.join(build_dir, "index.rst")
+    with open(template_index_file_path, "rt") as template_index_file:
+        with open(build_index_file_path, "wt") as build_index_file:
+            content = jinja2.Template(template_index_file.read()).render()
+            for section in required_sections:
+                content = content.replace(
+                    get_section_replace_string(section), f"{section}/index"
+                )
+            for section in optional_sections:
+                if os.path.exists(os.path.join(build_dir, section, "index.rst")):
+                    log.debug(f"Including optional section {section}")
+                    content = content.replace(
+                        get_section_replace_string(section), f"{section}/index"
+                    )
+                else:
+                    log.debug(f"Not adding optional section {section}")
+                    content = content.replace(get_section_replace_string(section), "")
+            content = content.replace("PKGNAME", package_name)
+            build_index_file.write(content)
+
+
+def copy_template_files_to_non_geoips_repo(geoips_docs_dir, build_dir):
+    shutil.copy(
+        os.path.join(geoips_docs_dir, "source", "_static"),
+        build_dir,
+    )
+    shutil.copy(
+        os.path.join(geoips_docs_dir, "source", "fancyhf.sty"),
+        build_dir,
+    )
+    template_path = os.path.join(build_dir, "_templates")
+    os.makedirs(template_path, exist_ok=True)
+    shutil.copy(
+        os.path.join(geoips_docs_dir, "source", "_templates", "geoips_footer.html"),
+        template_path,
+    )
+
+
+def create_conf_py_from_template(build_dir, geoips_docs_dir, package_name):
+    template_conf_file_path = os.path.join(
+        geoips_docs_dir, "source", "_templates", "sphinx_conf.template.py"
+    )
+    build_conf_file_path = os.path.join(build_dir, "conf.py")
+
+    with open(template_conf_file_path, "rt") as template_conf_file:
+        with open(build_conf_file_path, "wt") as build_conf_file:
+            for line in template_conf_file:
+                build_conf_file.write(line.replace("PKGNAME", package_name))
+
+
+def stage_docs_files_for_building(
+    source_dir,
+    package_name,
+    geoips_docs_dir,
+    build_dir,
+    log=logging.getLogger(__name__),
+):
+    shutil.copytree(source_dir, build_dir)  # copy docs files over
+
+    if not package_name == "geoips":
+        copy_template_files_to_non_geoips_repo(geoips_docs_dir, build_dir)
+
+    create_conf_py_from_template(build_dir, geoips_docs_dir, package_name)
+
+    required_sections, optional_sections = get_sections_from_conf_file()
+    generate_top_level_index_file(
+        build_dir,
+        geoips_docs_dir,
+        package_name,
+        required_sections,
+        optional_sections,
+        log,
+    )
+
+
+def build_module_apidocs_with_sphinx(
+    module_path, apidoc_build_path, log=logging.getLogger(__name__)
+):
+    arguments = [
+        "--no-toc",
+        "-o",
+        apidoc_build_path,  # output path
+        module_path,  # module path
+        "*/lib/*",  # exclude path
+    ]
+    log.debug(f"Running sphinx apidoc with arguments '{' '.join(arguments)}'")
+    sphinx_apidoc(arguments)
+
+
+def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)):
+    arguments = [
+        "-b",  # builder name
+        "html",  # uses the html builder
+        # "-W",  # fail on warnings
+        "-v",
+        build_dir,  # folder to build from
+        built_dir,  # folder to build to
+    ]
+    log.debug(f"Running sphinx build with arguments '{' '.join(arguments)}'")
+    sphinx_build(arguments)
+
+
+def build_html_docs(
+    repo_dir,
+    build_dir,
+    geoips_docs_dir,
+    package_name,
+    log=logging.getLogger(__name__),
+):
+    log.info("Setting docs files up for building")
+    stage_docs_files_for_building(
+        os.path.join(repo_dir, "docs", "source"),
+        package_name,
+        geoips_docs_dir,
+        build_dir,
+        log=log,
+    )
+
+    log.info("Building API docs")
+    apidoc_build_path = os.path.join(build_dir, f"{package_name}_api")
+    module_path = os.path.join(repo_dir, package_name)  # module path
+    build_module_apidocs_with_sphinx(module_path, apidoc_build_path, log=log)
+
+    with tempfile.TemporaryDirectory() as built_dir:
+        log.info("Building docs")
+        build_docs_with_sphinx(build_dir, built_dir, log=log)
+
+
+def main(repo_dir, package_name, geoips_docs_dir, docs_version="latest"):
     """
     Main function that drives the entire script execution.
     """
     log = init_logger(True)
 
-    for env_var in ["GEOIPS_REPO_URL", "GEOIPS_PACKAGES_DIR"]:
-        value = os.getenv(env_var, "UNSET")
-        if value == "UNSET":
-            logger = log.warning
-        else:
-            logger = log.debug
-        logger(f"Environmental variable {env_var} is {value}")
+    env_vars = get_env_variables(log)
 
-    if not is_installed_and_in_path("sphinx-autodoc"):
-        # raise ModuleNotFoundError("!")  # better errors
-        pass
-
-    # validate_package_installation(package_name, logger=log)
-    docs_path = os.path.join(docs_base_path, "docs")
+    # validate_package_is_installed(package_name, logger=log)
 
     for path in (
-        docs_base_path,
-        docs_path,
-        geoips_docs_path,
-        os.path.join(docs_base_path, package_name),
+        repo_dir,
+        geoips_docs_dir,
+        os.path.join(repo_dir, "docs"),
+        os.path.join(repo_dir, package_name),
     ):
-        path_exists_and_is_git_repo(docs_base_path, logger=log)
+        validate_path_exists_and_is_git_repo(path, logger=log)
 
-    log.info(f"Repo path is {docs_base_path}")
-    log.info(f"Repo docs path is {docs_path}")
-    log.info(f"GeoIPS docs path is {geoips_docs_path}")
+    log.info(f"Repo path is {repo_dir}")
+    log.info(f"Repo docs path is {os.path.join(repo_dir, 'docs')}")
+    log.info(f"GeoIPS docs path is {geoips_docs_dir}")
     log.info(f"Package name is {package_name}")
     log.info(f"Version is {docs_version}")
-
-    """
-    docs_build_dir = os.path.join(docs_base_path, "build")
-    os.makedirs(docs_build_dir, exist_ok=True)
-
-    for d in [
-        os.path.join(docs_build_dir, sub_path)
-        for sub_path in ["buildfrom_docs", "sphinx"]
-    ]:
-        try:
-            shutil.rmtree(d)
-        except FileNotFoundError:
-            pass
-    """
 
     # generate release notes here, TODO
 
     with tempfile.TemporaryDirectory() as docs_build_dir_container:
-        docs_build_dir = os.path.join(docs_build_dir_container, "build")
-        shutil.copytree(docs_path, docs_build_dir)
-        build_docs_source_dir = os.path.join(docs_path, "source")
-        template_path = os.path.join(docs_build_dir, "source", "_templates")
-        os.makedirs(template_path, exist_ok=True)
-        if not package_name == "geoips":
-            shutil.copy(
-                os.path.join(geoips_docs_path, "source", "_static"),
-                build_docs_source_dir,
-            )
-            shutil.copy(
-                os.path.join(geoips_docs_path, "source", "fancyhf.sty"),
-                build_docs_source_dir,
-            )
-            shutil.copy(
-                os.path.join(
-                    geoips_docs_path, "source", "_templates", "geoips_footer.html"
-                ),
-                template_path,
-            )
-
-        template_conf_file_path = os.path.join(
-            geoips_docs_path, "source", "_templates", "sphinx_conf.template.py"
+        build_dir = os.path.join(docs_build_dir_container, "build")
+        built_dir = build_html_docs(
+            repo_dir, build_dir, geoips_docs_dir, package_name, log=log
         )
-        build_conf_file_path = os.path.join(docs_build_dir, "source", "conf.py")
-
-        with open(template_conf_file_path, "rt") as template_conf_file:
-            with open(build_conf_file_path, "wt") as build_conf_file:
-                for line in template_conf_file:
-                    build_conf_file.write(line.replace("PKGNAME", package_name))
-
-        log.info("Docs build files setup")
-        log.info("Building docs")
-        # setup_optional_sections()
-
-        required_sections = ["releases"]
-
-        optional_sections = [
-            "starter",
-            "devguide",
-            "deployguide",
-            "opguide",
-            "contact",
-        ]
-
-        template_index_file_path = os.path.join(
-            geoips_docs_path, "source", "_templates", "index.template.rst"
-        )
-        build_index_file_path = os.path.join(docs_build_dir, "source", "index.rst")
-
-        def get_section_replace_string(section):
-            return section.upper() + "IDX"
-
-        with open(template_index_file_path, "rt") as template_index_file:
-            with open(build_index_file_path, "wt") as build_index_file:
-                content = jinja2.Template(template_index_file.read()).render()
-                for section in required_sections:
-                    content = content.replace(
-                        get_section_replace_string(section), f"{section}/index"
-                    )
-                for section in optional_sections:
-                    if os.path.exists(
-                        os.path.join(build_docs_source_dir, section, "index.rst")
-                    ):
-                        log.debug(f"Including optional section {section}")
-                        content = content.replace(
-                            get_section_replace_string(section), f"{section}/index"
-                        )
-                    else:
-                        log.debug(f"Removing optional section {section}")
-                        content = content.replace(
-                            get_section_replace_string(section), ""
-                        )
-                content = content.replace("PKGNAME", package_name)
-                print(content)
-                build_index_file.write(content)
-
-        from sphinx.ext.apidoc import main as sphinx_apidoc
-
-        log.info("Building API docs")
-        apidoc_build_path = os.path.join(
-            docs_build_dir, "source", f"{package_name}_api"
-        )
-        arguments = [
-            # "--force",  # overwrite existing files
-            "--no-toc",
-            "-o",
-            apidoc_build_path,  # output path
-            os.path.join(docs_base_path, package_name),  # module path
-            "*/lib/*",  # exclude path
-        ]
-        log.debug(f"Running sphinx apidoc with arguments '{' '.join(arguments)}'")
-        sphinx_apidoc(arguments)
-
-        from sphinx.cmd.build import main as sphinx_build
-
-        with tempfile.TemporaryDirectory() as docs_build_final:
-            docs_build_final_dir = os.path.join(docs_build_final, "build")
-            log.info("Building docs")
-            sphinx_source = os.path.join(docs_build_dir, "source")
-            arguments = [
-                "-b",  # builder name
-                "html",  # uses the html builder
-                # "-W",  # fail on warnings
-                "-v",
-                sphinx_source,
-                docs_build_final_dir,
-            ]
-            log.debug(f"Running sphinx build with arguments '{' '.join(arguments)}'")
-            sphinx_build(arguments)
-            exit(1)
-        raise NotImplementedError("Nothing implemented beyond this")
-
         # set_file_and_folder_permissions()
         # TODO: copy files if DOCSDIR is set
 
-    return_error_codes()
+    # return_error_codes()
 
 
 # Execute the main function with command line arguments
 if __name__ == "__main__":
     args = parse_args_with_argparse()
-    # validate_arguments()
+    validate_arguments(args)
     main(
-        docs_base_path=args.repo_path,
+        repo_dir=args.repo_path,
         package_name=args.package_name,
-        geoips_docs_path=args.geoips_docs_path,
+        geoips_docs_dir=args.geoips_docs_path,
         docs_version=args.docs_version,
     )
