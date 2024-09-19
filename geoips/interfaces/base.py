@@ -10,7 +10,6 @@ import logging
 from os.path import basename, exists, splitext
 from glob import glob
 from subprocess import call
-import time
 
 from importlib.resources import files
 from importlib import util, reload
