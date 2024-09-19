@@ -142,8 +142,9 @@ def return_jinja2_rendered_file_content(template_path):
         return jinja2.Template(template_file.read()).render()
 
 
-# TODO FIX
-def update_content_for_section(content, section, is_optional=False):
+def update_content_for_section(
+    build_dir, content, section, is_optional=False, log=logging.getLogger(__name__)
+):
     section_path = os.path.join(build_dir, section, "index.rst")
     if is_optional and not os.path.exists(section_path):
         log.debug(f"Not adding optional section {section}")
@@ -171,11 +172,13 @@ def generate_top_level_index_file(
 
     # Replace required sections
     for section in required_sections:
-        content = update_content_for_section(content, section)
+        content = update_content_for_section(build_dir, content, section, log=log)
 
     # Replace optional sections
     for section in optional_sections:
-        content = update_content_for_section(content, section, is_optional=True)
+        content = update_content_for_section(
+            build_dir, content, section, is_optional=True, log=log
+        )
 
     # Replace package name
     content = content.replace("PKGNAME", package_name)
