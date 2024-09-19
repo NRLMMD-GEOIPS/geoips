@@ -199,7 +199,7 @@ def main(docs_base_path, package_name, geoips_docs_path, docs_version="latest"):
         template_conf_file_path = os.path.join(
             geoips_docs_path, "source", "_templates", "sphinx_conf.template.py"
         )
-        build_conf_file_path = os.path.join(build_docs_source_dir, "conf.py")
+        build_conf_file_path = os.path.join(docs_build_dir, "source", "conf.py")
 
         with open(template_conf_file_path, "rt") as template_conf_file:
             with open(build_conf_file_path, "wt") as build_conf_file:
@@ -223,7 +223,7 @@ def main(docs_base_path, package_name, geoips_docs_path, docs_version="latest"):
         template_index_file_path = os.path.join(
             geoips_docs_path, "source", "_templates", "index.template.rst"
         )
-        build_index_file_path = os.path.join(build_docs_source_dir, "index.rst")
+        build_index_file_path = os.path.join(docs_build_dir, "source", "index.rst")
 
         def get_section_replace_string(section):
             return section.upper() + "IDX"
