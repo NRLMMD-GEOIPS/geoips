@@ -11,8 +11,6 @@ GeoIPS |reg| PKGNAME Documentation
 
 **Date**: |today| **Version**: |release|
 
-**Download PDF documentation**: :download:`GeoIPS_PKGNAME.pdf`
-
 **Previous versions**: Documentation of previous PKGNAME versions are available at
 `github.com/NRLMMD-GEOIPS <https://github.com/NRLMMD-GEOIPS/>`__.
 
@@ -125,11 +123,11 @@ GeoIPS |reg| PKGNAME Documentation
     introduction/index
     STARTERIDX
     userguide/index
-    DEVIDX
-    DEPLOYGUIDEIDX
-    OPGUIDEIDX
+    DEVGUIDEIDX
     PKGNAME_api/index
-    RELEASEIDX
+    OPGUIDEIDX
+    DEPLOYGUIDEIDX
+    RELEASESIDX
     CONTACTIDX
 {% endif %}
 

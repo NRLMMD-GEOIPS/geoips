@@ -225,25 +225,70 @@ def main(docs_base_path, package_name, geoips_docs_path, docs_version="latest"):
         )
         build_index_file_path = os.path.join(build_docs_source_dir, "index.rst")
 
-        def replace_section_string(section, content):
-            return content.replace(section.upper() + "IDX", f"{section}/index")
+        def get_section_replace_string(section):
+            return section.upper() + "IDX"
 
         with open(template_index_file_path, "rt") as template_index_file:
-            with open(build_conf_file_path, "wt") as build_index_file:
+            with open(build_index_file_path, "wt") as build_index_file:
                 content = jinja2.Template(template_index_file.read()).render()
                 for section in required_sections:
-                    content = replace_section_string(section, content)
+                    content = content.replace(
+                        get_section_replace_string(section), f"{section}/index"
+                    )
                 for section in optional_sections:
                     if os.path.exists(
-                        os.path.join(docs_path, "source", section, "index.rst")
+                        os.path.join(build_docs_source_dir, section, "index.rst")
                     ):
-                        content = replace_section_string(section, content)
+                        log.debug(f"Including optional section {section}")
+                        content = content.replace(
+                            get_section_replace_string(section), f"{section}/index"
+                        )
+                    else:
+                        log.debug(f"Removing optional section {section}")
+                        content = content.replace(
+                            get_section_replace_string(section), ""
+                        )
+                content = content.replace("PKGNAME", package_name)
+                print(content)
                 build_index_file.write(content)
 
+        from sphinx.ext.apidoc import main as sphinx_apidoc
+
+        log.info("Building API docs")
+        apidoc_build_path = os.path.join(
+            docs_build_dir, "source", f"{package_name}_api"
+        )
+        arguments = [
+            # "--force",  # overwrite existing files
+            "--no-toc",
+            "-o",
+            apidoc_build_path,  # output path
+            os.path.join(docs_base_path, package_name),  # module path
+            "*/lib/*",  # exclude path
+        ]
+        log.debug(f"Running sphinx apidoc with arguments '{' '.join(arguments)}'")
+        sphinx_apidoc(arguments)
+
+        from sphinx.cmd.build import main as sphinx_build
+
+        with tempfile.TemporaryDirectory() as docs_build_final:
+            docs_build_final_dir = os.path.join(docs_build_final, "build")
+            log.info("Building docs")
+            sphinx_source = os.path.join(docs_build_dir, "source")
+            arguments = [
+                "-b",  # builder name
+                "html",  # uses the html builder
+                # "-W",  # fail on warnings
+                "-v",
+                sphinx_source,
+                docs_build_final_dir,
+            ]
+            log.debug(f"Running sphinx build with arguments '{' '.join(arguments)}'")
+            sphinx_build(arguments)
+            exit(1)
         raise NotImplementedError("Nothing implemented beyond this")
-        run_sphinx_api_doc()
-        build_html_with_sphinx()
-        set_file_and_folder_permissions()
+
+        # set_file_and_folder_permissions()
         # TODO: copy files if DOCSDIR is set
 
     return_error_codes()
