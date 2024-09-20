@@ -63,14 +63,14 @@ name = "amsr2_netcdf"
 
 
 def read_amsr_winds(wind_xarray):
-    """Reformat AMSR22 xarray object appropriately.
+    """Reformat AMSR2 xarray object appropriately.
 
     * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
     MS_TO_KTS = 1.94384
-    LOG.info("Reading AMSR22 data")
+    LOG.info("Reading AMSR2 data")
     # Set attributes appropriately
     wind_xarray.attrs["source_name"] = "amsr2"
     wind_xarray.attrs["platform_name"] = "gcom-w1"
