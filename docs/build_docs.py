@@ -28,7 +28,7 @@ def init_logger(use_rich):
     return logger
 
 
-def parse_args_with_argparse():
+def parse_args_with_argparse(log=logging.getLogger(__name__)):
     # Initialize parser with an example usage in the description
     parser = argparse.ArgumentParser(
         description=(
@@ -55,6 +55,9 @@ def parse_args_with_argparse():
         os.getenv("GEOIPS_PACKAGES_DIR", "") + "/geoips/docs"
         if os.getenv("GEOIPS_PACKAGES_DIR")
         else None
+    )
+    log.warning(
+        f"GeoIPS docs path defaults to $GEOIPS_PACKAGES_DIR, but this fall back is deprecated. Please start passing with --geoips-docs-path $GEOIPS_PACKAGES_DIR"
     )
     parser.add_argument(
         "--geoips-docs-path",
@@ -105,18 +108,6 @@ def validate_package_is_installed(package_name, logger=logging.getLogger(__name_
     if importlib.util.find_spec(package_name) is None:
         logger.critical(f"ERROR: Package {package_name} is not installed")
         raise ModuleNotFoundError
-
-
-def get_env_variables(log):
-    env_vars = {}
-    for env_var in ["GEOIPS_REPO_URL", "GEOIPS_PACKAGES_DIR"]:
-        env_vars[env_var] = os.getenv(env_var, "UNSET")
-        if env_vars[env_var] == "UNSET":
-            logger = log.warning
-        else:
-            logger = log.debug
-        logger(f"Environmental variable {env_var} is {env_vars[env_var]}")
-    return env_vars
 
 
 def get_section_replace_string(section):
@@ -246,7 +237,7 @@ def build_module_apidocs_with_sphinx(
 ):
     arguments = [
         "--no-toc",
-        "-o",
+        "-o",  # flag for output path
         apidoc_build_path,  # output path
         module_path,  # module path
         "*/lib/*",  # exclude path
@@ -299,8 +290,6 @@ def main(repo_dir, package_name, geoips_docs_dir, docs_version="latest"):
     Main function that drives the entire script execution.
     """
     log = init_logger(True)
-
-    env_vars = get_env_variables(log)
 
     # validate_package_is_installed(package_name, logger=log)
 
