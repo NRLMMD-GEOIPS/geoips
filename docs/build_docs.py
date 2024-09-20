@@ -12,7 +12,7 @@ from rich.traceback import install as install_rich_tracebacks
 import rich_argparse
 import pygit2
 import jinja2
-from sphinx.cmd.build import main as sphinx_build
+import sphinx.cmd.build as sphinx_build_module
 from sphinx.ext.apidoc import main as sphinx_apidoc
 
 
@@ -267,7 +267,9 @@ def build_module_apidocs_with_sphinx(
         "*/lib/*",  # exclude path
     ]
     log.debug(f"Running sphinx apidoc with arguments '{' '.join(arguments)}'")
-    sphinx_apidoc(arguments)
+
+    if not sphinx_apidoc(arguments) == 0:
+        raise Exception("Sphinx API Doc build failed")
 
 
 def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)):
@@ -280,7 +282,16 @@ def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)
         built_dir,  # folder to build to
     ]
     log.debug(f"Running sphinx build with arguments '{' '.join(arguments)}'")
-    sphinx_build(arguments)
+
+    # for currying, prevents recursion error
+    original_handler = sphinx_build_module.handle_exception
+
+    def override_handle_exception(app, args, exc, error):
+        original_handler(app, args, exc, error)
+        raise exc  # raise exceptions so they bubble up in this script
+
+    sphinx_build_module.handle_exception = override_handle_exception
+    sphinx_build_module.main(arguments)  # build docs with sphinx
 
 
 def build_html_docs(
@@ -308,7 +319,7 @@ def build_html_docs(
     with tempfile.TemporaryDirectory() as built_dir:
         log.info("Building docs")
         build_docs_with_sphinx(build_dir, built_dir, log=log)
-        shutil.copytree(built_dir, output_dir)
+        shutil.copytree(built_dir, output_dir, dirs_exist_ok=True)
 
 
 def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="latest"):
