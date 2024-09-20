@@ -348,9 +348,10 @@ def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="late
 
     with tempfile.TemporaryDirectory() as docs_build_dir_container:
         build_dir = os.path.join(docs_build_dir_container, "build")
-        built_dir = build_html_docs(
+        build_html_docs(
             repo_dir, build_dir, geoips_docs_dir, package_name, output_dir, log=log
         )
+        log.info(f"Docs built and written to {output_dir}")
 
     # return_error_codes()
 
