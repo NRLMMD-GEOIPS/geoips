@@ -62,7 +62,7 @@ family = "standard"
 name = "amsr2_netcdf"
 
 
-def read_amsr_winds(wind_xarray):
+def read_amsr2_winds(wind_xarray):
     """Reformat AMSR2 xarray object appropriately.
 
     * variables: latitude, longitude, time, wind_speed_kts
@@ -352,7 +352,7 @@ def call(
             return {"METADATA": full_xarray}
 
         if hasattr(full_xarray, "title") and "AMSR2_OCEAN" in full_xarray.title:
-            xarrays = read_amsr_winds(full_xarray)
+            xarrays = read_amsr2_winds(full_xarray)
 
         elif hasattr(full_xarray, "title") and "MBT" in full_xarray.title:
             xarrays = read_amsr_data(full_xarray, chans)
