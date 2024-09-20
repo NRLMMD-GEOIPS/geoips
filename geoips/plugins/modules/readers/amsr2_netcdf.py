@@ -240,7 +240,7 @@ def read_amsr2_mbt(full_xarray, varname, time_array=None):
     return sub_xarray
 
 
-def read_amsr_data(full_xarray, chans):
+def read_amsr2_data(full_xarray, chans):
     """Read non-AMSR2_OCEAN data."""
     full_xarray = full_xarray.reset_coords(full_xarray.coords)
 
@@ -355,10 +355,10 @@ def call(
             xarrays = read_amsr2_winds(full_xarray)
 
         elif hasattr(full_xarray, "title") and "MBT" in full_xarray.title:
-            xarrays = read_amsr_data(full_xarray, chans)
+            xarrays = read_amsr2_data(full_xarray, chans)
 
         elif hasattr(full_xarray, "title") and "PRECIP" in full_xarray.title:
-            xarrays = read_amsr_data(full_xarray, chans)
+            xarrays = read_amsr2_data(full_xarray, chans)
         ingested.append(xarrays)
 
     # Merge all datasets together:
