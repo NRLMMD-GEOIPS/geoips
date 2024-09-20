@@ -128,13 +128,6 @@ def parse_args_with_argparse():
     return args
 
 
-def validate_arguments(args):
-    """
-    Validate input arguments. Must have at least two arguments: repo path and package name.
-    """
-    # TODO
-
-
 def validate_path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__name__)):
     """
     Ensure given path exists and is a valid Git repository.
@@ -207,8 +200,23 @@ def get_section_replace_string(section):
     return section.upper() + "IDX"
 
 
-def get_sections_from_conf_file():
-    # TODO
+def get_sections():
+    """
+    Return required and optional sections.
+
+    Returns
+    -------
+    required_sections : list of str
+        List of required section names.
+    optional_sections : list of str
+        List of optional section names.
+
+    Notes
+    -----
+
+    This could potentially be from a config file in the future. For now, it is hard
+    coded like the original build_docs.sh script.
+    """
     required_sections = ["releases"]
 
     optional_sections = [
@@ -438,7 +446,7 @@ def stage_docs_files_for_building(
 
     create_conf_py_from_template(build_dir, geoips_docs_dir, package_name)
 
-    required_sections, optional_sections = get_sections_from_conf_file()
+    required_sections, optional_sections = get_sections()
     generate_top_level_index_file(
         build_dir,
         geoips_docs_dir,
@@ -598,7 +606,7 @@ def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="late
     """
     log = init_logger(True)
 
-    # validate_package_is_installed(package_name, logger=log)
+    validate_package_is_installed(package_name, logger=log)
 
     for path in (
         repo_dir,
@@ -623,13 +631,10 @@ def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="late
         )
         log.info(f"Docs built and written to {output_dir}")
 
-    # return_error_codes()
-
 
 # Execute the main function with command line arguments
 if __name__ == "__main__":
     args = parse_args_with_argparse()
-    validate_arguments(args)
     main(
         repo_dir=args.repo_path,
         package_name=args.package_name,
