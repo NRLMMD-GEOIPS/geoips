@@ -21,6 +21,7 @@ on:
   push:
     branches:
       - main
+      - dev-*
 
   # Triggers the workflow when pull request created and updated
   pull_request:
