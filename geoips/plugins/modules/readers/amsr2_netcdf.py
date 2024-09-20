@@ -142,7 +142,7 @@ def read_amsr2_winds(wind_xarray):
     return {"WINDS": wind_xarray}
 
 
-def read_amsr_mbt(full_xarray, varname, time_array=None):
+def read_amsr2_mbt(full_xarray, varname, time_array=None):
     """
     Reformat AMSR2 xarray object appropriately.
 
@@ -261,7 +261,7 @@ def read_amsr_data(full_xarray, chans):
             for xra in list(xarrays.values()):
                 if xra.time.dims == full_xarray[varname].dims:
                     usetime = xra.time
-            new_xarray = read_amsr_mbt(full_xarray, varname, usetime)
+            new_xarray = read_amsr2_mbt(full_xarray, varname, usetime)
             if sunzen.dims == tuple(new_xarray.dims):
                 new_xarray["satellite_azimuth_angle"] = satazm
                 new_xarray["satellite_zenith_angle"] = satzen
