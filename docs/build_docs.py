@@ -1,5 +1,6 @@
 import tempfile
 import importlib.util
+import warnings
 import logging
 import logging.handlers
 import argparse
@@ -28,7 +29,7 @@ def init_logger(use_rich):
     return logger
 
 
-def parse_args_with_argparse(log=logging.getLogger(__name__)):
+def parse_args_with_argparse():
     # Initialize parser with an example usage in the description
     parser = argparse.ArgumentParser(
         description=(
@@ -56,8 +57,10 @@ def parse_args_with_argparse(log=logging.getLogger(__name__)):
         if os.getenv("GEOIPS_PACKAGES_DIR")
         else None
     )
-    log.warning(
-        f"GeoIPS docs path defaults to $GEOIPS_PACKAGES_DIR, but this fall back is deprecated. Please start passing with --geoips-docs-path $GEOIPS_PACKAGES_DIR"
+    warnings.warn(
+        "GeoIPS docs path defaults to $GEOIPS_PACKAGES_DIR, but this "
+        + "fall back is deprecated. Please start passing with "
+        + "--geoips-docs-path $GEOIPS_PACKAGES_DIR"
     )
     parser.add_argument(
         "--geoips-docs-path",
@@ -77,8 +80,29 @@ def parse_args_with_argparse(log=logging.getLogger(__name__)):
         help="Version of the package. Default is 'latest'.",
     )
 
+    # Optional argument: version (default to 'latest')
+    parser.add_argument(
+        "--output-dir",
+        type=str,
+        default=None,
+        help="Output dir to write built docs to",
+    )
+
     # Parse arguments
     args = parser.parse_args()
+
+    if not args.output_dir:
+        output_dir = os.getenv("GEOIPS_DOCSDIR")
+        if output_dir:
+            warnings.warn(
+                f"Using output dir value {output_dir} from environmental variable "
+                + "$GEOIPS_DOCSDIR. This functionality is DEPRECATED and will be"
+                + "removed. Please pass $GEOIPS_DOCSDIR as --output-dir $GEOIPS_DOCSDIR "
+                + "for the same functionality."
+            )
+        else:
+            output_dir = os.path.join(args.repo_path, "build", "sphinx", "html")
+        args.output_dir = output_dir
 
     return args
 
@@ -264,6 +288,7 @@ def build_html_docs(
     build_dir,
     geoips_docs_dir,
     package_name,
+    output_dir,
     log=logging.getLogger(__name__),
 ):
     log.info("Setting docs files up for building")
@@ -283,9 +308,10 @@ def build_html_docs(
     with tempfile.TemporaryDirectory() as built_dir:
         log.info("Building docs")
         build_docs_with_sphinx(build_dir, built_dir, log=log)
+        shutil.copytree(built_dir, output_dir)
 
 
-def main(repo_dir, package_name, geoips_docs_dir, docs_version="latest"):
+def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="latest"):
     """
     Main function that drives the entire script execution.
     """
@@ -312,10 +338,8 @@ def main(repo_dir, package_name, geoips_docs_dir, docs_version="latest"):
     with tempfile.TemporaryDirectory() as docs_build_dir_container:
         build_dir = os.path.join(docs_build_dir_container, "build")
         built_dir = build_html_docs(
-            repo_dir, build_dir, geoips_docs_dir, package_name, log=log
+            repo_dir, build_dir, geoips_docs_dir, package_name, output_dir, log=log
         )
-        # set_file_and_folder_permissions()
-        # TODO: copy files if DOCSDIR is set
 
     # return_error_codes()
 
@@ -328,5 +352,6 @@ if __name__ == "__main__":
         repo_dir=args.repo_path,
         package_name=args.package_name,
         geoips_docs_dir=args.geoips_docs_path,
+        output_dir=args.output_dir,
         docs_version=args.docs_version,
     )
