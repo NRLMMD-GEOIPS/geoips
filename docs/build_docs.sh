@@ -2,6 +2,12 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
+# repo_path
+#      ------  docs # source_dir
+#                -------- source
+# build_dir
+#      ------- source
+# built_html
 
 echo "***"
 
@@ -309,6 +315,7 @@ if [ ! -d "$buildfrom_docpath/source/_templates" ]; then
     mkdir "$buildfrom_docpath/source/_templates"
 fi
 
+
 # The next section of comments explains that the structure and sections of the GeoIPS documentation
 # are defined in a specific order, with certain sections being required and others optional.
 # The order is Introduction, Getting Started, User Guide, Developer Guide, etc.
@@ -367,6 +374,12 @@ echo "***"
 echo "change dir to docbasepath=$docbasepath"
 echo "***"
 cd $docbasepath
+
+################################
+################################
+##### CONVERTED UP TO HERE #####
+################################
+################################
 
 # Build the Sphinx API documentation, excluding pre-built libraries in the "lib" directories.
 # The "-f" flag forces overwriting existing files, and "-T" shows the full traceback on error.
@@ -487,7 +500,7 @@ if [[ "$html_required" == "True" ]]; then
 
     # Run Sphinx to build the HTML documentation from the source directory.
     # The output is stored in `output_html`, and the exit status is stored in `retval_html`.
-    output_html=`sphinx-build $buildfrom_docpath/source $docbasepath/build/sphinx/html -b html -W`
+    output_html=`sphinx-build $buildfrom_docpath/source $docbasepath/build/sphinx/html  -b html -W`
     retval_html=$?
     # Capture any warnings generated during the HTML build process.
     warnings_html=`echo "$output_html" | grep "warnings"`
