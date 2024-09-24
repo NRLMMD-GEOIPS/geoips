@@ -9,6 +9,7 @@ import logging
 from os.path import basename
 
 # Third-Party Libraries
+import numpy
 import xarray
 
 #GeoIPS-Based imports
@@ -73,9 +74,6 @@ def read_sar_data(wind_xarray):
     wind_xarray["wind_speed_kts"] = wind_xarray["sar_wind"] * MS_TO_KTS
     wind_xarray["wind_speed_kts"].attrs = wind_xarray["sar_wind"].attrs
     wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
-    import xarray
-    import numpy
-
     wind_xarray["wind_speed_kts"] = xarray.where(
         wind_xarray.mask == -1, wind_xarray.wind_speed_kts, numpy.nan
     )
