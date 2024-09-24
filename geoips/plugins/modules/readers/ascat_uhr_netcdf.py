@@ -3,14 +3,17 @@
 
 """Read derived surface winds from BYU ASCAT UHR NetCDF data."""
 
+# Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
-from datetime import datetime
 import os
 from os.path import basename
 
+# Third-Party Libraries 
 import numpy
 import xarray
 
+#GeoIPS-Based imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
@@ -233,8 +236,6 @@ def read_byu_data(wind_xarray, fname):
                     "Start time greater than 1day ahead of expected time. "
                     "Removing one day from applied offset"
                 )
-                from datetime import timedelta
-
                 timediff -= numpy.array(timedelta(days=1), dtype="timedelta64")
             wind_xarray["time"] = wind_xarray["time"] + timediff
 
@@ -299,7 +300,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray
 
     # Only SAR reads multiple files
     fname = fnames[0]
