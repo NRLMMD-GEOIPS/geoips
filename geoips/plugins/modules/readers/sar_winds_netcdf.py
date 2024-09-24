@@ -3,9 +3,13 @@
 
 """Read derived surface winds from SAR netcdf data."""
 
+# Python Standard Libraries
+import glob
 import logging
 from os.path import basename
-import glob
+
+# Third-Party Libraries
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -144,7 +148,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         get_min_from_xarray_time,
         get_max_from_xarray_time,
     )
-    import xarray
 
     # Only SAR reads multiple files
     fname = fnames[0]
