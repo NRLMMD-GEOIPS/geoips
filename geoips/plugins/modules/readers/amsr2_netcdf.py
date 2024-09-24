@@ -9,6 +9,8 @@ import logging
 from os.path import basename
 
 # Third-Party Libraries
+import numpy
+import pandas
 import xarray
 
 
@@ -102,8 +104,6 @@ def read_amsr_winds(wind_xarray):
     )
 
     # Set wind_speed_kts appropriately
-    import numpy
-
     # convert to kts
     wind_xarray["wind_speed_kts"] = wind_xarray["WSPD"] * MS_TO_KTS
 
@@ -118,7 +118,6 @@ def read_amsr_winds(wind_xarray):
     )
 
     # Set time array appropriately
-    import pandas
 
     dtstrs = []
     LOG.info("Reading scan_times")
@@ -198,11 +197,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     )
 
     if time_array is None:
-        import numpy
 
         # Set time appropriately
-        import pandas
-
         dtstrs = []
         LOG.info("Reading scan_times, for dims %s", sub_xarray[varnames[varname]].dims)
         for scan_time in full_xarray["Scan_Time"]:
