@@ -4,12 +4,13 @@
 """Read SAPHIR hdf files."""
 
 # Python Standard Libraries
-import logging
 from datetime import datetime
+import logging
+
+# Third-Party Libraries
+import h5py
 import numpy as np
 import xarray as xr
-import h5py
-
 # from numpy import datetime64
 # import pandas as pd
 
