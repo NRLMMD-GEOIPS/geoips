@@ -12,7 +12,9 @@ from datetime import datetime, timedelta
 # Third-Party Libraries
 import numpy as np
 from scipy.ndimage import zoom
+import xarray
 
+#GeoIPS-based imports 
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -592,7 +594,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # required size.
     # Dict structure is channel{metadata}
     file_info = {}
-    import xarray
 
     xarray_obj = xarray.Dataset()
     for md in all_metadata.values():
