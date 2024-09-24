@@ -8,8 +8,9 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
-import numpy as np
 
+# Third-Party Libraries
+import numpy as np
 from scipy.ndimage import zoom
 
 from geoips.utils.context_managers import import_optional_dependencies
