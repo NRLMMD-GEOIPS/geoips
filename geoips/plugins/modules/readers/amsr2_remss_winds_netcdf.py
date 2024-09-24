@@ -3,9 +3,10 @@
 
 """Read derived surface winds from REMSS AMSR netcdf data."""
 
+# Python Standard Libraries
+from glob import glob
 import logging
 from os.path import basename
-from glob import glob
 
 LOG = logging.getLogger(__name__)
 
