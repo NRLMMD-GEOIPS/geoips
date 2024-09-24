@@ -13,11 +13,11 @@ import logging
 import os
 
 # Installed Libraries
-import xarray as xr
-import numpy as np
 import h5py
+import numpy as np
 from pandas import date_range
 from pykdtree.kdtree import KDTree
+import xarray as xr
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
