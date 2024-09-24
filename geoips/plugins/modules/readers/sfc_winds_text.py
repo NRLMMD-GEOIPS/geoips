@@ -3,7 +3,12 @@
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR text data."""
 
+# Python Standard Libraries
 import logging
+
+# Third-Party Libraries
+import numpy
+import pandas
 
 LOG = logging.getLogger(__name__)
 
@@ -57,8 +62,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             "Please call with a single file."
         )
     fname = fnames[0]
-    import numpy
-    import pandas
 
     LOG.info("Reading file %s", fname)
     data = numpy.loadtxt(fname, dtype=str, skiprows=0)
