@@ -14,7 +14,7 @@ import numpy as np
 from scipy.ndimage import zoom
 import xarray
 
-#GeoIPS-based imports 
+#GeoIPS-Based imports 
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
