@@ -29,15 +29,18 @@ Dataset information::
              }
 """
 # Python Standard Libraries
-from os.path import basename
 from glob import glob
-import h5py
-import numpy as np
 import logging
+from os.path import basename
+
+# Third-Party Libraries
+import h5py
 import matplotlib
+import numpy as np
+import xarray as xr
+
 
 matplotlib.use("agg")
-
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
@@ -229,7 +232,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray as xr
 
     # fname='data_gmi/20200518.203639.gpm.gmi.gpm_pps.x.gmi.TB2016.x.TB2016_1b_v05a.h5'
 
