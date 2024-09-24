@@ -58,10 +58,16 @@ SSMI input data info::
     char sft[HIRES][2];          /* surface types */
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
-from os.path import basename
+import os
 
+# Third-Party Libraries
 import matplotlib
+import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 matplotlib.use("agg")
 
@@ -112,11 +118,6 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
 
     # from IPython import embed as shell
     fname = fnames[0]
@@ -603,7 +604,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_lores.attrs["source_name"] = "ssmi"
     xarray_lores.attrs["platform_name"] = satid
     xarray_lores.attrs["data_provider"] = "DMSP"
-    xarray_lores.attrs["source_file_names"] = [basename(fname)]
+    xarray_lores.attrs["source_file_names"] = [os.path.basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     # xarray_lores.attrs['sample_distance_km'] = 25
@@ -617,7 +618,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_85ab.attrs["source_name"] = "ssmi"
     xarray_85ab.attrs["platform_name"] = satid
     xarray_85ab.attrs["data_provider"] = "DMSP"
-    xarray_85ab.attrs["source_file_names"] = [basename(fname)]
+    xarray_85ab.attrs["source_file_names"] = [os.path.basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     # xarray_85ab.attrs['sample_distance_km'] = 13
