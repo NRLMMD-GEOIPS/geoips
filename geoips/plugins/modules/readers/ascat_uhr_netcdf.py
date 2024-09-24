@@ -307,7 +307,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarray.attrs["source_name"] = "unknown"
     wind_xarray.attrs["platform_name"] = "unknown"
 
-    wind_xarray.attrs["source_file_names"] = [basename(fname)]
+    wind_xarray.attrs["source_file_names"] = [os.path.basename(fname)]
     wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
     # 1.25km grid, 4km accuracy
     wind_xarray.attrs["sample_distance_km"] = 4
