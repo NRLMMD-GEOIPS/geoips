@@ -52,7 +52,6 @@ def read_gmi_file(fname, xarray_gmi):
     """Read a single GMI file fname."""
     fileobj = h5py.File(fname, mode="r")
     import pandas as pd
-    import xarray as xr
     import numpy
 
     # get the variables ( tbt/lon(nscan,npix), tb(nscan,npix,nChan),....., time(ns))
