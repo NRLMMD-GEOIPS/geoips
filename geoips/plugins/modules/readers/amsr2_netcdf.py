@@ -3,9 +3,14 @@
 
 """Read AMSR2 data products."""
 
+# Python Standard Libraries
+from glob import glob
 import logging
 from os.path import basename
-from glob import glob
+
+# Third-Party Libraries
+import xarray
+
 
 LOG = logging.getLogger(__name__)
 
@@ -98,7 +103,6 @@ def read_amsr_winds(wind_xarray):
 
     # Set wind_speed_kts appropriately
     import numpy
-    import xarray
 
     # convert to kts
     wind_xarray["wind_speed_kts"] = wind_xarray["WSPD"] * MS_TO_KTS
@@ -151,7 +155,6 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    import xarray
 
     LOG.info("Reading AMSR data %s", varname)
     sub_xarray = xarray.Dataset()
@@ -321,7 +324,7 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray
+    
 
     LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
