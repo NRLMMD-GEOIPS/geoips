@@ -4,11 +4,12 @@
 """Advanced Himawari Imager Data Reader."""
 
 # Python Standard Libraries
-import os
-import logging
-from glob import glob
-from struct import unpack
 from datetime import datetime, timedelta
+from glob import glob
+import logging
+import os
+from struct import unpack
+
 
 # Installed Libraries
 import numpy as np
