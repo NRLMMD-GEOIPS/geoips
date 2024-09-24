@@ -4,6 +4,7 @@
 """Read derived surface winds from SAR netcdf data."""
 
 # Python Standard Libraries
+from datetime import datetime
 import glob
 import logging
 from os.path import basename
@@ -184,8 +185,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarrays = {"WINDSPEED": wind_xarrays[0]}
         else:
             final_xarray = xarray.Dataset()
-            import numpy
-
             lat_array = xarray.DataArray(
                 numpy.vstack(
                     [
@@ -262,8 +261,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarrays["METADATA"] = wind_xarray[[]]
     if wind_xarrays["METADATA"].start_datetime == wind_xarrays["METADATA"].end_datetime:
         # Use alternate attributes to set start and end datetime
-        from datetime import datetime
-
         try:
             wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"
