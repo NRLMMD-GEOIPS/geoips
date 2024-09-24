@@ -11,6 +11,12 @@ from os.path import basename
 # Third-Party Libraries
 import xarray
 
+#GeoIPS-Based imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
+
 LOG = logging.getLogger(__name__)
 
 MS_TO_KTS = 1.94384
@@ -144,10 +150,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
 
     # Only SAR reads multiple files
     fname = fnames[0]
