@@ -8,14 +8,15 @@ from datetime import datetime, timedelta
 from glob import glob
 import logging
 import os
+import re
 from struct import unpack
 
-
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray
 from scipy.ndimage import zoom
 
+#GeoIPS-Based imports 
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -1322,7 +1323,6 @@ def call(
 
     print_mem_usage("MEMUSG", verbose=False)
     xarray_objs = {}
-    import re
 
     for dsname in datavars.keys():
         xobj = xarray.Dataset()
