@@ -15,8 +15,10 @@ profiling/
 geoips/commandline/ancillary_info/cmd_instructions.json
 # auto-generated alias mapping file for the cli
 geoips/commandline/ancillary_info/alias_mapping.json
-# auto-generated release note file for latest changes
-docs/source/releases/latest.rst
+# auto-generated release note files, all release note information
+# is stored in .yaml format and the rst files auto-generated.
+# index.rst, latest.rst, v*.rst
+docs/source/releases/*.rst
 # auto-generated plugin registry file
 registered_plugins.json
 # auto-generated version file, created at run-time
