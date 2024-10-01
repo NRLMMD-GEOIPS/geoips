@@ -427,7 +427,7 @@ def replace_geoips_paths(
                 str(replace_path),
                 f"${{{env_var}}}" if curly_braces else f"${env_var}",
             )
-    return path
+    return str(path)
 
 
 def get_required_geoips_xarray_attrs():
