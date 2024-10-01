@@ -66,7 +66,7 @@ jobs:
         id: set_image_name
         run: |
           # Create an image name using the organiztion and repository names, lowercase
-          image_name=${{ vars.DOCKER_REGISTRY }}/${GITHUB_REPOSITORY,,}
+          image_name=${{ vars.DOCKER_REGISTRY }}/${{ github.event.repository.name }}
           echo "IMAGE_NAME=${image_name}"
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
