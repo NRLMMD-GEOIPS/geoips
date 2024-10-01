@@ -1,0 +1,9 @@
+interface: products
+family: order_based
+name: read_test
+docstring: Read test
+spec:
+  steps:
+    - reader: abi_netcdf
+      arguments:
+        variables: ['B14BT']
