@@ -417,7 +417,7 @@ def replace_geoips_paths(
     #        if f"{key}_URL" in paths:
     #            fname = fname.replace(paths[key], paths[f"{key}_URL"])
 
-    path = os.path.expandvars(path)
+    path = Path(os.path.expandvars(path))
 
     # Replace full paths with environment variables
     for env_var, replace_path in ordered_path_envvar_dict.items():
