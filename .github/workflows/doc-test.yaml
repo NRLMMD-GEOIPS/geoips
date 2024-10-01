@@ -244,7 +244,7 @@ jobs:
           docker push ${DOCLINTTEST_IMAGE};
           docker push ${STABLEORLATEST_IMAGE};
       - name: Build and push docker image with docker buildx action
-        if: ${{ vars.USE_DOCKER_BUILDX_ACTION == 'true' }}
+        if: ${{ vars.USE_DOCKER_BUILDX_ACTION != 'false' }}
         uses: docker/build-push-action@v6
         with:
           context: .
