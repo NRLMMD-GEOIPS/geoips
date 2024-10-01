@@ -396,14 +396,22 @@ def replace_geoips_paths(
         base_paths = geoips_paths
 
     if replace_paths is None:
-        replace_paths = [
+        replace_env_vars = [
             "$GEOIPS_OUTDIRS",
             "$GEOIPS_PACKAGES_DIR",
             "$GEOIPS_TESTDATA_DIR",
             "$GEOIPS_DEPENDENCIES_DIR",
             "$GEOIPS_BASEDIR",
         ]
-    replace_paths = order_paths_from_least_to_most_specific(replace_paths)
+
+    paths_to_be_replaced = [os.path.expandvars(p) for p in replace_env_vars]
+    ordered_path_envvar_dict = {
+        replace_env_vars[paths_to_be_replaced.index(replace_path)]: replace_path
+        for replace_path in order_paths_from_least_to_most_specific(
+            paths_to_be_replaced
+        )
+    }
+    print(ordered_path_envvar_dict)
 
     # Replace with specified file system -> URL mapping
     # for paths in base_paths:
