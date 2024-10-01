@@ -211,7 +211,7 @@ def order_paths_from_least_to_most_specific(paths):
 
     This function takes a list of filesystem paths and returns a new list of paths
     ordered from the least specific (higher-level directories) to the most specific
-    (subdirectories and files).
+    (subdirectories and files). It expands environmental variables in paths.
 
     Parameters
     ----------
@@ -244,8 +244,9 @@ def order_paths_from_least_to_most_specific(paths):
         return []
     ordered_paths = []
     unordered_paths = []
+    paths = [Path(os.path.expandvars(p)) for p in paths]
     for i, path in enumerate(paths):
-        path = Path(path)
+        print(paths)
         other_paths = paths[:i] + paths[i + 1 :]
         if all([path not in other_path.parents for other_path in other_paths]):
             # path not in other paths, least specific already
@@ -358,8 +359,8 @@ def replace_geoips_paths(
         replaced in `path`.
         If `None`, defaults to:
 
-        ``['GEOIPS_OUTDIRS', 'GEOIPS_PACKAGES_DIR', 'GEOIPS_TESTDATA_DIR',
-        'GEOIPS_DEPENDENCIES_DIR', 'GEOIPS_BASEDIR']``
+        ``['$GEOIPS_OUTDIRS', '$GEOIPS_PACKAGES_DIR', '$GEOIPS_TESTDATA_DIR',
+        '$GEOIPS_DEPENDENCIES_DIR', '$GEOIPS_BASEDIR']``
     base_paths : dict, optional
         A dictionary mapping environment variable names to their corresponding base paths.
         If `None`, defaults to `geoips.filenames.base_paths.PATH`.
@@ -396,11 +397,11 @@ def replace_geoips_paths(
 
     if replace_paths is None:
         replace_paths = [
-            "GEOIPS_OUTDIRS",
-            "GEOIPS_PACKAGES_DIR",
-            "GEOIPS_TESTDATA_DIR",
-            "GEOIPS_DEPENDENCIES_DIR",
-            "GEOIPS_BASEDIR",
+            "$GEOIPS_OUTDIRS",
+            "$GEOIPS_PACKAGES_DIR",
+            "$GEOIPS_TESTDATA_DIR",
+            "$GEOIPS_DEPENDENCIES_DIR",
+            "$GEOIPS_BASEDIR",
         ]
     replace_paths = order_paths_from_least_to_most_specific(replace_paths)
 
