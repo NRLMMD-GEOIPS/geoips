@@ -1,5 +1,6 @@
 """Product plugin format."""
 
+from typing import Literal
 from pydantic import BaseModel, Field
 from geoips.pydantic.bases import Plugin
 
@@ -15,7 +16,16 @@ class ReaderArguments(BaseModel):
 class ReaderStep(BaseModel):
     """A step to read data from a file."""
 
-    name: str = Field(description="The name of the reader plugin to be used.")
+    # We want this to be a constant field
+    # It should not need to be set in the YAML file
+    # instead it should just always appear in the resulting object
+    # after loading the YAML file in the order-based procflow.
+    interface: str = Field(
+        description="The name of the interface.",
+        const=True,
+        default="readers",
+    )
+    reader: str = Field(description="The name of the reader plugin to be used.")
     arguments: ReaderArguments = Field(
         description="The arguments to pass to the reader plugin."
     )
