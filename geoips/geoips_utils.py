@@ -403,7 +403,7 @@ def replace_geoips_paths(
             "$GEOIPS_BASEDIR",
         ]
 
-    paths_to_be_replaced = [os.path.expandvars(p) for p in replace_env_vars]
+    paths_to_be_replaced = [Path(os.path.expandvars(p)) for p in replace_env_vars]
     print(paths_to_be_replaced)
     ordered_path_envvar_dict = {
         replace_env_vars[paths_to_be_replaced.index(replace_path)]: replace_path
