@@ -1,0 +1,23 @@
+interface: sectors
+family: area_definition_static
+name: overcast_georing
+docstring: |
+  OVERCAST Georing projection
+
+  Plate Carrée projection at 0.02 degree resolution.
+  Latitude Range: [-70, 70]
+  Longitude Range: [-180, 180]
+metadata:
+  region:
+    continent: georing
+spec:
+  projection:
+    proj: eqc
+    lat_0: 0
+    lon_0: 0
+    units: km
+  shape: [18000, 7000]
+  resolution:
+    dx: 0.02
+    dy: 0.02
+  units: degrees
