@@ -414,7 +414,7 @@ def replace_geoips_paths(
     path = os.path.expandvars(path)
 
     # Replace full paths with environment variables
-    for replace_path in replace_paths.reverse():
+    for replace_path in reversed(replace_paths)
         replace_path_value = base_paths[replace_path]
         if replace_path in path.parents:
             return str(path).replace(
