@@ -246,7 +246,6 @@ def order_paths_from_least_to_most_specific(paths):
     unordered_paths = []
     paths = [Path(os.path.expandvars(p)) for p in paths]
     for i, path in enumerate(paths):
-        print(paths)
         other_paths = paths[:i] + paths[i + 1 :]
         if all([path not in other_path.parents for other_path in other_paths]):
             # path not in other paths, least specific already
@@ -405,6 +404,7 @@ def replace_geoips_paths(
         ]
 
     paths_to_be_replaced = [os.path.expandvars(p) for p in replace_env_vars]
+    print(paths_to_be_replaced)
     ordered_path_envvar_dict = {
         replace_env_vars[paths_to_be_replaced.index(replace_path)]: replace_path
         for replace_path in order_paths_from_least_to_most_specific(
