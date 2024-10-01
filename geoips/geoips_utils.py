@@ -10,6 +10,7 @@ from copy import deepcopy
 from shutil import get_terminal_size
 import json
 from tabulate import tabulate
+from pathlib import Path
 
 # import yaml
 import logging
@@ -201,6 +202,57 @@ def output_process_times(process_datetimes, num_jobs=None, job_str="GeoIPS 2"):
             )
         else:
             LOG.info("    MISSING Process Time %s: %s", job_str, process_name)
+
+
+def order_paths_from_least_to_most_specific(paths):
+    """
+    Orders a list of filesystem paths from least to most specific.
+
+    This function takes a list of filesystem paths and returns a new list of paths
+    ordered from the least specific (higher-level directories) to the most specific
+    (subdirectories and files).
+
+    Parameters
+    ----------
+    paths : list of str or pathlib.Path
+        A list of filesystem paths to be ordered.
+
+    Returns
+    -------
+    list of pathlib.Path
+        A list of filesystem paths ordered from least to most specific.
+
+    Examples
+    --------
+    >>> paths = [
+    ...     '/home/user/docs/',
+    ...     '/home/user/images/',
+    ...     '/home/user/',
+    ...     '/home/user/images/photo.jpg'
+    ...     '/home/user/docs/report.txt',
+    ... ]
+    >>> order_paths_from_least_to_most_specific(paths)
+    [PosixPath('/home/user/'),
+     PosixPath('/home/user/docs/'),
+     PosixPath('/home/user/images/'),
+     PosixPath('/home/user/docs/report.txt'),
+     PosixPath('/home/user/images/photo.jpg')]
+
+    """
+    if not paths:
+        return []
+    ordered_paths = []
+    unordered_paths = []
+    for i, path in enumerate(paths):
+        path = Path(path)
+        other_paths = paths[:i] + paths[i + 1 :]
+        if all([path not in other_path.parents for other_path in other_paths]):
+            # path not in other paths, least specific already
+            ordered_paths.append(path)
+        else:
+            # path in other path, needs more sorting
+            unordered_paths.append(path)
+    return ordered_paths + order_paths_from_least_to_most_specific(unordered_paths)
 
 
 def replace_geoips_paths_in_list(
