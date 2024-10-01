@@ -10,13 +10,29 @@ within plugin models.
 """
 
 import keyword
-from pydantic import BaseModel, constr
+from pydantic import Field, BaseModel
 from typing import Tuple
 from typing_extensions import Annotated
 from pydantic.functional_validators import AfterValidator
 from matplotlib.artist import Artist
 from matplotlib.lines import Line2D
-from cartopy import feature
+
+# from cartopy import feature
+
+
+class PrettyBaseModel(BaseModel):
+    """Make Pydantic models pretty-print by default."""
+
+    def __str__(self):
+        """Return a string representation of a Pydantic model.
+
+        The returned string will be formatted as JSON with two-space indentation.
+
+        Returns
+        -------
+            str: A string representation of the Pydantic model.
+        """
+        return self.model_dump_json(indent=2)
 
 
 def python_identifier(val: str) -> str:
@@ -52,19 +68,25 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-class Plugin(BaseModel):
-    interface: PythonIdentifier
-    family: PythonIdentifier
-    name: PythonIdentifier
+class Plugin(PrettyBaseModel):
+    """Base Plugin model for all GeoIPS plugins."""
+
+    interface: PythonIdentifier = Field(
+        description="The name of the plugin's interface."
+    )
+    family: PythonIdentifier = Field(description="The family of the plugin.")
+    name: PythonIdentifier = Field(description="The name of the plugin.")
     # Should write a test to ensure this is a valid numpy docstring
-    docstring: str
-    package: PythonIdentifier = None
+    docstring: str = Field(description="The docstring for the plugin.")
+    package: PythonIdentifier = Field(
+        None, description="The package the plugin belongs to."
+    )
     # Should write a test to ensure this is a valid relative path
     # Probably try instantiating pathlib.Path, then check that isabs() is False
-    relpath: str = None
+    relpath: str = Field(None, description="The relative path to the plugin.")
     # Should write a test to ensure this is a valid relative path
     # Probably try instantiating pathlib.Path, then check that isabs() is True
-    abspath: str = None
+    abspath: str = Field(None, description="The absolute path to the plugin.")
 
 
 def mpl_artist_args(args: dict, artist: Artist) -> dict:
@@ -85,22 +107,22 @@ def line_args(args: dict) -> dict:
 LineArgs = Annotated[dict, AfterValidator(line_args)]
 
 
-def cartopy_feature_args(args: dict) -> dict:
-    """Validate the arguments for a cartopy feature."""
-    # Cartopy features are plotted using matplotlib.collections.Collection.
-    # Collection plots patches. Its arguments are
-    # If not enabled, just ignore everything else
-    if "enabled" not in args or not args["enabled"]:
-        return {"enabled": False}
-    # If enabled, test the other values by instantiating lines
-    # with each argument
-    artist_args(args, Circle(0, radius=1))
+# def cartopy_feature_args(args: dict) -> dict:
+#     """Validate the arguments for a cartopy feature."""
+#     # Cartopy features are plotted using matplotlib.collections.Collection.
+#     # Collection plots patches. Its arguments are the same as those for Circle.
+#     # If not enabled, just ignore everything else
+#     if "enabled" not in args or not args["enabled"]:
+#         return {"enabled": False}
+#     # If enabled, test the other values by instantiating lines
+#     # with each argument
+#     artist_args(args, Circle(0, radius=1))
+#
+#
+# CartopyFeatureArgs = Annotated[dict, AfterValidator(cartopy_feature_args)]
 
 
-CartopyFeatureArgs = Annotated[dict, AfterValidator(cartopy_feature_args)]
-
-
-def lat_lon_coordinate(arg: Tuple[float, float]) -> Tuple[float, float]:
+def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     """Validate a latitude and longitude coordinate."""
     if arg[0] < -90 or arg[0] > 90:
         raise ValueError("Latitude must be between -90 and 90")
