@@ -33,6 +33,6 @@ jobs:
     permissions:
       contents: read
     secrets:
-      token: ${{ secrets.GEOIPS_TOKEN }}
+      token: ${{ secrets.GITHUB_TOKEN }}
       pypi_user: ${{ secrets.PYPI_USER }}
       pypi_password: ${{ secrets.PYPI_PASSWORD }}
