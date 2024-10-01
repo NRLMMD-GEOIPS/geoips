@@ -404,14 +404,12 @@ def replace_geoips_paths(
         ]
 
     paths_to_be_replaced = [Path(os.path.expandvars(p)) for p in replace_env_vars]
-    print(paths_to_be_replaced)
     ordered_path_envvar_dict = {
         replace_env_vars[paths_to_be_replaced.index(replace_path)]: replace_path
         for replace_path in order_paths_from_least_to_most_specific(
             paths_to_be_replaced
         )
     }
-    print(ordered_path_envvar_dict)
 
     # Replace with specified file system -> URL mapping
     # for paths in base_paths:
@@ -422,12 +420,12 @@ def replace_geoips_paths(
     path = os.path.expandvars(path)
 
     # Replace full paths with environment variables
-    for replace_path in reversed(replace_paths):
-        replace_path_value = base_paths[replace_path]
+    for env_var, replace_path in ordered_path_envvar_dict.items():
         if replace_path in path.parents:
+            env_var = env_var.replace("$", "")
             return str(path).replace(
-                replace_path_value,
-                f"${{{replace_path}}}" if curly_braces else f"${replace_path}",
+                str(replace_path),
+                f"${{{env_var}}}" if curly_braces else f"${env_var}",
             )
     return path
 
