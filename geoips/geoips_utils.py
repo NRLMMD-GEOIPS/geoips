@@ -17,6 +17,7 @@ import logging
 from importlib import metadata, resources
 
 from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
+from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
 
@@ -258,18 +259,58 @@ def order_paths_from_least_to_most_specific(paths):
 def replace_geoips_paths_in_list(
     replace_list, replace_paths=None, base_paths=None, curly_braces=False
 ):
-    """Replace geoips paths for every path-based element in a list."""
-    newlist = []
+    """
+    Replace GeoIPS paths with geoips settings in elements of a list.
+
+    This function iterates over each element in the provided `replace_list`,
+    attempting to replace GeoIPS paths within each element using the
+    `replace_geoips_paths` function. If an element raises a `TypeError`
+    when cast to a pathlib path, it is skipped.
+
+    Parameters
+    ----------
+    replace_list : list
+        A list of elements to process. Elements can be of any type, but only those that
+        are Path-like will be processed.
+    replace_paths : dict, optional
+        Passed to replace_geoips_paths
+    base_paths : dict, optional
+        Passed to replace_geoips_paths
+    curly_braces : bool, optional
+        Passed to replace_geoips_paths
+
+    Returns
+    -------
+    list
+        A new list containing the elements with GeoIPS paths replaced where possible.
+        Elements that could not be processed are included unchanged.
+
+    Examples
+    --------
+    >>> replace_geoips_paths_in_list(['/home/geoips/data/project', 'no_replacement_here'])
+    ['$GEOIPS_DATA_DIR/project', 'no_replacement_here']
+
+    See Also
+    --------
+    replace_geoips_paths : Function used to replace GeoIPS paths in individual elements.
+    """
+    new_list = []
     # Go through each element in the list
     for val in replace_list:
-        # If this element is a str, and contains "/", it's probably a path,
-        # and we can replace the geoips paths.
-        if isinstance(val, str) and "/" in val:
-            newlist += [replace_geoips_paths(val)]
-        # Otherwise, just put the current element back
-        else:
-            newlist += [val]
-    return newlist
+        try:
+            new_list.append(
+                replace_geoips_paths(
+                    val,
+                    replace_paths=replace_paths,
+                    base_paths=base_paths,
+                    curly_braces=curly_braces,
+                )
+            )
+        except TypeError:
+            # Otherwise, just put the current element back
+            new_list.append(val)
+            continue
+    return new_list
 
 
 def replace_geoips_paths_in_dict(
@@ -291,65 +332,68 @@ def replace_geoips_paths_in_dict(
 
 
 def replace_geoips_paths(
-    fname,
+    path,
     replace_paths=None,
     base_paths=None,
     curly_braces=False,
 ):
-    """Replace standard environment variables with their non-expanded equivalents.
+    """Replace specified sub-paths in path with related environment variable names.
 
-    Ie, replace
+    This function replaces paths in the provided path with their corresponding
+    environment variable names. This is useful for generating output paths
+    or metadata that are independent of specific installation directories.
 
-        * ``$HOME/geoproc/geoips_packages with $GEOIPS_PACKAGES_DIR``
-        * ``$HOME/geoproc/geoips_outdirs with $GEOIPS_OUTDIRS``
-        * ``$HOME/geoproc with $GEOIPS_BASEDIR``
+    For example, it can replace:
 
-    This allows generating output YAML fields / NetCDF attributes that can match
-    between different instantiations.
+    - ``'/home/user/geoproc/geoips_packages'`` with ``'$GEOIPS_PACKAGES_DIR'``
+    - ``'/home/user/geoproc/geoips_outdirs'`` with ``'$GEOIPS_OUTDIRS'``
+    - ``'/home/user/geoproc'`` with ``'$GEOIPS_BASEDIR'``
 
     Parameters
     ----------
-    fname : str
-        Full path to a filename on disk
-    replace_paths : list, default=None
-        * Explicit list of standard variable names you would like replaced.
-        * If None, replace
-          ``['GEOIPS_OUTDIRS', 'GEOIPS_PACKAGES_DIR', 'GEOIPS_TESTDATA_DIR',
-          'GEOIPS_DEPENDENCIES_DIR', 'GEOIPS_BASEDIR']``
-    base_paths : list, default=None
-        * List of PATHS dictionaries in which to find the "replace_paths" variables
-        * If None, use geoips.filenames.base_paths
-    curly_braces: bool, default=False
-        * Specifies whether to include curly braces in the environment variables
-          or not.
+    path : str or pathlib.Path
+        The path in which to replace base paths.
+    replace_paths : list of str, optional
+        A list of environment variable names whose corresponding paths should be
+        replaced in `path`.
+        If `None`, defaults to:
+
+        ``['GEOIPS_OUTDIRS', 'GEOIPS_PACKAGES_DIR', 'GEOIPS_TESTDATA_DIR',
+        'GEOIPS_DEPENDENCIES_DIR', 'GEOIPS_BASEDIR']``
+    base_paths : dict, optional
+        A dictionary mapping environment variable names to their corresponding base paths.
+        If `None`, defaults to `geoips.filenames.base_paths.PATH`.
+    curly_braces : bool, default=False
+        If `True`, includes curly braces in the environment variables
+        (e.g., ``'${GEOIPS_BASEDIR}'``),
+        otherwise excludes them (e.g., ``'$GEOIPS_BASEDIR'``).
 
     Returns
     -------
-    fname : str
-        Path to file on disk, with explicit path replaced with environment
-        variable name and/or full URL.
+    str
+        The path with specified base paths replaced with environment variable names.
 
     Notes
     -----
-    Note it replaces ALL standard variables that have a corresponding
-    ``<key>_URL`` variable.
+    The function iterates over the provided `replace_paths` in reverse order
+    (from most specific to least specific) and replaces the first matching base
+    path in the given `path` with the corresponding environment variable name.
 
-    Additionally, it replaces variables specified in "replace_paths" list with
-    the unexpanded environment variable name.
+    Examples
+    --------
+    >>> path = '/home/user/geoproc/geoips_packages/module/file.py'
+    >>> base_paths = {
+    ...     'GEOIPS_PACKAGES_DIR': '/home/user/geoproc/geoips_packages',
+    ...     'GEOIPS_BASEDIR': '/home/user/geoproc'
+    ... }
+    >>> replace_geoips_paths(path, base_paths=base_paths)
+    '$GEOIPS_PACKAGES_DIR/module/file.py'
     """
     # Allow multiple sets of base_path replacements
-    from geoips.filenames.base_paths import PATHS as geoips_gpaths
 
     if base_paths is None:
-        base_paths = [geoips_gpaths]
+        base_paths = geoips_paths
 
-    # Replace with specified file system -> URL mapping
-    for paths in base_paths:
-        for key in paths.keys():
-            if f"{key}_URL" in paths:
-                fname = fname.replace(paths[key], paths[f"{key}_URL"])
-
-    # Replace full paths with environment variables
     if replace_paths is None:
         replace_paths = [
             "GEOIPS_OUTDIRS",
@@ -358,14 +402,25 @@ def replace_geoips_paths(
             "GEOIPS_DEPENDENCIES_DIR",
             "GEOIPS_BASEDIR",
         ]
-    for replace_path in replace_paths:
-        for paths in base_paths:
-            if replace_path in paths:
-                if curly_braces:
-                    fname = fname.replace(paths[replace_path], f"${{{replace_path}}}")
-                else:
-                    fname = fname.replace(paths[replace_path], f"${replace_path}")
-    return fname
+    replace_paths = order_paths_from_least_to_most_specific(replace_paths)
+
+    # Replace with specified file system -> URL mapping
+    # for paths in base_paths:
+    #    for key in paths.keys():
+    #        if f"{key}_URL" in paths:
+    #            fname = fname.replace(paths[key], paths[f"{key}_URL"])
+
+    path = os.path.expandvars(path)
+
+    # Replace full paths with environment variables
+    for replace_path in replace_paths.reverse():
+        replace_path_value = base_paths[replace_path]
+        if replace_path in path.parents:
+            return str(path).replace(
+                replace_path_value,
+                f"${{{replace_path}}}" if curly_braces else f"${replace_path}",
+            )
+    return path
 
 
 def get_required_geoips_xarray_attrs():
