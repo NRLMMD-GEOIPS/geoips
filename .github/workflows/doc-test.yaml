@@ -51,6 +51,8 @@ jobs:
     outputs:
       # The name of the untagged docker images to be created by this workflow
       IMAGE_NAME: ${{ steps.set_image_name.outputs.IMAGE_NAME }}
+      # The name of the repository
+      REPO_NAME: ${{ steps.set_image_name.outputs.REPO_NAME }}
       # The tag to use for the doclinttest images
       DOCLINTTEST_TAG: ${{ steps.set_doclinttest_tag.outputs.DOCLINTTEST_TAG }}
       # The image to use for doclinttest jobs
@@ -65,8 +67,12 @@ jobs:
       - name: Set the image name
         id: set_image_name
         run: |
+          repo_name=$(echo ${{ github.repository }} | cut -d'/' -f2)
           # Create an image name using the organiztion and repository names, lowercase
-          image_name=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}
+          image_name=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/${repo_name}
+          echo "REPO_NAME=${repo_name}"
+          echo "REPO_NAME=${repo_name}" >> ${GITHUB_ENV}
+          echo "REPO_NAME=${repo_name}" >> ${GITHUB_OUTPUT}
           echo "IMAGE_NAME=${image_name}"
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
@@ -90,10 +96,10 @@ jobs:
         run: |
           owner=${{ github.repository_owner }}
           owner=${owner,,}
-          doclinttest_image_name=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}
-          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}"
-          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
-          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
+          doclinttest_image_name=${{ env.IMAGE_NAME }}:${DOCLINTTEST_TAG}
+          echo "DOCLINTTEST_IMAGE=${{ env.IMAGE_NAME }}:${DOCLINTTEST_TAG}"
+          echo "DOCLINTTEST_IMAGE=${{ env.IMAGE_NAME }}:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
+          echo "DOCLINTTEST_IMAGE=${{ env.IMAGE_NAME }}:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
       - name: Get job flags
         id: get_job_flags
         run: |
