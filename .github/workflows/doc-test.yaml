@@ -69,7 +69,7 @@ jobs:
         run: |
           repo_name=$(echo ${{ github.repository }} | cut -d'/' -f2)
           # Create an image name using the organiztion and repository names, lowercase
-          image_name=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/${repo_name}
+          image_name=${{ vars.DOCKER_REGISTRY_USER }}/${repo_name}
           echo "REPO_NAME=${repo_name}"
           echo "REPO_NAME=${repo_name}" >> ${GITHUB_ENV}
           echo "REPO_NAME=${repo_name}" >> ${GITHUB_OUTPUT}
