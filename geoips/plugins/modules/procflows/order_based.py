@@ -14,7 +14,7 @@ family = "standard"
 name = "order_based"
 
 
-def call(fnames, product_path, command_line_args=None):
+def call(fnames: list[str], product_path: str, command_line_args: list[str] | None = None) -> None:
     """
     runs an order-based procflow processing with the specified input data files & product definition file
     
@@ -52,3 +52,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     call(args.fnames, args.product_path)
+
