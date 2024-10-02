@@ -187,9 +187,9 @@ jobs:
       - name: Login to the Registry
         uses: docker/login-action@v3
         with:
-          registry: ${{ vars.DOCKER_REGISTRY }}
-          username: ${{ vars.DOCKER_REGISTRY_USER }}
-          password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
+          registry: ghcr.io
+          username: ${{ vars.GHCR_USER }}
+          password: ${{ secrets.GHCR_TOKEN }}
 
       # This cache allows the second push below when on the default branch
       - name: Cache Docker layers
