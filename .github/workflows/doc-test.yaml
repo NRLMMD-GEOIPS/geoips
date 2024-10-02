@@ -66,7 +66,7 @@ jobs:
         id: set_image_name
         run: |
           # Create an image name using the organiztion and repository names, lowercase
-          image_name=${{ vars.DOCKER_REGISTRY }}/${GITHUB_REPOSITORY,,}
+          image_name=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}
           echo "IMAGE_NAME=${image_name}"
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_ENV}
           echo "IMAGE_NAME=${image_name}" >> ${GITHUB_OUTPUT}
@@ -90,10 +90,10 @@ jobs:
         run: |
           owner=${{ github.repository_owner }}
           owner=${owner,,}
-          doclinttest_image_name=${{ vars.DOCKER_REGISTRY }}/${owner}/geoips:${DOCLINTTEST_TAG}
-          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${owner}/geoips:${DOCLINTTEST_TAG}"
-          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${owner}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
-          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${owner}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
+          doclinttest_image_name=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}
+          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}"
+          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_ENV}
+          echo "DOCLINTTEST_IMAGE=${{ vars.DOCKER_REGISTRY }}/${{ vars.DOCKER_REGISTRY_USER }}/geoips:${DOCLINTTEST_TAG}" >> ${GITHUB_OUTPUT}
       - name: Get job flags
         id: get_job_flags
         run: |
