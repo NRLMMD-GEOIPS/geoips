@@ -15,6 +15,16 @@ name = "order_based"
 
 
 def call(fnames, product_path, command_line_args=None):
+    """
+    runs an order-based procflow processing with the specified input data files & product definition file
+    
+        Parameters:
+            fnames (List[str]): list of filenames to process
+            product-path (str): path to the product definition file
+
+        Returns:
+            None
+    """
     with open(product_path) as f:
         prod_dict = yaml.safe_load(f)
         prod = ProductPlugin(**prod_dict)
@@ -33,7 +43,7 @@ def call(fnames, product_path, command_line_args=None):
 
 
 if __name__ == "__main__":
-    parser = ArgumentParser()
+    parser = ArgumentParser(description="order-based procflow processing")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
     parser.add_argument(
         "-p", "--product_path", help="The path to the product definition file."
