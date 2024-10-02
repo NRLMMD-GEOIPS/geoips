@@ -276,7 +276,7 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     env:
       CURR_REPO: ${{ github.event.repository.name }}
@@ -382,7 +382,7 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     steps:
       - name: Checkout code
@@ -418,7 +418,7 @@ jobs:
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
       credentials:
-        username: ${{ secrets.DOCKER_REGISTRY_USER }}
+        username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     env:
       CURR_REPO: ${{ github.event.repository.name }}
