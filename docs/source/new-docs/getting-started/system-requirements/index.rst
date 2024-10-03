@@ -77,10 +77,14 @@ User System Requirements
 
 Processing medium resolution next generation geostationary satellite data 
 (ABI, AHI) and polar orbiter satellite data with GeoIPS 
-requires at least 16GB memory.
+requires at least 16GB memory. 
 
 High resolution next generation geostationary satellite datasets 
 require at least 24GB memory.
+
+Loading all of the data from a single geostationary image from 
+GOES-R, Himawari, GeoKompsat, or Meteosat Third Generation (MTG)
+datasets requires about 100GB.
 
 Developer System Requirements
 -----------------------------
