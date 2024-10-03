@@ -31,6 +31,9 @@ env:
   # Allow overriding the doclinttest image tag used for plugin packages
   # Allows using a different version of the doc, lint, and test code
   PLUGIN_DOCLINTTEST_TAG: ${{ vars.PLUGIN_DOCLINTTEST_TAG || 'doclinttest-stable' }}
+  # Allow installing in editable mode for some packages that require it
+  # If set to the string "true" will install packages with `pip install -e .`
+  INSTALL_EDITABLE: ${{ vars.INSTALL_EDITABLE || 'false' }}
 
 defaults:
   run:
@@ -288,7 +291,12 @@ jobs:
         run: git config --global --add safe.directory $PWD
 
       - name: Install package
-        run: pip install .
+        run: |
+          if [ "${INSTALL_EDITABLE}" = "true" ]; then
+              pip install -e .
+          else
+              pip install .
+          fi
 
       - name: Run build html
         id: build-html-docs
