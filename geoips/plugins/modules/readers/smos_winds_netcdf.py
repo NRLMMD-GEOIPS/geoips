@@ -3,8 +3,22 @@
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
 
+# Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
 from os.path import basename
+
+# Third-Party Libraries
+import numpy
+from numpy import datetime64, timedelta64
+from netCDF4 import Dataset
+import xarray
+
+#GeoIPS-Based imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -23,9 +37,6 @@ def read_smos_data(wind_xarray, fname):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    import xarray
-    import numpy
-    from datetime import datetime, timedelta
 
     LOG.info("Reading SMOS data")
 
@@ -78,8 +89,6 @@ def read_smos_data(wind_xarray, fname):
         + wind_xarray.time.values[0],
         mask=True,
     )
-    from numpy import datetime64, timedelta64
-    from netCDF4 import Dataset
 
     ncobj = Dataset(fname)
     basedt = datetime64(datetime.strptime("19900101", "%Y%m%d"))
@@ -138,12 +147,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import numpy
-    import xarray
 
     ingested = []
     for fname in fnames:
@@ -163,7 +166,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             not isinstance(wind_xarray.time.values[0], numpy.datetime64)
             and wind_xarray.time.values[0].year > 3000
         ):
-            from datetime import datetime, timedelta
 
             cov_start = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
@@ -243,7 +245,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         == final_wind_xarrays["METADATA"].end_datetime
     ):
         # Use alternate attributes to set start and end datetime
-        from datetime import datetime
 
         final_wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
             wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"

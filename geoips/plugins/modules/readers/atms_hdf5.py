@@ -77,17 +77,18 @@ The example files are:
 * ``SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for TBs.  'b': orbit#
 * ``GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for geolocations
 """
-# Python Standard Libraries
 
+# Python Standard Libraries
+import datetime
+import logging
 from os.path import basename
 
-import h5py
-import numpy as np
-import datetime
-import xarray as xr
+# Third-Party Libraries
 from astropy.time import Time
 from dateutil.relativedelta import relativedelta
-import logging
+import h5py
+import numpy as np
+import xarray as xr
 
 LOG = logging.getLogger(__name__)
 

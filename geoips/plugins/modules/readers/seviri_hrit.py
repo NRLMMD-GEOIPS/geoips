@@ -19,16 +19,19 @@ Notes
 import os
 import logging
 import numpy as np
-from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
+from struct import error as structerror
 
-# Installed Libraries
+# Third-Party Libraries
+import xarray
 
-# GeoIPS Libraries
+#GeoIPS-Based imports
+from geoips.filenames.base_paths import make_dirs
 from geoips.filenames.base_paths import PATHS as gpaths
-from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation,
 )
+from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
+from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
@@ -519,8 +522,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     else:
         adname = "FULL_DISK"
 
-    import xarray
-
     xarray_obj = xarray.Dataset()
 
     # Gather top-level metadata. MUst pass ALL fnames to make sure we
@@ -545,8 +546,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     sdt = None
     imgf = None
     all_segs = set()
-    from struct import error as structerror
-
+    
     for fname in fnames:
         try:
             df = HritFile(fname)
@@ -639,8 +639,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_obj.attrs["platform_name"],
         xarray_obj.attrs["start_datetime"].strftime("%Y%m%d%H%M"),
     )
-
-    from geoips.filenames.base_paths import make_dirs
 
     make_dirs(outdir)
 

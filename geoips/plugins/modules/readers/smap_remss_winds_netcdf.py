@@ -3,9 +3,23 @@
 
 """Read derived surface winds from REMSS SMAP netcdf data."""
 
+# Python Standard Libraries
+from glob import glob
 import logging
 from os.path import basename
-from glob import glob
+
+# Third-Party Libraries
+import xarray
+
+#GeoIPS-Based imports
+from geoips.plugins.modules.readers.utils.remss_reader import (
+                read_remss_data,
+            )
+
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -54,11 +68,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
 
     # Only SAR reads multiple files
     fname = fnames[0]
@@ -78,10 +87,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         and "Remote Sensing Systems" in wind_xarray.institution
     ):
         if hasattr(wind_xarray, "title") and "SMAP" in wind_xarray.title:
-            from geoips.plugins.modules.readers.utils.remss_reader import (
-                read_remss_data,
-            )
-
             wind_xarrays = read_remss_data(wind_xarray, "smap")
 
     for wind_xarray in wind_xarrays.values():

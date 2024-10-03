@@ -36,11 +36,14 @@ EWS-G file information::
 import logging
 import os
 
-# Installed Libraries
-import numpy as np
-import xarray as xr
+# Third-Party Libraries
 import calendar
+import numpy as np
+import pandas as pd
+import xarray as xr
 
+
+#GeoIPS-Based imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
@@ -119,7 +122,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import pandas as pd
 
     # --------------- loop input files ---------------
     xarray_ewsg = xr.Dataset()

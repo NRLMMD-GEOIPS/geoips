@@ -21,14 +21,15 @@ The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geoometry
 infomation, while other files have values at each channels.
 """
 # Python Standard Libraries
-from os.path import basename
+from datetime import datetime
 import logging
+from os.path import basename
 
-
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray as xr
 
+#GeoIPS-Based imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
@@ -46,7 +47,6 @@ family = "standard"
 name = "modis_hdf4"
 
 # define functions
-
 
 def parse_metadata(metadatadict):
     """Parse MODIS metadata dictionary."""
@@ -259,10 +259,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         ],
     }
     # @staticmethod
-
-    from datetime import datetime
-    import numpy as np
-    import xarray as xr
 
     # from pyhdf.SD import SD, SDC
     # from pyhdf.SD import *

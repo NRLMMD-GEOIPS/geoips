@@ -6,10 +6,10 @@
 # Python Standard Libraries
 from datetime import datetime
 import logging
+
+# Third-Party Libraries
+import netCDF4 as ncdf
 from numpy import isnan
-
-
-# Installed Libraries
 import satpy
 import xarray as xr
 
@@ -22,7 +22,6 @@ name = "abi_l2_netcdf"
 
 def get_metadata(fname):
     """Get metadata."""
-    import netCDF4 as ncdf
     from geoips.plugins.modules.readers.abi_netcdf import (
         _get_metadata as get_metadata,
     )
