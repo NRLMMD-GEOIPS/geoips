@@ -105,12 +105,6 @@ if [[ "$4" != "" ]]; then
 else
     geoipsdocpath="$GEOIPS_PACKAGES_DIR/geoips/docs"
 fi
-if [[ "$5" != "" ]]; then
-    echo "passed geoips_vers=$5"
-    geoips_vers=$5
-else
-    geoips_vers=latest
-fi
 if [[ ! -d "$geoipsdocpath" ]]; then
     echo "***************************************************************************"
     echo "ERROR: GeoIPS docs path, with templates, does not exist:"
@@ -166,54 +160,97 @@ fi
 # Since we revert index.rst at the end of this script, make sure the
 # user does not have any local modifications before starting.
 git_status_index=`git -C $docbasepath status docs/source/releases/index.rst`
-if [[ "$git_status_index" == *"docs/source/releases/index.rst"* ]]; then
+if [[ "$git_status_index" == *"docs/source/releases/"*".rst"* ]]; then
     echo "***************************************************************************"
-    echo "ERROR: Do not modify docs/source/releases/index.rst directly"
-    echo "Auto-generated within build_docs.sh using brassy."
+    echo "ERROR: Do not modify docs/source/releases/*.rst directly"
+    echo "All RST release files are auto-generated within build_docs.sh using brassy."
     echo "Please revert your changes and try again."
     echo "***************************************************************************"
     exit 1
 fi
 
-# Release notes are ALWAYS written in the "latest" folder, whether we are
-# producing the generic "latest.rst" release note, or the specific
-# vX_Y_Z.rst release note for an actual version release.
-current_release_notes=`ls $docbasepath/docs/source/releases/latest/*`
-# If we found any current YAML release notes, we need to generate the
-# release RST file, and update index.rst with the current release version.
-if [[ "$current_release_notes" != "" ]]; then
-    echo "Running brassy to generate current release note ${geoips_vers}.rst"
+# Loop through all of the directories in docs/source/releases.
+# Each set of YAML release notes is in a single directory, so
+# we will build them all into RST release notes prior to building
+# the docs.
+for version_dir in $docbasepath/docs/source/releases/*/ ; do
+    echo $version_dir
+    # Only attempt to build release notes from a directory if there
+    # are YAML release notes in the directory.
+    notes_in_dir=`ls $version_dir/*.yaml`  
+    if [[ "$notes_in_dir" == "" ]]; then
+        echo "SKIPPING: Empty directory $version_dir, skipping"
+        continue
+    fi
+    # Remove the trailing '/' from the version_dir (the way the
+    # directories were listed with /*/ above the trailing '/'
+    # is included in the path)
+    version=`basename ${version_dir::-1}`
+    # Explicitly skip the "upcoming" folder in the documentation.
+    # By the time we are ready to include these YAML release notes,
+    # they will be moved to the "latest" directory.  "upcoming" only
+    # exists during the release process.
+    if [[ "$version" == "upcoming" ]]; then
+        echo "SKIPPING: Not including 'upcoming' version in documentation."
+        continue
+    fi
+
+    # Create a temporary file with the header for the release note.
+    # This is passed into brassy as the prefix-file.
+    RELEASE_NOTE_HEADER=$docbasepath/docs/source/releases/RELEASE_NOTE_HEADER
+    touch $RELEASE_NOTE_HEADER
+    echo ".. dropdown:: Distribution Statement" >> $RELEASE_NOTE_HEADER
+    echo " " >> $RELEASE_NOTE_HEADER
+    echo " | This file is auto-generated. Please abide by the license found at" \
+    >> $RELEASE_NOTE_HEADER
+    echo " | ${GEOIPS_REPO_URL}." \
+    >> $RELEASE_NOTE_HEADER
+
+    echo "Running brassy to generate current release note ${version}.rst"
     echo ""
-    echo "touch $docbasepath/docs/source/releases/${geoips_vers}.rst"
-    echo "brassy --release-version $geoips_vers --no-rich \"
-    echo "    --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \"
-    echo "    $docbasepath/docs/source/releases/latest"
+    echo "touch $docbasepath/docs/source/releases/${version}.rst"
+    echo "brassy --release-version $version --no-rich \ "
+    echo "    --prefix-file $RELEASE_NOTE_HEADER \ "
+    echo "    --output-file $docbasepath/docs/source/releases/${version}.rst \ "
+    echo "    $docbasepath/docs/source/releases/$version"
+    echo "pink $docbasepath/docs/source/releases/${version}.rst"
     echo ""
 
     # Right now brassy does not auto-generate vers.rst, so we must touch it in
     # advance.
-    touch $docbasepath/docs/source/releases/${geoips_vers}.rst
+    touch $docbasepath/docs/source/releases/${version}.rst
     # Brassy creates the rst file!
-    brassy --release-version $geoips_vers --no-rich \
-        --output-file $docbasepath/docs/source/releases/${geoips_vers}.rst \
-        $docbasepath/docs/source/releases/latest
-    if [[ "$?" != "0" ]]; then
+    brassy --release-version $version --no-rich \
+        --prefix-file $RELEASE_NOTE_HEADER \
+        --output-file $docbasepath/docs/source/releases/${version}.rst \
+        $docbasepath/docs/source/releases/${version}
+    brassy_retval=$? 
+    # Remove the temporary release note header
+    rm -f $docbasepath/docs/source/releases/RELEASE_NOTE_HEADER
+
+    # Pinken the RST file
+    pink $docbasepath/docs/source/releases/${version}.rst
+    pink_retval=$?
+    if [[ "$brassy_retval" != "0" || "$pink_retval" != "0" ]]; then
         # Exit here if brassy failed, because the doc build will subsequently fail.
-        echo "FAILED brassy ${geoips_vers}.rst release note generation failed."
+        echo "FAILED brassy ${version}.rst release note generation failed."
         echo "Please resolve release note formatting noted above and retry"
+        echo "brassy retval: $brassy_retval"
+        echo "pink retval: $pink_retval"
         exit 1
     fi
-    # Ensure index.rst is updated with the latest release notes.
-    # This will eventually likely be rolled into brassy.
-    echo "Adding latest section to release note index"
-    echo "python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers"
-    python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $geoips_vers
-    if [[ "$?" != "0" ]]; then
-        # If this failed, exit here, because doc build will subsequently fail.
-        echo "FAILED update_release_note_index.py for version ${geoips_vers}"
-        echo "Please resolve release note formatting noted above and retry"
-        exit 1
-    fi
+done
+
+# Ensure index.rst is updated with the latest release notes.
+# This will eventually likely be rolled into brassy.
+echo "Creating docs/source/releases/index.rst with all release notes"
+echo "python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $docbasepath/docs/source/releases"
+python $geoipsdocpath/update_release_note_index.py $docbasepath/docs/source/releases/index.rst $docbasepath/docs/source/releases
+if [[ "$?" != "0" ]]; then
+    # If this failed, exit here, because doc build will subsequently fail.
+    echo "FAILED update_release_note_index.py."
+    echo "Please resolve release note formatting noted above and retry"
+    exit 1
 fi
 
 buildfrom_docpath=$docbasepath/build/buildfrom_docs
@@ -237,9 +274,9 @@ fi
 # below, and in that explicit order.
 # (directory name within docs/source, followed by heading name within index.rst
 # in parentheses below):
-# * Required: introduction (Introduction)
+# * Optional: introduction (Introduction)
 # * Optional: starter (Getting Started)
-# * Required: userguide (User Guide)
+# * Optional: userguide (User Guide)
 # * Optional: devguide (Developer Guide)
 # * Optional: deployment_guide (Deployment Guide) - note, NOT in geoips repo
 # * Optional: operator_guide (Operator Guide) - note, NOT in geoips repo
@@ -249,23 +286,35 @@ fi
 # Plugin package documentation will follow the same order, only including the
 # sections included in their docs/source directory.
 
-# Note api, introduction, and userguide are required for all plugin packages.
+# Note api and releases are required for all plugin packages.
 # Those are hard coded in source/_templates/index_PKG.html
-# starter, devguide, and contact are optional - if index.rst exist for those
-# sections within a plugin package, include them in the main index. If they
-# do not exist, don't include them.  They are added to index_PKG.html template
+# introduction, starter, userguide, devguide, and contact are optional -
+# if index.rst exist for those sections within a plugin package, include
+# them in the main index. If they do not exist, don't include them.
+# They are added to index_PKG.html template
 # by search/replacing for *IDX in the template below.
+
+# API and releases are NOT included in these search/replace templates,
+# since they are hard coded in index_PKG.html, so are required to be included.
+introidx="introduction\/index"
 startidx="starter\/index"
+userguideidx="userguide\/index"
 devguideidx="devguide\/index"
 deployguideidx="deployguide\/index"
 opguideidx="opguide\/index"
 contactidx="contact\/index"
 # Only include the following links in the index if they exist
+if [[ ! -f $docbasepath/docs/source/introduction/index.rst ]]; then
+    introidx=""
+fi
 if [[ ! -f $docbasepath/docs/source/deployguide/index.rst ]]; then
     deployguideidx=""
 fi
 if [[ ! -f $docbasepath/docs/source/opguide/index.rst ]]; then
     opguideidx=""
+fi
+if [[ ! -f $docbasepath/docs/source/userguide/index.rst ]]; then
+    userguideidx=""
 fi
 if [[ ! -f $docbasepath/docs/source/starter/index.rst ]]; then
     startidx=""
@@ -323,15 +372,14 @@ if [[ "$pdf_required" == "True" ]]; then
         echo "  try 'conda install latexcodec' if in anaconda"
         echo "  or re-run with html_only to only build"
         echo "  html documentation."
-        echo ""
-        echo "Reverting $docbasepath/docs/source/releases/index.rst"
-        git -C $docbasepath checkout docs/source/releases/index.rst
         exit 1
     fi
     # do not include release notes in the PDF
     # Include starter, contact, devguide if they exist.
     releasidx=""
     sed "s/PKGNAME/${pkgname}/g; s/STARTERIDX/${startidx}/g; \
+        s/INTROIDX/${introidx}/g; \
+        s/USERGUIDEIDX/${userguideidx}/g; \
         s/CONTACTIDX/${contactidx}/g; \
         s/DEPLOYGUIDEIDX/${deployguideidx}/g; s/OPGUIDEIDX/${opguideidx}/g; \
         s/DEVIDX/${devguideidx}/g; s/RELEASEIDX/${releasidx}/g;" \
@@ -385,6 +433,8 @@ if [[ "$html_required" == "True" ]]; then
     releasidx="releases\/index"
     # Include starter, contact, devguide if they exist.
     sed "s/PKGNAME/${pkgname}/g; s/STARTERIDX/${startidx}/g; \
+        s/INTROIDX/${introidx}/g; \
+        s/USERGUIDEIDX/${userguideidx}/g; \
         s/CONTACTIDX/${contactidx}/g; \
         s/DEPLOYGUIDEIDX/${deployguideidx}/g; s/OPGUIDEIDX/${opguideidx}/g; \
         s/DEVIDX/${devguideidx}/g; s/RELEASEIDX/${releasidx}/g;" \
@@ -420,13 +470,6 @@ fi
 
 echo ""
 echo "***"
-# docs/source/releases/index.rst should only be auto-generated,
-# so revert the changes we just made.  Note we checked at the beginning
-# if this was already modified, and exited if there were any local modifications,
-# to ensure the user had not manually modified it.
-# git -C $docbasepath status docs/source/releases/index.rst
-echo "Reverting $docbasepath/docs/source/releases/index.rst"
-git -C $docbasepath checkout docs/source/releases/index.rst
 date -u
 echo "***"
 echo ""

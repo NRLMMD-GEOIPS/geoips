@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `tree` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.

@@ -46,7 +46,8 @@ spec:
     - name: wind-ambiguities
       source_names: [ascat]
       docstring: |
-        The wind-ambiguities product_defaults for ascat product.
+        Scatterometer data that shows and abstract of possible wind 
+        direction. Usually have four cases so the first two shown are most likely. 
       product_defaults: wind-ambiguities
       spec:
         variables:

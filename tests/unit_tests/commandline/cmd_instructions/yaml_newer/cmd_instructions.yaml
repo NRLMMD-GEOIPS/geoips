@@ -1,0 +1,412 @@
+name: 2024-05-20_19:43:53_UTC
+instructions:
+  config:
+    help_str: 'Various configuration-based commands for setting up your geoips environment.
+
+      Currently supports `geoips config install <test_dataset_name>` command.
+
+      '
+    output_info:
+    - Output related to config process that was run.
+    usage_str: 'To use, type `geoips config <sub-cmd> <sub-sub-command> ...`
+
+      '
+  config_install:
+    help_str: 'Install the appropriate test dataset and/or package based on the arguments
+
+      provided. To see a list of available test datasets for install, run
+
+      `geoips list test-datasets`.
+
+      '
+    output_info:
+    - Not Applicable
+    usage_str: 'To use, type `geoips config install <test_dataset_name>`.
+
+      '
+  get:
+    help_str: 'Retrieve an appropriate GeoIPS artifact. Currently supported `get`
+      calls are:
+
+      ["family", "interface", "package", "plugin"]
+
+      '
+    output_info:
+    - Information related to the artifact that was retrieved.
+    usage_str: 'To use, type `geoips get <sub-cmd> <sub-sub-cmd> ...`.
+
+      '
+  get_family:
+    help_str: 'Retrieve the appropriate GeoIPS Family alongside descriptive information
+      of
+
+      that family. See output_info for each datum provided when this command is
+
+      called. For a listing of available GeoIPS families, run:
+
+      `geoips list interfaces`.
+
+      '
+    output_info:
+    - Docstring
+    - Family Name
+    - Family Path
+    - Interface Name
+    - Interface Type
+    - Required Args / Schema
+    usage_str: 'To use, type `geoips get family <interface_name> <family_name>`, where
+
+      <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
+
+      family member of that interface.
+
+      '
+  get_interface:
+    help_str: 'Retrieve the appropriate GeoIPS Interface alongside descriptive information
+      of
+
+      that interface. See output_info for each datum provided when this command is
+
+      called. For a listing of available GeoIPS interfaces, run:
+
+      `geoips list interfaces`.
+
+      '
+    output_info:
+    - Absolute Path
+    - Docstring
+    - Documentation Link (If applicable)
+    - Interface Name
+    - Interface Type
+    - Supported Families
+    usage_str: 'To use, type `geoips get interface <interface_name>`, where <interface_name>
+      is a
+
+      valid GeoIPS Interface.
+
+      '
+  get_package:
+    help_str: 'Retrieve the appropriate GeoIPS Package alongside descriptive information
+      of
+
+      that package. See output_info for each datum provided when this command is
+
+      called. For a listing of available GeoIPS packages, run:
+
+      `geoips list packages`.
+
+      '
+    output_info:
+    - GeoIPS Package
+    - Docstring
+    - Package Path
+    - Documentation Link
+    usage_str: 'To use, type `geoips get package <package_name>`, where <package_name>
+      is a
+
+      valid GeoIPS Package.
+
+      '
+  get_plugin:
+    help_str: 'Retrieve the appropriate GeoIPS Plugin alongside descriptive information
+      of
+
+      that plugin. See output_info for each datum provided when this command is
+
+      called. For a listing of available GeoIPS Plugins, run:
+
+      `geoips list plugins`.
+
+      '
+    output_info:
+    - Docstring
+    - Documentation Link (If applicable)
+    - Family
+    - Interface Name
+    - Package
+    - Relative Path
+    - Plugin Specific Info (signature / source_names / available overrides)
+    usage_str: 'To use, type `geoips get plugin <interface_name> <plugin_name>`, where
+
+      <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
+
+      identifier that has been implemented in any installed GeoIPS package.
+
+      '
+  list:
+    help_str: 'List off available GeoIPS artifacts provided further commands. Current
+      artifacts
+
+      available for listing are: ["interface", "interfaces", "packages", "plugins",
+
+      "scripts", "test-datasets", "unit-tests"].
+
+      '
+    output_info:
+    - Additional info related to the artifact[s] being listed.
+    usage_str: 'To use, type `geoips list <sub-cmd> <sub-sub-cmd>`.
+
+      '
+  list_interface:
+    help_str: 'List off plugins found under a certain interface. This is useful for
+      seeing what
+
+      plugins have been implemented through all, or a certain, GeoIPS Package. This
+
+      information can then be used with
+
+      `geoips get-plugin <interface_name> <plugin_name>` to get more information about
+      a
+
+      certain plugin.
+
+      '
+    output_info:
+    - Family
+    - Interface Name
+    - Interface Type
+    - Package
+    - Plugin Name
+    - Relative Path
+    usage_str: 'To use, type `geoips list interface <interface_name>`. Optionally
+      includes `-p`
+
+      flag for seeing what plugins are in a certain package (-p). For example, to
+      see
+
+      what plugins under a certain interface have been created in a single package,
+
+      run `geoips list interface <interface_name> -p <pkg_name>`, or you can remove
+      the
+
+      `-p` flag to see what''s been created in every package.
+
+      '
+  list_interfaces:
+    help_str: 'List off every GeoIPS Interface. This is useful for seeing what is
+
+      available throughout GeoIPS, but can also be extended to see what interfaces
+      have
+
+      been implemented in other geoips package, or just a certain package. This
+
+      information can then be used with `geoips get-interface <interface_name>` to
+      get
+
+      more information about a certain interface.
+
+      '
+    output_info:
+    - Absolute Path
+    - Docstring
+    - Documentation Link (if applicable)
+    - Interface Name
+    - Interface Type
+    - Package
+    - Supported Families
+    usage_str: 'To use, type `geoips list interfaces`. Optionally includes `-i` and
+      `-p` flags for
+
+      seeing what has been implemented (-i) in a certain package (-p), or all packages.
+
+      For example, to see what interfaces have been implemented in a certain package,
+
+      run `geoips list interfaces -i -p <pkg_name>`, or you can remove the `-p` flag
+      to
+
+      see what''s been implemented in every package.
+
+      '
+  list_packages:
+    help_str: 'List off packages found under the GeoIPS Namespace, alongside their
+      path and
+
+      top-level docstring. This command will list every  GeoIPS Package found, provided
+
+      it has already been installed.
+
+      '
+    output_info:
+    - Docstring
+    - Package
+    - Relative Path
+    usage_str: 'To use, type `geoips list packages`.
+
+      '
+  list_plugins:
+    help_str: 'List off plugins found under all, or a specified GeoIPS package. This
+      information
+
+      can then be used with `geoips get-plugin <interface_name> <plugin_name>` to
+      get
+
+      more information about a certain plugin.
+
+      '
+    output_info:
+    - Family
+    - Interface Name
+    - Interface Type
+    - Package
+    - Plugin Name
+    - Relative Path
+    usage_str: 'To use, type `geoips list plugins`. Optionally includes `-p` flag
+      for
+
+      seeing what plugins are in a certain package (-p). For example, to see what
+
+      plugins have been created in a single package, run
+
+      `geoips list plugins -p <pkg_name>`, or you can remove the `-p` flag to see
+      what''s
+
+      been created in every package.
+
+      '
+  list_scripts:
+    help_str: 'List off scripts found under all, or a specified GeoIPS package. This
+      information
+
+      can then be used with `geoips run <package_name> <script_name>` to run a certain
+
+      process workflow, defined in a bash script.
+
+      '
+    output_info:
+    - Package
+    - Script Name
+    usage_str: 'To use, type `geoips list scripts`. Optionally includes `-p` flag
+      for
+
+      seeing what scripts are in a certain package (-p). For example, to see what
+
+      scripts have been created in a single package, run
+
+      `geoips list scripts -p <pkg_name>`, or you can remove the `-p` flag to see
+      what''s
+
+      been created in every package.
+
+      '
+  list_test-datasets:
+    help_str: 'List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
+
+      This data is used for running tests via `geoips run <pkg_name> <script_name>`.
+
+      '
+    output_info:
+    - Data Host
+    - Dataset Name
+    usage_str: 'To use, type `geoips list test-datasets`.
+
+      '
+  list_unit-tests:
+    help_str: 'List off unit-tests used in a certain GeoIPS Package.
+
+      This data can be used to run unit tests via `geoips test unit-test ...`.
+
+      '
+    output_info:
+    - GeoIPS Package
+    - Unit Test Directory
+    - Unit Test Name
+    usage_str: 'To use, type `geoips list unit-tests -p <package_name>`.
+
+      '
+  run:
+    help_str: 'Run a geoips process workflow (procflow), given a GeoIPS package and
+      a script
+
+      name. This will do the exact same thing as being in the directory of a certain
+
+      script, and running it via `./<script_name>`. To see what scripts are available,
+
+      you can run `geoips list-scripts <-p>`, where `-p` can be used alongside a GeoIPS
+
+      Package name if you want scripts from a single package.
+
+      '
+    output_info:
+    - Log Output of the Process Workflow (Procflow)
+    usage_str: 'To use, type `geoips run -p <package_name> <script_name>`.
+
+      '
+  test:
+    help_str: 'Run tests implemented in GeoIPS or a separate GeoIPS Package. This
+      could be
+
+      running a set of linters on a specific package, running a certain integration
+      or
+
+      normal test script, or running unit tests. Current options are ["linting",
+
+      "script", "unit-test"].
+
+      '
+    output_info:
+    - Output of the Test Being Ran
+    usage_str: 'To use, type `geoips test <sub-cmd> <sub-sub-cmd>`.
+
+      '
+  test_linting:
+    help_str: 'Run all GeoIPS linters on a specific GeoIPS Package. This will test
+      whether or not
+
+      the code you wrote adheres to the specified coding conventions set up by GeoIPS.
+
+      Defaults to the ''geoips'' package.
+
+      '
+    output_info:
+    - Output of the Linters
+    usage_str: 'To use, type `geoips test linting -p <package_name>`.
+
+      '
+  test_script:
+    help_str: 'Runs a specific test script (integration-based or normal), found within
+      a certain
+
+      GeoIPS package. If this is specified as an integration test, this will only
+      work
+
+      using the ''geoips'' package. Use ''--integration'' to specify that the script
+
+      is integration-based. Defaults to the ''geoips'' package.
+
+      '
+    output_info:
+    - Output of the Script Being Ran
+    usage_str: 'To use, type `geoips test script -p <package_name> <--integration>
+      <script_name>`.
+
+      '
+  test_unit-test:
+    help_str: 'Run tests unit-test[s] implemented in a certain GeoIPS package. This
+      command
+
+      expects that the unit tests implemented are pytest-based. Defaults to the ''geoips''
+
+      package.
+
+      '
+    output_info:
+    - Output of the Unit Test Being Ran
+    usage_str: 'To use, type
+
+      `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
+
+      '
+  validate:
+    help_str: 'Validate a GeoIPS Plugin found at <file_path>. While this is done under
+      the hood via
+
+      GeoIPS, this is an easy way to test whether or not the plugin you are developing
+
+      is valid.
+
+      '
+    output_info:
+    - A message telling you if the plugin is valid or not and why.
+    usage_str: 'To use, type `geoips validate <file_path>`. Do it man. NOW.
+
+      '

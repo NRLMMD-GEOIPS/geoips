@@ -1,0 +1,36 @@
+name: Deploy docs
+
+# 1. Brassy - on merge of v*-version-release
+#    * generate release notes
+#    * commit and push to v*-add-rst-release-note
+#    * open PR to default branch
+# 2. Tag and Release - on merge of v*-add-rst-release-note
+#    * Tag current version
+#    * Release just tagged version
+# 3. Package and Publish - on published release (from #2)
+#    * Build wheel
+#    * Publish to pypi
+# 4. Deploy docs - on published release (from #2)
+#    * pip install geoips
+#    * pip install plugin repo
+#    * build docs with geoips/docs/build_docs.sh
+#    * deploy docs with geoips/docs/deploy_pages.sh
+
+on:
+  # Triggers the workflow on published release
+  release:
+    types:
+      - published
+  # Allows run of this workflow manually from the Actions tab
+  # Must be merged to default before it will be available to manually run.
+  workflow_dispatch:
+
+jobs:
+  deploy-docs:
+    name: Deploy docs
+    # You do not appear to be able to use variables in the "uses" field.
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-deploy-docs.yaml@main
+    permissions:
+      contents: write
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}

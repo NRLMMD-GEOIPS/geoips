@@ -31,3 +31,17 @@ spec:
             "wind_dir_deg_ambiguity_met",
             "rain_flag_ambiguity",
           ]
+    - name: unsectored
+      source_names: [oscat]
+      docstring: |
+        The unsectored product_defaults for oscat product.
+      product_defaults: unsectored
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]
+    - name: sectored
+      source_names: [oscat]
+      docstring: |
+        The sectored product_defaults for oscat product.
+      product_defaults: sectored
+      spec:
+        variables: ["wind_speed_kts", "wind_dir_deg_met"]

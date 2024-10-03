@@ -6,8 +6,6 @@
 Introduction
 ************
 
-:ref:`requirement_spec`
-
 .. toctree::
    :maxdepth: 2
 
