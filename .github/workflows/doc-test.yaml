@@ -30,7 +30,7 @@ env:
   BASE_GEOIPS_PATH: /packages/geoips
   # Allow overriding the doclinttest image tag used for plugin packages
   # Allows using a different version of the doc, lint, and test code
-  PLUGIN_DOCLINTTEST_TAG: doclinttest-stable
+  PLUGIN_DOCLINTTEST_TAG: ${{ vars.PLUGIN_DOCLINTTEST_TAG || "doclinttest-stable" }}
 
 defaults:
   run:
