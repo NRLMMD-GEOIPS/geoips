@@ -4,7 +4,7 @@
 #
 # interface = ascii_palettes
 # family = rgb
-# name = tpw_pwat
+# name = tpw_purple
 #
 # min 5mm to max 65mm
 47  6  66

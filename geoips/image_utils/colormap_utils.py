@@ -5,8 +5,65 @@
 # Installed Libraries
 import logging
 import ast
+from matplotlib import pyplot as plt
+
+from geoips.interfaces import ascii_palettes
 
 LOG = logging.getLogger(__name__)
+
+
+def get_color_palette(source, name, ascii_kwargs={}):
+    """Get the associated color-palette given a name and source name.
+
+    Where 'color-palette' is a colormap defined from a given source. This source name
+    can be one of ['matplotlib' / 'mpl', 'geoips', 'ascii'].
+
+    If matplotlib is the source name, then retrieve the appropriate matplotlib named
+    colormap.
+
+    If the source name is geoips, retrieve the appropriate GeoIPS Colormapper-plugin,
+    Colormap Attribute.
+
+    If the source name is ascii, retrieve the appropriate Matplotlib Colormap generated
+    from the ascii palette plugin.
+
+    Parameters
+    ----------
+    source: str
+        - The source name of the color palette one of:
+          ['matplotlib' / 'mpl', 'ascii']
+    name: str
+        - The name of the color palette we'd like to retrieve.
+    ascii_kwargs: dict, default={}
+        - keyword arguments to pass through directly to
+          "geoips.interfaces.text_based.ascii_palettes.AsciiPalettesPlugin:call"
+
+    Returns
+    -------
+    cmap: Colormap
+        - Will either be a Matplotlib Named Colormap or a Matplotlib Colormap Derived
+          from the ascii palette plugin.
+    """
+    if source == "matplotlib" or source == "mpl":
+        try:
+            cmap = plt.get_cmap(name)
+        except ValueError:
+            raise ValueError(f"Colormap {name} not found in source {source}")
+    elif source == "ascii":
+        cmap = ascii_palettes.get_plugin(name)(**ascii_kwargs)
+        # Now get the colormap created from the defined ascii palette plugin
+    elif source == "geoips":
+        raise ValueError(
+            f"Source '{source}' is no longer supported. Please either use "
+            "'matplotlib' / 'mpl', or 'ascii', or consider using a different GeoIPS "
+            "Colormapper plugin."
+        )
+    else:
+        raise ValueError(
+            f"Uknown colormap source '{source}'; must be one of "
+            "'matplotlib' / 'mpl', 'geoips', or 'ascii'"
+        )
+    return cmap
 
 
 def set_matplotlib_colors_rgb():
@@ -65,7 +122,6 @@ def set_matplotlib_colors_standard(
     """
     min_val = data_range[0]
     max_val = data_range[1]
-    from matplotlib import pyplot as plt
 
     # cmap = cm.ScalarMappable(norm=colors.NoNorm(), cm.get_cmap(cmap_name))
     mpl_cmap = plt.get_cmap(cmap_name)
@@ -150,65 +206,6 @@ def set_mpl_colors_info_dict(
     mpl_colors_info["colorbar"] = create_colorbar
     mpl_colors_info["cbar_full_width"] = cbar_full_width
     return mpl_colors_info
-
-
-def from_ascii(fname, cmap_name=None, reverse=False):
-    """Create a ListedColormap instance from an ASCII file of RGB values.
-
-    Parameters
-    ----------
-    fname : str
-        Full path to ascii RGB colortable file
-    cmap_name : str, default=None (basename(fname))
-        Identifying name of colormap - if None, default to basename(fname)
-    reverse : bool, default=False
-        If True, reverse the colormap
-
-    Returns
-    -------
-    cmap : ListedColormap object
-        If cmap_name not specified, the colormap name will be the os.path.basename
-        of the file.
-
-    Notes
-    -----
-     * Lines preceded by '#' are ignored.
-     * 0-255 or 0-1.0 RGB values (0-255 values are normalized to 0-1.0
-       for matplotlib usage)
-     * One white space delimited RGB value per line
-    """
-    # Read data from ascii file into an NLines by 3 float array, skipping
-    # lines preceded by "#"
-    lines = []
-    with open(fname) as palette:
-        for line in palette.readlines():
-            if line.strip()[0] != "#":
-                lines += [line]
-
-    import numpy
-
-    carray = numpy.zeros([len(lines), 3])
-    for num, line in enumerate(lines):
-        carray[num, :] = [float(val) for val in line.strip().split()]
-
-    # Normalize from 0-255 to 0.0-1.0
-    if carray.max() > 1.0:
-        carray /= 255.0
-
-    # Test to be sure all color array values are between 0.0 and 1.0
-    if not (carray.min() >= 0.0 and carray.max() <= 1.0):
-        raise ValueError("All values in carray must be between 0.0 and 1.0.")
-
-    if reverse is True:
-        carray = numpy.flipud(carray)
-
-    from matplotlib import colors
-    from os.path import basename as pathbasename
-
-    if cmap_name is not None:
-        cmap_name = pathbasename(fname)
-    cmap = colors.ListedColormap(carray, name=cmap_name)
-    return cmap
 
 
 def create_linear_segmented_colormap(

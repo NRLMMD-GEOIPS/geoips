@@ -39,6 +39,8 @@ from geoips.interfaces.module_based.title_formatters import (
     title_formatters,
 )
 
+from geoips.interfaces.text_based.ascii_palettes import ascii_palettes
+
 from geoips.interfaces.yaml_based.feature_annotators import (
     feature_annotators,
 )
@@ -67,6 +69,7 @@ module_based_interfaces = [
     "sector_spec_generators",
     "title_formatters",
 ]
+text_based_interfaces = ["ascii_palettes"]
 yaml_based_interfaces = [
     "feature_annotators",
     "gridline_annotators",
@@ -74,12 +77,13 @@ yaml_based_interfaces = [
     "products",
     "sectors",
 ]
+
 # Note due to the fact that we are including all of the imported packages
 # in __all__ via variables rather than the actual strings, flake8 does
 # not recognize the above imports as being used.  F401 ignored via
 # per-file ignore in geoips/.config/flake8 config.  See comment above
 # for more information.
-__all__ = module_based_interfaces + yaml_based_interfaces
+__all__ = module_based_interfaces + text_based_interfaces + yaml_based_interfaces
 
 
 def list_available_interfaces():

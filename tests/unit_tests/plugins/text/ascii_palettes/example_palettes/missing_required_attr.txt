@@ -1,0 +1,13 @@
+# Currently interface and name are pulled from the file path/name themselves.
+# Eventually pull that information from these attributes included directly
+# in the text file.
+#
+# missing_interface_attr
+# family = rgb
+# name = tpw_purple
+#
+# min 5mm to max 65mm
+47  6  66
+47  6  66
+47  6  66
+47  6  66

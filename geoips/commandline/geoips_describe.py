@@ -209,7 +209,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
             err_str = f"Error: Family: `{family_name}` is not within Interface: "
             err_str += f"`{interface_name}` supported families: `{supported_families}`"
             self.parser.error(err_str)
-        if interface_type == "module_based":
+        if interface_type in ["module_based", "text_based"]:
             docstring = "Not Implemented."
             family_path = str(
                 resources.files("geoips")

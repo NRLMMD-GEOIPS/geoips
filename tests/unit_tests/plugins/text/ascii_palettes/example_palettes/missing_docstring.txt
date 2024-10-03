@@ -1,0 +1,7 @@
+# interface = ascii_palettes
+# family = rgb
+# name = missing_docstring
+47  6  66
+47  6  66
+47  6  66
+47  6  66
