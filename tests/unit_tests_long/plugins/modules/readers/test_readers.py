@@ -56,7 +56,7 @@ class TestReaders:
         try:
             self.verify_plugin(reader)
         except ValueError as e:
-            if "Input files inconsistent." in e.message:
+            if "Input files inconsistent." in str(e):
                 pytest.xfail(reader_name + "is missing test data")
             else:
                 raise e
