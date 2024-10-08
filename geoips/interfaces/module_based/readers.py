@@ -4,6 +4,8 @@
 """Readers interface module."""
 
 from os.path import basename
+
+import numpy as np
 from xarray import Dataset
 
 from geoips.interfaces.base import BaseModuleInterface
@@ -64,6 +66,106 @@ class ReadersInterface(BaseModuleInterface):
             )
 
         return md
+
+    def call_files_and_get_top_level_metadata(
+        self,
+        fnames,
+        all_metadata,
+        call_single_file_func,
+        metadata_only=False,
+        chans=None,
+        area_def=None,
+        self_register=False,
+    ):
+        """
+        Read AHI HSD data data from a list of filenames.
+
+        Parameters
+        ----------
+        fnames : list
+            * List of strings, full paths to files
+        all_metadata : dict
+            * Dictionary of metadata from all files in 'fnames'
+        call_single_file_func : python function
+            * Function which can be used to read a single file from a reader plugin.
+            * Most likely named 'call_single_time'.
+        metadata_only : bool, default=False
+            * Return before actually reading data if True
+        chans : list of str, default=None
+            * List of desired channels (skip unneeded variables as needed).
+            * Include all channels if None.
+        area_def : pyresample.AreaDefinition, default=None
+            * Specify region to read
+            * Read all data if None.
+        self_register : str or bool, default=False
+            * register all data to the specified dataset id (as specified in the
+              return dictionary keys).
+            * Read multiple resolutions of data if False.
+
+        Returns
+        -------
+        dict of xarray.Datasets
+            * dictionary of xarray.Dataset objects with required Variables and
+            Attributes.
+            * Dictionary keys can be any descriptive dataset ids.
+
+        See Also
+        --------
+        :ref:`xarray_standards`
+            Additional information regarding required attributes and variables
+            for GeoIPS-formatted xarray Datasets.
+        """
+        start_times = [
+            dt for dt in all_metadata["METADATA"].attrs["source_file_datetimes"]
+        ]
+        times = list(set(start_times))
+        import collections
+
+        ingested_xarrays = collections.defaultdict(list)
+        for time in times:
+            scan_time_files = [dt == time for dt in start_times]
+            # Call the associated reader for a single file
+            data_dict = call_single_file_func(
+                np.array(fnames)[scan_time_files],
+                metadata_only=metadata_only,
+                chans=chans,
+                area_def=area_def,
+                self_register=self_register,
+            )
+            for (
+                dname,
+                dset,
+            ) in data_dict.items():
+                ingested_xarrays[dname].append(dset)
+
+        if len(times) == 1:
+            # No need to stack if we are only reading in one scan time
+            # This is likely temporary to maintain backwards compatibility
+
+            # This is not hit if we are provided multiple scan times.
+            return data_dict
+
+        import xarray
+
+        # merged_dset = xarray.Dataset()
+        # Now that we've ingested all scan times, stack along time dimension
+        dict_xarrays = {}
+        for dname, list_xarrays in ingested_xarrays.items():
+            if dname == "METADATA":
+                continue
+            merged_dset = xarray.concat(list_xarrays, dim="time_dim")
+            merged_dset.attrs["start_datetime"] = min(times)
+            merged_dset.attrs["end_datetime"] = max(times)
+            merged_dset = merged_dset.assign_coords({"time_dim": times})
+            dict_xarrays[dname] = merged_dset
+
+        metadata = all_metadata["METADATA"]
+        metadata.attrs["source_file_names"] = [basename(fname) for fname in fnames]
+        metadata.attrs["start_datetime"] = min(times)
+        metadata.attrs["end_datetime"] = max(times)
+        dict_xarrays["METADATA"] = metadata
+
+        return dict_xarrays
 
 
 readers = ReadersInterface()

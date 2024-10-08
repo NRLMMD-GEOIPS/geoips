@@ -13,6 +13,7 @@ from datetime import datetime, timedelta
 
 import netCDF4 as ncdf
 
+from geoips.interfaces import readers
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -546,6 +547,60 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    all_metadata = readers.concatenate_metadata(
+        [call_single_time([x], metadata_only=True)["METADATA"] for x in fnames]
+    )
+    if metadata_only:
+        return all_metadata
+
+    dict_xarrays = readers.call_files_and_get_top_level_metadata(
+        fnames,
+        all_metadata,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )
+    return dict_xarrays
+
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """
+    Read Geo-Kompsat NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     gvars = {}
     datavars = {}
     geo_metadata = {}
@@ -623,6 +678,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         "satellite_name"
     ]
     xarray_obj.attrs["area_definition"] = area_def
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # Get appropriate sector name
     if area_def:
