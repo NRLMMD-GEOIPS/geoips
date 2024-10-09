@@ -106,7 +106,7 @@ class ReadersInterface(BaseModuleInterface):
         -------
         dict of xarray.Datasets
             * dictionary of xarray.Dataset objects with required Variables and
-            Attributes.
+              Attributes.
             * Dictionary keys can be any descriptive dataset ids.
 
         See Also
