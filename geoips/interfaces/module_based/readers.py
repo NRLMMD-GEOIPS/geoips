@@ -78,7 +78,7 @@ class ReadersInterface(BaseModuleInterface):
         self_register=False,
     ):
         """
-        Read AHI HSD data data from a list of filenames.
+        Read in data from a list of filenames.
 
         Parameters
         ----------
