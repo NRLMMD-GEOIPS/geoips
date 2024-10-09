@@ -18,6 +18,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "saphir_hdf5"
+source_names = ["saphir"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):

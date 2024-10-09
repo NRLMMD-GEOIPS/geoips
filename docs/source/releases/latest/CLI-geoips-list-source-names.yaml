@@ -1,0 +1,63 @@
+enhancement:
+- description: |
+    *From GEOIPS#737: 2024-8-12, Discuss how to handle reader ``source_names`` attribute*
+
+    This branch creates a requested command from the 2024 GeoIPS Tutorial, called
+    'geoips list source-names'. This was created as source_names are a buried, but
+    essential feature of reader plugins, and this information isn't included in CLI
+    commands except when listing / describing product plugins. This also doesn't
+    guarantee that all source names are actually exposed via the CLI, only those which
+    are used within products. This new command searches throughout GeoIPS and
+    corresponding plugin packages for source_names implemented in reader plugins. We
+    added a new ``source_names`` attribute to core GeoIPS readers which we then add to
+    reader entries in plugin registries. This information can then be retrieved
+    using the CLI to easily expose source_names, and the readers which make use of those
+    source_names.
+
+    We now deprecate reader plugins which do not make use of the module-level
+    ``source_names`` attribute. Reader plugins which don't have that attribute included
+    will be fully deprecated when GeoIPS v2.0.0 is released.
+  files:
+    modified:
+      - docs/source/userguide/command_line.rst
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_list.py
+      - geoips/create_plugin_registries.py
+      - geoips/plugins/modules/readers/abi_l2_netcdf.py
+      - geoips/plugins/modules/readers/abi_netcdf.py
+      - geoips/plugins/modules/readers/ahi_hsd.py
+      - geoips/plugins/modules/readers/ami_netcdf.py
+      - geoips/plugins/modules/readers/amsr2_netcdf.py
+      - geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+      - geoips/plugins/modules/readers/amsub_hdf.py
+      - geoips/plugins/modules/readers/amsub_mirs.py
+      - geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+      - geoips/plugins/modules/readers/atms_hdf5.py
+      - geoips/plugins/modules/readers/ewsg_netcdf.py
+      - geoips/plugins/modules/readers/geoips_netcdf.py
+      - geoips/plugins/modules/readers/gmi_hdf5.py
+      - geoips/plugins/modules/readers/imerg_hdf5.py
+      - geoips/plugins/modules/readers/mimic_netcdf.py
+      - geoips/plugins/modules/readers/modis_hdf4.py
+      - geoips/plugins/modules/readers/saphir_hdf5.py
+      - geoips/plugins/modules/readers/sar_winds_netcdf.py
+      - geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+      - geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+      - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/plugins/modules/readers/sfc_winds_text.py
+      - geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+      - geoips/plugins/modules/readers/smos_winds_netcdf.py
+      - geoips/plugins/modules/readers/ssmi_binary.py
+      - geoips/plugins/modules/readers/ssmis_binary.py
+      - geoips/plugins/modules/readers/viirs_netcdf.py
+      - geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+      - geoips/plugins/modules/readers/wfabba_ascii.py
+      - geoips/plugins/modules/readers/windsat_idr37_binary.py
+      - geoips/plugins/modules/readers/windsat_remss_winds_netcdf.py
+    added:
+      - tests/unit_tests/commandline/test_geoips_list_source_names.py
+  related-issue:
+    number: 737
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  title: 'Added New geoips list source-names command'

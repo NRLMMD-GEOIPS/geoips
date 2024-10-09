@@ -86,3 +86,5 @@ list:
   - ls
 validate:
   - val
+source-names:
+  - src-names

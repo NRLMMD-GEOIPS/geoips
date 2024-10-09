@@ -349,6 +349,31 @@ test scripts from a certain GeoIPS package.
     geoips list scripts
     geoips list scripts -p <package_name>
 
+.. _geoips_list_source_names:
+
+:ref:`geoips list source-names <geoips_list_source_names>`
+
+``list source-names`` is a list sub-command which retrieves a listing of source_names
+from all, or a certain GeoIPS Package. For this command to find a listing of
+source_names, you must add a module-level ``source_names`` attribute to your reader
+plugin. Every core GeoIPS reader plugin has this attribute set. We recommend following
+the same method of implementation as core GeoIPS readers, as reader plugins without this
+attribute will be deprecated when GeoIPS v2.0.0 is released.
+Information included when calling this command is:
+
+    * Source Name
+    * Reader Names
+
+For an example of how to run this command, see below. Notice the use of aliases in case
+you want to use these commands in shorthand style. One of the commands below lists
+source_names from a certain GeoIPS package.
+::
+
+    geoips ls source-names
+    geoips ls src-names
+    geoips list source-names
+    geoips list source-names -p <package_name>
+
 .. _geoips_list_test-datasets:
 
 :ref:`geoips list test-datasets <geoips_list_test-datasets>`

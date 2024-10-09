@@ -202,6 +202,7 @@ xvarnames = {
 interface = "readers"
 family = "standard"
 name = "viirs_netcdf"
+source_names = ["viirs"]
 
 
 def _get_geolocation_metadata(orig_shape, fnames, xarray):

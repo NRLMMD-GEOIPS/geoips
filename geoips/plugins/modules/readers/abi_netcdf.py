@@ -36,7 +36,7 @@ with import_optional_dependencies(loglevel="info"):
 interface = "readers"
 family = "standard"
 name = "abi_netcdf"
-
+source_names = ["abi"]
 
 nprocs = 6
 

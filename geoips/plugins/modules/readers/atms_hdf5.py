@@ -94,6 +94,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "atms_hdf5"
+source_names = ["atms"]
 
 # from IPython import embed as shell
 
