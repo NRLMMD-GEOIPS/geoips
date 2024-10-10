@@ -228,8 +228,7 @@ class ReadersInterface(BaseModuleInterface):
             merged_dset.attrs["end_datetime"] = max(times)
             merged_dset = merged_dset.assign_coords({"time_dim": times})
             dict_xarrays[dname] = merged_dset
-            # Override source_file_names what's set in all_metadata. That includes
-            # all files provided to the reader.
+            # Override source_file_* attributes with what's set in all_metadata.
             dict_xarrays[dname].attrs["source_file_names"] = metadata.attrs[
                 "source_file_names"
             ]
