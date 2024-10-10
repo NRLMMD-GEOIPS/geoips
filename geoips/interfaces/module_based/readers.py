@@ -24,6 +24,75 @@ class ReadersInterface(BaseModuleInterface):
         "standard": ["metadata_only", "chans", "area_def", "self_register"]
     }
 
+    def read_data_to_xarray_dict(
+        self,
+        fnames,
+        call_single_file_func,
+        metadata_only=False,
+        chans=None,
+        area_def=None,
+        self_register=False,
+    ):
+        """Read in data potentially from multiple scan times into an xarray dict.
+
+        This function does not require that you provide multiple scan times, but allows
+        for that in the case those are provided.
+
+        Call this with information specific to your reader to generate a dictionary of
+        xarray datasets created from the data provided in 'fnames'.
+
+        Parameters
+        ----------
+        fnames : list
+            * List of strings, full paths to files
+        all_metadata : dict
+            * Dictionary of metadata from all files in 'fnames'
+        call_single_file_func : python function
+            * Function which can be used to read a single file from a reader plugin.
+            * Most likely named 'call_single_time'.
+        metadata_only : bool, default=False
+            * Return before actually reading data if True
+        chans : list of str, default=None
+            * List of desired channels (skip unneeded variables as needed).
+            * Include all channels if None.
+        area_def : pyresample.AreaDefinition, default=None
+            * Specify region to read
+            * Read all data if None.
+        self_register : str or bool, default=False
+            * register all data to the specified dataset id (as specified in the
+              return dictionary keys).
+            * Read multiple resolutions of data if False.
+
+        Returns
+        -------
+        dict of xarray.Datasets
+            * dictionary of xarray.Dataset objects with required Variables and
+              Attributes.
+            * Dictionary keys can be any descriptive dataset ids.
+
+        See Also
+        --------
+        :ref:`xarray_standards`
+            Additional information regarding required attributes and variables
+            for GeoIPS-formatted xarray Datasets.
+        """
+        all_metadata = self.concatenate_metadata(
+            [call_single_file_func([x], metadata_only=True)["METADATA"] for x in fnames]
+        )
+        if metadata_only:
+            return all_metadata
+
+        dict_xarrays = self.call_files_and_get_top_level_metadata(
+            fnames,
+            all_metadata,
+            call_single_file_func,
+            metadata_only,
+            chans,
+            area_def,
+            self_register,
+        )
+        return dict_xarrays
+
     def concatenate_metadata(self, all_metadata):
         """Merge together metadata sourced from a list of files into one dictionary.
 

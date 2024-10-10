@@ -979,22 +979,14 @@ def call(
         for GeoIPS-formatted xarray Datasets.
     """
     LOG.interactive("AHI reader test_arg: %s", test_arg)
-    all_metadata = readers.concatenate_metadata(
-        [call_single_time([x], metadata_only=True)["METADATA"] for x in fnames]
-    )
-    if metadata_only:
-        return all_metadata
-
-    dict_xarrays = readers.call_files_and_get_top_level_metadata(
+    return readers.read_data_to_xarray_dict(
         fnames,
-        all_metadata,
         call_single_time,
         metadata_only,
         chans,
         area_def,
         self_register,
     )
-    return dict_xarrays
 
 
 def call_single_time(
