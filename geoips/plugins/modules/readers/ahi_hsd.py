@@ -978,7 +978,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    LOG.interactive("AHI reader test_arg: %s", test_arg)
     return readers.read_data_to_xarray_dict(
         fnames,
         call_single_time,
