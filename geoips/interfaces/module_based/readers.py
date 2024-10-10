@@ -218,6 +218,7 @@ class ReadersInterface(BaseModuleInterface):
 
         # merged_dset = xarray.Dataset()
         # Now that we've ingested all scan times, stack along time dimension
+        metadata = all_metadata["METADATA"]
         dict_xarrays = {}
         for dname, list_xarrays in ingested_xarrays.items():
             if dname == "METADATA":
@@ -227,9 +228,18 @@ class ReadersInterface(BaseModuleInterface):
             merged_dset.attrs["end_datetime"] = max(times)
             merged_dset = merged_dset.assign_coords({"time_dim": times})
             dict_xarrays[dname] = merged_dset
+            # Override source_file_names what's set in all_metadata. That includes
+            # all files provided to the reader.
+            dict_xarrays[dname].attrs["source_file_names"] = metadata.attrs[
+                "source_file_names"
+            ]
+            dict_xarrays[dname].attrs["source_file_attributes"] = metadata.attrs[
+                "source_file_attributes"
+            ]
+            dict_xarrays[dname].attrs["source_file_datetimes"] = metadata.attrs[
+                "source_file_datetimes"
+            ]
 
-        metadata = all_metadata["METADATA"]
-        metadata.attrs["source_file_names"] = [basename(fname) for fname in fnames]
         metadata.attrs["start_datetime"] = min(times)
         metadata.attrs["end_datetime"] = max(times)
         dict_xarrays["METADATA"] = metadata
