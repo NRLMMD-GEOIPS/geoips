@@ -20,6 +20,7 @@ enhancement:
       - geoips/plugins/modules/readers/ami_netcdf.py
       - geoips/plugins/modules/readers/ewsg_netcdf.py
       - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/pluginsyaml/sectors/static/korea.yaml
   related-issue:
     number: 312
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
