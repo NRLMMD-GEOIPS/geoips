@@ -24,13 +24,16 @@ from struct import error as structerror
 # Third-Party Libraries
 import xarray
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.filenames.base_paths import make_dirs
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation,
 )
-from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
+from geoips.plugins.modules.readers.utils.hrit_reader import (
+    HritFile,
+    HritError,
+)
 from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
@@ -62,43 +65,155 @@ VIS_CALIB = {
 
 IR_CALIB = {
     "msg1": {
-        "B04": {"wn": 2567.330, "a": 0.9956, "b": 3.410},  # IR3.9 Water vapour channel
-        "B05": {"wn": 1598.103, "a": 0.9962, "b": 2.218},  # IR6.2 Water vapour channel
-        "B06": {"wn": 1362.081, "a": 0.9991, "b": 0.478},  # IR7.3 Water vapour channel
-        "B07": {"wn": 1149.069, "a": 0.9996, "b": 0.179},  # IR8.7 Atmospheric window
-        "B08": {"wn": 1034.343, "a": 0.9999, "b": 0.060},  # IR9.7 Ozone channel
-        "B09": {"wn": 930.647, "a": 0.9983, "b": 0.625},  # IR10.8 Atmospheric window
-        "B10": {"wn": 839.660, "a": 0.9988, "b": 0.397},  # IR12.0 Atmospheric window
+        "B04": {
+            "wn": 2567.330,
+            "a": 0.9956,
+            "b": 3.410,
+        },  # IR3.9 Water vapour channel
+        "B05": {
+            "wn": 1598.103,
+            "a": 0.9962,
+            "b": 2.218,
+        },  # IR6.2 Water vapour channel
+        "B06": {
+            "wn": 1362.081,
+            "a": 0.9991,
+            "b": 0.478,
+        },  # IR7.3 Water vapour channel
+        "B07": {
+            "wn": 1149.069,
+            "a": 0.9996,
+            "b": 0.179,
+        },  # IR8.7 Atmospheric window
+        "B08": {
+            "wn": 1034.343,
+            "a": 0.9999,
+            "b": 0.060,
+        },  # IR9.7 Ozone channel
+        "B09": {
+            "wn": 930.647,
+            "a": 0.9983,
+            "b": 0.625,
+        },  # IR10.8 Atmospheric window
+        "B10": {
+            "wn": 839.660,
+            "a": 0.9988,
+            "b": 0.397,
+        },  # IR12.0 Atmospheric window
         "B11": {"wn": 752.387, "a": 0.9981, "b": 0.578},
     },  # IR13.4 Carbon dioxide channel
     "msg2": {
-        "B04": {"wn": 2568.832, "a": 0.9954, "b": 3.438},  # IR3.9 Water vapour channel
-        "B05": {"wn": 1600.548, "a": 0.9963, "b": 2.185},  # IR6.2 Water vapour channel
-        "B06": {"wn": 1360.330, "a": 0.9991, "b": 0.470},  # IR7.3 Water vapour channel
-        "B07": {"wn": 1148.620, "a": 0.9996, "b": 0.179},  # IR8.7 Atmospheric window
-        "B08": {"wn": 1035.289, "a": 0.9999, "b": 0.056},  # IR9.7 Ozone channel
-        "B09": {"wn": 931.700, "a": 0.9983, "b": 0.640},  # IR10.8 Atmospheric window
-        "B10": {"wn": 836.445, "a": 0.9988, "b": 0.408},  # IR12.0 Atmospheric window
+        "B04": {
+            "wn": 2568.832,
+            "a": 0.9954,
+            "b": 3.438,
+        },  # IR3.9 Water vapour channel
+        "B05": {
+            "wn": 1600.548,
+            "a": 0.9963,
+            "b": 2.185,
+        },  # IR6.2 Water vapour channel
+        "B06": {
+            "wn": 1360.330,
+            "a": 0.9991,
+            "b": 0.470,
+        },  # IR7.3 Water vapour channel
+        "B07": {
+            "wn": 1148.620,
+            "a": 0.9996,
+            "b": 0.179,
+        },  # IR8.7 Atmospheric window
+        "B08": {
+            "wn": 1035.289,
+            "a": 0.9999,
+            "b": 0.056,
+        },  # IR9.7 Ozone channel
+        "B09": {
+            "wn": 931.700,
+            "a": 0.9983,
+            "b": 0.640,
+        },  # IR10.8 Atmospheric window
+        "B10": {
+            "wn": 836.445,
+            "a": 0.9988,
+            "b": 0.408,
+        },  # IR12.0 Atmospheric window
         "B11": {"wn": 751.792, "a": 0.9981, "b": 0.561},
     },  # IR13.4 Carbon dioxide channel
     "msg3": {
-        "B04": {"wn": 2547.771, "a": 0.9915, "b": 2.9002},  # IR3.9 Water vapour channel
-        "B05": {"wn": 1595.621, "a": 0.9960, "b": 2.0337},  # IR6.2 Water vapour channel
-        "B06": {"wn": 1360.377, "a": 0.9991, "b": 0.4340},  # IR7.3 Water vapour channel
-        "B07": {"wn": 1148.130, "a": 0.9996, "b": 0.1714},  # IR8.7 Atmospheric window
-        "B08": {"wn": 1034.715, "a": 0.9999, "b": 0.0527},  # IR9.7 Ozone channel
-        "B09": {"wn": 929.842, "a": 0.9983, "b": 0.6084},  # IR10.8 Atmospheric window
-        "B10": {"wn": 838.659, "a": 0.9988, "b": 0.3882},  # IR12.0 Atmospheric window
+        "B04": {
+            "wn": 2547.771,
+            "a": 0.9915,
+            "b": 2.9002,
+        },  # IR3.9 Water vapour channel
+        "B05": {
+            "wn": 1595.621,
+            "a": 0.9960,
+            "b": 2.0337,
+        },  # IR6.2 Water vapour channel
+        "B06": {
+            "wn": 1360.377,
+            "a": 0.9991,
+            "b": 0.4340,
+        },  # IR7.3 Water vapour channel
+        "B07": {
+            "wn": 1148.130,
+            "a": 0.9996,
+            "b": 0.1714,
+        },  # IR8.7 Atmospheric window
+        "B08": {
+            "wn": 1034.715,
+            "a": 0.9999,
+            "b": 0.0527,
+        },  # IR9.7 Ozone channel
+        "B09": {
+            "wn": 929.842,
+            "a": 0.9983,
+            "b": 0.6084,
+        },  # IR10.8 Atmospheric window
+        "B10": {
+            "wn": 838.659,
+            "a": 0.9988,
+            "b": 0.3882,
+        },  # IR12.0 Atmospheric window
         "B11": {"wn": 750.653, "a": 0.9982, "b": 0.5390},
     },  # IR13.4 Carbon dioxide channel
     "msg4": {
-        "B04": {"wn": 2555.280, "a": 0.9916, "b": 2.9438},  # IR3.9 Water vapour channel
-        "B05": {"wn": 1596.080, "a": 0.9959, "b": 2.0780},  # IR6.2 Water vapour channel
-        "B06": {"wn": 1361.748, "a": 0.9990, "b": 0.4929},  # IR7.3 Water vapour channel
-        "B07": {"wn": 1148.130, "a": 0.9996, "b": 0.1731},  # IR8.7 Atmospheric window
-        "B08": {"wn": 1034.851, "a": 0.9998, "b": 0.0597},  # IR9.7 Ozone channel
-        "B09": {"wn": 931.122, "a": 0.9983, "b": 0.6256},  # IR10.8 Atmospheric window
-        "B10": {"wn": 839.113, "a": 0.9988, "b": 0.4002},  # IR12.0 Atmospheric window
+        "B04": {
+            "wn": 2555.280,
+            "a": 0.9916,
+            "b": 2.9438,
+        },  # IR3.9 Water vapour channel
+        "B05": {
+            "wn": 1596.080,
+            "a": 0.9959,
+            "b": 2.0780,
+        },  # IR6.2 Water vapour channel
+        "B06": {
+            "wn": 1361.748,
+            "a": 0.9990,
+            "b": 0.4929,
+        },  # IR7.3 Water vapour channel
+        "B07": {
+            "wn": 1148.130,
+            "a": 0.9996,
+            "b": 0.1731,
+        },  # IR8.7 Atmospheric window
+        "B08": {
+            "wn": 1034.851,
+            "a": 0.9998,
+            "b": 0.0597,
+        },  # IR9.7 Ozone channel
+        "B09": {
+            "wn": 931.122,
+            "a": 0.9983,
+            "b": 0.6256,
+        },  # IR10.8 Atmospheric window
+        "B10": {
+            "wn": 839.113,
+            "a": 0.9988,
+            "b": 0.4002,
+        },  # IR12.0 Atmospheric window
         "B11": {"wn": 748.585, "a": 0.9981, "b": 0.5635},
     },
 }  # IR13.4 Carbon dioxide channel
@@ -207,7 +322,9 @@ def get_top_level_metadata(fnames, sect):
     # MLS Check platform_name
     # Turn msg4_iodc into msg4.  Then pull geoips satname (meteoEU/meteoIO)
     # from utils/satellite_info.py
-    msg_satname = df.annotation_metadata["platform"].lower().replace("_iodc", "")
+    msg_satname = (
+        df.annotation_metadata["platform"].lower().replace("_iodc", "")
+    )
     # Save actual satellite name (msg1 / msg4) for the coefficient tables above.
     # geoips specific platform_name should be msg-1 or msg-4
     md["satellite_name"] = msg_satname
@@ -218,7 +335,9 @@ def get_top_level_metadata(fnames, sect):
     #         msg_satname = satinfo.geoips_satname
     # except KeyError:
     #     raise HritError('Unknown satname encountered: {}'.format(msg_satname))
-    md["platform_name"] = msg_satname[0:3] + "-" + msg_satname[-1]  # msg-1 or msg-4
+    md["platform_name"] = (
+        msg_satname[0:3] + "-" + msg_satname[-1]
+    )  # msg-1 or msg-4
     md["source_name"] = "seviri"
     md["area_definition"] = sect
     md["sample_distance_km"] = 3.0
@@ -258,7 +377,9 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     cos_y = np.cos(y)
     sin_y = np.sin(y)  # noqa: F841
 
-    sd = ne.evaluate("(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff")
+    sd = ne.evaluate(
+        "(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff"
+    )
     bad_mask = sd < 0.0
     sd[bad_mask] = 0.0
     sd **= 0.5
@@ -267,7 +388,9 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
 
     # sd no longer needed
     sn = sd
-    ne.evaluate("(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)", out=sn)
+    ne.evaluate(
+        "(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)", out=sn
+    )
 
     # cos_x no longer needed
     s1 = cos_x
@@ -306,9 +429,9 @@ def _get_geolocation_metadata(prologue, file_metadata):
     geomet = {}
     geomet["platform_name"] = file_metadata["platform_name"]
     geomet["source_name"] = file_metadata["source_name"]
-    geomet["scan_mode"] = prologue["imageDescription"]["projectionDescription"][
-        "typeOfProjection"
-    ]
+    geomet["scan_mode"] = prologue["imageDescription"][
+        "projectionDescription"
+    ]["typeOfProjection"]
     # Used for cached filenames
     geomet["scene"] = geomet["scan_mode"]
     geomet["lon0"] = prologue["imageDescription"]["projectionDescription"][
@@ -317,16 +440,18 @@ def _get_geolocation_metadata(prologue, file_metadata):
     geomet["num_lines"] = prologue["imageDescription"]["referenceGridVIS_IR"][
         "numberOfLines"
     ]
-    geomet["num_samples"] = prologue["imageDescription"]["referenceGridVIS_IR"][
-        "numberOfColumns"
-    ]
-    geomet["line_scale"] = -13642337  # This will only work for low resolution data
+    geomet["num_samples"] = prologue["imageDescription"][
+        "referenceGridVIS_IR"
+    ]["numberOfColumns"]
+    geomet["line_scale"] = (
+        -13642337
+    )  # This will only work for low resolution data
     geomet["sample_scale"] = -13642337
     geomet["line_offset"] = geomet["num_lines"] / 2
     geomet["sample_offset"] = geomet["num_samples"] / 2
-    geomet["start_datetime"] = prologue["imageAcquisition"]["plannedAcquisitionTime"][
-        "trueRepeatCycleStart"
-    ]
+    geomet["start_datetime"] = prologue["imageAcquisition"][
+        "plannedAcquisitionTime"
+    ]["trueRepeatCycleStart"]
     geomet["H_m"] = 42164 * 1000.0  # Satellite altitude (m)
     geomet["roi_factor"] = 10  # roi = res_km * 1000 * roi_factor
     return geomet
@@ -366,7 +491,9 @@ def radToBT(rad, platform, band):
     a = IR_CALIB[platform][band]["a"]
     b = IR_CALIB[platform][band]["b"]
     temp = np.full_like(rad, -999.0)
-    temp[rad > 0] = ((c2 * wn) / np.log(1 + wn**3 * c1 / rad[rad > 0]) - b) / a
+    temp[rad > 0] = (
+        (c2 * wn) / np.log(1 + wn**3 * c1 / rad[rad > 0]) - b
+    ) / a
     return temp
 
 
@@ -469,7 +596,13 @@ class ChanList(object):
         return cls(chans)
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read SEVIRI hrit data products.
 
     Parameters
@@ -507,12 +640,16 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     adname = "undefined"
     # Remove any HRV files from file list
     # See note 1 at top of module
-    fnames = [fname for fname in fnames if not any(val in fname for val in ["HRV"])]
+    fnames = [
+        fname for fname in fnames if not any(val in fname for val in ["HRV"])
+    ]
 
     # Check inputs
     if self_register and self_register != "LOW":
         raise XritError(
-            "Unknown resolution supplied to self_register: {}".format(self_register)
+            "Unknown resolution supplied to self_register: {}".format(
+                self_register
+            )
         )
     if area_def:
         try:
@@ -546,7 +683,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     sdt = None
     imgf = None
     all_segs = set()
-    
+
     for fname in fnames:
         try:
             df = HritFile(fname)
@@ -559,14 +696,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             sdt = df.start_datetime
         if df.start_datetime != sdt:
             raise HritError(
-                "Start date time does not match for all files: {}".format(fnames)
+                "Start date time does not match for all files: {}".format(
+                    fnames
+                )
             )
         # Get prologue
         if df.file_type == "prologue":
             pro = df.prologue
             dt = xarray_obj.attrs["start_datetime"]
             # xarray_obj.attrs['prologue'] = pro
-            for poly in df.prologue["satelliteStatus"]["orbit"]["orbitPolynomial"]:
+            for poly in df.prologue["satelliteStatus"]["orbit"][
+                "orbitPolynomial"
+            ]:
                 if dt <= poly["endTime"] and dt >= poly["startTime"]:
                     LOG.info("Calculating x/y/z satellite location")
 
@@ -608,7 +749,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             dfs[df.band][df.segment] = df
             all_segs.add(df.segment)
         else:
-            LOG.warning("Unhandled file type encountered: {}".format(df.file_type))
+            LOG.warning(
+                "Unhandled file type encountered: {}".format(df.file_type)
+            )
     if not pro:
         raise HritError("No prologue file found")
 
@@ -618,7 +761,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for chan in chlist.chans:
             if chan.band not in dfs.keys():
                 raise ValueError(
-                    "Requested channel {} not found in input data.".format(chan.name)
+                    "Requested channel {} not found in input data.".format(
+                        chan.name
+                    )
                 )
     # If no specific channels were requested, get everything
     else:
@@ -630,7 +775,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # This saves us from having slightly different solar angles for each channel.
     gmd = _get_geolocation_metadata(pro, xarray_obj.attrs)
     fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
-    gvars[adname] = get_geolocation(sdt, gmd, fldk_lats, fldk_lons, BADVALS, area_def)
+    gvars[adname] = get_geolocation(
+        sdt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
+    )
 
     # Drop files for channels other than those requested and decompress
     outdir = os.path.join(
@@ -667,7 +814,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 except HritError as resp:
                     skip_segs += [seg]
                     LOG.error(
-                        "FAILED DECOMPRESSING, %s, SKIPPING FILE %s", str(resp), df.name
+                        "FAILED DECOMPRESSING, %s, SKIPPING FILE %s",
+                        str(resp),
+                        df.name,
                     )
             for skip_seg in skip_segs:
                 dfs[band].pop(skip_seg)
@@ -675,8 +824,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         dfs.pop(skip_band)
 
     # Create data arrays for requested data and read count data
-    num_lines = pro["imageDescription"]["referenceGridVIS_IR"]["numberOfLines"]
-    num_samples = pro["imageDescription"]["referenceGridVIS_IR"]["numberOfColumns"]
+    num_lines = pro["imageDescription"]["referenceGridVIS_IR"][
+        "numberOfLines"
+    ]
+    num_samples = pro["imageDescription"]["referenceGridVIS_IR"][
+        "numberOfColumns"
+    ]
     count_data = {}
     annotation_metadata = {}
     for band in chlist.bands:
@@ -696,7 +849,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 LOG.error("FAILED READING SEGMENT, SKIPPING %s" % (resp))
         LOG.info("Read band %s %s" % (band, df.annotation_metadata["band"]))
         if "Lines" in gvars[adname]:
-            count_data[band] = data[gvars[adname]["Lines"], gvars[adname]["Samples"]]
+            count_data[band] = data[
+                gvars[adname]["Lines"], gvars[adname]["Samples"]
+            ]
         else:
             count_data[band] = data
         annotation_metadata[band] = df.annotation_metadata
@@ -740,7 +895,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 radiances[chan.band].max(),
             )
             datavars[adname][chan.name] = radToBT(
-                radiances[chan.band], xarray_obj.attrs["satellite_name"], chan.band
+                radiances[chan.band],
+                xarray_obj.attrs["satellite_name"],
+                chan.band,
             )
             LOG.info(
                 "Final brightness temperatures for %s, data range %f to %f",
@@ -759,9 +916,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             + annotation_metadata[chan.band]["band"][5:]
         )
 
-    gvars[adname]["latitude"] = np.ma.masked_less_equal(gvars[adname]["latitude"], -999)
-    toplat = gvars[adname]["latitude"][np.ma.where(gvars[adname]["latitude"])][0]
-    bottomlat = gvars[adname]["latitude"][np.ma.where(gvars[adname]["latitude"])][-1]
+    gvars[adname]["latitude"] = np.ma.masked_less_equal(
+        gvars[adname]["latitude"], -999
+    )
+    toplat = gvars[adname]["latitude"][
+        np.ma.where(gvars[adname]["latitude"])
+    ][0]
+    bottomlat = gvars[adname]["latitude"][
+        np.ma.where(gvars[adname]["latitude"])
+    ][-1]
 
     for var in gvars[adname].keys():
         if toplat < bottomlat:
@@ -769,11 +932,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 np.flipud(gvars[adname][var]), -999
             )
         else:
-            gvars[adname][var] = np.ma.masked_less_equal(gvars[adname][var], -999)
+            gvars[adname][var] = np.ma.masked_less_equal(
+                gvars[adname][var], -999
+            )
 
         if "satellite_zenith_angle" in gvars[adname].keys():
             gvars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75, gvars[adname][var]
+                gvars[adname]["satellite_zenith_angle"] > 75,
+                gvars[adname][var],
             )
 
     for var in datavars[adname].keys():
@@ -782,11 +948,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 np.flipud(datavars[adname][var]), -999
             )
         else:
-            datavars[adname][var] = np.ma.masked_less_equal(datavars[adname][var], -999)
+            datavars[adname][var] = np.ma.masked_less_equal(
+                datavars[adname][var], -999
+            )
 
         if "satellite_zenith_angle" in gvars[adname].keys():
             datavars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75, datavars[adname][var]
+                gvars[adname]["satellite_zenith_angle"] > 75,
+                datavars[adname][var],
             )
 
     xarray_objs = {}
@@ -797,9 +966,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             xobj[varname] = xarray.DataArray(datavars[dsname][varname])
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
-        if hasattr(xobj.attrs, "area_definition") and xobj.area_definition is not None:
+        if (
+            hasattr(xobj.attrs, "area_definition")
+            and xobj.area_definition is not None
+        ):
             xobj.attrs["interpolation_radius_of_influence"] = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                xobj.area_definition.pixel_size_x,
+                xobj.area_definition.pixel_size_y,
             )
         else:
             xobj.attrs["interpolation_radius_of_influence"] = 10000

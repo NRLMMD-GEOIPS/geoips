@@ -19,7 +19,13 @@ family = "standard"
 name = "mimic_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read TPW MIMIC data from a list of filenames.
 
     Dataset information::
@@ -105,9 +111,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     lon_final, lat_final = numpy.meshgrid(lon, lat)
 
     LOG.info("Adding lat grid to xarray")
-    xobj["latitude"] = xarray.DataArray(numpy.ma.array(lat_final), dims=("lat", "lon"))
+    xobj["latitude"] = xarray.DataArray(
+        numpy.ma.array(lat_final), dims=("lat", "lon")
+    )
     LOG.info("Adding lon grid to xarray")
-    xobj["longitude"] = xarray.DataArray(numpy.ma.array(lon_final), dims=("lat", "lon"))
+    xobj["longitude"] = xarray.DataArray(
+        numpy.ma.array(lon_final), dims=("lat", "lon")
+    )
     xobj = xobj.drop("latArr")
     xobj = xobj.drop("lonArr")
     xobj["tpw"] = xobj["tpwGrid"]

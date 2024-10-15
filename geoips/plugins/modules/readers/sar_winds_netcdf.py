@@ -13,7 +13,7 @@ from os.path import basename
 import numpy
 import xarray
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
@@ -44,14 +44,24 @@ def read_sar_data(wind_xarray):
         and wind_xarray.platform.lower() == "sentinel-1a"
     ):
         wind_xarray.attrs["platform_name"] = "sentinel-1"
-    elif "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "rcm-1":
+    elif (
+        "platform" in wind_xarray.attrs
+        and wind_xarray.platform.lower() == "rcm-1"
+    ):
         wind_xarray.attrs["platform_name"] = "rcm-1"
-    elif "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "rcm-2":
+    elif (
+        "platform" in wind_xarray.attrs
+        and wind_xarray.platform.lower() == "rcm-2"
+    ):
         wind_xarray.attrs["platform_name"] = "rcm-2"
-    elif "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "rcm-3":
+    elif (
+        "platform" in wind_xarray.attrs
+        and wind_xarray.platform.lower() == "rcm-3"
+    ):
         wind_xarray.attrs["platform_name"] = "rcm-3"
     elif (
-        "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "radarsat-2"
+        "platform" in wind_xarray.attrs
+        and wind_xarray.platform.lower() == "radarsat-2"
     ):
         wind_xarray.attrs["platform_name"] = "radarsat-2"
     else:
@@ -66,7 +76,10 @@ def read_sar_data(wind_xarray):
     wind_xarray.attrs["minimum_coverage"] = 0
     wind_xarray.attrs["granule_minutes"] = 0.42
     wind_xarray.attrs["data_provider"] = "star"
-    if "acknowledgment" in wind_xarray.attrs and "NOAA" in wind_xarray.acknowledgment:
+    if (
+        "acknowledgment" in wind_xarray.attrs
+        and "NOAA" in wind_xarray.acknowledgment
+    ):
         wind_xarray.attrs["data_provider"] = "star"
     # Used for tc filenames / text files
 
@@ -80,7 +93,9 @@ def read_sar_data(wind_xarray):
     )
 
     # Set lat/lons appropriately
-    wind_xarray = wind_xarray.rename({"latitude": "latitude", "longitude": "longitude"})
+    wind_xarray = wind_xarray.rename(
+        {"latitude": "latitude", "longitude": "longitude"}
+    )
 
     # Set time appropriately
     # Get the full array of times.  pandas is much better with time series.
@@ -112,7 +127,13 @@ def read_sar_data(wind_xarray):
     return [wind_xarray]
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read SAR derived winds from netcdf data.
 
     Parameters
@@ -173,7 +194,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             LOG.info("    Reading file %s", fname)
             wind_xarray = xarray.open_dataset(str(fname))
             LOG.info(
-                "        rows: %s, columns: %s", wind_xarray.rows, wind_xarray.columns
+                "        rows: %s, columns: %s",
+                wind_xarray.rows,
+                wind_xarray.columns,
             )
             if columns is None:
                 columns = wind_xarray.columns
@@ -203,7 +226,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
             time_array = xarray.DataArray(
                 numpy.vstack(
-                    [curr_xarray.time.to_masked_array() for curr_xarray in wind_xarrays]
+                    [
+                        curr_xarray.time.to_masked_array()
+                        for curr_xarray in wind_xarrays
+                    ]
                 )
             )
             wspd_array = xarray.DataArray(
@@ -259,24 +285,35 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         )
 
     wind_xarrays["METADATA"] = wind_xarray[[]]
-    if wind_xarrays["METADATA"].start_datetime == wind_xarrays["METADATA"].end_datetime:
+    if (
+        wind_xarrays["METADATA"].start_datetime
+        == wind_xarrays["METADATA"].end_datetime
+    ):
         # Use alternate attributes to set start and end datetime
         try:
-            wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
-                wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"
+            wind_xarrays["METADATA"].attrs["start_datetime"] = (
+                datetime.strptime(
+                    wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"
+                )
             )
-            wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
-                wind_xarray.time_coverage_end, "%Y%m%dT%H%M%S"
+            wind_xarrays["METADATA"].attrs["end_datetime"] = (
+                datetime.strptime(
+                    wind_xarray.time_coverage_end, "%Y%m%dT%H%M%S"
+                )
             )
         except ValueError:
             # 20221103 used YYYYMMDDTHHMNSS, on 20221105 switched to
             #                                                       YYYY-MM-DDTHH:MN:SSZ
             # Allow both
-            wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
-                wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%SZ"
+            wind_xarrays["METADATA"].attrs["start_datetime"] = (
+                datetime.strptime(
+                    wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%SZ"
+                )
             )
-            wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
-                wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%SZ"
+            wind_xarrays["METADATA"].attrs["end_datetime"] = (
+                datetime.strptime(
+                    wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%SZ"
+                )
             )
 
     return wind_xarrays

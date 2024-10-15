@@ -56,9 +56,11 @@ import os
 import matplotlib
 import numpy as np
 import pandas as pd
+
 # library for hdf files
 from pyhdf.SD import SD, SDC
 from pyhdf.VS import HC
+
 # from pyhdf.VS import *
 from pyhdf.HDF import HDF
 import xarray as xr
@@ -72,7 +74,13 @@ family = "standard"
 name = "amsub_hdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read AMSU-B hdf data products.
 
     Parameters
@@ -119,7 +127,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "NS":
-        LOG.info("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
+        LOG.info(
+            "Warning: wrong AMSU-B/MHS data type:  data_type=", data_name
+        )
         raise
 
     if ("NRP" and "MHOP") in os.path.basename(fname):
@@ -253,7 +263,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_amsub["SFR"] = xr.DataArray(SFR)
     xarray_amsub["sfcType"] = xr.DataArray(Sfc_type)
     xarray_amsub["time"] = xr.DataArray(
-        pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_scan)
+        .astype(int)
+        .apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # setup attributes
@@ -281,8 +293,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     end_time = "%02d%03d%02d%02d" % (int(yr), int(jd), int(hr), int(mi))
 
     # add attributes to xarray
-    xarray_amsub.attrs["start_datetime"] = datetime.strptime(start_time, "%y%j%H%M")
-    xarray_amsub.attrs["end_datetime"] = datetime.strptime(end_time, "%y%j%H%M")
+    xarray_amsub.attrs["start_datetime"] = datetime.strptime(
+        start_time, "%y%j%H%M"
+    )
+    xarray_amsub.attrs["end_datetime"] = datetime.strptime(
+        end_time, "%y%j%H%M"
+    )
     xarray_amsub.attrs["source_name"] = "amsu-b"
     xarray_amsub.attrs["platform_name"] = satid
     xarray_amsub.attrs["data_provider"] = "nesdis"

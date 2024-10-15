@@ -11,10 +11,10 @@ from os.path import basename
 # Third-Party Libraries
 import xarray
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.plugins.modules.readers.utils.remss_reader import (
-                read_remss_data,
-            )
+    read_remss_data,
+)
 
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
@@ -31,7 +31,13 @@ family = "standard"
 name = "smap_remss_winds_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read one of SMAP derived winds from netcdf data.
 
     Parameters

@@ -16,7 +16,7 @@ import numpy as np
 import xarray
 from scipy.ndimage import zoom
 
-#GeoIPS-Based imports 
+# GeoIPS-Based imports
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -194,7 +194,8 @@ def _get_geolocation_metadata(metadata):
     # Used for cached filenames
     geomet["scene"] = geomet["ob_area"]
     geomet["num_lines"] = int(
-        metadata["block_02"]["num_lines"] * metadata["block_07"]["num_segments"]
+        metadata["block_02"]["num_lines"]
+        * metadata["block_07"]["num_segments"]
     )
     geomet["num_samples"] = int(metadata["block_02"]["num_samples"])
     geomet["lfac"] = float(metadata["block_03"]["LFAC"])
@@ -386,13 +387,17 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
     # We are mapping this here so that the lats and lons are available when
     # calculating satlelite angles
     LOG.info(
-        "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["ob_area"])
+        "GETGEO memmap to {} : lat/lon file for {}".format(
+            fname, metadata["ob_area"]
+        )
     )
 
     shape = (metadata["num_lines"], metadata["num_samples"])
     offset = 8 * metadata["num_samples"] * metadata["num_lines"]
     lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
-    lons = np.memmap(fname, mode="r", dtype=np.float64, offset=offset, shape=shape)
+    lons = np.memmap(
+        fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+    )
     # Switch to xarray based geolocation files
     # saved_xarray = xarray.load_dataset(fname)
     # lons = saved_xarray['longitude'].to_masked_array()
@@ -459,22 +464,48 @@ def _get_metadata_block_01(df, block_info):
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     block_data["num_headers"] = np.fromstring(data[3:5], dtype="uint16")[0]
     block_data["byte_order"] = np.fromstring(data[5:6], dtype="uint8")[0]
-    block_data["satellite_name"] = data[6:22].decode("ascii").replace("\x00", "")
-    block_data["processing_center"] = data[22:38].decode("ascii").replace("\x00", "")
+    block_data["satellite_name"] = (
+        data[6:22].decode("ascii").replace("\x00", "")
+    )
+    block_data["processing_center"] = (
+        data[22:38].decode("ascii").replace("\x00", "")
+    )
     block_data["ob_area"] = data[38:42].decode("ascii").replace("\x00", "")
-    block_data["other_ob_info"] = data[42:44].decode("ascii").replace("\x00", "")
+    block_data["other_ob_info"] = (
+        data[42:44].decode("ascii").replace("\x00", "")
+    )
     block_data["ob_timeline"] = np.fromstring(data[44:46], dtype="uint16")[0]
-    block_data["ob_start_time"] = np.fromstring(data[46:54], dtype="float64")[0]
+    block_data["ob_start_time"] = np.fromstring(data[46:54], dtype="float64")[
+        0
+    ]
     block_data["ob_end_time"] = np.fromstring(data[54:62], dtype="float64")[0]
-    block_data["creation_time"] = np.fromstring(data[62:70], dtype="float64")[0]
-    block_data["total_header_length"] = np.fromstring(data[70:74], dtype="uint32")[0]
-    block_data["total_data_length"] = np.fromstring(data[74:78], dtype="uint32")[0]
-    block_data["quality_flag_1"] = np.fromstring(data[78:79], dtype="uint8")[0]
-    block_data["quality_flag_2"] = np.fromstring(data[79:80], dtype="uint8")[0]
-    block_data["quality_flag_3"] = np.fromstring(data[80:81], dtype="uint8")[0]
-    block_data["quality_flag_4"] = np.fromstring(data[81:82], dtype="uint8")[0]
-    block_data["file_format_version"] = data[82:114].decode("ascii").replace("\x00", "")
-    block_data["file_name"] = data[114:242].decode("ascii").replace("\x00", "")
+    block_data["creation_time"] = np.fromstring(data[62:70], dtype="float64")[
+        0
+    ]
+    block_data["total_header_length"] = np.fromstring(
+        data[70:74], dtype="uint32"
+    )[0]
+    block_data["total_data_length"] = np.fromstring(
+        data[74:78], dtype="uint32"
+    )[0]
+    block_data["quality_flag_1"] = np.fromstring(data[78:79], dtype="uint8")[
+        0
+    ]
+    block_data["quality_flag_2"] = np.fromstring(data[79:80], dtype="uint8")[
+        0
+    ]
+    block_data["quality_flag_3"] = np.fromstring(data[80:81], dtype="uint8")[
+        0
+    ]
+    block_data["quality_flag_4"] = np.fromstring(data[81:82], dtype="uint8")[
+        0
+    ]
+    block_data["file_format_version"] = (
+        data[82:114].decode("ascii").replace("\x00", "")
+    )
+    block_data["file_name"] = (
+        data[114:242].decode("ascii").replace("\x00", "")
+    )
     block_data["spare"] = data[242:282].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -502,7 +533,9 @@ def _get_metadata_block_02(df, block_info):
     block_data["bits_per_pixel"] = np.fromstring(data[3:5], dtype="uint16")[0]
     block_data["num_samples"] = np.fromstring(data[5:7], dtype="uint16")[0]
     block_data["num_lines"] = np.fromstring(data[7:9], dtype="uint16")[0]
-    block_data["compression_flag"] = np.fromstring(data[9:10], dtype="uint8")[0]
+    block_data["compression_flag"] = np.fromstring(data[9:10], dtype="uint8")[
+        0
+    ]
     block_data["spare"] = data[10:50].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -537,9 +570,13 @@ def _get_metadata_block_03(df, block_info):
     # Line offset
     block_data["LOFF"] = np.fromstring(data[23:27], dtype="float32")[0]
     # Distance to earth's center
-    block_data["earth_to_sat_radius"] = np.fromstring(data[27:35], dtype="float64")[0]
+    block_data["earth_to_sat_radius"] = np.fromstring(
+        data[27:35], dtype="float64"
+    )[0]
     # Radius of earth at equator
-    block_data["equator_radius"] = np.fromstring(data[35:43], dtype="float64")[0]
+    block_data["equator_radius"] = np.fromstring(
+        data[35:43], dtype="float64"
+    )[0]
     # Radius of earth at pole
     block_data["pole_radius"] = np.fromstring(data[43:51], dtype="float64")[0]
     # (R_eq**2 - R_pol**2)/R_eq**2
@@ -550,8 +587,12 @@ def _get_metadata_block_03(df, block_info):
     block_data["r3"] = np.fromstring(data[67:75], dtype="float64")[0]
     # Coefficient for S_d(R_s**2 - R_eq**2)
     block_data["Sd_coeff"] = np.fromstring(data[75:83], dtype="float64")[0]
-    block_data["resampling_types"] = np.fromstring(data[83:85], dtype="uint16")[0]
-    block_data["resampling_size"] = np.fromstring(data[85:87], dtype="uint16")[0]
+    block_data["resampling_types"] = np.fromstring(
+        data[83:85], dtype="uint16"
+    )[0]
+    block_data["resampling_size"] = np.fromstring(
+        data[85:87], dtype="uint16"
+    )[0]
     block_data["spare"] = np.fromstring(data[87:127], dtype="uint16")
 
     return block_data
@@ -576,12 +617,14 @@ def _get_metadata_block_04(df, block_info):
     block_data["block_name"] = "navigation_information"
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["nav_info_time"] = np.fromstring(data[3:11], dtype="float64")[0]
-    block_data["SSP_lon"] = np.fromstring(data[11:19], dtype="float64")[0]
-    block_data["SSP_lat"] = np.fromstring(data[19:27], dtype="float64")[0]
-    block_data["earthcenter_to_sat_dist"] = np.fromstring(data[27:35], dtype="float64")[
+    block_data["nav_info_time"] = np.fromstring(data[3:11], dtype="float64")[
         0
     ]
+    block_data["SSP_lon"] = np.fromstring(data[11:19], dtype="float64")[0]
+    block_data["SSP_lat"] = np.fromstring(data[19:27], dtype="float64")[0]
+    block_data["earthcenter_to_sat_dist"] = np.fromstring(
+        data[27:35], dtype="float64"
+    )[0]
     block_data["nadir_lon"] = np.fromstring(data[35:43], dtype="float64")[0]
     block_data["nadir_lat"] = np.fromstring(data[43:51], dtype="float64")[0]
     block_data["sun_pos"] = np.fromstring(data[51:75], dtype="float64")
@@ -611,10 +654,16 @@ def _get_metadata_block_05(df, block_info):
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     block_data["band_number"] = np.fromstring(data[3:5], dtype="uint16")[0]
-    block_data["cent_wavelenth"] = np.fromstring(data[5:13], dtype="float64")[0]
-    block_data["valid_bits_per_pixel"] = np.fromstring(data[13:15], dtype="uint16")[0]
+    block_data["cent_wavelenth"] = np.fromstring(data[5:13], dtype="float64")[
+        0
+    ]
+    block_data["valid_bits_per_pixel"] = np.fromstring(
+        data[13:15], dtype="uint16"
+    )[0]
     block_data["count_badval"] = np.fromstring(data[15:17], dtype="uint16")[0]
-    block_data["count_outside_scan"] = np.fromstring(data[17:19], dtype="uint16")[0]
+    block_data["count_outside_scan"] = np.fromstring(
+        data[17:19], dtype="uint16"
+    )[0]
     block_data["gain"] = np.fromstring(data[19:27], dtype="float64")[0]
     block_data["offset"] = np.fromstring(data[27:35], dtype="float64")[0]
     if block_data["band_number"] in range(7, 17):
@@ -624,9 +673,15 @@ def _get_metadata_block_05(df, block_info):
         block_data["C0"] = np.fromstring(data[59:67], dtype="float64")[0]
         block_data["C1"] = np.fromstring(data[67:75], dtype="float64")[0]
         block_data["C2"] = np.fromstring(data[75:83], dtype="float64")[0]
-        block_data["speed_of_light"] = np.fromstring(data[83:91], dtype="float64")[0]
-        block_data["planck_const"] = np.fromstring(data[91:99], dtype="float64")[0]
-        block_data["boltz_const"] = np.fromstring(data[99:107], dtype="float64")[0]
+        block_data["speed_of_light"] = np.fromstring(
+            data[83:91], dtype="float64"
+        )[0]
+        block_data["planck_const"] = np.fromstring(
+            data[91:99], dtype="float64"
+        )[0]
+        block_data["boltz_const"] = np.fromstring(
+            data[99:107], dtype="float64"
+        )[0]
         # block_data['spare'] = np.fromstring(data[107:147], dtype='float64')
     else:
         block_data["c_prime"] = np.fromstring(data[35:43], dtype="float64")[0]
@@ -655,17 +710,35 @@ def _get_metadata_block_06(df, block_info):
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     # Global Space-based Inter-Calibration System (GSICS) calibration coefficients
-    block_data["GSICS_intercept"] = np.fromstring(data[3:11], dtype="float64")[0]
+    block_data["GSICS_intercept"] = np.fromstring(
+        data[3:11], dtype="float64"
+    )[0]
     block_data["GSICS_slope"] = np.fromstring(data[11:19], dtype="float64")[0]
-    block_data["GSICS_quadratic"] = np.fromstring(data[19:27], dtype="float64")[0]
-    block_data["radiance_bias"] = np.fromstring(data[27:35], dtype="float64")[0]
+    block_data["GSICS_quadratic"] = np.fromstring(
+        data[19:27], dtype="float64"
+    )[0]
+    block_data["radiance_bias"] = np.fromstring(data[27:35], dtype="float64")[
+        0
+    ]
     block_data["bias_uncert"] = np.fromstring(data[35:43], dtype="float64")[0]
-    block_data["standard_radiance"] = np.fromstring(data[43:51], dtype="float64")[0]
-    block_data["GSICS_valid_start"] = np.fromstring(data[51:59], dtype="float64")[0]
-    block_data["GSICS_valid_end"] = np.fromstring(data[59:67], dtype="float64")[0]
-    block_data["GSICS_upper_limit"] = np.fromstring(data[67:71], dtype="float32")[0]
-    block_data["GSICS_lower_limit"] = np.fromstring(data[71:75], dtype="float32")[0]
-    block_data["GSICS_filename"] = data[75:203].decode("ascii").replace("\x00", "")
+    block_data["standard_radiance"] = np.fromstring(
+        data[43:51], dtype="float64"
+    )[0]
+    block_data["GSICS_valid_start"] = np.fromstring(
+        data[51:59], dtype="float64"
+    )[0]
+    block_data["GSICS_valid_end"] = np.fromstring(
+        data[59:67], dtype="float64"
+    )[0]
+    block_data["GSICS_upper_limit"] = np.fromstring(
+        data[67:71], dtype="float32"
+    )[0]
+    block_data["GSICS_lower_limit"] = np.fromstring(
+        data[71:75], dtype="float32"
+    )[0]
+    block_data["GSICS_filename"] = (
+        data[75:203].decode("ascii").replace("\x00", "")
+    )
     block_data["spare"] = data[203:259].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -692,7 +765,9 @@ def _get_metadata_block_07(df, block_info):
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     block_data["num_segments"] = np.fromstring(data[3:4], dtype="uint8")[0]
     block_data["segment_number"] = np.fromstring(data[4:5], dtype="uint8")[0]
-    block_data["segment_first_line"] = np.fromstring(data[5:7], dtype="uint16")[0]
+    block_data["segment_first_line"] = np.fromstring(
+        data[5:7], dtype="uint16"
+    )[0]
     block_data["spare"] = data[7:47].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -717,17 +792,29 @@ def _get_metadata_block_08(df, block_info):
     block_data["block_name"] = "navigation_correction_information"
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["center_scan_of_rotation"] = np.fromstring(data[3:7], dtype="float32")[0]
-    block_data["center_line_of_rotation"] = np.fromstring(data[7:11], dtype="float32")[
-        0
-    ]
-    block_data["rotation_correction"] = np.fromstring(data[11:19], dtype="float64")[0]
-    block_data["num_correction_info"] = np.fromstring(data[19:21], dtype="uint16")[0]
+    block_data["center_scan_of_rotation"] = np.fromstring(
+        data[3:7], dtype="float32"
+    )[0]
+    block_data["center_line_of_rotation"] = np.fromstring(
+        data[7:11], dtype="float32"
+    )[0]
+    block_data["rotation_correction"] = np.fromstring(
+        data[11:19], dtype="float64"
+    )[0]
+    block_data["num_correction_info"] = np.fromstring(
+        data[19:21], dtype="uint16"
+    )[0]
 
     start = 21
-    block_data["line_num_after_rotation"] = np.empty(block_data["num_correction_info"])
-    block_data["scan_shift_amount"] = np.empty(block_data["num_correction_info"])
-    block_data["line_shift_amount"] = np.empty(block_data["num_correction_info"])
+    block_data["line_num_after_rotation"] = np.empty(
+        block_data["num_correction_info"]
+    )
+    block_data["scan_shift_amount"] = np.empty(
+        block_data["num_correction_info"]
+    )
+    block_data["line_shift_amount"] = np.empty(
+        block_data["num_correction_info"]
+    )
     for info_ind in range(0, block_data["num_correction_info"]):
         block_data["line_num_after_rotation"][info_ind] = np.fromstring(
             data[start : start + 2], dtype="uint16"
@@ -739,7 +826,9 @@ def _get_metadata_block_08(df, block_info):
             data[start + 6 : start + 10], dtype="float32"
         )
         start += 10
-    block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
+    block_data["spare"] = (
+        data[start : start + 40].decode("ascii").replace("\x00", "")
+    )
 
     return block_data
 
@@ -776,7 +865,9 @@ def _get_metadata_block_09(df, block_info):
             data[start + 2 : start + 10], dtype="float64"
         )
         start += 10
-    block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
+    block_data["spare"] = (
+        data[start : start + 40].decode("ascii").replace("\x00", "")
+    )
 
     return block_data
 
@@ -800,7 +891,9 @@ def _get_metadata_block_10(df, block_info):
     block_data["block_name"] = "error_information"
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["num_err_info_data"] = np.fromstring(data[3:5], dtype="uint16")[0]
+    block_data["num_err_info_data"] = np.fromstring(
+        data[3:5], dtype="uint16"
+    )[0]
 
     start = 5
     block_data["err_line_number"] = np.array([])
@@ -813,7 +906,9 @@ def _get_metadata_block_10(df, block_info):
             np.fromstring(data[start + 2 : start + 4], dtype="uint16")
         )
         start += 4
-    block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
+    block_data["spare"] = (
+        data[start : start + 40].decode("ascii").replace("\x00", "")
+    )
 
     return block_data
 
@@ -901,7 +996,8 @@ def _check_file_consistency(metadata):
     # Checks start dates without comparing times.
     # Times are uncomparable using this field, but are compared below using ob_timeline.
     start_dates = [
-        int(metadata[fname]["block_01"]["ob_start_time"]) for fname in metadata.keys()
+        int(metadata[fname]["block_01"]["ob_start_time"])
+        for fname in metadata.keys()
     ]
     if start_dates[1:] != start_dates[:-1]:
         return False
@@ -914,13 +1010,19 @@ def _check_file_consistency(metadata):
     #   (e.g. FLDK or JP01).
     #   sub_lon: Just a dummy check to be sure nothing REALLY weird is going on.
     members_to_check = {
-        "block_01": {"satellite_name": None, "ob_timeline": None, "ob_area": None},
+        "block_01": {
+            "satellite_name": None,
+            "ob_timeline": None,
+            "ob_area": None,
+        },
         "block_03": {"sub_lon": None},
     }
 
     for block in members_to_check.keys():
         for field in members_to_check[block].keys():
-            member_vals = [metadata[fname][block][field] for fname in metadata.keys()]
+            member_vals = [
+                metadata[fname][block][field] for fname in metadata.keys()
+            ]
             # This tests to be sure that all elemnts in member_vals are equal
             # If they aren't all equal, then return False
             if member_vals[1:] != member_vals[:-1]:
@@ -986,7 +1088,9 @@ def call(
     datavars = {}
     adname = "undefined"
     if area_def and self_register:
-        raise ValueError("area_def and self_register are mutually exclusive keywords")
+        raise ValueError(
+            "area_def and self_register are mutually exclusive keywords"
+        )
     elif area_def:
         adname = area_def.area_id
     elif self_register:
@@ -1003,12 +1107,18 @@ def call(
         if chans:
             gotone = False
             for chan in chans:
-                currchan = chan.replace("BT", "").replace("Ref", "").replace("Rad", "")
+                currchan = (
+                    chan.replace("BT", "")
+                    .replace("Ref", "")
+                    .replace("Rad", "")
+                )
                 if currchan in fname:
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", fname, chans
+                    "SKIPPING file %s, not needed from channel list %s",
+                    fname,
+                    chans,
                 )
                 continue
         try:
@@ -1016,10 +1126,14 @@ def call(
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             if ".bz2" in fname:
-                LOG.exception("BAD FILE %s must be bunzip2ed prior to processing", resp)
+                LOG.exception(
+                    "BAD FILE %s must be bunzip2ed prior to processing", resp
+                )
             continue
         if metadata_only:
-            LOG.info("Only need metadata from first file, skipping rest of files")
+            LOG.info(
+                "Only need metadata from first file, skipping rest of files"
+            )
             break
 
     # Check to be sure that all input files are from the same image time
@@ -1052,7 +1166,9 @@ def call(
     res_md = {}
     for res in ["LOW", "MED", "HIGH"]:
         # Find a file file for this resolution: Any one will do
-        res_chans = list(set(DATASET_INFO[res]).intersection(file_info.keys()))
+        res_chans = list(
+            set(DATASET_INFO[res]).intersection(file_info.keys())
+        )
         if res_chans:
             # Gets metadata for all available segments for this channel
             segment_info = file_info[res_chans[0]]
@@ -1097,7 +1213,9 @@ def call(
     xarray_obj.attrs["end_datetime"] = end_dt
     xarray_obj.attrs["source_name"] = "ahi"
     xarray_obj.attrs["data_provider"] = "jma"
-    xarray_obj.attrs["platform_name"] = highest_md["block_01"]["satellite_name"].lower()
+    xarray_obj.attrs["platform_name"] = highest_md["block_01"][
+        "satellite_name"
+    ].lower()
     xarray_obj.attrs["area_definition"] = area_def
 
     # If metadata_only requested, return here.
@@ -1122,11 +1240,15 @@ def call(
     if chans:
         for chan in chans:
             if chan not in all_chans_list:
-                raise ValueError("Requested channel {0} not recognized.".format(chan))
+                raise ValueError(
+                    "Requested channel {0} not recognized.".format(chan)
+                )
             if chan[0:3] not in file_chans:
                 # raise ValueError('Requested channel {0} not found in input data'.
                 # format(chan))
-                LOG.warning("Requested channel %s not found in input data", chan)
+                LOG.warning(
+                    "Requested channel %s not found in input data", chan
+                )
 
     # If no specific channels were requested, get everything
     if not chans:
@@ -1169,16 +1291,22 @@ def call(
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s", res, adname
+                "Getting geolocation information for resolution %s for %s",
+                res,
+                adname,
             )
             try:
                 gmd = _get_geolocation_metadata(res_md[res])
-                fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
+                fldk_lats, fldk_lons = get_latitude_longitude(
+                    gmd, BADVALS, area_def
+                )
                 gvars[res] = get_geolocation(
                     start_dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
                 )
             except IndexError as resp:
-                LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
+                LOG.exception(
+                    "SKIPPING apparently no coverage or bad geolocation file"
+                )
                 raise IndexError(resp)
 
     LOG.info("Done with geolocation for %s", adname)
@@ -1194,7 +1322,9 @@ def call(
         for res, res_chans in DATASET_INFO.items():
             if chan in res_chans:
                 break
-        if (not self_register) and (res not in gvars.keys() or not gvars[res]):
+        if (not self_register) and (
+            res not in gvars.keys() or not gvars[res]
+        ):
             LOG.info(
                 "We don't have geolocation information for %s for %s skipping %s",
                 res,
@@ -1305,7 +1435,8 @@ def call(
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 85,
+                    gvars[res][varname],
                 )
         except KeyError:
             pass
@@ -1314,11 +1445,16 @@ def call(
             datavars.pop(ds)
         else:
             for varname in datavars[ds].keys():
-                set_variable_metadata(xarray_obj.attrs, band_metadata, ds, varname)
-                datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
+                set_variable_metadata(
+                    xarray_obj.attrs, band_metadata, ds, varname
+                )
+                datavars[ds][varname] = np.ma.masked_less(
+                    datavars[ds][varname], -999.1
+                )
                 if "satellite_zenith_angle" in gvars[ds].keys():
                     datavars[ds][varname] = np.ma.masked_where(
-                        gvars[ds]["satellite_zenith_angle"] > 85, datavars[ds][varname]
+                        gvars[ds]["satellite_zenith_angle"] > 85,
+                        datavars[ds][varname],
                     )
 
     print_mem_usage("MEMUSG", verbose=False)
@@ -1387,9 +1523,9 @@ def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
                 and "cent_wavelenth"
                 in band_metadata[bandname]["calibration_information"].keys()
             ):
-                xobj_attrs[dsname][varname]["wavelength"] = band_metadata[bandname][
-                    "calibration_information"
-                ]["cent_wavelenth"]
+                xobj_attrs[dsname][varname]["wavelength"] = band_metadata[
+                    bandname
+                ]["calibration_information"]["cent_wavelenth"]
 
 
 def get_band_metadata(all_metadata):
@@ -1412,7 +1548,9 @@ def get_band_metadata(all_metadata):
                 and "block_name" in all_metadata[fname][blockname].keys()
             ):
                 newkey = all_metadata[fname][blockname]["block_name"]
-            bandmetadata["B%02d" % bandnum][newkey] = all_metadata[fname][blockname]
+            bandmetadata["B%02d" % bandnum][newkey] = all_metadata[fname][
+                blockname
+            ]
     return bandmetadata
 
 
@@ -1513,13 +1651,21 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
             data_lines = line_inds[data_inds] - first_line
             data_samples = sample_inds[data_inds]
             counts[data_inds] = np.memmap(
-                path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
+                path,
+                mode="r",
+                dtype=np.uint16,
+                offset=header_len,
+                shape=(nl, ns),
             )[data_lines, data_samples]
         else:
             first_line -= 1
             last_line = first_line + nl
             counts[first_line:last_line, :] = np.memmap(
-                path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
+                path,
+                mode="r",
+                dtype=np.uint16,
+                offset=header_len,
+                shape=(nl, ns),
             )[:, :]
 
         LOG.info("Doing the actual read for segment {}".format(seg))
@@ -1566,7 +1712,9 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         LOG.info("Converting to Reflectance")
         if band_num not in range(1, 7):
             raise ValueError(
-                "Unable to calculate reflectances for band #{0}".format(band_num)
+                "Unable to calculate reflectances for band #{0}".format(
+                    band_num
+                )
             )
 
         # Get the radiance data
@@ -1614,7 +1762,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         log_coeff = (2.0 * h * c**2) / (wl**5)  # NOQA
         dividend = (h * c) / (k * wl)  # NOQA
         ne.evaluate(
-            "dividend/log( (log_coeff/(rad_data*1000000.0))+1 )", out=data["BT"]
+            "dividend/log( (log_coeff/(rad_data*1000000.0))+1 )",
+            out=data["BT"],
         )
 
     for val in data.values():

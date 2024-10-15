@@ -11,14 +11,12 @@ from os.path import basename
 # Third-Party Libraries
 import xarray
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-from geoips.plugins.modules.readers.utils.remss_reader import (
-        read_remss_data
-    )
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
+from geoips.plugins.modules.readers.utils.remss_reader import read_remss_data
 
 LOG = logging.getLogger(__name__)
 
@@ -30,7 +28,13 @@ family = "standard"
 name = "amsr2_remss_winds_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read REMSS AMSR2 derived winds from netcdf data.
 
     Parameters

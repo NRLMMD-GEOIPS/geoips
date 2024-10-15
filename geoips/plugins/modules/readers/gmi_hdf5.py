@@ -192,7 +192,13 @@ def read_gmi_file(fname, xarray_gmi):
     return final_xarray
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read GMI hdf5 data products.
 
     Parameters
@@ -247,8 +253,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     )
 
     xarray_gmi.attrs["source_file_names"] = sorted(source_file_names)
-    xarray_gmi.attrs["start_datetime"] = get_min_from_xarray_time(xarray_gmi, "time")
-    xarray_gmi.attrs["end_datetime"] = get_max_from_xarray_time(xarray_gmi, "time")
+    xarray_gmi.attrs["start_datetime"] = get_min_from_xarray_time(
+        xarray_gmi, "time"
+    )
+    xarray_gmi.attrs["end_datetime"] = get_max_from_xarray_time(
+        xarray_gmi, "time"
+    )
     xarray_gmi.attrs["source_name"] = "gmi"
     xarray_gmi.attrs["platform_name"] = "GPM"
     xarray_gmi.attrs["data_provider"] = "NASA"

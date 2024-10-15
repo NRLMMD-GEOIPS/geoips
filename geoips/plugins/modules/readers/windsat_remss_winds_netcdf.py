@@ -12,12 +12,12 @@ import xarray
 
 # GeoIPS Libraries
 from geoips.plugins.modules.readers.utils.remss_reader import (
-                read_remss_data,
-            )
+    read_remss_data,
+)
 from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -28,7 +28,13 @@ family = "standard"
 name = "windsat_remss_winds_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read Remote Sensing Systems Windsat data.
 
     Parameters

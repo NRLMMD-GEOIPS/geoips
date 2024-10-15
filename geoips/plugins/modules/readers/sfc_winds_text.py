@@ -19,7 +19,13 @@ family = "standard"
 name = "sfc_winds_text"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read one of SAR, SMAP, SMOS, AMSR derived winds from text data.
 
     Parameters

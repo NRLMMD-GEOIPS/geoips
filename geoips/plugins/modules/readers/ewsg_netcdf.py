@@ -43,7 +43,7 @@ import pandas as pd
 import xarray as xr
 
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
@@ -85,7 +85,13 @@ family = "standard"
 name = "ewsg_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read EWS-G data in netcdf4 format.
 
     Parameters
@@ -157,7 +163,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             masked_data = np.ma.masked_equal(data, data.missing_value)
 
             if var in xvarnames:
-                varname = xvarnames[var]  # rename zenith/azimuth-related variables
+                varname = xvarnames[
+                    var
+                ]  # rename zenith/azimuth-related variables
 
             xarray_ewsg[varname] = xr.DataArray(masked_data)
             """
@@ -184,7 +192,20 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # date info from fname
         #        1  2  3  4  5  6  7  8  9  10 11 12
         days_mo = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
-        days_mo_lp = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]  # Leap year
+        days_mo_lp = [
+            31,
+            29,
+            31,
+            30,
+            31,
+            30,
+            31,
+            31,
+            30,
+            31,
+            30,
+            31,
+        ]  # Leap year
 
         # date information is not contained in the data so we have to get it from
         # filename
@@ -203,10 +224,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         # second of the date for this file
         start_time = (
-            ncdf_file.start_time + ncdf_file.time_adjust + ncdf_file.scan_time[0]
+            ncdf_file.start_time
+            + ncdf_file.time_adjust
+            + ncdf_file.scan_time[0]
         )
         end_time = (
-            ncdf_file.start_time + ncdf_file.time_adjust + ncdf_file.scan_time[29]
+            ncdf_file.start_time
+            + ncdf_file.time_adjust
+            + ncdf_file.scan_time[29]
         )
 
         yr_s = yr
@@ -237,8 +262,22 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 if mo_e > 12:  # move to near year
                     yr_e = yr + 1
 
-        start_scan = "%04d%02d%02d%02d%02d%02d" % (yr_s, mo_s, dy_s, hr_s, mm_s, ss_s)
-        end_scan = "%04d%02d%02d%02d%02d%02d" % (yr_e, mo_e, dy_e, hr_e, mm_e, ss_e)
+        start_scan = "%04d%02d%02d%02d%02d%02d" % (
+            yr_s,
+            mo_s,
+            dy_s,
+            hr_s,
+            mm_s,
+            ss_s,
+        )
+        end_scan = "%04d%02d%02d%02d%02d%02d" % (
+            yr_e,
+            mo_e,
+            dy_e,
+            hr_e,
+            mm_e,
+            ss_e,
+        )
 
         # convert date in required format
         Start_date = pd.to_datetime(start_scan, format="%Y%m%d%H%M%S")

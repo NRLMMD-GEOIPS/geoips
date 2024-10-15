@@ -14,7 +14,7 @@ import netCDF4 as ncdf
 import numpy as np
 import xarray
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
@@ -185,7 +185,9 @@ def latlon_from_lincol_geos(Resolution, Line, Column, metadata):
     shape = (metadata["num_lines"], metadata["num_samples"])
     offset = 4 * metadata["num_samples"] * metadata["num_lines"]
     nlat = np.memmap(fname, mode="r", dtype=np.float32, offset=0, shape=shape)
-    nlon = np.memmap(fname, mode="r", dtype=np.float32, offset=offset, shape=shape)
+    nlon = np.memmap(
+        fname, mode="r", dtype=np.float32, offset=offset, shape=shape
+    )
 
     return (nlat, nlon)
 
@@ -210,7 +212,10 @@ def _check_file_consistency(metadata):
     }
     for name, level in checks.items():
         check_set = set(
-            [metadata[fname]["global"][level][name] for fname in metadata.keys()]
+            [
+                metadata[fname]["global"][level][name]
+                for fname in metadata.keys()
+            ]
         )
         if len(check_set) != 1:
             LOG.debug("Failed on {0}. Found: {1}".format(name, check_set))
@@ -242,7 +247,9 @@ def _get_general_metadata(df):
         if hasattr(df, name):
             metadata[name] = getattr(df, name)
         else:
-            LOG.info("Warning! File-level metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! File-level metadata field missing: {0}".format(name)
+            )
     return metadata
 
 
@@ -279,7 +286,11 @@ def _get_observation_metadata(df):
         if hasattr(df, name):
             metadata[name] = getattr(df, name)
         else:
-            LOG.info("Warning! Observation metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! Observation metadata field missing: {0}".format(
+                    name
+                )
+            )
     return metadata
 
 
@@ -314,7 +325,9 @@ def _get_projection_metadata(df):
         if hasattr(df, name):
             metadata[name] = getattr(df, name)
         else:
-            LOG.info("Warning! Projection metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! Projection metadata field missing: {0}".format(name)
+            )
     return metadata
 
 
@@ -352,7 +365,9 @@ def _get_variable_metadata(df):
         if hasattr(df.variables["image_pixel_values"], name):
             metadata[name] = getattr(df.variables["image_pixel_values"], name)
         else:
-            LOG.info("Warning! Projection metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! Projection metadata field missing: {0}".format(name)
+            )
     return metadata
 
 
@@ -409,10 +424,14 @@ def _get_geolocation_metadata(metadata):
     geomet["H_m"] = metadata["projection"]["nominal_satellite_height"]
     geomet["pphgt"] = geomet["H_m"] - geomet["Re"]
     geomet["lat0"] = metadata["projection"]["image_center_latitude"]
-    geomet["lon0"] = metadata["projection"]["image_center_longitude"] * 180.0 / np.pi
+    geomet["lon0"] = (
+        metadata["projection"]["image_center_longitude"] * 180.0 / np.pi
+    )
     geomet["scene"] = metadata["observation"]["observation_mode"]
     # Just getting the nadir resolution in kilometers.  Must extract from a string.
-    geomet["res_km"] = float(metadata["general"]["channel_spatial_resolution"])
+    geomet["res_km"] = float(
+        metadata["general"]["channel_spatial_resolution"]
+    )
     geomet["roi_factor"] = 5  # roi = res * roi_factor, was 10
     geomet["num_lines"] = metadata["data"]["number_of_lines"]
     geomet["num_samples"] = metadata["data"]["number_of_columns"]
@@ -513,7 +532,13 @@ def get_data(gvars, fname, rad=False, ref=False, bt=False):
     return data
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
 
@@ -563,11 +588,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", fname, chans
+                    "SKIPPING file %s, not needed from channel list %s",
+                    fname,
+                    chans,
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), "r"), fname)
+            all_metadata[fname] = _get_metadata(
+                ncdf.Dataset(str(fname), "r"), fname
+            )
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             continue
@@ -598,7 +627,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     res_md = {}
     for res in ["LOW", "MED", "HIGH"]:
         # Find a file for this resolution: Any one will do
-        res_chans = list(set(DATASET_INFO[res]).intersection(file_info.keys()))
+        res_chans = list(
+            set(DATASET_INFO[res]).intersection(file_info.keys())
+        )
         if res_chans:
             res_md[res] = file_info[res_chans[0]]
 
@@ -635,7 +666,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 f"Unrecognized resolution name requested for self "
                 f"registration: {self_register}"
             )
-        scene_id = highest_md["global"]["observation"]["observation_mode"].lower()
+        scene_id = highest_md["global"]["observation"][
+            "observation_mode"
+        ].lower()
         if scene_id == "fd":
             xarray_obj.attrs["area_id"] = "Full-Disk"
         elif scene_id == "ela":
@@ -675,7 +708,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if chan in ALL_GEO_VARS:
                 continue
             if chan not in all_chans_list:
-                raise ValueError("Requested channel {0} not recognized.".format(chan))
+                raise ValueError(
+                    "Requested channel {0} not recognized.".format(chan)
+                )
             if chan[0:5] not in file_info.keys():
                 continue
 
@@ -703,7 +738,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     if self_register:
         LOG.info("")
         LOG.info("Getting geolocation information for adname %s.", adname)
-        geo_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
+        geo_metadata[adname] = _get_geolocation_metadata(
+            res_md[self_register]
+        )
 
         i = np.arange(0, geo_metadata[adname]["num_lines"], dtype="f")
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
@@ -713,7 +750,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         )
 
         gvars[adname] = get_geolocation(
-            start_dt, geo_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+            start_dt,
+            geo_metadata[adname],
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
         )
         if not gvars[adname]:
             LOG.error(
@@ -730,7 +772,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s", res, adname
+                "Getting geolocation information for resolution %s for %s",
+                res,
+                adname,
             )
             try:
                 geo_metadata[res] = _get_geolocation_metadata(res_md[res])
@@ -743,10 +787,17 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 )
 
                 gvars[res] = get_geolocation(
-                    start_dt, geo_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
+                    start_dt,
+                    geo_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
                 )
             except IndexError as resp:
-                LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
+                LOG.exception(
+                    "SKIPPING apparently no coverage or bad geolocation file"
+                )
                 raise IndexError(resp)
 
     LOG.interactive("Done with geolocation for {}".format(adname))
@@ -765,7 +816,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if chan in res_chans:
                 break
         if (not self_register) and (
-            res not in gvars.keys() or not gvars[res] or "latitude" not in gvars[res]
+            res not in gvars.keys()
+            or not gvars[res]
+            or "latitude" not in gvars[res]
         ):
             LOG.info(
                 f"We don't have geolocation information for {res} for {adname} "
@@ -828,7 +881,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 75,
+                    gvars[res][varname],
                 )
         except KeyError:
             pass
@@ -847,9 +901,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
 
         roi = 500
-        if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
+        if (
+            hasattr(xobj, "area_definition")
+            and xobj.area_definition is not None
+        ):
             roi = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                xobj.area_definition.pixel_size_x,
+                xobj.area_definition.pixel_size_y,
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in geo_metadata.keys():
@@ -871,7 +929,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 # Unit test functions
 def get_test_files(test_data_dir):
     """Generate testing xarray from test data."""
-    filepath = test_data_dir + "/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc"
+    filepath = (
+        test_data_dir
+        + "/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc"
+    )
     filelist = glob.glob(filepath)
     tmp_xr = call(filelist)
     if len(filelist) == 0:

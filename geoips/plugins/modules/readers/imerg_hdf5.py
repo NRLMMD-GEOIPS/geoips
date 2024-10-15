@@ -52,7 +52,13 @@ family = "standard"
 name = "imerg_hdf5"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read IMERG hdf5 rain rate data products.
 
     Parameters
@@ -138,7 +144,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         lon = fileobj["Grid"]["lon"][:]  # (3600)
 
         rain = fileobj["Grid"]["precipitationCal"][:]  # (1,3600,1800)
-        rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][:]  # (1,3600,1800)
+        rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][
+            :
+        ]  # (1,3600,1800)
         rrErr = fileobj["Grid"]["randomError"][:]  # (1,3600,1800)
         IRrr = fileobj["Grid"]["IRprecipitation"][:]  # (1,3600,1800)
 

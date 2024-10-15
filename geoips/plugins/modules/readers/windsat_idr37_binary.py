@@ -106,6 +106,7 @@ import os
 
 # Third-Party Libraries
 import numpy as np
+
 # import pandas as pd
 import xarray
 
@@ -148,7 +149,13 @@ name = "windsat_idr37_binary"
 # fmt: off and fmt: on comments, which prevent black from moving the # NOQA comments.
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read Windsat binary data products.
 
     Parameters
@@ -236,12 +243,16 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 if time_e_day > 31:
                     time_e_day == 1  # first day of the next month
                     time_e_month == int(time_s_month) + 1
-        if time_e_month > 12:  # in Dec, deterimine whether it crosses the year boundary
+        if (
+            time_e_month > 12
+        ):  # in Dec, deterimine whether it crosses the year boundary
             time_e_year == int(time_s_year) + 1
 
     # convret end_time of the data into strings
     time_e_date = (
-        str(time_e_year) + str("%02d" % time_e_month) + str("%02d" % time_e_day)
+        str(time_e_year)
+        + str("%02d" % time_e_month)
+        + str("%02d" % time_e_day)
     )
 
     # Need to set up time to be read in by the metadata (year and jday are arrays)
@@ -251,9 +262,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_obj = xarray.Dataset()
 
     # Enter metadata
-    xarray_obj.attrs["start_datetime"] = datetime.strptime(time_start, "%Y%m%d %H%M")
-    xarray_obj.attrs["end_datetime"] = datetime.strptime(time_end, "%Y%m%d %H%M")
-    xarray_obj.attrs["source_file_datetimes"] = [xarray_obj.attrs["start_datetime"]]
+    xarray_obj.attrs["start_datetime"] = datetime.strptime(
+        time_start, "%Y%m%d %H%M"
+    )
+    xarray_obj.attrs["end_datetime"] = datetime.strptime(
+        time_end, "%Y%m%d %H%M"
+    )
+    xarray_obj.attrs["source_file_datetimes"] = [
+        xarray_obj.attrs["start_datetime"]
+    ]
 
     xarray_obj.attrs["platform_name"] = "coriolis"
     xarray_obj.attrs["source_name"] = "windsat"
@@ -277,7 +294,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         if good_datafile == 0:
             LOG.info("This is a good windsat idr37 data file")
         else:
-            LOG.info("This is not a good windsat idr37 data file:  skipping ....")
+            LOG.info(
+                "This is not a good windsat idr37 data file:  skipping ...."
+            )
             return
     except Exception as resp:
         LOG.info(
@@ -334,7 +353,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             LOG.info("Running record number %s of %s", ii, rec_tot)
         try:
             # read in variables using their size (bytes)
-            jd2000 = np.frombuffer(f1.read(8), dtype=np.dtype("float64")).byteswap()[
+            jd2000 = np.frombuffer(
+                f1.read(8), dtype=np.dtype("float64")
+            ).byteswap()[
                 0
             ]  # sec since 1200Z,01/01/2000
             # get time info for each data point
@@ -472,7 +493,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_sdr_fwd.attrs = xarray_obj.attrs.copy()
     xarray_sdr_aft.attrs = xarray_obj.attrs.copy()
 
-    timediff = np.datetime64("2000-01-01T12:00:00") - np.datetime64("1970-01-01T00:00:00")
+    timediff = np.datetime64("2000-01-01T12:00:00") - np.datetime64(
+        "1970-01-01T00:00:00"
+    )
     timestamps = ftime_jd2000.astype("np.datetime64[s]") + timediff
     xarray_sdr_aft["time"] = xarray.DataArray(timestamps)
     xarray_sdr_aft["latitude"] = xarray.DataArray(alat)
@@ -489,4 +512,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_sdr_fwd["fsurfaceType"] = xarray.DataArray(fsurfaceType)
     xarray_sdr_fwd["frainFlag"] = xarray.DataArray(frainFlag)
     xarray_sdr_fwd["fasc_des_pass"] = xarray.DataArray(fasc_des_pass)
-    return {"METADATA": xarray_obj, "AFT": xarray_sdr_aft, "FWD": xarray_sdr_fwd}
+    return {
+        "METADATA": xarray_obj,
+        "AFT": xarray_sdr_aft,
+        "FWD": xarray_sdr_fwd,
+    }

@@ -13,7 +13,7 @@ from os.path import basename
 import numpy
 import xarray
 
-#GeoIPS-Based imports
+# GeoIPS-Based imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
@@ -68,7 +68,9 @@ def read_knmi_data(wind_xarray):
         # geoips_metadata['data_provider'] = 'Copyright-2021-EUMETSAT'
 
     # Pixel size stored as "25.0 km"
-    pixel_size = float(wind_xarray.pixel_size_on_horizontal.replace(" km", ""))
+    pixel_size = float(
+        wind_xarray.pixel_size_on_horizontal.replace(" km", "")
+    )
 
     # Interpolation Radius of Influence
     geoips_metadata["interpolation_radius_of_influence"] = pixel_size * 1000.0
@@ -84,9 +86,12 @@ def read_knmi_data(wind_xarray):
     wind_xarray["wind_dir_deg_met"] = wind_xarray["wind_dir"] - 180
     wind_xarray["wind_dir_deg_met"].attrs = wind_xarray["wind_dir"].attrs
     wind_xarray["wind_dir_deg_met"] = wind_xarray["wind_dir_deg_met"].where(
-        wind_xarray["wind_dir_deg_met"] >= 0, wind_xarray["wind_dir_deg_met"] + 360
+        wind_xarray["wind_dir_deg_met"] >= 0,
+        wind_xarray["wind_dir_deg_met"] + 360,
     )
-    wind_xarray.wind_dir_deg_met.attrs["standard_name"] = "wind_from_direction"
+    wind_xarray.wind_dir_deg_met.attrs["standard_name"] = (
+        "wind_from_direction"
+    )
     wind_xarray.wind_dir_deg_met.attrs["valid_max"] = 360
 
     # Set lat/lons/time appropriately
@@ -108,7 +113,8 @@ def read_knmi_data(wind_xarray):
         # Dropping the ".to_masked_array()" appears to lose the nan values -
         # but could perhaps do that then re-mask?
         rf = numpy.logical_and(
-            wind_xarray["wvc_quality_flag"].to_masked_array(), (1 << RAIN_FLAG_BIT)
+            wind_xarray["wvc_quality_flag"].to_masked_array(),
+            (1 << RAIN_FLAG_BIT),
         )
         wind_xarray["rain_flag"] = xarray.DataArray(
             rf.astype(int), coords=wind_xarray.coords, dims=wind_xarray.dims
@@ -118,7 +124,13 @@ def read_knmi_data(wind_xarray):
     return wind_xarray, geoips_metadata
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read KNMI scatterometer derived winds from netcdf data.
 
     Parameters

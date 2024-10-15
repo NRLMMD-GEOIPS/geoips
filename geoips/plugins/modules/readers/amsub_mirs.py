@@ -170,7 +170,6 @@ import pandas as pd
 import xarray as xr
 
 
-
 matplotlib.use("agg")
 
 LOG = logging.getLogger(__name__)
@@ -225,7 +224,13 @@ family = "standard"
 name = "amsub_mirs"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read AMSU/MHS MIRS data products.
 
     Parameters
@@ -268,7 +273,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
         if data_name != "nc":
-            LOG.info("Warning: wrong AMSU-B/MHS data type:  data_type=", data_name)
+            LOG.info(
+                "Warning: wrong AMSU-B/MHS data type:  data_type=", data_name
+            )
             raise
 
         if "NPR-MIRS-IMG" in os.path.basename(fname):
@@ -327,10 +334,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # Collect start_time and end_time of input file (one orbit) from
         # attributes - filename wrong!
         start_datetime = datetime.strptime(
-            fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
+            fileobj.attrs["time_coverage_start"].astype(str),
+            "%Y-%m-%dT%H:%M:%SZ",
         )
         end_datetime = datetime.strptime(
-            fileobj.attrs["time_coverage_end"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
+            fileobj.attrs["time_coverage_end"].astype(str),
+            "%Y-%m-%dT%H:%M:%SZ",
         )
 
         #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
@@ -408,17 +417,29 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub.attrs["interpolation_radius_of_influence"] = 30000
 
         if metadata_only:
-            LOG.info("metadata_only requested, returning without reading data")
+            LOG.info(
+                "metadata_only requested, returning without reading data"
+            )
             return {"METADATA": xarray_amsub}
 
         # keep same variables from previous version of amsub reader for files from MSPPS
         xarray_amsub["latitude"] = xr.DataArray(var_all["Latitude"][()])
         xarray_amsub["longitude"] = xr.DataArray(var_all["Longitude"][()])
-        xarray_amsub["Chan1_AT"] = xr.DataArray(Chan1_AT, attrs={"channel_number": 1})
-        xarray_amsub["Chan2_AT"] = xr.DataArray(Chan2_AT, attrs={"channel_number": 2})
-        xarray_amsub["Chan3_AT"] = xr.DataArray(Chan3_AT, attrs={"channel_number": 3})
-        xarray_amsub["Chan4_AT"] = xr.DataArray(Chan4_AT, attrs={"channel_number": 4})
-        xarray_amsub["Chan5_AT"] = xr.DataArray(Chan5_AT, attrs={"channel_number": 5})
+        xarray_amsub["Chan1_AT"] = xr.DataArray(
+            Chan1_AT, attrs={"channel_number": 1}
+        )
+        xarray_amsub["Chan2_AT"] = xr.DataArray(
+            Chan2_AT, attrs={"channel_number": 2}
+        )
+        xarray_amsub["Chan3_AT"] = xr.DataArray(
+            Chan3_AT, attrs={"channel_number": 3}
+        )
+        xarray_amsub["Chan4_AT"] = xr.DataArray(
+            Chan4_AT, attrs={"channel_number": 4}
+        )
+        xarray_amsub["Chan5_AT"] = xr.DataArray(
+            Chan5_AT, attrs={"channel_number": 5}
+        )
         xarray_amsub["RR"] = xr.DataArray(var_all["RR"][()])
         xarray_amsub["Snow"] = xr.DataArray(var_all["Snow"][()])
         xarray_amsub["IWP"] = xr.DataArray(var_all["IWP"][()])
@@ -426,7 +447,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub["SFR"] = xr.DataArray(var_all["SFR"][()])
         xarray_amsub["sfcType"] = xr.DataArray(var_all["Sfc_type"][()])
         xarray_amsub["time"] = xr.DataArray(
-            pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
+            pd.DataFrame(time_scan)
+            .astype(int)
+            .apply(pd.to_datetime, format="%Y%j%H%M")
         )
 
         # add variables from MIRS file
@@ -446,14 +469,19 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub["WindDir"] = xr.DataArray(var_all["WindDir"][()])
         xarray_amsub["WindU"] = xr.DataArray(var_all["WindU"][()])
         xarray_amsub["WindV"] = xr.DataArray(var_all["WindV"][()])
-        xarray_amsub["satellite_zenith_angle"] = xr.DataArray(var_all["LZ_angle"][()])
+        xarray_amsub["satellite_zenith_angle"] = xr.DataArray(
+            var_all["LZ_angle"][()]
+        )
         xarray_amsub["SZ_angle"] = xr.DataArray(var_all["SZ_angle"][()])
         xarray_amsub["RAzi_angle"] = xr.DataArray(var_all["RAzi_angle"][()])
         # from amsub_mhs_prep/oned_innov.f90:
         beam_pos = np.broadcast_to(
-            np.arange(fileobj["Field_of_view"].size) + 1, var_all["LZ_angle"][()].shape
+            np.arange(fileobj["Field_of_view"].size) + 1,
+            var_all["LZ_angle"][()].shape,
         )
-        xarray_amsub["sensor_scan_angle"] = xr.DataArray((beam_pos - 45.5) * 10.0 / 9.0)
+        xarray_amsub["sensor_scan_angle"] = xr.DataArray(
+            (beam_pos - 45.5) * 10.0 / 9.0
+        )
 
         xarrays.append(xarray_amsub)
 

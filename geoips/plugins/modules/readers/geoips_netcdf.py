@@ -18,7 +18,13 @@ family = "standard"
 name = "geoips_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read preprocessed geoips netcdf output.
 
     Parameters
@@ -75,7 +81,9 @@ def read_xarray_netcdf(ncdf_fname):
         raise IOError
     for attr in xarray_obj.attrs.keys():
         if "datetime" in attr:
-            xarray_obj.attrs[attr] = datetime.strptime(xarray_obj.attrs[attr], "%c")
+            xarray_obj.attrs[attr] = datetime.strptime(
+                xarray_obj.attrs[attr], "%c"
+            )
         if attr == "None":
             xarray_obj.attrs[attr] = None
         if attr == "True":

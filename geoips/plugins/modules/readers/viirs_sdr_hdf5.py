@@ -108,7 +108,9 @@ def bowtie_correction(band, lat, lon):
         if np.any(dist[i] == 0):
             # weight the zero to a small value
             weight = np.where(dist[i] == 0, 1e-6, dist[i])
-            res_band[xi, yi] = np.average(good_rad[idx[i]], weights=1 / weight)
+            res_band[xi, yi] = np.average(
+                good_rad[idx[i]], weights=1 / weight
+            )
             continue
 
         res_band[xi, yi] = np.average(good_rad[idx[i]], weights=1 / dist[i])
@@ -116,7 +118,13 @@ def bowtie_correction(band, lat, lon):
     return res_band, ord_lat.astype(np.float64), sort_lon.astype(np.float64)
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read VIIRS SDR hdf5 data products.
 
     Parameters
@@ -212,7 +220,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             lon = tmp_scn[d].area.lons.to_masked_array().data
 
             # bowtie correction
-            band_data, band_lat, band_lon = bowtie_correction(tmp_ma, lat, lon)
+            band_data, band_lat, band_lon = bowtie_correction(
+                tmp_ma, lat, lon
+            )
 
             tmp_dask |= {full_key: (("dim_0", "dim_1"), band_data)}
 
@@ -228,9 +238,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # print("Setting cal vals")
         # sample time to the proper shape (N*48), while lat/lon are ()
         time_range = date_range(
-            start=scn_start, end=scn_end, periods=tmp_coor["latitude"][1].shape[0]
+            start=scn_start,
+            end=scn_end,
+            periods=tmp_coor["latitude"][1].shape[0],
         ).values
-        interp_time = np.tile(time_range, (tmp_coor["latitude"][1].shape[1], 1)).T
+        interp_time = np.tile(
+            time_range, (tmp_coor["latitude"][1].shape[1], 1)
+        ).T
         tmp_coor["time"] = (("dim_0", "dim_1"), interp_time)
         # # print(tmp_coor["latitude"][1].shape)
         # raise
@@ -256,7 +270,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         tmp_scn.load(cal_params)
         tmp_cal_params = {
-            i.removeprefix("dnb_"): (("dim_0", "dim_1"), tmp_scn[i].to_masked_array())
+            i.removeprefix("dnb_"): (
+                ("dim_0", "dim_1"),
+                tmp_scn[i].to_masked_array(),
+            )
             for i in cal_params
         }
 
@@ -268,9 +285,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 # this results in the wrong value..
                 # np.arccos((tmp_scn["dnb_moon_illumination_fraction"].data/50)-1)
 
-                dnb_geofile = [i for i in fnames if "GDNBO" in os.path.basename(i)][0]
+                dnb_geofile = [
+                    i for i in fnames if "GDNBO" in os.path.basename(i)
+                ][0]
                 h5_dnb = h5py.File(dnb_geofile)
-                phase_ang = h5_dnb["All_Data/VIIRS-DNB-GEO_All/MoonPhaseAngle"][...]
+                phase_ang = h5_dnb[
+                    "All_Data/VIIRS-DNB-GEO_All/MoonPhaseAngle"
+                ][...]
 
                 lunarref_data = lunarref(
                     tmp_dask["DNBRad"][1],
@@ -280,10 +301,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     scn_start.strftime("%M"),
                     phase_ang,
                 )
-                lunarref_data = np.ma.masked_less_equal(lunarref_data, -999, copy=False)
+                lunarref_data = np.ma.masked_less_equal(
+                    lunarref_data, -999, copy=False
+                )
                 tmp_dask |= {"DNBRef": (("dim_0", "dim_1"), lunarref_data)}
             except ImportError:
-                LOG.info("Failed lunarref in viirs reader.  If you need it, build it")
+                LOG.info(
+                    "Failed lunarref in viirs reader.  If you need it, build it"
+                )
 
         # problem with sat_za/az values being too high, need to downsample
         # print("Building xarray")

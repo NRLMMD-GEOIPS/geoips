@@ -14,7 +14,7 @@ import numpy as np
 from scipy.ndimage import zoom
 import xarray
 
-#GeoIPS-Based imports 
+# GeoIPS-Based imports
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -223,7 +223,9 @@ def _get_file_metadata(df):
             else:
                 metadata[name] = getattr(df, metadata_dict[name])
         except AttributeError:
-            LOG.info("Warning! File-level metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! File-level metadata field missing: {0}".format(name)
+            )
     return metadata
 
 
@@ -270,7 +272,11 @@ def _get_variable_metadata(df):
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except KeyError:
-            LOG.info("Warning! Variable-level metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! Variable-level metadata field missing: {0}".format(
+                    name
+                )
+            )
     metadata["num_lines"] = metadata["y"].size
     metadata["num_samples"] = metadata["x"].size
     return metadata
@@ -296,7 +302,11 @@ def _get_lat_lon_extent_metadata(df):
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except AttributeError:
-            LOG.info("Warning! Lat lon extent metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! Lat lon extent metadata field missing: {0}".format(
+                    name
+                )
+            )
     return metadata
 
 
@@ -318,7 +328,11 @@ def _get_imager_projection(df):
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except AttributeError:
-            LOG.info("Warning! Lat lon extent metadata field missing: {0}".format(name))
+            LOG.info(
+                "Warning! Lat lon extent metadata field missing: {0}".format(
+                    name
+                )
+            )
     metadata["grid_mapping"] = getattr(gip, "grid_mapping_name")
     return metadata
 
@@ -364,7 +378,11 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
     # files, which can be problematic for large numbers of sectors
     fname = get_geolocation_cache_filename("GEOLL", metadata)
     if not os.path.isfile(fname):
-        if sect is not None and DONT_AUTOGEN_GEOLOCATION and "tc2019" not in sect.name:
+        if (
+            sect is not None
+            and DONT_AUTOGEN_GEOLOCATION
+            and "tc2019" not in sect.name
+        ):
             msg = (
                 f"GETGEO Requested NO AUTOGEN GEOLOCATION. "
                 f"Could not create latlonfile for ad {metadata['scene']}: {fname}"
@@ -427,9 +445,13 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         ne.evaluate("cos(y)", out=cosy)  # NOQA
         ne.evaluate("sin(x)", out=sinx)  # NOQA
         ne.evaluate("sin(y)", out=siny)  # NOQA
-        ne.evaluate("sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)", out=a)  # NOQA
+        ne.evaluate(
+            "sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)", out=a
+        )  # NOQA
         ne.evaluate("-2 * H * cosx * cosy", out=b)  # NOQA
-        ne.evaluate("(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)", out=rs)  # NOQA
+        ne.evaluate(
+            "(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)", out=rs
+        )  # NOQA
         good_mask = np.isfinite(rs)
 
         ne.evaluate("rs * cosx * cosy", out=sx)  # NOQA
@@ -437,9 +459,13 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         ne.evaluate("rs * sinx", out=sy)  # NOQA
 
         LOG.info("Calculating Latitudes")
-        ne.evaluate("r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))", out=lats)
+        ne.evaluate(
+            "r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))", out=lats
+        )
         LOG.info("Calculating Longitudes")
-        lons = ne.evaluate("r2d * (lambda0 + arctan(sy / (H - sx)))", out=lons)
+        lons = ne.evaluate(
+            "r2d * (lambda0 + arctan(sy / (H - sx)))", out=lons
+        )
         lats[~good_mask] = BADVALS["Off_Of_Disk"]
         lons[~good_mask] = BADVALS["Off_Of_Disk"]
         LOG.info("Done calculating latitudes and longitudes")
@@ -461,13 +487,17 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
     # We are mapping this here so that the lats and lons are available when
     # calculating satlelite angles
     LOG.info(
-        "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
+        "GETGEO memmap to {} : lat/lon file for {}".format(
+            fname, metadata["scene"]
+        )
     )
 
     shape = (metadata["num_lines"], metadata["num_samples"])
     offset = 8 * metadata["num_samples"] * metadata["num_lines"]
     lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
-    lons = np.memmap(fname, mode="r", dtype=np.float64, offset=offset, shape=shape)
+    lons = np.memmap(
+        fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+    )
     # Possible switch to xarray based geolocation files, but we lose memmapping
     # saved_xarray = xarray.load_dataset(fname)
     # lons = saved_xarray['longitude'].to_masked_array()
@@ -486,7 +516,9 @@ def _get_geolocation_metadata(metadata):
     """
     geomet = {}
     # G16 -> goes-16
-    geomet["platform_name"] = metadata["file_info"]["platform_ID"].replace("G", "goes-")
+    geomet["platform_name"] = metadata["file_info"]["platform_ID"].replace(
+        "G", "goes-"
+    )
     geomet["Re"] = metadata["projection"]["semi_major_axis"]
     geomet["Rp"] = metadata["projection"]["semi_minor_axis"]
     geomet["invf"] = metadata["projection"]["inverse_flattening"]
@@ -508,7 +540,13 @@ def _get_geolocation_metadata(metadata):
     return geomet
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """
     Read ABI NetCDF data from a list of filenames.
 
@@ -547,7 +585,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     standard_metadata = {}
     adname = "undefined"
     if area_def and self_register:
-        raise ValueError("area_def and self_register are mutually exclusive keywords")
+        raise ValueError(
+            "area_def and self_register are mutually exclusive keywords"
+        )
     elif area_def:
         adname = area_def.area_id
 
@@ -574,11 +614,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", fname, chans
+                    "SKIPPING file %s, not needed from channel list %s",
+                    fname,
+                    chans,
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), "r"), fname)
+            all_metadata[fname] = _get_metadata(
+                ncdf.Dataset(str(fname), "r"), fname
+            )
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             continue
@@ -609,7 +653,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     res_md = {}
     for res in ["LOW", "MED", "HIGH"]:
         # Find a file for this resolution: Any one will do
-        res_chans = list(set(DATASET_INFO[res]).intersection(file_info.keys()))
+        res_chans = list(
+            set(DATASET_INFO[res]).intersection(file_info.keys())
+        )
         if res_chans:
             res_md[res] = file_info[res_chans[0]]
 
@@ -633,9 +679,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_obj.attrs["data_provider"] = "noaa"
 
     # G16 -> goes-16
-    xarray_obj.attrs["platform_name"] = highest_md["file_info"]["platform_ID"].replace(
-        "G", "goes-"
-    )
+    xarray_obj.attrs["platform_name"] = highest_md["file_info"][
+        "platform_ID"
+    ].replace("G", "goes-")
     xarray_obj.attrs["area_definition"] = area_def
 
     # Get appropriate sector name
@@ -648,7 +694,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 f"Unrecognized resolution name requested for self "
                 f"registration: {self_register}"
             )
-        scene_id = highest_md["file_info"]["dataset_name"].split("_")[1].split("-")[2]
+        scene_id = (
+            highest_md["file_info"]["dataset_name"]
+            .split("_")[1]
+            .split("-")[2]
+        )
         if scene_id == "RadF":
             xarray_obj.attrs["area_id"] = "Full-Disk"
         elif scene_id == "RadM1":
@@ -677,7 +727,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if chan in ALL_GEO_VARS:
                 continue
             if chan not in all_chans_list:
-                raise ValueError("Requested channel {0} not recognized.".format(chan))
+                raise ValueError(
+                    "Requested channel {0} not recognized.".format(chan)
+                )
             if chan[0:3] not in file_info.keys():
                 continue
                 # raise ValueError(
@@ -712,12 +764,19 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             )
         )
         # Get just the metadata we need
-        standard_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
+        standard_metadata[adname] = _get_geolocation_metadata(
+            res_md[self_register]
+        )
         fldk_lats, fldk_lons = get_latitude_longitude(
             standard_metadata[adname], BADVALS, area_def
         )
         gvars[adname] = get_geolocation(
-            sdt, standard_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+            sdt,
+            standard_metadata[adname],
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
         )
         if not gvars[adname]:
             LOG.error(
@@ -733,12 +792,19 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 continue
             try:
                 # Get just the metadata we need
-                standard_metadata[res] = _get_geolocation_metadata(res_md[res])
+                standard_metadata[res] = _get_geolocation_metadata(
+                    res_md[res]
+                )
                 fldk_lats, fldk_lons = get_latitude_longitude(
                     standard_metadata[res], BADVALS, area_def
                 )
                 gvars[res] = get_geolocation(
-                    sdt, standard_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
+                    sdt,
+                    standard_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
                 )
             except ValueError as resp:
                 LOG.error(
@@ -774,7 +840,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if chan in res_chans:
                 break
         if (not self_register) and (
-            res not in gvars.keys() or not gvars[res] or "latitude" not in gvars[res]
+            res not in gvars.keys()
+            or not gvars[res]
+            or "latitude" not in gvars[res]
         ):
             LOG.info(
                 f"We don't have geolocation information for {res} for {adname} "
@@ -869,7 +937,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 75,
+                    gvars[res][varname],
                 )
         except KeyError:
             pass
@@ -887,9 +956,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
 
         roi = 500
-        if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
+        if (
+            hasattr(xobj, "area_definition")
+            and xobj.area_definition is not None
+        ):
             roi = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                xobj.area_definition.pixel_size_x,
+                xobj.area_definition.pixel_size_y,
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in standard_metadata.keys():
@@ -945,13 +1018,17 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
     # Have to read ALL of the data, then subset.
     # Need to find a solution for this.
     if not full_disk:
-        rad_data = np.float64(df.variables["Rad"][...][line_inds, sample_inds])
+        rad_data = np.float64(
+            df.variables["Rad"][...][line_inds, sample_inds]
+        )
         qf = df.variables["DQF"][...][line_inds, sample_inds]
     else:
         # Here we need to determine which indexes to read based on the size of the
         # input geolocation data.  We assume that the geolocation data and the variable
         # data cover the same domain, just at a different resolution.
-        geoloc_shape = np.array(gvars["solar_zenith_angle"].shape, dtype=np.float64)
+        geoloc_shape = np.array(
+            gvars["solar_zenith_angle"].shape, dtype=np.float64
+        )
         data_shape = np.array(df.variables["Rad"].shape, dtype=np.float64)
         # If the geolocation shape matches the data shape, just read the data
         if np.all(geoloc_shape == data_shape):
@@ -1007,7 +1084,9 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
             rad_data = np.float64(
                 df.variables["Rad"][...][:: zoom_factor[0], :: zoom_factor[0]]
             )
-            qf = df.variables["DQF"][...][:: zoom_factor[0], :: zoom_factor[0]]
+            qf = df.variables["DQF"][...][
+                :: zoom_factor[0], :: zoom_factor[0]
+            ]
             # rad_data = np.float64(
             #     df.variables['Rad'][::zoom_factor[0], ::zoom_factor[0]]
             # )
@@ -1038,7 +1117,9 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
     if ref:
         if band_num not in range(1, 7):
             raise ValueError(
-                "Unable to calculate reflectances for band #{0}".format(band_num)
+                "Unable to calculate reflectances for band #{0}".format(
+                    band_num
+                )
             )
 
         # Get the radiance data

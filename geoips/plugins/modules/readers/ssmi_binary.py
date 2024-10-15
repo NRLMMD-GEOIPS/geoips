@@ -81,7 +81,13 @@ name = "ssmi_binary"
 # variables are needed in this for moving through the binary file correctly.
 
 
-def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=False,
+    area_def=None,
+    self_register=False,
+):
     """Read SSMI FNMOC Binary Data.
 
     Parameters
@@ -129,10 +135,16 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "def":
-        LOG.info("Warning: wrong SSMI SDR data type:  data_type={0}".format(data_name))
+        LOG.info(
+            "Warning: wrong SSMI SDR data type:  data_type={0}".format(
+                data_name
+            )
+        )
         raise
 
-    if "cfnoc" in os.path.basename(fname) and "sdrmi" in os.path.basename(fname):
+    if "cfnoc" in os.path.basename(fname) and "sdrmi" in os.path.basename(
+        fname
+    ):
         LOG.info("found a SSMI SDR file")
     else:
         LOG.info("not a SSMI SDR file: skip it")
@@ -174,7 +186,10 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         return 256 * buf[p] + buf[p + 1]
 
     def V4(p):
-        return 256 * (256 * (256 * buf[p] + buf[p + 1]) + buf[p + 2]) + buf[p + 3]
+        return (
+            256 * (256 * (256 * buf[p] + buf[p + 1]) + buf[p + 2])
+            + buf[p + 3]
+        )
 
     def VLat(p):
         return V2(p) - 9000
@@ -370,7 +385,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
             )  # read in block length from  two-byte words
             if list(buf) == [0, 0] and len(buf) > 0:
                 continue
-            elif list(buf)[0] != 165:  # not a FILLER, so get the length of this block
+            elif (
+                list(buf)[0] != 165
+            ):  # not a FILLER, so get the length of this block
                 length = V2(0) * 2
             if length != 0:  # find good block with length-bytes data
                 break
@@ -380,7 +397,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         buf0 = np.frombuffer(
             f1.read(length2), dtype="uint8"
         )  # read length2 bytes of this block
-        buf = np.append([0, 0], buf0)  # shift two bytes so buf will have "length" bytes
+        buf = np.append(
+            [0, 0], buf0
+        )  # shift two bytes so buf will have "length" bytes
 
         if length == BAD_LEN:
             LOG.info("fatal error:  Ban_length")
@@ -388,7 +407,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         elif length == EOF_LEN or length == 0:
             break
         elif length != blocks["ScanHdr"]:
-            LOG.info("block length= {0} {1}".format(blocks["ScanHdr"], length))
+            LOG.info(
+                "block length= {0} {1}".format(blocks["ScanHdr"], length)
+            )
             continue  # unexpected block length, go to next block
 
         # extraction of parameters from scan header block
@@ -423,7 +444,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
             )  # read in block length from  two-byte words
             if list(buf) == [0, 0] and len(buf) > 0:
                 continue
-            elif list(buf)[0] != 165:  # not a FILLER, so get the length of this block
+            elif (
+                list(buf)[0] != 165
+            ):  # not a FILLER, so get the length of this block
                 length = V2(0) * 2
             if length != 0:  # find good block with length-bytes data
                 break
@@ -433,7 +456,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         buf0 = np.frombuffer(
             f1.read(length2), dtype="uint8"
         )  # read length2 bytes of this block
-        buf = np.append([0, 0], buf0)  # shift two bytes so buf will have "length" bytes
+        buf = np.append(
+            [0, 0], buf0
+        )  # shift two bytes so buf will have "length" bytes
 
         if length == BAD_LEN:
             raise  # fatal error stop
@@ -469,7 +494,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     V22 = np.zeros((scan_read, 64))
     V37 = np.zeros((scan_read, 64))
     H37 = np.zeros((scan_read, 64))
-    time_scan_lo = np.zeros((scan_read, 64))  # same for every pixel of this scan
+    time_scan_lo = np.zeros(
+        (scan_read, 64)
+    )  # same for every pixel of this scan
 
     lat_hia = np.zeros((scan_read, 128))  # A scan HIRES channels: lat
     lon_hia = np.zeros((scan_read, 128))  # -                      lon
@@ -485,7 +512,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     V85 = np.zeros((scan_read * 2, 128))
     H85 = np.zeros((scan_read * 2, 128))
     sfcType = np.zeros((scan_read * 2, 128))
-    time_scan = np.zeros((scan_read * 2, 128))  # same for every pixel of this scan
+    time_scan = np.zeros(
+        (scan_read * 2, 128)
+    )  # same for every pixel of this scan
 
     # assignment of data for variables
 
@@ -573,7 +602,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_lores["V37"] = xr.DataArray(V37)
     xarray_lores["H37"] = xr.DataArray(H37)
     xarray_lores["time"] = xr.DataArray(
-        pd.DataFrame(time_scan_lo).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_scan_lo)
+        .astype(int)
+        .apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # for combined 85GHz A-B channels
@@ -584,7 +615,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_85ab["H85"] = xr.DataArray(H85)
     xarray_85ab["sfcType"] = xr.DataArray(sfcType)
     xarray_85ab["time"] = xr.DataArray(
-        pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_scan)
+        .astype(int)
+        .apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # setup attributes
@@ -599,8 +632,12 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     end_time = "%04d%03d%02d%02d" % (fcyr, ejld, ehr, emin)
 
     # for LORES
-    xarray_lores.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_lores.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_lores.attrs["start_datetime"] = datetime.strptime(
+        start_time, "%Y%j%H%M"
+    )
+    xarray_lores.attrs["end_datetime"] = datetime.strptime(
+        end_time, "%Y%j%H%M"
+    )
     xarray_lores.attrs["source_name"] = "ssmi"
     xarray_lores.attrs["platform_name"] = satid
     xarray_lores.attrs["data_provider"] = "DMSP"
@@ -612,8 +649,12 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_lores.attrs["interpolation_radius_of_influence"] = 50000
 
     # for 85GHz A-B combined
-    xarray_85ab.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_85ab.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_85ab.attrs["start_datetime"] = datetime.strptime(
+        start_time, "%Y%j%H%M"
+    )
+    xarray_85ab.attrs["end_datetime"] = datetime.strptime(
+        end_time, "%Y%j%H%M"
+    )
     xarray_85ab.attrs["source_file_datetimes"] = [xarray_85ab.start_datetime]
     xarray_85ab.attrs["source_name"] = "ssmi"
     xarray_85ab.attrs["platform_name"] = satid
@@ -630,4 +671,8 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     LOG.info("  Min lat %s", lat_ab.min())
     LOG.info("  Max lat %s", lat_ab.max())
 
-    return {"HIRES": xarray_85ab, "LORES": xarray_lores, "METADATA": xarray_85ab[[]]}
+    return {
+        "HIRES": xarray_85ab,
+        "LORES": xarray_lores,
+        "METADATA": xarray_85ab[[]],
+    }

@@ -34,7 +34,16 @@ varnames = {
     "Brightness_Temperature_89_GHz_BH": "tb89hB",
     "Brightness_Temperature_89_GHz_BV": "tb89hB",
 }
-land_num = {"6": 0, "7": 1, "10": 2, "18": 3, "23": 4, "36": 5, "89A": 0, "89B": 1}
+land_num = {
+    "6": 0,
+    "7": 1,
+    "10": 2,
+    "18": 3,
+    "23": 4,
+    "36": 5,
+    "89A": 0,
+    "89B": 1,
+}
 land_var = {
     "6": "Land_Ocean_Flag_6_to_36",
     "7": "Land_Ocean_Flag_6_to_36",
@@ -88,7 +97,10 @@ def read_amsr_winds(wind_xarray):
     # https://www.ospo.noaa.gov/Products/atmosphere/gpds/about_amsr2.html
     # OCEAN Winds based on 37GHz, which is 7km x 12km ground resolution
     wind_xarray.attrs["sample_distance_km"] = 7.0
-    if "creator_name" in wind_xarray.attrs and "NOAA" in wind_xarray.creator_name:
+    if (
+        "creator_name" in wind_xarray.attrs
+        and "NOAA" in wind_xarray.creator_name
+    ):
         wind_xarray.attrs["data_provider"] = "star"
 
     # Set lat/lons appropriately
@@ -113,7 +125,9 @@ def read_amsr_winds(wind_xarray):
 
     wind_xarray["wind_speed_kts"].attrs = wind_xarray["WSPD"].attrs
     wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
-    wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed_kts"].assign_coords(
+    wind_xarray["wind_speed_kts"] = wind_xarray[
+        "wind_speed_kts"
+    ].assign_coords(
         latitude=wind_xarray.latitude, longitude=wind_xarray.longitude
     )
 
@@ -134,7 +148,9 @@ def read_amsr_winds(wind_xarray):
         dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
     ).tolist()
     LOG.info("Setting list of times")
-    tss = [time_array for ii in range(0, wind_xarray["wind_speed_kts"].shape[1])]
+    tss = [
+        time_array for ii in range(0, wind_xarray["wind_speed_kts"].shape[1])
+    ]
     LOG.info("Setting time DataArray")
     wind_xarray["time"] = xarray.DataArray(
         data=numpy.array(tss).transpose(),
@@ -192,7 +208,9 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
 
     # See dictionaries above for appropriate land mask array locations for each variable
     full_xarray["LandMask"] = xarray.DataArray(
-        full_xarray[land_var[chanstr]].to_masked_array()[land_num[chanstr], :, :],
+        full_xarray[land_var[chanstr]].to_masked_array()[
+            land_num[chanstr], :, :
+        ],
         coords=full_xarray[varname].coords,
     )
 
@@ -200,7 +218,10 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
 
         # Set time appropriately
         dtstrs = []
-        LOG.info("Reading scan_times, for dims %s", sub_xarray[varnames[varname]].dims)
+        LOG.info(
+            "Reading scan_times, for dims %s",
+            sub_xarray[varnames[varname]].dims,
+        )
         for scan_time in full_xarray["Scan_Time"]:
             dtstrs += [
                 "{0:04.0f}{1:02.0f}{2:02.0f}T{3:02.0f}{4:02.0f}{5:02.0f}".format(
@@ -215,7 +236,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         ).tolist()
         LOG.info("    Setting list of times")
         tss = [
-            curr_time_array for ii in range(0, sub_xarray[varnames[varname]].shape[1])
+            curr_time_array
+            for ii in range(0, sub_xarray[varnames[varname]].shape[1])
         ]
         LOG.info("    Setting time DataArray")
         sub_xarray["time"] = xarray.DataArray(
@@ -226,7 +248,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
-            "Using existing scan_times, for dims %s", sub_xarray[varnames[varname]].dims
+            "Using existing scan_times, for dims %s",
+            sub_xarray[varnames[varname]].dims,
         )
         sub_xarray["time"] = time_array
     from geoips.xarray_utils.time import (
@@ -234,8 +257,12 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         get_max_from_xarray_time,
     )
 
-    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(sub_xarray, "time")
-    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(sub_xarray, "time")
+    sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(
+        sub_xarray, "time"
+    )
+    sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(
+        sub_xarray, "time"
+    )
     return sub_xarray
 
 
@@ -254,7 +281,9 @@ def read_amsr_data(full_xarray, chans):
     # Every single channel has a different set of Lat/Lons!
     for varname in full_xarray.variables:
         if chans is not None and varname not in chans:
-            LOG.info("SKIPPING: Variable %s not requested in %s", varname, chans)
+            LOG.info(
+                "SKIPPING: Variable %s not requested in %s", varname, chans
+            )
         if "Brightness" in varname:
             usetime = None
             for xra in list(xarrays.values()):
@@ -320,7 +349,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    
 
     LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
@@ -334,7 +362,10 @@ def call(
         full_xarray.attrs["source_name"] = "amsr2"
         full_xarray.attrs["platform_name"] = "gcom-w1"
         full_xarray.attrs["interpolation_radius_of_influence"] = 10000
-        if "creator_name" in full_xarray.attrs and "NOAA" in full_xarray.creator_name:
+        if (
+            "creator_name" in full_xarray.attrs
+            and "NOAA" in full_xarray.creator_name
+        ):
             full_xarray.attrs["data_provider"] = "star"
         full_xarray.attrs["minimum_coverage"] = 20
         LOG.info("Read data from %s", fname)
@@ -342,15 +373,22 @@ def call(
             from datetime import datetime
 
             full_xarray.attrs["start_datetime"] = datetime.strptime(
-                full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S"
+                full_xarray.attrs["time_coverage_start"][0:19],
+                "%Y-%m-%dT%H:%M:%S",
             )
             full_xarray.attrs["end_datetime"] = datetime.strptime(
-                full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S"
+                full_xarray.attrs["time_coverage_end"][0:19],
+                "%Y-%m-%dT%H:%M:%S",
             )
-            LOG.info("metadata_only requested, returning without readind data")
+            LOG.info(
+                "metadata_only requested, returning without readind data"
+            )
             return {"METADATA": full_xarray}
 
-        if hasattr(full_xarray, "title") and "AMSR2_OCEAN" in full_xarray.title:
+        if (
+            hasattr(full_xarray, "title")
+            and "AMSR2_OCEAN" in full_xarray.title
+        ):
             xarrays = read_amsr_winds(full_xarray)
 
         elif hasattr(full_xarray, "title") and "MBT" in full_xarray.title:
@@ -394,4 +432,6 @@ def get_test_files(test_data_dir):
 
 def get_test_parameters():
     """Generate a data key for unit testing."""
-    return [{"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}]
+    return [
+        {"data_key": "Brightness_Temperature_10_GHzH", "data_var": "tb10h"}
+    ]
