@@ -84,7 +84,7 @@ mypy-extensions==1.0.0
 netCDF4==1.6.5
 networkx==3.3
 numcodecs==0.12.1
-numexpr==2.8.4
+numexpr==2.8.5
 numpy==1.26.4
 packaging==24.0
 pandas==2.2.2
