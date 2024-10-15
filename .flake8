@@ -1,0 +1,12 @@
+[flake8]
+max-line-length=88
+count=True
+ignore=E203,W503,E712
+extend-exclude=_version.py,lib,*_docs,geoips_dev_utils
+docstring-convention=numpy
+rst-roles=class,func,ref
+rst-directives=envvar,exception
+rst-substitutions=version
+statistics=True
+per-file-ignores =
+  /*/interfaces/__init__.py:F401
