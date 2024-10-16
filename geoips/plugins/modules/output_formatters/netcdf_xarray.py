@@ -12,7 +12,7 @@ family = "xarray_data"
 name = "netcdf_xarray"
 
 
-def call(xarray_obj, product_names, output_fnames, clobber=False):
+def call(xarray_obj, product_names, output_fnames):
     """Write xarray-based NetCDF outputs to disk."""
     for ncdf_fname in output_fnames:
         write_xarray_netcdf(xarray_obj, ncdf_fname)

@@ -92,12 +92,6 @@ else:
         PATHS["GEOIPS_OUTDIRS"], "preprocessed", "algorithms"
     )
 
-PATHS["OUTPUT_CHECKER_THRESHOLD_IMAGE"] = 0.05
-if getenv("OUTPUT_CHECKER_THRESHOLD_IMAGE"):
-    PATHS["OUTPUT_CHECKER_THRESHOLD_IMAGE"] = float(
-        getenv("OUTPUT_CHECKER_THRESHOLD_IMAGE").rstrip("/")
-    )
-
 # Location for writing out pregenerated "clean" imagery files
 if getenv("CLEAN_IMAGERY_PATH"):
     PATHS["CLEAN_IMAGERY_PATH"] = getenv("CLEAN_IMAGERY_PATH").rstrip("/")

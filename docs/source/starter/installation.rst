@@ -127,7 +127,6 @@ and run integration tests:
 
     # Ensure geoips python environment enabled
 
-    # Install base GeoIPS package and minimal test datasets.
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
 
     # Create the GeoIPS plugin registries

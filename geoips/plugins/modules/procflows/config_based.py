@@ -756,23 +756,6 @@ def get_area_defs_from_available_sectors(
         if sector_dict.get("trackfiles"):
             sector_dict["tcdb"] = False
 
-        # Check if sector_list specified under YAML output config file is a list or a
-        # dictionary. If sector_list is a list, static sectors are enabled for all
-        # platforms that use the output config YAML. If sector_list is a dictionary,
-        # each key is a platform name that holds a list of static sectors to be
-        # processed for said platform. If sector_list is a dictionary, and the platform
-        # name is not a key, warning is raised and sector_list is set as an empty list.
-        if sector_dict.get("sector_list") and isinstance(
-            sector_dict.get("sector_list"), dict
-        ):
-            try:
-                sector_dict["sector_list"] = sector_dict["sector_list"][
-                    xobjs["METADATA"].platform_name
-                ]
-            except KeyError as resp:
-                LOG.warning("%s MISSING PLATFORM NAME", resp)
-                sector_dict["sector_list"] = []
-
         # This is the standard "get_area_defs_from_command_line_args", YAML config
         # specified sector information matches the command line specified sector
         # information

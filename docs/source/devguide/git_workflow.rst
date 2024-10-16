@@ -57,7 +57,7 @@ FROM WEB: MEMBERS: Create Branch from Existing Issue
 ====================================================
 
 **NOTE: Those who are NOT members of the GeoIPS organization will fork,**
-**not branch. If you are unable to branch, skip to NON MEMBERS section**
+**not branch. Skip to NON MEMBERS section**
 
 * Navigate to Issue you would like to resolve
 * Click on Development->Create Branch
@@ -68,15 +68,15 @@ FROM WEB: MEMBERS: Create Branch from Existing Issue
 
     * NOTE you can create branches on repositories outside the repository
       the Issue resides in
-  * **Change branch source** optional (defaults to default branch)
+  * **Change branch source** optional (defaults to "main")
   * Select **"Checkout locally"**
   * Click **"Create branch"**
   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
 FROM WEB: NON-MEMBERS: Create fork of repo
 ==========================================
-* **NOTE: GeoIPS organization members will branch following steps above,
-  **skip this section if you are a member and are able to branch**
+* **NOTE: NRLMMD-GEOIPS members will branch following steps above,
+  **skip this section if you are a member**
 * Navigate to desired repository
 * Click drop down next to "Fork"
 * Click "+ Create a new fork"
@@ -88,22 +88,22 @@ FROM WEB: NON-MEMBERS: Create fork of repo
 GeoIPS command line workflow
 ****************************
 
-FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual
-===================================================================
+FROM COMMAND LINE: Switch to new branch, Make changes as usual
+==============================================================
 
 * Navigate to repository of your choice
 
   * Issue only needs to be created on a single repository
-  * You can create branches/forks and make changes on any number of
-    repos, as appropriate.
+  * You can create branches and make changes on any number of repos,
+    as appropriate.
   * Related changes on different repositories will all be linked to
     the same Issue.
 
-* Switch to new branch/fork, and make changes as appropriate
+* Switch to new branch, and make changes as appropriate
 
   * *Ensure you copy and paste git fetch and git checkout commands*
-    *when creating branch/fork above*
-  * Switch to new branch/fork: Paste git fetch / git checkout commands
+    *when creating branch above*
+  * Switch to new branch: Paste git fetch / git checkout commands
     specified when creating branch from Issue
 
     * git fetch origin
@@ -113,8 +113,8 @@ FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual
 
 * Use enforced commit message format for all commits
 
-  * Please follow `Commit Message Template
-    <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md>`_
+  * Please follow
+    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md>`_
   * Summary line <= 120 characters
   * Blank line (if commit message is more than one line)
   * OPTIONAL: additional details
@@ -124,8 +124,7 @@ FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual
 
   * Before pushing your final changes to GitHub and creating a pull request,
     you MUST update the release notes with your current changes.
-  * Instructions found in `CHANGELOG.rst
-    <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG.rst>`_
+  * Instructions found in `CHANGELOG.rst <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG.rst>`_
   * If release notes are not updated properly, pull request will not be approved.
 
 * Create test scripts and associated outputs for any new functionality
@@ -148,8 +147,8 @@ Push changes to github
 GeoIPS GitHub Pull Request workflow
 ***********************************
 
-FROM WEB: Create pull request from new ticket branch to default branch
-======================================================================
+FROM WEB: Create pull request from new ticket branch to "dev" branch
+====================================================================
 
 Follow these instructions for each repo that requires changes for a given
 Issue.

@@ -39,7 +39,7 @@ export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
 export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
 export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
 
-# export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
+export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH
 
 ############################################################################

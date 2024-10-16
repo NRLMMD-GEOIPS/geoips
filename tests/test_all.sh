@@ -41,8 +41,6 @@ for call in \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh" \
-  "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/atms.tc.165H.netcdf_geoips.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/cli_dummy_script.sh" \
   "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/ewsg.static.Infrared.imagery_clean.sh" \

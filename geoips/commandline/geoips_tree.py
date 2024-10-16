@@ -1,6 +1,3 @@
-# # # This source code is protected under the license referenced at
-# # # https://github.com/NRLMMD-GEOIPS.
-
 """GeoIPS CLI "tree" command.
 
 Single 'geoips tree' command which will display GeoIPS CLI commands up to a --max-depth

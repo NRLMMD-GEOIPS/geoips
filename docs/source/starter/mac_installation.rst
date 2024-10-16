@@ -155,4 +155,3 @@ look something like below, indicating that none of the tests failed:
     Total run time: 82 seconds
     Number data types run: 3
     Number data types failed: 0
-

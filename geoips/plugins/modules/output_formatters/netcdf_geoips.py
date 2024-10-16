@@ -11,7 +11,7 @@ family = "xarray_data"
 name = "netcdf_geoips"
 
 
-def call(xarray_obj, product_names, output_fnames, clobber=False):
+def call(xarray_obj, product_names, output_fnames):
     """Write GeoIPS style NetCDF to disk."""
     import xarray
 
@@ -28,5 +28,5 @@ def call(xarray_obj, product_names, output_fnames, clobber=False):
     )
 
     for ncdf_fname in output_fnames:
-        write_xarray_netcdf(prod_xarray, ncdf_fname, clobber=clobber)
+        write_xarray_netcdf(prod_xarray, ncdf_fname)
     return output_fnames

@@ -1012,7 +1012,7 @@ class OutputCheckersInterface(BaseModuleInterface):
         return checker_name
 
     def get_plugin(self, name):
-        """Get the output checker plugin corresponding to checker_name."""
+        """Return the output checker plugin corresponding to checker_name."""
         plug = super().get_plugin(name)
         if self.valid_plugin(plug):
             return plug
