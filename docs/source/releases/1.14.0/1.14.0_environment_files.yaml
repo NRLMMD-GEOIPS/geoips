@@ -1,0 +1,25 @@
+Release Process:
+  - title: "Add pip and mamba 1.14.0 environment files"
+    description: |
+      *From GEOIPS#562: 2024-09-17, 1.14.0 updates*
+
+      Package: geoips_full
+      Total run time: 2558 seconds
+      Number data types run: 56
+      Number data types failed: 0
+      Mon Sep 16 22:06:05 UTC 2024
+
+      Package: geoips_base
+      Total run time: 156 seconds
+      Number data types run: 3
+      Number data types failed: 0
+      Tue Sep 17 01:45:03 UTC 2024
+    files:
+      added:
+        - environments/mamba_base_package_list_1.14.0_20240915.yml
+        - environments/mamba_full_package_list_1.14.0_20240916.yml
+        - environments/pip_base_requirements_1.14.0_20240915.txt
+        - environments/pip_full_requirements_1.14.0_20240916.txt
+    related-issue:
+      number: 562
+      repo_url: "GEOIPS/geoips"

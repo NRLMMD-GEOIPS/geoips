@@ -110,6 +110,9 @@ def initialize_paths():
         "DEFAULT_QUEUE": os.getenv("DEFAULT_QUEUE", None),
         # Computer Identifier
         "BOXNAME": socket.gethostname(),
+        "OUTPUT_CHECKER_THRESHOLD_IMAGE": float(
+            os.getenv("OUTPUT_CHECKER_THRESHOLD_IMAGE", 0.05)
+        ),
     }
 
     # these are the defaults for path based environment variables
@@ -157,7 +160,6 @@ def initialize_paths():
     # using "get_env_var" function to set the variables to the environment variable
     # specified option (when defined via the first argument)
     # else defaulting to the passed-in default (second argument)
-
     for key, value in geoips_global_variables.items():
         paths[key] = get_env_var(key, value)
 

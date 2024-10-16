@@ -50,6 +50,10 @@ if [[ "$1" == "geoips_full" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh openblas
 fi
 
+if [[ "$1" == "set_gitconfig" ]]; then
+    source $GEOIPS_PACKAGES_DIR/geoips/setup/bash_setup/gitconfigs
+fi
+
 if [[ "$1" == "run_command" ]]; then
     echo "Running $2 ... "
     `$2 >> $install_log 2>&1`
@@ -328,8 +332,11 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
     data_path="$test_data_dir/outputs/*"
     ls $data_path >> $install_log 2>&1
     retval_outputs=$?
+    data_path="$test_data_dir/*.tgz"
+    ls $data_path >> $install_log 2>&1
+    retval_tgz=$?
 
-    if [[ "$retval_data" != "0" && "$retval_docs" != "0" && "$retval_outputs" != "0" ]]; then
+    if [[ "$retval_data" != "0" && "$retval_docs" != "0" && "$retval_outputs" != "0" && "$retval_tgz" != "0" ]]; then
         if [[ "$exit_on_missing" == "true" ]]; then
             echo "FAILED: Missing $test_data_name_string"
             echo "        Please run install script, then rerun test script. "
@@ -360,6 +367,16 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
                     echo "SUCCESS: successfully switch to branch $switch_to_branch"
                 fi
             fi
+            if [[ -e $test_data_dir/uncompress_test_data.sh ]]; then
+                $test_data_dir/uncompress_test_data.sh >> $install_log 2>&1
+                retval=$?
+                if  [[ "$retval" == "0" ]]; then
+                    echo "SUCCESS: Decompressed ${test_data_name}"
+                else
+                    echo "FAILED: Failed to decompress ${test_data_name}. Try deleting and rerunning."
+                    exit 1
+                fi
+            fi
         else
             echo "DOWNLOADING: NextCloud Dataset $test_data_name"
             python3 $SCRIPT_DIR/download_test_data.py $test_data_name --output-dir $GEOIPS_TESTDATA_DIR
@@ -381,22 +398,11 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             fi
             retval=$?
             if  [[ "$retval" == "0" ]]; then
-                echo "SUCCESS: Decompressed ${test_data_name}"
+                echo "SUCCESS: Pulled ${test_data_name} from NexCloud ${test_data_url}"
             else
-                echo "FAILED: Failed to decompress ${test_data_name}"
+                echo "FAILED: Failed to pull ${test_data_name} from NexCloud ${test_data_url}"
                 echo "        try deleting and re-running"
                 exit 1
-            fi
-            # If this is a github repo, then check if current-branch exists
-            # and switch to it if so. Allow branch not existing.
-            if [[ "$switch_to_branch" != "" ]]; then
-                echo "git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1"
-                git -C $test_data_dir checkout $switch_to_branch >> $install_log 2>&1
-                if [[ "$?" != "0" ]]; then
-                    echo "Branch $switch_to_branch did not exist, staying on current branch"
-                else
-                    echo "SUCCESS: successfully switch to branch $switch_to_branch"
-                fi
             fi
         fi
     else
