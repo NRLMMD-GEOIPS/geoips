@@ -287,7 +287,8 @@ def replace_geoips_paths_in_list(
 
     Examples
     --------
-    >>> replace_geoips_paths_in_list(['/home/geoips/data/project', 'no_replacement_here'])
+    >>> replace_geoips_paths_in_list(['/home/geoips/data/project',
+    ... 'no_replacement_here'])
     ['$GEOIPS_DATA_DIR/project', 'no_replacement_here']
 
     See Also
@@ -361,8 +362,8 @@ def replace_geoips_paths(
         ``['$GEOIPS_OUTDIRS', '$GEOIPS_PACKAGES_DIR', '$GEOIPS_TESTDATA_DIR',
         '$GEOIPS_DEPENDENCIES_DIR', '$GEOIPS_BASEDIR']``
     base_paths : dict, optional
-        A dictionary mapping environment variable names to their corresponding base paths.
-        If `None`, defaults to `geoips.filenames.base_paths.PATH`.
+        A dictionary mapping environment variable names to their corresponding base
+        paths.  If `None`, defaults to `geoips.filenames.base_paths.PATH`.
     curly_braces : bool, default=False
         If `True`, includes curly braces in the environment variables
         (e.g., ``'${GEOIPS_BASEDIR}'``),
