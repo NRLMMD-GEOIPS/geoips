@@ -143,9 +143,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     f1 = open(fname, "rb")
 
     # READ HEARDER
-    sw_rev = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()[
-        0
-    ]  # NOQA
+    sw_rev = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()[0]  # NOQA
     endian, fileid = np.fromstring(
         f1.read(2), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
@@ -162,9 +160,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     proc_stat_flags = np.fromstring(  # NOQA
         f1.read(1), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
-    spare4 = np.fromstring(
-        f1.read(4), dtype=np.dtype("int32")
-    ).byteswap()  # NOQA
+    spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
     # Need to set up time to be read in by the metadata (year and jday are arrays)
     time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minu)  # NOQA
     nbytes = 28  # bytes that have been read in
@@ -205,9 +201,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         nbytes = 0
 
         # SCAN HEADER
-        syncword = np.fromstring(
-            f1.read(4), dtype=np.dtype("int32")
-        ).byteswap()  # NOQA
+        syncword = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
         scan_year = np.fromstring(
             f1.read(4), dtype=np.dtype("int32")
         ).byteswap()
@@ -217,9 +211,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         scan_hour, scan_minu = np.fromstring(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()
-        scan = np.fromstring(
-            f1.read(4), dtype=np.dtype("int32")
-        ).byteswap()  # NOQA
+        scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
         nscan_imager, nscan_enviro, nscan_las, nscan_uas = np.fromstring(
             f1.read(4), dtype=np.dtype("int8")
         ).byteswap()
@@ -247,9 +239,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         scenecounts_uas = np.fromstring(
             f1.read(4), dtype=np.dtype("uint8")
         ).byteswap()
-        spare = np.fromstring(
-            f1.read(20), dtype=np.dtype("int32")
-        ).byteswap()  # NOQA
+        spare = np.fromstring(f1.read(20), dtype=np.dtype("int32")).byteswap()  # NOQA
         nbytes += 360  # total bytes of the scan header
         # nscan0 = scan - 1  # number of scans
 
