@@ -100,14 +100,16 @@ The actual idr37 data record (idr_record) in C::
     Its total length of idr_record is 72 bytes
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
 import os
-from datetime import datetime
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 
 # import pandas as pd
+import xarray
+
 
 LOG = logging.getLogger(__name__)
 
@@ -147,7 +149,13 @@ name = "windsat_idr37_binary"
 # fmt: off and fmt: on comments, which prevent black from moving the # NOQA comments.
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read Windsat binary data products.
 
     Parameters
@@ -246,8 +254,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # Need to set up time to be read in by the metadata (year and jday are arrays)
     time_start = time_s_date + " " + time_s_hhmm
     time_end = time_e_date + " " + time_e_hhmm
-
-    import xarray
 
     xarray_obj = xarray.Dataset()
 
@@ -473,10 +479,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_sdr_fwd.attrs = xarray_obj.attrs.copy()
     xarray_sdr_aft.attrs = xarray_obj.attrs.copy()
 
-    from numpy import datetime64
-
-    timediff = datetime64("2000-01-01T12:00:00") - datetime64("1970-01-01T00:00:00")
-    timestamps = ftime_jd2000.astype("datetime64[s]") + timediff
+    timediff = np.datetime64("2000-01-01T12:00:00") - np.datetime64(
+        "1970-01-01T00:00:00"
+    )
+    timestamps = ftime_jd2000.astype("np.datetime64[s]") + timediff
     xarray_sdr_aft["time"] = xarray.DataArray(timestamps)
     xarray_sdr_aft["latitude"] = xarray.DataArray(alat)
     xarray_sdr_aft["longitude"] = xarray.DataArray(alon)
@@ -492,4 +498,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_sdr_fwd["fsurfaceType"] = xarray.DataArray(fsurfaceType)
     xarray_sdr_fwd["frainFlag"] = xarray.DataArray(frainFlag)
     xarray_sdr_fwd["fasc_des_pass"] = xarray.DataArray(fasc_des_pass)
-    return {"METADATA": xarray_obj, "AFT": xarray_sdr_aft, "FWD": xarray_sdr_fwd}
+    return {
+        "METADATA": xarray_obj,
+        "AFT": xarray_sdr_aft,
+        "FWD": xarray_sdr_fwd,
+    }

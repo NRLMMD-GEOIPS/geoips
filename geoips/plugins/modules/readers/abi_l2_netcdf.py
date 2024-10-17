@@ -6,10 +6,10 @@
 # Python Standard Libraries
 from datetime import datetime
 import logging
+
+# Third-Party Libraries
+import netCDF4 as ncdf
 from numpy import isnan
-
-
-# Installed Libraries
 import satpy
 import xarray as xr
 
@@ -22,7 +22,6 @@ name = "abi_l2_netcdf"
 
 def get_metadata(fname):
     """Get metadata."""
-    import netCDF4 as ncdf
     from geoips.plugins.modules.readers.abi_netcdf import (
         _get_metadata as get_metadata,
     )
@@ -51,7 +50,13 @@ def calculate_abi_geolocation(metadata, area_def):
     return geo
 
 
-def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=False):
+def call(
+    fnames,
+    area_def=None,
+    metadata_only=False,
+    chans=False,
+    self_register=False,
+):
     """
     Read ABI Level 2 NetCDF data from a list of filenames.
 
@@ -91,10 +96,12 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
     geoips_attrs = {
         "area_definition": area_def,
         "start_datetime": datetime.strptime(
-            metadata["file_info"]["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ"
+            metadata["file_info"]["time_coverage_start"],
+            "%Y-%m-%dT%H:%M:%S.%fZ",
         ),
         "end_datetime": datetime.strptime(
-            end_metadata["file_info"]["time_coverage_end"], "%Y-%m-%dT%H:%M:%S.%fZ"
+            end_metadata["file_info"]["time_coverage_end"],
+            "%Y-%m-%dT%H:%M:%S.%fZ",
         ),
         "vertical_data_type": "surface",
         "source_name": "abi",

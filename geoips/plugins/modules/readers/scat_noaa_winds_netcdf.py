@@ -3,10 +3,21 @@
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
 
-import logging
-from os.path import basename
+# Python Standard Libraries
 from copy import deepcopy
 from glob import glob
+import logging
+from os.path import basename
+
+# Third-Party Libraries
+import numpy
+import xarray
+
+# GeoIPS-Based imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -80,8 +91,6 @@ def read_noaa_data(wind_xarray):
             "wind_dir_sol": "wind_dir_deg_ambiguity_met",
         }
     )
-    import xarray
-    import numpy
 
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
@@ -97,7 +106,8 @@ def read_noaa_data(wind_xarray):
         # Dropping the ".to_masked_array()" appears to lose the nan values -
         # but could perhaps do that then re-mask?
         rf = numpy.logical_and(
-            wind_xarray["wvc_quality_flag"].to_masked_array(), (1 << RAIN_FLAG_BIT)
+            wind_xarray["wvc_quality_flag"].to_masked_array(),
+            (1 << RAIN_FLAG_BIT),
         )
         data_dims = {}
         for dim in wind_xarray["wvc_quality_flag"].dims:
@@ -127,7 +137,13 @@ def read_noaa_data(wind_xarray):
     return wind_xarray, geoips_metadata
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read KNMI scatterometer derived winds from netcdf data.
 
     Parameters
@@ -164,12 +180,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:

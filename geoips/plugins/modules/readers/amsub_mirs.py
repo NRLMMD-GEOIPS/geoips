@@ -158,12 +158,17 @@ Additional info::
     SZ_angle:  solar zinath angle (deg)
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
+import os
 
-# library for hdf files
+# Third-Party Libraries
 import h5py
-
 import matplotlib
+import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 matplotlib.use("agg")
 
@@ -219,7 +224,13 @@ family = "standard"
 name = "amsub_mirs"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read AMSU/MHS MIRS data products.
 
     Parameters
@@ -253,12 +264,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
     xarrays = []
     for fname in fnames:
         LOG.info("Reading file %s", fname)
@@ -326,10 +331,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # Collect start_time and end_time of input file (one orbit) from
         # attributes - filename wrong!
         start_datetime = datetime.strptime(
-            fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
+            fileobj.attrs["time_coverage_start"].astype(str),
+            "%Y-%m-%dT%H:%M:%SZ",
         )
         end_datetime = datetime.strptime(
-            fileobj.attrs["time_coverage_end"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
+            fileobj.attrs["time_coverage_end"].astype(str),
+            "%Y-%m-%dT%H:%M:%SZ",
         )
 
         #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
@@ -450,7 +457,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         xarray_amsub["RAzi_angle"] = xr.DataArray(var_all["RAzi_angle"][()])
         # from amsub_mhs_prep/oned_innov.f90:
         beam_pos = np.broadcast_to(
-            np.arange(fileobj["Field_of_view"].size) + 1, var_all["LZ_angle"][()].shape
+            np.arange(fileobj["Field_of_view"].size) + 1,
+            var_all["LZ_angle"][()].shape,
         )
         xarray_amsub["sensor_scan_angle"] = xr.DataArray((beam_pos - 45.5) * 10.0 / 9.0)
 

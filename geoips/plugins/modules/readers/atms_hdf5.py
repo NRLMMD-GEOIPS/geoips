@@ -77,17 +77,18 @@ The example files are:
 * ``SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for TBs.  'b': orbit#
 * ``GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for geolocations
 """
-# Python Standard Libraries
 
+# Python Standard Libraries
+import datetime
+import logging
 from os.path import basename
 
-import h5py
-import numpy as np
-import datetime
-import xarray as xr
+# Third-Party Libraries
 from astropy.time import Time
 from dateutil.relativedelta import relativedelta
-import logging
+import h5py
+import numpy as np
+import xarray as xr
 
 LOG = logging.getLogger(__name__)
 
@@ -227,7 +228,8 @@ def read_atms_file(fname, xarray_atms):
         else:
             merged_array = np.vstack([xarray_atms[key], data])
             final_xarray[key] = xr.DataArray(
-                merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
+                merged_array,
+                dims=["dim_" + str(merged_array.shape[0]), "dim_1"],
             )
     # Set official time to either sdr_time or geo_time
     final_keys = final_xarray.variables.keys()
@@ -238,7 +240,13 @@ def read_atms_file(fname, xarray_atms):
     return final_xarray
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read ATMS hdf5 data products.
 
     Parameters

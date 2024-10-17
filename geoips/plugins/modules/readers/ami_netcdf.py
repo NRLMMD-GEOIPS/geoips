@@ -4,20 +4,21 @@
 """Standard GeoIPS xarray dictionary based GeoKOMPSAT AMI NetCDF data reader."""
 
 # Python Standard Libraries
+from datetime import datetime, timedelta
 import glob
 import logging
-import numpy as np
 import os
-import xarray
-from datetime import datetime, timedelta
 
+# Third-Party Libraries
 import netCDF4 as ncdf
+import numpy as np
+import xarray
 
+# GeoIPS-Based imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
 )
-
 
 LOG = logging.getLogger(__name__)
 try:
@@ -512,7 +513,13 @@ def get_data(gvars, fname, rad=False, ref=False, bt=False):
     return data
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
 
@@ -562,7 +569,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", fname, chans
+                    "SKIPPING file %s, not needed from channel list %s",
+                    fname,
+                    chans,
                 )
                 continue
         try:
@@ -712,7 +721,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         )
 
         gvars[adname] = get_geolocation(
-            start_dt, geo_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+            start_dt,
+            geo_metadata[adname],
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
         )
         if not gvars[adname]:
             LOG.error(
@@ -729,7 +743,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s", res, adname
+                "Getting geolocation information for resolution %s for %s",
+                res,
+                adname,
             )
             try:
                 geo_metadata[res] = _get_geolocation_metadata(res_md[res])
@@ -742,7 +758,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 )
 
                 gvars[res] = get_geolocation(
-                    start_dt, geo_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
+                    start_dt,
+                    geo_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
                 )
             except IndexError as resp:
                 LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
@@ -827,7 +848,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 75,
+                    gvars[res][varname],
                 )
         except KeyError:
             pass
@@ -848,7 +870,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         roi = 500
         if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
             roi = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                xobj.area_definition.pixel_size_x,
+                xobj.area_definition.pixel_size_y,
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in geo_metadata.keys():

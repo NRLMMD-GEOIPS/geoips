@@ -33,14 +33,15 @@ Dataset information::
               }
 """
 # Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
 from os.path import basename
 
-# Installed Libraries
+# Third-Party Libraries
 import h5py
-import numpy as np
 import matplotlib
-
+import numpy as np
+import xarray as xr
 
 matplotlib.use("agg")
 
@@ -51,7 +52,13 @@ family = "standard"
 name = "imerg_hdf5"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read IMERG hdf5 rain rate data products.
 
     Parameters
@@ -88,9 +95,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from datetime import datetime, timedelta
-    import xarray as xr
-
     fname = fnames[0]
 
     LOG.info("Reading file %s", fname)

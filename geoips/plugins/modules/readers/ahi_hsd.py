@@ -4,17 +4,19 @@
 """Advanced Himawari Imager Data Reader."""
 
 # Python Standard Libraries
-import os
-import logging
-from glob import glob
-from struct import unpack
 from datetime import datetime, timedelta
+from glob import glob
+import logging
+import os
+import re
+from struct import unpack
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray
 from scipy.ndimage import zoom
 
+# GeoIPS-Based imports
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -912,7 +914,11 @@ def _check_file_consistency(metadata):
     #   (e.g. FLDK or JP01).
     #   sub_lon: Just a dummy check to be sure nothing REALLY weird is going on.
     members_to_check = {
-        "block_01": {"satellite_name": None, "ob_timeline": None, "ob_area": None},
+        "block_01": {
+            "satellite_name": None,
+            "ob_timeline": None,
+            "ob_area": None,
+        },
         "block_03": {"sub_lon": None},
     }
 
@@ -1006,7 +1012,9 @@ def call(
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", fname, chans
+                    "SKIPPING file %s, not needed from channel list %s",
+                    fname,
+                    chans,
                 )
                 continue
         try:
@@ -1167,7 +1175,9 @@ def call(
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s", res, adname
+                "Getting geolocation information for resolution %s for %s",
+                res,
+                adname,
             )
             try:
                 gmd = _get_geolocation_metadata(res_md[res])
@@ -1303,7 +1313,8 @@ def call(
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 85,
+                    gvars[res][varname],
                 )
         except KeyError:
             pass
@@ -1316,12 +1327,12 @@ def call(
                 datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
                 if "satellite_zenith_angle" in gvars[ds].keys():
                     datavars[ds][varname] = np.ma.masked_where(
-                        gvars[ds]["satellite_zenith_angle"] > 85, datavars[ds][varname]
+                        gvars[ds]["satellite_zenith_angle"] > 85,
+                        datavars[ds][varname],
                     )
 
     print_mem_usage("MEMUSG", verbose=False)
     xarray_objs = {}
-    import re
 
     for dsname in datavars.keys():
         xobj = xarray.Dataset()
@@ -1512,13 +1523,21 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
             data_lines = line_inds[data_inds] - first_line
             data_samples = sample_inds[data_inds]
             counts[data_inds] = np.memmap(
-                path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
+                path,
+                mode="r",
+                dtype=np.uint16,
+                offset=header_len,
+                shape=(nl, ns),
             )[data_lines, data_samples]
         else:
             first_line -= 1
             last_line = first_line + nl
             counts[first_line:last_line, :] = np.memmap(
-                path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
+                path,
+                mode="r",
+                dtype=np.uint16,
+                offset=header_len,
+                shape=(nl, ns),
             )[:, :]
 
         LOG.info("Doing the actual read for segment {}".format(seg))
@@ -1613,7 +1632,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         log_coeff = (2.0 * h * c**2) / (wl**5)  # NOQA
         dividend = (h * c) / (k * wl)  # NOQA
         ne.evaluate(
-            "dividend/log( (log_coeff/(rad_data*1000000.0))+1 )", out=data["BT"]
+            "dividend/log( (log_coeff/(rad_data*1000000.0))+1 )",
+            out=data["BT"],
         )
 
     for val in data.values():

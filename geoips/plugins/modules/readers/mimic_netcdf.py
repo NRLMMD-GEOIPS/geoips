@@ -4,9 +4,13 @@
 """MIMIC TPW NetCDF reader."""
 
 # Python Standard Libraries
+from datetime import datetime
 import logging
 import os
-from datetime import datetime
+
+# Third-Party Libraries
+import numpy
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -15,7 +19,13 @@ family = "standard"
 name = "mimic_netcdf"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read TPW MIMIC data from a list of filenames.
 
     Dataset information::
@@ -71,8 +81,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     fname = fnames[0]
 
-    import xarray
-
     xobj = xarray.open_dataset(fname)
 
     [date, time, ext] = os.path.basename(fname).split(".")
@@ -100,8 +108,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     lon = xobj.variables["lonArr"][...]
 
     LOG.info("Calculating full lat/lon grid")
-    import numpy
-
     lon_final, lat_final = numpy.meshgrid(lon, lat)
 
     LOG.info("Adding lat grid to xarray")

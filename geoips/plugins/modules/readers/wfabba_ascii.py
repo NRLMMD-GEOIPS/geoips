@@ -7,9 +7,11 @@ WFABBA is a geostationary fire product produced by SSEC
 """
 
 # Python Standard Libraries
+from datetime import datetime
 import logging
 from os.path import basename
-from datetime import datetime
+
+# Third-Party Libraries
 import numpy as np
 import xarray
 
@@ -114,7 +116,13 @@ def read_wfabba_text(wfabba_file):
     return xobj
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read WFABBA ascii data from a list of filenames.
 
     WFABBA  ascii files contain list of fire detects with their latitude,

@@ -47,18 +47,21 @@ of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 # Python Standard Libraries
+from collections import defaultdict
+from datetime import datetime
 import logging
 import os
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy
 import pandas as pd
 import xarray as xr
 
-from geoips.utils.context_managers import import_optional_dependencies
-
 # GeoIPS Libraries
-from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.utils.context_managers import import_optional_dependencies
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    get_indexes,
+)
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -331,9 +334,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from collections import defaultdict
-    from datetime import datetime
-
     # since fname is a LIST of input files, this reader needs additional adjustments to
     # read all files and put them into the XARRAY output (add one more array for
     # number of files)
@@ -594,7 +594,8 @@ def call(
                 nparr_bowtie = numpy.ma.masked_equal(ncvar[...].data, 65533)
 
                 nparr_masked = numpy.ma.masked_greater(
-                    ncvar[...], ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset
+                    ncvar[...],
+                    ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset,
                 )
 
                 add_to_xarray(
@@ -674,7 +675,8 @@ def call(
         for dtype in xarrays.keys():
             if "latitude" not in xarrays[dtype].variables:
                 LOG.info(
-                    "No data read for dataset %s, removing from xarray list", dtype
+                    "No data read for dataset %s, removing from xarray list",
+                    dtype,
                 )
                 continue
             fldk_lats = xarrays[dtype]["latitude"]
@@ -702,7 +704,10 @@ def call(
                 new_var[index_mask] = xarrays[dtype][varname].values[
                     lines[index_mask], samples[index_mask]
                 ]
-                if varname not in list(xvarnames.values()) + ["latitude", "longitude"]:
+                if varname not in list(xvarnames.values()) + [
+                    "latitude",
+                    "longitude",
+                ]:
                     # Set values <= -999.9 to NaN so they also get interpolated.
                     new_var[numpy.where(new_var <= -999.9)] = numpy.nan
                     # Interpolate missing data.
@@ -725,7 +730,10 @@ def call(
     xarray_returns = {}
     for dtype in xarrays.keys():
         if "latitude" not in xarrays[dtype].variables:
-            LOG.info("No data read for dataset %s, removing from xarray list", dtype)
+            LOG.info(
+                "No data read for dataset %s, removing from xarray list",
+                dtype,
+            )
             continue
         for varname in xarrays[dtype].variables.keys():
             xarrays[dtype][varname] = xarrays[dtype][varname].where(

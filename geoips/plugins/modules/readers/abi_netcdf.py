@@ -8,10 +8,13 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
+
+# Third-Party Libraries
 import numpy as np
-
 from scipy.ndimage import zoom
+import xarray
 
+# GeoIPS-Based imports
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -505,7 +508,13 @@ def _get_geolocation_metadata(metadata):
     return geomet
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """
     Read ABI NetCDF data from a list of filenames.
 
@@ -571,7 +580,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", fname, chans
+                    "SKIPPING file %s, not needed from channel list %s",
+                    fname,
+                    chans,
                 )
                 continue
         try:
@@ -591,7 +602,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # required size.
     # Dict structure is channel{metadata}
     file_info = {}
-    import xarray
 
     xarray_obj = xarray.Dataset()
     for md in all_metadata.values():
@@ -715,7 +725,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             standard_metadata[adname], BADVALS, area_def
         )
         gvars[adname] = get_geolocation(
-            sdt, standard_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+            sdt,
+            standard_metadata[adname],
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
         )
         if not gvars[adname]:
             LOG.error(
@@ -736,7 +751,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     standard_metadata[res], BADVALS, area_def
                 )
                 gvars[res] = get_geolocation(
-                    sdt, standard_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
+                    sdt,
+                    standard_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
                 )
             except ValueError as resp:
                 LOG.error(
@@ -867,7 +887,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
+                    gvars[res]["satellite_zenith_angle"] > 75,
+                    gvars[res][varname],
                 )
         except KeyError:
             pass
@@ -887,7 +908,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         roi = 500
         if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
             roi = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                xobj.area_definition.pixel_size_x,
+                xobj.area_definition.pixel_size_y,
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in standard_metadata.keys():

@@ -21,14 +21,15 @@ The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geoometry
 infomation, while other files have values at each channels.
 """
 # Python Standard Libraries
-from os.path import basename
+from datetime import datetime
 import logging
+from os.path import basename
 
-
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray as xr
 
+# GeoIPS-Based imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
@@ -108,7 +109,10 @@ def parse_core_metadata(metadata, metadatastr):
 
         # These have 'CLASS' in addition to 'NUMVAL' between OBJECT and VALUE.
         # So have to do ii+3
-        for currval in ["ASSOCIATEDSENSORSHORTNAME", "ASSOCIATEDPLATFORMSHORTNAME"]:
+        for currval in [
+            "ASSOCIATEDSENSORSHORTNAME",
+            "ASSOCIATEDPLATFORMSHORTNAME",
+        ]:
             if "OBJECT" == typ and currval == field:
                 metadata[currval] = lines[ii + 3].split("=")[1].strip().replace('"', "")
         ii += 1
@@ -164,7 +168,13 @@ def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
         )
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read MODIS Aqua and Terra hdf data files.
 
     Parameters
@@ -259,10 +269,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         ],
     }
     # @staticmethod
-
-    from datetime import datetime
-    import numpy as np
-    import xarray as xr
 
     # from pyhdf.SD import SD, SDC
     # from pyhdf.SD import *
@@ -482,7 +488,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         if datasettag == "QKM":
                             factor = 4
                         outdata = np.zeros(
-                            (len(data) * factor, data.shape[1] * factor), data.dtype
+                            (len(data) * factor, data.shape[1] * factor),
+                            data.dtype,
                         )
                         x = np.arange(data.shape[0])
                         y = np.arange(data.shape[1])
@@ -562,7 +569,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 try:
                     select_data = mf.select(currvar)  # select this field
                 except HDF4Error:
-                    LOG.warning("SKIPPING %s does not exist in %s", currvar, datasettag)
+                    LOG.warning(
+                        "SKIPPING %s does not exist in %s",
+                        currvar,
+                        datasettag,
+                    )
                     continue
                 attrs = select_data.attributes()  # get attributes of this field
                 data = select_data.get()  # get the all data of this field
@@ -762,7 +773,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         if dtype != "METATDATA" and "latitude" not in list(
             xarrays[dtype].variables.keys()
         ):
-            LOG.info("No data read for dataset %s, removing from xarray list", dtype)
+            LOG.info(
+                "No data read for dataset %s, removing from xarray list",
+                dtype,
+            )
             continue
         if dtype != "METADATA":
             for varname in list(xarrays[dtype].variables.keys()):

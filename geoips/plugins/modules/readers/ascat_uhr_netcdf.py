@@ -3,14 +3,16 @@
 
 """Read derived surface winds from BYU ASCAT UHR NetCDF data."""
 
+# Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
-from datetime import datetime
 import os
-from os.path import basename
 
+# Third-Party Libraries
 import numpy
 import xarray
 
+# GeoIPS-Based imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
@@ -108,7 +110,9 @@ def read_byu_data(wind_xarray, fname):
     dsname = "DATA"
     if "wspeeds" in wind_xarray.variables:
         wind_xarray["wind_speed_kts"] = xarray.where(
-            wind_xarray.ambiguity_select == 1, wind_xarray.wspeeds[:, :, 0], numpy.nan
+            wind_xarray.ambiguity_select == 1,
+            wind_xarray.wspeeds[:, :, 0],
+            numpy.nan,
         )
         wind_xarray["wind_speed_kts"] = xarray.where(
             wind_xarray.ambiguity_select == 2,
@@ -128,7 +132,9 @@ def read_byu_data(wind_xarray, fname):
         wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed_kts"] * MS_TO_KTS
 
         wind_xarray["wind_dir_deg_met"] = xarray.where(
-            wind_xarray.ambiguity_select == 1, wind_xarray.wdirs[:, :, 0], numpy.nan
+            wind_xarray.ambiguity_select == 1,
+            wind_xarray.wdirs[:, :, 0],
+            numpy.nan,
         )
         wind_xarray["wind_dir_deg_met"] = xarray.where(
             wind_xarray.ambiguity_select == 2,
@@ -178,7 +184,9 @@ def read_byu_data(wind_xarray, fname):
             wind_xarray["latitude"] = wind_xarray["latitude"] - 90
 
         wind_xarray["longitude"] = xarray.where(
-            wind_xarray.ambiguity_select == 0, numpy.nan, wind_xarray.longitude
+            wind_xarray.ambiguity_select == 0,
+            numpy.nan,
+            wind_xarray.longitude,
         )
         dsname = "WINDSPEED"
 
@@ -233,8 +241,6 @@ def read_byu_data(wind_xarray, fname):
                     "Start time greater than 1day ahead of expected time. "
                     "Removing one day from applied offset"
                 )
-                from datetime import timedelta
-
                 timediff -= numpy.array(timedelta(days=1), dtype="timedelta64")
             wind_xarray["time"] = wind_xarray["time"] + timediff
 
@@ -262,7 +268,13 @@ def read_byu_data(wind_xarray, fname):
     return {dsname: wind_xarray}
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read ASCAT UHR derived winds or normalized radar cross section data.
 
     Parameters
@@ -299,15 +311,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))
     wind_xarray.attrs["source_name"] = "unknown"
     wind_xarray.attrs["platform_name"] = "unknown"
 
-    wind_xarray.attrs["source_file_names"] = [basename(fname)]
+    wind_xarray.attrs["source_file_names"] = [os.path.basename(fname)]
     wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
     # 1.25km grid, 4km accuracy
     wind_xarray.attrs["sample_distance_km"] = 4

@@ -4,11 +4,13 @@
 """Read SAPHIR hdf files."""
 
 # Python Standard Libraries
-import logging
 from datetime import datetime
+import logging
+
+# Third-Party Libraries
+import h5py
 import numpy as np
 import xarray as xr
-import h5py
 
 # from numpy import datetime64
 # import pandas as pd
@@ -20,7 +22,13 @@ family = "standard"
 name = "saphir_hdf5"
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read SAPHIR hdf data products.
 
     Parameters
@@ -121,22 +129,28 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         np.squeeze((fileobj["ScienceData"]["QF_Samples_S6"][...])), 65535
     )
     ch1 = np.ma.masked_equal(
-        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S1"][...])), 65535
+        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S1"][...])),
+        65535,
     )
     ch2 = np.ma.masked_equal(
-        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S2"][...])), 65535
+        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S2"][...])),
+        65535,
     )
     ch3 = np.ma.masked_equal(
-        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S3"][...])), 65535
+        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S3"][...])),
+        65535,
     )
     ch4 = np.ma.masked_equal(
-        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S4"][...])), 65535
+        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S4"][...])),
+        65535,
     )
     ch5 = np.ma.masked_equal(
-        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S5"][...])), 65535
+        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S5"][...])),
+        65535,
     )
     ch6 = np.ma.masked_equal(
-        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S6"][...])), 65535
+        np.squeeze(0.01 * (fileobj["ScienceData"]["TB_Samples_S6"][...])),
+        65535,
     )
     scanqf = np.ma.masked_equal(
         np.squeeze((fileobj["ScienceData"]["SAPHIR_QF_scan"][...])), 65535
