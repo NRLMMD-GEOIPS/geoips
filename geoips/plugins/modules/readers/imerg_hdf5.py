@@ -95,7 +95,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     fname = fnames[0]
 
     LOG.info("Reading file %s", fname)
@@ -144,9 +143,7 @@ def call(
         lon = fileobj["Grid"]["lon"][:]  # (3600)
 
         rain = fileobj["Grid"]["precipitationCal"][:]  # (1,3600,1800)
-        rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][
-            :
-        ]  # (1,3600,1800)
+        rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][:]  # (1,3600,1800)
         rrErr = fileobj["Grid"]["randomError"][:]  # (1,3600,1800)
         IRrr = fileobj["Grid"]["IRprecipitation"][:]  # (1,3600,1800)
 

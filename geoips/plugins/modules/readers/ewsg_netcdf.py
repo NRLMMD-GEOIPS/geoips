@@ -128,7 +128,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     # --------------- loop input files ---------------
     xarray_ewsg = xr.Dataset()
     xarray_ewsg.attrs["source_file_names"] = []
@@ -163,9 +162,7 @@ def call(
             masked_data = np.ma.masked_equal(data, data.missing_value)
 
             if var in xvarnames:
-                varname = xvarnames[
-                    var
-                ]  # rename zenith/azimuth-related variables
+                varname = xvarnames[var]  # rename zenith/azimuth-related variables
 
             xarray_ewsg[varname] = xr.DataArray(masked_data)
             """
@@ -224,14 +221,10 @@ def call(
 
         # second of the date for this file
         start_time = (
-            ncdf_file.start_time
-            + ncdf_file.time_adjust
-            + ncdf_file.scan_time[0]
+            ncdf_file.start_time + ncdf_file.time_adjust + ncdf_file.scan_time[0]
         )
         end_time = (
-            ncdf_file.start_time
-            + ncdf_file.time_adjust
-            + ncdf_file.scan_time[29]
+            ncdf_file.start_time + ncdf_file.time_adjust + ncdf_file.scan_time[29]
         )
 
         yr_s = yr

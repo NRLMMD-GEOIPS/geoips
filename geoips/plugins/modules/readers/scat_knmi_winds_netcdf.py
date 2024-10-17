@@ -71,9 +71,7 @@ def read_knmi_data(wind_xarray):
         # geoips_metadata['data_provider'] = 'Copyright-2021-EUMETSAT'
 
     # Pixel size stored as "25.0 km"
-    pixel_size = float(
-        wind_xarray.pixel_size_on_horizontal.replace(" km", "")
-    )
+    pixel_size = float(wind_xarray.pixel_size_on_horizontal.replace(" km", ""))
 
     # Interpolation Radius of Influence
     geoips_metadata["interpolation_radius_of_influence"] = pixel_size * 1000.0
@@ -92,9 +90,7 @@ def read_knmi_data(wind_xarray):
         wind_xarray["wind_dir_deg_met"] >= 0,
         wind_xarray["wind_dir_deg_met"] + 360,
     )
-    wind_xarray.wind_dir_deg_met.attrs["standard_name"] = (
-        "wind_from_direction"
-    )
+    wind_xarray.wind_dir_deg_met.attrs["standard_name"] = "wind_from_direction"
     wind_xarray.wind_dir_deg_met.attrs["valid_max"] = 360
 
     # Set lat/lons/time appropriately
@@ -170,7 +166,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:

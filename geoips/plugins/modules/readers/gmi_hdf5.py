@@ -235,7 +235,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     # fname='data_gmi/20200518.203639.gpm.gmi.gpm_pps.x.gmi.TB2016.x.TB2016_1b_v05a.h5'
 
     LOG.info("Reading files %s", fnames)
@@ -253,12 +252,8 @@ def call(
     )
 
     xarray_gmi.attrs["source_file_names"] = sorted(source_file_names)
-    xarray_gmi.attrs["start_datetime"] = get_min_from_xarray_time(
-        xarray_gmi, "time"
-    )
-    xarray_gmi.attrs["end_datetime"] = get_max_from_xarray_time(
-        xarray_gmi, "time"
-    )
+    xarray_gmi.attrs["start_datetime"] = get_min_from_xarray_time(xarray_gmi, "time")
+    xarray_gmi.attrs["end_datetime"] = get_max_from_xarray_time(xarray_gmi, "time")
     xarray_gmi.attrs["source_name"] = "gmi"
     xarray_gmi.attrs["platform_name"] = "GPM"
     xarray_gmi.attrs["data_provider"] = "NASA"

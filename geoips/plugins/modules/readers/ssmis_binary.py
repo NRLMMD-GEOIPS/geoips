@@ -86,9 +86,7 @@ def call(
     xobjs_list = []
     # NOTE chans, area_def, and self_register NOT implemented.
     for fname in fnames:
-        xobjs_list += [
-            read_ssmis_data_file(fname, metadata_only=metadata_only)
-        ]
+        xobjs_list += [read_ssmis_data_file(fname, metadata_only=metadata_only)]
 
     final_xobjs = append_xarray_dicts(xobjs_list)
 
@@ -127,9 +125,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     data_name = basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "raw":
-        LOG.warning(
-            "Warning: wrong SSMI SDR data type:  data_type=%s", data_name
-        )
+        LOG.warning("Warning: wrong SSMI SDR data type:  data_type=%s", data_name)
         raise
 
     if "cfnoc" in basename(fname) and "sdris" in basename(fname):
@@ -151,9 +147,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
     hour, minu = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()
-    satid, nsdr = np.fromstring(
-        f1.read(4), dtype=np.dtype("short")
-    ).byteswap()
+    satid, nsdr = np.fromstring(f1.read(4), dtype=np.dtype("short")).byteswap()
     spare1, spare2, spare3 = np.fromstring(  # NOQA
         f1.read(3), dtype=np.dtype("int8")
     ).byteswap()
@@ -202,12 +196,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
         # SCAN HEADER
         syncword = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
-        scan_year = np.fromstring(
-            f1.read(4), dtype=np.dtype("int32")
-        ).byteswap()
-        scan_jday = np.fromstring(
-            f1.read(2), dtype=np.dtype("short")
-        ).byteswap()
+        scan_year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
+        scan_jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
         scan_hour, scan_minu = np.fromstring(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()
@@ -230,15 +220,11 @@ def read_ssmis_data_file(fname, metadata_only=False):
         start_scantime_las = np.fromstring(
             f1.read(32), dtype=np.dtype("int32")
         ).byteswap()
-        scenecounts_las = np.fromstring(
-            f1.read(8), dtype=np.dtype("uint8")
-        ).byteswap()
+        scenecounts_las = np.fromstring(f1.read(8), dtype=np.dtype("uint8")).byteswap()
         start_scantime_uas = np.fromstring(
             f1.read(16), dtype=np.dtype("int32")
         ).byteswap()
-        scenecounts_uas = np.fromstring(
-            f1.read(4), dtype=np.dtype("uint8")
-        ).byteswap()
+        scenecounts_uas = np.fromstring(f1.read(4), dtype=np.dtype("uint8")).byteswap()
         spare = np.fromstring(f1.read(20), dtype=np.dtype("int32")).byteswap()  # NOQA
         nbytes += 360  # total bytes of the scan header
         # nscan0 = scan - 1  # number of scans
@@ -362,9 +348,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             xarray_imager.attrs["platform_name"] = satid
             xarray_imager.attrs["data_provider"] = "DMSP"
             xarray_imager.attrs["source_file_names"] = [basename(fname)]
-            xarray_imager.attrs["satellite_zenith_angle"] = (
-                satellite_zenith_angle
-            )
+            xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
             xarray_imager.attrs["sensor_scan_angle"] = sensor_scan_angle
             xarray_imager.attrs["satellite_altitude"] = satellite_altitude
             LOG.info(
@@ -414,9 +398,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     imager_ch11,
                     imager_ch17,
                     imager_ch18,
-                ) = np.fromstring(
-                    f1.read(12), dtype=np.dtype("short")
-                ).byteswap()
+                ) = np.fromstring(f1.read(12), dtype=np.dtype("short")).byteswap()
                 nbytes += 20
                 # k = 180 * (nscan0 + ii) + jj
                 lat = 0.01 * imager_lat
@@ -510,11 +492,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     LOG.info("value of enviro odd scan is %s", ii)
                     continue
                 for jj in range(scenecounts_enviro[ii]):
-                    enviroodd_lat, enviroodd_lon, enviroodd_scene = (
-                        np.fromstring(
-                            f1.read(6), dtype=np.dtype("short")
-                        ).byteswap()
-                    )
+                    enviroodd_lat, enviroodd_lon, enviroodd_scene = np.fromstring(
+                        f1.read(6), dtype=np.dtype("short")
+                    ).byteswap()
                     enviroodd_seaice, enviroodd_surf = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
@@ -530,9 +510,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                         enviroodd_ch18_5x5,
                         enviroodd_ch17_5x4,
                         enviroodd_ch18_5x4,
-                    ) = np.fromstring(
-                        f1.read(22), dtype=np.dtype("short")
-                    ).byteswap()
+                    ) = np.fromstring(f1.read(22), dtype=np.dtype("short")).byteswap()
                     enviroodd_rain1, enviroodd_rain2 = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
@@ -577,11 +555,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     LOG.info("value of enviro even scan is %s", ii)
                     continue
                 for jj in range(scenecounts_enviro[ii]):
-                    enviroeven_lat, enviroeven_lon, enviroeven_scene = (
-                        np.fromstring(
-                            f1.read(6), dtype=np.dtype("short")
-                        ).byteswap()
-                    )
+                    enviroeven_lat, enviroeven_lon, enviroeven_scene = np.fromstring(
+                        f1.read(6), dtype=np.dtype("short")
+                    ).byteswap()
                     enviroeven_seaice, enviroeven_surf = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
@@ -591,9 +567,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                         enviroeven_ch14,
                         enviroeven_ch15,
                         enviroeven_ch16,
-                    ) = np.fromstring(
-                        f1.read(10), dtype=np.dtype("short")
-                    ).byteswap()
+                    ) = np.fromstring(f1.read(10), dtype=np.dtype("short")).byteswap()
                     nbytes += 18
                     lat = 0.01 * enviroeven_lat
                     lon = 0.01 * enviroeven_lon
@@ -715,9 +689,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                         las_ch24_3x3,
                         las_height_1000mb,
                         las_surf,
-                    ) = np.fromstring(
-                        f1.read(34), dtype=np.dtype("short")
-                    ).byteswap()
+                    ) = np.fromstring(f1.read(34), dtype=np.dtype("short")).byteswap()
                     las_tqflag, las_hqflag = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
@@ -850,9 +822,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     uas_ch24_6x6,
                     uas_scene,
                     uas_tqflag,
-                ) = np.fromstring(
-                    f1.read(20), dtype=np.dtype("short")
-                ).byteswap()
+                ) = np.fromstring(f1.read(20), dtype=np.dtype("short")).byteswap()
                 uas_field, uas_bdotk2 = np.fromstring(
                     f1.read(8), dtype=np.dtype("int32")
                 ).byteswap()
@@ -922,9 +892,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                 f1.read(nfiller), dtype=np.dtype("int8")
             ).byteswap()[0]
         except Exception as resp:
-            LOG.info(
-                "Poorly formatted filler_bytes, skipping. resp: %s", str(resp)
-            )
+            LOG.info("Poorly formatted filler_bytes, skipping. resp: %s", str(resp))
             continue
 
     f1.close()
@@ -1021,9 +989,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager["sfcType"] = xr.DataArray(surf)
     xarray_imager["rain"] = xr.DataArray(rain)
     xarray_imager["time"] = xr.DataArray(
-        pd.DataFrame(time_imager)
-        .astype(int)
-        .apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_imager).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # set xarray object for enviro  variables
@@ -1053,9 +1019,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro["Ch18_5x4"] = xr.DataArray(ch18_5x4 / 100 + 273.15)
     xarray_enviro["Ch18_5x4"].attrs["channel_number"] = 18
     xarray_enviro["time"] = xr.DataArray(
-        pd.DataFrame(time_enviro)
-        .astype(int)
-        .apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_enviro).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # set xarray object for LAS  variables
@@ -1091,9 +1055,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las["Height_1000mb"] = xr.DataArray(height_1000mb)
     xarray_las["Surf_las"] = xr.DataArray(surf_las)
     xarray_las["time"] = xr.DataArray(
-        pd.DataFrame(time_las)
-        .astype(int)
-        .apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_las).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # set xarray object for UAS  variables
@@ -1115,9 +1077,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_uas["Scene"] = xr.DataArray(scene)
     xarray_uas["tqFlag"] = xr.DataArray(tqflag)
     xarray_uas["time"] = xr.DataArray(
-        pd.DataFrame(time_uas)
-        .astype(int)
-        .apply(pd.to_datetime, format="%Y%j%H%M")
+        pd.DataFrame(time_uas).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
 
     # Setup attributes

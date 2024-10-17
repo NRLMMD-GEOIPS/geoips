@@ -79,9 +79,7 @@ def read_wfabba_header(wfabba_file):
                 is_header = False
     header_meta["header length"] = header_length - 2
     full_time = f"{header_meta.pop('Date')} {header_meta.pop('Time')}"
-    header_meta["datetime"] = datetime.strptime(
-        full_time, "%Y%j %H:%M:%S UTC"
-    )
+    header_meta["datetime"] = datetime.strptime(full_time, "%Y%j %H:%M:%S UTC")
     return header_meta
 
 
@@ -100,17 +98,14 @@ def read_wfabba_text(wfabba_file):
     if int(header_meta["Number of detected fires"]) > 0:
         col_names = text[0, :]
         col_units = text[1, :]
-        for col_num, (col_name, col_unit) in enumerate(
-            zip(col_names, col_units)
-        ):
+        for col_num, (col_name, col_unit) in enumerate(zip(col_names, col_units)):
             col_name = col_name.replace("### ", "").replace(" ", "").lower()
             col_unit = col_unit.replace("### ", "").replace(" ", "")
             data = text[2:, col_num].astype(float)
             xobj[col_name] = xarray.DataArray(data)
             header_meta["units"][col_name] = col_unit
         xobj["firetime"] = xarray.DataArray(
-            [header_meta["datetime"]]
-            * int(header_meta["Number of detected fires"])
+            [header_meta["datetime"]] * int(header_meta["Number of detected fires"])
         )
     xobj.attrs["start_datetime"] = header_meta["datetime"]
     xobj.attrs["end_datetime"] = header_meta["datetime"]

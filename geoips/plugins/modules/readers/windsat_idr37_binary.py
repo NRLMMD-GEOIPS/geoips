@@ -243,16 +243,12 @@ def call(
                 if time_e_day > 31:
                     time_e_day == 1  # first day of the next month
                     time_e_month == int(time_s_month) + 1
-        if (
-            time_e_month > 12
-        ):  # in Dec, deterimine whether it crosses the year boundary
+        if time_e_month > 12:  # in Dec, deterimine whether it crosses the year boundary
             time_e_year == int(time_s_year) + 1
 
     # convret end_time of the data into strings
     time_e_date = (
-        str(time_e_year)
-        + str("%02d" % time_e_month)
-        + str("%02d" % time_e_day)
+        str(time_e_year) + str("%02d" % time_e_month) + str("%02d" % time_e_day)
     )
 
     # Need to set up time to be read in by the metadata (year and jday are arrays)
@@ -262,15 +258,9 @@ def call(
     xarray_obj = xarray.Dataset()
 
     # Enter metadata
-    xarray_obj.attrs["start_datetime"] = datetime.strptime(
-        time_start, "%Y%m%d %H%M"
-    )
-    xarray_obj.attrs["end_datetime"] = datetime.strptime(
-        time_end, "%Y%m%d %H%M"
-    )
-    xarray_obj.attrs["source_file_datetimes"] = [
-        xarray_obj.attrs["start_datetime"]
-    ]
+    xarray_obj.attrs["start_datetime"] = datetime.strptime(time_start, "%Y%m%d %H%M")
+    xarray_obj.attrs["end_datetime"] = datetime.strptime(time_end, "%Y%m%d %H%M")
+    xarray_obj.attrs["source_file_datetimes"] = [xarray_obj.attrs["start_datetime"]]
 
     xarray_obj.attrs["platform_name"] = "coriolis"
     xarray_obj.attrs["source_name"] = "windsat"
@@ -294,9 +284,7 @@ def call(
         if good_datafile == 0:
             LOG.info("This is a good windsat idr37 data file")
         else:
-            LOG.info(
-                "This is not a good windsat idr37 data file:  skipping ...."
-            )
+            LOG.info("This is not a good windsat idr37 data file:  skipping ....")
             return
     except Exception as resp:
         LOG.info(
@@ -353,9 +341,7 @@ def call(
             LOG.info("Running record number %s of %s", ii, rec_tot)
         try:
             # read in variables using their size (bytes)
-            jd2000 = np.frombuffer(
-                f1.read(8), dtype=np.dtype("float64")
-            ).byteswap()[
+            jd2000 = np.frombuffer(f1.read(8), dtype=np.dtype("float64")).byteswap()[
                 0
             ]  # sec since 1200Z,01/01/2000
             # get time info for each data point

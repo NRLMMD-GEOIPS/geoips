@@ -111,13 +111,9 @@ def call(
     lon_final, lat_final = numpy.meshgrid(lon, lat)
 
     LOG.info("Adding lat grid to xarray")
-    xobj["latitude"] = xarray.DataArray(
-        numpy.ma.array(lat_final), dims=("lat", "lon")
-    )
+    xobj["latitude"] = xarray.DataArray(numpy.ma.array(lat_final), dims=("lat", "lon"))
     LOG.info("Adding lon grid to xarray")
-    xobj["longitude"] = xarray.DataArray(
-        numpy.ma.array(lon_final), dims=("lat", "lon")
-    )
+    xobj["longitude"] = xarray.DataArray(numpy.ma.array(lon_final), dims=("lat", "lon"))
     xobj = xobj.drop("latArr")
     xobj = xobj.drop("lonArr")
     xobj["tpw"] = xobj["tpwGrid"]

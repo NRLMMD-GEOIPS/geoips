@@ -37,7 +37,6 @@ def read_smos_data(wind_xarray, fname):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-
     LOG.info("Reading SMOS data")
 
     # Attributes aren't set in the data files - use the file names to determine the
@@ -92,9 +91,7 @@ def read_smos_data(wind_xarray, fname):
 
     ncobj = Dataset(fname)
     basedt = datetime64(datetime.strptime("19900101", "%Y%m%d"))
-    nctimearray = numpy.flipud(
-        ncobj.variables["measurement_time"][...][0, :, :]
-    )
+    nctimearray = numpy.flipud(ncobj.variables["measurement_time"][...][0, :, :])
     timeinds = numpy.ma.where(nctimearray)
     # Check if there are any unmasked timeinds, if so update timearray
     if numpy.size(timeinds) > 0:
@@ -157,7 +154,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     ingested = []
     for fname in fnames:
         wind_xarray = xarray.open_dataset(str(fname))
@@ -257,14 +253,10 @@ def call(
     ):
         # Use alternate attributes to set start and end datetime
 
-        final_wind_xarrays["METADATA"].attrs["start_datetime"] = (
-            datetime.strptime(
-                wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
-            )
+        final_wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
+            wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
         )
-        final_wind_xarrays["METADATA"].attrs["end_datetime"] = (
-            datetime.strptime(
-                wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
-            )
+        final_wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
+            wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
         )
     return final_wind_xarrays

@@ -74,16 +74,13 @@ def call(
 
 def read_xarray_netcdf(ncdf_fname):
     """Read NetCDF file written out using the xarray python package."""
-
     try:
         xarray_obj = xarray.open_dataset(ncdf_fname)
     except IOError:
         raise IOError
     for attr in xarray_obj.attrs.keys():
         if "datetime" in attr:
-            xarray_obj.attrs[attr] = datetime.strptime(
-                xarray_obj.attrs[attr], "%c"
-            )
+            xarray_obj.attrs[attr] = datetime.strptime(xarray_obj.attrs[attr], "%c")
         if attr == "None":
             xarray_obj.attrs[attr] = None
         if attr == "True":

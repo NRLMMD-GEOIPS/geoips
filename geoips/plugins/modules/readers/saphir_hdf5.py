@@ -170,24 +170,12 @@ def call(
     xarray_saphir["ch4qf_183.31_4.2"] = xr.DataArray(ch4qf)
     xarray_saphir["ch5qf_183.31_6.8"] = xr.DataArray(ch5qf)
     xarray_saphir["ch6qf_183.31_11.0"] = xr.DataArray(ch6qf)
-    xarray_saphir["ch1_183.31_0.2"] = xr.DataArray(
-        np.ma.masked_where(ch1qf > 64, ch1)
-    )
-    xarray_saphir["ch2_183.31_1.1"] = xr.DataArray(
-        np.ma.masked_where(ch2qf > 64, ch2)
-    )
-    xarray_saphir["ch3_183.31_2.8"] = xr.DataArray(
-        np.ma.masked_where(ch3qf > 64, ch3)
-    )
-    xarray_saphir["ch4_183.31_4.2"] = xr.DataArray(
-        np.ma.masked_where(ch4qf > 64, ch4)
-    )
-    xarray_saphir["ch5_183.31_6.8"] = xr.DataArray(
-        np.ma.masked_where(ch5qf > 64, ch5)
-    )
-    xarray_saphir["ch6_183.31_11.0"] = xr.DataArray(
-        np.ma.masked_where(ch6qf > 64, ch6)
-    )
+    xarray_saphir["ch1_183.31_0.2"] = xr.DataArray(np.ma.masked_where(ch1qf > 64, ch1))
+    xarray_saphir["ch2_183.31_1.1"] = xr.DataArray(np.ma.masked_where(ch2qf > 64, ch2))
+    xarray_saphir["ch3_183.31_2.8"] = xr.DataArray(np.ma.masked_where(ch3qf > 64, ch3))
+    xarray_saphir["ch4_183.31_4.2"] = xr.DataArray(np.ma.masked_where(ch4qf > 64, ch4))
+    xarray_saphir["ch5_183.31_6.8"] = xr.DataArray(np.ma.masked_where(ch5qf > 64, ch5))
+    xarray_saphir["ch6_183.31_11.0"] = xr.DataArray(np.ma.masked_where(ch6qf > 64, ch6))
     # xarray_saphir['time']=xr.DataArray(pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime,format='%Y%j%H%M'))
 
     # add attributes to xarray

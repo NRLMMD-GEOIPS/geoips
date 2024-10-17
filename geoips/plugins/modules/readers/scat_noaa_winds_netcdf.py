@@ -78,9 +78,7 @@ def read_noaa_data(wind_xarray):
     # Save wind direction to standardized name across ascat readers
     wind_xarray["wind_dir_deg_met"] = wind_xarray["wind_dir"]
     wind_xarray["wind_dir_deg_met"].attrs = wind_xarray["wind_dir"].attrs
-    wind_xarray.wind_dir_deg_met.attrs["standard_name"] = (
-        "wind_from_direction"
-    )
+    wind_xarray.wind_dir_deg_met.attrs["standard_name"] = "wind_from_direction"
     wind_xarray.wind_dir_deg_met.attrs["valid_max"] = 360
 
     # Set lat/lons/timestamp appropriately
@@ -182,7 +180,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:

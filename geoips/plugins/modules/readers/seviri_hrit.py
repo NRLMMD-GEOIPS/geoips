@@ -322,9 +322,7 @@ def get_top_level_metadata(fnames, sect):
     # MLS Check platform_name
     # Turn msg4_iodc into msg4.  Then pull geoips satname (meteoEU/meteoIO)
     # from utils/satellite_info.py
-    msg_satname = (
-        df.annotation_metadata["platform"].lower().replace("_iodc", "")
-    )
+    msg_satname = df.annotation_metadata["platform"].lower().replace("_iodc", "")
     # Save actual satellite name (msg1 / msg4) for the coefficient tables above.
     # geoips specific platform_name should be msg-1 or msg-4
     md["satellite_name"] = msg_satname
@@ -335,9 +333,7 @@ def get_top_level_metadata(fnames, sect):
     #         msg_satname = satinfo.geoips_satname
     # except KeyError:
     #     raise HritError('Unknown satname encountered: {}'.format(msg_satname))
-    md["platform_name"] = (
-        msg_satname[0:3] + "-" + msg_satname[-1]
-    )  # msg-1 or msg-4
+    md["platform_name"] = msg_satname[0:3] + "-" + msg_satname[-1]  # msg-1 or msg-4
     md["source_name"] = "seviri"
     md["area_definition"] = sect
     md["sample_distance_km"] = 3.0
@@ -377,9 +373,7 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
     cos_y = np.cos(y)
     sin_y = np.sin(y)  # noqa: F841
 
-    sd = ne.evaluate(
-        "(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff"
-    )
+    sd = ne.evaluate("(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff")
     bad_mask = sd < 0.0
     sd[bad_mask] = 0.0
     sd **= 0.5
@@ -388,9 +382,7 @@ def get_latitude_longitude(gmd, BADVALS, area_def):
 
     # sd no longer needed
     sn = sd
-    ne.evaluate(
-        "(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)", out=sn
-    )
+    ne.evaluate("(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)", out=sn)
 
     # cos_x no longer needed
     s1 = cos_x
@@ -429,9 +421,9 @@ def _get_geolocation_metadata(prologue, file_metadata):
     geomet = {}
     geomet["platform_name"] = file_metadata["platform_name"]
     geomet["source_name"] = file_metadata["source_name"]
-    geomet["scan_mode"] = prologue["imageDescription"][
-        "projectionDescription"
-    ]["typeOfProjection"]
+    geomet["scan_mode"] = prologue["imageDescription"]["projectionDescription"][
+        "typeOfProjection"
+    ]
     # Used for cached filenames
     geomet["scene"] = geomet["scan_mode"]
     geomet["lon0"] = prologue["imageDescription"]["projectionDescription"][
@@ -440,18 +432,16 @@ def _get_geolocation_metadata(prologue, file_metadata):
     geomet["num_lines"] = prologue["imageDescription"]["referenceGridVIS_IR"][
         "numberOfLines"
     ]
-    geomet["num_samples"] = prologue["imageDescription"][
-        "referenceGridVIS_IR"
-    ]["numberOfColumns"]
-    geomet["line_scale"] = (
-        -13642337
-    )  # This will only work for low resolution data
+    geomet["num_samples"] = prologue["imageDescription"]["referenceGridVIS_IR"][
+        "numberOfColumns"
+    ]
+    geomet["line_scale"] = -13642337  # This will only work for low resolution data
     geomet["sample_scale"] = -13642337
     geomet["line_offset"] = geomet["num_lines"] / 2
     geomet["sample_offset"] = geomet["num_samples"] / 2
-    geomet["start_datetime"] = prologue["imageAcquisition"][
-        "plannedAcquisitionTime"
-    ]["trueRepeatCycleStart"]
+    geomet["start_datetime"] = prologue["imageAcquisition"]["plannedAcquisitionTime"][
+        "trueRepeatCycleStart"
+    ]
     geomet["H_m"] = 42164 * 1000.0  # Satellite altitude (m)
     geomet["roi_factor"] = 10  # roi = res_km * 1000 * roi_factor
     return geomet
@@ -491,9 +481,7 @@ def radToBT(rad, platform, band):
     a = IR_CALIB[platform][band]["a"]
     b = IR_CALIB[platform][band]["b"]
     temp = np.full_like(rad, -999.0)
-    temp[rad > 0] = (
-        (c2 * wn) / np.log(1 + wn**3 * c1 / rad[rad > 0]) - b
-    ) / a
+    temp[rad > 0] = ((c2 * wn) / np.log(1 + wn**3 * c1 / rad[rad > 0]) - b) / a
     return temp
 
 
@@ -640,16 +628,12 @@ def call(
     adname = "undefined"
     # Remove any HRV files from file list
     # See note 1 at top of module
-    fnames = [
-        fname for fname in fnames if not any(val in fname for val in ["HRV"])
-    ]
+    fnames = [fname for fname in fnames if not any(val in fname for val in ["HRV"])]
 
     # Check inputs
     if self_register and self_register != "LOW":
         raise XritError(
-            "Unknown resolution supplied to self_register: {}".format(
-                self_register
-            )
+            "Unknown resolution supplied to self_register: {}".format(self_register)
         )
     if area_def:
         try:
@@ -696,18 +680,14 @@ def call(
             sdt = df.start_datetime
         if df.start_datetime != sdt:
             raise HritError(
-                "Start date time does not match for all files: {}".format(
-                    fnames
-                )
+                "Start date time does not match for all files: {}".format(fnames)
             )
         # Get prologue
         if df.file_type == "prologue":
             pro = df.prologue
             dt = xarray_obj.attrs["start_datetime"]
             # xarray_obj.attrs['prologue'] = pro
-            for poly in df.prologue["satelliteStatus"]["orbit"][
-                "orbitPolynomial"
-            ]:
+            for poly in df.prologue["satelliteStatus"]["orbit"]["orbitPolynomial"]:
                 if dt <= poly["endTime"] and dt >= poly["startTime"]:
                     LOG.info("Calculating x/y/z satellite location")
 
@@ -749,9 +729,7 @@ def call(
             dfs[df.band][df.segment] = df
             all_segs.add(df.segment)
         else:
-            LOG.warning(
-                "Unhandled file type encountered: {}".format(df.file_type)
-            )
+            LOG.warning("Unhandled file type encountered: {}".format(df.file_type))
     if not pro:
         raise HritError("No prologue file found")
 
@@ -761,9 +739,7 @@ def call(
         for chan in chlist.chans:
             if chan.band not in dfs.keys():
                 raise ValueError(
-                    "Requested channel {} not found in input data.".format(
-                        chan.name
-                    )
+                    "Requested channel {} not found in input data.".format(chan.name)
                 )
     # If no specific channels were requested, get everything
     else:
@@ -775,9 +751,7 @@ def call(
     # This saves us from having slightly different solar angles for each channel.
     gmd = _get_geolocation_metadata(pro, xarray_obj.attrs)
     fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
-    gvars[adname] = get_geolocation(
-        sdt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
-    )
+    gvars[adname] = get_geolocation(sdt, gmd, fldk_lats, fldk_lons, BADVALS, area_def)
 
     # Drop files for channels other than those requested and decompress
     outdir = os.path.join(
@@ -824,12 +798,8 @@ def call(
         dfs.pop(skip_band)
 
     # Create data arrays for requested data and read count data
-    num_lines = pro["imageDescription"]["referenceGridVIS_IR"][
-        "numberOfLines"
-    ]
-    num_samples = pro["imageDescription"]["referenceGridVIS_IR"][
-        "numberOfColumns"
-    ]
+    num_lines = pro["imageDescription"]["referenceGridVIS_IR"]["numberOfLines"]
+    num_samples = pro["imageDescription"]["referenceGridVIS_IR"]["numberOfColumns"]
     count_data = {}
     annotation_metadata = {}
     for band in chlist.bands:
@@ -849,9 +819,7 @@ def call(
                 LOG.error("FAILED READING SEGMENT, SKIPPING %s" % (resp))
         LOG.info("Read band %s %s" % (band, df.annotation_metadata["band"]))
         if "Lines" in gvars[adname]:
-            count_data[band] = data[
-                gvars[adname]["Lines"], gvars[adname]["Samples"]
-            ]
+            count_data[band] = data[gvars[adname]["Lines"], gvars[adname]["Samples"]]
         else:
             count_data[band] = data
         annotation_metadata[band] = df.annotation_metadata
@@ -916,15 +884,9 @@ def call(
             + annotation_metadata[chan.band]["band"][5:]
         )
 
-    gvars[adname]["latitude"] = np.ma.masked_less_equal(
-        gvars[adname]["latitude"], -999
-    )
-    toplat = gvars[adname]["latitude"][
-        np.ma.where(gvars[adname]["latitude"])
-    ][0]
-    bottomlat = gvars[adname]["latitude"][
-        np.ma.where(gvars[adname]["latitude"])
-    ][-1]
+    gvars[adname]["latitude"] = np.ma.masked_less_equal(gvars[adname]["latitude"], -999)
+    toplat = gvars[adname]["latitude"][np.ma.where(gvars[adname]["latitude"])][0]
+    bottomlat = gvars[adname]["latitude"][np.ma.where(gvars[adname]["latitude"])][-1]
 
     for var in gvars[adname].keys():
         if toplat < bottomlat:
@@ -932,9 +894,7 @@ def call(
                 np.flipud(gvars[adname][var]), -999
             )
         else:
-            gvars[adname][var] = np.ma.masked_less_equal(
-                gvars[adname][var], -999
-            )
+            gvars[adname][var] = np.ma.masked_less_equal(gvars[adname][var], -999)
 
         if "satellite_zenith_angle" in gvars[adname].keys():
             gvars[adname][var] = np.ma.masked_where(
@@ -948,9 +908,7 @@ def call(
                 np.flipud(datavars[adname][var]), -999
             )
         else:
-            datavars[adname][var] = np.ma.masked_less_equal(
-                datavars[adname][var], -999
-            )
+            datavars[adname][var] = np.ma.masked_less_equal(datavars[adname][var], -999)
 
         if "satellite_zenith_angle" in gvars[adname].keys():
             datavars[adname][var] = np.ma.masked_where(
@@ -966,10 +924,7 @@ def call(
             xobj[varname] = xarray.DataArray(datavars[dsname][varname])
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
-        if (
-            hasattr(xobj.attrs, "area_definition")
-            and xobj.area_definition is not None
-        ):
+        if hasattr(xobj.attrs, "area_definition") and xobj.area_definition is not None:
             xobj.attrs["interpolation_radius_of_influence"] = max(
                 xobj.area_definition.pixel_size_x,
                 xobj.area_definition.pixel_size_y,

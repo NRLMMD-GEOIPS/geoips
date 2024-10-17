@@ -111,9 +111,7 @@ def bowtie_correction(band, lat, lon):
         if np.any(dist[i] == 0):
             # weight the zero to a small value
             weight = np.where(dist[i] == 0, 1e-6, dist[i])
-            res_band[xi, yi] = np.average(
-                good_rad[idx[i]], weights=1 / weight
-            )
+            res_band[xi, yi] = np.average(good_rad[idx[i]], weights=1 / weight)
             continue
 
         res_band[xi, yi] = np.average(good_rad[idx[i]], weights=1 / dist[i])
@@ -223,9 +221,7 @@ def call(
             lon = tmp_scn[d].area.lons.to_masked_array().data
 
             # bowtie correction
-            band_data, band_lat, band_lon = bowtie_correction(
-                tmp_ma, lat, lon
-            )
+            band_data, band_lat, band_lon = bowtie_correction(tmp_ma, lat, lon)
 
             tmp_dask |= {full_key: (("dim_0", "dim_1"), band_data)}
 
@@ -245,9 +241,7 @@ def call(
             end=scn_end,
             periods=tmp_coor["latitude"][1].shape[0],
         ).values
-        interp_time = np.tile(
-            time_range, (tmp_coor["latitude"][1].shape[1], 1)
-        ).T
+        interp_time = np.tile(time_range, (tmp_coor["latitude"][1].shape[1], 1)).T
         tmp_coor["time"] = (("dim_0", "dim_1"), interp_time)
         # # print(tmp_coor["latitude"][1].shape)
         # raise
@@ -288,13 +282,9 @@ def call(
                 # this results in the wrong value..
                 # np.arccos((tmp_scn["dnb_moon_illumination_fraction"].data/50)-1)
 
-                dnb_geofile = [
-                    i for i in fnames if "GDNBO" in os.path.basename(i)
-                ][0]
+                dnb_geofile = [i for i in fnames if "GDNBO" in os.path.basename(i)][0]
                 h5_dnb = h5py.File(dnb_geofile)
-                phase_ang = h5_dnb[
-                    "All_Data/VIIRS-DNB-GEO_All/MoonPhaseAngle"
-                ][...]
+                phase_ang = h5_dnb["All_Data/VIIRS-DNB-GEO_All/MoonPhaseAngle"][...]
 
                 lunarref_data = lunarref(
                     tmp_dask["DNBRad"][1],
@@ -304,14 +294,10 @@ def call(
                     scn_start.strftime("%M"),
                     phase_ang,
                 )
-                lunarref_data = np.ma.masked_less_equal(
-                    lunarref_data, -999, copy=False
-                )
+                lunarref_data = np.ma.masked_less_equal(lunarref_data, -999, copy=False)
                 tmp_dask |= {"DNBRef": (("dim_0", "dim_1"), lunarref_data)}
             except ImportError:
-                LOG.info(
-                    "Failed lunarref in viirs reader.  If you need it, build it"
-                )
+                LOG.info("Failed lunarref in viirs reader.  If you need it, build it")
 
         # problem with sat_za/az values being too high, need to downsample
         # print("Building xarray")

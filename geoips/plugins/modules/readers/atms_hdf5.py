@@ -177,9 +177,7 @@ def read_atms_file(fname, xarray_atms):
         H50 = tbs[:, :, 2]
         V89 = tbs[:, :, 15]
         H165 = tbs[:, :, 16]
-        H183 = tbs[
-            :, :, 18
-        ]  # to match the 183+-4.5 GHz channel used by FNMOC
+        H183 = tbs[:, :, 18]  # to match the 183+-4.5 GHz channel used by FNMOC
 
         #  get UTC time in datetime64 format required by geoips for each pixel
         time_scan = convert_epoch_to_datetime64(tb_time)
@@ -207,9 +205,7 @@ def read_atms_file(fname, xarray_atms):
         StartTime = data_select["StartTime"][()]
 
         #  get UTC time in datetime64 format required by geoips for each pixel
-        time_scan = convert_epoch_to_datetime64(
-            StartTime, use_shape=lon.shape
-        )
+        time_scan = convert_epoch_to_datetime64(StartTime, use_shape=lon.shape)
 
         # make dict of numpy arrays
         ingested = {
@@ -289,16 +285,12 @@ def call(
     """
     LOG.info("Reading files %s", fnames)
 
-    if (
-        metadata_only is True
-    ):  # read-in datafiles first time if 'metadata_only= True'
+    if metadata_only is True:  # read-in datafiles first time if 'metadata_only= True'
         xarray_atms = xr.Dataset()
         source_file_names = []
         for fname in fnames:
             xarray_atms = read_atms_file(fname, xarray_atms)
-            source_file_names += [
-                basename(fname)
-            ]  # name of last file from input files
+            source_file_names += [basename(fname)]  # name of last file from input files
         xarray_atms.attrs["source_file_names"] = source_file_names
 
         # setup attributors
@@ -315,9 +307,7 @@ def call(
             xarray_atms, "time"
         )
         xarray_atms.attrs["source_name"] = "atms"
-        platform_name = fileobj.attrs["Platform_Short_Name"][0, 0].decode(
-            "utf-8"
-        )
+        platform_name = fileobj.attrs["Platform_Short_Name"][0, 0].decode("utf-8")
         # Map platform names found in data file attributes to consistent
         # GeoIPS naming conventions (match VIIRS reader).
         if platform_name == "J01":

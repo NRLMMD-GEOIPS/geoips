@@ -57,9 +57,7 @@ def parse_metadata(metadatadict):
         if ii == "CoreMetadata.0":
             parse_core_metadata(metadata, metadatadict["CoreMetadata.0"])
         elif ii == "ArchiveMetadata.0":
-            parse_archive_metadata(
-                metadata, metadatadict["ArchiveMetadata.0"]
-            )
+            parse_archive_metadata(metadata, metadatadict["ArchiveMetadata.0"])
         elif ii == "StructMetadata.0":
             parse_struct_metadata(metadata, metadatadict["StructMetadata.0"])
         else:
@@ -100,19 +98,13 @@ def parse_core_metadata(metadata, metadatastr):
             "SHORTNAME",
         ]:
             if "OBJECT" == typ and currval == field:
-                metadata[currval] = (
-                    lines[ii + 2].split("=")[1].replace('"', "").strip()
-                )
+                metadata[currval] = lines[ii + 2].split("=")[1].replace('"', "").strip()
 
         # Also remove the trailing .0000000 from times.
         for currval in ["RANGEBEGINNINGTIME", "RANGEENDINGTIME"]:
             if "OBJECT" == typ and " = " + currval in line:
                 metadata[currval] = (
-                    lines[ii + 2]
-                    .split("=")[1]
-                    .strip()
-                    .replace('"', "")
-                    .split(".")[0]
+                    lines[ii + 2].split("=")[1].strip().replace('"', "").split(".")[0]
                 )
 
         # These have 'CLASS' in addition to 'NUMVAL' between OBJECT and VALUE.
@@ -122,9 +114,7 @@ def parse_core_metadata(metadata, metadatastr):
             "ASSOCIATEDPLATFORMSHORTNAME",
         ]:
             if "OBJECT" == typ and currval == field:
-                metadata[currval] = (
-                    lines[ii + 3].split("=")[1].strip().replace('"', "")
-                )
+                metadata[currval] = lines[ii + 3].split("=")[1].strip().replace('"', "")
         ii += 1
 
 
@@ -171,9 +161,7 @@ def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
 
     # add mask info for 'varname'
     if varname not in list(cumulative_mask.variables.keys()):
-        cumulative_mask[varname] = xr.DataArray(
-            xobj[varname].to_masked_array().mask
-        )
+        cumulative_mask[varname] = xr.DataArray(xobj[varname].to_masked_array().mask)
     elif cumulative_mask[varname].shape == xobj[varname].shape:
         cumulative_mask[varname] = (
             cumulative_mask[varname] | xobj[varname].to_masked_array().mask
@@ -314,8 +302,7 @@ def call(
 
         # If start/end datetime happen to vary, adjust here.
         sdt = datetime.strptime(
-            mf_metadata["RANGEBEGINNINGDATE"]
-            + mf_metadata["RANGEBEGINNINGTIME"],
+            mf_metadata["RANGEBEGINNINGDATE"] + mf_metadata["RANGEBEGINNINGTIME"],
             "%Y-%m-%d%H:%M:%S",
         )
         edt = datetime.strptime(
@@ -333,9 +320,7 @@ def call(
         xarrays["METADATA"].attrs["data_provider"] = "nasa"
         xarrays["METADATA"].attrs["source_file_names"] = [basename(fname)]
         xarrays["METADATA"].attrs["sample_distance_km"] = 2  # ????
-        xarrays["METADATA"].attrs[
-            "interpolation_radius_of_influence"
-        ] = 3000  # ???
+        xarrays["METADATA"].attrs["interpolation_radius_of_influence"] = 3000  # ???
         if metadata_only:
             return xarrays
 
@@ -477,22 +462,16 @@ def call(
 
                 for (
                     currvar
-                ) in (
-                    scifile_names.keys()
-                ):  # loop variables assocaited with geo-info
+                ) in scifile_names.keys():  # loop variables assocaited with geo-info
                     sfgvar = scifile_names[currvar]  # name of a field
                     select_data = mf.select(currvar)  # select this field
-                    attrs = (
-                        select_data.attributes()
-                    )  # get attributes of this field
+                    attrs = select_data.attributes()  # get attributes of this field
                     data = select_data.get()  # get the all data of this field
 
                     # for datasettag in dataset_info.keys():  # loop the data_type
                     # Checking if we need this resolution based on requested
                     # channels
-                    if not chans or list(
-                        set(chans) & set(dataset_info[datasettag])
-                    ):
+                    if not chans or list(set(chans) & set(dataset_info[datasettag])):
                         LOG.info("    adding " + datasettag + " " + currvar)
                         pass
                     else:
@@ -523,9 +502,7 @@ def call(
                         #                                                   Default is 3
                         # s (float, optional): positive smoothing facter defined for
                         #                     estimation condition. Deault is 0
-                        newKernel = RectBivariateSpline(
-                            x, y, data, kx=2, ky=2
-                        )
+                        newKernel = RectBivariateSpline(x, y, data, kx=2, ky=2)
                         outdata = newKernel(xx, yy)
                     # Appears lat/lon does not need to be *.01, and
                     # Zenith/Azimuth do. These scale_factors are hard coded
@@ -549,9 +526,7 @@ def call(
                         datasettag,
                     )
                     for attrname in attrs:  # add attributes
-                        xarrays[datasettag][sfgvar].attrs[attrname] = attrs[
-                            attrname
-                        ]
+                        xarrays[datasettag][sfgvar].attrs[attrname] = attrs[attrname]
 
                 # Add attributes
                 xarrays[datasettag].attrs["start_datetime"] = sdt
@@ -565,9 +540,7 @@ def call(
                     basename(fname)
                     not in xarrays[datasettag].attrs["source_file_names"]
                 ):
-                    xarrays[datasettag].attrs["source_file_names"] += [
-                        basename(fname)
-                    ]
+                    xarrays[datasettag].attrs["source_file_names"] += [basename(fname)]
                 xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
                 xarrays[datasettag].attrs[
                     "interpolation_radius_of_influence"
@@ -602,9 +575,7 @@ def call(
                         datasettag,
                     )
                     continue
-                attrs = (
-                    select_data.attributes()
-                )  # get attributes of this field
+                attrs = select_data.attributes()  # get attributes of this field
                 data = select_data.get()  # get the all data of this field
                 # data = mf.select(currvar).get()
 
@@ -616,9 +587,7 @@ def call(
                     datasettag,
                 )
                 for attrname in attrs:  # add attributes
-                    xarrays[datasettag][sfgvar].attrs[attrname] = attrs[
-                        attrname
-                    ]
+                    xarrays[datasettag][sfgvar].attrs[attrname] = attrs[attrname]
 
             # Add attributes
             xarrays[datasettag].attrs["start_datetime"] = sdt
@@ -628,17 +597,10 @@ def call(
                 "ASSOCIATEDPLATFORMSHORTNAME"
             ].lower()
             xarrays[datasettag].attrs["data_provider"] = "nasa"
-            if (
-                basename(fname)
-                not in xarrays[datasettag].attrs["source_file_names"]
-            ):
-                xarrays[datasettag].attrs["source_file_names"] += [
-                    basename(fname)
-                ]
+            if basename(fname) not in xarrays[datasettag].attrs["source_file_names"]:
+                xarrays[datasettag].attrs["source_file_names"] += [basename(fname)]
             xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
-            xarrays[datasettag].attrs[
-                "interpolation_radius_of_influence"
-            ] = 3000  # ???
+            xarrays[datasettag].attrs["interpolation_radius_of_influence"] = 3000  # ???
         else:
             for ii in range(len(datapaths)):
                 datapath = datapaths[ii]
@@ -664,9 +626,9 @@ def call(
                     ind = jj
                     if len(attrs["radiance_offsets"]) == 1:
                         ind = 0
-                    data = (
-                        alldata[jj] - attrs["radiance_offsets"][ind]
-                    ) * attrs["radiance_scales"][ind]
+                    data = (alldata[jj] - attrs["radiance_offsets"][ind]) * attrs[
+                        "radiance_scales"
+                    ][ind]
                     masked_data = np.ma.masked_equal(
                         np.ma.array(data), attrs["_FillValue"]
                     )
@@ -693,9 +655,9 @@ def call(
                         datasettag,
                     )
                     for attrname in attrs:  # add attributes
-                        xarrays[datasettag][channame + "Rad"].attrs[
+                        xarrays[datasettag][channame + "Rad"].attrs[attrname] = attrs[
                             attrname
-                        ] = attrs[attrname]
+                        ]
 
                     if channame in corrections.keys():
                         cor = corrections[channame]
@@ -751,9 +713,7 @@ def call(
                             cumulative_mask[datasettag],
                             datasettag,
                         )
-                        xarrays[datasettag][channame + "BT"].attrs[
-                            "units"
-                        ] = "Kelvin"
+                        xarrays[datasettag][channame + "BT"].attrs["units"] = "Kelvin"
                     if (
                         channame
                         in corrections_ref[
@@ -801,17 +761,10 @@ def call(
                 "ASSOCIATEDPLATFORMSHORTNAME"
             ].lower()
             xarrays[datasettag].attrs["data_provider"] = "nasa"
-            if (
-                basename(fname)
-                not in xarrays[datasettag].attrs["source_file_names"]
-            ):
-                xarrays[datasettag].attrs["source_file_names"] += [
-                    basename(fname)
-                ]
+            if basename(fname) not in xarrays[datasettag].attrs["source_file_names"]:
+                xarrays[datasettag].attrs["source_file_names"] += [basename(fname)]
             xarrays[datasettag].attrs["sample_distance_km"] = 2  # ????
-            xarrays[datasettag].attrs[
-                "interpolation_radius_of_influence"
-            ] = 3000  # ???
+            xarrays[datasettag].attrs["interpolation_radius_of_influence"] = 3000  # ???
 
     # compbine output fields
     xarray_returns = {}

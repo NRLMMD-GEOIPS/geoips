@@ -74,7 +74,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))

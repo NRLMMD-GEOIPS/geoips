@@ -7,7 +7,6 @@
 from datetime import datetime, timedelta
 import logging
 import os
-from os.path import basename
 
 # Third-Party Libraries
 import numpy
@@ -37,40 +36,22 @@ def read_byu_data(wind_xarray, fname):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    if (
-        "L2B_filename" in wind_xarray.attrs
-        and "metopa" in wind_xarray.L2B_filename
-    ):
+    if "L2B_filename" in wind_xarray.attrs and "metopa" in wind_xarray.L2B_filename:
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-a"
-    elif (
-        "L2B_filename" in wind_xarray.attrs
-        and "metopb" in wind_xarray.L2B_filename
-    ):
+    elif "L2B_filename" in wind_xarray.attrs and "metopb" in wind_xarray.L2B_filename:
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-b"
-    elif (
-        "L2B_filename" in wind_xarray.attrs
-        and "metopc" in wind_xarray.L2B_filename
-    ):
+    elif "L2B_filename" in wind_xarray.attrs and "metopc" in wind_xarray.L2B_filename:
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-c"
-    elif (
-        "SZF_filenames" in wind_xarray.attrs
-        and "M02" in wind_xarray.SZF_filenames
-    ):
+    elif "SZF_filenames" in wind_xarray.attrs and "M02" in wind_xarray.SZF_filenames:
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-a"
-    elif (
-        "SZF_filenames" in wind_xarray.attrs
-        and "M01" in wind_xarray.SZF_filenames
-    ):
+    elif "SZF_filenames" in wind_xarray.attrs and "M01" in wind_xarray.SZF_filenames:
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-b"
-    elif (
-        "SZF_filenames" in wind_xarray.attrs
-        and "M03" in wind_xarray.SZF_filenames
-    ):
+    elif "SZF_filenames" in wind_xarray.attrs and "M03" in wind_xarray.SZF_filenames:
         wind_xarray.attrs["source_name"] = "ascatuhr"
         wind_xarray.attrs["platform_name"] = "metop-c"
     elif (
@@ -90,13 +71,11 @@ def read_byu_data(wind_xarray, fname):
     try:
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
-            os.path.basename(wind_xarray.source_file_names[0])
-            .split("_")[3]
-            .lower()
+            os.path.basename(wind_xarray.source_file_names[0]).split("_")[3].lower()
         )
-        expected_yymmdd = os.path.basename(
-            wind_xarray.source_file_names[0]
-        ).split("_")[4]
+        expected_yymmdd = os.path.basename(wind_xarray.source_file_names[0]).split("_")[
+            4
+        ]
         expected_hhmn = os.path.basename(
             wind_xarray.source_file_names[0]
             .replace(".WRave3.nc", "")
@@ -113,9 +92,7 @@ def read_byu_data(wind_xarray, fname):
         # MUIFA_20220911_19947_C_D-product.nc
         # Store the storm names lower case - only reference to it is in the filename..
         storm_name = (
-            os.path.basename(wind_xarray.source_file_names[0])
-            .split("_")[0]
-            .lower()
+            os.path.basename(wind_xarray.source_file_names[0]).split("_")[0].lower()
         )
         wind_xarray.attrs["storms_with_coverage"] = [storm_name]
         new_file = True
@@ -125,9 +102,7 @@ def read_byu_data(wind_xarray, fname):
         # LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc
         # Store the storm names lower case - only reference to it is in the filename.
         storm_name = (
-            os.path.basename(wind_xarray.source_file_names[0])
-            .split("_")[0]
-            .lower()
+            os.path.basename(wind_xarray.source_file_names[0]).split("_")[0].lower()
         )
         wind_xarray.attrs["storms_with_coverage"] = [storm_name]
         new_file = True
@@ -154,9 +129,7 @@ def read_byu_data(wind_xarray, fname):
             wind_xarray.wspeeds[:, :, 3],
             wind_xarray.wind_speed_kts,
         )
-        wind_xarray["wind_speed_kts"] = (
-            wind_xarray["wind_speed_kts"] * MS_TO_KTS
-        )
+        wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed_kts"] * MS_TO_KTS
 
         wind_xarray["wind_dir_deg_met"] = xarray.where(
             wind_xarray.ambiguity_select == 1,
@@ -179,9 +152,7 @@ def read_byu_data(wind_xarray, fname):
             wind_xarray.wind_dir_deg_met,
         )
         # Set wind_speed_kts appropriately
-        wind_xarray["wind_speed_kts"].attrs = wind_xarray[
-            "wspeeds"
-        ].attrs.copy()
+        wind_xarray["wind_speed_kts"].attrs = wind_xarray["wspeeds"].attrs.copy()
         wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
         if wind_xarray["wspeeds"].attrs.get("long_name"):
             wind_xarray["wind_speed_kts"].attrs["long_name"] = (
@@ -190,9 +161,7 @@ def read_byu_data(wind_xarray, fname):
                 .replace("ambiguities", "ambiguity selection")
             )
 
-        wind_xarray["wind_dir_deg_met"].attrs = wind_xarray[
-            "wdirs"
-        ].attrs.copy()
+        wind_xarray["wind_dir_deg_met"].attrs = wind_xarray["wdirs"].attrs.copy()
 
         # Set lat/lons/time appropriately
         wind_xarray = wind_xarray.rename(
@@ -206,9 +175,7 @@ def read_byu_data(wind_xarray, fname):
         )
 
         if "lat" in wind_xarray.variables:
-            wind_xarray = wind_xarray.rename(
-                {"lat": "latitude", "lon": "longitude"}
-            )
+            wind_xarray = wind_xarray.rename({"lat": "latitude", "lon": "longitude"})
         wind_xarray["latitude"] = xarray.where(
             wind_xarray.ambiguity_select == 0, numpy.nan, wind_xarray.latitude
         )
@@ -232,9 +199,7 @@ def read_byu_data(wind_xarray, fname):
         dsname = "SIGMA"
         # bad vals where sigma 0 is -99.0
         wind_xarray["latitude"] = (
-            xarray.where(
-                wind_xarray.sig_fore < -98.0, numpy.nan, wind_xarray.latitude
-            )
+            xarray.where(wind_xarray.sig_fore < -98.0, numpy.nan, wind_xarray.latitude)
             - 90
         )
 
@@ -246,18 +211,16 @@ def read_byu_data(wind_xarray, fname):
             wind_xarray.sig_fore < -98.0, numpy.nan, wind_xarray.longitude
         )
         wind_xarray["sigma0_mean"] = (
-            wind_xarray["sig_fore"]
-            + wind_xarray["sig_aft"]
-            + wind_xarray["sig_mid"]
+            wind_xarray["sig_fore"] + wind_xarray["sig_aft"] + wind_xarray["sig_mid"]
         ) / 3
 
     if "time" in wind_xarray.variables:
         # These files are not correct yet.  Pull YYYYMMDD from filename for now,
         # set hour to 1200.
         # Just to get something to plot.
-        expected_yyyymmdd = os.path.basename(
-            wind_xarray.source_file_names[0]
-        ).split("_")[1]
+        expected_yyyymmdd = os.path.basename(wind_xarray.source_file_names[0]).split(
+            "_"
+        )[1]
         dt = datetime.strptime(expected_yyyymmdd + "0000", "%Y%m%d%H%M")
         # Find the "true" minimum valid time of the data array.
         # Simply running min() on the time data array will
@@ -270,9 +233,7 @@ def read_byu_data(wind_xarray, fname):
             # If the the native time difference is less than a day compared to the
             # expected, then assume the time array actually contains the correct dates!
             # Otherwise, time offset adjustments are needed
-            timediff = numpy.datetime64(dt) - numpy.datetime64(
-                "2000-01-01T00:00:00"
-            )
+            timediff = numpy.datetime64(dt) - numpy.datetime64("2000-01-01T00:00:00")
             min_time = native_min_time + timediff
             min_time_diff = min_time - numpy.datetime64(dt)
             if min_time_diff * 1e-9 > 86400:
@@ -280,9 +241,7 @@ def read_byu_data(wind_xarray, fname):
                     "Start time greater than 1day ahead of expected time. "
                     "Removing one day from applied offset"
                 )
-                timediff -= numpy.array(
-                    timedelta(days=1), dtype="timedelta64"
-                )
+                timediff -= numpy.array(timedelta(days=1), dtype="timedelta64")
             wind_xarray["time"] = wind_xarray["time"] + timediff
 
         # This is all it will be in the end
@@ -294,12 +253,8 @@ def read_byu_data(wind_xarray, fname):
         )
 
     else:
-        startdt = datetime.strptime(
-            wind_xarray.SZF_start_time[:-1], "%Y%m%d%H%M%S"
-        )
-        enddt = datetime.strptime(
-            wind_xarray.SZF_stop_time[:-1], "%Y%m%d%H%M%S"
-        )
+        startdt = datetime.strptime(wind_xarray.SZF_start_time[:-1], "%Y%m%d%H%M%S")
+        enddt = datetime.strptime(wind_xarray.SZF_stop_time[:-1], "%Y%m%d%H%M%S")
         middt = startdt + (enddt - startdt) / 2
         timearray = numpy.ma.array(
             numpy.zeros(shape=wind_xarray.latitude.shape).astype(int)
@@ -356,7 +311,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))
@@ -404,8 +358,7 @@ def call(
 
     wind_xarrays["METADATA"] = wind_xarray[[]]
     if (
-        wind_xarrays["METADATA"].start_datetime
-        == wind_xarrays["METADATA"].end_datetime
+        wind_xarrays["METADATA"].start_datetime == wind_xarrays["METADATA"].end_datetime
         and "SZF_start_time" in wind_xarray.attrs
     ):
         # Use alternate attributes to set start and end datetime

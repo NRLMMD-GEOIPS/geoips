@@ -289,9 +289,7 @@ def add_to_xarray(varname, nparr, xobj, dataset_masks, data_type, nparr_mask):
         # caused the unprojected test scripts to fail (due to incorrect
         # shape of the final mask array).  Removing that check so ALL
         # variables are vstacked.
-        dataset_masks[data_type] = numpy.vstack(
-            [dataset_masks[data_type], nparr_mask]
-        )
+        dataset_masks[data_type] = numpy.vstack([dataset_masks[data_type], nparr_mask])
 
 
 def call(
@@ -336,7 +334,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     # since fname is a LIST of input files, this reader needs additional adjustments to
     # read all files and put them into the XARRAY output (add one more array for
     # number of files)
@@ -400,9 +397,7 @@ def call(
         scan_start_time = ncdf_file["scan_line_attributes"].variables[
             "scan_start_time"
         ][:]
-        scan_end_time = ncdf_file["scan_line_attributes"].variables[
-            "scan_end_time"
-        ][:]
+        scan_end_time = ncdf_file["scan_line_attributes"].variables["scan_end_time"][:]
 
         # scan = ncdf_file.groups["scan_line_attributes"]
         # stime = scan.variables['scan_start_time'][:]
@@ -434,13 +429,8 @@ def call(
             # Attribute still lists JPSS-1, but operational satellite name is NOAA-20.
             xarrays[data_type].attrs["platform_name"] = "noaa-20"
         xarrays[data_type].attrs["data_provider"] = "NASA"
-        if (
-            os.path.basename(fname)
-            not in xarrays[data_type].attrs["source_file_names"]
-        ):
-            xarrays[data_type].attrs["source_file_names"] += [
-                os.path.basename(fname)
-            ]
+        if os.path.basename(fname) not in xarrays[data_type].attrs["source_file_names"]:
+            xarrays[data_type].attrs["source_file_names"] += [os.path.basename(fname)]
 
         # MTIFs need to be "prettier" for PMW products, so 2km resolution for
         # final image
@@ -472,9 +462,7 @@ def call(
         vis_data_type = data_type + "-Vis"
         if Start_date not in tracked_data_type_vars[default_data_type]:
             tracked_data_type_vars[default_data_type][Start_date] = []
-        tracked_data_type_vars[default_data_type][Start_date].extend(
-            list(list_vars)
-        )
+        tracked_data_type_vars[default_data_type][Start_date].extend(list(list_vars))
         if data_type in ["MOD", "IMG"]:
             if vis_data_type not in dataset_masks:
                 dataset_masks[vis_data_type] = False
@@ -485,9 +473,7 @@ def call(
             vis_vars = VARLIST[vis_data_type]
             if Start_date not in tracked_data_type_vars[vis_data_type]:
                 tracked_data_type_vars[vis_data_type][Start_date] = []
-            tracked_data_type_vars[vis_data_type][Start_date].extend(
-                list(list_vars)
-            )
+            tracked_data_type_vars[vis_data_type][Start_date].extend(list(list_vars))
         else:
             geo_target_data_types = [default_data_type]
             vis_vars = []
@@ -509,9 +495,7 @@ def call(
                 data_type = default_data_type
 
             # Need Rad in order to calculate DNB Ref variable.
-            if var in DNB_CHANNELS and required_chan(
-                chans, [radvarname, refvarname]
-            ):
+            if var in DNB_CHANNELS and required_chan(chans, [radvarname, refvarname]):
                 LOG.info(
                     "        Reading %s channel %s into DNB variable %s",
                     data_type,
@@ -528,8 +512,8 @@ def call(
                     nparr.mask,
                 )
                 for attrname in ncvar.ncattrs():
-                    xarrays[data_type][radvarname].attrs[attrname] = (
-                        ncvar.getncattr(attrname)
+                    xarrays[data_type][radvarname].attrs[attrname] = ncvar.getncattr(
+                        attrname
                     )
 
             # Apply Brightness Temperature conversions if BT version of variable was
@@ -537,8 +521,7 @@ def call(
             if (
                 var in BT_CHANNELS + REF_CHANNELS
                 and required_chan(chans, [btvarname])
-                and var + "_brightness_temperature_lut"
-                in ncdata.variables.keys()
+                and var + "_brightness_temperature_lut" in ncdata.variables.keys()
             ):
                 LOG.info(
                     "        Reading %s channel %s into BRIGHTNESS TEMPERATURE "
@@ -547,9 +530,7 @@ def call(
                     var,
                     btvarname,
                 )
-                btlut = ncdata.variables[var + "_brightness_temperature_lut"][
-                    ...
-                ]
+                btlut = ncdata.variables[var + "_brightness_temperature_lut"][...]
                 ncvar.set_auto_maskandscale(False)
                 unscaled_rad = ncvar[...]
                 nparr = btlut[unscaled_rad]
@@ -598,8 +579,8 @@ def call(
                 )
 
                 for attrname in ncvar.ncattrs():
-                    xarrays[data_type][radvarname].attrs[attrname] = (
-                        ncvar.getncattr(attrname)
+                    xarrays[data_type][radvarname].attrs[attrname] = ncvar.getncattr(
+                        attrname
                     )
 
             if var in REF_CHANNELS and required_chan(chans, [refvarname]):
@@ -630,9 +611,9 @@ def call(
                 if var in GVARLIST[geo_target_data_type] and required_geo(
                     chans, geo_target_data_type
                 ):
-                    source_file_vars = tracked_data_type_vars[
-                        geo_target_data_type
-                    ][Start_date]
+                    source_file_vars = tracked_data_type_vars[geo_target_data_type][
+                        Start_date
+                    ]
                     if geo_target_data_type == vis_data_type and not all(
                         [x in source_file_vars for x in vis_vars]
                     ):
@@ -653,9 +634,7 @@ def call(
                         var,
                         xvarname,
                     )
-                    nparr = numpy.ma.masked_equal(
-                        ncvar[...], ncvar._FillValue
-                    )
+                    nparr = numpy.ma.masked_equal(ncvar[...], ncvar._FillValue)
                     add_to_xarray(
                         xvarname,
                         nparr,
@@ -665,9 +644,9 @@ def call(
                         nparr.mask,
                     )
                     for attrname in ncvar.ncattrs():
-                        xarrays[geo_target_data_type][xvarname].attrs[
-                            attrname
-                        ] = ncvar.getncattr(attrname)
+                        xarrays[geo_target_data_type][xvarname].attrs[attrname] = (
+                            ncvar.getncattr(attrname)
+                        )
 
         # LongName is something like:
         # 'VIIRS/JPSS1 Day/Night Band 6-Min L1B Swath SDR 750m NRT'
@@ -706,9 +685,7 @@ def call(
             geo_metadata = _get_geolocation_metadata(
                 fldk_lats.shape, fnames, xarrays[dtype]
             )
-            lines, samples = get_indexes(
-                geo_metadata, fldk_lats, fldk_lons, area_def
-            )
+            lines, samples = get_indexes(geo_metadata, fldk_lats, fldk_lons, area_def)
 
             index_mask = lines != -999
 
@@ -762,9 +739,9 @@ def call(
             xarrays[dtype][varname] = xarrays[dtype][varname].where(
                 ~dataset_masks[dtype]
             )
-        if "DNBRad" in list(
-            xarrays[dtype].variables.keys()
-        ) and required_chan(chans, ["DNBRef"]):
+        if "DNBRad" in list(xarrays[dtype].variables.keys()) and required_chan(
+            chans, ["DNBRef"]
+        ):
             with import_optional_dependencies(loglevel="info"):
                 """Attempt to import a package log to INFO if the import fails."""
                 from lunarref.lib.liblunarref import lunarref
@@ -792,9 +769,7 @@ def call(
     for dtype in xarray_returns:
         bad_llmask = xarray_returns[dtype]["latitude"] == -999.9
         for var in xarray_returns[dtype].variables.keys():
-            xarray_returns[dtype][var] = xarray_returns[dtype][var].where(
-                ~bad_llmask
-            )
+            xarray_returns[dtype][var] = xarray_returns[dtype][var].where(~bad_llmask)
 
     xarray_returns["METADATA"] = list(xarray_returns.values())[0][[]]
 
