@@ -6,6 +6,8 @@
 import logging
 from os.path import splitext
 
+from geoips.filenames.base_paths import PATHS as gpaths
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_checkers"
@@ -84,7 +86,12 @@ def correct_file_format(fname):
     return False
 
 
-def outputs_match(plugin, output_product, compare_product, threshold):
+def outputs_match(
+    plugin,
+    output_product,
+    compare_product,
+    threshold=gpaths["OUTPUT_CHECKER_THRESHOLD_IMAGE"],
+):
     """Use PIL and numpy to compare two images.
 
     Parameters
@@ -95,7 +102,7 @@ def outputs_match(plugin, output_product, compare_product, threshold):
         Current output product
     compare_product : str
         Path to comparison product
-    threshold: float
+    threshold: float, default=0.05
         Threshold for the image comparison. Argument to pixelmatch.
         Between 0 and 1, with 0 the most strict comparison, and 1 the most lenient.
 
@@ -234,7 +241,12 @@ def outputs_match(plugin, output_product, compare_product, threshold):
     return True
 
 
-def call(plugin, compare_path, output_products, threshold=0.05):
+def call(
+    plugin,
+    compare_path,
+    output_products,
+    threshold=gpaths["OUTPUT_CHECKER_THRESHOLD_IMAGE"],
+):
     """Compare the "correct" imagery found the list of current output_products.
 
     Compares files produced in the current processing run with the list of
