@@ -1,0 +1,30 @@
+enhancement:
+- description: 'imports were scattered across most readers. They are moved to the top, except optional dependency ones'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:  
+    - geoips/plugins/modules/readers/*.py
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'organize imports'
+refactor:
+- description: 'refactor ensuring consistent module aliases'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:  
+    - 
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 
