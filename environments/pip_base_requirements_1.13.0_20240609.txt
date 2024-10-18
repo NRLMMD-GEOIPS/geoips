@@ -13,7 +13,7 @@ beautifulsoup4==4.12.3
 black==24.4.2
 CacheControl==0.13.1
 Cartopy==0.23.0
-certifi==2024.6.2
+certifi==2024.7.4
 cftime==1.6.4
 charset-normalizer==3.3.2
 cleo==2.1.0
