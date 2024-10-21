@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test asserting functionality for exposing plugin-package commands."""
 
 from importlib import metadata
