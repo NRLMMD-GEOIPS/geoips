@@ -29,6 +29,300 @@ right in the case of a conflict with this document.
 External Style Standards
 ------------------------
 
+Numpy Docstrings
+^^^^^^^^^^^^^^^^
+
+Full information here: `Docstring Standard <https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard>`_
+
+Common mishaps:
+"""""""""""""""
+
+The first docstring line should be a "one-line summary that **does not use variable
+names or the function name**"
+
+Classes
+"""""""
+
+.. dropdown:: Example
+
+  .. code-block:: python
+
+    class Calculator:
+        """A simple calculator class for performing basic arithmetic operations.
+
+        This class provides methods to add, subtract, multiply, and divide
+        two numeric values. It also includes a `safe_divide` method to handle
+        division by zero more gracefully.
+
+        .. deprecated:: 1.1.0
+          The `divide` method will be removed in version 2.0.0.
+          Use `safe_divide` instead, which handles division by zero.
+
+        Extended Summary
+        ----------------
+        The `Calculator` class is designed for basic arithmetic operations
+        such as addition, subtraction, multiplication, and division. It is
+        useful for simple computational tasks and educational purposes.
+
+        The `safe_divide` method is a safer version of `divide` that returns
+        `inf` when dividing by zero, rather than raising an error.
+
+        Parameters
+        ----------
+        log_operations : bool, optional
+            If True, all operations will be logged to a file (default is False).
+
+        Attributes
+        ----------
+        log_operations : bool
+            Indicates whether operations will be logged to a file.
+
+        Other Parameters
+        ----------------
+        output_format : str, optional
+            Format for the output of arithmetic operations. It must be one of
+            `{'decimal', 'fraction'}`. Default is 'decimal'.
+
+        Raises
+        ------
+        ZeroDivisionError
+            If `divide` is used with the second operand as zero.
+
+        See Also
+        --------
+        numpy.add : Element-wise addition for numpy arrays.
+        numpy.subtract : Element-wise subtraction for numpy arrays.
+        numpy.multiply : Element-wise multiplication for numpy arrays.
+
+        Notes
+        -----
+        This class is intended for scalar arithmetic operations. If you are
+        working with arrays, you should consider using `numpy` for vectorized
+        operations, which will be more efficient.
+
+        References
+        ----------
+        .. [1] Python Documentation: https://docs.python.org/3/library/operator.html
+        .. [2] NumPy Documentation: https://numpy.org/doc/stable/reference/routines.math.html
+
+        Examples
+        --------
+        Create a `Calculator` object and perform arithmetic operations:
+
+        >>> calc = Calculator()
+        >>> calc.add(10, 5)
+        15
+        >>> calc.subtract(10, 5)
+        5
+        >>> calc.multiply(10, 5)
+        50
+        >>> calc.divide(10, 5)
+        2.0
+        >>> calc.safe_divide(10, 0)
+        inf
+
+        """
+
+Sections:
+
+#. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
+#. `Deprecation warning (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#deprecation-warning>`_
+#. `Extended Summary <https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary>`_
+#. `Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_
+#. `Other Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#other-parameters>`_
+#. `Raises (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#raises>`_
+#. `See Also (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#see-also>`_
+#. `Notes (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#notes>`_
+#. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
+#. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
+
+Methods
+"""""""
+
+.. dropdown:: Example
+
+  .. code-block:: python
+
+    def matrix_multiply(a, b, out=None):
+      """Multiply two matrices.
+
+      Computes the matrix product of two arrays `a` and `b`. If an output array
+      is provided, the result is stored in `out`. This function follows the
+      standard rules for matrix multiplication in linear algebra.
+
+      .. deprecated:: 1.5.0
+        This function will be removed in NumPy 2.0.0.
+        Use `numpy.matmul` or `numpy.dot` instead.
+
+      Parameters
+      ----------
+      a : array_like
+          The first matrix to be multiplied.
+      b : array_like
+          The second matrix to be multiplied.
+      out : ndarray, optional
+          If provided, the result will be stored in this array. It must have
+          the correct shape to store the result.
+
+      Other Parameters
+      ----------------
+      dtype : data-type, optional
+          If specified, forces the operation to cast the inputs to the given
+          type before performing the operation.
+
+      Returns
+      -------
+      output : ndarray
+          The matrix product of `a` and `b`. If `out` is provided, this array
+          is returned.
+
+      Raises
+      ------
+      ValueError
+          If the shapes of `a` and `b` are not aligned for matrix multiplication.
+
+      See Also
+      --------
+      numpy.matmul : Matrix product of two arrays.
+      numpy.dot : Dot product of two arrays.
+      numpy.einsum : Einstein summation convention.
+
+      Notes
+      -----
+      This function implements the matrix product as described in linear algebra.
+      It is different from element-wise multiplication of arrays.
+
+      If either of the inputs is a scalar, it will be broadcast according to
+      standard broadcasting rules.
+
+      References
+      ----------
+      .. [1] Strang, G., "Introduction to Linear Algebra, 5th Edition," Wellesley-Cambridge Press, 2016.
+
+      Examples
+      --------
+      Multiply two 2x2 matrices:
+
+      >>> import numpy as np
+      >>> a = np.array([[1, 2], [3, 4]])
+      >>> b = np.array([[5, 6], [7, 8]])
+      >>> matrix_multiply(a, b)
+      array([[19, 22],
+            [43, 50]])
+
+      Store result in a pre-allocated output array:
+
+      >>> out = np.empty((2, 2))
+      >>> matrix_multiply(a, b, out=out)
+      array([[19, 22],
+            [43, 50]])
+      >>> out
+      array([[19., 22.],
+            [43., 50.]])
+
+      """
+      import numpy as np
+
+      a = np.asarray(a)
+      b = np.asarray(b)
+
+      if out is None:
+          return np.dot(a, b)
+      else:
+          np.dot(a, b, out=out)
+          return out
+
+
+Sections:
+
+#. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
+#. `Deprecation warning (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#deprecation-warning>`_
+#. `Extended Summary <https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary>`_
+#. `Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#parameters>`_
+#. `Other Parameters (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#other-parameters>`_
+#. `Raises (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#raises>`_
+#. `See Also (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#see-also>`_
+#. `Notes (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#notes>`_
+#. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
+#. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
+
+More sections necessary for generators/etc. please see the original numpy standards 😄
+
+Modules
+"""""""
+
+.. dropdown:: Example
+
+  .. code-block:: python
+
+        """A simple mathematics module for common operations.
+
+        This module provides basic mathematical operations such as addition, subtraction,
+        multiplication, and division. It is designed to serve as a utility for quick calculations
+        without external dependencies.
+
+        Extended Summary
+        ----------------
+        The `mymathlib` module is created for educational purposes and provides a minimalistic
+        implementation of basic arithmetic operations. Each function performs a specific mathematical
+        task and can handle a wide range of input types, including integers and floats. This module
+        is intentionally simple to demonstrate NumPy-style documentation and function listings.
+
+        Routine Listings
+        ----------------
+        add(a, b)
+            Return the sum of `a` and `b`.
+
+        subtract(a, b)
+            Return the result of `a` minus `b`.
+
+        multiply(a, b)
+            Return the product of `a` and `b`.
+
+        divide(a, b)
+            Return the result of `a` divided by `b`.
+
+        See Also
+        --------
+        numpy.add : Adds two arrays element-wise.
+        numpy.subtract : Subtracts one array from another element-wise.
+        numpy.multiply : Multiplies two arrays element-wise.
+        numpy.divide : Divides two arrays element-wise.
+
+        Notes
+        -----
+        This module does not handle complex numbers or provide error handling for division
+        by zero. It assumes valid inputs (integers or floats) for all functions.
+
+        References
+        ----------
+        .. [1] NumPy documentation, https://numpy.org/doc/stable/reference/routines.math.html
+        .. [2] Python official documentation, https://docs.python.org/3/library/math.html
+
+        Examples
+        --------
+        >>> from mymathlib import add, subtract, multiply, divide
+        >>> add(2, 3)
+        5
+        >>> subtract(10, 5)
+        5
+        >>> multiply(4, 3)
+        12
+        >>> divide(9, 3)
+        3.0
+        """
+
+
+Sections:
+
+#. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
+#. `Extended summary (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary>`_
+#. `Routine listings (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#routine-listings>`_
+#. `See also (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#see-also>`_
+#. `Notes (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#notes>`_
+#. `References (optional) <https://numpydoc.readthedocs.io/en/latest/format.html#references>`_
+#. `Examples <https://numpydoc.readthedocs.io/en/latest/format.html#examples>`_
+
 `PEP 8 <https://peps.python.org/pep-0008/>`__
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
