@@ -286,7 +286,7 @@ def update_content_for_section(
     """
     section_path = os.path.join(build_dir, section, "index.rst")
     os.system(f"ls {os.path.join(section, '..')}")
-    if not is_optional and not os.path.exists(section):
+    if not is_optional and not os.path.exists(section_path):
         raise FileNotFoundError(
             f"Required section {section} does not exist as {section_path}"
         )
