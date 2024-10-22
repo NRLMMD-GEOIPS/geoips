@@ -9,8 +9,7 @@ import logging
 from os.path import basename
 
 # Third-Party Libraries
-import numpy
-from numpy import datetime64, timedelta64
+import numpy as np
 from netCDF4 import Dataset
 import xarray
 
@@ -60,17 +59,17 @@ def read_smos_data(wind_xarray, fname):
             wind_xarray["quality_level"] < 2
         )[0, :, :]
     wind_xarray["wind_speed_kts"] = xarray.DataArray(
-        data=numpy.flipud(wind_xarray.wind_speed_kts) * MS_TO_KTS,
+        data=np.flipud(wind_xarray.wind_speed_kts) * MS_TO_KTS,
         name="wind_speed_kts",
         coords=wind_xarray["wind_speed_kts"].coords,
     )
 
     # Set lat/lons appropriately
     # These are (1440x720)
-    lats2d, lons2d = numpy.meshgrid(wind_xarray.lat, wind_xarray.lon)
+    lats2d, lons2d = np.meshgrid(wind_xarray.lat, wind_xarray.lon)
     # Full dataset is 720x1440x2
     wind_xarray["latitude"] = xarray.DataArray(
-        data=numpy.flipud(lats2d.transpose()),
+        data=np.flipud(lats2d.transpose()),
         name="latitude",
         coords=wind_xarray["wind_speed_kts"].coords,
     )
@@ -80,24 +79,24 @@ def read_smos_data(wind_xarray, fname):
         coords=wind_xarray["wind_speed_kts"].coords,
     )
     wind_xarray = wind_xarray.set_coords(["latitude", "longitude"])
-    # timearray = numpy.zeros(wind_xarray.wind_speed_kts.shape).astype(int) +
+    # timearray = np.zeros(wind_xarray.wind_speed_kts.shape).astype(int) +
     #                                                         wind_xarray.time.values[0]
 
-    timearray = numpy.ma.masked_array(
-        data=numpy.zeros(wind_xarray.wind_speed_kts.shape).astype(int)
+    timearray = np.ma.masked_array(
+        data=np.zeros(wind_xarray.wind_speed_kts.shape).astype(int)
         + wind_xarray.time.values[0],
         mask=True,
     )
 
     ncobj = Dataset(fname)
-    basedt = datetime64(datetime.strptime("19900101", "%Y%m%d"))
-    nctimearray = numpy.flipud(ncobj.variables["measurement_time"][...][0, :, :])
-    timeinds = numpy.ma.where(nctimearray)
+    basedt = np.datetime64(datetime.strptime("19900101", "%Y%m%d"))
+    nctimearray = np.flipud(ncobj.variables["measurement_time"][...][0, :, :])
+    timeinds = np.ma.where(nctimearray)
     # Check if there are any unmasked timeinds, if so update timearray
-    if numpy.size(timeinds) > 0:
+    if np.size(timeinds) > 0:
         timedata = nctimearray[timeinds].data.tolist()
-        timevals = numpy.ma.masked_array(
-            [basedt + timedelta64(timedelta(days=xx)) for xx in timedata]
+        timevals = np.ma.masked_array(
+            [basedt + np.timedelta64(timedelta(days=xx)) for xx in timedata]
         )
         timearray[timeinds] = timevals
     # Otherwise set timearray as unmasked values
@@ -169,7 +168,7 @@ def call(
 
         # Checking if the wind_xarray.time is valid
         if (
-            not isinstance(wind_xarray.time.values[0], numpy.datetime64)
+            not isinstance(wind_xarray.time.values[0], np.datetime64)
             and wind_xarray.time.values[0].year > 3000
         ):
 
@@ -183,7 +182,7 @@ def call(
                 seconds=(cov_end - cov_start).total_seconds() / 2
             )
             time_attrs = wind_xarray.time.attrs
-            wind_xarray["time"] = numpy.array([time], dtype=numpy.datetime64)
+            wind_xarray["time"] = np.array([time], dtype=np.datetime64)
             wind_xarray["time"].attrs = time_attrs
 
         LOG.info("Read data from %s", fname)
