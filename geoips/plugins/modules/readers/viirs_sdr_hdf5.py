@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """VIIRS SDR Satpy reader.
 
 This VIIRS reader is designed for reading the NPP/JPSS SDR HDF5 files.
