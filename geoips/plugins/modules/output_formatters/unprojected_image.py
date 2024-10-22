@@ -101,16 +101,16 @@ def call(
                 lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0"
                 suffix = f".{basename(fname).split('.')[-1]}"
                 # This is expected from ovcst_fname filename_formatter
-                if "OVCST" in basename(fname):
+                if "ovcst" in basename(fname):
                     # OVCST_<product_name>_<datetime>.png
                     # <datetime> fmt = yyyymmddhhnnss
-                    datetime = basename(fname).split("_")[2][: -len(suffix)]
+                    datetime = basename(fname).split("_")[-1][: -len(suffix)]
                     date = datetime[:8]
                     time = datetime[8:]
                 # This is expected from basic_fname filename_formatter
                 else:
                     date, time = basename(fname).split(".")[0:2]
-                # Making a directory with date.time/fname as there are 20 images per
+                # Making a directory with date.time/fname as there are 40 images per
                 # file for OVERCAST data
                 final_fname = join(
                     dirname(fname),
