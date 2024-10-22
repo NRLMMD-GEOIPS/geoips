@@ -66,6 +66,7 @@ instructions:
     output_info:
       - Information related to the artifact that was retrieved.
   geoips_describe_algorithms: *geoips-describe-artifact
+  geoips_describe_ascii-palettes: *geoips-describe-artifact
   geoips_describe_colormappers: *geoips-describe-artifact
   geoips_describe_coverage-checkers: *geoips-describe-artifact
   geoips_describe_filename-formatters: *geoips-describe-artifact
@@ -192,6 +193,7 @@ instructions:
       - Plugin Name
       - Relative Path
   geoips_list_algorithms: *list-single-interface
+  geoips_list_ascii-palettes: *list-single-interface
   geoips_list_colormappers: *list-single-interface
   geoips_list_coverage-checkers: *list-single-interface
   geoips_list_filename-formatters: *list-single-interface

@@ -1,0 +1,13 @@
+# Currently interface and name are pulled from the file path/name themselves.
+# Eventually pull that information from these attributes included directly
+# in the text file.
+#
+# interface = ascii_palettes
+# family = rgb
+# name = good
+#
+# min 5mm to max 65mm
+176	110	70
+175	108	71
+174	106	72
+173	104	73

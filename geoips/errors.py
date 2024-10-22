@@ -4,6 +4,18 @@
 """GeoIPS error module."""
 
 
+class AsciiPaletteError(Exception):
+    """Exception to be raised when encountering an invalid ascii palette text file."""
+
+    pass
+
+
+class EntryPointError(Exception):
+    """Exception to be raised when an entry-point cannot be found."""
+
+    pass
+
+
 class PluginError(Exception):
     """Exception to be raised when there is an error in a GeoIPS plugin."""
 
@@ -12,6 +24,12 @@ class PluginError(Exception):
 
 class PluginRegistryError(Exception):
     """Exception to be raised when there is an error in a plugin registry."""
+
+    pass
+
+
+class PluginValidationError(Exception):
+    """Exception to be raised when a plugin found in the registry is not valid."""
 
     pass
 

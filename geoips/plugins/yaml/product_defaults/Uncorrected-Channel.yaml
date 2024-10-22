@@ -22,7 +22,7 @@ spec:
   mtif_type: vis
   colormapper:
     plugin:
-      name: matplotlib_linear_norm
+      name: linear_norm
       arguments:
         data_range: [0.0, 1.0] # MUST pass data_range, it will not auto-detect
         cmap_name: Greys_r

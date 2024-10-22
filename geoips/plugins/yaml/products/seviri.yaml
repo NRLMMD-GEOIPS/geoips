@@ -52,7 +52,7 @@ spec:
         # VEG: B04 0.86um ahi (med res) and B03 0.86um abi (med), B02 0.81um seviri
         colormapper:
           plugin:
-            name: matplotlib_linear_norm
+            name: linear_norm
             arguments:
               cbar_label: "Reflectance, SEVIRI B01 0.635um red band"
         # cbar_label: "Reflectance, SEVIRI B02 0.81um Veggie Band"
