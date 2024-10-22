@@ -267,6 +267,9 @@ def _get_variable_metadata(df):
             metadata[name] = df.variables[name][...]
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
+            if name in ["x", "y"]:
+                metadata[f"{name}_add_offset"] = df.variables[name].add_offset
+                metadata[f"{name}_scale_factor"] = df.variables[name].scale_factor
         except KeyError:
             LOG.info("Warning! Variable-level metadata field missing: {0}".format(name))
     metadata["num_lines"] = metadata["y"].size

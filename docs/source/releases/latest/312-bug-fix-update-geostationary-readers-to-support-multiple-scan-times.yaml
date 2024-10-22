@@ -8,13 +8,20 @@ bug fix:
     corresponding updates to geostaionary readers that were requested could read
     multiple scan times. If this PR goes well, it might be a good idea to support this
     functionality on other readers in the future.
+
+    Updates also include modificaionts to colormap_utils.py and single source to support 
+    octopy. Octopy uses rgba tuples (rather than rgb) and therefore colormap_utils.py
+    required updates to it's code to support variable tuple lengths. single_source.py
+    was updated to interpolate on multiple variables for octopy, such as 'u' and 'v'.
   related-issue:
     number: 312
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
   title: 'Update Geostationary readers to support multiple scan times'
   files:
     modified:
+      - geoips/image_utils/colormap_utils.py
       - geoips/interfaces/module_based/readers.py
+      - geoips/plugins/modules/procflows/single_source.py
       - geoips/plugins/modules/readers/abi_netcdf.py
       - geoips/plugins/modules/readers/ahi_hsd.py
       - geoips/plugins/modules/readers/seviri_hrit.py
