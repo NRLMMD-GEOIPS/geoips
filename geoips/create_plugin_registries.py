@@ -875,7 +875,7 @@ def add_module_plugin(package, relpath, plugins):
                 DeprecationWarning,
                 stacklevel=2,
             )
-            plugins[interface_name][name]["source_names"] = ["N/A"]
+            plugins[interface_name][name]["source_names"] = ["Unspecified"]
     del module
     # Return the final error message - an exception will be raised at the very
     # end after collecting and reporting on all errors if there were any errors
