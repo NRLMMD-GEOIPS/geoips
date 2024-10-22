@@ -69,11 +69,11 @@ class TestGeoipsDescribeInterface(BaseCliTest):
         else:
             # Checking that output from geoips describe package command is valid
             expected_outputs = [
-                "abspath",
-                "docstring",
-                "interface",
-                "interface_type",
-                "supported_families",
+                "Absolute Path",
+                "Docstring",
+                "Interface",
+                "Interface Type",
+                "Supported Families",
             ]
             for output_item in expected_outputs:
                 assert f"{output_item}:" in output

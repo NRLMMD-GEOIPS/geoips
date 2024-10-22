@@ -107,12 +107,12 @@ class TestGeoipsDescribePlugin(BaseCliTest):
             # Checking that output from geoips describe plugin command is valid
             interface_name = args[3]
             expected_outputs = [
-                "docstring",
-                "family",
-                "interface",
-                "package",
-                "plugin_type",
-                "relpath",
+                "Docstring",
+                "Family",
+                "Interface",
+                "Package",
+                "Plugin Type",
+                "Relative Path",
             ]
             if interface_name == "products":
                 expected_outputs.append("source_names")
