@@ -43,7 +43,7 @@ import pandas as pd
 import xarray as xr
 
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this

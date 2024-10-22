@@ -29,7 +29,7 @@ from os.path import basename
 import numpy as np
 import xarray as xr
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)

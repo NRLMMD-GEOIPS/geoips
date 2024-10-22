@@ -11,7 +11,7 @@ from os.path import basename
 # Third-Party Libraries
 import xarray
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.plugins.modules.readers.utils.remss_reader import (
     read_remss_data,
 )

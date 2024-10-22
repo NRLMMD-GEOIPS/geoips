@@ -24,7 +24,7 @@ from struct import error as structerror
 # Third-Party Libraries
 import xarray
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.filenames.base_paths import make_dirs
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (

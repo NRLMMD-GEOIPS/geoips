@@ -14,7 +14,7 @@ import netCDF4 as ncdf
 import numpy as np
 import xarray
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,

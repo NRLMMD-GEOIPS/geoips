@@ -13,7 +13,7 @@ from os.path import basename
 import numpy
 import xarray
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,

@@ -13,7 +13,7 @@ import numpy as np
 from netCDF4 import Dataset
 import xarray
 
-# GeoIPS-Based imports
+# GeoIPS imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
