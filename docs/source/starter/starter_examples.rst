@@ -14,6 +14,9 @@ available publicly, you can run the test script
 $GEOIPS_PACKAGES_DIR/geoips/tests/test_full_install.sh.
 This will download, install, and test all possible data types and products.
 
+Additionally, we provide a helper script ``download_test_data.py`` to download data sets
+for expert users.
+
 Step by Step
 ============
 
