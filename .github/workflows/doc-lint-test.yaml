@@ -20,7 +20,7 @@ on:
   # This should only happen when PRs are merged
   push:
     branches:
-      - main
+      - dev
 
   # Triggers the workflow when pull request created and updated
   pull_request:
