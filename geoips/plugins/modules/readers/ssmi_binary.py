@@ -70,6 +70,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "ssmi_binary"
+source_names = ["ssmi"]
 
 # NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
 # variables are needed in this for moving through the binary file correctly.
