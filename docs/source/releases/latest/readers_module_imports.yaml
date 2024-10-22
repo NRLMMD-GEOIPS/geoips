@@ -51,10 +51,14 @@ refactor:
     deleted:
     - ''
     modified:  
-    - 
+    - 'geoips/plugins/modules/readers/ascat_uhr_netcdf.py'
+    - 'geoips/plugins/modules/readers/gmi_hdf5.py'
+    - 'geoips/plugins/modules/readers/smos_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/ssmis_binary.py'
+
     moved:
     - ''
   related-issue:
     number: 0
     repo_url: ''
-  title: ''
+  title: 'ensure consistent module aliases'
