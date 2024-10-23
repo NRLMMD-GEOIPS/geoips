@@ -27,6 +27,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "scat_noaa_winds_netcdf"
+source_names = ["ascat"]
 
 
 def read_noaa_data(wind_xarray):

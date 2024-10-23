@@ -83,6 +83,7 @@ xvarnames = {
 interface = "readers"
 family = "standard"
 name = "ewsg_netcdf"
+source_names = ["gvar"]
 
 
 def call(

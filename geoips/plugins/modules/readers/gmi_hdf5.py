@@ -47,6 +47,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "gmi_hdf5"
+source_names = ["gmi"]
 
 
 def read_gmi_file(fname, xarray_gmi):

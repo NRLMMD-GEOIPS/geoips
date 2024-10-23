@@ -26,6 +26,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "ascat_uhr_netcdf"
+source_names = ["ascatuhr"]
 
 
 def read_byu_data(wind_xarray, fname):

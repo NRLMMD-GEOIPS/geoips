@@ -28,6 +28,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "scat_knmi_winds_netcdf"
+source_names = ["ascat", "oscat", "hscat"]
 
 
 def read_knmi_data(wind_xarray):

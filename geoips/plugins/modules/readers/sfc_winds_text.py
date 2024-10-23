@@ -17,6 +17,7 @@ MS_TO_KTS = 1.94384
 interface = "readers"
 family = "standard"
 name = "sfc_winds_text"
+source_names = ["sar-spd", "smap-spd", "smos-spd", "amsr2"]
 
 
 def call(

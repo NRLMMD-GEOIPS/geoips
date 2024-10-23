@@ -76,6 +76,7 @@ chan_nums = {
 interface = "readers"
 family = "standard"
 name = "amsr2_netcdf"
+source_names = ["amsr2"]
 
 
 def read_amsr_winds(wind_xarray):

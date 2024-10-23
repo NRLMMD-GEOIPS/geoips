@@ -50,6 +50,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "imerg_hdf5"
+source_names = ["imerg"]
 
 
 def call(

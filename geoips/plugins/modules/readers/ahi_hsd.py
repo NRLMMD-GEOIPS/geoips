@@ -141,6 +141,7 @@ ALL_GVARS = {
 interface = "readers"
 family = "standard"
 name = "ahi_hsd"
+source_names = ["ahi"]
 
 
 class AutoGenError(Exception):

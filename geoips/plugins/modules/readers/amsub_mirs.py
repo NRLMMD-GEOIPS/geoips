@@ -222,6 +222,7 @@ VARLIST = [
 interface = "readers"
 family = "standard"
 name = "amsub_mirs"
+source_names = ["amsu-b"]
 
 
 def call(

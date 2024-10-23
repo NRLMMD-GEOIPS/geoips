@@ -17,6 +17,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "mimic_netcdf"
+source_names = ["mimic"]
 
 
 def call(

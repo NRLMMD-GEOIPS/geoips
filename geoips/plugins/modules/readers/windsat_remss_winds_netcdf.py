@@ -26,6 +26,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "windsat_remss_winds_netcdf"
+source_names = ["wsat"]
 
 
 def call(

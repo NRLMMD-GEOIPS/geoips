@@ -16,6 +16,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "geoips_netcdf"
+source_names = ["any"]
 
 
 def call(
