@@ -71,7 +71,8 @@ class ParentParsers:
         "--log-level",
         type=str,
         default="interactive",
-        choices=["interactive", "debug", "info", "warning", "error"],
+        # Specified in order of what will be shown. First is lowest level (10).
+        choices=["debug", "info", "warning", "interactive", "error", "critical"],
         help="Log level to output when using the CLI.",
     )
 
