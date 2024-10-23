@@ -508,13 +508,7 @@ def _get_geolocation_metadata(metadata):
     return geomet
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """
     Read ABI NetCDF data from a list of filenames.
 
@@ -581,8 +575,7 @@ def call(
             if not gotone:
                 LOG.info(
                     "SKIPPING file %s, not needed from channel list %s",
-                    fname,
-                    chans,
+                    fname, chans,
                 )
                 continue
         try:
@@ -725,12 +718,7 @@ def call(
             standard_metadata[adname], BADVALS, area_def
         )
         gvars[adname] = get_geolocation(
-            sdt,
-            standard_metadata[adname],
-            fldk_lats,
-            fldk_lons,
-            BADVALS,
-            area_def,
+            sdt, standard_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def,
         )
         if not gvars[adname]:
             LOG.error(
@@ -751,12 +739,8 @@ def call(
                     standard_metadata[res], BADVALS, area_def
                 )
                 gvars[res] = get_geolocation(
-                    sdt,
-                    standard_metadata[res],
-                    fldk_lats,
-                    fldk_lons,
-                    BADVALS,
-                    area_def,
+                    sdt, standard_metadata[res],
+                    fldk_lats, fldk_lons, BADVALS, area_def,
                 )
             except ValueError as resp:
                 LOG.error(
