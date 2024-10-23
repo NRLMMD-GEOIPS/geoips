@@ -269,13 +269,7 @@ def read_byu_data(wind_xarray, fname):
     return {dsname: wind_xarray}
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read ASCAT UHR derived winds or normalized radar cross section data.
 
     Parameters
