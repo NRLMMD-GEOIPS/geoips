@@ -30,6 +30,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "viirs_sdr_hdf5"
+source_names = ["viirs"]
 
 try:
     import satpy

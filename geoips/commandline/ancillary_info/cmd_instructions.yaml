@@ -274,6 +274,20 @@ instructions:
     output_info:
       - Package
       - Script Name
+  geoips_list_source-names:
+    help_str: |
+      List off source_names of reader plugins found under all, or a specified GeoIPS
+      package. This information can then be used in creating product plugins which will
+      use the aforementioned source_names for product creation.
+    usage_str: |
+      To use, type `geoips list source-names`. Optionally includes `-p` flag for
+      seeing what source-names are in a certain package (-p). For example, to see what
+      source-names are attributed to a single package, run
+      `geoips list source-names -p <pkg_name>`, or you can remove the `-p` flag to see
+      what's been created in every package.
+    output_info:
+      - Source Name
+      - Reader Names
   geoips_list_test-datasets:
     help_str: |
       List off test-datasets used for testing GeoIPS and other GeoIPS Packages.

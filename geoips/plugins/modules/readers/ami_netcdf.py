@@ -42,6 +42,7 @@ except Exception:
 interface = "readers"
 family = "standard"
 name = "ami_netcdf"
+source_names = ["ami"]
 
 # These should be added to the data file object
 BADVALS = {
