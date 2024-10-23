@@ -53,13 +53,7 @@ name = "imerg_hdf5"
 source_names = ["imerg"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read IMERG hdf5 rain rate data products.
 
     Parameters
