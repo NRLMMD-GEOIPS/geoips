@@ -605,6 +605,8 @@ def apply_interp_after_alg(
     # If required, interpolate the result prior to returning
     elif prod_plugin.family == "algorithm_interpolator_colormapper":
         interp_args["varlist"] = [prod_plugin.name]
+        if prod_plugin.name == "octopy":
+            interp_args["varlist"] += ["u", "v"]
         final_xarray = perform_interpolation(
             interp_plugin,
             area_def,
