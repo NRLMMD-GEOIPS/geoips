@@ -14,6 +14,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "smos_winds_netcdf"
+source_names = ["smos-spd"]
 
 
 def read_smos_data(wind_xarray, fname):

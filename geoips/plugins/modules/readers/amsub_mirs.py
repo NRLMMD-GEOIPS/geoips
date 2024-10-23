@@ -217,6 +217,7 @@ VARLIST = [
 interface = "readers"
 family = "standard"
 name = "amsub_mirs"
+source_names = ["amsu-b"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
