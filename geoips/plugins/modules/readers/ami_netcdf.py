@@ -564,8 +564,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s",
-                    fname, chans
+                    "SKIPPING file %s, not needed from channel list %s", fname, chans
                 )
                 continue
         try:
@@ -715,8 +714,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         )
 
         gvars[adname] = get_geolocation(
-            start_dt, geo_metadata[adname], fldk_lats,
-            fldk_lons, BADVALS, area_def
+            start_dt, geo_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
         )
         if not gvars[adname]:
             LOG.error(
@@ -733,7 +731,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s", res, adname,
+                "Getting geolocation information for resolution %s for %s",
+                res,
+                adname,
             )
             try:
                 geo_metadata[res] = _get_geolocation_metadata(res_md[res])
@@ -746,8 +746,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 )
 
                 gvars[res] = get_geolocation(
-                    start_dt, geo_metadata[res],
-                    fldk_lats, fldk_lons, BADVALS, area_def
+                    start_dt, geo_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
                 )
             except IndexError as resp:
                 LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
