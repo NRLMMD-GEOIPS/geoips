@@ -75,13 +75,7 @@ name = "amsub_hdf"
 source_names = ["amsu-b"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read AMSU-B hdf data products.
 
     Parameters
