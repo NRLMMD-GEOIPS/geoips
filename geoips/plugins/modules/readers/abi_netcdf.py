@@ -744,8 +744,12 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     standard_metadata[res], BADVALS, area_def
                 )
                 gvars[res] = get_geolocation(
-                    sdt, standard_metadata[res],
-                    fldk_lats, fldk_lons, BADVALS, area_def,
+                    sdt,
+                    standard_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
                 )
             except ValueError as resp:
                 LOG.error(
