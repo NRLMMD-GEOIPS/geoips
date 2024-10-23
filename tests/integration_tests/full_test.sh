@@ -85,6 +85,7 @@ for call in \
   "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh" \
+  "$geoips_repopath/tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh" \
   "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh" \
