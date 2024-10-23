@@ -489,8 +489,7 @@ def call(
                         if datasettag == "QKM":
                             factor = 4
                         outdata = np.zeros(
-                            (len(data) * factor, data.shape[1] * factor),
-                            data.dtype,
+                            (len(data) * factor, data.shape[1] * factor), data.dtype
                         )
                         x = np.arange(data.shape[0])
                         y = np.arange(data.shape[1])
