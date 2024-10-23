@@ -575,7 +575,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if not gotone:
                 LOG.info(
                     "SKIPPING file %s, not needed from channel list %s",
-                    fname, chans,
+                    fname,
+                    chans,
                 )
                 continue
         try:
