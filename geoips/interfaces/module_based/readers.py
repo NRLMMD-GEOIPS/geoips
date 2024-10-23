@@ -131,7 +131,10 @@ class ReadersInterface(BaseModuleInterface):
                 all_metadata[md_idx]
             )
             md["METADATA"].attrs["source_file_datetimes"].append(
-                all_metadata[md_idx].start_datetime
+                [
+                    all_metadata[md_idx].start_datetime,
+                    all_metadata[md_idx].end_datetime,
+                ],
             )
 
         return md
@@ -185,13 +188,17 @@ class ReadersInterface(BaseModuleInterface):
             for GeoIPS-formatted xarray Datasets.
         """
         start_times = [
-            dt for dt in all_metadata["METADATA"].attrs["source_file_datetimes"]
+            dts[0] for dts in all_metadata["METADATA"].attrs["source_file_datetimes"]
         ]
-        times = list(set(start_times))
+        end_times = [
+            dts[1] for dts in all_metadata["METADATA"].attrs["source_file_datetimes"]
+        ]
+        stimes = list(set(start_times))
+        etimes = list(set(end_times))
         import collections
 
         ingested_xarrays = collections.defaultdict(list)
-        for time in times:
+        for time in stimes:
             scan_time_files = [dt == time for dt in start_times]
             # Call the associated reader for a single file
             data_dict = call_single_file_func(
@@ -207,7 +214,7 @@ class ReadersInterface(BaseModuleInterface):
             ) in data_dict.items():
                 ingested_xarrays[dname].append(dset)
 
-        if len(times) == 1:
+        if len(stimes) == 1:
             # No need to stack if we are only reading in one scan time
             # This is likely temporary to maintain backwards compatibility
 
@@ -223,10 +230,10 @@ class ReadersInterface(BaseModuleInterface):
         for dname, list_xarrays in ingested_xarrays.items():
             if dname == "METADATA":
                 continue
-            merged_dset = xarray.concat(list_xarrays, dim="time_dim")
-            merged_dset.attrs["start_datetime"] = min(times)
-            merged_dset.attrs["end_datetime"] = max(times)
-            merged_dset = merged_dset.assign_coords({"time_dim": times})
+            merged_dset = xarray.concat(list_xarrays, dim="time")
+            merged_dset.attrs["start_datetime"] = min(stimes)
+            merged_dset.attrs["end_datetime"] = max(etimes)
+            merged_dset = merged_dset.assign_coords({"time": stimes})
             dict_xarrays[dname] = merged_dset
             # Override source_file_* attributes with what's set in all_metadata.
             dict_xarrays[dname].attrs["source_file_names"] = metadata.attrs[
@@ -239,8 +246,8 @@ class ReadersInterface(BaseModuleInterface):
                 "source_file_datetimes"
             ]
 
-        metadata.attrs["start_datetime"] = min(times)
-        metadata.attrs["end_datetime"] = max(times)
+        metadata.attrs["start_datetime"] = min(stimes)
+        metadata.attrs["end_datetime"] = max(etimes)
         dict_xarrays["METADATA"] = metadata
 
         return dict_xarrays
