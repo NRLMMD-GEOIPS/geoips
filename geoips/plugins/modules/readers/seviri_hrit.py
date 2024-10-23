@@ -113,6 +113,7 @@ geolocation_variable_names = [
 interface = "readers"
 family = "standard"
 name = "seviri_hrit"
+source_names = ["seviri"]
 
 
 def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):

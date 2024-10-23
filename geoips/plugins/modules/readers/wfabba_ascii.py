@@ -18,6 +18,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "wfabba_ascii"
+source_names = ["abi", "ahi", "gvar", "seviri"]
 
 
 def parse_header_line(line):
