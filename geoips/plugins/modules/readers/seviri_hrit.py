@@ -19,22 +19,16 @@ Notes
 import os
 import logging
 import numpy as np
-from struct import error as structerror
+from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
-# Third-Party Libraries
-import xarray
+# Installed Libraries
 
-# GeoIPS imports
-from geoips.filenames.base_paths import make_dirs
+# GeoIPS Libraries
 from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation,
 )
-from geoips.plugins.modules.readers.utils.hrit_reader import (
-    HritFile,
-    HritError,
-)
-from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
 
@@ -65,155 +59,43 @@ VIS_CALIB = {
 
 IR_CALIB = {
     "msg1": {
-        "B04": {
-            "wn": 2567.330,
-            "a": 0.9956,
-            "b": 3.410,
-        },  # IR3.9 Water vapour channel
-        "B05": {
-            "wn": 1598.103,
-            "a": 0.9962,
-            "b": 2.218,
-        },  # IR6.2 Water vapour channel
-        "B06": {
-            "wn": 1362.081,
-            "a": 0.9991,
-            "b": 0.478,
-        },  # IR7.3 Water vapour channel
-        "B07": {
-            "wn": 1149.069,
-            "a": 0.9996,
-            "b": 0.179,
-        },  # IR8.7 Atmospheric window
-        "B08": {
-            "wn": 1034.343,
-            "a": 0.9999,
-            "b": 0.060,
-        },  # IR9.7 Ozone channel
-        "B09": {
-            "wn": 930.647,
-            "a": 0.9983,
-            "b": 0.625,
-        },  # IR10.8 Atmospheric window
-        "B10": {
-            "wn": 839.660,
-            "a": 0.9988,
-            "b": 0.397,
-        },  # IR12.0 Atmospheric window
+        "B04": {"wn": 2567.330, "a": 0.9956, "b": 3.410},  # IR3.9 Water vapour channel
+        "B05": {"wn": 1598.103, "a": 0.9962, "b": 2.218},  # IR6.2 Water vapour channel
+        "B06": {"wn": 1362.081, "a": 0.9991, "b": 0.478},  # IR7.3 Water vapour channel
+        "B07": {"wn": 1149.069, "a": 0.9996, "b": 0.179},  # IR8.7 Atmospheric window
+        "B08": {"wn": 1034.343, "a": 0.9999, "b": 0.060},  # IR9.7 Ozone channel
+        "B09": {"wn": 930.647, "a": 0.9983, "b": 0.625},  # IR10.8 Atmospheric window
+        "B10": {"wn": 839.660, "a": 0.9988, "b": 0.397},  # IR12.0 Atmospheric window
         "B11": {"wn": 752.387, "a": 0.9981, "b": 0.578},
     },  # IR13.4 Carbon dioxide channel
     "msg2": {
-        "B04": {
-            "wn": 2568.832,
-            "a": 0.9954,
-            "b": 3.438,
-        },  # IR3.9 Water vapour channel
-        "B05": {
-            "wn": 1600.548,
-            "a": 0.9963,
-            "b": 2.185,
-        },  # IR6.2 Water vapour channel
-        "B06": {
-            "wn": 1360.330,
-            "a": 0.9991,
-            "b": 0.470,
-        },  # IR7.3 Water vapour channel
-        "B07": {
-            "wn": 1148.620,
-            "a": 0.9996,
-            "b": 0.179,
-        },  # IR8.7 Atmospheric window
-        "B08": {
-            "wn": 1035.289,
-            "a": 0.9999,
-            "b": 0.056,
-        },  # IR9.7 Ozone channel
-        "B09": {
-            "wn": 931.700,
-            "a": 0.9983,
-            "b": 0.640,
-        },  # IR10.8 Atmospheric window
-        "B10": {
-            "wn": 836.445,
-            "a": 0.9988,
-            "b": 0.408,
-        },  # IR12.0 Atmospheric window
+        "B04": {"wn": 2568.832, "a": 0.9954, "b": 3.438},  # IR3.9 Water vapour channel
+        "B05": {"wn": 1600.548, "a": 0.9963, "b": 2.185},  # IR6.2 Water vapour channel
+        "B06": {"wn": 1360.330, "a": 0.9991, "b": 0.470},  # IR7.3 Water vapour channel
+        "B07": {"wn": 1148.620, "a": 0.9996, "b": 0.179},  # IR8.7 Atmospheric window
+        "B08": {"wn": 1035.289, "a": 0.9999, "b": 0.056},  # IR9.7 Ozone channel
+        "B09": {"wn": 931.700, "a": 0.9983, "b": 0.640},  # IR10.8 Atmospheric window
+        "B10": {"wn": 836.445, "a": 0.9988, "b": 0.408},  # IR12.0 Atmospheric window
         "B11": {"wn": 751.792, "a": 0.9981, "b": 0.561},
     },  # IR13.4 Carbon dioxide channel
     "msg3": {
-        "B04": {
-            "wn": 2547.771,
-            "a": 0.9915,
-            "b": 2.9002,
-        },  # IR3.9 Water vapour channel
-        "B05": {
-            "wn": 1595.621,
-            "a": 0.9960,
-            "b": 2.0337,
-        },  # IR6.2 Water vapour channel
-        "B06": {
-            "wn": 1360.377,
-            "a": 0.9991,
-            "b": 0.4340,
-        },  # IR7.3 Water vapour channel
-        "B07": {
-            "wn": 1148.130,
-            "a": 0.9996,
-            "b": 0.1714,
-        },  # IR8.7 Atmospheric window
-        "B08": {
-            "wn": 1034.715,
-            "a": 0.9999,
-            "b": 0.0527,
-        },  # IR9.7 Ozone channel
-        "B09": {
-            "wn": 929.842,
-            "a": 0.9983,
-            "b": 0.6084,
-        },  # IR10.8 Atmospheric window
-        "B10": {
-            "wn": 838.659,
-            "a": 0.9988,
-            "b": 0.3882,
-        },  # IR12.0 Atmospheric window
+        "B04": {"wn": 2547.771, "a": 0.9915, "b": 2.9002},  # IR3.9 Water vapour channel
+        "B05": {"wn": 1595.621, "a": 0.9960, "b": 2.0337},  # IR6.2 Water vapour channel
+        "B06": {"wn": 1360.377, "a": 0.9991, "b": 0.4340},  # IR7.3 Water vapour channel
+        "B07": {"wn": 1148.130, "a": 0.9996, "b": 0.1714},  # IR8.7 Atmospheric window
+        "B08": {"wn": 1034.715, "a": 0.9999, "b": 0.0527},  # IR9.7 Ozone channel
+        "B09": {"wn": 929.842, "a": 0.9983, "b": 0.6084},  # IR10.8 Atmospheric window
+        "B10": {"wn": 838.659, "a": 0.9988, "b": 0.3882},  # IR12.0 Atmospheric window
         "B11": {"wn": 750.653, "a": 0.9982, "b": 0.5390},
     },  # IR13.4 Carbon dioxide channel
     "msg4": {
-        "B04": {
-            "wn": 2555.280,
-            "a": 0.9916,
-            "b": 2.9438,
-        },  # IR3.9 Water vapour channel
-        "B05": {
-            "wn": 1596.080,
-            "a": 0.9959,
-            "b": 2.0780,
-        },  # IR6.2 Water vapour channel
-        "B06": {
-            "wn": 1361.748,
-            "a": 0.9990,
-            "b": 0.4929,
-        },  # IR7.3 Water vapour channel
-        "B07": {
-            "wn": 1148.130,
-            "a": 0.9996,
-            "b": 0.1731,
-        },  # IR8.7 Atmospheric window
-        "B08": {
-            "wn": 1034.851,
-            "a": 0.9998,
-            "b": 0.0597,
-        },  # IR9.7 Ozone channel
-        "B09": {
-            "wn": 931.122,
-            "a": 0.9983,
-            "b": 0.6256,
-        },  # IR10.8 Atmospheric window
-        "B10": {
-            "wn": 839.113,
-            "a": 0.9988,
-            "b": 0.4002,
-        },  # IR12.0 Atmospheric window
+        "B04": {"wn": 2555.280, "a": 0.9916, "b": 2.9438},  # IR3.9 Water vapour channel
+        "B05": {"wn": 1596.080, "a": 0.9959, "b": 2.0780},  # IR6.2 Water vapour channel
+        "B06": {"wn": 1361.748, "a": 0.9990, "b": 0.4929},  # IR7.3 Water vapour channel
+        "B07": {"wn": 1148.130, "a": 0.9996, "b": 0.1731},  # IR8.7 Atmospheric window
+        "B08": {"wn": 1034.851, "a": 0.9998, "b": 0.0597},  # IR9.7 Ozone channel
+        "B09": {"wn": 931.122, "a": 0.9983, "b": 0.6256},  # IR10.8 Atmospheric window
+        "B10": {"wn": 839.113, "a": 0.9988, "b": 0.4002},  # IR12.0 Atmospheric window
         "B11": {"wn": 748.585, "a": 0.9981, "b": 0.5635},
     },
 }  # IR13.4 Carbon dioxide channel
@@ -230,7 +112,6 @@ geolocation_variable_names = [
 interface = "readers"
 family = "standard"
 name = "seviri_hrit"
-source_names = ["seviri"]
 
 
 def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):
@@ -585,13 +466,7 @@ class ChanList(object):
         return cls(chans)
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read SEVIRI hrit data products.
 
     Parameters
@@ -644,6 +519,8 @@ def call(
     else:
         adname = "FULL_DISK"
 
+    import xarray
+
     xarray_obj = xarray.Dataset()
 
     # Gather top-level metadata. MUst pass ALL fnames to make sure we
@@ -668,6 +545,7 @@ def call(
     sdt = None
     imgf = None
     all_segs = set()
+    from struct import error as structerror
 
     for fname in fnames:
         try:
@@ -762,6 +640,8 @@ def call(
         xarray_obj.attrs["start_datetime"].strftime("%Y%m%d%H%M"),
     )
 
+    from geoips.filenames.base_paths import make_dirs
+
     make_dirs(outdir)
 
     # Can not change dictionary size during iteration for Python 3
@@ -789,9 +669,7 @@ def call(
                 except HritError as resp:
                     skip_segs += [seg]
                     LOG.error(
-                        "FAILED DECOMPRESSING, %s, SKIPPING FILE %s",
-                        str(resp),
-                        df.name,
+                        "FAILED DECOMPRESSING, %s, SKIPPING FILE %s", str(resp), df.name
                     )
             for skip_seg in skip_segs:
                 dfs[band].pop(skip_seg)
@@ -864,9 +742,7 @@ def call(
                 radiances[chan.band].max(),
             )
             datavars[adname][chan.name] = radToBT(
-                radiances[chan.band],
-                xarray_obj.attrs["satellite_name"],
-                chan.band,
+                radiances[chan.band], xarray_obj.attrs["satellite_name"], chan.band
             )
             LOG.info(
                 "Final brightness temperatures for %s, data range %f to %f",
@@ -899,8 +775,7 @@ def call(
 
         if "satellite_zenith_angle" in gvars[adname].keys():
             gvars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75,
-                gvars[adname][var],
+                gvars[adname]["satellite_zenith_angle"] > 75, gvars[adname][var]
             )
 
     for var in datavars[adname].keys():
@@ -913,8 +788,7 @@ def call(
 
         if "satellite_zenith_angle" in gvars[adname].keys():
             datavars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75,
-                datavars[adname][var],
+                gvars[adname]["satellite_zenith_angle"] > 75, datavars[adname][var]
             )
 
     xarray_objs = {}
@@ -927,8 +801,7 @@ def call(
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
         if hasattr(xobj.attrs, "area_definition") and xobj.area_definition is not None:
             xobj.attrs["interpolation_radius_of_influence"] = max(
-                xobj.area_definition.pixel_size_x,
-                xobj.area_definition.pixel_size_y,
+                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
             )
         else:
             xobj.attrs["interpolation_radius_of_influence"] = 10000
