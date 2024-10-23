@@ -1,0 +1,19 @@
+Release Process:
+- title: 'Update tagged_version and upcoming_version'
+  description: |
+    *From GEOIPS#562: 2024-08-13, 1.13.2 updates*
+
+    Currently tagged version 1.14.0, upcoming version 1.14.1.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - '.github/versions/tagged_version'
+    - '.github/versions/upcoming_version'
+    moved:
+    - ''
+  related-issue:
+    number: 562
+    repo_url: 'GEOIPS/geoips'

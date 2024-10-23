@@ -17,6 +17,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "scat_knmi_winds_netcdf"
+source_names = ["ascat", "oscat", "hscat"]
 
 
 def read_knmi_data(wind_xarray):
@@ -43,6 +44,9 @@ def read_knmi_data(wind_xarray):
     elif wind_xarray.source == "ScatSat-1 OSCAT":
         geoips_metadata["source_name"] = "oscat"
         geoips_metadata["platform_name"] = "scatsat-1"
+    elif wind_xarray.source == "Oceansat-3 OSCAT":
+        geoips_metadata["source_name"] = "oscat"
+        geoips_metadata["platform_name"] = "oceansat-3"
     elif wind_xarray.source == "HY-2D HSCAT":
         geoips_metadata["source_name"] = "hscat"
         geoips_metadata["platform_name"] = "hy-2d"
