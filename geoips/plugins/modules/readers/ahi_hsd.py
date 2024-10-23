@@ -1013,7 +1013,7 @@ def call(
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s", 
+                    "SKIPPING file %s, not needed from channel list %s",
                     fname,
                     chans,
                 )
