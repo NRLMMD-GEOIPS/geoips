@@ -20,6 +20,7 @@ from tabulate import tabulate
 import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+from geoips.commandline.log_setup import setup_logging
 
 
 class PluginPackages:
@@ -64,14 +65,15 @@ class ParentParsers:
     shared correctly.
     """
 
-    geoips_parser = argparse.ArgumentParser(add_help=False)
+    geoips_parser = argparse.ArgumentParser()
     geoips_parser.add_argument(
-        "--log_level",
         "-log",
+        "--log-level",
         type=str,
         default="interactive",
-        choices=["debug", "error", "info", "interactive", "warning"],
-        help="The logging level to use for output via the CLI.",
+        # Specified in order of what will be shown. First is lowest level (10).
+        choices=["debug", "info", "warning", "interactive", "error", "critical"],
+        help="Log level to output when using the CLI.",
     )
 
     list_parser = argparse.ArgumentParser(add_help=False)
@@ -112,7 +114,7 @@ class GeoipsCommand(abc.ABC):
     used for initializing command classes of a certain GeoIPS Command.
     """
 
-    def __init__(self, parent=None, legacy=False):
+    def __init__(self, LOG=None, parent=None, legacy=False):
         """Initialize GeoipsCommand with a subparser and default to the command func.
 
         Do this for each GeoipsCLI.geoips_command_classes. This will instantiate
@@ -121,6 +123,11 @@ class GeoipsCommand(abc.ABC):
 
         Parameters
         ----------
+        LOG: optional - Logger Object
+            - Logging utility which can be used by any command class. Defaults to
+              LOG.interactive, however, can be changed to one of the values in
+              ["debug", "error", "info", "interactive", "warning"] if
+              '--log_level/--log <log_level_name>' is specified at the command line.
         parent: optional - GeoipsCommand Class
             - The parent command class that possibly is initializing it's child.
               Ex. GeoipsList would invoke this init function for each of its subcommand
@@ -133,6 +140,10 @@ class GeoipsCommand(abc.ABC):
               suppressing or displaying help information for '--procflow'.
         """
         self.legacy = legacy
+        # This is the Logger Object, not the actual logger call function of 'log_level'.
+        # So, a command class would use the logger via:
+        # self.LOG.<log_level>(log_statement)
+        self.LOG = LOG
         self.github_org_url = "https://github.com/NRLMMD-GEOIPS/"
         self.parent = parent
         self.alias_mapping = alias_mapping
@@ -200,9 +211,11 @@ class GeoipsCommand(abc.ABC):
             # Otherwise initialize a top-level parser for this command.
             self.parser = argparse.ArgumentParser(
                 self.name,
+                conflict_handler="resolve",
                 parents=[ParentParsers.geoips_parser],
                 formatter_class=argparse.RawTextHelpFormatter,
             )
+            self.LOG = self._get_cli_logger()
             self.combined_name = self.name
 
         self.add_subparsers()
@@ -210,6 +223,42 @@ class GeoipsCommand(abc.ABC):
             command=self.combined_name.replace("_", " "),
             command_parser=self.parser,
         )
+
+    def _get_cli_logger(self):
+        """Set up and retrieve the logger object for use in the CLI.
+
+        If either flag ['--log-level', '--log'] was provided with a valid log level
+        after that flag, then set up the logger using the provided log level as the
+        filter for what will be logged.
+
+        Log Levels
+        ----------
+        The log level filters what is logged when the CLI is ran. Filtering order shown
+        below. Log levels omit all levels that are below it:
+        - interactive
+        - debug
+        - info
+        - warning
+        - error
+        """
+        # An independent parser is needed as this overrides the help messages of the CLI
+        # by providing ``add_help=False``, we keep the custom help messages for the CLI
+        # and by providing a parent class to the top level CLI parser, then it will be
+        # shown in the help messages as well.
+        independent_parser = argparse.ArgumentParser(add_help=False)
+        independent_parser.add_argument(
+            "-log",
+            "--log-level",
+            type=str,
+            default="interactive",
+            choices=["interactive", "debug", "info", "warning", "error"],
+        )
+        # Parse now, as we'll use logging among all of the child command classes
+        known_args, remaining_args = independent_parser.parse_known_args()  # NOQA
+        log_level = known_args.log_level
+        # Set up logging based on the log level provided or defaulted to
+        LOG = setup_logging(logging_level=log_level.upper())
+        return LOG
 
     @property
     @abc.abstractmethod
@@ -243,7 +292,7 @@ class GeoipsCommand(abc.ABC):
                 help=f"{self.name} instructions.",
             )
             for subcmd_cls in self.command_classes:
-                subcmd_cls(parent=self, legacy=self.legacy)
+                subcmd_cls(LOG=self.LOG, parent=self, legacy=self.legacy)
 
     @property
     def plugin_package_names(self):
@@ -263,7 +312,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
     can implement.
     """
 
-    def __init__(self, parent=None, legacy=False):
+    def __init__(self, LOG, parent=None, legacy=False):
         """Initialize GeoipsExecutableCommand.
 
         This is a child of GeoipsCommand and will invoke the functionaly of
@@ -274,6 +323,11 @@ class GeoipsExecutableCommand(GeoipsCommand):
 
         Parameters
         ----------
+        LOG: Logger Object
+            - Logging utility which can be used by any command class. Defaults to
+              LOG.interactive, however, can be changed to one of the values in
+              ["debug", "error", "info", "interactive", "warning"] if
+              '--log_level/--log <log_level_name>' is specified at the command line.
         parent: optional - GeoipsCommand Class
             - The parent command class that possibly is initializing it's child.
               Ex. GeoipsList would invoke this init function for each of its subcommand
@@ -285,7 +339,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
               the user called 'run_procflow' or 'data_fusion_procflow'. This is used for
               suppressing or displaying help information for '--procflow'.
         """
-        super().__init__(parent=parent, legacy=legacy)
+        super().__init__(LOG=LOG, parent=parent, legacy=legacy)
         # Since this class is exectuable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
