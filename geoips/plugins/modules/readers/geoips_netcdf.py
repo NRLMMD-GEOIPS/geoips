@@ -19,13 +19,7 @@ name = "geoips_netcdf"
 source_names = ["any"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read preprocessed geoips netcdf output.
 
     Parameters
