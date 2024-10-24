@@ -91,12 +91,10 @@ def call(fnames, area_def=None, metadata_only=False, chans=False, self_register=
     geoips_attrs = {
         "area_definition": area_def,
         "start_datetime": datetime.strptime(
-            metadata["file_info"]["time_coverage_start"],
-            "%Y-%m-%dT%H:%M:%S.%fZ",
+            metadata["file_info"]["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ",
         ),
         "end_datetime": datetime.strptime(
-            end_metadata["file_info"]["time_coverage_end"],
-            "%Y-%m-%dT%H:%M:%S.%fZ",
+            end_metadata["file_info"]["time_coverage_end"], "%Y-%m-%dT%H:%M:%S.%fZ",
         ),
         "vertical_data_type": "surface",
         "source_name": "abi",
