@@ -593,8 +593,7 @@ def call(
                 nparr_bowtie = numpy.ma.masked_equal(ncvar[...].data, 65533)
 
                 nparr_masked = numpy.ma.masked_greater(
-                    ncvar[...],
-                    ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset,
+                    ncvar[...], ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset
                 )
 
                 add_to_xarray(
@@ -674,8 +673,7 @@ def call(
         for dtype in xarrays.keys():
             if "latitude" not in xarrays[dtype].variables:
                 LOG.info(
-                    "No data read for dataset %s, removing from xarray list",
-                    dtype,
+                    "No data read for dataset %s, removing from xarray list", dtype
                 )
                 continue
             fldk_lats = xarrays[dtype]["latitude"]
@@ -703,10 +701,7 @@ def call(
                 new_var[index_mask] = xarrays[dtype][varname].values[
                     lines[index_mask], samples[index_mask]
                 ]
-                if varname not in list(xvarnames.values()) + [
-                    "latitude",
-                    "longitude",
-                ]:
+                if varname not in list(xvarnames.values()) + ["latitude", "longitude"]:
                     # Set values <= -999.9 to NaN so they also get interpolated.
                     new_var[numpy.where(new_var <= -999.9)] = numpy.nan
                     # Interpolate missing data.
@@ -729,10 +724,7 @@ def call(
     xarray_returns = {}
     for dtype in xarrays.keys():
         if "latitude" not in xarrays[dtype].variables:
-            LOG.info(
-                "No data read for dataset %s, removing from xarray list",
-                dtype,
-            )
+            LOG.info("No data read for dataset %s, removing from xarray list", dtype)
             continue
         for varname in xarrays[dtype].variables.keys():
             xarrays[dtype][varname] = xarrays[dtype][varname].where(
