@@ -1319,8 +1319,7 @@ def call(
                 datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
                 if "satellite_zenith_angle" in gvars[ds].keys():
                     datavars[ds][varname] = np.ma.masked_where(
-                        gvars[ds]["satellite_zenith_angle"] > 85,
-                        datavars[ds][varname],
+                        gvars[ds]["satellite_zenith_angle"] > 85, datavars[ds][varname]
                     )
 
     print_mem_usage("MEMUSG", verbose=False)
@@ -1515,21 +1514,13 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
             data_lines = line_inds[data_inds] - first_line
             data_samples = sample_inds[data_inds]
             counts[data_inds] = np.memmap(
-                path,
-                mode="r",
-                dtype=np.uint16,
-                offset=header_len,
-                shape=(nl, ns),
+                path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
             )[data_lines, data_samples]
         else:
             first_line -= 1
             last_line = first_line + nl
             counts[first_line:last_line, :] = np.memmap(
-                path,
-                mode="r",
-                dtype=np.uint16,
-                offset=header_len,
-                shape=(nl, ns),
+                path, mode="r", dtype=np.uint16, offset=header_len, shape=(nl, ns)
             )[:, :]
 
         LOG.info("Doing the actual read for segment {}".format(seg))
@@ -1624,8 +1615,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         log_coeff = (2.0 * h * c**2) / (wl**5)  # NOQA
         dividend = (h * c) / (k * wl)  # NOQA
         ne.evaluate(
-            "dividend/log( (log_coeff/(rad_data*1000000.0))+1 )",
-            out=data["BT"],
+            "dividend/log( (log_coeff/(rad_data*1000000.0))+1 )", out=data["BT"]
         )
 
     for val in data.values():
