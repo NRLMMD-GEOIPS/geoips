@@ -225,13 +225,7 @@ name = "amsub_mirs"
 source_names = ["amsu-b"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read AMSU/MHS MIRS data products.
 
     Parameters
@@ -332,12 +326,10 @@ def call(
         # Collect start_time and end_time of input file (one orbit) from
         # attributes - filename wrong!
         start_datetime = datetime.strptime(
-            fileobj.attrs["time_coverage_start"].astype(str),
-            "%Y-%m-%dT%H:%M:%SZ",
+            fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
         )
         end_datetime = datetime.strptime(
-            fileobj.attrs["time_coverage_end"].astype(str),
-            "%Y-%m-%dT%H:%M:%SZ",
+            fileobj.attrs["time_coverage_end"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
         )
 
         #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
@@ -458,8 +450,7 @@ def call(
         xarray_amsub["RAzi_angle"] = xr.DataArray(var_all["RAzi_angle"][()])
         # from amsub_mhs_prep/oned_innov.f90:
         beam_pos = np.broadcast_to(
-            np.arange(fileobj["Field_of_view"].size) + 1,
-            var_all["LZ_angle"][()].shape,
+            np.arange(fileobj["Field_of_view"].size) + 1, var_all["LZ_angle"][()].shape
         )
         xarray_amsub["sensor_scan_angle"] = xr.DataArray((beam_pos - 45.5) * 10.0 / 9.0)
 
