@@ -229,8 +229,7 @@ def read_atms_file(fname, xarray_atms):
         else:
             merged_array = np.vstack([xarray_atms[key], data])
             final_xarray[key] = xr.DataArray(
-                merged_array,
-                dims=["dim_" + str(merged_array.shape[0]), "dim_1"],
+                merged_array, dims=["dim_" + str(merged_array.shape[0]), "dim_1"]
             )
     # Set official time to either sdr_time or geo_time
     final_keys = final_xarray.variables.keys()
