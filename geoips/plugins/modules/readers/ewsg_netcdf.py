@@ -42,7 +42,6 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-
 # GeoIPS imports
 from geoips.utils.context_managers import import_optional_dependencies
 
