@@ -731,9 +731,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s",
-                res,
-                adname,
+                "Getting geolocation information for resolution %s for %s", res, adname
             )
             try:
                 geo_metadata[res] = _get_geolocation_metadata(res_md[res])
@@ -831,8 +829,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75,
-                    gvars[res][varname],
+                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
                 )
         except KeyError:
             pass
@@ -853,8 +850,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         roi = 500
         if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
             roi = max(
-                xobj.area_definition.pixel_size_x,
-                xobj.area_definition.pixel_size_y,
+                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in geo_metadata.keys():
