@@ -13,6 +13,11 @@ import numpy
 import pandas
 import xarray
 
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
+
 
 LOG = logging.getLogger(__name__)
 
@@ -226,15 +231,9 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
-            "Using existing scan_times for dims %s",
-            sub_xarray[varnames[varname]].dims,
+            "Using existing scan_times for dims %s", sub_xarray[varnames[varname]].dims
         )
         sub_xarray["time"] = time_array
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-
     sub_xarray.attrs["start_datetime"] = get_min_from_xarray_time(sub_xarray, "time")
     sub_xarray.attrs["end_datetime"] = get_max_from_xarray_time(sub_xarray, "time")
     return sub_xarray
