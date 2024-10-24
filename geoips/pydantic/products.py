@@ -35,16 +35,13 @@ class Step(BaseModel):
     @model_validator(mode="before")
     def validate_arguments(cls, values):
 
-        interface_type, plugin_data = next(iter(values.items()))
-
-        print(f"interface type : {interface_type}")
-        values["type"] = interface_type
+        plugin_type, plugin_data = next(iter(values.items()))
+        values["type"] = plugin_type
         values["name"] = plugin_data.get("name", "")
-        print("plugin name : ", values["name"])
         values["arguments"] = plugin_data.get("arguments", {})
-        print("plugin arguments : ", values["arguments"])
-        print("\n\n")
-        # values.update(plugin_data)
+        print(
+            f"plugin \n\t type : {plugin_type} \n\t name: {values['name']} \n\t arguments: values['arguments']"
+        )
         return values
 
 

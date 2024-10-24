@@ -34,10 +34,9 @@ def call(
         print("prod is \t", prod)
 
     for step in prod.spec.steps:
-        print(f"\n\nstep\t {step}")
-        print(f"plugin  type in OB: {step.type}")
-        print(f"plugin name is {step.name}")
-        print(f"plugin arguments are {step.arguments}")
+        print(
+            f"\n\nstep\t {step} \nplugin in OBP\n\t type : {step.type} \n\t name: {step.name} \n\t arguments: step.arguments"
+        )
 
         interface = step.type + "s"
 
