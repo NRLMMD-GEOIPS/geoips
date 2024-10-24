@@ -29,13 +29,7 @@ name = "amsr2_remss_winds_netcdf"
 source_names = ["amsr2rss"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read REMSS AMSR2 derived winds from netcdf data.
 
     Parameters
