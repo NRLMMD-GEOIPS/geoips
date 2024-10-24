@@ -32,13 +32,7 @@ name = "smap_remss_winds_netcdf"
 source_names = ["smap-spd"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read one of SMAP derived winds from netcdf data.
 
     Parameters
