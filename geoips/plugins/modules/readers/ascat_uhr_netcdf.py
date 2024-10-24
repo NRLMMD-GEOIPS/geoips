@@ -111,9 +111,7 @@ def read_byu_data(wind_xarray, fname):
     dsname = "DATA"
     if "wspeeds" in wind_xarray.variables:
         wind_xarray["wind_speed_kts"] = xarray.where(
-            wind_xarray.ambiguity_select == 1,
-            wind_xarray.wspeeds[:, :, 0],
-            numpy.nan,
+            wind_xarray.ambiguity_select == 1, wind_xarray.wspeeds[:, :, 0], numpy.nan
         )
         wind_xarray["wind_speed_kts"] = xarray.where(
             wind_xarray.ambiguity_select == 2,
@@ -133,9 +131,7 @@ def read_byu_data(wind_xarray, fname):
         wind_xarray["wind_speed_kts"] = wind_xarray["wind_speed_kts"] * MS_TO_KTS
 
         wind_xarray["wind_dir_deg_met"] = xarray.where(
-            wind_xarray.ambiguity_select == 1,
-            wind_xarray.wdirs[:, :, 0],
-            numpy.nan,
+            wind_xarray.ambiguity_select == 1, wind_xarray.wdirs[:, :, 0], numpy.nan
         )
         wind_xarray["wind_dir_deg_met"] = xarray.where(
             wind_xarray.ambiguity_select == 2,
