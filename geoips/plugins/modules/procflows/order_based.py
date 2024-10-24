@@ -15,7 +15,9 @@ name = "order_based"
 def call(
     fnames: list[str], product_path: str, command_line_args: list[str] | None = None
 ) -> None:
-    """Runs an OBP processing with the specified input data files &
+    """Runs the order based procflow.
+
+    Runs an OBP processing with the specified input data files &
     steps listed in product definition file (PDF).
 
     Parameters
@@ -31,19 +33,18 @@ def call(
     with open(product_path) as product_definition_file:
         prod_dict = yaml.safe_load(product_definition_file)
         prod = ProductPlugin(**prod_dict)
-        print("prod is \t", prod)
+        # print("prod is \t", prod)
 
     for step in prod.spec.steps:
         print(
-            f"\n\nstep\t {step} \nplugin in OBP\n\t type : {step.type} \n\t name: {step.name} \n\t arguments: step.arguments"
+            f"\n\nstep\t {step} \n\nplugin in OBP\n\t type : {step.type} \n\t name: {step.name} \n\t arguments: {step.arguments}"
         )
 
         interface = step.type + "s"
 
         if interface == "readers":
             reader = getattr(interfaces, interface, None).get_plugin(step.name)
-            data = reader(fnames)
-            print(f"reader data is \n\t, {data}")
+            print(f"reader data is \n\t, {reader(fnames)}")
         elif interface == "algorithms":
             pass
         elif interface == "interpolators":

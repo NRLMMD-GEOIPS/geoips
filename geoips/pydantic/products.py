@@ -39,9 +39,9 @@ class Step(BaseModel):
         values["type"] = plugin_type
         values["name"] = plugin_data.get("name", "")
         values["arguments"] = plugin_data.get("arguments", {})
-        print(
-            f"plugin \n\t type : {plugin_type} \n\t name: {values['name']} \n\t arguments: values['arguments']"
-        )
+        # print(
+        #     f"plugin \n\t type : {plugin_type} \n\t name: {values['name']} \n\t arguments: values['arguments']"
+        # )
         return values
 
 
