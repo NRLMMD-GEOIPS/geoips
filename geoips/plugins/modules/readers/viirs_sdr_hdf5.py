@@ -120,13 +120,7 @@ def bowtie_correction(band, lat, lon):
     return res_band, ord_lat.astype(np.float64), sort_lon.astype(np.float64)
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read VIIRS SDR hdf5 data products.
 
     Parameters
