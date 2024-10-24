@@ -82,13 +82,7 @@ source_names = ["ssmi"]
 # variables are needed in this for moving through the binary file correctly.
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=False,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
     """Read SSMI FNMOC Binary Data.
 
     Parameters
@@ -636,8 +630,4 @@ def call(
     LOG.info("  Min lat %s", lat_ab.min())
     LOG.info("  Max lat %s", lat_ab.max())
 
-    return {
-        "HIRES": xarray_85ab,
-        "LORES": xarray_lores,
-        "METADATA": xarray_85ab[[]],
-    }
+    return {"HIRES": xarray_85ab, "LORES": xarray_lores, "METADATA": xarray_85ab[[]]}
