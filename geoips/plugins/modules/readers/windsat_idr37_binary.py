@@ -150,13 +150,7 @@ source_names = ["windsat"]
 # fmt: off and fmt: on comments, which prevent black from moving the # NOQA comments.
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read Windsat binary data products.
 
     Parameters
@@ -499,8 +493,4 @@ def call(
     xarray_sdr_fwd["fsurfaceType"] = xarray.DataArray(fsurfaceType)
     xarray_sdr_fwd["frainFlag"] = xarray.DataArray(frainFlag)
     xarray_sdr_fwd["fasc_des_pass"] = xarray.DataArray(fasc_des_pass)
-    return {
-        "METADATA": xarray_obj,
-        "AFT": xarray_sdr_aft,
-        "FWD": xarray_sdr_fwd,
-    }
+    return {"METADATA": xarray_obj, "AFT": xarray_sdr_aft, "FWD": xarray_sdr_fwd}

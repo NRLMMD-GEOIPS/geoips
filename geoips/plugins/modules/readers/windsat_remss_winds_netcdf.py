@@ -29,13 +29,7 @@ name = "windsat_remss_winds_netcdf"
 source_names = ["wsat"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read Remote Sensing Systems Windsat data.
 
     Parameters
