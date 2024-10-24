@@ -20,13 +20,7 @@ name = "sfc_winds_text"
 source_names = ["sar-spd", "smap-spd", "smos-spd", "amsr2"]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read one of SAR, SMAP, SMOS, AMSR derived winds from text data.
 
     Parameters
