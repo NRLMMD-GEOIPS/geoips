@@ -110,10 +110,7 @@ def parse_core_metadata(metadata, metadatastr):
 
         # These have 'CLASS' in addition to 'NUMVAL' between OBJECT and VALUE.
         # So have to do ii+3
-        for currval in [
-            "ASSOCIATEDSENSORSHORTNAME",
-            "ASSOCIATEDPLATFORMSHORTNAME",
-        ]:
+        for currval in ["ASSOCIATEDSENSORSHORTNAME", "ASSOCIATEDPLATFORMSHORTNAME"]:
             if "OBJECT" == typ and currval == field:
                 metadata[currval] = lines[ii + 3].split("=")[1].strip().replace('"', "")
         ii += 1
@@ -169,13 +166,7 @@ def add_to_xarray(varname, nparr, xobj, cumulative_mask, data_type):
         )
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read MODIS Aqua and Terra hdf data files.
 
     Parameters
@@ -569,11 +560,7 @@ def call(
                 try:
                     select_data = mf.select(currvar)  # select this field
                 except HDF4Error:
-                    LOG.warning(
-                        "SKIPPING %s does not exist in %s",
-                        currvar,
-                        datasettag,
-                    )
+                    LOG.warning("SKIPPING %s does not exist in %s", currvar, datasettag)
                     continue
                 attrs = select_data.attributes()  # get attributes of this field
                 data = select_data.get()  # get the all data of this field
@@ -773,10 +760,7 @@ def call(
         if dtype != "METATDATA" and "latitude" not in list(
             xarrays[dtype].variables.keys()
         ):
-            LOG.info(
-                "No data read for dataset %s, removing from xarray list",
-                dtype,
-            )
+            LOG.info("No data read for dataset %s, removing from xarray list", dtype)
             continue
         if dtype != "METADATA":
             for varname in list(xarrays[dtype].variables.keys()):
