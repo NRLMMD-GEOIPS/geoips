@@ -34,16 +34,7 @@ varnames = {
     "Brightness_Temperature_89_GHz_BH": "tb89hB",
     "Brightness_Temperature_89_GHz_BV": "tb89hB",
 }
-land_num = {
-    "6": 0,
-    "7": 1,
-    "10": 2,
-    "18": 3,
-    "23": 4,
-    "36": 5,
-    "89A": 0,
-    "89B": 1,
-}
+land_num = {"6": 0, "7": 1, "10": 2, "18": 3, "23": 4, "36": 5, "89A": 0, "89B": 1}
 land_var = {
     "6": "Land_Ocean_Flag_6_to_36",
     "7": "Land_Ocean_Flag_6_to_36",
@@ -209,10 +200,7 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
 
         # Set time appropriately
         dtstrs = []
-        LOG.info(
-            "Reading scan_times, for dims %s",
-            sub_xarray[varnames[varname]].dims,
-        )
+        LOG.info("Reading scan_times, for dims %s", sub_xarray[varnames[varname]].dims)
         for scan_time in full_xarray["Scan_Time"]:
             dtstrs += [
                 "{0:04.0f}{1:02.0f}{2:02.0f}T{3:02.0f}{4:02.0f}{5:02.0f}".format(
@@ -238,8 +226,7 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
-            "Using existing scan_times, for dims %s",
-            sub_xarray[varnames[varname]].dims,
+            "Using existing scan_times for dims %s", sub_xarray[varnames[varname]].dims,
         )
         sub_xarray["time"] = time_array
     from geoips.xarray_utils.time import (
@@ -353,12 +340,10 @@ def call(
             from datetime import datetime
 
             full_xarray.attrs["start_datetime"] = datetime.strptime(
-                full_xarray.attrs["time_coverage_start"][0:19],
-                "%Y-%m-%dT%H:%M:%S",
+                full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S",
             )
             full_xarray.attrs["end_datetime"] = datetime.strptime(
-                full_xarray.attrs["time_coverage_end"][0:19],
-                "%Y-%m-%dT%H:%M:%S",
+                full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S",
             )
             LOG.info("metadata_only requested, returning without readind data")
             return {"METADATA": full_xarray}
