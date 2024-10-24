@@ -104,7 +104,7 @@ def read_smos_data(wind_xarray, fname):
     else:
         timearray = timearray.data
     wind_xarray["time"] = xarray.DataArray(
-        data=timearray, name="time", coords=wind_xarray["wind_speed_kts"].coords,
+        data=timearray, name="time", coords=wind_xarray["wind_speed_kts"].coords
     )
     return {"WINDSPEED": wind_xarray}
 
