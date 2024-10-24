@@ -915,11 +915,7 @@ def _check_file_consistency(metadata):
     #   (e.g. FLDK or JP01).
     #   sub_lon: Just a dummy check to be sure nothing REALLY weird is going on.
     members_to_check = {
-        "block_01": {
-            "satellite_name": None,
-            "ob_timeline": None,
-            "ob_area": None,
-        },
+        "block_01": {"satellite_name": None, "ob_timeline": None, "ob_area": None},
         "block_03": {"sub_lon": None},
     }
 
@@ -1013,9 +1009,7 @@ def call(
                     gotone = True
             if not gotone:
                 LOG.info(
-                    "SKIPPING file %s, not needed from channel list %s",
-                    fname,
-                    chans,
+                    "SKIPPING file %s, not needed from channel list %s", fname, chans
                 )
                 continue
         try:
@@ -1176,9 +1170,7 @@ def call(
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s",
-                res,
-                adname,
+                "Getting geolocation information for resolution %s for %s", res, adname
             )
             try:
                 gmd = _get_geolocation_metadata(res_md[res])
@@ -1314,8 +1306,7 @@ def call(
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
                 gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 85,
-                    gvars[res][varname],
+                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
                 )
         except KeyError:
             pass
