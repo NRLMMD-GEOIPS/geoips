@@ -12,9 +12,6 @@ import h5py
 import numpy as np
 import xarray as xr
 
-# from numpy import datetime64
-# import pandas as pd
-
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
