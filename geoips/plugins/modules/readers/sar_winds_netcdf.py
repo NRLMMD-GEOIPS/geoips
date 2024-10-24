@@ -113,13 +113,7 @@ def read_sar_data(wind_xarray):
     return [wind_xarray]
 
 
-def call(
-    fnames,
-    metadata_only=False,
-    chans=None,
-    area_def=None,
-    self_register=False,
-):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read SAR derived winds from netcdf data.
 
     Parameters
@@ -179,9 +173,7 @@ def call(
             LOG.info("    Reading file %s", fname)
             wind_xarray = xarray.open_dataset(str(fname))
             LOG.info(
-                "        rows: %s, columns: %s",
-                wind_xarray.rows,
-                wind_xarray.columns,
+                "        rows: %s, columns: %s", wind_xarray.rows, wind_xarray.columns
             )
             if columns is None:
                 columns = wind_xarray.columns
