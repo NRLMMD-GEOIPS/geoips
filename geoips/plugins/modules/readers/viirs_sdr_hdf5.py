@@ -15,12 +15,12 @@ V1.1.0:  NRL-Monterey, Aug. 2024
 import logging
 import os
 
-# Installed Libraries
-import xarray as xr
-import numpy as np
+# Third-Party Libraries
 import h5py
+import numpy as np
 from pandas import date_range
 from pykdtree.kdtree import KDTree
+import xarray as xr
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -232,7 +232,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # print("Setting cal vals")
         # sample time to the proper shape (N*48), while lat/lon are ()
         time_range = date_range(
-            start=scn_start, end=scn_end, periods=tmp_coor["latitude"][1].shape[0]
+            start=scn_start,
+            end=scn_end,
+            periods=tmp_coor["latitude"][1].shape[0],
         ).values
         interp_time = np.tile(time_range, (tmp_coor["latitude"][1].shape[1], 1)).T
         tmp_coor["time"] = (("dim_0", "dim_1"), interp_time)
@@ -260,7 +262,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         tmp_scn.load(cal_params)
         tmp_cal_params = {
-            i.removeprefix("dnb_"): (("dim_0", "dim_1"), tmp_scn[i].to_masked_array())
+            i.removeprefix("dnb_"): (
+                ("dim_0", "dim_1"),
+                tmp_scn[i].to_masked_array(),
+            )
             for i in cal_params
         }
 

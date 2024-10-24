@@ -1,0 +1,64 @@
+enhancement:
+- description: 'imports were scattered across most readers. They are moved to the top, except optional dependency ones'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:  
+    - 'geoips/plugins/modules/readers/abi_l2_netcdf.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
+    - 'geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/amsub_hdf.py'
+    - 'geoips/plugins/modules/readers/amsub_mirs.py'
+    - 'geoips/plugins/modules/readers/ascat_uhr_netcdf.py'
+    - 'geoips/plugins/modules/readers/atms_hdf5.py'
+    - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
+    - 'geoips/plugins/modules/readers/geoips_netcdf.py'
+    - 'geoips/plugins/modules/readers/gmi_hdf5.py'
+    - 'geoips/plugins/modules/readers/imerg_hdf5.py'
+    - 'geoips/plugins/modules/readers/mimic_netcdf.py'
+    - 'geoips/plugins/modules/readers/modis_hdf4.py'
+    - 'geoips/plugins/modules/readers/saphir_hdf5.py'
+    - 'geoips/plugins/modules/readers/sar_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'
+    - 'geoips/plugins/modules/readers/sfc_winds_text.py'
+    - 'geoips/plugins/modules/readers/smap_remss_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/smos_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/ssmi_binary.py'
+    - 'geoips/plugins/modules/readers/ssmis_binary.py'
+    - 'geoips/plugins/modules/readers/viirs_netcdf.py'
+    - 'geoips/plugins/modules/readers/viirs_sdr_hdf5.py'
+    - 'geoips/plugins/modules/readers/wfabba_ascii.py'
+    - 'geoips/plugins/modules/readers/windsat_idr37_binary.py'
+    - 'geoips/plugins/modules/readers/windsat_remss_winds_netcdf.py'
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'organize imports'
+refactor:
+- description: 'refactor ensuring consistent module aliases'
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:  
+    - 'geoips/plugins/modules/readers/ascat_uhr_netcdf.py'
+    - 'geoips/plugins/modules/readers/gmi_hdf5.py'
+    - 'geoips/plugins/modules/readers/smos_winds_netcdf.py'
+    - 'geoips/plugins/modules/readers/ssmis_binary.py'
+
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'ensure consistent module aliases'

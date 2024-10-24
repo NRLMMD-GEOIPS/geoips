@@ -3,10 +3,14 @@
 
 """Read derived surface winds from CYGNSS netcdf data."""
 
+# Python Standard Libraries
 import glob
 import logging
+
+# Third-Party Libraries
 import xarray
 
+# GeoIPS imports
 from geoips.xarray_utils.time import get_min_from_xarray_time, get_max_from_xarray_time
 
 LOG = logging.getLogger(__name__)

@@ -4,7 +4,12 @@
 """Read pre-processed GeoIPS-formatted NetCDF data."""
 
 # Python Standard Libraries
+from datetime import datetime
+from os.path import basename
 import logging
+
+# Third-Party Libraries
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -53,8 +58,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     LOG.info("Reading files %s", fnames)
 
-    from os.path import basename
-
     xarray_objs = {}
     for fname in fnames:
         xarray_objs[basename(fname)] = read_xarray_netcdf(fname)
@@ -66,9 +69,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
 def read_xarray_netcdf(ncdf_fname):
     """Read NetCDF file written out using the xarray python package."""
-    import xarray
-    from datetime import datetime
-
     try:
         xarray_obj = xarray.open_dataset(ncdf_fname)
     except IOError:
