@@ -226,7 +226,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
-            "Using existing scan_times for dims %s", sub_xarray[varnames[varname]].dims,
+            "Using existing scan_times for dims %s",
+            sub_xarray[varnames[varname]].dims,
         )
         sub_xarray["time"] = time_array
     from geoips.xarray_utils.time import (
@@ -340,10 +341,10 @@ def call(
             from datetime import datetime
 
             full_xarray.attrs["start_datetime"] = datetime.strptime(
-                full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S",
+                full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S"
             )
             full_xarray.attrs["end_datetime"] = datetime.strptime(
-                full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S",
+                full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S"
             )
             LOG.info("metadata_only requested, returning without readind data")
             return {"METADATA": full_xarray}
