@@ -181,9 +181,7 @@ def read_byu_data(wind_xarray, fname):
             wind_xarray["latitude"] = wind_xarray["latitude"] - 90
 
         wind_xarray["longitude"] = xarray.where(
-            wind_xarray.ambiguity_select == 0,
-            numpy.nan,
-            wind_xarray.longitude,
+            wind_xarray.ambiguity_select == 0, numpy.nan, wind_xarray.longitude
         )
         dsname = "WINDSPEED"
 
