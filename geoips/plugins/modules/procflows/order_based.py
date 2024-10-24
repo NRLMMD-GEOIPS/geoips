@@ -3,7 +3,7 @@
 from argparse import ArgumentParser
 import yaml
 
-
+from geoips import interfaces
 from geoips.pydantic.products import ProductPlugin
 
 
@@ -15,8 +15,8 @@ name = "order_based"
 def call(
     fnames: list[str], product_path: str, command_line_args: list[str] | None = None
 ) -> None:
-    """runs an order-based procflow processing with the specified input data files &
-    steps listed in product definition file (PDF)
+    """Runs an OBP processing with the specified input data files &
+    steps listed in product definition file (PDF).
 
     Parameters
     ----------
@@ -35,10 +35,24 @@ def call(
 
     for step in prod.spec.steps:
         print(f"\n\nstep\t {step}")
-        # interface_name = step.interface
-        # print(f"interface type in OB: {step.interface}")
+        print(f"plugin  type in OB: {step.type}")
         print(f"plugin name is {step.name}")
         print(f"plugin arguments are {step.arguments}")
+
+        interface = step.type + "s"
+
+        if interface == "readers":
+            reader = getattr(interfaces, interface, None).get_plugin(step.name)
+            data = reader(fnames)
+            print(f"reader data is \n\t, {data}")
+        elif interface == "algorithms":
+            pass
+        elif interface == "interpolators":
+            pass
+        elif interface == "output_formatter":
+            pass
+        else:
+            pass
 
 
 if __name__ == "__main__":
