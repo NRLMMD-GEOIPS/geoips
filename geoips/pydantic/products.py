@@ -131,20 +131,12 @@ class Step(BaseModel):
         values["arguments"] = plugin_data.get("arguments", {})
 
         # Delegate arguments validation to each plugin type argument class
-        # The following if else ladder would go away eventually once
-        # we have classes for all the steps / plugin types
-
         plugin_type_camel_case = "".join(
             [word.capitalize() for word in plugin_type.split("_")]
         )
         plugin_arguments_model_name = f"{plugin_type_camel_case}Arguments"
         plugin_arguments_model = globals().get(plugin_arguments_model_name)
         plugin_arguments_model(**values.get("arguments", {}))
-        # if plugin_type == 'reader':
-        #     values = ReaderArguments.validate(values)
-        # # else:
-        #     raise ValueError(f"\nUnknown plugin type:{plugin_type} arguments provided"
-        #                      f"can't validate, try a valid plugin type\n")
 
         return values
 
