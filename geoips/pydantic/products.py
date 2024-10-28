@@ -8,11 +8,17 @@ from geoips.pydantic.bases import Plugin
 
 
 def get_plugin_types():
-    """Generates list of possible plugin types."""
-    interface_types = []
+    """Retrieve a list of plugin types from available interfaces.
+
+    Returns
+    -------
+    list of str
+        list of possible unique plugin types
+    """
+    interface = []
     for ifs in interfaces.list_available_interfaces().values():
-        interface_types.extend(ifs)
-    return list(set(interface[:-1] for interface in interface_types))
+        interface.extend(ifs)
+    return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
 class Step(BaseModel):
@@ -26,22 +32,65 @@ class Step(BaseModel):
 
     @field_validator("type")
     def validate_type(cls, v):
-        if v not in get_plugin_types():
+        """
+        Validate user input for the plugin type.
+
+        Parameters
+        ----------
+        v : str
+            The user provided step name, also known as plugin type
+
+        Returns
+        -------
+        str
+            The validated plugin type
+
+        Raises
+        ------
+        ValueError
+            if the user input plugin type is not in the valid_types list
+        """
+        if not v:
+            raise ValueError("Empty : Missing step name / plugin type")
+
+        valid_types = get_plugin_types()
+        if v not in valid_types:
             raise ValueError(
-                f"invalid plugin type {type} must be one of {get_plugin_types()}"
+                f"\n\ninvalid plugin type: {v}.\n\t Must be one of {valid_types}\n\n"
             )
         return v
 
     @model_validator(mode="before")
     def validate_arguments(cls, values):
+        """
+        Validate & organize details for each step   .
+
+        Parameters
+        ----------
+        values : dict
+            A dictionary of plugin data. The key is plugin type, and
+            the value consists of plugin name & arguments
+
+        Returns
+        -------
+        values : dict
+            A validated and structured dictionary with the following fields:
+
+            - `type` : str
+                The type of the plugin.
+            - `name` : str
+                The name of the plugin.
+            - `arguments` : dict
+                The arguments associated with the plugin.
+
+        """
+        if not values:
+            raise ValueError("Empty : Missing step details")
 
         plugin_type, plugin_data = next(iter(values.items()))
         values["type"] = plugin_type
         values["name"] = plugin_data.get("name", "")
         values["arguments"] = plugin_data.get("arguments", {})
-        # print(
-        #     f"plugin \n\t type : {plugin_type} \n\t name: {values['name']} \n\t arguments: values['arguments']"
-        # )
         return values
 
 

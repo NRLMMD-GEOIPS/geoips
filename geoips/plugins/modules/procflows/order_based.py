@@ -15,16 +15,19 @@ name = "order_based"
 def call(
     fnames: list[str], product_path: str, command_line_args: list[str] | None = None
 ) -> None:
-    """Runs the order based procflow.
+    """Run the order based procflow.
 
     Runs an OBP processing with the specified input data files &
     steps listed in product definition file (PDF).
 
     Parameters
     ----------
-        * fnames (list[str]): list of filenames to process
-        * product-path (str): path to the product definition file
-        * command_line_args (list[str] | None, optional): fnames & product-path
+    fnames : (list[str])
+        list of filenames to process
+    product-path : (str)
+        path to the product definition file
+    command_line_args : (list[str] | None, optional)
+        fnames & product-path
 
     Returns
     -------
@@ -33,11 +36,11 @@ def call(
     with open(product_path) as product_definition_file:
         prod_dict = yaml.safe_load(product_definition_file)
         prod = ProductPlugin(**prod_dict)
-        # print("prod is \t", prod)
 
     for step in prod.spec.steps:
         print(
-            f"\n\nstep\t {step} \n\nplugin in OBP\n\t type : {step.type} \n\t name: {step.name} \n\t arguments: {step.arguments}"
+            f"\n\nstep\t {step} \n\nplugin type : {step.type}"
+            f"\n\t name: {step.name} \n\t arguments: {step.arguments}"
         )
 
         interface = step.type + "s"
