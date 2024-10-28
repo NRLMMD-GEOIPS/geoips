@@ -47,18 +47,19 @@ of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 # Python Standard Libraries
+from collections import defaultdict
+from datetime import datetime
 import logging
 import os
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy
 import pandas as pd
 import xarray as xr
 
-from geoips.utils.context_managers import import_optional_dependencies
-
-# GeoIPS Libraries
+# GeoIPS imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -332,9 +333,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from collections import defaultdict
-    from datetime import datetime
-
     # since fname is a LIST of input files, this reader needs additional adjustments to
     # read all files and put them into the XARRAY output (add one more array for
     # number of files)
