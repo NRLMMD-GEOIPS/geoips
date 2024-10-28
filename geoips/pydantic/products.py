@@ -21,6 +21,19 @@ def get_plugin_types():
     return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
+class ReaderArguments:
+    """Validate Reader step arguments."""
+
+    @staticmethod
+    def validate(values: dict) -> dict:
+        """Validate Reader step arguments."""
+        # reader_arguments_list = ["fnames"]
+        # for arg in reader_arguments_list:
+        #     if arg not in values.get("arguments", {}):
+        #         raise ValueError("Missing 'reader_specific_arg' for reader plugin.")
+        return values
+
+
 class Step(BaseModel):
     """Lists sequence of steps along with the step data."""
 
@@ -91,6 +104,15 @@ class Step(BaseModel):
         values["type"] = plugin_type
         values["name"] = plugin_data.get("name", "")
         values["arguments"] = plugin_data.get("arguments", {})
+
+        # Delegate arguments validation to each plugin type argument class
+
+        if plugin_type == 'reader':
+            values = ReaderArguments.validate(values)
+        # else:
+        #     raise ValueError(f"\nUnknown plugin type :{plugin_type} arguments provided;"
+        #                      f"can't validate, try a valid plugin type\n")
+
         return values
 
 
