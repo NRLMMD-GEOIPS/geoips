@@ -21,16 +21,41 @@ def get_plugin_types():
     return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
-class ReaderArguments:
+class OutputFormatterArguments(BaseModel):
+    """output_formatters."""
+
+    pass
+
+
+class FilenameFormatterArguments(BaseModel):
+    """Validate FilenameFormatter arguments."""
+
+    pass
+
+
+class AlgorithmArguments(BaseModel):
+    """Validate Algorithm arguments."""
+
+    pass
+
+
+class InterpolatorArguments(BaseModel):
+    """Validate Interpolator arguments."""
+
+    pass
+
+
+class ReaderArguments(BaseModel):
     """Validate Reader step arguments."""
 
-    @staticmethod
+    @model_validator(mode="before")
     def validate(values: dict) -> dict:
         """Validate Reader step arguments."""
-        # reader_arguments_list = ["fnames"]
-        # for arg in reader_arguments_list:
-        #     if arg not in values.get("arguments", {}):
-        #         raise ValueError("Missing 'reader_specific_arg' for reader plugin.")
+        reader_arguments_list = ["variables"]
+        for arg in reader_arguments_list:
+            if arg not in values:
+                raise ValueError(f"\n\n\tMissing argument:{arg} for reader plugin.\n\n")
+
         return values
 
 
@@ -109,9 +134,15 @@ class Step(BaseModel):
         # The following if else ladder would go away eventually once
         # we have classes for all the steps / plugin types
 
-        if plugin_type == 'reader':
-            values = ReaderArguments.validate(values)
-        # else:
+        plugin_type_camel_case = "".join(
+            [word.capitalize() for word in plugin_type.split("_")]
+        )
+        plugin_arguments_model_name = f"{plugin_type_camel_case}Arguments"
+        plugin_arguments_model = globals().get(plugin_arguments_model_name)
+        plugin_arguments_model(**values.get("arguments", {}))
+        # if plugin_type == 'reader':
+        #     values = ReaderArguments.validate(values)
+        # # else:
         #     raise ValueError(f"\nUnknown plugin type:{plugin_type} arguments provided"
         #                      f"can't validate, try a valid plugin type\n")
 
