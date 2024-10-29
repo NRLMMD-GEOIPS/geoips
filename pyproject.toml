@@ -156,7 +156,6 @@ test = [
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
-    "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
 ]
