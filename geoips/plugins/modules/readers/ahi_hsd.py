@@ -944,7 +944,6 @@ def call(
     chans=None,
     area_def=None,
     self_register=False,
-    test_arg="AHI Default Test Arg",
 ):
     """
     Read AHI HSD data data from a list of filenames.
@@ -980,7 +979,6 @@ def call(
         for GeoIPS-formatted xarray Datasets.
     """
     process_datetimes = {}
-    LOG.interactive("AHI reader test_arg: %s", test_arg)
     print_mem_usage("MEMUSG", verbose=False)
     process_datetimes["overall_start"] = datetime.utcnow()
     gvars = {}
