@@ -21,8 +21,6 @@ import logging
 import numpy as np
 from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
-# Installed Libraries
-
 # GeoIPS Libraries
 from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -113,7 +111,6 @@ geolocation_variable_names = [
 interface = "readers"
 family = "standard"
 name = "seviri_hrit"
-source_names = ["seviri"]
 
 
 def calculate_chebyshev_polynomial(coefs, start_dt, end_dt, dt):

@@ -36,11 +36,11 @@ EWS-G file information::
 import logging
 import os
 
-# Installed Libraries
-import numpy as np
-import xarray as xr
+# Third-Party Libraries
 import calendar
+import numpy as np
 import pandas as pd
+import xarray as xr
 
 from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
