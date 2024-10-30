@@ -50,7 +50,7 @@ def call(
 
         if interface == "readers":
             reader = getattr(interfaces, interface, None).get_plugin(step_def.name)
-            print(f"reader data is \n\t, {reader(fnames)}")
+            print(f"reader data is \n\t, {reader(fnames, step_def.arguments)}")
         elif interface == "algorithms":
             pass
         elif interface == "interpolators":
