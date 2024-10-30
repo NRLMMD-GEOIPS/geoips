@@ -38,15 +38,18 @@ def call(
         prod = ProductPlugin(**prod_dict)
 
     for step in prod.spec.steps:
+        step_def = step.definition
         print(
-            f"\n\nstep\t {step} \n\nplugin type : {step.type}"
-            f"\n\t name: {step.name} \n\t arguments: {step.arguments}"
+            # f"\n\nstep\t {step} \n\nplugin \n\t"
+            f"\n\t step_name : {step_def.step_name}"
+            f"\n\t type : {step_def.type}"
+            f"\n\t name : {step_def.name} \n\t arguments : {step_def.arguments}"
         )
 
-        interface = step.type + "s"
+        interface = step_def.type + "s"
 
         if interface == "readers":
-            reader = getattr(interfaces, interface, None).get_plugin(step.name)
+            reader = getattr(interfaces, interface, None).get_plugin(step_def.name)
             print(f"reader data is \n\t, {reader(fnames)}")
         elif interface == "algorithms":
             pass
