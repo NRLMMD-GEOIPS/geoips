@@ -59,44 +59,14 @@ class ReaderArguments(BaseModel):
         return values
 
 
-class Step(BaseModel):
-    """Lists sequence of steps along with the step data."""
+class StepDefinition(BaseModel):
+    """Validate step definition : name, arguments."""
 
-    type: str = Field(description="interface type")
-    name: str
+    type: str = Field(description="plugin type")
+    name: str = Field(desciption="plugin name")
     arguments: Dict[str, Any] = Field(
         default_factory=dict, description="Arguments for the step."
     )
-
-    @field_validator("type")
-    def validate_type(cls, v):
-        """
-        Validate user input for the plugin type.
-
-        Parameters
-        ----------
-        v : str
-            The user provided step name, also known as plugin type
-
-        Returns
-        -------
-        str
-            The validated plugin type
-
-        Raises
-        ------
-        ValueError
-            if the user input plugin type is not in the valid_types list
-        """
-        if not v:
-            raise ValueError("Empty : Missing step name / plugin type")
-
-        valid_types = get_plugin_types()
-        if v not in valid_types:
-            raise ValueError(
-                f"\n\ninvalid plugin type: {v}.\n\t Must be one of {valid_types}\n\n"
-            )
-        return v
 
     @model_validator(mode="before")
     def validate_arguments(cls, values):
@@ -139,6 +109,46 @@ class Step(BaseModel):
         plugin_arguments_model(**values.get("arguments", {}))
 
         return values
+
+
+class Step(BaseModel):
+    """Lists sequence of steps along with the step data."""
+
+    # type: str = Field(description="plugin type")
+    # name: str
+    # arguments: Dict[str, Any] = Field(
+    #     default_factory=dict, description="Arguments for the step."
+    # )
+
+    @field_validator("type")
+    def validate_type(cls, v):
+        """
+        Validate user input for the plugin type.
+
+        Parameters
+        ----------
+        v : str
+            The user provided step name, also known as plugin type
+
+        Returns
+        -------
+        str
+            The validated plugin type
+
+        Raises
+        ------
+        ValueError
+            if the user input plugin type is not in the valid_types list
+        """
+        if not v:
+            raise ValueError("Empty : Missing step name / plugin type")
+
+        valid_types = get_plugin_types()
+        if v not in valid_types:
+            raise ValueError(
+                f"\n\ninvalid plugin type: {v}.\n\t Must be one of {valid_types}\n\n"
+            )
+        return v
 
 
 class ProductSpec(BaseModel):
