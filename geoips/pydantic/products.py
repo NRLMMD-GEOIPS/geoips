@@ -1,10 +1,25 @@
 """Product plugin format."""
 
-from pydantic import BaseModel, Field, model_validator, field_validator
+from pydantic import BaseModel, Field, model_validator
 from typing import Any, Dict, List
 
 from geoips import interfaces
 from geoips.pydantic.bases import Plugin
+
+
+def get_plugin_names(plugin_type):
+    """Retrieve a list of valid plugin names for a given plugin type."""
+    plugin_names = []
+    interface_name = plugin_type + "s"
+
+    try:
+        interface = getattr(interfaces, interface_name)
+    except AttributeError:
+        raise AttributeError(
+            f"{plugin_type} is not valid plugin type"
+        )
+    plugin_names = sorted(plugin.name for plugin in interface.get_plugins())
+    return plugin_names
 
 
 def get_plugin_types():
@@ -69,14 +84,22 @@ class StepDefinition(BaseModel):
         default_factory=dict, description="Arguments for the step."
     )
 
-    @field_validator("name")
-    def validate_plugin_name(cls, value: str) -> str:
+    @model_validator(mode="before")
+    def validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Validate plugin name."""
-        # print("plugin name is ", value)
-        if not value:
+        if not values:
             raise ValueError("The plugin_name cannot be empty")
-        # print("plugin_name validation to be implemented")
-        return value
+        plugin_name = values.get("name", "").lower()
+        plugin_type = values.get("type", " ").lower()
+
+        valid_plugin_names = get_plugin_names(plugin_type)
+        if plugin_name not in valid_plugin_names:
+            raise ValueError(
+                f"{plugin_name} is invalid. \n\t"
+                f"Must be one of {valid_plugin_names}"
+            )
+
+        return values
 
     @model_validator(mode="before")
     def validate_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
