@@ -21,107 +21,57 @@ def get_plugin_types():
     return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
-class OutputFormatterArguments(BaseModel):
-    """output_formatters."""
+# class OutputFormatterArguments(BaseModel):
+#     """output_formatters."""
 
-    pass
-
-
-class FilenameFormatterArguments(BaseModel):
-    """Validate FilenameFormatter arguments."""
-
-    pass
+#     pass
 
 
-class AlgorithmArguments(BaseModel):
-    """Validate Algorithm arguments."""
+# class FilenameFormatterArguments(BaseModel):
+#     """Validate FilenameFormatter arguments."""
 
-    pass
-
-
-class InterpolatorArguments(BaseModel):
-    """Validate Interpolator arguments."""
-
-    pass
+#     pass
 
 
-class ReaderArguments(BaseModel):
-    """Validate Reader step arguments."""
+# class AlgorithmArguments(BaseModel):
+#     """Validate Algorithm arguments."""
 
-    @model_validator(mode="before")
-    def validate(values: dict) -> dict:
-        """Validate Reader step arguments."""
-        reader_arguments_list = ["variables"]
-        for arg in reader_arguments_list:
-            if arg not in values:
-                raise ValueError(f"\n\n\tMissing argument:{arg} for reader plugin.\n\n")
+#     pass
 
-        return values
+
+# class InterpolatorArguments(BaseModel):
+#     """Validate Interpolator arguments."""
+
+#     pass
+
+
+# class ReaderArguments(BaseModel):
+#     """Validate Reader step arguments."""
+
+#     @model_validator(mode="before")
+#     def validate(values: dict) -> dict:
+#         """Validate Reader step arguments."""
+#         reader_arguments_list = ["variables"]
+#         for arg in reader_arguments_list:
+#             if arg not in values:
+#                 raise ValueError(f"\n\n\tMissing argument:{arg} for reader plugin.\n\n")
+
+#         return values
 
 
 class StepDefinition(BaseModel):
     """Validate step definition : name, arguments."""
 
-    type: str = Field(description="plugin type")
-    name: str = Field(desciption="plugin name")
-    arguments: Dict[str, Any] = Field(
-        default_factory=dict, description="Arguments for the step."
-    )
-
-    @model_validator(mode="before")
-    def validate_arguments(cls, values):
-        """
-        Validate & organize details for each step   .
-
-        Parameters
-        ----------
-        values : dict
-            A dictionary of plugin data. The key is plugin type, and
-            the value consists of plugin name & arguments
-
-        Returns
-        -------
-        values : dict
-            A validated and structured dictionary with the following fields:
-
-            - `type` : str
-                The type of the plugin.
-            - `name` : str
-                The name of the plugin.
-            - `arguments` : dict
-                The arguments associated with the plugin.
-
-        """
-        if not values:
-            raise ValueError("Empty : Missing step details")
-
-        plugin_type, plugin_data = next(iter(values.items()))
-        values["type"] = plugin_type
-        values["name"] = plugin_data.get("name", "")
-        values["arguments"] = plugin_data.get("arguments", {})
-
-        # Delegate arguments validation to each plugin type argument class
-        plugin_type_camel_case = "".join(
-            [word.capitalize() for word in plugin_type.split("_")]
-        )
-        plugin_arguments_model_name = f"{plugin_type_camel_case}Arguments"
-        plugin_arguments_model = globals().get(plugin_arguments_model_name)
-        plugin_arguments_model(**values.get("arguments", {}))
-
-        return values
+    pass
 
 
 class Step(BaseModel):
     """Lists sequence of steps along with the step data."""
 
-    # type: str = Field(description="plugin type")
-    # name: str
-    # arguments: Dict[str, Any] = Field(
-    #     default_factory=dict, description="Arguments for the step."
-    # )
+    definition: StepDefinition
 
-    @field_validator("type")
-    def validate_type(cls, v):
+    @model_validator(mode="before")
+    def step_name_validator(cls, values):
         """
         Validate user input for the plugin type.
 
@@ -140,15 +90,31 @@ class Step(BaseModel):
         ValueError
             if the user input plugin type is not in the valid_types list
         """
-        if not v:
-            raise ValueError("Empty : Missing step name / plugin type")
+        if not values:
+            raise ValueError("Empty : Missing step data")
 
         valid_types = get_plugin_types()
-        if v not in valid_types:
+        step_name, step_data = next(iter(values.items()))
+        if step_name not in valid_types:
             raise ValueError(
-                f"\n\ninvalid plugin type: {v}.\n\t Must be one of {valid_types}\n\n"
+                f"\n\ninvalid step name : {step_name}.\n\t"
+                f"Must be one of {valid_types}\n\n"
             )
-        return v
+
+        step_name, step_data = next(iter(values.items()))
+
+        plugin_type = step_data.get("type", "")
+        if "type" not in step_data:
+            step_data = {"type": step_name.lower(), **step_data}
+            plugin_type = step_data.get("type", "")
+            print("plugin_type ", plugin_type)
+
+        if plugin_type != step_name:
+            raise ValueError(
+                f"\n\nstep name : '{step_name}' and type : '{plugin_type}' mismatch. "
+                f"Check your product definition\n\n"
+            )
+        return values
 
 
 class ProductSpec(BaseModel):
