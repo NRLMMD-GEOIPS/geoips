@@ -77,7 +77,6 @@ class ReaderArguments(BaseModel):
 class StepDefinition(BaseModel):
     """Validate step definition : name, arguments."""
 
-    step_name: str
     type: str = Field(description="plugin type")
     name: str = Field(desciption="plugin name")
     arguments: Dict[str, Any] = Field(
@@ -176,33 +175,28 @@ class Step(BaseModel):
         valid_types = get_plugin_types()
 
         # extract step name and step data
-        step_name, step_data = next(iter(values.items()))
+        plugin_type, step_data = next(iter(values.items()))
 
         # raise error if the step name (plugin type) is not valid
-        if step_name not in valid_types:
+        if plugin_type not in valid_types:
             raise ValueError(
-                f"\n\ninvalid step name : {step_name}.\n\t"
+                f"\n\ninvalid step name : {plugin_type}.\n\t"
                 f"Must be one of {valid_types}\n\n"
             )
 
         # extract value for type field (if provided) otherwise
         # add the key value for step name
-        plugin_type = step_data.get("type", "")
         if "type" not in step_data:
-            step_data = {"type": step_name.lower(), **step_data}
-            plugin_type = step_data.get("type", "")
+            step_data = {"type": plugin_type.lower(), **step_data}
             # print("plugin_type ", plugin_type)
 
         # ensure 'type' field matches step name 
-        if plugin_type != step_name:
+        if step_data["type"] != plugin_type:
             raise ValueError(
-                f"\n\nstep name : '{step_name}'"
-                f"and type : '{plugin_type}' mismatch. "
+                f"\n\nstep name : '{plugin_type}'"
+                f"and type : '{step_data["type"]}' mismatch. "
                 f"Check your product definition\n\n"
             )
-
-        # add step name to the step data
-        step_data["step_name"] = step_name
 
         return {"definition": step_data}
 
