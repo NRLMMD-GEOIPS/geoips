@@ -3,11 +3,22 @@
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
 
-import logging
-from os.path import basename
+# Python Standard Libraries
 from copy import deepcopy
 from glob import glob
+import logging
+from os.path import basename
+
+# Third-Party Libraries
 import numpy
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+    fix_datetime,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -86,7 +97,6 @@ def read_knmi_data(wind_xarray):
     wind_xarray = wind_xarray.rename(
         {"lat": "latitude", "lon": "longitude", "time": "time"}
     )
-    import xarray
 
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
@@ -149,13 +159,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-        fix_datetime,
-    )
-    import xarray
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:
