@@ -1,0 +1,32 @@
+interface: driver_configs
+family: multiprocess
+name: abi
+docstring: |
+  Default configuration for GOES ABI-based near real-time processing using GeoIPS.
+spec:
+  basedir: /some/path/to/parent/data/dir
+  output_types:
+    - imagery_annotated
+    - imagery_clean
+  products:
+    - Infrared
+    - Infrared-Gray
+    - IR-BD
+    - WV
+    - WV-Lower
+    - WV-Upper
+    - Visible
+  sector_mapping:
+    RadC: conus
+    RadF: goes_east
+  paths:
+    GOES16:
+      ABI:
+        RadC: GOES16_ABI/path/to/RadC/output
+        RadF: GOES16_ABI/path/to/RadF/output
+    GOES18:
+      ABI:
+        RadC: GOES18_ABI/path/to/RadC/output
+        RadF: GOES18_ABI/path/to/RadF/output
+  core_count: 7
+  processing_type: Pool

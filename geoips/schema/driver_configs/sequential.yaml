@@ -1,0 +1,14 @@
+$id: driver_configs.sequential
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: sequential
+  spec:
+    $ref: "driver_configs.specs.default"
+    required:
+      - processing_type
+      - core_count
+    unevaluatedProperties: true

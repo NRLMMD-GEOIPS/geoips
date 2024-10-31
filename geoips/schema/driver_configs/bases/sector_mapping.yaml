@@ -1,0 +1,5 @@
+$id: driver_configs.bases.sector_mapping
+title: "Sector Mapping"
+type: object # Sector Name: I.e. 'RadC'
+additionalProperties:
+  type: string # GeoIPS Sector Equivalent: I.e. 'conus'

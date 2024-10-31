@@ -1,0 +1,9 @@
+$id: driver_configs.bases.paths
+title: "Paths"
+type: object # Satellite Name: I.e. GOES16
+additionalProperties:
+  type: object # Sensor Name: I.e. ABI
+  additionalProperties:
+    type: object # Sector Name: I.e. RadC
+    additionalProperties:
+      type: string # Relative file path (not beginning with '/')
