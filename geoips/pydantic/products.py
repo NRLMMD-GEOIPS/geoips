@@ -70,7 +70,7 @@ class ReaderArguments(BaseModel):
     @model_validator(mode="before")
     def _validate_reader_arguments(values: dict) -> dict:
         """Validate Reader step arguments."""
-        reader_arguments_list = ["variables"]
+        reader_arguments_list = ["variables", "area_def", "metadata_only", "chans", "self_register"]
         for arg in reader_arguments_list:
             if arg not in values:
                 raise ValueError(f"\n\n\tMissing argument:{arg} for reader plugin.\n\n")
