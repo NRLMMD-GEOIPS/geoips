@@ -1,8 +1,12 @@
 """Product plugin format."""
 
-from pydantic import BaseModel, Field, model_validator
+# Python Standard Libraries
 from typing import Any, Dict, List
 
+# Third-Party Libraries
+from pydantic import BaseModel, Field, model_validator
+
+# GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic.bases import Plugin
 

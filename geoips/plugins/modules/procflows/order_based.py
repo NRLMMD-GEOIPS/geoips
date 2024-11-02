@@ -1,8 +1,12 @@
 """Processing workflow for order based data source processing."""
 
+# Python Standard Libraries
 from argparse import ArgumentParser
+
+# Third-Party Libraries
 import yaml
 
+# GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic.products import ProductPlugin
 
