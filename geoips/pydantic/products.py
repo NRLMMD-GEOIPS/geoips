@@ -22,7 +22,7 @@ def get_plugin_names(plugin_type):
         raise AttributeError(
             f"{plugin_type} is not valid plugin type"
         )
-    plugin_names = sorted(plugin.name for plugin in interface.get_plugins())
+    plugin_names = [plugin.name for plugin in interface.get_plugins()]
     return plugin_names
 
 
@@ -99,7 +99,7 @@ class StepDefinition(BaseModel):
         if plugin_name not in valid_plugin_names:
             raise ValueError(
                 f"{plugin_name} is invalid. \n\t"
-                f"Must be one of {valid_plugin_names}"
+                f"Must be one of {sorted(valid_plugin_names)}"
             )
 
         return values
