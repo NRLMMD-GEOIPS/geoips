@@ -64,7 +64,7 @@ class ReaderArguments(BaseModel):
     """Validate Reader step arguments."""
 
     @model_validator(mode="before")
-    def validate(values: dict) -> dict:
+    def _validate_reader_arguments(values: dict) -> dict:
         """Validate Reader step arguments."""
         reader_arguments_list = ["variables"]
         for arg in reader_arguments_list:
@@ -78,13 +78,13 @@ class StepDefinition(BaseModel):
     """Validate step definition : name, arguments."""
 
     type: str = Field(description="plugin type")
-    name: str = Field(desciption="plugin name")
+    name: str = Field(description="plugin name")
     arguments: Dict[str, Any] = Field(
         default_factory=dict, description="Arguments for the step."
     )
 
     @model_validator(mode="before")
-    def validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Validate plugin name."""
         if not values:
             raise ValueError("The plugin_name cannot be empty")
@@ -101,7 +101,7 @@ class StepDefinition(BaseModel):
         return values
 
     @model_validator(mode="before")
-    def validate_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+    def _validate_plugin_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate & organize details for each step   .
 
@@ -149,7 +149,7 @@ class Step(BaseModel):
     definition: StepDefinition
 
     @model_validator(mode="before")
-    def step_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+    def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """
         Validate user input for the plugin type.
 
@@ -190,11 +190,11 @@ class Step(BaseModel):
             step_data = {"type": plugin_type.lower(), **step_data}
             # print("plugin_type ", plugin_type)
 
-        # ensure 'type' field matches step name 
+        # ensure 'type' field matches step name
         if step_data["type"] != plugin_type:
             raise ValueError(
                 f"\n\nstep name : '{plugin_type}'"
-                f"and type : '{step_data["type"]}' mismatch. "
+                f"and type : '{step_data['type']}' mismatch. "
                 f"Check your product definition\n\n"
             )
 
@@ -208,7 +208,7 @@ class ProductSpec(BaseModel):
     steps: List[Step] = Field(description="The steps to produce the product.")
 
 
-class ProductPlugin(Plugin):
+class ProductPlugin(Plugin, BaseModel):
     """A plugin that produces a product."""
 
     spec: ProductSpec = Field(description="The product specification")
