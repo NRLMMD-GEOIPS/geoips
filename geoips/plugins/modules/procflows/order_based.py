@@ -41,7 +41,6 @@ def call(
         step_def = step.definition
         print(
             # f"\n\nstep\t {step} \n\nplugin \n\t"
-            # f"\n\t step_name : {step_def.step_name}"
             f"\n\t type : {step_def.type}"
             f"\n\t name : {step_def.name} \n\t arguments : {step_def.arguments}"
         )
