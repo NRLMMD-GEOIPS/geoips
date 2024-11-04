@@ -40,31 +40,31 @@ def get_plugin_types():
     return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
-class OutputFormatterArguments(BaseModel):
+class OutputFormatterArgumentsValidator(BaseModel):
     """output_formatters."""
 
     pass
 
 
-class FilenameFormatterArguments(BaseModel):
+class FilenameFormatterArgumentsValidator(BaseModel):
     """Validate FilenameFormatter arguments."""
 
     pass
 
 
-class AlgorithmArguments(BaseModel):
+class AlgorithmArgumentsValidator(BaseModel):
     """Validate Algorithm arguments."""
 
     pass
 
 
-class InterpolatorArguments(BaseModel):
+class InterpolatorArgumentsValidator(BaseModel):
     """Validate Interpolator arguments."""
 
     pass
 
 
-class ReaderArguments(BaseModel):
+class ReaderArgumentsValidator(BaseModel):
     """Validate Reader step arguments."""
 
     @model_validator(mode="before")
@@ -137,7 +137,7 @@ class StepDefinition(BaseModel):
         plugin_type_camel_case = "".join(
             [word.capitalize() for word in plugin_type.split("_")]
         )
-        plugin_arguments_model_name = f"{plugin_type_camel_case}Arguments"
+        plugin_arguments_model_name = f"{plugin_type_camel_case}ArgumentsValidator"
         plugin_arguments_model = globals().get(plugin_arguments_model_name)
         if plugin_arguments_model is None:
             raise ValueError(f"\n\n\tThe plugin type argument class"
