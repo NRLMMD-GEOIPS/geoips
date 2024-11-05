@@ -75,11 +75,6 @@ def call(
         slices = [xarray_obj[product_name].data]
     for slice_idx, slice_data in enumerate(slices):
         main_ax.clear()
-        # Needs to be flipped upside-down as incoming data is flipped if unprojected.
-        # This is the case for family
-        # unsectored_xarray_dict_to_algorithm_to_output_format, but I'm not sure if it
-        # applies to all other families that use this output formatter. We should look
-        # into this.
         main_ax.imshow(
             slice_data,
             norm=mpl_colors_info["norm"],
