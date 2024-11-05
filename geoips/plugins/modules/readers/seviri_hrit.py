@@ -21,9 +21,7 @@ import logging
 import numpy as np
 from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
-# Installed Libraries
-
-# GeoIPS Libraries
+# GeoIPS imports
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (

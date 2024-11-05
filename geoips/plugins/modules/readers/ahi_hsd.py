@@ -4,17 +4,19 @@
 """Advanced Himawari Imager Data Reader."""
 
 # Python Standard Libraries
-import os
-import logging
-from glob import glob
-from struct import unpack
 from datetime import datetime, timedelta
+from glob import glob
+import logging
+import os
+import re
+from struct import unpack
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray
 from scipy.ndimage import zoom
 
+# GeoIPS imports
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -139,6 +141,7 @@ ALL_GVARS = {
 interface = "readers"
 family = "standard"
 name = "ahi_hsd"
+source_names = ["ahi"]
 
 
 class AutoGenError(Exception):
@@ -1321,7 +1324,6 @@ def call(
 
     print_mem_usage("MEMUSG", verbose=False)
     xarray_objs = {}
-    import re
 
     for dsname in datavars.keys():
         xobj = xarray.Dataset()

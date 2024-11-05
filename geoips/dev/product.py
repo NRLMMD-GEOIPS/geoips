@@ -140,6 +140,32 @@ def get_data_range(prod_plugin, output_dict=None):
     return alg_args["output_data_range"].copy()
 
 
+def get_cmap_data_range(prod_plugin, output_dict=None):
+    """Interface will be deprecated v2.0.
+
+    Retrieve required data range for requested product
+
+    Parameters
+    ----------
+    product_name : str
+        Name of requested product (ie, 'IR-BD', '89H', 'color89Nearest', etc)
+
+    Returns
+    -------
+    data_range : list
+        List of float specifying min and max value for the output product
+        ``<geoips_package>.colormapper.<cmap_name>.arguments['data_range']``
+    """
+    cmap_args = prod_plugin["spec"]["colormapper"]["plugin"]["arguments"]
+    if "data_range" not in cmap_args:
+        raise TypeError(
+            f"Product {prod_plugin.name} does not define 'output_data_range' for its "
+            f"algorithm."
+        )
+    # Add .copy() so we aren't returning the ACTUAL list attached to the args
+    return cmap_args["data_range"].copy()
+
+
 def get_product_display_name(prod_plugin, output_dict=None):
     """Interface will be deprecated v2.0.
 
