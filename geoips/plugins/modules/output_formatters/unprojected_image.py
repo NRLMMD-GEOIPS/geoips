@@ -8,7 +8,6 @@ from os.path import basename, dirname, join
 
 import matplotlib.pyplot as plt
 import matplotlib
-import numpy as np
 
 from geoips.image_utils.mpl_utils import save_image
 
@@ -82,7 +81,7 @@ def call(
         # applies to all other families that use this output formatter. We should look
         # into this.
         main_ax.imshow(
-            np.flipud(slice_data),
+            slice_data,
             norm=mpl_colors_info["norm"],
             cmap=mpl_colors_info["cmap"],
         )
