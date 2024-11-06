@@ -27,7 +27,7 @@ class ReadersInterface(BaseModuleInterface):
     def read_data_to_xarray_dict(
         self,
         fnames,
-        call_single_file_func,
+        read_single_time_func,
         metadata_only=False,
         chans=None,
         area_def=None,
@@ -47,8 +47,9 @@ class ReadersInterface(BaseModuleInterface):
             * List of strings, full paths to files
         all_metadata : dict
             * Dictionary of metadata from all files in 'fnames'
-        call_single_file_func : python function
-            * Function which can be used to read a single file from a reader plugin.
+        read_single_time_func : python function
+            * Function which can be used to read a single scan time of files from a
+              reader plugin.
             * Most likely named 'call_single_time'.
         metadata_only : bool, default=False
             * Return before actually reading data if True
@@ -76,16 +77,34 @@ class ReadersInterface(BaseModuleInterface):
             Additional information regarding required attributes and variables
             for GeoIPS-formatted xarray Datasets.
         """
-        all_metadata = self.concatenate_metadata(
-            [call_single_file_func([x], metadata_only=True)["METADATA"] for x in fnames]
-        )
+        # We really only need to get the start time from all of these files. I wish
+        # there were an easier and more efficient route, but this should work for the
+        # time being. Personally, I think it'd be a good idea to add a new argument to
+        # this method that accepts a function which calculates the start datetime of
+        # all files provided.
+        all_file_metadata = [
+            read_single_time_func([x], metadata_only=True)["METADATA"] for x in fnames
+        ]
+        start_times = [md.attrs["start_datetime"] for md in all_file_metadata]
+        unique_stimes = list(set(start_times))
+        metadata_by_scan_time = []
+        for stime in unique_stimes:
+            # Get the indices of all files which match the current start time
+            same_scan_time_files = [dt == stime for dt in start_times]
+            # Now get the metadata of all of the files which match that time
+            metadata_by_scan_time.append(
+                read_single_time_func(
+                    np.array(fnames)[same_scan_time_files], metadata_only=True
+                )["METADATA"]
+            )
+        all_metadata = self.concatenate_metadata(metadata_by_scan_time)
         if metadata_only:
             return all_metadata
 
         dict_xarrays = self.call_files_and_get_top_level_metadata(
             fnames,
             all_metadata,
-            call_single_file_func,
+            read_single_time_func,
             metadata_only,
             chans,
             area_def,
@@ -158,8 +177,9 @@ class ReadersInterface(BaseModuleInterface):
             * List of strings, full paths to files
         all_metadata : dict
             * Dictionary of metadata from all files in 'fnames'
-        call_single_file_func : python function
-            * Function which can be used to read a single file from a reader plugin.
+        read_single_time_func : python function
+            * Function which can be used to read a single scan time of files from a
+              reader plugin.
             * Most likely named 'call_single_time'.
         metadata_only : bool, default=False
             * Return before actually reading data if True
@@ -200,7 +220,8 @@ class ReadersInterface(BaseModuleInterface):
         ingested_xarrays = collections.defaultdict(list)
         for time in stimes:
             scan_time_files = [dt == time for dt in start_times]
-            # Call the associated reader for a single file
+            # Call the associated reader for a series of files associated with the same
+            # scan time
             data_dict = call_single_file_func(
                 np.array(fnames)[scan_time_files],
                 metadata_only=metadata_only,
