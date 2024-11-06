@@ -40,31 +40,31 @@ def get_plugin_types():
     return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
-class OutputFormatterArgumentsValidator(BaseModel):
+class OutputFormatterArgumentsModel(BaseModel):
     """output_formatters."""
 
     pass
 
 
-class FilenameFormatterArgumentsValidator(BaseModel):
+class FilenameFormatterArgumentsModel(BaseModel):
     """Validate FilenameFormatter arguments."""
 
     pass
 
 
-class AlgorithmArgumentsValidator(BaseModel):
+class AlgorithmArgumentsModel(BaseModel):
     """Validate Algorithm arguments."""
 
     pass
 
 
-class InterpolatorArgumentsValidator(BaseModel):
+class InterpolatorArgumentsModel(BaseModel):
     """Validate Interpolator arguments."""
 
     pass
 
 
-class ReaderArgumentsValidator(BaseModel):
+class ReaderArgumentsModel(BaseModel):
     """Validate Reader step arguments."""
 
     @model_validator(mode="before")
@@ -78,7 +78,7 @@ class ReaderArgumentsValidator(BaseModel):
         return values
 
 
-class StepDefinition(BaseModel):
+class ProdcutStepDefinitionModel(BaseModel):
     """Validate step definition : name, arguments."""
 
     type: str = Field(description="plugin type")
@@ -137,7 +137,7 @@ class StepDefinition(BaseModel):
         plugin_type_camel_case = "".join(
             [word.capitalize() for word in plugin_type.split("_")]
         )
-        plugin_arguments_model_name = f"{plugin_type_camel_case}ArgumentsValidator"
+        plugin_arguments_model_name = f"{plugin_type_camel_case}ArgumentsModel"
         plugin_arguments_model = globals().get(plugin_arguments_model_name)
         if plugin_arguments_model is None:
             raise ValueError(f"\n\n\tThe plugin type argument class"
@@ -147,10 +147,10 @@ class StepDefinition(BaseModel):
         return values
 
 
-class Step(BaseModel):
+class ProductStepModel(BaseModel):
     """Validate and process a sequence of steps with their data."""
 
-    definition: StepDefinition
+    definition: ProdcutStepDefinitionModel
 
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -205,14 +205,14 @@ class Step(BaseModel):
         return {"definition": step_data}
 
 
-class ProductSpec(BaseModel):
+class ProductSpecModel(BaseModel):
     """The specification for a product."""
 
     # list of steps
-    steps: List[Step] = Field(description="The steps to produce the product.")
+    steps: List[ProductStepModel] = Field(description="The steps to produce the product.")
 
 
-class ProductPlugin(Plugin, BaseModel):
+class ProductPluginModel(Plugin, BaseModel):
     """A plugin that produces a product."""
 
-    spec: ProductSpec = Field(description="The product specification")
+    spec: ProductSpecModel = Field(description="The product specification")
