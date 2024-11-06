@@ -8,7 +8,7 @@ import yaml
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.products import ProductPlugin
+from geoips.pydantic.products import ProductPluginModel
 
 
 interface = "procflows"
@@ -39,7 +39,7 @@ def call(
     """
     with open(product_path) as product_definition_file:
         prod_dict = yaml.safe_load(product_definition_file)
-        prod = ProductPlugin(**prod_dict)
+        prod = ProductPluginModel(**prod_dict)
 
     for step in prod.spec.steps:
         step_def = step.definition
