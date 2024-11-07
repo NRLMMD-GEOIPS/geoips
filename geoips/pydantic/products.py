@@ -8,7 +8,7 @@ from pydantic import BaseModel, Field, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.bases import Plugin
+from geoips.pydantic.bases import PluginModel
 
 
 def get_plugin_names(plugin_type):
@@ -22,6 +22,9 @@ def get_plugin_names(plugin_type):
         raise AttributeError(
             f"{plugin_type} is not valid plugin type"
         )
+    # except ValidationError as ex:
+    #     exceptions = ex
+    #     exceptions.errors()
     plugin_names = [plugin.name for plugin in interface.get_plugins()]
     return plugin_names
 
@@ -212,7 +215,7 @@ class ProductSpecModel(BaseModel):
     steps: List[ProductStepModel] = Field(description="The steps to produce the product.")
 
 
-class ProductPluginModel(Plugin, BaseModel):
+class ProductPluginModel(PluginModel, BaseModel):
     """A plugin that produces a product."""
 
     spec: ProductSpecModel = Field(description="The product specification")

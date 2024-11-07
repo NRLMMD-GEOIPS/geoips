@@ -1,1 +1,1 @@
-from geoips.pydantic.bases import Plugin
+from geoips.pydantic.bases import PluginModel

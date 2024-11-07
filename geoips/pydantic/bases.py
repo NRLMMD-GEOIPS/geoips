@@ -70,7 +70,7 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-class Plugin(PrettyBaseModel):
+class PluginModel(PrettyBaseModel):
     """Base Plugin model for all GeoIPS plugins."""
 
     interface: PythonIdentifier = Field(
@@ -83,11 +83,7 @@ class Plugin(PrettyBaseModel):
     package: PythonIdentifier = Field(
         None, description="The package the plugin belongs to."
     )
-    # Should write a test to ensure this is a valid relative path
-    # Probably try instantiating pathlib.Path, then check that isabs() is False
     relpath: str = Field(None, description="The relative path to the plugin.")
-    # Should write a test to ensure this is a valid relative path
-    # Probably try instantiating pathlib.Path, then check that isabs() is True
     abspath: str = Field(None, description="The absolute path to the plugin.")
 
     @field_validator("docstring")
