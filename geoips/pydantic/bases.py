@@ -10,7 +10,8 @@ within plugin models.
 """
 
 import keyword
-from pydantic import Field, BaseModel
+from pydantic import BaseModel, Field, field_validator
+from pydantic_core import PydanticCustomError
 from typing import Tuple
 from typing_extensions import Annotated
 from pydantic.functional_validators import AfterValidator
@@ -87,6 +88,20 @@ class Plugin(PrettyBaseModel):
     # Should write a test to ensure this is a valid relative path
     # Probably try instantiating pathlib.Path, then check that isabs() is True
     abspath: str = Field(None, description="The absolute path to the plugin.")
+
+    @field_validator("docstring")
+    def validate_one_line_numpy_docstring(cls, value):
+        """Check that the docstring is a single line."""
+        if "\n" in value:
+            raise PydanticCustomError(
+                "single_line", "The docstring should be a single line.\n"
+            )
+        if not (value[0].isupper() and value.endswith(".")):
+            raise ValueError(
+                "format_error",
+                "The docstring should start with a Capital letter and end with a period",
+            )
+        return value
 
 
 def mpl_artist_args(args: dict, artist: Artist) -> dict:
