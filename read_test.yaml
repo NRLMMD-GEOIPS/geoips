@@ -1,7 +1,10 @@
 interface: products
 family: order_based
 name: read_test
-docstring: Read test
+docstring: Read test.
+package: geoips
+relpath: ../geoips/
+abspath: /home/kumar/geoips/geoips/geoips/plugins/modules/procflows
 spec:
   steps:
     - reader:
