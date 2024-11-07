@@ -193,8 +193,8 @@ def get_top_level_metadata(fnames, sect):
         md["sector_name"] = "Full-Disk"
     else:
         projection = df.metadata.get("block_2", {}).get("projection", {})
-        st = df.start_datetime
-        et = df.start_datetime
+        st = df.start_datetime.isoformat()
+        et = df.start_datetime.isoformat()
         raise HritError(
             f"Unknown projection encountered: {projection}.\n"
             f"start_datetime={repr(st)}\n"

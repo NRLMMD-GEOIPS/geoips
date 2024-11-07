@@ -4,10 +4,7 @@
 """Readers interface module."""
 
 import collections
-
-# Need a NOQA here as datetime is actually used. However, it's used in an eval(str)
-# statement, so pylance doesn't recognize it.
-import datetime  # NOQA
+from datetime import datetime
 from os.path import basename
 
 import numpy as np
@@ -118,13 +115,13 @@ class ReadersInterface(BaseModuleInterface):
 
                     Error Format:
                     f"Unknown projection encountered: {projection}.\n"
-                    f"start_datetime={repr(st)}\n"
-                    f"end_datetime={repr(et)}"
+                    f"start_datetime={st.isoformat()}\n"
+                    f"end_datetime={et.isoformat()}"
                     """
                     emsg = str(e).split("\n")
                     # Recreate the datetime objects from the repr strings provided
-                    st = eval(emsg[1].split("=")[1])
-                    et = eval(emsg[2].split("=")[1])
+                    st = datetime.fromisoformat(emsg[1].split("=")[1].replace("'", ""))
+                    et = datetime.fromisoformat(emsg[2].split("=")[1].replace("'", ""))
                 # Add st, et as datetimes for the file, nonetheless if they are None
                 # or a valid datetime
                 all_file_metadata.append(
