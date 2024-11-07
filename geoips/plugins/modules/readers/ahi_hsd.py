@@ -981,7 +981,7 @@ def call(
         for GeoIPS-formatted xarray Datasets.
     """
     return readers.read_data_to_xarray_dict(
-        sorted(fnames),
+        fnames,
         call_single_time,
         metadata_only,
         chans,

@@ -123,7 +123,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         for GeoIPS-formatted xarray Datasets.
     """
     return readers.read_data_to_xarray_dict(
-        sorted(fnames),
+        fnames,
         call_single_time,
         metadata_only,
         chans,

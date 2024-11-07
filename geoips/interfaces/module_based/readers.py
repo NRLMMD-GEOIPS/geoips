@@ -78,6 +78,8 @@ class ReadersInterface(BaseModuleInterface):
             Additional information regarding required attributes and variables
             for GeoIPS-formatted xarray Datasets.
         """
+        # Sort fnames. This should sort them by time and channel more often than not.
+        fnames = sorted(fnames)
         # We really only need to get the start time from all of these files. I wish
         # there were an easier and more efficient route, but this should work for the
         # time being. Personally, I think it'd be a good idea to add a new argument to
@@ -99,6 +101,15 @@ class ReadersInterface(BaseModuleInterface):
                 )
         self.start_times = [md.attrs["start_datetime"] for md in all_file_metadata]
         self.end_times = [md.attrs["end_datetime"] for md in all_file_metadata]
+
+        # Get unique start times and end times. We do this by initally creating a set
+        # from all found start and end times. Keep in mind, some of these times could
+        # be 'None' if a value error is raised from the reader call function. This
+        # occurs when none of the selected channels were found in the file provided.
+        # Meaning, we don't need that file..
+        # Now, remove 'None' from the set (the files the don't need). This leaves a list
+        # of unique file times that have been found in datasets that contain the correct
+        # channels.
         self.unique_stimes = list(set(self.start_times).difference(set([None])))
         self.unique_etimes = list(set(self.end_times).difference(set([None])))
         # Set these values to this class so they can be used downstream for reading
