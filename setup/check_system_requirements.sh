@@ -35,19 +35,6 @@ mkdir -p `dirname $install_log`
 echo ""
 echo "Install log: $install_log"
 
-# These are the download locations used by the test_data function
-test_data_urls=(
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_fusion.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_noaa_aws.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_amsr2_1.6.0.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_clavrx_1.10.0.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0.tgz"
-    "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_viirs_1.6.0.tgz"
-)
-
 # Requirements to run base geoips tests
 if [[ "$1" == "geoips_base" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh git
@@ -332,12 +319,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
     test_data_dir=$GEOIPS_TESTDATA_DIR/$test_data_name
     test_data_url="$GEOIPS_REPO_URL/${test_data_name}.git"
     if [[ "$test_data_source_location" != "github" ]]; then
-        for url in ${test_data_urls[@]}; do
-            if [[ "${url}" == *"${test_data_name}"*".tgz" ]]; then
-                test_data_url="${url}"
-                break
-            fi
-        done
+        test_data_url="direct download"
     fi
 
     # Ensure there is a data or docs directory
@@ -363,9 +345,9 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
             exit 1
         fi
         echo "Installing $test_data_name_string .... "
-        echo "  $test_data_dir/ from $test_data_url via $test_data_source_location"
+        echo "  $test_data_dir/ using $test_data_url via $test_data_source_location"
         if [[ "$test_data_source_location" == "github" ]]; then
-            python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir >> $install_log 2>&1
+            python3 $SCRIPT_DIR/download_test_data.py $test_data_url --output-dir $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
             retval=$?
             if  [[ "$retval" == "0" ]]; then
                 echo "SUCCESS: Pulled ${test_data_name} from ${test_data_url}"
@@ -396,9 +378,8 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
                 fi
             fi
         else
-            echo "DOWNLOADING: NextCloud Dataset $test_data_name @ $test_data_url"
-            echo "python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1"
-            python $SCRIPT_DIR/download_test_data.py $test_data_url $test_data_dir | tar -xz -C $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+            echo "DOWNLOADING: NextCloud Dataset $test_data_name"
+            python3 $SCRIPT_DIR/download_test_data.py $test_data_name --output-dir $GEOIPS_TESTDATA_DIR
             # check to see how many folders in GEOIPS_TESTDATA_DIR match test_data_name
             matching_folders=$(ls $GEOIPS_TESTDATA_DIR | grep $test_data_name)
             folder_count=$(echo "$matching_folders" | wc -l)

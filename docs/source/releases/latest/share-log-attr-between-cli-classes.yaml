@@ -1,0 +1,24 @@
+Refactoring Updates:
+- description: |
+    *From GEOIPS#714: 7-26-24, Discuss how to share LOG attribute in the CLI*
+
+    Since we've started developing the GeoIPS CLI, we've known that there was a need to
+    have a shared logger object among all of the CLI command classes for debugging
+    purposes and to output basic information to the user if requested. We can now do
+    this using the '--log-level' / '-log' flag. Depending on the log level set, all
+    levels that match or are of higher 'order' than the log level provided will be
+    outputted. This functionality matches that used in 'run_procflow'. Logging is now
+    a supported utility throughout the CLI, and can be used in any CLI class via
+    self.LOG.<log_level>(log_statement). Note that self.LOG.<log_level> does not have to
+    match the provided '--log-level' ran in the command. This flag is strictly just the
+    LOG level filter. I.e. if '--log-level info' was provided, levels
+    ['info', 'debug', 'interactive'] would be shown. The lower the level, the more
+    logging channels will output.
+  files:
+    modified:
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
+  related-issue:
+    number: 714
+    repo_url: https://github.com/NRLMMD-GEOIPS/geoips
+  title: Share Logger Object to CLI Command Classes

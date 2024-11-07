@@ -8,10 +8,13 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
+
+# Third-Party Libraries
 import numpy as np
-
 from scipy.ndimage import zoom
+import xarray
 
+# GeoIPS imports
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -26,17 +29,17 @@ LOG = logging.getLogger(__name__)
 # Installed Libraries
 
 with import_optional_dependencies(loglevel="info"):
-    """Attempt to import a package and print to LOG.info if the import fails."""
-    # If this reader is not installed on the system, don't fail alltogether, just skip
-    # this import.  This reader will not work if the import fails and the package will
-    # have to be installed to process data of this type.
+    """Attempt to import a package & print to LOG.info if the import fails."""
+    # If this reader is not installed on the system, don't fail alltogether,
+    # just skip this import. This reader will not work if the import fails
+    # and the package will have to be installed to process data of this type.
     import netCDF4 as ncdf
     import numexpr as ne
 
 interface = "readers"
 family = "standard"
 name = "abi_netcdf"
-
+source_names = ["abi"]
 
 nprocs = 6
 
@@ -591,7 +594,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # required size.
     # Dict structure is channel{metadata}
     file_info = {}
-    import xarray
 
     xarray_obj = xarray.Dataset()
     for md in all_metadata.values():

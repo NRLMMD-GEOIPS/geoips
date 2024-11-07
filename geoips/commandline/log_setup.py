@@ -8,6 +8,9 @@ import sys
 from textwrap import wrap
 
 
+logging.captureWarnings(True)
+
+
 def log_with_emphasis(print_func, *messages):
     """Print messages boxed in asterisks using the specified print function.
 
