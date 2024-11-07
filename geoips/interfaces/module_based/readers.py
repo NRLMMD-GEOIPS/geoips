@@ -4,12 +4,17 @@
 """Readers interface module."""
 
 import collections
+
+# Need a NOQA here as datetime is actually used. However, it's used in an eval(str)
+# statement, so pylance doesn't recognize it.
+import datetime  # NOQA
 from os.path import basename
 
 import numpy as np
 from xarray import concat, Dataset
 
 from geoips.interfaces.base import BaseModuleInterface
+from geoips.plugins.modules.readers.utils.hrit_reader import HritError
 
 
 class ReadersInterface(BaseModuleInterface):
@@ -93,11 +98,37 @@ class ReadersInterface(BaseModuleInterface):
                         "METADATA"
                     ]
                 )
-            except ValueError:
+            except (ValueError, HritError) as e:
                 # Value error is raised for 'inconsistent' metadata, or in this case
                 # No appropriate file for the channels selected
+                if isinstance(e, ValueError):
+                    st = None
+                    et = None
+                    all_file_metadata.append(
+                        Dataset(attrs=dict(start_datetime=None, end_datetime=None))
+                    )
+                else:
+                    """
+                    This occurs from the seviri_hrit reader in 'get_top_level_metadata'
+                    Parse out the start and end datetimes, as this file still could be
+                    Relevant, but is missing 'block_2'. If the set of files all are
+                    missing block_2, or the projection of block_2 is not GEOS, it will
+                    cause an HritError in the for loop before, which doesn't have a try
+                    except statement.
+
+                    Error Format:
+                    f"Unknown projection encountered: {projection}.\n"
+                    f"start_datetime={repr(st)}\n"
+                    f"end_datetime={repr(et)}"
+                    """
+                    emsg = str(e).split("\n")
+                    # Recreate the datetime objects from the repr strings provided
+                    st = eval(emsg[1].split("=")[1])
+                    et = eval(emsg[2].split("=")[1])
+                # Add st, et as datetimes for the file, nonetheless if they are None
+                # or a valid datetime
                 all_file_metadata.append(
-                    Dataset(attrs=dict(start_datetime=None, end_datetime=None))
+                    Dataset(attrs=dict(start_datetime=st, end_datetime=et))
                 )
         self.start_times = [md.attrs["start_datetime"] for md in all_file_metadata]
         self.end_times = [md.attrs["end_datetime"] for md in all_file_metadata]

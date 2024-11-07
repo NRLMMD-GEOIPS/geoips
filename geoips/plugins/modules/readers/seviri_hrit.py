@@ -191,12 +191,15 @@ def get_top_level_metadata(fnames, sect):
             break
     if "GEOS" in df.metadata.get("block_2", {}).get("projection", {}):
         md["sector_name"] = "Full-Disk"
-    # else:
-    # raise HritError(
-    #     "Unknown projection encountered: {}".format(
-    #         df.metadata.get("block_2", {}).get("projection", {})
-    #     )
-    # )
+    else:
+        projection = df.metadata.get("block_2", {}).get("projection", {})
+        st = df.start_datetime
+        et = df.start_datetime
+        raise HritError(
+            f"Unknown projection encountered: {projection}.\n"
+            f"start_datetime={repr(st)}\n"
+            f"end_datetime={repr(et)}"
+        )
     md["start_datetime"] = df.start_datetime
     md["end_datetime"] = df.start_datetime
     md["data_provider"] = "nesdisstar"
