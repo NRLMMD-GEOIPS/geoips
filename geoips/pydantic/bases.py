@@ -17,6 +17,7 @@ from typing_extensions import Annotated
 from pydantic.functional_validators import AfterValidator
 from matplotlib.artist import Artist
 from matplotlib.lines import Line2D
+from pathlib import Path
 
 # from cartopy import feature
 
@@ -102,6 +103,28 @@ class Plugin(PrettyBaseModel):
                 "The docstring should start with a Capital letter and end with a period",
             )
         return value
+
+    @field_validator("relpath")
+    def validate_relative_path(cls, value):
+        """Validate the relative path."""
+        path = Path(value)
+
+        if path.is_absolute():
+            raise PydanticCustomError(
+                "relative_path_error",
+                "The relpath must be relative path, not an absolute path.\n\n"
+            )
+        return value
+
+    @field_validator("abspath")
+    def validate_absolute_path(cls, value):
+        """Validate absolute path."""
+        path = Path(value)
+        if not path.is_absolute():
+            raise PydanticCustomError(
+                "absolute_path_error",
+                "The path must be an absolute path.\n\n"
+            )
 
 
 def mpl_artist_args(args: dict, artist: Artist) -> dict:
