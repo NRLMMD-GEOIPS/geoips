@@ -121,6 +121,7 @@ class PluginModel(PrettyBaseModel):
                 "absolute_path_error",
                 "The path must be an absolute path.\n\n"
             )
+        return value
 
 
 def mpl_artist_args(args: dict, artist: Artist) -> dict:
