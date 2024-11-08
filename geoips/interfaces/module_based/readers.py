@@ -101,9 +101,6 @@ class ReadersInterface(BaseModuleInterface):
                 if isinstance(e, ValueError):
                     st = None
                     et = None
-                    all_file_metadata.append(
-                        Dataset(attrs=dict(start_datetime=None, end_datetime=None))
-                    )
                 else:
                     """
                     This occurs from the seviri_hrit reader in 'get_top_level_metadata'
