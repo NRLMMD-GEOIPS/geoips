@@ -64,6 +64,17 @@ integ_test_calls = [
 
 
 def check_full_install():
+    """
+    Run the full installation check script to verify the GeoIPS installation.
+
+    Executes the 'full_install.sh' script located in the GeoIPS tests directory
+    to ensure that all required components are properly installed.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the full installation check script returns a non-zero exit status.
+    """
     full_install_check = [
         "bash",
         os.getenv("GEOIPS_PACKAGES_DIR")
@@ -75,11 +86,34 @@ def check_full_install():
 
 
 def setup_environment():
+    """
+    Set up necessary environment variables for integration tests.
+
+    Configures paths and package names for the GeoIPS core and its plugins by
+    setting environment variables required for the integration tests. Assumes
+    that 'GEOIPS_PACKAGES_DIR' is already set in the environment.
+
+    Notes
+    -----
+    The following environment variables are set:
+    - geoips_repopath
+    - geoips_pkgname
+    - recenter_tc_repopath
+    - recenter_tc_pkgname
+    - data_fusion_repopath
+    - data_fusion_pkgname
+    - template_basic_plugin_repopath
+    - template_basic_plugin_pkgname
+    - geoips_plugin_example_repopath
+    - geoips_plugin_example_pkgname
+    - geoips_clavrx_repopath
+    - geoips_clavrx_pkgname
+    """
     # Base path
     os.environ["geoips_repopath"] = os.path.join(os.path.dirname(__file__), "..", "..")
     os.environ["geoips_pkgname"] = "geoips"
 
-    # Environment variable for geoips_packages_dir (assuming it is already set in your environment)
+    # Environment variable for GEOIPS_PACKAGES_DIR
     geoips_packages_dir = os.getenv("GEOIPS_PACKAGES_DIR")
 
     # Paths and package names for each plugin
@@ -113,6 +147,13 @@ integ_tests_setup = False
 
 
 def setup_integ_tests():
+    """
+    Set up the integration tests by checking install and setting env-vars.
+
+    Calls `check_full_install()` to verify the installation and `setup_environment()`
+    to set up the necessary environment variables before running integration tests.
+    Sets the global flag `integ_tests_setup` to `True` upon successful setup.
+    """
     check_full_install()
     setup_environment()
     global integ_tests_setup
@@ -122,6 +163,20 @@ def setup_integ_tests():
 @pytest.mark.integration
 @pytest.mark.parametrize("script", integ_test_calls)
 def test_integ_test_script(script):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
     if not integ_tests_setup:
         setup_integ_tests()
     expanded_call = ("bash " + os.path.expandvars(script)).split(" ")
