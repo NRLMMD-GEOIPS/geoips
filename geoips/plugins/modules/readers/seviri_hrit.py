@@ -197,8 +197,8 @@ def get_top_level_metadata(fnames, sect):
         et = df.start_datetime.isoformat()
         raise HritError(
             f"Unknown projection encountered: {projection}.\n"
-            f"start_datetime={repr(st)}\n"
-            f"end_datetime={repr(et)}"
+            f"start_datetime={st}\n"
+            f"end_datetime={et}"
         )
     md["start_datetime"] = df.start_datetime
     md["end_datetime"] = df.start_datetime

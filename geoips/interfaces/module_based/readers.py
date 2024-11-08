@@ -120,8 +120,8 @@ class ReadersInterface(BaseModuleInterface):
                     """
                     emsg = str(e).split("\n")
                     # Recreate the datetime objects from the repr strings provided
-                    st = datetime.fromisoformat(emsg[1].split("=")[1].replace("'", ""))
-                    et = datetime.fromisoformat(emsg[2].split("=")[1].replace("'", ""))
+                    st = datetime.fromisoformat(emsg[1].split("=")[1])
+                    et = datetime.fromisoformat(emsg[2].split("=")[1])
                 # Add st, et as datetimes for the file, nonetheless if they are None
                 # or a valid datetime
                 all_file_metadata.append(
