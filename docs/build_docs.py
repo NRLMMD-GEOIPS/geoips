@@ -7,8 +7,12 @@ import argparse
 import shutil
 import os
 
+import brassy.actions.build_release_notes as brassy_build
+import brassy.utils.CLI
 from rich.logging import RichHandler
 from rich.traceback import install as install_rich_tracebacks
+from rich.logging import Console
+from rich.progress import Progress
 import rich_argparse
 import pygit2
 import jinja2
@@ -90,6 +94,15 @@ def parse_args_with_argparse():
         help=(
             "Path to GeoIPS documentation templates. "
             "Default is '$GEOIPS_PACKAGES_DIR/geoips/docs' if the environment variable is set."
+        ),
+    )
+    parser.add_argument(
+        "--license-url",
+        type=str,
+        default="https://github.com/NRLMMD-GEOIPS/geoips",
+        help=(
+            "Path to GeoIPS license."
+            "Default is https://github.com/NRLMMD-GEOIPS/geoips"
         ),
     )
 
@@ -220,7 +233,9 @@ def get_sections():
     required_sections = ["releases"]
 
     optional_sections = [
+        "intro",
         "starter",
+        "userguide",
         "devguide",
         "deployguide",
         "opguide",
@@ -421,7 +436,7 @@ def stage_docs_files_for_building(
     """
     Set up the documentation source files in the build directory before building.
 
-    This function copies the package's documentation source files into a build directory.
+    This function copies the package documentation source files into a build directory.
     If the package isn't 'geoips', it setups up template files from the GeoIPS docs.
     It then creates a customized conf.py and index.rst files tailored for the package.
 
@@ -533,12 +548,64 @@ def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)
     sphinx_build_module.main(arguments)  # build docs with sphinx
 
 
+def build_release_note_from_dir_with_brassy(
+    release_dir, release_filename, version, header_file, log=logging.getLogger(__name__)
+):
+    log.debug(
+        f"Building yaml files in {release_dir} into {release_filename} using brassy"
+    )
+    with open(release_filename, "w") as f:
+        release_note_content = brassy_build.build_release_notes(
+            [release_dir],
+            Console(),
+            Progress().open,
+            version=version,
+            header_file=header_file,
+        )
+        f.write(release_note_content)
+
+
+def build_release_notes_with_brassy(
+    releases_dir, license_url, log=logging.getLogger(__name__)
+):
+    release_dirs = filter(
+        os.path.isdir,
+        [os.path.join(releases_dir, rd) for rd in os.listdir(releases_dir)],
+    )
+
+    with tempfile.NamedTemporaryFile(mode="w") as header_file:
+        header_file.write(
+            "\n".join(
+                [
+                    ".. dropdown:: Distribution Statement",
+                    "  | This file is auto-generated. Please abide by the license",
+                    f"  | found at {license_url}.",
+                ]
+            )
+        )
+
+        for release_dir in release_dirs:
+            release_filename = release_dir + ".rst"
+            release_version = release_dir.replace(releases_dir + "/", "")
+            if release_version == "upcoming":
+                log.warning(
+                    f"Skipping release dir {release_dir}"
+                    "because it's version is 'upcoming'"
+                )
+            log.debug(f"Setting version of {release_filename} to {release_version}")
+            build_release_note_from_dir_with_brassy(
+                release_dir, release_filename, release_version, header_file.name
+            )
+            os.system(f"pink {release_filename}")  # TODO: pythonize and call directly
+
+
 def build_html_docs(
     repo_dir,
     build_dir,
     geoips_docs_dir,
     package_name,
     output_dir,
+    license_url,
     log=logging.getLogger(__name__),
 ):
     """
@@ -576,14 +643,30 @@ def build_html_docs(
     apidoc_build_path = os.path.join(build_dir, f"{package_name}_api")
     module_path = os.path.join(repo_dir, package_name)  # module path
     build_module_apidocs_with_sphinx(module_path, apidoc_build_path, log=log)
+    releases_dir = os.path.join(geoips_docs_dir, "source", "releases")
+    build_release_notes_with_brassy(releases_dir, license_url)
 
     with tempfile.TemporaryDirectory() as built_dir:
         log.info("Building docs")
         build_docs_with_sphinx(build_dir, built_dir, log=log)
+        log.debug("Docs built successfully")
+        if os.path.exists(output_dir):
+            log.info(
+                f"Removing output directory {output_dir} in preparation of writing"
+                + "built docs"
+            )
+            shutil.rmtree(output_dir)
         shutil.copytree(built_dir, output_dir, dirs_exist_ok=True)
 
 
-def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="latest"):
+def main(
+    repo_dir,
+    package_name,
+    geoips_docs_dir,
+    output_dir,
+    license_url,
+    docs_version="latest",
+):
     """
     Setup and execute documentation build.
 
@@ -627,7 +710,13 @@ def main(repo_dir, package_name, geoips_docs_dir, output_dir, docs_version="late
     with tempfile.TemporaryDirectory() as docs_build_dir_container:
         build_dir = os.path.join(docs_build_dir_container, "build")
         build_html_docs(
-            repo_dir, build_dir, geoips_docs_dir, package_name, output_dir, log=log
+            repo_dir,
+            build_dir,
+            geoips_docs_dir,
+            package_name,
+            output_dir,
+            license_url,
+            log=log,
         )
         log.info(f"Docs built and written to {output_dir}")
 
@@ -640,5 +729,6 @@ if __name__ == "__main__":
         package_name=args.package_name,
         geoips_docs_dir=args.geoips_docs_path,
         output_dir=args.output_dir,
+        license_url=args.license_url,
         docs_version=args.docs_version,
     )
