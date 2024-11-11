@@ -141,7 +141,7 @@ def parse_args_with_argparse():
         repo_url = os.getenv("GEOIPS_REPO_URL")
         if repo_url:
             warnings.warn(
-                f"Using the environmental variable $GEOIPS_REPO_URL as value for "
+                "Using the environmental variable $GEOIPS_REPO_URL as value for "
                 "--license-url. This functionality is deprecated and will be removed. "
                 "Please pass in using --license-url $GEOIPS_REPO_URL. Alternatively,"
                 "you can unset $GEOIPS_REPO_URL and the URL will default to"
