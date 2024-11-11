@@ -109,9 +109,9 @@ def parse_args_with_argparse():
         if output_dir:
             warnings.warn(
                 f"Using output dir value {output_dir} from environmental variable "
-                + "$GEOIPS_DOCSDIR. This functionality is DEPRECATED and will be"
-                + "removed. Please pass $GEOIPS_DOCSDIR as --output-dir $GEOIPS_DOCSDIR "
-                + "for the same functionality."
+                "$GEOIPS_DOCSDIR. This functionality is DEPRECATED and will be "
+                "removed. Please pass $GEOIPS_DOCSDIR as --output-dir $GEOIPS_DOCSDIR "
+                "for the same functionality."
             )
         else:
             output_dir = os.path.join(args.repo_path, "build", "sphinx", "html")
@@ -128,8 +128,8 @@ def parse_args_with_argparse():
         if docs_path_env:
             warnings.warn(
                 "GeoIPS docs path set to $GEOIPS_PACKAGES_DIR/geoips/docs, but this "
-                + "fall back is deprecated. Please start passing with "
-                + "--geoips-docs-path $GEOIPS_PACKAGES_DIR"
+                "fall back is deprecated. Please start passing with "
+                "--geoips-docs-path $GEOIPS_PACKAGES_DIR"
             )
             args.geoips_docs_path = docs_path_env
         else:
@@ -141,10 +141,11 @@ def parse_args_with_argparse():
         repo_url = os.getenv("GEOIPS_REPO_URL")
         if repo_url:
             warnings.warn(
-                f"Using output dir value {output_dir} from environmental variable "
-                + "$GEOIPS_DOCSDIR. This functionality is DEPRECATED and will be"
-                + "removed. Please pass $GEOIPS_DOCSDIR as --output-dir $GEOIPS_DOCSDIR "
-                + "for the same functionality."
+                f"Using the environmental variable $GEOIPS_REPO_URL as value for "
+                "--license-url. This functionality is deprecated and will be removed. "
+                "Please pass in using --license-url $GEOIPS_REPO_URL. Alternatively,"
+                "you can unset $GEOIPS_REPO_URL and the URL will default to"
+                "https://github.com/NRLMDD-GEOIPS/package_name"
             )
         else:
             repo_url = "https://github.com/NRLMMD-GEOIPS/" + args.package_name
