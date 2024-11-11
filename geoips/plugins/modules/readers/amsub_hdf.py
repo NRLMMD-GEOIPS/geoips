@@ -48,15 +48,22 @@ Basic information on AMSU-B product file::
     Time
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
+import os
+
+# Third-Party Libraries
+import matplotlib
+import numpy as np
+import pandas as pd
 
 # library for hdf files
 from pyhdf.SD import SD, SDC
 from pyhdf.VS import HC
-from pyhdf.HDF import HDF
 
 # from pyhdf.VS import *
-import matplotlib
+from pyhdf.HDF import HDF
+import xarray as xr
 
 matplotlib.use("agg")
 
@@ -105,12 +112,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
     # fname='NPR.MHOP.NP.D20154.S1406.E1553.B5833031.NS'
     fname = fnames[0]
 
