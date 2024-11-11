@@ -68,7 +68,8 @@ def parse_args_with_argparse():
     parser.add_argument(
         "repo_path",
         type=str,
-        help="Path to the repository (e.g., /path/to/geoips). Must be an existing directory.",
+        help="Path to the repository (e.g., /path/to/geoips)."
+        "Must be an existing directory.",
     )
     parser.add_argument(
         "package_name",
@@ -77,32 +78,19 @@ def parse_args_with_argparse():
     )
 
     # Optional argument: path to documentation templates
-    default_docs_path = (
-        os.getenv("GEOIPS_PACKAGES_DIR", "") + "/geoips/docs"
-        if os.getenv("GEOIPS_PACKAGES_DIR")
-        else None
-    )
-    warnings.warn(
-        "GeoIPS docs path defaults to $GEOIPS_PACKAGES_DIR, but this "
-        + "fall back is deprecated. Please start passing with "
-        + "--geoips-docs-path $GEOIPS_PACKAGES_DIR"
-    )
     parser.add_argument(
         "--geoips-docs-path",
         type=str,
-        default=default_docs_path,
-        help=(
-            "Path to GeoIPS documentation templates. "
-            "Default is '$GEOIPS_PACKAGES_DIR/geoips/docs' if the environment variable is set."
-        ),
+        default=None,
+        help="Path to GeoIPS documentation templates.",
     )
     parser.add_argument(
         "--license-url",
         type=str,
-        default="https://github.com/NRLMMD-GEOIPS/geoips",
+        default=None,
         help=(
             "Path to GeoIPS license."
-            "Default is https://github.com/NRLMMD-GEOIPS/geoips"
+            "Default is https://github.com/NRLMMD-GEOIPS/[package_name]"
         ),
     )
 
@@ -138,6 +126,39 @@ def parse_args_with_argparse():
             output_dir = os.path.join(args.repo_path, "build", "sphinx", "html")
         args.output_dir = output_dir
 
+    if args.package_name == "geoips":
+        args.geoips_docs_path = os.path.join(args.repo_path, "docs")
+    elif not args.geoips_docs_path:
+        docs_path_env = (
+            os.getenv("GEOIPS_PACKAGES_DIR", "") + "/geoips/docs"
+            if os.getenv("GEOIPS_PACKAGES_DIR")
+            else None
+        )
+        if docs_path_env:
+            warnings.warn(
+                "GeoIPS docs path set to $GEOIPS_PACKAGES_DIR/geoips/docs, but this "
+                + "fall back is deprecated. Please start passing with "
+                + "--geoips-docs-path $GEOIPS_PACKAGES_DIR"
+            )
+            args.geoips_docs_path = docs_path_env
+        else:
+            raise argparse.ArgumentError(
+                "Please pass geoips docs path to " "build plugin documentation"
+            )
+
+    if not args.license_url:
+        repo_url = os.getenv("GEOIPS_REPO_URL")
+        if repo_url:
+            warnings.warn(
+                f"Using output dir value {output_dir} from environmental variable "
+                + "$GEOIPS_DOCSDIR. This functionality is DEPRECATED and will be"
+                + "removed. Please pass $GEOIPS_DOCSDIR as --output-dir $GEOIPS_DOCSDIR "
+                + "for the same functionality."
+            )
+        else:
+            repo_url = "https://github.com/NRLMMD-GEOIPS/" + args.package_name
+        args.license_url = repo_url
+
     return args
 
 
@@ -172,8 +193,6 @@ def validate_path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__n
 def validate_package_is_installed(package_name, logger=logging.getLogger(__name__)):
     """
     Verify that the specified package is installed in the current Python environment.
-
-    If the package is not found, it logs a critical error and raises ModuleNotFoundError.
 
     Parameters
     ----------
@@ -214,8 +233,7 @@ def get_section_replace_string(section):
 
 
 def get_sections():
-    """
-    Return required and optional sections.
+    """Return required and optional sections.
 
     Returns
     -------
