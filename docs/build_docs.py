@@ -59,7 +59,7 @@ def parse_args_with_argparse():
     parser = argparse.ArgumentParser(
         description=(
             "Build Sphinx documentation for GeoIPS related packages.\n"
-            "Example: build_docs.py /path/to/repo geoips --geoips-version v1.0.0"
+            "Example: build_docs.py /path/to/repo geoips"
         ),
         formatter_class=rich_argparse.RichHelpFormatter,
     )
@@ -94,15 +94,6 @@ def parse_args_with_argparse():
         ),
     )
 
-    # Optional argument: version (default to 'latest')
-    parser.add_argument(
-        "--docs-version",
-        type=str,
-        default="latest",
-        help="Version of the package. Default is 'latest'.",
-    )
-
-    # Optional argument: version (default to 'latest')
     parser.add_argument(
         "--output-dir",
         type=str,
@@ -683,7 +674,6 @@ def main(
     geoips_docs_dir,
     output_dir,
     license_url,
-    docs_version="latest",
 ):
     """
     Setup and execute documentation build.
@@ -702,8 +692,6 @@ def main(
         The path to the GeoIPS documentation directory (usually geoips/docs)
     output_dir : str
         The directory where the built documentation will be placed.
-    docs_version : str, optional
-        The version label for the documentation; defaults to "latest".
     """
     log = init_logger(True)
 
@@ -721,7 +709,6 @@ def main(
     log.info(f"Repo docs path is {os.path.join(repo_dir, 'docs')}")
     log.info(f"GeoIPS docs path is {geoips_docs_dir}")
     log.info(f"Package name is {package_name}")
-    log.info(f"Version is {docs_version}")
 
     # generate release notes here, TODO
 
@@ -748,5 +735,4 @@ if __name__ == "__main__":
         geoips_docs_dir=args.geoips_docs_path,
         output_dir=args.output_dir,
         license_url=args.license_url,
-        docs_version=args.docs_version,
     )
