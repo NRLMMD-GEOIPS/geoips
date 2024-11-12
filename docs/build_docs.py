@@ -1,3 +1,5 @@
+"""Builds geoips and geoips plugin documentation."""
+
 import tempfile
 import importlib.util
 import warnings
@@ -8,7 +10,7 @@ import shutil
 import os
 
 import brassy.actions.build_release_notes as brassy_build
-import brassy.utils.CLI
+import brassy.utils.CLI  # noqa # because of a brassy bug; will be fixed in next vers
 from rich.logging import RichHandler
 from rich.traceback import install as install_rich_tracebacks
 from rich.logging import Console
