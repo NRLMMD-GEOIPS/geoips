@@ -2,9 +2,9 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS PKGNAME documentation build configuration file."""
+
 import sys
 import os
-import jinja2
 import geoips
 
 VERSION = str(geoips.__version__)
