@@ -94,7 +94,7 @@ class PluginModel(PrettyBaseModel):
                 "single_line", "The docstring should be a single line.\n"
             )
         if not (value[0].isupper() and value.endswith(".")):
-            raise ValueError(
+            raise PydanticCustomError(
                 "format_error",
                 "The docstring should start with a Capital letter and end with a period",
             )
@@ -176,7 +176,7 @@ if __name__ == "__main__":
         "name": "Infrared",
         "docstring": "Test docstring",
     }
-    good_plg = Plugin(**good_plg_yaml)
+    good_plg = PluginModel(**good_plg_yaml)
     print(good_plg)
 
     bad_plg_yaml = {
@@ -185,4 +185,4 @@ if __name__ == "__main__":
         "name": "Infrared-bad-name",
         "docstring": "Test docstring",
     }
-    bad_plg = Plugin(**bad_plg_yaml)
+    bad_plg = PluginModel(**bad_plg_yaml)
