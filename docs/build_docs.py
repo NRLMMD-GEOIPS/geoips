@@ -565,13 +565,11 @@ def build_release_note_from_dir_with_brassy(
     release_dir, release_filename, version, header_file, log=logging.getLogger(__name__)
 ):
     """
-    Build a release note file by combining YAML files in a specified directory
-    using the `brassy` build tool.
+    Build release note file by combining YAML files in a specified directory.
 
     This function aggregates YAML files in the given `release_dir` directory
-    and generates a release note in the specified `release_filename` file,
-    formatted with details based on the provided `version` and `header_file`.
-    Logs the build process at a debug level.
+    and generates a release note in the specified `release_filename` file
+    with the `brassy` build tool.
 
     Parameters
     ----------
