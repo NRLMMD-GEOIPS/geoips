@@ -227,7 +227,10 @@ def get_section_replace_string(section):
 
 
 def get_sections():
-    """Return required and optional sections.
+    """
+    Return sections.
+
+    Returns a list of required and optional sections.
 
     Returns
     -------
@@ -238,7 +241,6 @@ def get_sections():
 
     Notes
     -----
-
     This could potentially be from a config file in the future. For now, it is hard
     coded like the original build_docs.sh script.
     """
@@ -465,7 +467,6 @@ def stage_docs_files_for_building(
     log : logging.Logger, optional
         Logger for logging messages; defaults to the module logger.
     """
-
     shutil.copytree(source_dir, build_dir)  # copy docs files over
 
     if not package_name == "geoips":
@@ -563,6 +564,48 @@ def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)
 def build_release_note_from_dir_with_brassy(
     release_dir, release_filename, version, header_file, log=logging.getLogger(__name__)
 ):
+    """
+    Build a release note file by combining YAML files in a specified directory
+    using the `brassy` build tool.
+
+    This function aggregates YAML files in the given `release_dir` directory
+    and generates a release note in the specified `release_filename` file,
+    formatted with details based on the provided `version` and `header_file`.
+    Logs the build process at a debug level.
+
+    Parameters
+    ----------
+    release_dir : str
+        Path to the directory containing the YAML files to include in the
+        release notes.
+    release_filename : str
+        Path to the output file where the generated release note will be saved.
+    version : str
+        Version string to label the release note content.
+    header_file : str
+        Path to a header file to include at the beginning of the release note.
+    log : logging.Logger, optional
+        Logger for debug information (default is a logger named after the
+        module).
+
+    Returns
+    -------
+    None
+        This function does not return a value; it writes the release note to
+        `release_filename`.
+
+    Examples
+    --------
+    >>> build_release_note_from_dir_with_brassy(
+    ...     release_dir="/path/to/yaml_files",
+    ...     release_filename="release_notes.yaml",
+    ...     version="1.2.3",
+    ...     header_file="header.rst"
+    ... )
+    This example writes the release notes from YAML files in `/path/to/yaml_files`
+    to `release_notes.yaml`, as version "1.2.3" and includes the content
+    of `header.md` as a header.
+    """
     log.debug(
         f"Building yaml files in {release_dir} into {release_filename} using brassy"
     )
@@ -580,6 +623,46 @@ def build_release_note_from_dir_with_brassy(
 def build_release_notes_with_brassy(
     releases_dir, license_url, log=logging.getLogger(__name__)
 ):
+    """Generate release notes for each subdirectory in a specified releases directory.
+
+    Uses the `brassy` build tool and the `pinkrst` formatting tool to build release
+    notes with a license disclaimer at the top.
+
+    Parameters
+    ----------
+    releases_dir : str
+        The path to the main directory containing individual release directories.
+    license_url : str
+        The URL pointing to the license or distribution statement for the release notes.
+    log : logging.Logger, optional
+        Logger instance used for logging debug and warning messages. By default,
+        uses a logger with the module's name.
+
+    Notes
+    -----
+    Each subdirectory in `releases_dir` is assumed to correspond to a release version.
+    This function generates a header file containing a distribution statement that
+    includes `license_url`. For each release directory, an `.rst` file with the
+    release notes is created and processed by `build_release_note_from_dir_with_brassy`.
+    The function will ignore directories named "upcoming" and log a warning.
+
+    Warnings
+    --------
+    Directories in `releases_dir` named "upcoming" are skipped, and a warning logged.
+
+    Raises
+    ------
+    FileNotFoundError
+        If `releases_dir` does not exist or is not a directory.
+    PermissionError
+        If there are permissions issues accessing `releases_dir` or its subdirectories.
+
+    Example
+    -------
+    >>> build_release_notes_with_brassy('/path/to/releases',
+    >>>                                 'https://example.com/license')
+
+    """
     release_dirs = filter(
         os.path.isdir,
         [os.path.join(releases_dir, rd) for rd in os.listdir(releases_dir)],
@@ -678,8 +761,7 @@ def main(
     output_dir,
     license_url,
 ):
-    """
-    Setup and execute documentation build.
+    """Prepare for and execute documentation build.
 
     This function initializes logging, validates paths and package installation,
     logs the configuration, and runs the documentation build process within a temporary
