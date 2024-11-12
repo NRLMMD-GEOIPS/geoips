@@ -315,6 +315,7 @@ jobs:
           #   the name of the current repo,
           #   the path to the docs template directory in the geoips default branch.
           #   the repo url to use as a link to the package license if need be
+          pwd && ls
           python3 $BASE_GEOIPS_PATH/docs/build_docs.py . $run_on_package --geoips-docs-path $BASE_GEOIPS_PATH/docs
           ret=$?
           if [[ "${ret##*:}" != *"0"* ]]; then
