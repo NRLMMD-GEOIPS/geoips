@@ -690,7 +690,7 @@ def build_release_notes_with_brassy(
                 release_dir, release_filename, release_version, header_file.name
             )
             # TODO: pythonize and call directly; requires update to pink
-            os.system(f"pink {release_filename}")  # noqa
+            os.system(f"pink {release_filename}")  # nosec
 
 
 def build_html_docs(
