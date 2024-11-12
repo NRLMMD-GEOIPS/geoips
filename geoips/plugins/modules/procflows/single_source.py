@@ -1890,7 +1890,9 @@ def call(fnames, command_line_args=None):
         pid_track.print_mem_usg()
         LOG.interactive("Reading full dataset with reader '%s'...", reader_plugin.name)
         xobjs = reader_plugin(
-            fnames, metadata_only=False, chans=variables,
+            fnames,
+            metadata_only=False,
+            chans=variables,
         )
 
     pid_track.print_mem_usg()
