@@ -309,13 +309,13 @@ jobs:
             run_on_package=my_package
           fi
           echo "Build html docs"
-          # Call build_docs.sh from the geoips default branch
+          # Call build_docs.py from the geoips default branch
           # Pass in
           #   the path to the current plugin repo,
           #   the name of the current repo,
-          #   "html_only" to indicate producing only html output, and
           #   the path to the docs template directory in the geoips default branch.
-          $BASE_GEOIPS_PATH/docs/build_docs.sh . $run_on_package html_only $BASE_GEOIPS_PATH/docs
+          #   the repo url to use as a link to the package license
+          python3 $BASE_GEOIPS_PATH/docs/build_docs.py . $run_on_package --geoips-docs-path $BASE_GEOIPS_PATH/docs --license-url $GEOIPS_REPO_URL
           ret=$?
           if [[ "${ret##*:}" != *"0"* ]]; then
             echo "::error::Building html docs ${ret##*:}"
