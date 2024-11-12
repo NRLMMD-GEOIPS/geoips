@@ -140,7 +140,7 @@ doc = [
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune", 	# Required for rendering markdown into RST-based documentation
-    "rich" # for building docs; also a dependency of brassy
+    "rich", # for building docs; also a dependency of brassy
     "rich-argparse" # for building docs; also a dependency of brassy
 ]
 lint = [
