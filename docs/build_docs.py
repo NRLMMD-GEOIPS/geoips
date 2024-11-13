@@ -499,7 +499,11 @@ def build_module_apidocs_with_sphinx(
 
     This function constructs the necessary arguments for sphinx-apidoc to generate
     the API documentation RST files, excluding certain paths as specified. It then
-    executes sphinx-apidoc and checks for successful completion.
+    executes sphinx-apidoc and checks for successful completion. It calls the ``main``
+    function of sphinx, and passes arguments to it. This is clunky, but after
+    reviewing the sphinx codebase it seemed to be the best option. Further,
+    there is no (or at least extremely little) documentation on how to use
+    sphinx inside of python; hence the current approach.
 
     Parameters
     ----------
@@ -531,6 +535,9 @@ def build_module_apidocs_with_sphinx(
 def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)):
     """
     Build documentation HTML files using Sphinx.
+
+    See also docstring for build_module_apidocs_with_sphinx for information
+    on why command line-like arguments are being passed to sphinx like this.
 
     Parameters
     ----------
