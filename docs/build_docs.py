@@ -705,6 +705,14 @@ def build_release_notes_with_brassy(
     generate_release_note_index(os.path.join(releases_dir, "index.rst"), releases_dir)
 
 
+def import_non_docs_files(repo_dir, build_dir):
+    auxuillary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
+    import_dir = os.path.join(build_dir, "import")
+    os.mkdir(import_dir)
+    for file in auxuillary_files:
+        shutil.copyfile(os.path.join(repo_dir, file), os.path.join(import_dir, file))
+
+
 def build_html_docs(
     repo_dir,
     build_dir,
@@ -745,6 +753,9 @@ def build_html_docs(
         build_dir,
         log=log,
     )
+
+    # grab auxillary files not in docs and place them in "import" dir
+    import_non_docs_files(repo_dir, build_dir)
 
     # build release rst files
     log.info("Building API docs")
