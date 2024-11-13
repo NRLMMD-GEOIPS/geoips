@@ -748,7 +748,7 @@ def build_html_docs(
 
     # build release rst files
     log.info("Building API docs")
-    releases_dir = os.path.join(geoips_docs_dir, "source", "releases")
+    releases_dir = os.path.join(build_dir, "releases")
     build_release_notes_with_brassy(releases_dir, license_url)
 
     # build api doc rst files
