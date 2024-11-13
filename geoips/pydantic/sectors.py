@@ -10,7 +10,7 @@ from pydantic import (
     field_validator,
 )
 
-from geoips.pydantic.bases import Plugin, LatLonCoordinate
+from geoips.pydantic.bases import PluginModel, LatLonCoordinate
 
 
 class XYCoordinate(BaseModel):
@@ -236,8 +236,8 @@ class VolcanoMetadata(BaseModel):
     clon: confloat(ge=-180, le=180)
 
 
-class Sector(Plugin):
-    """Sector plugin format."""
+class Sector(PluginModel):
+    """Sector PluginModel format."""
 
     spec: Union[AreaDefinitionSpec, CenterSpec] = Field(
         description=(
