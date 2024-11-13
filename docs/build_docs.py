@@ -21,6 +21,8 @@ import jinja2
 import sphinx.cmd.build as sphinx_build_module
 from sphinx.ext.apidoc import main as sphinx_apidoc
 
+from update_release_note_index import main as generate_release_note_index
+
 
 def init_logger(use_rich):
     """
@@ -693,6 +695,12 @@ def build_release_notes_with_brassy(
             )
             # TODO: pythonize and call directly; requires update to pink
             os.system(f"pink {release_filename}")  # nosec
+
+    log.info(
+        "Generating index.rst for release notes, "
+        "this will be done by brassy in the future."
+    )
+    generate_release_note_index(os.path.join(releases_dir, "index.rst"), releases_dir)
 
 
 def build_html_docs(
