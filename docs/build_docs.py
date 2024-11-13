@@ -738,6 +738,7 @@ def build_html_docs(
         Logger for logging messages; defaults to the module logger.
     """
     log.info("Setting docs files up for building")
+    # copy and validate files
     stage_docs_files_for_building(
         os.path.join(repo_dir, "docs", "source"),
         package_name,
@@ -746,13 +747,17 @@ def build_html_docs(
         log=log,
     )
 
+    # build release rst files
     log.info("Building API docs")
-    apidoc_build_path = os.path.join(build_dir, f"{package_name}_api")
-    module_path = os.path.join(repo_dir, package_name)  # module path
-    build_module_apidocs_with_sphinx(module_path, apidoc_build_path, log=log)
     releases_dir = os.path.join(geoips_docs_dir, "source", "releases")
     build_release_notes_with_brassy(releases_dir, license_url)
 
+    # build api doc rst files
+    apidoc_build_path = os.path.join(build_dir, f"{package_name}_api")
+    module_path = os.path.join(repo_dir, package_name)  # module path
+    build_module_apidocs_with_sphinx(module_path, apidoc_build_path, log=log)
+
+    # build final html files
     with tempfile.TemporaryDirectory() as built_dir:
         log.info("Building docs")
         build_docs_with_sphinx(build_dir, built_dir, log=log)
