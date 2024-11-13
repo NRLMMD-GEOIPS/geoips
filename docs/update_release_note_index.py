@@ -11,7 +11,56 @@ from os.path import basename, exists
 
 
 def main(index_filename, release_note_path):
-    """Wrapper function so this can be called by external modules."""
+    """Generate an index.rst file for release notes.
+
+    This function scans the specified directory for release note files, sorts them based
+    on version numbers (and alpha releases), and generates an
+    ``index.rst`` file that includes a table of contents.
+
+    Parameters
+    ----------
+    index_filename : str or Path
+        The path to the output ``index.rst`` file to be generated.
+    release_note_path : str or Path
+        The directory containing release note ``.rst`` files.
+
+    Notes
+    -----
+    The function processes release note files that match the following naming patterns:
+
+    - ``vX_Y_Z.rst``
+    - ``vX_Y_ZaN.rst``
+    - ``X.Y.Z.rst``
+    - ``X.Y.ZaN.rst``
+
+    where ``X``, ``Y``, ``Z``, and ``N`` are integers representing the major, minor,
+    bugfix, and alpha version numbers, respectively.
+
+    Release notes not matching these patterns are ignored.
+
+    If a file named ``latest.rst`` exists in the ``release_note_path``, it is included
+    at the top of the generated index under the heading "Latest (version on cutting edge
+    of git)".
+
+    It excludes ``index.rst`` and ``latest.rst`` from the list of release notes
+    to be processed (except for including ``latest.rst`` at the top if it exists).
+
+    The release notes are sorted in reverse chronological order (newest first) based on
+    their version numbers.
+
+    The function does not include high-level version summaries from
+    ``version_summaries.yaml``; these are not currently populated in ``index.rst``.
+    These will be included when brassy takes over this functionality.
+
+    Examples
+    --------
+    Generate an ``index.rst`` file from release notes in ``docs/releases``:
+
+    >>> from pathlib import Path
+    >>> index_file = 'docs/releases/index.rst'
+    >>> release_notes_dir = 'docs/releases'
+    >>> main(index_file, release_notes_dir)
+    """
     index_filename = Path(index_filename)
     release_note_path = Path(release_note_path)
     # Note this does NOT include the high level version summaries - those live
