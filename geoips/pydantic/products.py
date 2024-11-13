@@ -12,21 +12,29 @@ from geoips.pydantic.bases import PluginModel
 
 
 def get_plugin_names(plugin_type):
-    """Retrieve a list of valid plugin names for a given plugin type."""
-    plugin_names = []
+    """Retrieve a list of valid plugin names for a given plugin type.
+
+    Args
+    ----
+    plugin_type
+        The type of plugin
+
+    Returns
+    -------
+        list: A list of plugin names for a valid plugin type
+
+    Raises
+    ------
+        AttributeError: If the plugin type is invalid
+
+    """
     interface_name = plugin_type + "s"
 
     try:
         interface = getattr(interfaces, interface_name)
     except AttributeError:
-        raise AttributeError(
-            f"{plugin_type} is not valid plugin type"
-        )
-    # except ValidationError as ex:
-    #     exceptions = ex
-    #     exceptions.errors()
-    plugin_names = [plugin.name for plugin in interface.get_plugins()]
-    return plugin_names
+        raise AttributeError(f"{plugin_type} is not valid plugin type")
+    return [plugin.name for plugin in interface.get_plugins() or []]
 
 
 def get_plugin_types():
@@ -73,7 +81,13 @@ class ReaderArgumentsModel(BaseModel):
     @model_validator(mode="before")
     def _validate_reader_arguments(values: dict) -> dict:
         """Validate Reader step arguments."""
-        reader_arguments_list = ["variables", "area_def", "metadata_only", "chans", "self_register"]
+        reader_arguments_list = [
+            "variables",
+            "area_def",
+            "metadata_only",
+            "chans",
+            "self_register",
+        ]
         for arg in reader_arguments_list:
             if arg not in values:
                 raise ValueError(f"\n\n\tMissing argument:{arg} for reader plugin.\n\n")
@@ -143,8 +157,10 @@ class ProdcutStepDefinitionModel(BaseModel):
         plugin_arguments_model_name = f"{plugin_type_camel_case}ArgumentsModel"
         plugin_arguments_model = globals().get(plugin_arguments_model_name)
         if plugin_arguments_model is None:
-            raise ValueError(f"\n\n\tThe plugin type argument class"
-                             f"{plugin_arguments_model_name} is not defined\n\n")
+            raise ValueError(
+                f"\n\n\tThe plugin type argument class"
+                f"{plugin_arguments_model_name} is not defined\n\n"
+            )
         plugin_arguments_model(**values.get("arguments", {}))
 
         return values
@@ -212,7 +228,9 @@ class ProductSpecModel(BaseModel):
     """The specification for a product."""
 
     # list of steps
-    steps: List[ProductStepModel] = Field(description="The steps to produce the product.")
+    steps: List[ProductStepModel] = Field(
+        description="The steps to produce the product."
+    )
 
 
 class ProductPluginModel(PluginModel, BaseModel):
