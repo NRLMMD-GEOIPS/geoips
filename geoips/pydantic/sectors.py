@@ -246,7 +246,7 @@ class Sector(PluginModel):
         ),
     )
     metadata: Union[
-        BoxMedata,
+        BoxMetadata,
         StaticMetadata,
         StitchedMetadata,
         TCMetadata,
