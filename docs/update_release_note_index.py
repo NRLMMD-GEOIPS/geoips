@@ -11,6 +11,7 @@ from os.path import basename, exists
 
 
 def main(index_filename, release_note_path):
+    """Wrapper function so this can be called by external modules."""
     index_filename = Path(index_filename)
     release_note_path = Path(release_note_path)
     # Note this does NOT include the high level version summaries - those live

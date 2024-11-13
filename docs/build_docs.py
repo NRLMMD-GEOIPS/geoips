@@ -317,11 +317,14 @@ def update_content_for_section(
     """
     section_path = os.path.join(build_dir, section, "index.rst")
     if not is_optional and not os.path.exists(section_path):
-        log.debug(f"Files in {os.path.join(build_dir, section)}")
-        log.debug(os.listdir(os.path.join(build_dir, section)))
-        raise FileNotFoundError(
-            f"Required section {section} does not exist as {section_path}"
-        )
+        if not (
+            section == "releases" and os.path.exists(os.path.join(build_dir, section))
+        ):  # need this second level check because releases/index.rst is auto-generated
+            log.debug(f"Files in {os.path.join(build_dir, section)}")
+            log.debug(os.listdir(os.path.join(build_dir, section)))
+            raise FileNotFoundError(
+                f"Required section {section} does not exist as {section_path}"
+            )
     if is_optional and not os.path.exists(section_path):
         log.debug(f"Not adding optional section {section}")
         return content.replace(get_section_replace_string(section), "")
