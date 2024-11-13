@@ -36,6 +36,7 @@ def valid_plugin_data():
 
 # Test PrettyBaseModel
 
+
 def test_good_pretty_base_model_str():
     """Test if the PrettyBaseModel returns JSON data with two-sapce indentation."""
     mock_model = MockModel(plugin_type="Reader", plugin_name="abi_netcdf")
@@ -68,6 +69,7 @@ def test_bad_pretty_base_model_invalid_field_type():
     assert len(error_info) == 1
     assert error_info[0]["loc"] == ("plugin_name",)
     assert error_info[0]["type"] == "string_type"
+
 
 # Test PluginModel
 

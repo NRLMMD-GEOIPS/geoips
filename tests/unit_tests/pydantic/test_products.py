@@ -26,15 +26,15 @@ VALID_PLUGIN_TYPES = [
     "colormapper",
     "sector",
     "interpolator",
-    "filename_formatter"
+    "filename_formatter",
 ]
 
 
 def test_get_plugin_types_missing_types():
     """Test get_plugin_types call to check there are no missing plugin types."""
-    assert not (set(VALID_PLUGIN_TYPES) - set(products.get_plugin_types())), (
-        "Missing plugin type(s)"
-    )
+    assert not (
+        set(VALID_PLUGIN_TYPES) - set(products.get_plugin_types())
+    ), "Missing plugin type(s)"
 
 
 def test_get_plugin_types_unexpected_or_new_plugin_type():
