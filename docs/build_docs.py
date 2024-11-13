@@ -706,6 +706,28 @@ def build_release_notes_with_brassy(
 
 
 def import_non_docs_files(repo_dir, build_dir):
+    """
+    Copy auxiliary non-documentation files from the repository to the build directory.
+
+    Creates an 'import' subdirectory within the specified build directory and
+    copies auxiliary files from the repository directory to this 'import' directory.
+
+    Parameters
+    ----------
+    repo_dir : str
+        Path to the repository directory containing the source files.
+    build_dir : str
+        Path to the build directory where the files will be copied.
+
+    Raises
+    ------
+    FileNotFoundError
+        If any of the auxiliary files do not exist in the repository directory.
+
+    Notes
+    -----
+    The list of auxiliary files to copy is defined within the function.
+    """
     auxuillary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
     import_dir = os.path.join(build_dir, "import")
     os.mkdir(import_dir)
