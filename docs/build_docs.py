@@ -38,7 +38,6 @@ def init_logger(use_rich):
     logger : logging.Logger
         The configured logger instance
     """
-    logger = logging.getLogger("build_docs")
     if use_rich:
         install_rich_tracebacks()
         logging_handlers = [RichHandler(rich_tracebacks=True)]
@@ -46,7 +45,7 @@ def init_logger(use_rich):
         logging_handlers = [logging.StreamHandler()]
 
     logging.basicConfig(level=logging.DEBUG, datefmt="[%X]", handlers=logging_handlers)
-    logger.debug("Program initialized")
+    logger = logging.getLogger("build_docs")
     return logger
 
 
@@ -109,7 +108,7 @@ def parse_args_with_argparse():
     args = parser.parse_args()
 
     if not args.output_dir:
-        output_dir = os.getenv("GEOIPS_DOCSDIR")
+        output_dir = os.getenv("GEOIPS_DOCSDIR", None)
         if output_dir:
             warnings.warn(
                 f"Using output dir value {output_dir} from environmental variable "
@@ -796,6 +795,7 @@ def main(
         The directory where the built documentation will be placed.
     """
     log = init_logger(True)
+    log.debug("Program initialized")
 
     validate_package_is_installed(package_name, logger=log)
 
@@ -825,7 +825,7 @@ def main(
             license_url,
             log=log,
         )
-        log.info(f"Docs built and written to {output_dir}")
+        print(f"Docs built and written to {output_dir}")
 
 
 # Execute the main function with command line arguments
