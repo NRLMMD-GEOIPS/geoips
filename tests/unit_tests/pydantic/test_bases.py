@@ -126,7 +126,6 @@ def test_bad_plugin_model_docstring(valid_plugin_data, invalid_docstring):
         bases.PluginModel(**data)
 
     error_info = exec_info.value.errors()
-    print("error infor ", error_info)
     assert any(error["loc"] == ("docstring",) for error in error_info)
     assert any("valid string" in error["msg"] for error in error_info)
 

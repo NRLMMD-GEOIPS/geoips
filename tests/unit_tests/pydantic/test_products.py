@@ -3,6 +3,8 @@
 
 """Test Order-based procflow product building classes."""
 
+from copy import deepcopy
+from pydantic import ValidationError
 import pytest
 
 from geoips.pydantic import products
@@ -31,16 +33,18 @@ VALID_PLUGIN_TYPES = [
 
 
 @pytest.fixture
-def valid_plugin_data():
+def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
     return {
-        "type" : "reader",
-        "name" : "abi_netcdf",
-        "arguments" : {"area_def" : "None",
-                       "chans" : "None",
-                       "metadata_only" : False,
-                       "self_register" : False,
-                       "variables" : ['B14BT']},
+        "type": "reader",
+        "name": "abi_netcdf",
+        "arguments": {
+            "area_def": "None",
+            "chans": "None",
+            "metadata_only": False,
+            "self_register": False,
+            "variables": ["B14BT"],
+        },
     }
 
 
@@ -58,16 +62,19 @@ def test_good_get_plugin_types_unexpected_or_new_plugin_type():
     )
 
 
-def test_good_product_step_definition_model_valid_step(valid_plugin_data):
+def test_good_product_step_definition_model_valid_step(valid_step_data):
     """Tests ProductStepDefinitionModel with valid data."""
     # creating an instance of PSDModel
-    model = products.ProductStepDefinitionModel(**valid_plugin_data)
+    model = products.ProductStepDefinitionModel(**valid_step_data)
 
     assert model.type == "reader"
     assert model.name == "abi_netcdf"
-    assert model.arguments == {"area_def" : "None",
-                               "chans" : "None",
-                               "metadata_only" : False,
-                               "self_register" : False,
-                               "variables" : ['B14BT'],
-                               }
+    assert model.arguments == {
+        "area_def": "None",
+        "chans": "None",
+        "metadata_only": False,
+        "self_register": False,
+        "variables": ["B14BT"],
+    }
+
+
