@@ -108,7 +108,7 @@ class PluginModel(PrettyBaseModel):
         if path.is_absolute():
             raise PydanticCustomError(
                 "relative_path_error",
-                "The relpath must be relative path, not an absolute path.\n\n",
+                "The relpath must be relative path, not an absolute path.\n\n"
             )
         return value
 
@@ -118,7 +118,8 @@ class PluginModel(PrettyBaseModel):
         path = Path(value)
         if not path.is_absolute():
             raise PydanticCustomError(
-                "absolute_path_error", "The path must be an absolute path.\n\n"
+                "absolute_path_error",
+                "The path must be an absolute path.\n\n"
             )
         return value
 
