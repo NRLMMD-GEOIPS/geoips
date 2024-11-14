@@ -609,7 +609,7 @@ def build_release_note_from_dir_with_brassy(
     --------
     >>> build_release_note_from_dir_with_brassy(
     ...     release_dir="/path/to/yaml_files",
-    ...     release_filename="release_notes.yaml",
+    ...     release_filename="release_notes.rst",
     ...     version="1.2.3",
     ...     header_file="header.rst"
     ... )
