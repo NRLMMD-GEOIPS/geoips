@@ -76,5 +76,3 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
         "self_register": False,
         "variables": ["B14BT"],
     }
-
-
