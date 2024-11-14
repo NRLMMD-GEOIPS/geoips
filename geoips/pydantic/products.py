@@ -95,7 +95,7 @@ class ReaderArgumentsModel(BaseModel):
         return values
 
 
-class ProdcutStepDefinitionModel(BaseModel):
+class ProductStepDefinitionModel(BaseModel):
     """Validate step definition : name, arguments."""
 
     type: str = Field(description="plugin type")
@@ -169,7 +169,7 @@ class ProdcutStepDefinitionModel(BaseModel):
 class ProductStepModel(BaseModel):
     """Validate and process a sequence of steps with their data."""
 
-    definition: ProdcutStepDefinitionModel
+    definition: ProductStepDefinitionModel
 
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
