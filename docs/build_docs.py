@@ -1,6 +1,7 @@
 """Builds geoips and geoips plugin documentation."""
 
 import tempfile
+import importlib.resources
 import importlib.util
 import warnings
 import logging
@@ -69,12 +70,6 @@ def parse_args_with_argparse():
 
     # Required positional arguments
     parser.add_argument(
-        "repo_path",
-        type=str,
-        help="Path to the repository (e.g., /path/to/geoips)."
-        "Must be an existing directory.",
-    )
-    parser.add_argument(
         "package_name",
         type=str,
         help="Name of the package to build (e.g., geoips, data_fusion).",
@@ -103,9 +98,34 @@ def parse_args_with_argparse():
         default=None,
         help="Output dir to write built docs to",
     )
+    parser.add_argument(
+        "--repo-path",
+        type=str,
+        default=None,
+        help="Path to the repository (e.g., /path/to/geoips)."
+        "If not provided uses [package_name] to find the packages directory"
+        "Must be an existing directory.",
+    )
 
     # Parse arguments
     args = parser.parse_args()
+
+    if not args.repo_path:
+        try:
+            package_path = os.path.dirname(
+                str(importlib.resources.files(args.package_name))
+            )
+            if not package_path:
+                raise ModuleNotFoundError
+            pygit2.Repository(package_path)
+            args.repo_path = package_path
+        except ModuleNotFoundError as e:
+            raise e(f"Could not automatically find repo_path for {args.package_name}.")
+        except pygit2.GitError as e:
+            raise e(
+                "Could not automatically find usable repo_path for "
+                f"{args.package_name}. Found {package_path} but it is not a git repo"
+            )
 
     if not args.output_dir:
         output_dir = os.getenv("GEOIPS_DOCSDIR", None)
