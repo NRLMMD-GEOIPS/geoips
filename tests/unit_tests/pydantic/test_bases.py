@@ -13,8 +13,8 @@ from pydantic import Field, ValidationError
 from geoips.pydantic import bases
 
 
-class MockModel(bases.PrettyBaseModel):
-    """MockModel to test __str__method of PrettyBasemodel."""
+class TestPrettyBaseModel(bases.PrettyBaseModel):
+    """Test PrettyBaseModel to test __str__method of PrettyBasemodel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin")
@@ -39,9 +39,9 @@ def valid_plugin_data():
 
 def test_good_pretty_base_model_str():
     """Test if the PrettyBaseModel returns JSON data with two-sapce indentation."""
-    mock_model = MockModel(plugin_type="Reader", plugin_name="abi_netcdf")
+    test_model = TestPrettyBaseModel(plugin_type="Reader", plugin_name="abi_netcdf")
 
-    string_representation_of_model = str(mock_model)
+    string_representation_of_model = str(test_model)
     expected_json_format = json.dumps(
         {"plugin_type": "Reader", "plugin_name": "abi_netcdf"}, indent=2
     )
@@ -52,7 +52,7 @@ def test_good_pretty_base_model_str():
 def test_bad_pretty_base_model_missing_required_field():
     """Test PrettyBaseModel for missing required fields."""
     with pytest.raises(ValidationError) as exec_info:
-        MockModel(plugin_type="Reader")
+        TestPrettyBaseModel(plugin_type="Reader")
 
     error_info = exec_info.value.errors()
     assert len(error_info) == 1
@@ -63,7 +63,7 @@ def test_bad_pretty_base_model_missing_required_field():
 def test_bad_pretty_base_model_invalid_field_type():
     """Test PrettyBaseModel for missing required fields."""
     with pytest.raises(ValidationError) as exec_info:
-        MockModel(plugin_type="Reader", plugin_name=123)
+        TestPrettyBaseModel(plugin_type="Reader", plugin_name=123)
 
     error_info = exec_info.value.errors()
     assert len(error_info) == 1
