@@ -735,10 +735,10 @@ def import_non_docs_files(repo_dir, build_dir):
     -----
     The list of auxiliary files to copy is defined within the function.
     """
-    auxuillary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
+    auxiliary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
     import_dir = os.path.join(build_dir, "import")
     os.mkdir(import_dir)
-    for file in auxuillary_files:
+    for file in auxiliary_files:
         shutil.copyfile(os.path.join(repo_dir, file), os.path.join(import_dir, file))
 
 
