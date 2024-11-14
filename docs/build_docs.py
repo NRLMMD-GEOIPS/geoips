@@ -852,8 +852,6 @@ def main(
     log.info(f"GeoIPS docs path is {geoips_docs_dir}")
     log.info(f"Package name is {package_name}")
 
-    # generate release notes here, TODO
-
     with tempfile.TemporaryDirectory() as docs_build_dir_container:
         build_dir = os.path.join(docs_build_dir_container, "build")
         build_html_docs(
