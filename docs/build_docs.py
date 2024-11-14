@@ -1,7 +1,7 @@
 """Builds geoips and geoips plugin documentation."""
 
 import tempfile
-import importlib
+import importlib.resources
 import importlib.util
 import warnings
 import logging
