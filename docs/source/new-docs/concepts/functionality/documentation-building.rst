@@ -11,10 +11,7 @@ Run `build_docs.py`  with the required positional arguments and optional flags:
 
 .. code-block:: bash
 
-    python build_docs.py [OPTIONS] <repo_path> <package_name>
-
-**repo_path:** Path to the repository (e.g., /path/to/geoips).
-Must be an existing directory and a valid Git repository.
+    python build_docs.py [OPTIONS] <package_name>
 
 **package_name:** Name of the package to build (e.g., geoips, data_fusion).
 
@@ -27,6 +24,10 @@ used when building geoips plugins.
 **--license-url:** URL pointing to the license or distribution statement
 for the release notes.
 Defaults to ``https://github.com/NRLMMD-GEOIPS/[package_name]``.
+
+**--repo-path:** Path to the repository (e.g., /path/to/geoips).
+Defaults to the parent of the directory found by importlib for the provided ``package_name``.
+Must be an existing directory and a valid Git repository.
 
 **--output-dir**: Directory where the built documentation will be placed.
 Defaults to ``[repo_path]/build/sphinx/html``.
