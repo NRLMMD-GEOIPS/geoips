@@ -3,8 +3,6 @@
 
 """Test Order-based procflow product building classes."""
 
-from copy import deepcopy
-from pydantic import ValidationError
 import pytest
 
 from geoips.pydantic import products
