@@ -605,7 +605,11 @@ def apply_interp_after_alg(
         final_xarray = alg_xarray
     # If required, interpolate the result prior to returning
     elif prod_plugin.family == "algorithm_interpolator_colormapper":
-        interp_args["varlist"] = [prod_plugin.name]
+        if interp_args.get("varlist") is None or interp_args["varlist"] is None:
+            # Just assume the only thing we're interpolating is the product name itself
+            interp_args["varlist"] = [prod_plugin.name]
+        # Otherwise use the varlist that was provided. For example, a user could produce
+        # Additional variables from their algorithm alongside their product name
         final_xarray = perform_interpolation(
             interp_plugin,
             area_def,

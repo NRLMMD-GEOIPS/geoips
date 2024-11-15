@@ -8,3 +8,4 @@ test_data_urls:
   test_data_scat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3.tgz"
   test_data_smap: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0.tgz"
   test_data_viirs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_viirs_1.6.0.tgz"
+  test_data_multi_scan_times: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_multi_scan_times.tgz"

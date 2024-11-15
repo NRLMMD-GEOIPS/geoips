@@ -64,6 +64,7 @@ for call in \
   "$geoips_repopath/tests/scripts/ahi.tc.WV.geotiff.sh" \
   "$geoips_repopath/tests/scripts/ami.static.Infrared.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/ami.static.Visible.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/ami.tc.WV.geotiff.sh" \
   "$geoips_repopath/tests/scripts/ami.WV-Upper.unprojected_image.sh" \
   "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \

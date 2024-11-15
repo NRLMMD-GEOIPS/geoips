@@ -120,6 +120,7 @@ pinkrst = { version = "*", optional = true }
 # Test group
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
+pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
 xarray-datatree = { version = "*", optional = true }
 # Debug group
@@ -158,6 +159,7 @@ test = [
     "xarray-datatree", # Currently only used in unit tests
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
+    "pytest-xdist",
 ]
 debug = ["ipython"]
 
