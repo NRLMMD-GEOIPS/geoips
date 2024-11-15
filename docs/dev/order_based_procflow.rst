@@ -12,15 +12,19 @@ Order-Based Procflow
 Overview:
 =========
 
-The GeoIPS' Order-Based Procflow (OBP) follows an ETCVO (Extract, Transform,
-Compute, Visualize, Output) computational workflow. Current procflows
-computational sequence is not well defined and exhibits black box nature.
-The advantages of OBP over existing procflows are as follows:
+The GeoIPS Order-Based Procflow (OBP) implements a computational workflow based
+on the ETCVO sequence: Extract, Transform, Compute, Visualize, and Output.
+Unlike the existing procflows, which lack a well-defined computational sequence
+and often operate as black boxes, OBP offers the following key advantages:
 
-* user-defined order of steps
-* flexible number of step repetitions
-* pydantic validation for better error control
-* scalable architecture allowing more steps as needed
+* **user-defined order of steps:** allows users to specify the exact sequence
+  of processing steps.
+* **flexible number of step repetitions:** supports repeating specific steps
+  such as Algorithm as needed for a specific product.
+* **pydantic validation for better error control:** uses Pydantic validation
+  for comprehensive error checking and input validation.
+* **scalable architecture allowing more steps as needed:** accomodates
+  additional steps enabling more complex product processing workflows.
 
 The OBP workflow consists of sequence of user-defined plugin operations which
 are also referred as steps. These plugin operations or steps are defined in a
@@ -37,7 +41,7 @@ The top-level plugins such as Reader, Algorithm, Interpolators, and Output
 formatter are those that can act as steps in OBP. Each step can also take other
 valid plugins as arguments. For instance, the Output Formatter step accepts two
 additional plugins viz, colormapper, and filename_formatter, as arguments for
-enhanced customization. Moving these nested plugins to the top-level plugin operations is near
+enhanced customization.
 
 
 Syntax of a Step Definition in OBP:
