@@ -14,39 +14,29 @@ Overview:
 
 The GeoIPS Order-Based Procflow (OBP) implements a computational workflow based
 on the ETCVO sequence: Extract, Transform, Compute, Visualize, and Output.
-Unlike the existing procflows, which lack a well-defined computational sequence
-and often operate as black boxes, OBP offers the following key advantages:
+OBP offers the following key advantages over other procflows:
 
 * **user-defined order of steps:** allows users to specify the exact sequence
   of processing steps.
 * **flexible number of step repetitions:** supports repeating specific steps
-  such as Algorithm as needed for a specific product.
+  such as multiple algorithm plugins as needed for a specific product.
 * **pydantic validation for better error control:** uses Pydantic validation
   for comprehensive error checking and input validation.
-* **scalable architecture allowing more steps as needed:** accomodates
-  additional steps enabling more complex product processing workflows.
+* **scalable architecture :** accomodates additional steps enabling more
+  complex product processing workflows.
 
-The OBP workflow consists of sequence of user-defined plugin operations which
-are also referred as steps. These plugin operations or steps are defined in a
-YAML format within a product definition file and are validated using `Pydantic <https://docs.pydantic.dev/latest/>`_.
+The OBP workflow consists of sequence of user-defined plugin operations. The
+top-level plugins are those that can be used as steps in the OBP and at minimum
+include readers, algorithms, Interpolators, and output fomatters. Each step can
+also take other valid plugins as arguments. For instance, the Output Formatter
+step accepts two additional plugins viz, colormapper, and filename_formatter,
+as arguments for enhanced customization.
 
-The most common steps (not limited to) in OBP within GeoIPS are:
-
-* Reader
-* Algorithm
-* Interpolator
-* Output_formatter
-
-The top-level plugins such as Reader, Algorithm, Interpolators, and Output
-formatter are those that can act as steps in OBP. Each step can also take other
-valid plugins as arguments. For instance, the Output Formatter step accepts two
-additional plugins viz, colormapper, and filename_formatter, as arguments for
-enhanced customization.
-
+These plugin operations or steps are defined in a YAML format within a product
+definition file and are validated using `Pydantic <https://docs.pydantic.dev/latest/>`_.
 
 Syntax of a Step Definition in OBP:
 -----------------------------------
-Each step is defined in the following YAML format:
 
 .. code-block:: python
 
@@ -64,9 +54,14 @@ Each step is defined in the following YAML format:
 * arguments: accepts a list of arguments for validation against the plugin's
   call signature. This field can also include other plugins (steps) if needed.
 
-Example of a Step Definition:
------------------------------
-An example YAML configuration for reader step:
+These plugins must:
+
+* conform to call signature for its plugin type.
+* accept data that matches the standard GeoIPS data format except reader step.
+* return data that matches the standard GeoIPS data format except
+  output_formatters step.
+
+Example of a Step Definition: An example YAML configuration for reader step:
 
 .. code-block:: python
 
