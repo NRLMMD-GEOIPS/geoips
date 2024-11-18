@@ -179,7 +179,7 @@ def call(
         data_dict["longitude"] = lons
         data_dict["latitude"] = lats
 
-        group_dataset = xr.Dataset(data_dict)
+        group_dataset = xr.merge([data_dict], compat="override")
         group_dataset.attrs["source_name"] = source_name
         group_dataset.attrs["platform_name"] = platform_name
         group_dataset.attrs["data_provider"] = "satpy"
