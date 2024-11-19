@@ -104,6 +104,14 @@ def parse_args_with_argparse():
         help="Output dir to write built docs to",
     )
 
+    parser.add_argument(
+        "-f",
+        "--force",
+        type=str,
+        default=False,
+        help="Replace output dir if it already exists",
+    )
+
     # Parse arguments
     args = parser.parse_args()
 
@@ -556,7 +564,7 @@ def build_docs_with_sphinx(build_dir, built_dir, log=logging.getLogger(__name__)
     arguments = [
         "-b",  # builder name
         "html",  # uses the html builder
-        # "-W",  # fail on warnings
+        "-W",  # fail on warnings
         "-v",
         build_dir,  # folder to build from
         built_dir,  # folder to build to
@@ -748,6 +756,7 @@ def build_html_docs(
     geoips_docs_dir,
     package_name,
     output_dir,
+    force_overwrite,
     license_url,
     log=logging.getLogger(__name__),
 ):
@@ -770,6 +779,10 @@ def build_html_docs(
         The name of the package that docs are being built for.
     output_dir : str
         The directory where the final built documentation will be placed.
+    force_overwrite : bool
+        If true, replace output_dir if exists already.
+    license_url : str
+        URL that points to the license for the package.
     log : logging.Logger, optional
         Logger for logging messages; defaults to the module logger.
     """
@@ -801,13 +814,14 @@ def build_html_docs(
         log.info("Building docs")
         build_docs_with_sphinx(build_dir, built_dir, log=log)
         log.debug("Docs built successfully")
-        if os.path.exists(output_dir):
+        if os.path.exists(output_dir) and force_overwrite:
             log.info(
                 f"Removing output directory {output_dir} in preparation of writing"
-                + "built docs"
+                "built docs"
             )
             shutil.rmtree(output_dir)
         shutil.copytree(built_dir, output_dir, dirs_exist_ok=True)
+        print(f"Docs built and written to {output_dir}")
 
 
 def main(
@@ -815,6 +829,7 @@ def main(
     package_name,
     geoips_docs_dir,
     output_dir,
+    force_overwrite,
     license_url,
 ):
     """Prepare for and execute documentation build.
@@ -860,10 +875,10 @@ def main(
             geoips_docs_dir,
             package_name,
             output_dir,
+            force_overwrite,
             license_url,
             log=log,
         )
-        print(f"Docs built and written to {output_dir}")
 
 
 # Execute the main function with command line arguments
@@ -874,5 +889,6 @@ if __name__ == "__main__":
         package_name=args.package_name,
         geoips_docs_dir=args.geoips_docs_path,
         output_dir=args.output_dir,
+        force_overwrite=args.force,
         license_url=args.license_url,
     )
