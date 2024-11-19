@@ -87,7 +87,7 @@ exclude_patterns = [
     # to ensure that include files (partial pages) aren't built, exclude them
     # https://github.com/sphinx-doc/sphinx/issues/1965#issuecomment-124732907
     "**/includes/**",
-    "*.md",
+    "import/*",
 ]
 
 # The reST default role (used for this markup: `text`) to use for all
