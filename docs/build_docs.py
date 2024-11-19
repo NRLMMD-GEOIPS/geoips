@@ -840,7 +840,13 @@ def build_html_docs(
                 "built docs"
             )
             shutil.rmtree(output_dir)
-        shutil.copytree(built_dir, output_dir, dirs_exist_ok=True)
+        try:
+            shutil.copytree(built_dir, output_dir)
+        except FileExistsError:
+            raise FileExistsError(
+                f"Output dir {output_dir} exists."
+                " Re-running with --force will overwrite existing dir"
+            )
         print(f"Docs built and written to {output_dir}")
 
 
