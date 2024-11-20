@@ -42,23 +42,23 @@ GeoIPS |reg| PKGNAME Documentation
 .. grid:: 1 2 2 2
     :gutter: 2
 
-    .. grid-item-card:: User Guide
+    .. grid-item-card:: Getting Started
 
         .. image:: _static/index_user_guide.png
-           :alt: user guide
+           :alt: getting-started
            :scale: 25%
            :align: center
 
-        The user guide provides in-depth information on the key concepts of
-        PKGNAME with useful background information and explanation.
+        The getting started guide can help you get started with using
+        PKGNAME.
 
-        .. button-link:: userguide/index.html
+        .. button-link:: getting-started/index.html
             :ref-type: ref
             :color: secondary
             :expand:
             :click-parent:
 
-            User Guide
+            Getting Started
 
     .. grid-item-card:: The API reference guide
 
@@ -71,7 +71,7 @@ GeoIPS |reg| PKGNAME Documentation
         The reference describes how the methods work and which parameters can
         be used. It assumes that you have an understanding of the key concepts.
 
-        .. button-link:: PKGNAME_api/index.html
+        .. button-link:: api/index.html
             :ref-type: ref
             :color: secondary
             :expand:
