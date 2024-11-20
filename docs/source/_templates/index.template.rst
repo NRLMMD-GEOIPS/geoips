@@ -120,15 +120,7 @@ GeoIPS |reg| PKGNAME Documentation
     :titlesonly:
 {% endif %}
 {% if not single_doc %}
-    introduction/index
-    STARTERIDX
-    userguide/index
-    DEVGUIDEIDX
-    PKGNAME_api/index
-    OPGUIDEIDX
-    DEPLOYGUIDEIDX
-    RELEASESIDX
-    CONTACTIDX
+    getting-started/index
 {% endif %}
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN
