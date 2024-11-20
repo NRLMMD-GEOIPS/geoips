@@ -121,6 +121,7 @@ GeoIPS |reg| PKGNAME Documentation
 {% endif %}
 {% if not single_doc %}
     getting-started/index
+    contribute/index
 {% endif %}
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN
