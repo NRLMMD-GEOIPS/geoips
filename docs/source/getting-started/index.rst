@@ -2,7 +2,7 @@
    :maxdepth: 2
    :caption: Contents:
 
-   best-practices/best_practices
+   best-practices/research-and-ops
    installing/index
    system-requirements
 
