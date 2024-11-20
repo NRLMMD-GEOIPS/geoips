@@ -2,10 +2,10 @@ Getting Started
 ---------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1
    :caption: Contents:
 
-   best-practices/research-and-ops
-   installing/index
    system-requirements
+   installing/index
+   best-practices/research-and-ops
 
