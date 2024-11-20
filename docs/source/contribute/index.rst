@@ -1,3 +1,6 @@
+Contribute
+----------
+
 .. toctree::
 
     code-of-conduct
