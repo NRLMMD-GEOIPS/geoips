@@ -5,7 +5,7 @@
 
 .. _expert-installation:
 
-Expert User Installation (Administrative privileges)
+Expert User Installation (with administrative privileges)
 ****************************************************
 
 The :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
