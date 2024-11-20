@@ -5,3 +5,10 @@
 
 Installing GeoIPS
 -----------------
+
+.. toctree::
+
+    linux_with_conda
+    mac_with_conda
+    windows_with_conda
+    expert
