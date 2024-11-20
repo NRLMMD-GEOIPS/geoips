@@ -18,6 +18,7 @@ class ReadersInterface(BaseModuleInterface):
     required_kwargs = {
         "standard": ["metadata_only", "chans", "area_def", "self_register"]
     }
+    allowable_kwargs = {"standard": ["mask_sat_zen_greater"]}
 
 
 readers = ReadersInterface()
