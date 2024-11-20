@@ -112,6 +112,7 @@ def parse_args_with_argparse():
         "--force",
         type=str,
         default=False,
+        action="store_true",
         help="Replace output dir if it already exists",
     )
 

@@ -8,4 +8,10 @@
 Functionality of GeoIPS
 =======================
 
+.. toctree::
+
+    documentation-building
+
 Currently, we have docs at `this old page <./../../../introduction/description_geoips>`.
+
+

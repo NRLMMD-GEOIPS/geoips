@@ -7,3 +7,7 @@
 
 Concepts
 ========
+
+.. toctree::
+
+   functionality/index

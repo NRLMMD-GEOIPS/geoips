@@ -122,6 +122,10 @@ GeoIPS |reg| PKGNAME Documentation
 {% if not single_doc %}
     getting-started/index
     contribute/index
+    concepts/index
+    releases/index
+    api/index
+    contact
 {% endif %}
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN
