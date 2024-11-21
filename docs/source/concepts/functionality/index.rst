@@ -11,6 +11,7 @@ Functionality of GeoIPS
 .. toctree::
     :maxdepth: 1
 
+    command-line
     plugin-registries
     documentation-building
 
