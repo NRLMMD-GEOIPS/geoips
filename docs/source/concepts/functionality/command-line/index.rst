@@ -626,7 +626,7 @@ in a different location.
 For example, if you were to run ``geoips test sector canada``, the following image would
 be created at ``$GEOIPS_OUTDIRS/canada.png``.
 
-.. image:: ../images/command_line_examples/canada.png
+.. image:: canada.png
    :width: 800
 
 .. _geoips_test_script:
