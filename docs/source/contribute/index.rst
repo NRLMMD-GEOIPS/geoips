@@ -25,4 +25,5 @@ Resources for Contributors
 
    code-of-conduct
    coding-standards
+   git-workflow
 
