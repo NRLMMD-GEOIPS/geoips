@@ -3,8 +3,8 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Contributions
-=============
+Contribute
+==========
 
 We encourage active participation by the user and developer community,
 and we welcome feedback on and updates to the code base.
