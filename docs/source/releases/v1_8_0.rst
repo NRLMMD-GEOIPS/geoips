@@ -1,0 +1,262 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.8.0 (2023-03-12)
+**************************
+
+* Minor bug fixes
+* Skip source and product names starting with "@" in YAML configs
+* Use setuptools_scm for versioning (remove VERSION file)
+* Call "code_checks.sh" and "build_docs.sh" from integration tests
+* Improve error messages
+
+Bug Fixes
+=========
+
+Update init __all__ to include strings vs module
+------------------------------------------------
+
+*From issue GEOIPS#194: 2023-03-12, return non-zero from build_docs.sh*
+
+Update geoips/__init__.py and geoips/interfaces/__init__.py to set __all__ using
+strings vs modules.
+
+sphinx build fails when __all__ includes types other than string
+
+::
+
+    modified: geoips/__init__.py
+    modified: geoips/interfaces/__init__.py
+
+Enhancements
+============
+
+Flag product database entries as deleted if deleted by config_based procflow
+----------------------------------------------------------------------------
+
+*GEOIPS/geoips_db#9: 2023-03-03, add productwebpath to tcproducts and unsectored schema*
+
+* Loop through deleted products list at end of procflow and call new function that
+  updates the database
+
+  * flag_product_as_deleted takes deleted product file name, and updates database
+    for each storm area definition
+
+::
+    modified: geoips/interface_modules/procflows/config_based.py
+
+Add xrdict_area_product_to_outlist output_format family
+-------------------------------------------------------
+
+*From issue GEOIPS#188: 2023-03-07, github.com merge, plugin interface updates*
+
+Add `xrdict_area_product_to_outlist` `output_format` family args and kwargs lists.
+
+::
+
+    modified: geoips/interfaces/output_formats.py
+
+Regression Fixes
+================
+
+Set GEOIPS_VERS in config_geoips using git tags
+-----------------------------------------------
+
+*From issue GEOIPS#192: 2023-03-07, Update version process*
+
+Rather than using $CURRENT_CONFIGPATH/../VERSION to determine current GEOIPS_VERS
+in the standard config, use git tag | grep -v osr | tail -n1 (ie, do not include
+open source releases)
+
+::
+
+    modified: setup/config_geoips
+
+Bug Fixes
+=========
+
+Skip source and product names that start with "@" for YAML configs
+------------------------------------------------------------------
+
+*From issue GEOIPS#188: 2023-03-07, open source merge (plugin intfc updates)*
+
+Valid YAML fields can not contain "@", so reserve it as a "special" character
+for the templates, and skip any sources or products containing "@".
+
+We may decide we want to handle this differently in the future, but for now
+just skip invalid names, and print out a log.warning with the skipped name
+
+This will allow "test_interfaces" to complete successfully
+
+::
+
+    modified: geoips/dev/product.py
+
+
+Installation Updates
+====================
+
+Add prettier and doc8 for YAML/rst linting
+------------------------------------------
+
+*From issue GEOIPS#188: 2023-03-07, open source merge (plugin intfc updates)*
+
+Update setup.py to add packages for YAML and RST linting.
+
+Use setuptools_scm for versioning
+---------------------------------
+
+*From issue GEOIPS#192: 2023-03-07, Update version process*
+
+Replace VERSION file based versioning with setuptools_scm git tag based versioning.
+
+::
+
+    modified: setup.py
+    modified: geoips/__init__.py
+    removed: VERSION
+
+Testing Updates
+===============
+
+Add call to code_checks.sh to test_all.sh and test_full_install.sh
+------------------------------------------------------------------
+
+*From issue GEOIPS#187: 2023-03-12, add code enforcement*
+
+To ensure code compliance with all changes, add call to
+`code_checks.sh` to both `test_all.sh` and `test_full_install.sh`.
+
+Do not add to `test_base_install.sh` since that is focused primarily on
+ensuring functionality, not a full test of compliance.
+
+::
+
+    modified: tests/test_all.sh
+    modified: tests/test_full_install.sh
+
+Add call to build_docs.sh to test_all.sh and test_full_install.sh
+-----------------------------------------------------------------
+
+*From issue GEOIPS#194: 2023-03-12, return non-zero from build_docs.sh*
+
+To ensure successful documentation build with all changes, add call to
+`build_docs.sh` to both `test_all.sh` and `test_full_install.sh`.
+
+Do not add to `test_base_install.sh` since that is focused primarily on
+ensuring functionality, not a full test of compliance.
+
+Since building only the html documentation should identify any issues,
+and the full pdf build is very intensive, pass the `html_only` argument
+to the `build_docs.sh` calls.
+
+::
+
+    modified: tests/test_all.sh
+    modified: tests/test_full_install.sh
+
+
+Include more informative error messages for incorrectly formatted plugins
+-------------------------------------------------------------------------
+
+*From issue GEOIPS#188: 2023-03-07, github.com merge, plugin interface updates*
+
+* If plugin family is not included in args list or kwargs list, note that it
+  must be added within the interface module, rather than just returning a KeyError
+  with no explanation
+* If deprecated plugin is not found in entry point namespace, include description
+  of how to debug naming issues (ie, module name, function name, and entry point
+  name must all match exactly, and you must reinstall after changing)
+
+::
+
+    modified: geoips/interfaces/base.py
+
+Include list of plugin tracebacks and errors in test_interfaces final output
+----------------------------------------------------------------------------
+
+*From issue GEOIPS#188: 2023-03-07, github.com merge, plugin interface updates*
+
+::
+
+    modified: geoips/commandline/test_interfaces.py
+
+Documentation Updates
+=====================
+
+Return non-zero from build_docs.sh on any failure or warning
+------------------------------------------------------------
+
+*From issue GEOIPS#194: 2023-03-12, return non-zero from build_docs.sh*
+
+Ensure build_docs.sh returns non-zero if:
+
+* any build commands return non-zero
+
+  * python setup.py install
+  * python setup.py build_sphinx --warning-is-error
+  * python setup.py build_sphinx -b latex --warning-is-error
+  * make -C build/sphinx/latex
+
+* sphinx commands issue ANY warnings (means pdf and/or html will not render
+  properly)
+
+  * python setup.py build_sphinx --warning-is-error
+  * python setup.py build_sphinx -b latex --warning-is-error
+
+::
+
+    docs/build_docs.sh
+
+Update documentation source to include new class-based plugin interfaces
+------------------------------------------------------------------------
+
+*From issue GEOIPS#194: 2023-03-12, return non-zero from build_docs.sh*
+
+* Remove geoips.dev module plugin interfaces from automodule.
+* Remove geoips.stable module plugin interfaces from automodule
+* Add api_interfaces.rst for new class-based plugin interfaces.
+
+::
+
+    modified: docs/source/geoips_api/api_dev.rst
+    modified: docs/source/geoips_api/api_utils.rst
+    modified: docs/source/geoips_api/index.rst
+
+Exclude "version.py" file from flake8 tests
+-------------------------------------------
+
+Since version.py is an auto generated file from the installation process, do
+NOT include it in the code compliance checks.
+
+::
+
+    modified: tests/utils/check_code.sh
+
+Update incorrectly formatted docstrings
+---------------------------------------
+
+Ensure flake8 docstring checks pass.
+
+::
+
+    modified: geoips/cli.py
+    modified: geoips/errors.py
+    modified: geoips/interfaces/filename_formats.py
+    modified: geoips/utils/decorators.py
+
+Release Updates
+===============
+
+Add 1.8.0 release note
+----------------------
+
+*From issue GEOIPS#188: 2023-03-12, version update*
+
+::
+
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_8_0.rst
+    modified: docs/source/releases/index.rst

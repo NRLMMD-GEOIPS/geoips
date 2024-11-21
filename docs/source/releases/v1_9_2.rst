@@ -1,0 +1,66 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.9.2 (2023-05-10)
+**************************
+
+* Add option to include trackfile name along side storm name in tcdb query
+* Minor black reformatting
+* CHANGELOG_TEMPLATE.rst minor update
+* Fix windbarb plotting direction bug
+
+Bug Fixes
+=========
+
+Fix windbarb plotting direction bug
+-----------------------------------
+
+Ensure correct array size is used when including "flip_barb" option for
+matplotlib barbs.
+
+::
+
+  modified: geoips/interface_modules/output_formats/imagery_windbarbs.py
+
+Enhancements
+============
+
+Add ability to include track file path for each active storm found in track file database query
+-----------------------------------------------------------------------------------------------
+
+*From GEOIPS#114: 2023-05-08, update IMERG suite*
+
+Add "include_track_files" argument to tc_tracks_database.get_all_storms_from_db
+
+  * Includes the track file path along side the name of each active storm
+  * Default value is False for backwards compatibility
+
+::
+
+  modified: geoips/sector_utils/tc_tracks_database.py
+
+Code Formatting and Style Updates
+=================================
+
+Minor black reformatting
+------------------------
+
+::
+
+  modified: geoips/filenames/base_paths.py
+  modified: geoips/interface_modules/procflows/single_source.py
+  modified: geoips/sector_utils/tc_tracks_database.py
+
+Documentation Updates
+=====================
+
+NRLMMD-GEOIPS update in CHANGELOG_TEMPLATE.rst
+----------------------------------------------
+
+Include NRLMMD-GEOIPS Issue IDs in each release note subsection
+
+::
+
+  modified: CHANGELOG_TEMPLATE.rst

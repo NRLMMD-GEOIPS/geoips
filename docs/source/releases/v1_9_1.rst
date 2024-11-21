@@ -1,0 +1,308 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.9.1 (2023-04-03)
+**************************
+
+* Remove GEOIPS BASEDIR references
+
+  * Add GEOIPS_TESTDATA_DIR and GEOIPS_DEPEDNENCIES_DIR to filenames/base_paths.py
+* Sphinx Documentation Updates
+
+  * Implement sphinx-apidoc for documentation build
+  * Finalize RST documentation outline to match sharepoint doc
+  * Update some documentation links
+  * Implement sphinx-apidoc for documentation build
+* Replace setup.py with pyproject.toml
+* Add missing fields in Rain colormap mpl_color_info
+* Allow processing if no TCs in database
+* Install geoips[doc,test,lint] in setup.sh
+* Only add product to database if returned product is not None
+* Replace <output> in single_source procflow in addition to <product>
+
+  * This matches functionality in config_based.py
+* Ignore flake8 W503 (conflicts with black)
+
+Breaking Changes
+================
+
+Include GEOIPS_TESTDATA_DIR and GEOIPS_DEPENDENCIES_DIR in geoips/filenames/base_paths.py
+-----------------------------------------------------------------------------------------
+
+*From GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
+
+Note geoips/filenames/base_paths.py must include GEOIPS_TESTDATA_DIR
+and GEOIPS_DEPENDENCIES_DIR included in gpaths,
+since replace_geoips_paths in geoips/dev/utils.py only replaces paths contained
+in geoips/filenames/base_paths.py.
+
+::
+
+    geoips/filenames/base_paths.py
+
+Update replace_geoips_paths to replace GEOIPS BASEDIR last
+----------------------------------------------------------
+
+*From GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
+
+To avoid reliance on GEOIPS BASEDIR, replace GEOIPS_OUTDIRS, GEOIPS_PACKAGES_DIR
+GEOIPS_TESTDATA_DIR, and GEOIPS_DEPENDENCIES_DIR before falling back on
+GEOIPS BASEDIR
+
+::
+
+    Dockerfile
+    geoips/dev/utils.py
+    Dockerfile
+    base_install_and_test.sh
+    docs/build_docs.sh
+    docs/source/yaml/20200918.195020.goes-16.Visible_latitude_longitude.tc2020al20teddy.nc.yaml
+    docs/source/yaml/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+    geoips/filenames/base_paths.py
+    setup.sh
+    setup/geoips_conda_init_setup
+    setup/repo_clone_update_install.sh
+
+Enhancements
+============
+
+Replace <output> in compare_paths from single_source procflow
+-------------------------------------------------------------
+
+* Replace <output> in single_source procflow in addition to <product>
+
+  * This matches functionality in config_based.py
+
+::
+
+    modified: geoips/interface_modules/procflows/single_source.py
+
+Bug Fixes
+=========
+
+Only add product to database if returned product is not None
+------------------------------------------------------------
+
+*From GEOIPS#95, 2023-04-11, add EWS-G suite*
+
+Ensure we do not attempt to add product to list if "None".
+
+::
+
+    geoips/interface_modules/procflows/config_based.py
+
+Return empty list if no storms in trackfile database
+-----------------------------------------------------
+
+*From GEOIPS#95: 2023-04-07, add EWS-G processing*
+
+Previously would raise error if attempting to get all storms from database if
+there are no active storms available.  Update to catch error, print warning,
+and return empty list.
+
+::
+
+  modified: geoips/sector_utils/tc_tracks_database.py
+
+Add geoips/dev/__init__.py
+--------------------------
+
+*From issue GEOIPS#223: 2023-04-03, remove GEOIPS BASEDIR from YAML*
+
+Installation fails without __init__.py in each sub-package
+
+::
+
+    new file:   geoips/dev/__init__.py
+
+Update Rain colormap mpl_colors_info
+------------------------------------
+
+*From issue GEOIPS#9: 2023-04-05, IMERG TC processing suite*
+
+* Add "cbar_tick_labels" and "cbar_spacing" as keys under mpl_colors_info
+
+  * These are required when producing annotated imagery
+
+::
+    modified: geoips/interface_modules/user_colormaps/pmw_tb/cmap_Rain.py
+
+Code Formatting and Style Updates
+=================================
+
+Ignore flake8 W503 in check_code.sh
+-----------------------------------
+
+W503 and E203 both conflict with black, so ignore in flake8 tests.
+W503 is line break before binary operator, E203 is white space before :.
+
+::
+
+    modified:   tests/utils/check_code.sh
+
+Minor black updates
+-------------------
+
+*From issue GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
+
+::
+
+    geoips/filenames/base_paths.py
+    geoips/image_utils/mpl_utils.py
+    geoips/interface_modules/filename_formats/geoips_fname.py
+    geoips/interface_modules/output_formats/geotiff_standard.py
+    geoips/interfaces/base.py
+
+Installation Updates
+====================
+
+Install geoips[doc,test,lint] from setup.sh
+-------------------------------------------
+
+Ensure full installation from setup.sh
+
+::
+
+    setup.sh
+
+Update setuptools_scm versioning settings
+-----------------------------------------
+
+*From issue GEOIPS#158: 2023-04-03, update to pyproject.toml install*
+
+* Ensure geoips/version.py is used (we import from there in geoips/__init__.py)
+* Use current_vers.postN vs incrementing version with .devN
+* Do not include hash and date in version
+
+::
+
+    pyproject.toml
+
+Switch from setup.py to pyproject.toml
+--------------------------------------
+
+*From issue GEOIPS#158: 2023-04-03, update to pyproject.toml install*
+
+::
+
+    deleted: setup.py
+    new: pyproject.toml
+
+Remove unused requirements files
+--------------------------------
+
+*From issue GEOIPS#158: 2023-04-03, update to pyproject.toml install*
+
+Rely entirely on pyproject.toml for requirements - no longer include
+requirements.txt for pip or environment.yml for conda.
+
+::
+
+    deleted:    docs/requirements.txt
+    deleted:    environment.yml
+
+
+Test Repo Updates
+=================
+
+Remove GEOIPS BASEDIR from YAML metadata test outputs
+------------------------------------------------------
+
+*From issue GEOIPS#223: 2023-03-30, remove GEOIPS BASEDIR from YAML metadata*
+
+Replace GEOIPS BASEDIR/geoips_packages_dir with GEOIPS_PACKAGES_DIR
+
+::
+
+        modified:   tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+        modified:   tests/outputs/abi.tc.Infrared.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png.yaml
+        modified:   tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png.yaml
+        modified:   tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml
+        modified:   tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+        modified:   tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+        modified:   tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+        modified:   tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+        modified:   tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml
+        modified:   tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png.yaml
+        modified:   tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean/20210421_014248_WP022021_ascat_metop-c_windbarbs_120kts_78p20_0p5-clean.png.yaml
+        modified:   tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs/20210421_014156_WP022021_ascat_metop-c_windbarbs_120kts_35p17_1p0.png.yaml
+        modified:   tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png.yaml
+        modified:   tests/outputs/gmi.tc.89pct.imagery_clean/20200917_172045_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+        modified:   tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png.yaml
+        modified:   tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png.yaml
+        modified:   tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png.yaml
+        modified:   tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png.yaml
+        modified:   tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml
+        modified:   tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_080900_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png.yaml
+        modified:   tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png.yaml
+
+Documentation Updates
+=====================
+
+Finalize RST documentation outline
+----------------------------------
+
+*From issue GEOIPS#156: 2023-04-11, finalize doc outline*
+
+Match the sharepoint outline exactly.
+
+::
+
+    A docs/source/devguide/build_docs.rst
+    M docs/source/devguide/contributors.rst
+    M docs/source/devguide/dev_setup.rst
+    M docs/source/devguide/git_workflow.rst
+    M docs/source/devguide/index.rst
+    M docs/source/geoips_api/index.rst
+    M docs/source/introduction/description_geoips.rst
+    M docs/source/introduction/conduct.rst
+    M docs/source/introduction/examples_output.rst
+    M docs/source/introduction/function_summary.rst
+    M docs/source/starter/extending.rst
+    M docs/source/starter/index.rst
+    M docs/source/starter/installation.rst
+    M docs/source/starter/starter_examples.rst
+    M docs/source/userguide/command_line.rst
+    M docs/source/userguide/function_list.rst
+    M docs/source/userguide/geoips_structure.rst
+    M docs/source/userguide/plugin_extend.rst
+
+Finalize sphinx-apidoc build
+----------------------------
+
+*From issue GEOIPS#197: 2023-04-03, update to sphinx-apidoc*
+
+Update to use sphinx-apidoc vs
+
+::
+    docs/source/conf.py
+    docs/build_docs.sh
+
+Bug fixes to get sphinx-apidoc to work
+
+::
+
+    docs/source/conf.py  # Paths, and footer_end update
+    geoips/interfaces/base.py # Comment out duplicate docstring references
+    # Change API link references:
+    geoips/interface_modules/trackfile_parsers/bdeck_parser.py
+    geoips/interface_modules/trackfile_parsers/flat_sectorfile_parser.py
+    geoips/interface_modules/user_colormaps/matplotlib_linear_norm.py
+    geoips/interface_modules/user_colormaps/tpw/tpw_cimss.py
+    geoips/interface_modules/user_colormaps/tpw/tpw_purple.py
+    geoips/interface_modules/user_colormaps/tpw/tpw_pwat.py
+
+Update broken documentation links
+---------------------------------
+
+Fixing broken links in documentation
+
+::
+
+    modified: README.md
+    modified: docs/source/devguide/setup_new_plugin.rst
+    deleted: docs/setup-new-plugin.rst
+    modified: docs/source/devguide/contributors.rst
+    deleted: docs/contributors.rst

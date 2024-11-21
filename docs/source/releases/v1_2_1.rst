@@ -1,0 +1,55 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.2.1 (2021-10-04)
+**************************
+
+v1.2.1: Test repo output updates (remove recentering, updated matplotlib/cartopy), and code refactor/simplification
+
+Breaking Interface Changes
+==========================
+
+* remove_duplicates function now takes the explicit filename_format string, and returns the remove_duplicates
+    method within the <filename_format> module.
+* Separated sar_netcdf reader from sfc_winds_netcdf.py
+
+    * Eventually plan to separate all sfc_winds readers - they should all be independent modules.
+
+Breaking Test Repo Updates
+==========================
+
+* Updated cartopy to 0.20.0 and matplotlib to v3.4.3
+
+    * test repo outputs incompatible with matplotlib < 3.4.0 and cartopy < 0.19.0
+    * Older versions have figures that are very slightly shifted from later versions
+    * Exclusively a qualitative difference, but it *does* cause the test comparisons to fail
+
+* No longer recentering all TC outputs by default
+
+    * General outputs are *not* recentered as of 1.2.1 - test recentering separately from other functionality
+
+Refactor
+========
+
+* Moved metoctiff plugin to a separate installable repository
+* Moved recenter_tc plugin to a separate installable repository
+
+Major New Functionality
+=======================
+
+* Initial center radius coverage checks, for Tropical Cyclone applications
+* Initial SAR Normalized Radar Cross Section (NRCS) product implementation
+
+Improvements
+============
+
+* Standardized and formalized the README, setup script, and test script format for all plugin repos
+* Removed requirement to link test scripts from plugin repos into the main geoips test directory
+
+Bug fixes
+=========
+
+* Added "METADATA" key in sfc_winds_netcdf.py return dictinoary
+
