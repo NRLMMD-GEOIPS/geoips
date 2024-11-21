@@ -1,11 +1,11 @@
 required:
  - releases
+ - PKGNAME_api
 current:
  - getting-started
  - tutorials
  - concepts
  - contribute
- - PKGNAME_api
  - contact
 legacy:
 - introduction

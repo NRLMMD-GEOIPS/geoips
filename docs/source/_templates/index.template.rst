@@ -102,7 +102,7 @@ GeoIPS |reg| PKGNAME Documentation
     TUTORIALS_OPTIONAL
     CONCEPTS_OPTIONAL
     CONTRIBUTE_OPTIONAL
-    PKGNAME_API_OPTIONAL
+    PKGNAME_api/index
     releases/index
     contact
 
