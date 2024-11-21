@@ -3,8 +3,8 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Setting up for development
-**************************
+Setting up for development on core GeoIPS
+*****************************************
 
 Instructions for setting up a new data type
 ===========================================

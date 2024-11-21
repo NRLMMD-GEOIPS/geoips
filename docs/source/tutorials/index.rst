@@ -14,3 +14,4 @@ Tutorials
     plugin_development/product/index
     plugin_development/static_sector/index
     plugin_development/reader
+    dev_setup
