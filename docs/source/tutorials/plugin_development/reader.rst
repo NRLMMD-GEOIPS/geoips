@@ -5,8 +5,8 @@
 
 .. _describe-readers:
 
-Learn More about GeoIPS Readers
-*******************************
+Get to know the GeoIPS Readers
+******************************
 
 GeoIPS readers are module-based plugins that create a method of reading in many types of
 satellite derived data. This doesn't mean you cannot create other types of data readers

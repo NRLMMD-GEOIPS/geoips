@@ -157,5 +157,5 @@ the :ref:`Gridline Annotator Section<create-gridline-annotator>`. Feel free to c
 that if you would like, however you still will be able to notice the changes from your
 new Feature Annotator.
 
-.. image:: ../../images/command_line_examples/my_feature_gridline.png
+.. image:: my_feature_gridline.png
    :width: 800

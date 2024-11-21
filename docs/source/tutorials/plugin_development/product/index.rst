@@ -125,7 +125,7 @@ This will write some log output. If your script succeeded it will end with INTER
 Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
 the PNG file, it should look like the image below.
 
-.. image:: ../../images/command_line_examples/my_cloud_top_height.png
+.. image:: my_cloud_top_height.png
    :width: 800
 
 Okay! We've developed a plugin which produces CLAVR-x Cloud Top Height. This is nice,
@@ -315,5 +315,5 @@ This will output a bunch of log output. If your script succeeded it will end wit
 Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
 the PNG file to view your Cloud Depth Image! It should look like the image shown below.
 
-.. image:: ../../images/command_line_examples/my_cloud_depth.png
+.. image:: my_cloud_depth.png
    :width: 800

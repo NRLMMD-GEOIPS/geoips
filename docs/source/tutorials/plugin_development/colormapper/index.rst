@@ -347,5 +347,5 @@ This will write some log output. If your script succeeded it will end with INTER
 Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
 the PNG file, it should look like the image below.
 
-.. image:: ../../images/command_line_examples/colorful_cloud_height.png
+.. image:: colorful_cloud_height.png
    :width: 800

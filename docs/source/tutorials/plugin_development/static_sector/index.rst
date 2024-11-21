@@ -97,7 +97,7 @@ test your custom sector, run the following:
 Once completed, open the my_conus_sector.png image to see what your sector will look
 like.
 
-.. image:: ../../images/command_line_examples/my_conus_sector.png
+.. image:: my_conus_sector.png
    :width: 800
 
 Using Your Custom Static Sector
@@ -123,5 +123,5 @@ image using your custom CONUS sector!
 
 Output
 ------
-.. image:: ../../images/command_line_examples/my_conus_sector_cth.png
+.. image:: my_conus_sector_cth.png
    :width: 800

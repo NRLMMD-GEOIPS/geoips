@@ -3,8 +3,8 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Description of GeoIPS structure
-*******************************
+The Structure of GeoIPS
+***********************
 
 Overview of interfaces and plugins
 ==================================
