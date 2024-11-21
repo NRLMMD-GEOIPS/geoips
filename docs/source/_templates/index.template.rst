@@ -1,7 +1,5 @@
 :notoc:
 
-.. GEOIPS PKGNAME documentation master file, created by
-
 .. module:: PKGNAME
    :noindex:
 
@@ -38,7 +36,6 @@ GeoIPS |reg| PKGNAME Documentation
 .. automodule:: PKGNAME
    :noindex:
 
-{% if not single_doc -%}
 .. grid:: 1 2 2 2
     :gutter: 2
 
@@ -96,37 +93,17 @@ GeoIPS |reg| PKGNAME Documentation
 
             Release Notes
 
-{% endif %}
-{% if single_doc and single_doc.endswith('.rst') -%}
-.. toctree::
-    :maxdepth: 3
-    :titlesonly:
-
-    {{ single_doc[:-4] }}
-{% elif single_doc and single_doc.count('.') <= 1 %}
-.. autosummary::
-    :toctree: PKGNAME_api/
-
-    {{ single_doc }}
-{% elif single_doc %}
-.. autosummary::
-    :toctree: PKGNAME_api/
-
-    {{ single_doc }}
-{% else -%}
 .. toctree::
     :maxdepth: 3
     :hidden:
     :titlesonly:
-{% endif %}
-{% if not single_doc %}
-    getting-started/index
-    tutorials/index
-    concepts/index
+
+    GETTING-STARTED_OPTIONAL
+    TUTORIALS_OPTIONAL
+    CONCEPTS_OPTIONAL
+    CONTRIBUTE_OPTIONAL
+    PKGNAME_API_OPTIONAL
     releases/index
-    contribute/index
-    PKGNAME_api/index
     contact
-{% endif %}
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN

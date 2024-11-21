@@ -1,0 +1,17 @@
+required:
+ - releases
+current:
+ - getting-started
+ - tutorials
+ - concepts
+ - contribute
+ - PKGNAME_api
+ - contact
+legacy:
+- introduction
+- starter
+- userguide
+- devguide
+- deployguide
+- opguide
+- contact
