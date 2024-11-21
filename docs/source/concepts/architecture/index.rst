@@ -11,3 +11,4 @@ Architecture
 
     extend-with-plugins
     plugin-registries
+    structure-of-geoips/index

@@ -1,11 +1,16 @@
-.. toctree::
+.. dropdown:: Distribution Statement
 
-    ../geoips_api/geoips
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _api:
 
-API
----
+API Reference
+*************
+.. toctree::
+   :maxdepth: 4
+
+    ../geoips_api/geoips
 
 .. _xarray_standards:
 

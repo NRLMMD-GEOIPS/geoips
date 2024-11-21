@@ -5,8 +5,8 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Functionality of GeoIPS
-=======================
+Functionality
+=============
 
 .. toctree::
     :maxdepth: 1

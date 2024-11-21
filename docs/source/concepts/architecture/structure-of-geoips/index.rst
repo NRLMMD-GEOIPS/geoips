@@ -20,7 +20,7 @@ from within the main code base.
 
 Example external plugin functionality:
 
-.. image:: ../images/geoips_overview/Example_DEBRA_Processing_Workflow.png
+.. image:: Example_DEBRA_Processing_Workflow.png
    :width: 800
 
 GeoIPS makes use of Python entry points to install external packages within the geoips
@@ -56,10 +56,10 @@ appropriate plugin interface, include:
 
 Example single_source processing workflow:
 
-.. image:: ../images/geoips_overview/Example_89pct_GEOTIFF_Processing_Workflow.png
+.. image:: Example_89pct_GEOTIFF_Processing_Workflow.png
    :width: 800
 
 Example of config based processing workflow
 
-.. image:: ../images/geoips_overview/Example_config_Processing_Workflow.png
+.. image:: Example_config_Processing_Workflow.png
    :width: 800
