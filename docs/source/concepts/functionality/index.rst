@@ -15,6 +15,3 @@ Functionality of GeoIPS
     plugin-registries
     documentation-building
 
-Currently, we have docs at `this old page <./../../../introduction/description_geoips>`.
-
-
