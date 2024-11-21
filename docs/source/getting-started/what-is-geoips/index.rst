@@ -31,6 +31,8 @@ Some of the primary benefits / requirements of GeoIPS include:
 .. image:: GeoIPS_Structure_Overview.png
    :width: 800
 
+.. _geoips_scope:
+
 GeoIPS Scope
 ============
 

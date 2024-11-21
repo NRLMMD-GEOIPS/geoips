@@ -93,11 +93,10 @@ The GeoIPS® "core" package is responsible for data processing from reading and 
 common internal GeoIPS® internal format, through algorithm and product application, to outputting user
 configurable data formats (imagery, NetCDF, etc).
 
-.. image:: ../images/geoips_overview/GeoIPS_Processing_Chain.png
-   :width: 800
-
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
 GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
+
+See also :ref:`geoips-scope`
 
 1.4 References
 --------------
@@ -159,7 +158,7 @@ development will lead to increased efficiency and functionality of the final pro
 2.2 Product Functions
 ---------------------
 
-.. image:: ../images/geoips_overview/GeoIPS_Structure_Overview.png
+.. image:: ../../getting-started/what-is-geoips/GeoIPS_Structure_Overview.png
    :width: 800
 
 2.3 User Classes and Characteristics
