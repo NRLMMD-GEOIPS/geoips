@@ -7,6 +7,8 @@ Installing GeoIPS
 -----------------
 
 .. toctree::
+    :maxdepth: 1
+    :caption: Contents:
 
     linux_with_conda
     mac_with_conda

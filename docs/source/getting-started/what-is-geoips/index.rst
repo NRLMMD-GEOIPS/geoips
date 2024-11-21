@@ -3,17 +3,14 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Description of GeoIPS
-*********************
-
-GeoIPS Overview
-===============
+What is GeoIPS
+**************
 
 The Geolocated Information Processing System (GeoIPS) is a generalized processing system, providing a collection
 of algorithm and product implementations facilitating consistent and reliable application of specific products
 across a variety of sensors and data types.
 
-.. image:: ../images/geoips_overview/GeoIPS_Functionality_Overview.png
+.. image:: GeoIPS_Functionality_Overview.png
    :width: 800
 
 GeoIPS acts as a toolbox for internal GeoIPS-based product development - all modules are expected to
@@ -31,7 +28,7 @@ Some of the primary benefits / requirements of GeoIPS include:
     * Ability to interface with workflow management tools (cylc)
     * Ability to interface with databases (postgres)
 
-.. image:: ../images/geoips_overview/GeoIPS_Structure_Overview.png
+.. image:: GeoIPS_Structure_Overview.png
    :width: 800
 
 GeoIPS Scope
@@ -41,20 +38,8 @@ The GeoIPS® "core" package is responsible for data processing from reading and 
 common internal GeoIPS® internal format, through algorithm and product application, to outputting user
 configurable data formats (imagery, NetCDF, etc).
 
-.. image:: ../images/geoips_overview/GeoIPS_Processing_Chain.png
+.. image:: GeoIPS_Processing_Chain.png
    :width: 800
 
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
 GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
-
-Using GeoIPS for Research
-=========================
-
-Using GeoIPS for Operations
-===========================
-
-Static sectors
---------------
-
-Dynamic sectors
----------------

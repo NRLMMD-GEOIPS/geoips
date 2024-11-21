@@ -9,5 +9,7 @@ Concepts
 ========
 
 .. toctree::
+   :maxdepth: 2
 
    functionality/index
+   architecture/index

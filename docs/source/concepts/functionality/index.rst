@@ -9,7 +9,9 @@ Functionality of GeoIPS
 =======================
 
 .. toctree::
+    :maxdepth: 1
 
+    plugin-registries
     documentation-building
 
 Currently, we have docs at `this old page <./../../../introduction/description_geoips>`.

@@ -6,7 +6,7 @@
 .. _expert-installation:
 
 Expert User Installation (with administrative privileges)
-****************************************************
+*********************************************************
 
 The :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
 is the easiest way to get GeoIPS up and running, but if you have administrative

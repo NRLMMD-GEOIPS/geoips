@@ -121,9 +121,9 @@ GeoIPS |reg| PKGNAME Documentation
 {% endif %}
 {% if not single_doc %}
     getting-started/index
-    contribute/index
     concepts/index
     releases/index
+    contribute/index
     api/index
     contact
 {% endif %}
