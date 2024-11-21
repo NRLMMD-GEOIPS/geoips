@@ -5,14 +5,15 @@
 
 .. _unit_tests:
 
-GeoIPS Unit Testing
-###################
+Unit Testing
+############
 
 Follow these steps when making new readers, to conform to
 geoips unit testing structure.
 
-GeoIPS Unit Testing Structure
-*****************************
+Unit Testing Structure
+**********************
+
 Unit testing in GeoIPS provide a quick and simple way to check
 conformity and validity in GeoIPS. Unit tests are performed through
 pytest, and check for xarray conformity (See: :ref:`xarray_standards`),

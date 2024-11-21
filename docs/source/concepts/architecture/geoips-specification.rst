@@ -96,7 +96,7 @@ configurable data formats (imagery, NetCDF, etc).
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
 GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
 
-See also :ref:`geoips-scope`
+See also :ref:`geoips_scope`
 
 1.4 References
 --------------

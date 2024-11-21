@@ -22,6 +22,19 @@ on conventions and more time making GeoIPS better.
 We use - in order of supremacy - a few Internal Standards, followed by the numpy
 docstring standards and the python style guide laid out in PEP 8.
 
+bandit, flake8, and black are used to enforce appropriate style, security,
+and syntax usage.  flake8-rst and flake8-rst-docstring plugins are used to
+enforce numpy docstring formatting.  Sphinx is used to validate the
+formatting and syntax within RST files themselves.
+
+Corresponding configuration files for both black and flake8 can be found
+in the geoips directory ``.config/``.
+
+All branches must pass the ``geoips/tests/utils/check_code.sh`` script
+prior to any Pull Requests being approved and merged.  Please ensure this
+script has a successful 0 return as you develop code within the GeoIPS
+Ecosystem to expedite the review and approval process.
+
 This document will detail internal standard conventions and include some of the external
 standards for easy reference. For external standards, the primary source is always
 right in the case of a conflict with this document.

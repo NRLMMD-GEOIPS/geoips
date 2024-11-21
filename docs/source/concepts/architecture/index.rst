@@ -12,4 +12,6 @@ Architecture
     extend-with-plugins
     plugin-registries
     structure-of-geoips/index
+    xarray-standards
     geoips-specification
+    tests/index
