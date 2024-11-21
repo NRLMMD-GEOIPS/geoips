@@ -7,10 +7,11 @@
 
 API Reference
 *************
+
 .. toctree::
    :maxdepth: 4
 
-    ../geoips_api/geoips
+   geoips
 
 .. _xarray_standards:
 

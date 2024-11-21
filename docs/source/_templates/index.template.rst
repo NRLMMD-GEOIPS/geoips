@@ -125,7 +125,7 @@ GeoIPS |reg| PKGNAME Documentation
     concepts/index
     releases/index
     contribute/index
-    api/index
+    PKGNAME_api/index
     contact
 {% endif %}
 
