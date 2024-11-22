@@ -7,6 +7,6 @@ Testing Suite
 #############
 
 .. toctree::
-    :maxdepth: 2
+    :maxdepth: 1
 
     unit-tests
