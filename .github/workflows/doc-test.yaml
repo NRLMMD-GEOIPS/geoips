@@ -428,6 +428,7 @@ jobs:
     needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      options: --user 0
       credentials:
         username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
