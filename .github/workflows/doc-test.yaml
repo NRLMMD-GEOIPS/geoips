@@ -278,15 +278,21 @@ jobs:
     needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
-      options: --user 0
+      options: --user geoips_user
       credentials:
         username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
     env:
       CURR_REPO: ${{ github.event.repository.name }}
     steps:
+      - name: Print User
+        run: echo "User" && id -u && echo "Group" && id -g && echo "Username" && whoami
+        
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
+        with:
+          clean: false
+          set-safe-directory: false
 
       - name: Configure Git safe directory
         run: git config --global --add safe.directory $PWD
