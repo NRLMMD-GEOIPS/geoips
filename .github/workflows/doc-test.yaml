@@ -285,6 +285,8 @@ jobs:
     env:
       CURR_REPO: ${{ github.event.repository.name }}
     steps:
+      - name: Print User
+        run: echo "User" && id -u && echo "Group" && id -g && echo "Username" && whoami
       - name: Checkout code
         uses: actions/checkout@v4
 
