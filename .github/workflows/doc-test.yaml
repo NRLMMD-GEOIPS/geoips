@@ -287,8 +287,9 @@ jobs:
     steps:
       - name: Print User
         run: echo "User" && id -u && echo "Group" && id -g && echo "Username" && whoami
+        
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Configure Git safe directory
         run: git config --global --add safe.directory $PWD
