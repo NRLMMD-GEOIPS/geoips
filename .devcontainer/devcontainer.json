@@ -10,9 +10,9 @@
 	},
 	"remoteUser": "geoips_user",
 	"mounts": [
-		"source=/local/share/geoips/test_data,target=/mnt/geoips_testdata,type=bind,readonly",
-		"source=/local/share/geoips/cartopy/shapefiles,target=/app/geoips_packages/shapefiles,type=bind,readonly",
-		"source=/mnt/data1/geoips_outdirs_temp,target=/output,type=bind",
+		"source=${localEnv:CARTOPY_SHAPEFILES},target=/app/geoips_packages/shapefiles,type=bind,readonly",
+		"source=${localEnv:GEOIPS_TESTDATA_DIR},target=/mnt/geoips_testdata,type=bind,readonly",
+		"source=${localEnv:GEOIPS_OUTDIRS},target=/output,type=bind",
 		],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/app/geoips_packages/geoips,type=bind",
 	"workspaceFolder": "/app/geoips_packages/geoips",
