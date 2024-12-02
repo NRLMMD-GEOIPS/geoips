@@ -27,7 +27,7 @@ env:
   #   RUNNER_DOCKERRUN: runner to run docker containers
 
   # The path to the GeoIPS package in DOCLINTTEST images
-  BASE_GEOIPS_PATH: /packages/geoips
+  BASE_GEOIPS_PATH: /app/geoips_packages/geoips
   # Allow overriding the doclinttest image tag used for plugin packages
   # Allows using a different version of the doc, lint, and test code
   PLUGIN_DOCLINTTEST_TAG: ${{ vars.PLUGIN_DOCLINTTEST_TAG || 'doclinttest-stable' }}
@@ -168,9 +168,9 @@ jobs:
   # This image is used in all subsequent tests
   # It is only built for the main GeoIPS package but is used by all repositories
   #
-  # Within this image, the GeoIPS package is located in /packages/geoips and is
+  # Within this image, the GeoIPS package is located in /app/geoips_packages/geoips and is
   # installed using `pip install .[doc,lint,test]`. Scripts from geoips can be called
-  # from /packages/geoips.
+  # from /app/geoips_packages/geoips.
   build_doclinttest_image:
     runs-on: ${{ vars.RUNNER_DOCKERBUILD || vars.RUNNER }}
     needs: set_variables
@@ -278,6 +278,7 @@ jobs:
     needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      options: --user 0
       credentials:
         username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
@@ -390,6 +391,7 @@ jobs:
     needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      options: --user 0
       credentials:
         username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
@@ -426,6 +428,7 @@ jobs:
     needs: [build_doclinttest_image, set_variables]
     container:
       image: ${{ needs.set_variables.outputs.DOCLINTTEST_IMAGE }}
+      options: --user 0
       credentials:
         username: ${{ vars.DOCKER_REGISTRY_USER }}
         password: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
