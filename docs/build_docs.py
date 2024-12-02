@@ -393,7 +393,7 @@ def generate_top_level_index_file(
 
     content = return_file_content(template_index_file_path)
 
-    ## Replace required sections
+    # Replace required sections
     # for section in required_sections:
     #    content = update_content_for_section(build_dir, content, section, log=log)
 
