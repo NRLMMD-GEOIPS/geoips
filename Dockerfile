@@ -39,7 +39,7 @@ RUN getent group ${GROUP_ID} > /dev/null || groupadd -g ${GROUP_ID} ${USER} \
     && mkdir -p $GEOIPS_OUTDIRS $GEOIPS_DEPENDENCIES_DIR $GEOIPS_TESTDATA_DIR /data /__w\
     && chown ${USER_ID}:${GROUP_ID} $GEOIPS_OUTDIRS $GEOIPS_DEPENDENCIES_DIR $GEOIPS_TESTDATA_DIR $GEOIPS_PACKAGES_DIR /data /__w
 
-USER ${USER}
+#USER ${USER}
 WORKDIR $GEOIPS_PACKAGES_DIR
 
 COPY --chown=${USER_ID}:${GROUP_ID} ./environments/requirements.txt ${GEOIPS_PACKAGES_DIR}/requirements.txt
