@@ -15,3 +15,4 @@ Architecture
     xarray-standards
     geoips-specification
     tests/index
+    documentation/index.rst
