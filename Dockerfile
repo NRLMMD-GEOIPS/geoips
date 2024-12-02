@@ -49,5 +49,5 @@ RUN python3 -m pip install -r requirements.txt
 WORKDIR ${GEOIPS_PACKAGES_DIR}/geoips
 COPY --chown=${USER_ID}:${GROUP_ID} . .
 
-RUN pip install -e --no-cache-dir ".[test, doc, lint]" \
+RUN pip install -e ".[test, doc, lint]" \
     && create_plugin_registries
