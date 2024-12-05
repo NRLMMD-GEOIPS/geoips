@@ -3,12 +3,10 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _api:
-
-API
-***
+Testing Suite
+#############
 
 .. toctree::
-   :maxdepth: 4
+    :maxdepth: 1
 
-   geoips
+    unit-tests
