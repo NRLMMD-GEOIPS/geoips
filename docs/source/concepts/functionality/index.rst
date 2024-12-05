@@ -14,5 +14,6 @@ Functionality
     command-line/index
     plugin-registries
     documentation-building
+    examples/index
 
 
