@@ -8,7 +8,14 @@ import subprocess
 import pytest
 import sys
 
-integ_test_calls = [
+base_integ_test_calls = [
+    "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh",
+    "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh",
+    #    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
+    # this should be called directly
+]
+
+full_integ_test_calls = [
     "$geoips_repopath/tests/utils/check_code.sh all $recenter_tc_repopath",
     "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only",
     "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only",  # noqa
@@ -26,8 +33,6 @@ integ_test_calls = [
     "$geoips_repopath/tests/scripts/ami.tc.WV.geotiff.sh",
     "$geoips_repopath/tests/scripts/ami.WV-Upper.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh",
-    "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh",
     "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh",
@@ -63,6 +68,28 @@ integ_test_calls = [
     "$geoips_clavrx_repopath/tests/test_all.sh",
     "$data_fusion_repopath/tests/test_all.sh",
 ]
+
+
+def check_base_install():
+    """
+    Run the base installation check script to verify the GeoIPS installation.
+
+    Executes the 'base_install.sh' script located in the GeoIPS tests directory
+    to ensure that all required components are properly installed.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the full installation check script returns a non-zero exit status.
+    """
+    base_install_check = [
+        "bash",
+        os.getenv("GEOIPS_PACKAGES_DIR")
+        + "/geoips/tests/integration_tests/base_install.sh",
+        "exit_on_missing",
+    ]
+    print("Running base install check")
+    subprocess.check_output(base_install_check, env=os.environ.copy())
 
 
 def check_full_install():
@@ -145,10 +172,11 @@ def setup_environment():
     os.environ["geoips_clavrx_pkgname"] = "geoips_clavrx"
 
 
-integ_tests_setup = False
+integ_full_tests_setup = False
+integ_base_tests_setup = False
 
 
-def setup_integ_tests():
+def setup_integ_tests(full=False):
     """
     Set up the integration tests by checking install and setting env-vars.
 
@@ -156,15 +184,45 @@ def setup_integ_tests():
     to set up the necessary environment variables before running integration tests.
     Sets the global flag `integ_tests_setup` to `True` upon successful setup.
     """
-    check_full_install()
-    setup_environment()
-    global integ_tests_setup
-    integ_tests_setup = True
+    if full:
+        check_full_install()
+        setup_environment()
+        global integ_full_tests_setup
+        integ_full_tests_setup = True
+    else:
+        check_base_install()
+        setup_environment()
+        global integ_base_tests_setup
+        integ_base_tests_setup = True
+
+
+def run_script_with_bash(script):
+    """
+    Run scripts by executing specified shell commands with bash.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to executes. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    expanded_call = ("bash " + os.path.expandvars(script)).split(" ")
+    print("Running", script)
+    try:
+        subprocess.check_output(expanded_call, env=os.environ.copy())
+    except subprocess.CalledProcessError as e:
+        print(e.output.decode(sys.stdout.encoding))
+        raise e
 
 
 @pytest.mark.integration
-@pytest.mark.parametrize("script", integ_test_calls)
-def test_integ_test_script(script):
+@pytest.mark.parametrize("script", full_integ_test_calls)
+def test_integ_full_test_script(script):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -179,12 +237,28 @@ def test_integ_test_script(script):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    if not integ_tests_setup:
-        setup_integ_tests()
-    expanded_call = ("bash " + os.path.expandvars(script)).split(" ")
-    print("Running", script)
-    try:
-        subprocess.check_output(expanded_call, env=os.environ.copy())
-    except subprocess.CalledProcessError as e:
-        print(e.output.decode(sys.stdout.encoding))
-        raise e
+    if not integ_full_tests_setup:
+        setup_integ_tests(full=True)
+    run_script_with_bash(script)
+
+
+@pytest.mark.integration
+@pytest.mark.parametrize("script", base_integ_test_calls)
+def test_integ_base_test_script(script):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    if not (integ_full_tests_setup or integ_base_tests_setup):
+        setup_integ_tests(full=False)
+    run_script_with_bash(script)
