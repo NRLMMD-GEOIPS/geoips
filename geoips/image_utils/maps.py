@@ -521,6 +521,9 @@ def draw_features(mapobj, curr_ax, feature_annotator, zorder=None):
 
     for name, feature in feature_annotator["spec"].items():
         feat = deepcopy(feature)
+        # Need to make sure this isn't 'background' as this isn't a feature that can be
+        # added to an axis. This is just the background color of where those features
+        # will or will not be added
         if name != "background" and feat.pop("enabled"):
             curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
 
