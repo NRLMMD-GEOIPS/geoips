@@ -736,6 +736,31 @@ def build_release_notes_with_brassy(
 
 
 def get_auxiliary_files():
+    """
+    Load auxiliary file information from a YAML configuration file.
+
+    This function reads the `auxiliary_files.yaml` file located in the directory
+    specified by `__location__` and returns the parsed dictionary of auxiliary
+    files. The returned data corresponds to the "auxiliary files" field in the
+    YAML file, which should be defined relative to the repository's root directory.
+
+    Returns
+    -------
+    dict
+        A dictionary containing information about auxiliary files as defined
+        under the "auxiliary files" key in the YAML file.
+
+    Examples
+    --------
+    >>> aux_files = get_auxiliary_files()
+    >>> aux_files
+    {'config.json': 'config/config.json', 'notes.txt': 'docs/notes.txt'}
+
+    Notes
+    -----
+    The `__location__` variable must point to the directory containing the
+    `auxiliary_files.yaml` file.
+    """
     with open(os.path.join(__location__, "auxiliary_files.yaml"), "r") as f:
         data = yaml.safe_load(f)
     return data["auxiliary files"]  # relative to root of repo_dir
