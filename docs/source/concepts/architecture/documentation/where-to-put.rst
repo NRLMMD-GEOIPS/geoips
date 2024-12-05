@@ -39,18 +39,14 @@ Guidelines
   - Add tutorials or any step-by-step instructions to the ``tutorials`` folder.
 
 - **Conceptual Information**:
-  - **How the Code Works or Is Organized**:
-    - Place this information in the ``concepts`` directory.
-  - **Usage Information**:
-    - Instructions on how to use or operate something go into ``concepts/functionality``.
-  - **Architecture Details**:
-    - Information on how GeoIPS works internally or why it's structured a certain way goes into ``concepts/architecture``.
-    - Use subfolders for specific topics like documentation or tests.
+  - **How the Code Works or Is Organized**: Place this information in the ``concepts`` directory.
+  - **Usage Information**: Instructions on how to use or operate something go into ``concepts/functionality``.
+  - **Architecture Details**: Information on how GeoIPS works internally or why it's structured a certain
+  way goes into ``concepts/architecture``. Use subfolders for specific topics like documentation or tests.
   - **Scope and Future Plans**:
-    - **Scope**:
-      - Information about the scope of GeoIPS goes into ``concepts/scope``.
-    - **Future Plans**:
-      - Information about future plans goes into ``concepts/future``.
+
+    - **Scope**: Information about the scope of GeoIPS goes into ``concepts/scope``.
+    - **Future Plans**: Information about future plans goes into ``concepts/future``.
 
 Images/Supporting Files
 -----------------------
