@@ -735,7 +735,13 @@ def build_release_notes_with_brassy(
     generate_release_note_index(os.path.join(releases_dir, "index.rst"), releases_dir)
 
 
-def import_non_docs_files(repo_dir, build_dir):
+def get_auxiliary_files():
+    with open(os.path.join(__location__, "auxiliary_files.yaml"), "r") as f:
+        data = yaml.safe_load(f)
+    return data["auxiliary files"]  # relative to root of repo_dir
+
+
+def import_non_docs_files(repo_dir, build_dir, log=logging.getLogger(__name__)):
     """
     Copy auxiliary non-documentation files from the repository to the build directory.
 
@@ -758,11 +764,15 @@ def import_non_docs_files(repo_dir, build_dir):
     -----
     The list of auxiliary files to copy is defined within the function.
     """
-    auxiliary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
+    auxiliary_files = get_auxiliary_files()
     import_dir = os.path.join(build_dir, "import")
     os.mkdir(import_dir)
     for file in auxiliary_files:
-        shutil.copyfile(os.path.join(repo_dir, file), os.path.join(import_dir, file))
+        filename = os.path.basename(file)
+        source = os.path.join(repo_dir, file)
+        dest = os.path.join(import_dir, filename)
+        log.info(f"Copying {source} to {dest}")
+        shutil.copyfile(source, dest)
 
 
 def build_html_docs(
@@ -812,7 +822,7 @@ def build_html_docs(
     )
 
     # grab auxillary files not in docs and place them in "import" dir
-    import_non_docs_files(repo_dir, build_dir)
+    import_non_docs_files(repo_dir, build_dir, log=log)
 
     # build release rst files
     log.info("Building API docs")
