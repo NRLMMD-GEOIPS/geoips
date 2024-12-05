@@ -2,9 +2,9 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS PKGNAME documentation build configuration file."""
+
 import sys
 import os
-import jinja2
 import geoips
 
 VERSION = str(geoips.__version__)
@@ -22,12 +22,6 @@ sys.path.extend(
         os.path.join(os.path.dirname(__file__), "..", "../..", "sphinxext")
     ]
 )
-
-# Use Jinja for navigational tools
-with open(os.path.join(source_path, "_templates/indexrst.html")) as f:
-    t = jinja2.Template(f.read())
-with open(os.path.join(source_path, "index.rst"), "w") as f:
-    f.write(t.render())
 
 # -- General configuration ------------------------------------------------
 
@@ -93,6 +87,7 @@ exclude_patterns = [
     # to ensure that include files (partial pages) aren't built, exclude them
     # https://github.com/sphinx-doc/sphinx/issues/1965#issuecomment-124732907
     "**/includes/**",
+    "import/*",
 ]
 
 # The reST default role (used for this markup: `text`) to use for all
@@ -119,9 +114,9 @@ pygments_style = "sphinx"
 # If true, keep warnings as "system message" paragraphs in the built documents.
 # keep_warnings = False
 
+
 # If true, `todo` and `todoList` produce output, else they produce nothing.
 todo_include_todos = False
-
 
 # -- Options for HTML output ----------------------------------------------
 

@@ -1,0 +1,79 @@
+Installation:
+- title: 'Remove PATH and PYTHON path from setup configs'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    This was causing problems with using the wrong python/pip during processing.
+    Do not explicitly set PATH or PYTHONPATH.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+    - 'setup/geoips_conda_init_setup'
+    moved:
+    - ''
+  related-issue:
+    number: 562
+    repo_url: 'GEOIPS/geoips'
+GitHub Actions:
+- title: 'Turn off pdf doc build from doc-test'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    We still need to fix the pdf doc build, but turning it off temporarily until
+    we determine what the issue is.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - '.github/workflows/doc-test.yaml'
+    moved:
+    - ''
+  related-issue:
+    number: 562
+    repo_url: 'GEOIPS/geoips'
+- title: 'Turn off RST release note check from version release branches'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    Since version releases often have corrections to RST release notes, do not fail
+    on RST release note check within version release branches.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - '.github/workflows/release-note-check.yaml'
+    moved:
+    - ''
+  related-issue:
+    number: 562
+    repo_url: 'GEOIPS/geoips'
+- title: 'Move 1.14.0 and 1.14.1 rst files into latest/*.yaml and upcoming/*.yaml'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    No longer deleting YAML files or checking in rst files - store
+    all release notes as YAML in perpetuity, and auto-generate the
+    rst with brassy every time. This will make rolling back releases
+    MUCH easier.
+  files:
+    added:
+    - ''
+    deleted:
+    - 'docs/source/releases/v1_14_0.rst'
+    - 'docs/source/releases/v1_14_1.rst'
+    modified:
+    - 'docs/source/releases/latest/v1_14_0.yaml'
+    - 'docs/source/releases/upcoming/v1_14_1.yaml'
+    moved:
+    - ''
+  related-issue:
+    number: 562
+    repo_url: 'GEOIPS/geoips'
