@@ -86,6 +86,11 @@ class PluginModel(PrettyBaseModel):
     relpath: str = Field(None, description="The relative path to the plugin.")
     abspath: str = Field(None, description="The absolute path to the plugin.")
 
+    class Config:
+        """Config class to control handling of extra field."""
+
+        extra = "forbid"
+
     @field_validator("docstring")
     def validate_one_line_numpy_docstring(cls, value):
         """Check that the docstring is a single line."""
