@@ -6,6 +6,7 @@
 import sys
 import os
 import geoips
+from geoips.pydantic import sectors
 
 VERSION = str(geoips.__version__)
 
@@ -37,9 +38,10 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
-    "sphinxarg.ext",
     "sphinxcontrib.autoprogram",
     "m2r2",
+    "sphinx-pydantic",
+    "sphinxcontrib.autodoc_pydantic",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
