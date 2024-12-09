@@ -87,6 +87,24 @@ def test_good_plugin_valid_instance(valid_plugin_data):
     assert plugin.abspath == valid_plugin_data["abspath"]
 
 
+def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
+    """Test PluginModel with additional filed."""
+    invalid_data = valid_plugin_data.copy()
+    # adding an extra field
+    invalid_data["unexpected_field"] = "unexpected_value"
+
+    with pytest.raises(ValidationError) as exec_info:
+        bases.PluginModel(**invalid_data)
+
+    error_info = exec_info.value.errors()
+    assert any(
+        err["type"] == "extra_forbidden" for err in error_info
+    ), "expected 'extra_frobidden' error type"
+    assert "unexpected_field" in str(
+        exec_info.value
+    ), "Unexpected field should be mentioned in the error"
+
+
 # Parameterized test input for a valid docstring test
 @pytest.mark.parametrize(
     "docstring",
