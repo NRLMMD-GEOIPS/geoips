@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: korea
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
