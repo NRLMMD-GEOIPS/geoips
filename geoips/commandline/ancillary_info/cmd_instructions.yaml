@@ -68,6 +68,7 @@ instructions:
   geoips_describe_algorithms: *geoips-describe-artifact
   geoips_describe_colormappers: *geoips-describe-artifact
   geoips_describe_coverage-checkers: *geoips-describe-artifact
+  geoips_describe_driver-configs: *geoips-describe-artifact
   geoips_describe_filename-formatters: *geoips-describe-artifact
   geoips_describe_interpolators: *geoips-describe-artifact
   geoips_describe_output-checkers: *geoips-describe-artifact
@@ -194,6 +195,7 @@ instructions:
   geoips_list_algorithms: *list-single-interface
   geoips_list_colormappers: *list-single-interface
   geoips_list_coverage-checkers: *list-single-interface
+  geoips_list_driver-configs: *list-single-interface
   geoips_list_filename-formatters: *list-single-interface
   geoips_list_interpolators: *list-single-interface
   geoips_list_output-checkers: *list-single-interface
