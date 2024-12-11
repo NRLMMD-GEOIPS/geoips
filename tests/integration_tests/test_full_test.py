@@ -228,6 +228,7 @@ def run_script_with_bash(script):
         raise e
 
 
+@pytest.mark.full
 @pytest.mark.integration
 @pytest.mark.parametrize("script", full_integ_test_calls)
 def test_integ_full_test_script(full_setup: None, script: str):
@@ -248,6 +249,7 @@ def test_integ_full_test_script(full_setup: None, script: str):
     run_script_with_bash(script)
 
 
+@pytest.mark.base
 @pytest.mark.integration
 @pytest.mark.parametrize("script", base_integ_test_calls)
 def test_integ_base_test_script(base_setup: None, script: str):
