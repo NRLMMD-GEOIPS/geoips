@@ -992,6 +992,7 @@ def call(
         chans,
         area_def,
         self_register,
+        mask_sat_zen_greater,
     )
 
 
@@ -1001,6 +1002,7 @@ def call_single_time(
     chans=None,
     area_def=None,
     self_register=False,
+    mask_sat_zen_greater=None,
     test_arg="AHI Default Test Arg",
 ):
     """
@@ -1022,6 +1024,10 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    mask_sat_zen_greater : int, default=None
+        * If provided, mask all pixels where satellize zenith angle is greater than
+          'mask_sat_zen_greater'.
+        * If not provided, don't mask by satellize zenith angle.
 
     Returns
     -------
