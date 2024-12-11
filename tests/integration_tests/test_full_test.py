@@ -4,9 +4,11 @@
 """Pytest file for calling integration bash scripts."""
 
 import os
+import shlex
 import subprocess
-import pytest
 import sys
+
+import pytest
 
 base_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh",
@@ -84,8 +86,10 @@ def check_base_install():
     """
     base_install_check = [
         "bash",
-        os.getenv("GEOIPS_PACKAGES_DIR")
-        + "/geoips/tests/integration_tests/base_install.sh",
+        os.path.join(
+            os.getenv("GEOIPS_PACKAGES_DIR"),
+            "geoips/tests/integration_tests/base_install.sh",
+        ),
         "exit_on_missing",
     ]
     print("Running base install check")
@@ -106,8 +110,10 @@ def check_full_install():
     """
     full_install_check = [
         "bash",
-        os.getenv("GEOIPS_PACKAGES_DIR")
-        + "/geoips/tests/integration_tests/full_install.sh",
+        os.path.join(
+            os.getenv("GEOIPS_PACKAGES_DIR"),
+            "geoips/tests/integration_tests/full_install.sh",
+        ),
         "exit_on_missing",
     ]
     print("Running full install check")
@@ -144,6 +150,8 @@ def setup_environment():
 
     # Environment variable for GEOIPS_PACKAGES_DIR
     geoips_packages_dir = os.getenv("GEOIPS_PACKAGES_DIR")
+    if not geoips_packages_dir:
+        raise EnvironmentError("GEOIPS_PACKAGES_DIR environment variable not set.")
 
     # Paths and package names for each plugin
     os.environ["recenter_tc_repopath"] = os.path.join(
@@ -172,28 +180,28 @@ def setup_environment():
     os.environ["geoips_clavrx_pkgname"] = "geoips_clavrx"
 
 
-integ_full_tests_setup = False
-integ_base_tests_setup = False
-
-
-def setup_integ_tests(full=False):
+@pytest.fixture(scope="session")
+def full_setup():
     """
-    Set up the integration tests by checking install and setting env-vars.
+    Set up the full integration tests by checking install and setting env-vars.
 
     Calls `check_full_install()` to verify the installation and `setup_environment()`
     to set up the necessary environment variables before running integration tests.
-    Sets the global flag `integ_tests_setup` to `True` upon successful setup.
     """
-    if full:
-        check_full_install()
-        setup_environment()
-        global integ_full_tests_setup
-        integ_full_tests_setup = True
-    else:
-        check_base_install()
-        setup_environment()
-        global integ_base_tests_setup
-        integ_base_tests_setup = True
+    check_full_install()
+    setup_environment()
+
+
+@pytest.fixture(scope="session")
+def base_setup():
+    """
+    Set up the base integration tests by checking install and setting env-vars.
+
+    Calls `check_base_install()` to verify the installation and `setup_environment()`
+    to set up the necessary environment variables before running integration tests.
+    """
+    check_base_install()
+    setup_environment()
 
 
 def run_script_with_bash(script):
@@ -211,7 +219,7 @@ def run_script_with_bash(script):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    expanded_call = ("bash " + os.path.expandvars(script)).split(" ")
+    expanded_call = shlex.split("bash " + os.path.expandvars(script))
     print("Running", script)
     try:
         subprocess.check_output(expanded_call, env=os.environ.copy())
@@ -222,7 +230,7 @@ def run_script_with_bash(script):
 
 @pytest.mark.integration
 @pytest.mark.parametrize("script", full_integ_test_calls)
-def test_integ_full_test_script(script):
+def test_integ_full_test_script(full_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -237,14 +245,12 @@ def test_integ_full_test_script(script):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    if not integ_full_tests_setup:
-        setup_integ_tests(full=True)
     run_script_with_bash(script)
 
 
 @pytest.mark.integration
 @pytest.mark.parametrize("script", base_integ_test_calls)
-def test_integ_base_test_script(script):
+def test_integ_base_test_script(base_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -259,6 +265,4 @@ def test_integ_base_test_script(script):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    if not (integ_full_tests_setup or integ_base_tests_setup):
-        setup_integ_tests(full=False)
     run_script_with_bash(script)
