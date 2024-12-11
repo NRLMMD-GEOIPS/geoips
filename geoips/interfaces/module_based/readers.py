@@ -26,6 +26,7 @@ class ReadersInterface(BaseModuleInterface):
     required_kwargs = {
         "standard": ["metadata_only", "chans", "area_def", "self_register"]
     }
+    allowable_kwargs = {"standard": ["mask_sat_zen_greater"]}
 
     def read_data_to_xarray_dict(
         self,
@@ -35,6 +36,7 @@ class ReadersInterface(BaseModuleInterface):
         chans=None,
         area_def=None,
         self_register=False,
+        mask_sat_zen_greater=None,
     ):
         """Read in data potentially from multiple scan times into an xarray dict.
 
@@ -66,6 +68,10 @@ class ReadersInterface(BaseModuleInterface):
             * register all data to the specified dataset id (as specified in the
               return dictionary keys).
             * Read multiple resolutions of data if False.
+        mask_sat_zen_greater : int, default=None
+            * If provided, mask all pixels where satellize zenith angle is greater than
+              'mask_sat_zen_greater'.
+            * If not provided, don't mask by satellize zenith angle.
 
         Returns
         -------
@@ -163,6 +169,7 @@ class ReadersInterface(BaseModuleInterface):
             chans,
             area_def,
             self_register,
+            mask_sat_zen_greater,
         )
         return dict_xarrays
 
@@ -223,6 +230,7 @@ class ReadersInterface(BaseModuleInterface):
         chans=None,
         area_def=None,
         self_register=False,
+        mask_sat_zen_greater=None,
     ):
         """
         Read in data from a list of filenames.
@@ -249,6 +257,10 @@ class ReadersInterface(BaseModuleInterface):
             * register all data to the specified dataset id (as specified in the
               return dictionary keys).
             * Read multiple resolutions of data if False.
+        mask_sat_zen_greater : int, default=None
+            * If provided, mask all pixels where satellize zenith angle is greater than
+              'mask_sat_zen_greater'.
+            * If not provided, don't mask by satellize zenith angle.
 
         Returns
         -------
@@ -274,6 +286,7 @@ class ReadersInterface(BaseModuleInterface):
                 chans=chans,
                 area_def=area_def,
                 self_register=self_register,
+                mask_sat_zen_greater=mask_sat_zen_greater,
             )
             for (
                 dname,
