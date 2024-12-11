@@ -21,6 +21,9 @@ parser_name: bdeck_parser
 pressure: 952.0
 product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/AL/AL202020/png/Visible/goes-16/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png
 sector_type: tc
+source_file_names:
+- OR_ABI-L1b-RadF-M6C03_G16_s20202621950205_e20202621959513_c20202621959570.nc
+- OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc
 source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat
 source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat
 storm_basin: AL
