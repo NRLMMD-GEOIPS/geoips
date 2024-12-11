@@ -161,8 +161,6 @@ test = [
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
-    "pytest-cov",      # Reports on test coverage
-    "pixelmatch",
     "pytest-xdist",
 ]
 debug = ["ipython"]
