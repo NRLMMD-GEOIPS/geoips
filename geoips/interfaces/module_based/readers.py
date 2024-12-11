@@ -70,7 +70,7 @@ class ReadersInterface(BaseModuleInterface):
             * Read multiple resolutions of data if False.
         mask_sat_zen_greater : int, default=None
             * If provided, mask all pixels where satellize zenith angle is greater than
-            'mask_sat_zen_greater'.
+              'mask_sat_zen_greater'.
             * If not provided, don't mask by satellize zenith angle.
 
         Returns
@@ -259,7 +259,7 @@ class ReadersInterface(BaseModuleInterface):
             * Read multiple resolutions of data if False.
         mask_sat_zen_greater : int, default=None
             * If provided, mask all pixels where satellize zenith angle is greater than
-            'mask_sat_zen_greater'.
+              'mask_sat_zen_greater'.
             * If not provided, don't mask by satellize zenith angle.
 
         Returns
