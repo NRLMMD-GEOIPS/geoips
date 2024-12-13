@@ -12,7 +12,7 @@ Feature Annotators Interface
 GeoIPS Feature Annotators describe the format of the features shown in your imagery.
 Features in GeoIPS imagery include coastline, borders, rivers, states, and the
 background color of the map-based portion of your image. Similar to
-:ref:`Gridline Annotators<_gridline-annotators>`, plugins of this interface can only
+:ref:`Gridline Annotators<gridline-annotators>`, plugins of this interface can only
 be used in conjunction with an output formatter that makes use of these annotators.
 A commonly used output formatter which makes use of gridline and feature annotators is
 the ``imagery_annotated`` plugin.
