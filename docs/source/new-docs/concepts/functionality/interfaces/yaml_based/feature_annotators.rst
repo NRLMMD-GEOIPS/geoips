@@ -40,12 +40,14 @@ whether or not you want that feature present in your image. If enabled, then you
 specify ``edgecolor`` and ``linewidth``, which as these names suggest, specify the
 color of the feature and how thick (in pixels), the feature will appear in your image.
 
-These arguments construct a `cartopy Feature object <https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html>`_,
+These arguments construct a `cartopy Feature object
+<https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html>`_,
 which is a uniform interface for creating map features in your annotated imagery.
 
 Any element mentioned so far can be specified in this format:
 
 .. code-block:: yaml
+
     <feature_name_enabled>:
         enabled: true
         edgecolor: red # matplotlib named color or hexidecimal string
