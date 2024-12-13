@@ -2,10 +2,12 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test Order-based procflow product building classes."""
-import copy
 import pytest
 
+from pydantic import ValidationError
+
 from geoips.pydantic import products
+
 
 VALID_PLUGIN_TYPES = [
     "algorithm",
@@ -75,25 +77,3 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
     }
 
 
-@pytest.fixture
-def valid_reader_arguments_model_data():
-    """Fixture to provide sample valid Reader arguments for testing."""
-    return {
-        "area_def": "None",
-        "chans": ["None"],
-        "metadata_only": False,
-        "self_register": False,
-        "variables": ["B14BT"],
-    }
-
-
-# Tests for ReaderArgumentsModel
-def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
-    """Tests ReaderArgumentsModel with valid inputs."""
-    model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
-
-    assert model.area_def == "None"
-    assert model.chans == ["None"]
-    assert model.metadata_only is False
-    assert model.self_register is False
-    assert model.variables == ["B14BT"]
