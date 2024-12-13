@@ -78,21 +78,15 @@ class InterpolatorArgumentsModel(BaseModel):
 class ReaderArgumentsModel(BaseModel):
     """Validate Reader step arguments."""
 
-    @model_validator(mode="before")
-    def _validate_reader_arguments(values: dict) -> dict:
-        """Validate Reader step arguments."""
-        reader_arguments_list = [
-            "variables",
-            "area_def",
-            "metadata_only",
-            "chans",
-            "self_register",
-        ]
-        for arg in reader_arguments_list:
-            if arg not in values:
-                raise ValueError(f"\n\n\tMissing argument:{arg} for reader plugin.\n\n")
-
-        return values
+    area_def: str = Field(..., description="Area definition identifier.")
+    chans: List[str] = Field(None, description="List of channels to process.")
+    metadata_only: bool = Field(
+        ..., description="Flag indicating metadata-only processing."
+    )
+    self_register: bool = Field(
+        ..., description="Flag indicating if self-registration is enabled."
+    )
+    variables: list[str] = Field(..., description="List of variables to process")
 
 
 class ProductStepDefinitionModel(BaseModel):
