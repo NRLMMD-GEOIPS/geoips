@@ -75,14 +75,22 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
     }
 
 
-# Tests for ReaderArgumentsModel
-def test_good_valid_reader_arguments_model(valid_step_data):
-    """Tests ReaderArgumentsModel with valid inputs."""
-    temp_key = copy.deepcopy(valid_step_data)
-    required_reader_arguments = temp_key.pop("arguments", None)
+@pytest.fixture
+def valid_reader_arguments_model_data():
+    """Fixture to provide sample valid Reader arguments for testing."""
+    return {
+        "area_def": "None",
+        "chans": ["None"],
+        "metadata_only": False,
+        "self_register": False,
+        "variables": ["B14BT"],
+    }
 
-    assert required_reader_arguments is not None, "required_reader_arguments is missing"
-    model = products.ReaderArgumentsModel(**required_reader_arguments)
+
+# Tests for ReaderArgumentsModel
+def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
+    """Tests ReaderArgumentsModel with valid inputs."""
+    model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.area_def == "None"
     assert model.chans == ["None"]
