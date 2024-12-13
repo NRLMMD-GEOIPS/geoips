@@ -6,7 +6,6 @@ from pydantic import (
     ConfigDict,
     confloat,
     conint,
-    root_validator,
     field_validator,
 )
 
