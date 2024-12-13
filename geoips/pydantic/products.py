@@ -88,6 +88,11 @@ class ReaderArgumentsModel(BaseModel):
     )
     variables: list[str] = Field(..., description="List of variables to process")
 
+    class Config:
+        """Config class to control handling of extra field."""
+
+        extra = "forbid"
+
 
 class ProductStepDefinitionModel(BaseModel):
     """Validate step definition : name, arguments."""
