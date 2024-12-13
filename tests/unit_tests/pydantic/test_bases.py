@@ -88,7 +88,7 @@ def test_good_plugin_valid_instance(valid_plugin_data):
 
 
 def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
-    """Test PluginModel with additional filed."""
+    """Test PluginModel with additional field."""
     invalid_data = valid_plugin_data.copy()
     # adding an extra field
     invalid_data["unexpected_field"] = "unexpected_value"
