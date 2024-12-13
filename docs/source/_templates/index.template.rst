@@ -1,7 +1,5 @@
 :notoc:
 
-.. GEOIPS PKGNAME documentation master file, created by
-
 .. module:: PKGNAME
    :noindex:
 
@@ -38,27 +36,26 @@ GeoIPS |reg| PKGNAME Documentation
 .. automodule:: PKGNAME
    :noindex:
 
-{% if not single_doc -%}
 .. grid:: 1 2 2 2
     :gutter: 2
 
-    .. grid-item-card:: User Guide
+    .. grid-item-card:: Getting Started
 
         .. image:: _static/index_user_guide.png
-           :alt: user guide
+           :alt: getting-started
            :scale: 25%
            :align: center
 
-        The user guide provides in-depth information on the key concepts of
-        PKGNAME with useful background information and explanation.
+        The getting started guide can help you get started with using
+        PKGNAME.
 
-        .. button-link:: userguide/index.html
+        .. button-link:: getting-started/index.html
             :ref-type: ref
             :color: secondary
             :expand:
             :click-parent:
 
-            User Guide
+            Getting Started
 
     .. grid-item-card:: The API reference guide
 
@@ -71,7 +68,7 @@ GeoIPS |reg| PKGNAME Documentation
         The reference describes how the methods work and which parameters can
         be used. It assumes that you have an understanding of the key concepts.
 
-        .. button-link:: PKGNAME_api/index.html
+        .. button-link:: api/index.html
             :ref-type: ref
             :color: secondary
             :expand:
@@ -96,39 +93,23 @@ GeoIPS |reg| PKGNAME Documentation
 
             Release Notes
 
-{% endif %}
-{% if single_doc and single_doc.endswith('.rst') -%}
-.. toctree::
-    :maxdepth: 3
-    :titlesonly:
-
-    {{ single_doc[:-4] }}
-{% elif single_doc and single_doc.count('.') <= 1 %}
-.. autosummary::
-    :toctree: PKGNAME_api/
-
-    {{ single_doc }}
-{% elif single_doc %}
-.. autosummary::
-    :toctree: PKGNAME_api/
-
-    {{ single_doc }}
-{% else -%}
 .. toctree::
     :maxdepth: 3
     :hidden:
     :titlesonly:
-{% endif %}
-{% if not single_doc %}
-    introduction/index
-    STARTERIDX
-    userguide/index
-    DEVGUIDEIDX
+
+    GETTING-STARTED_OPTIONAL
+    INTRODUCTION_OPTIONAL
+    STARTER_OPTIONAL
+    TUTORIALS_OPTIONAL
+    USERGUIDE_OPTIONAL
+    CONCEPTS_OPTIONAL
+    DEVGUIDE_OPTIONAL
+    DEPLOYGUIDE_OPTIONAL
+    OPGUIDE_OPTIONAL
+    CONTRIBUTE_OPTIONAL
     PKGNAME_api/index
-    OPGUIDEIDX
-    DEPLOYGUIDEIDX
-    RELEASESIDX
-    CONTACTIDX
-{% endif %}
+    releases/index
+    contact
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN
