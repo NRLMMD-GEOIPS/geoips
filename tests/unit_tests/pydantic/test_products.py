@@ -80,17 +80,12 @@ def test_good_valid_reader_arguments_model(valid_step_data):
     """Tests ReaderArgumentsModel with valid inputs."""
     temp_key = copy.deepcopy(valid_step_data)
     required_reader_arguments = temp_key.pop("arguments", None)
-    print("required reader arguments ", required_reader_arguments)
 
     assert required_reader_arguments is not None, "required_reader_arguments is missing"
-
     model = products.ReaderArgumentsModel(**required_reader_arguments)
 
-    print("model content is ", model)
-    valid_reader_arguments = model.model_dump()
-
-    assert valid_reader_arguments["area_def"] == "None"
-    assert valid_reader_arguments["chans"] == ["None"]
-    assert valid_reader_arguments["metadata_only"] is False
-    assert valid_reader_arguments["self_register"] is False
-    assert valid_reader_arguments["variables"] == ["B14BT"]
+    assert model.area_def == "None"
+    assert model.chans == ["None"]
+    assert model.metadata_only is False
+    assert model.self_register is False
+    assert model.variables == ["B14BT"]
