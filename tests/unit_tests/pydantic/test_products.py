@@ -2,11 +2,10 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test Order-based procflow product building classes."""
-
+import copy
 import pytest
 
 from geoips.pydantic import products
-
 
 VALID_PLUGIN_TYPES = [
     "algorithm",
@@ -38,7 +37,7 @@ def valid_step_data():
         "name": "abi_netcdf",
         "arguments": {
             "area_def": "None",
-            "chans": "None",
+            "chans": ["None"],
             "metadata_only": False,
             "self_register": False,
             "variables": ["B14BT"],
@@ -69,8 +68,29 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
     assert model.name == "abi_netcdf"
     assert model.arguments == {
         "area_def": "None",
-        "chans": "None",
+        "chans": ["None"],
         "metadata_only": False,
         "self_register": False,
         "variables": ["B14BT"],
     }
+
+
+# Tests for ReaderArgumentsModel
+def test_good_valid_reader_arguments_model(valid_step_data):
+    """Tests ReaderArgumentsModel with valid inputs."""
+    temp_key = copy.deepcopy(valid_step_data)
+    required_reader_arguments = temp_key.pop("arguments", None)
+    print("required reader arguments ", required_reader_arguments)
+
+    assert required_reader_arguments is not None, "required_reader_arguments is missing"
+
+    model = products.ReaderArgumentsModel(**required_reader_arguments)
+
+    print("model content is ", model)
+    valid_reader_arguments = model.model_dump()
+
+    assert valid_reader_arguments["area_def"] == "None"
+    assert valid_reader_arguments["chans"] == ["None"]
+    assert valid_reader_arguments["metadata_only"] is False
+    assert valid_reader_arguments["self_register"] is False
+    assert valid_reader_arguments["variables"] == ["B14BT"]
