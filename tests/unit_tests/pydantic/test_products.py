@@ -8,7 +8,6 @@ from pydantic import ValidationError
 
 from geoips.pydantic import products
 
-
 VALID_PLUGIN_TYPES = [
     "algorithm",
     "procflow",
@@ -30,7 +29,6 @@ VALID_PLUGIN_TYPES = [
     "filename_formatter",
 ]
 
-
 @pytest.fixture
 def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
@@ -42,7 +40,6 @@ def valid_step_data():
             "chans": ["None"],
             "metadata_only": False,
             "self_register": False,
-            "variables": ["B14BT"],
         },
     }
 
@@ -73,7 +70,4 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
         "chans": ["None"],
         "metadata_only": False,
         "self_register": False,
-        "variables": ["B14BT"],
     }
-
-
