@@ -86,7 +86,6 @@ class ReaderArgumentsModel(BaseModel):
     self_register: bool = Field(
         ..., description="Flag indicating if self-registration is enabled."
     )
-    variables: list[str] = Field(..., description="List of variables to process")
 
     class Config:
         """Config class to control handling of extra field."""
