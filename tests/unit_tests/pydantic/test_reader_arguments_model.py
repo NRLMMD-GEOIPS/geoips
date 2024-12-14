@@ -20,7 +20,6 @@ def valid_reader_arguments_model_data():
         "chans": ["None"],
         "metadata_only": False,
         "self_register": False,
-        "variables": ["B14BT"],
     }
 
 
@@ -32,14 +31,13 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     assert model.chans == ["None"]
     assert model.metadata_only is False
     assert model.self_register is False
-    assert model.variables == ["B14BT"]
 
 
 def test_bad_reader_arguments_model_missing_required_field(
     valid_reader_arguments_model_data,
 ):
     """Tests if all the missing fields raises validation error."""
-    required_fields = ["area_def", "metadata_only", "self_register", "variables"]
+    required_fields = ["area_def", "metadata_only", "self_register"]
     for field in required_fields:
         # remove a specific field each time
         invalid_test_data = copy.deepcopy(valid_reader_arguments_model_data)
@@ -67,7 +65,6 @@ def test_bad_reader_arguments_model_invalid_field_type():
         "chans": "channel_1",
         "metadata_only": "invalid",
         "self_register": "invalid",
-        "variables": "variable1",
     }
 
     with pytest.raises(ValidationError) as exec_info:
@@ -75,6 +72,8 @@ def test_bad_reader_arguments_model_invalid_field_type():
 
     error_info = exec_info.value.errors()
 
+    # list = [area_def]
+    # errr_list = [string_type ]
     assert any(
         err["loc"] == ("area_def",) and err["type"] == "string_type"
         for err in error_info
@@ -84,10 +83,6 @@ def test_bad_reader_arguments_model_invalid_field_type():
     )
     assert any(
         err["loc"] == ("metadata_only",) and err["type"] == "bool_parsing"
-        for err in error_info
-    )
-    assert any(
-        err["loc"] == ("variables",) and err["type"] == "list_type"
         for err in error_info
     )
 
@@ -127,8 +122,9 @@ def test_bad_reader_arguments_model_empty_input():
         products.ReaderArgumentsModel()
 
     error_info = exec_info.value.errors()
+    print(error_info)
 
-    required_fields = {"area_def", "metadata_only", "self_register", "variables"}
+    required_fields = {"area_def", "metadata_only", "self_register"}
     actual_fields = {error["loc"][0] for error in error_info}
 
     assert required_fields.issubset(
