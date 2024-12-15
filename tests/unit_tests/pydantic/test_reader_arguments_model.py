@@ -2,6 +2,8 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test Order-based procflow product building classes."""
+
+# Python Standard Libraries
 import copy
 import pytest
 
@@ -18,8 +20,8 @@ def valid_reader_arguments_model_data():
     return {
         "area_def": "None",
         "chans": ["None"],
-        "metadata_only": False,
-        "self_register": False,
+        "metadata_only": True,
+        "self_register": True,
     }
 
 
@@ -29,17 +31,25 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
 
     assert model.area_def == "None"
     assert model.chans == ["None"]
-    assert model.metadata_only is False
-    assert model.self_register is False
+    assert model.metadata_only is True
+    assert model.self_register is True
 
 
-def test_bad_reader_arguments_model_field_default(valid_reader_arguments_model_data):
+def test_bad_reader_arguments_model_field_defaults():
     """Tests if the default value for a given field is valid or not."""
-    test_data = copy.deepcopy(valid_reader_arguments_model_data)
-    test_data.pop("chans", None)
-    model = products.ReaderArgumentsModel(**test_data)
+    model = products.ReaderArgumentsModel()
 
-    assert model.chans is None
+    expected_defaults = {
+        "area_def": None,
+        "chans": None,
+        "metadata_only": False,
+        "self_register": False,
+    }
+
+    for field, expected_value in expected_defaults.items():
+        assert (
+            getattr(model, field) == expected_value
+        ), f"Default value for '{field}' is incorrect"
 
 
 def test_bad_reader_arguments_model_invalid_field_type():
@@ -56,23 +66,21 @@ def test_bad_reader_arguments_model_invalid_field_type():
 
     error_info = exec_info.value.errors()
 
-    assert any(
-        err["loc"] == ("area_def",) and err["type"] == "string_type"
-        for err in error_info
-    )
-    assert any(
-        err["loc"] == ("chans",) and err["type"] == "list_type" for err in error_info
-    )
-    assert any(
-        err["loc"] == ("metadata_only",) and err["type"] == "bool_parsing"
-        for err in error_info
-    )
+    test_data_errors = {
+        "area_def": "string_type",
+        "chans": "list_type",
+        "metadata_only": "bool_parsing",
+    }
+    for field, error_type in test_data_errors.items():
+        assert any(
+            err["loc"] == ("area_def",) and err["type"] == "string_type"
+            for err in error_info
+        ), f"Expected error for the field '{field}' with the type '{error_type}'."
 
 
 def test_bad_reader_arguments_model_additional_field(valid_reader_arguments_model_data):
     """Tests ReaderArgumentsModel with additonal field."""
     invalid_data = copy.deepcopy(valid_reader_arguments_model_data)
-    # adding an extra field
     invalid_data["unexpected_field"] = "unexpected_value"
 
     with pytest.raises(ValidationError) as exec_info:
