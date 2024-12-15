@@ -78,13 +78,11 @@ class InterpolatorArgumentsModel(BaseModel):
 class ReaderArgumentsModel(BaseModel):
     """Validate Reader step arguments."""
 
-    area_def: str = Field(..., description="Area definition identifier.")
+    area_def: str = Field(None, description="Area definition identifier.")
     chans: List[str] = Field(None, description="List of channels to process.")
-    metadata_only: bool = Field(
-        ..., description="Flag indicating metadata-only processing."
-    )
+    metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
     self_register: bool = Field(
-        ..., description="Flag indicating if self-registration is enabled."
+        False, description="Flag indicating if self-registration is enabled."
     )
 
     class Config:
