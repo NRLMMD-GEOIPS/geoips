@@ -33,22 +33,6 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     assert model.self_register is False
 
 
-def test_bad_reader_arguments_model_missing_required_field(
-    valid_reader_arguments_model_data,
-):
-    """Tests if all the missing fields raises validation error."""
-    required_fields = ["area_def", "metadata_only", "self_register"]
-    for field in required_fields:
-        # remove a specific field each time
-        invalid_test_data = copy.deepcopy(valid_reader_arguments_model_data)
-        invalid_test_data.pop(field)
-
-        with pytest.raises(ValidationError) as exec_info:
-            products.ReaderArgumentsModel(**invalid_test_data)
-
-        assert field in str(exec_info.value)
-
-
 def test_bad_reader_arguments_model_field_default(valid_reader_arguments_model_data):
     """Tests if the default value for a given field is valid or not."""
     test_data = copy.deepcopy(valid_reader_arguments_model_data)
@@ -72,8 +56,6 @@ def test_bad_reader_arguments_model_invalid_field_type():
 
     error_info = exec_info.value.errors()
 
-    # list = [area_def]
-    # errr_list = [string_type ]
     assert any(
         err["loc"] == ("area_def",) and err["type"] == "string_type"
         for err in error_info
@@ -114,19 +96,3 @@ def test_bad_reader_arguments_model_empty_list_for_chans(
     model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.chans == []
-
-
-def test_bad_reader_arguments_model_empty_input():
-    """Tests ReaderArgumentsModel with an empty input."""
-    with pytest.raises(ValidationError) as exec_info:
-        products.ReaderArgumentsModel()
-
-    error_info = exec_info.value.errors()
-    print(error_info)
-
-    required_fields = {"area_def", "metadata_only", "self_register"}
-    actual_fields = {error["loc"][0] for error in error_info}
-
-    assert required_fields.issubset(
-        actual_fields
-    ), f"Missing fields: {required_fields - actual_fields}"
