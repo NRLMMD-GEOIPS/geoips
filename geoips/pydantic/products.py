@@ -4,7 +4,7 @@
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field, model_validator, ConfigDict
 
 # GeoIPS imports
 from geoips import interfaces
@@ -78,17 +78,13 @@ class InterpolatorArgumentsModel(BaseModel):
 class ReaderArgumentsModel(BaseModel):
     """Validate Reader step arguments."""
 
+    model_config = ConfigDict(extra='forbid')
     area_def: str = Field(None, description="Area definition identifier.")
     chans: List[str] = Field(None, description="List of channels to process.")
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
     self_register: bool = Field(
         False, description="Flag indicating if self-registration is enabled."
     )
-
-    class Config:
-        """Config class to control handling of extra field."""
-
-        extra = "forbid"
 
 
 class ProductStepDefinitionModel(BaseModel):

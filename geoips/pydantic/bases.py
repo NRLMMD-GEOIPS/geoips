@@ -10,7 +10,7 @@ within plugin models.
 """
 
 import keyword
-from pydantic import BaseModel, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic_core import PydanticCustomError
 from typing import Tuple
 from typing_extensions import Annotated
@@ -73,6 +73,7 @@ PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 class PluginModel(PrettyBaseModel):
     """Base Plugin model for all GeoIPS plugins."""
 
+    model_config = ConfigDict(extra='forbid')
     interface: PythonIdentifier = Field(
         description="The name of the plugin's interface."
     )
@@ -85,11 +86,6 @@ class PluginModel(PrettyBaseModel):
     )
     relpath: str = Field(None, description="The relative path to the plugin.")
     abspath: str = Field(None, description="The absolute path to the plugin.")
-
-    class Config:
-        """Config class to control handling of extra field."""
-
-        extra = "forbid"
 
     @field_validator("docstring")
     def validate_one_line_numpy_docstring(cls, value):
