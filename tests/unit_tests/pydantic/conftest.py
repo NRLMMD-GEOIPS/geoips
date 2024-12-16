@@ -31,3 +31,29 @@ def valid_reader_arguments_model_data():
         "metadata_only": True,
         "self_register": True,
     }
+
+
+@pytest.fixture
+def valid_plugin_types():
+    """Fixture to provide the list of valid plugin types."""
+    VALID_PLUGIN_TYPES = [
+        "algorithm",
+        "procflow",
+        "sector_adjuster",
+        "output_checker",
+        "output_formatter",
+        "reader",
+        "gridline_annotator",
+        "product_default",
+        "sector_metadata_generator",
+        "product",
+        "sector_spec_generator",
+        "title_formatter",
+        "coverage_checker",
+        "feature_annotator",
+        "colormapper",
+        "sector",
+        "interpolator",
+        "filename_formatter",
+    ]
+    return VALID_PLUGIN_TYPES
