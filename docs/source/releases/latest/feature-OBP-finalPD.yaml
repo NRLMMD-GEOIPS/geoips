@@ -4,13 +4,9 @@ feature:
     added:
     - 'geoips/plugins/modules/procflows/order_based.py'
     - 'geoips/plugins/yaml/products/abi.yaml'
-    - 'geoips/plugins/yaml/sectors/static/alaska.yaml'
-    - 'geoips/plugins/yaml/sectors/static/overcast.yaml'
     - 'geoips/pydantic/__init__.py'
     - 'geoips/pydantic/bases.py'
     - 'geoips/pydantic/products.py'
-    - 'geoips/pydantic/save/feature_annotator.py'
-    - 'geoips/pydantic/save/gridline_annotator.py'
     - 'geoips/pydantic/sectors.py'
     - 'read_test.yaml'
     deleted:
