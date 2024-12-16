@@ -1,7 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Test Order-based procflow product building classes."""
+"""Test Order-based procflow ReaderArgumentsModel."""
 
 # Python Standard Libraries
 import copy
@@ -10,10 +10,6 @@ import pytest
 from pydantic import ValidationError
 
 from geoips.pydantic import products
-
-# Tests for ReaderArgumentsModel
-
-
 
 
 def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
