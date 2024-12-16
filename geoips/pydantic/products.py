@@ -11,7 +11,7 @@ from geoips import interfaces
 from geoips.pydantic.bases import PluginModel
 
 
-def get_plugin_names(plugin_type):
+def get_plugin_names(plugin_type: str) -> List[str]:
     """Retrieve a list of valid plugin names for a given plugin type.
 
     Args
@@ -37,7 +37,7 @@ def get_plugin_names(plugin_type):
     return [plugin.name for plugin in interface.get_plugins() or []]
 
 
-def get_plugin_types():
+def get_plugin_types() -> List[str]:
     """Retrieve a list of plugin types from available interfaces.
 
     Returns
@@ -82,9 +82,7 @@ class ReaderArgumentsModel(BaseModel):
     area_def: str = Field(None, description="Area definition identifier.")
     chans: List[str] = Field(None, description="List of channels to process.")
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
-    self_register: bool = Field(
-        False, description="Flag indicating if self-registration is enabled."
-    )
+    self_register: bool = Field(False, description="Flag for self-registration.")
 
 
 class ProductStepDefinitionModel(BaseModel):
@@ -93,9 +91,7 @@ class ProductStepDefinitionModel(BaseModel):
     model_config = ConfigDict(extra='forbid')
     type: str = Field(..., description="plugin type")
     name: str = Field(..., description="plugin name")
-    arguments: Dict[str, Any] = Field(
-        default_factory=dict, description="Arguments for the step."
-    )
+    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @model_validator(mode="before")
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -221,9 +217,7 @@ class ProductSpecModel(BaseModel):
     """The specification for a product."""
 
     # list of steps
-    steps: List[ProductStepModel] = Field(
-        description="The steps to produce the product."
-    )
+    steps: List[ProductStepModel] = Field(description="Steps to produce the product.")
 
 
 class ProductPluginModel(PluginModel, BaseModel):
