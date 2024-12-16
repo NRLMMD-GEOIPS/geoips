@@ -90,8 +90,9 @@ class ReaderArgumentsModel(BaseModel):
 class ProductStepDefinitionModel(BaseModel):
     """Validate step definition : name, arguments."""
 
-    type: str = Field(description="plugin type")
-    name: str = Field(description="plugin name")
+    model_config = ConfigDict(extra='forbid')
+    type: str = Field(..., description="plugin type")
+    name: str = Field(..., description="plugin name")
     arguments: Dict[str, Any] = Field(
         default_factory=dict, description="Arguments for the step."
     )
