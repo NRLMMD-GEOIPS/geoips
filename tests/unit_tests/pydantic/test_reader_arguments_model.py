@@ -60,8 +60,7 @@ def test_bad_reader_arguments_model_invalid_field_type():
     }
     for field, error_type in test_data_errors.items():
         assert any(
-            err["loc"] == (field,) and err["type"] == error_type
-            for err in error_info
+            err["loc"] == (field,) and err["type"] == error_type for err in error_info
         ), f"Expected error for the field '{field}' with the type '{error_type}'."
 
 
