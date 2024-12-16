@@ -9,17 +9,20 @@ The other models defined here are intended to validate particular field types
 within plugin models.
 """
 
+# Python Standard Libraries
 import keyword
-from pydantic import BaseModel, ConfigDict, Field, field_validator
-from pydantic_core import PydanticCustomError
+from pathlib import Path
 from typing import Tuple
-from typing_extensions import Annotated
-from pydantic.functional_validators import AfterValidator
+
+
+# Third-Party Libraries
+# from cartopy import feature
 from matplotlib.artist import Artist
 from matplotlib.lines import Line2D
-from pathlib import Path
-
-# from cartopy import feature
+from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic_core import PydanticCustomError
+from pydantic.functional_validators import AfterValidator
+from typing_extensions import Annotated
 
 
 class PrettyBaseModel(BaseModel):

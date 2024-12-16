@@ -6,10 +6,12 @@
 
 # Python Standard Libraries
 import copy
+
+# Third-Party Libraries
+from pydantic import ValidationError
 import pytest
 
-from pydantic import ValidationError
-
+# GeoIPS Libraries
 from geoips.pydantic import products
 
 

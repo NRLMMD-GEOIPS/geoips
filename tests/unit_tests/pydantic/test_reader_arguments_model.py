@@ -5,10 +5,12 @@
 
 # Python Standard Libraries
 import copy
-import pytest
 
+# Third-Party Libraries
+import pytest
 from pydantic import ValidationError
 
+# GeoIPS Libraries
 from geoips.pydantic import products
 
 

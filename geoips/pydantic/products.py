@@ -1,4 +1,7 @@
-"""Product plugin format."""
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+"""Order-based procflow Product building Models."""
 
 # Python Standard Libraries
 from typing import Any, Dict, List
