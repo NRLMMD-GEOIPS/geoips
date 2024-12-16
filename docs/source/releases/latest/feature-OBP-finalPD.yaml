@@ -43,9 +43,11 @@ testing:
 - description: ''
   files:
     added:
+    - 'tests/unit_tests/pydantic/conftest.py'
     - 'tests/unit_tests/pydantic/test_products.py'
     - 'tests/unit_tests/pydantic/test_bases.py'
-    -
+    - 'tests/unit_tests/pydantic/test_reader_arguments_model.py'
+    - 'tests/unit_tests/pydantic/test_product_step_definition_model.py'
     deleted:
     - ''
     modified:
