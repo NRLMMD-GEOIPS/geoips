@@ -9,10 +9,9 @@ spec:
         name: abi_netcdf
         arguments:
           area_def: None
-          chans: None
+          chans: [None]
           metadata_only: False
           self_register: False
-          variables: ['B14BT']
     - algorithm:
         name: single_channel
         arguments:
