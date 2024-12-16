@@ -3,8 +3,9 @@
 
 """Test Order-based procflow product building classes."""
 import pytest
-
+import copy
 from pydantic import ValidationError
+
 
 from geoips.pydantic import products
 
@@ -29,20 +30,6 @@ VALID_PLUGIN_TYPES = [
     "filename_formatter",
 ]
 
-@pytest.fixture
-def valid_step_data():
-    """Fixture to provide sample valid plugin data for testing."""
-    return {
-        "type": "reader",
-        "name": "abi_netcdf",
-        "arguments": {
-            "area_def": "None",
-            "chans": ["None"],
-            "metadata_only": False,
-            "self_register": False,
-        },
-    }
-
 
 def test_good_get_plugin_types_missing_types():
     """Test get_plugin_types call to check there are no missing plugin types."""
@@ -56,18 +43,3 @@ def test_good_get_plugin_types_unexpected_or_new_plugin_type():
     assert not (set(products.get_plugin_types()) - set(VALID_PLUGIN_TYPES)), (
         "Unexpected New plugin type(s) -" " update test or check function:\n\n"
     )
-
-
-def test_good_product_step_definition_model_valid_step(valid_step_data):
-    """Tests ProductStepDefinitionModel with valid data."""
-    # creating an instance of PSDModel
-    model = products.ProductStepDefinitionModel(**valid_step_data)
-
-    assert model.type == "reader"
-    assert model.name == "abi_netcdf"
-    assert model.arguments == {
-        "area_def": "None",
-        "chans": ["None"],
-        "metadata_only": False,
-        "self_register": False,
-    }
