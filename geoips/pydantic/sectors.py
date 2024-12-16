@@ -173,6 +173,8 @@ class AreaDefinitionSpec(BaseModel):
 
 
 class CenterSpec(BaseModel):
+    """Placeholder comment."""
+
     projection: str
     center: LatLonCoordinate
     shape: Union[Tuple[int, int], SectorShape]
