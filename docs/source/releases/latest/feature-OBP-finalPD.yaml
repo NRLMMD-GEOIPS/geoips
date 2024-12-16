@@ -7,8 +7,6 @@ feature:
     - 'geoips/pydantic/__init__.py'
     - 'geoips/pydantic/bases.py'
     - 'geoips/pydantic/products.py'
-    - 'geoips/pydantic/sectors.py'
-    - 'read_test.yaml'
     deleted:
     - ''
     modified:
