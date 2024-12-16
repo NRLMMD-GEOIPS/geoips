@@ -14,15 +14,6 @@ from geoips.pydantic import products
 # Tests for ReaderArgumentsModel
 
 
-@pytest.fixture
-def valid_reader_arguments_model_data():
-    """Fixture to provide sample valid Reader arguments for testing."""
-    return {
-        "area_def": "None",
-        "chans": ["None"],
-        "metadata_only": True,
-        "self_register": True,
-    }
 
 
 def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
@@ -73,7 +64,7 @@ def test_bad_reader_arguments_model_invalid_field_type():
     }
     for field, error_type in test_data_errors.items():
         assert any(
-            err["loc"] == ("area_def",) and err["type"] == "string_type"
+            err["loc"] == (field,) and err["type"] == error_type
             for err in error_info
         ), f"Expected error for the field '{field}' with the type '{error_type}'."
 
@@ -92,7 +83,7 @@ def test_bad_reader_arguments_model_additional_field(valid_reader_arguments_mode
     ), "expected 'extra_frobidden' error type"
     assert "unexpected_field" in str(
         exec_info.value
-    ), "Unexpected field should be mentioned in the error"
+    ), "Unexpected field should be rejected by ReaderArgumentsModel"
 
 
 def test_bad_reader_arguments_model_empty_list_for_chans(
