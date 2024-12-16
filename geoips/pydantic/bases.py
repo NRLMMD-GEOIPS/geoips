@@ -73,7 +73,7 @@ PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 class PluginModel(PrettyBaseModel):
     """Base Plugin model for all GeoIPS plugins."""
 
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
     interface: PythonIdentifier = Field(
         description="The name of the plugin's interface."
     )

@@ -78,7 +78,7 @@ class InterpolatorArgumentsModel(BaseModel):
 class ReaderArgumentsModel(BaseModel):
     """Validate Reader step arguments."""
 
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
     area_def: str = Field(None, description="Area definition identifier.")
     chans: List[str] = Field(None, description="List of channels to process.")
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
@@ -88,7 +88,7 @@ class ReaderArgumentsModel(BaseModel):
 class ProductStepDefinitionModel(BaseModel):
     """Validate step definition : name, arguments."""
 
-    model_config = ConfigDict(extra='forbid')
+    model_config = ConfigDict(extra="forbid")
     type: str = Field(..., description="plugin type")
     name: str = Field(..., description="plugin name")
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
