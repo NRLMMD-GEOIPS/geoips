@@ -158,7 +158,7 @@ class ProductStepDefinitionModel(BaseModel):
 class ProductStepModel(BaseModel):
     """Validate and process a sequence of steps with their data."""
 
-    definition: ProductStepDefinitionModel
+    definition: ProductStepDefinitionModel = Field(..., description="Sequence of steps")
 
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -217,10 +217,10 @@ class ProductSpecModel(BaseModel):
     """The specification for a product."""
 
     # list of steps
-    steps: List[ProductStepModel] = Field(description="Steps to produce the product.")
+    steps: List[ProductStepModel] = Field(..., description="Steps to produce the product.")
 
 
 class ProductPluginModel(PluginModel, BaseModel):
     """A plugin that produces a product."""
 
-    spec: ProductSpecModel = Field(description="The product specification")
+    spec: ProductSpecModel = Field(..., description="The product specification")

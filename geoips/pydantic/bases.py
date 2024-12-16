@@ -75,12 +75,12 @@ class PluginModel(PrettyBaseModel):
 
     model_config = ConfigDict(extra="forbid")
     interface: PythonIdentifier = Field(
-        description="The name of the plugin's interface."
+        ..., description="The name of the plugin's interface."
     )
-    family: PythonIdentifier = Field(description="The family of the plugin.")
-    name: PythonIdentifier = Field(description="The name of the plugin.")
+    family: PythonIdentifier = Field(..., description="The family of the plugin.")
+    name: PythonIdentifier = Field(..., description="The name of the plugin.")
     # Should write a test to ensure this is a valid numpy docstring
-    docstring: str = Field(description="The docstring for the plugin.")
+    docstring: str = Field(..., description="The docstring for the plugin.")
     package: PythonIdentifier = Field(
         None, description="The package the plugin belongs to."
     )
