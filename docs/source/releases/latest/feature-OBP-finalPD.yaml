@@ -34,7 +34,7 @@ documentation:
     repo_url: ''
   title: 'Order-Based Procflow Documentation'
 testing:
-- description: ''
+- description: 'Testing of multiple Order-Based Procflow Pydantic models.'
   files:
     added:
     - 'tests/unit_tests/pydantic/conftest.py'
