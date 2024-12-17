@@ -18,7 +18,7 @@ feature:
     repo_url: ''
   title: 'Order-Based Procflow'
 documentation:
-- description: ''
+- description: 'Documentation of Order-Based Procflow usage process.'
   files:
     added:
     - 'docs/dev/order_based_procflow.rst'
