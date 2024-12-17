@@ -6,7 +6,6 @@
 import sys
 import os
 import geoips
-from geoips.pydantic import sectors
 
 VERSION = str(geoips.__version__)
 
