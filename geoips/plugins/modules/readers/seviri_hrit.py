@@ -22,6 +22,7 @@ import numpy as np
 from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
 # GeoIPS Libraries
+from geoips.errors import NoValidFilesError
 from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
@@ -509,7 +510,10 @@ def call_single_time(
     adname = "undefined"
     # Remove any HRV files from file list
     # See note 1 at top of module
+
     fnames = [fname for fname in fnames if not any(val in fname for val in ["HRV"])]
+    if not fnames:
+        raise NoValidFilesError("No files found in list, skipping")
 
     # Check inputs
     if self_register and self_register != "LOW":

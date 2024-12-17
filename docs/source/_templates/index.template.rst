@@ -1,3 +1,8 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
 :notoc:
 
 .. GEOIPS PKGNAME documentation master file, created by
@@ -17,23 +22,16 @@ GeoIPS |reg| PKGNAME Documentation
 **Useful links**:
 `Source Repository <https://github.com/NRLMMD-GEOIPS/PKGNAME>`__ |
 `GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
-`NRLMMD <https://www.nrlmry.navy.mil>`__ |
+`NRLMMD <https://www.nrlmry.navy.mil/>`__ |
 
-:mod:`PKGNAME` is a free software program, United States Government NRLMMD licensed.
+:mod:`PKGNAME` is a free software program, using the NRL Open License Agreement.
 
 ::
 
     Distribution Statement A. Approved for public release. Distribution is unlimited.
 
-    Author:
-    Naval Research Laboratory, Marine Meteorology Division
-
-    This program is free software: you can redistribute it and/or modify it under
-    the terms of the NRLMMD License included with this program. This program is
-    distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-    for more details. If you did not receive the license, for more information see:
-    https://github.com/U-S-NRL-Marine-Meteorology-Division/
+    This source code is protected under the license referenced at
+    https://github.com/NRLMMD-GEOIPS.
 
 .. automodule:: PKGNAME
    :noindex:
@@ -120,9 +118,9 @@ GeoIPS |reg| PKGNAME Documentation
     :titlesonly:
 {% endif %}
 {% if not single_doc %}
-    introduction/index
+    INTRODUCTIONIDX
     STARTERIDX
-    userguide/index
+    USERGUIDEIDX
     DEVGUIDEIDX
     PKGNAME_api/index
     OPGUIDEIDX

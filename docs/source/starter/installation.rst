@@ -64,8 +64,7 @@ If desired, the GeoIPS environment variables can be added to your
 
       # wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
       # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-      # wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-      wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+      wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 
 - Make the install script executable and run the installer,
   following the prompts (particularly the bit about
@@ -73,15 +72,15 @@ If desired, the GeoIPS environment variables can be added to your
 
   .. code:: bash
 
-      chmod u+x ./Mambaforge-Linux-x86_64.sh
+      chmod u+x ./Miniforge3-Linux-x86_64.sh
       # After installing, follow instructions regarding conda init / restarting your terminal !
       # Make sure you set env vars again if you restart your terminal !
-      ./Mambaforge-Linux-x86_64.sh
+      ./Miniforge3-Linux-x86_64.sh
 
   .. code:: bash
 
       # Clean up after yourself
-      rm -f ./Mambaforge-Linux-x86_64.sh
+      rm -f ./Miniforge3-Linux-x86_64.sh
 
 3. Create and activate a conda environment with some dependencies
 -----------------------------------------------------------------
@@ -136,7 +135,23 @@ and run integration tests:
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 
-6. Test output
+6. Capture working requirements.txt for base install
+----------------------------------------------------
+
+These can be commited to the repository for reference - only commit if
+base_test.sh returns 0!
+
+.. code:: bash
+
+  if [[ "$GEOIPS_VERS" == "" ]]; then
+      GEOIPS_VERS=`python -c "import geoips; print(geoips.__version__)"
+  fi
+
+  mkdir $GEOIPS_PACKAGES_DIR/geoips/environments
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
+  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
+
+7. Test output
 --------------
 
 For reference, the end of the output from the base_test.sh command should

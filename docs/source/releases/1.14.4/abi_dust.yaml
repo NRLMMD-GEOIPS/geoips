@@ -1,0 +1,134 @@
+enhancement:
+- title: 'Add nasa_dust_rgb algorithm and products'
+  description: |
+    Adds a nasa_dust_rgb algorithm that creates an rgb product
+    depicting dust in the atmosphere. Requires 12.3 um,
+    10.3 um, 11.2 um and 8.4 um channels to use.
+
+    Also add test script to tests/integration_tests/full_test.sh, and remove all
+    duplicate tests from tests/test_all.sh
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - geoips/plugins/modules/algorithms/visir/nasa_dust_rgb.py
+    - geoips/plugins/yaml/product_defaults/visir/nasa_dust_rgb.yaml
+    - tests/scripts/abi.static.nasa_dust_rgb.imagery_annotated.sh
+    - tests/outputs/abi.static.nasa_dust_rgb.imagery_clean/20200918.195020.goes-16.abi.nasa_dust_rgb.conus.97p06.noaa.3p0.png
+    modified:
+    - geoips/plugins/yaml/products/abi.yaml
+    - tests/test_all.sh
+    - tests/integration_tests/full_test.sh
+  date:
+    start: 2024-08-14
+    finish: 2024-12-13
+enhancement:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
