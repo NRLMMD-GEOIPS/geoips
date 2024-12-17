@@ -23,22 +23,7 @@ class MockPrettyBaseModel(bases.PrettyBaseModel):
     plugin_name: str = Field(description="name of the plugin")
 
 
-@pytest.fixture
-def valid_plugin_data():
-    """Fixture providing valid sample data for Plugin model."""
-    return {
-        "interface": "geoips_interface",
-        "family": "geoips_family",
-        "name": "geoips_name",
-        "docstring": "This is a valid numpy docstring.",
-        "package": "geoips_package",
-        "relpath": "geoips/tests/unit_tests/pydantic",
-        "abspath": "/home/kumar/geoips/geoips/tests/unit_tests/pydantic",
-    }
-
-
 # Test PrettyBaseModel
-
 
 def test_good_pretty_base_model_str():
     """Test if the PrettyBaseModel returns JSON data with two-sapce indentation."""
