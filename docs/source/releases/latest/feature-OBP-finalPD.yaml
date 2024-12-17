@@ -1,0 +1,54 @@
+feature:
+- description: 'The Order-Based Procflow (OBP) Reader implementation into GeoIPS as a non-feature addition.'
+  files:
+    added:
+    - 'geoips/plugins/modules/procflows/order_based.py'
+    - 'geoips/plugins/yaml/products/abi.yaml'
+    - 'geoips/pydantic/__init__.py'
+    - 'geoips/pydantic/bases.py'
+    - 'geoips/pydantic/products.py'
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Order-Based Procflow'
+documentation:
+- description: 'Documentation of Order-Based Procflow usage process.'
+  files:
+    added:
+    - 'docs/dev/order_based_procflow.rst'
+    - 'docs/source/_templates/conf_PKG.py'
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Order-Based Procflow Documentation'
+testing:
+- description: 'Testing of multiple Order-Based Procflow Pydantic models.'
+  files:
+    added:
+    - 'tests/unit_tests/pydantic/conftest.py'
+    - 'tests/unit_tests/pydantic/test_products.py'
+    - 'tests/unit_tests/pydantic/test_bases.py'
+    - 'tests/unit_tests/pydantic/test_reader_arguments_model.py'
+    - 'tests/unit_tests/pydantic/test_product_step_definition_model.py'
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: 0
+    repo_url: ''
+  title: 'Order-Based Procflow Testing'
