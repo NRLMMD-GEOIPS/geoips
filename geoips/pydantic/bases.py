@@ -100,7 +100,7 @@ class PluginModel(PrettyBaseModel):
         if not (value[0].isupper() and value.endswith(".")):
             raise PydanticCustomError(
                 "format_error",
-                "The docstring should start with a Capital letter and end with a period",
+                "The docstring should start with a Capital letter & end with a period",
             )
         return value
 
