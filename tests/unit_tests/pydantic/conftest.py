@@ -57,4 +57,3 @@ def valid_plugin_types():
         "filename_formatter",
     ]
     return VALID_PLUGIN_TYPES
-

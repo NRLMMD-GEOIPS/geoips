@@ -220,7 +220,9 @@ class ProductSpecModel(BaseModel):
     """The specification for a product."""
 
     # list of steps
-    steps: List[ProductStepModel] = Field(..., description="Steps to produce the product.")
+    steps: List[ProductStepModel] = Field(
+        ..., description="Steps to produce the product."
+    )
 
 
 class ProductPluginModel(PluginModel, BaseModel):
