@@ -57,3 +57,18 @@ def valid_plugin_types():
         "filename_formatter",
     ]
     return VALID_PLUGIN_TYPES
+
+
+# test_bases.py
+@pytest.fixture
+def valid_plugin_data():
+    """Fixture providing valid sample data for Plugin model."""
+    return {
+        "interface": "geoips_interface",
+        "family": "geoips_family",
+        "name": "geoips_name",
+        "docstring": "This is a valid numpy docstring.",
+        "package": "geoips_package",
+        "relpath": "geoips/tests/unit_tests/pydantic",
+        "abspath": "/home/kumar/geoips/geoips/tests/unit_tests/pydantic",
+    }
