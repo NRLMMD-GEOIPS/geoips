@@ -7,7 +7,7 @@ reponame=$2
 repopath=$1
 save_temp_dir=$GEOIPS_OUTDIRS/scratch/docs/$reponame
 curr_path=`dirname $0`
-python3 $curr_path/build_docs.py \
+python3 $GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.py \
   --license-url $GEOIPS_REPO_URL \
   --geoips-docs-path $GEOIPS_PACKAGES_DIR/geoips/docs/ \
   --output-dir "$GEOIPS_PACKAGES_DIR/$2/docs/build/sphinx/html" \
@@ -15,6 +15,9 @@ python3 $curr_path/build_docs.py \
   --force FORCE \
   --repo-path $repopath \
   $reponame
+retval=$?
 
 echo "Temporary files written to:"
 echo $save_temp_dir
+
+exit $retval
