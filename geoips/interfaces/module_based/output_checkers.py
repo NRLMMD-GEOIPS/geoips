@@ -82,6 +82,8 @@ def write_bad_comparisons_to_file(badcomps, compare_products, compare_strings, d
             len(badcomps),
         )
         LOG.debug(f"  source {fname_badcptest}")
+        LOG.interactive(f"  source {fname_cp}")
+        # Include print statement for easy copy/paste at the command line
         print(f"  source {fname_cp}")
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "BADCOMPARES")
@@ -164,6 +166,8 @@ def write_remove_temp_files_to_file(remove_temp_files, diffdir):
             "temp files from gunzipped files scratch path.",
             len(remove_temp_files),
         )
+        LOG.interactive(f"  source {fname_rmtemp}")
+        # Include print statement for easy copy/paste at the command line
         print(f"  source {fname_rmtemp}")
         with open(fname_rmtemp, "a") as fobj:
             for remove_temp_file in remove_temp_files:
@@ -238,6 +242,8 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
         # If there are missing products, ensure the source command to
         # remove them from the comparison test outputs directory is
         # printed at the interactive log level
+        LOG.interactive("  source {0}".format(fname_rm))
+        # Include print statement for easy copy/paste at the command line
         print("  source {0}".format(fname_rm))
         test_path = join(diffdir, "MISSINGPRODUCTS")
         with open(fname_rm, "a") as fobj:
@@ -339,6 +345,8 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
             len(missingcomps),
         )
         LOG.debug("  source {0}".format(fname_missingcompcptest))
+        LOG.interactive("  source {0}".format(fname_cp))
+        # Include print statement for easy copy/paste at the command line
         print("  source {0}".format(fname_cp))
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "MISSINGCOMPARE")
