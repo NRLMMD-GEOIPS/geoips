@@ -39,7 +39,7 @@ spec:
     - name: Night-Vis
       source_names: [viirs]
       docstring: |
-        Night Vision. Study thicker clouds, study precipitation and provides consistency with daytime products.
+        Night Visible. Study thicker clouds, study precipitation and provides consistency with daytime products.
       product_defaults: Night-Vis
       spec:
         variables: ["DNBRad", "DNB:solar_zenith_angle"]
@@ -53,7 +53,7 @@ spec:
     - name: Night-Vis-IR
       source_names: [viirs]
       docstring: |
-        Infrared Night Vision. Study thicker clouds, study precipitation and provides consistency with daytime products.
+        Night Visible with Infrared RGB. Study thicker clouds, study precipitation and provides consistency with daytime products.
       product_defaults: RGB-Default
       spec:
         variables: ["DNBRad", "M16BT"]
