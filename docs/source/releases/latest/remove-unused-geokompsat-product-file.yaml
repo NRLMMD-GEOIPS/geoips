@@ -1,0 +1,9 @@
+removal:
+- title: 'Remove Unused Geokompsat Product File'
+  description: |
+    Removed unused geokompsat.yaml products file. This was a duplicate of ami.yaml, with
+    the only changes being the source_names used for the specified products. Since the
+    correct source name is ``ami``, not ``geokompsat``, we removed this file.
+  files:
+    deleted:
+      - geoips/plugins/yaml/products/geokompsat.yaml

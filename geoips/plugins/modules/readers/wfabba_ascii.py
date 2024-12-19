@@ -7,9 +7,11 @@ WFABBA is a geostationary fire product produced by SSEC
 """
 
 # Python Standard Libraries
+from datetime import datetime
 import logging
 from os.path import basename
-from datetime import datetime
+
+# Third-Party Libraries
 import numpy as np
 import xarray
 
@@ -18,6 +20,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "wfabba_ascii"
+source_names = ["abi", "ahi", "gvar", "seviri"]
 
 
 def parse_header_line(line):

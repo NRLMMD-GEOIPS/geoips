@@ -100,6 +100,8 @@ sphinxcontrib-autoprogram = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
 brassy = { version = "*", optional = true }
 sphinx-argparse = { version = "*", optional = true }
+rich = { version = "*", optional = true }
+rich-argparse = { version = "*", optional = true }
 # Version 3.0.2 causes error , 0.8.4 works
 # Unsure why there was such a wide range of version numbers installed.
 #  File "lib/python3.10/site-packages/m2r2.py", line 82, in <module>
@@ -120,6 +122,7 @@ pinkrst = { version = "*", optional = true }
 # Test group
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
+pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
 xarray-datatree = { version = "*", optional = true }
 # Debug group
@@ -138,6 +141,8 @@ doc = [
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune", 	# Required for rendering markdown into RST-based documentation
+    "rich", # for building docs; also a dependency of brassy
+    "rich-argparse" # for building docs; also a dependency of brassy
 ]
 lint = [
     "bandit",                # Syntax/security checking
@@ -156,9 +161,9 @@ test = [
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
-    "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
+    "pytest-xdist",
 ]
 debug = ["ipython"]
 

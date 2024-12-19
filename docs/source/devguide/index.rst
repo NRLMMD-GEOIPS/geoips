@@ -12,6 +12,7 @@ Developer Guide
    contributors
    ../new-docs/contribute/code-of-conduct
    ../new-docs/contribute/coding_standards
+   ../new-docs/concepts/functionality/documentation-building
    git_workflow
    dev_setup
    unit_tests
