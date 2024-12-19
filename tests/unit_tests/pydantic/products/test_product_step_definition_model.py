@@ -30,6 +30,20 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
     }
 
 
+def test_bad_product_step_definition_model_validator_empty_plugin_name(valid_step_data):
+    """Tests ProductStepDefinitionModel custom validator against empty plugin name."""
+    invalid_data = copy.deepcopy(valid_step_data)
+    invalid_data["name"] = ""
+    with pytest.raises(ValidationError) as exec_info:
+        products.ProductStepDefinitionModel(**invalid_data)
+
+    error_info = exec_info.value.errors()
+
+    assert error_info[0]["loc"] == ()
+    assert error_info[0]["msg"].startswith("Value error, ")
+    assert "Must be one of " in error_info[0]["msg"]
+
+
 def test_bad_product_step_definition_model_invalid_field_type(
     mocker, valid_reader_arguments_model_data, valid_step_data
 ):
