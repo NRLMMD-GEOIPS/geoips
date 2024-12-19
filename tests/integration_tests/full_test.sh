@@ -60,6 +60,7 @@ for call in \
   "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
   "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh" \
   "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/abi.static.nasa_dust_rgb.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output.sh" \
   "$geoips_repopath/tests/scripts/ahi.tc.WV.geotiff.sh" \
@@ -68,8 +69,10 @@ for call in \
   "$geoips_repopath/tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/ami.tc.WV.geotiff.sh" \
   "$geoips_repopath/tests/scripts/ami.WV-Upper.unprojected_image.sh" \
+  "$geoips_repopath/tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh" \
   "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh" \
   "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh" \
   "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
@@ -87,6 +90,7 @@ for call in \
   "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh" \
+  "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh" \
   "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh" \

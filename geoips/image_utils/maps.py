@@ -355,6 +355,8 @@ def compute_lat_auto_spacing(area_def):
         lat_spacing = int(lat_extent / 5)
     elif lat_extent > 2.5:
         lat_spacing = 1
+    elif lat_extent == 0:
+        lat_spacing = 2
     else:
         lat_spacing = lat_extent / 5.0
     return lat_spacing

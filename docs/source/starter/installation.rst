@@ -64,8 +64,7 @@ If desired, the GeoIPS environment variables can be added to your
 
       # wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh
       # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
-      # wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
-      wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
+      wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 
 - Make the install script executable and run the installer,
   following the prompts (particularly the bit about
@@ -73,15 +72,15 @@ If desired, the GeoIPS environment variables can be added to your
 
   .. code:: bash
 
-      chmod u+x ./Mambaforge-Linux-x86_64.sh
+      chmod u+x ./Miniforge3-Linux-x86_64.sh
       # After installing, follow instructions regarding conda init / restarting your terminal !
       # Make sure you set env vars again if you restart your terminal !
-      ./Mambaforge-Linux-x86_64.sh
+      ./Miniforge3-Linux-x86_64.sh
 
   .. code:: bash
 
       # Clean up after yourself
-      rm -f ./Mambaforge-Linux-x86_64.sh
+      rm -f ./Miniforge3-Linux-x86_64.sh
 
 3. Create and activate a conda environment with some dependencies
 -----------------------------------------------------------------
