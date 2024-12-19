@@ -56,6 +56,7 @@ for call in \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only" \
   "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh" \
   "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
   "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh" \
   "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
