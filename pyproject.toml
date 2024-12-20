@@ -87,6 +87,18 @@ scikit-image = "*" # Radius based center coverage checks
 alphashape = ">=1.3.1" # For masking scipy's griddata output
 tabulate = "*"     # Tables for the CLI
 colorama = "*"     # Easy terminal color codes
+pygrib = "*" # Reading GRIB model data
+hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins
+                 # In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required
+                 # environment variable that points to the directory holding the compiled
+                 # decompression plugin. The satpy documentation notes that
+                 # 'import hdf5plugin' should be the only requirement to load the data
+                 # using their reader, and while that is the case, it appears that you are
+                 # unable to manipulate the data outside the satpy.scene object and will
+                 # still encounter a "NetCDF: Filter error: undefined filter encountered"
+                 # error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
+                 # using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
+                 # site-packages/hdf5plugin/plugins in the config_geoips file.
 
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
@@ -99,7 +111,7 @@ sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
 sphinxcontrib-mermaid = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
-brassy = { version = "*", optional = true }
+brassy = { version = ">=0.0.3", optional = true }
 sphinx-argparse = { version = "*", optional = true }
 rich = { version = "*", optional = true }
 rich-argparse = { version = "*", optional = true }
