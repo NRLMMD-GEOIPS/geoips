@@ -9,7 +9,7 @@ RUN pip install --no-cache-dir -U pip
 
 FROM base AS doclinttest
 
-ARG GEOIPS_PACKAGES_DIR=/app/packages
+ARG GEOIPS_PACKAGES_DIR=/packages
 
 WORKDIR $GEOIPS_PACKAGES_DIR
 
