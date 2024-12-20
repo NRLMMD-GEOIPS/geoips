@@ -20,9 +20,12 @@ base_integ_test_calls = [
 full_integ_test_calls = [
     "$geoips_repopath/tests/utils/check_code.sh all $recenter_tc_repopath",
     "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only",
-    "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only",
-    "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only",
-    "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only",
+    "$geoips_repopath/docs/build_docs.sh "
+    "$recenter_tc_repopath $recenter_tc_pkgname html_only",
+    "$geoips_repopath/docs/build_docs.sh "
+    "$data_fusion_repopath $data_fusion_pkgname html_only",
+    "$geoips_repopath/docs/build_docs.sh "
+    "$template_basic_plugin_repopath $template_basic_plugin_pkgname html_only",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
     "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
@@ -44,7 +47,8 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh",
-    "$geoips_repopath/tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh",
+    "$geoips_repopath/tests/scripts/"
+    "ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh",
@@ -58,7 +62,8 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh",
     "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
-    "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",
+    "$geoips_repopath/tests/scripts/"
+    "viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",
     "$recenter_tc_repopath/tests/scripts/abi.tc.Visible.imagery_clean.sh",
     "$recenter_tc_repopath/tests/scripts/amsr2.tc.color37.imagery_clean.sh",
     "$recenter_tc_repopath/tests/scripts/amsr2.tc.windspeed.imagery_clean.sh",
