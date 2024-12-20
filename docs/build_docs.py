@@ -141,8 +141,8 @@ def parse_args_with_argparse():
             args.repo_path = package_path
         except ModuleNotFoundError as e:
             raise e(f"Could not automatically find repo_path for {args.package_name}.")
-        except pygit2.GitError as e:
-            raise e(
+        except pygit2.GitError:
+            raise pygit2.GitError(
                 "Could not automatically find usable repo_path for "
                 f"{args.package_name}. Found {package_path} but it is not a git repo"
             )
@@ -438,10 +438,6 @@ def copy_template_files_to_non_geoips_repo(geoips_docs_dir, build_dir):
     shutil.copytree(
         os.path.join(geoips_docs_dir, "source", "_static"),
         os.path.join(build_dir, "_static"),
-    )
-    shutil.copy(
-        os.path.join(geoips_docs_dir, "source", "fancyhf.sty"),
-        build_dir,
     )
     template_path = os.path.join(build_dir, "_templates")
     os.makedirs(template_path, exist_ok=True)
@@ -816,7 +812,11 @@ def import_non_docs_files(repo_dir, build_dir, log=logging.getLogger(__name__)):
         source = os.path.join(repo_dir, file)
         dest = os.path.join(import_dir, filename)
         log.info(f"Copying {source} to {dest}")
-        shutil.copyfile(source, dest)
+        try:
+            log.info(f"Copying {source} to {dest}")
+            shutil.copyfile(source, dest)
+        except FileNotFoundError:
+            log.warning(f"Could not fine aux file {source}")
 
 
 def build_html_docs(

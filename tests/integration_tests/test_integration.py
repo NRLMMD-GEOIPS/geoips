@@ -13,7 +13,7 @@ import pytest
 base_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh",
     "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh",
-    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
+    # "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
     # this should be called directly
 ]
 

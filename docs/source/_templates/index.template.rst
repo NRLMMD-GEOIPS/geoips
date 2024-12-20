@@ -108,6 +108,6 @@ GeoIPS |reg| PKGNAME Documentation
     CONTRIBUTE_OPTIONAL
     PKGNAME_api/index
     releases/index
-    contact
+    CONTACT_OPTIONAL
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN
