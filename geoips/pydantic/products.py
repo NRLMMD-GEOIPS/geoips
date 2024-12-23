@@ -225,7 +225,7 @@ class ProductSpecModel(BaseModel):
     )
 
 
-class ProductPluginModel(PluginModel, BaseModel):
+class ProductPluginModel(PluginModel):
     """A plugin that produces a product."""
 
     spec: ProductSpecModel = Field(..., description="The product specification")
