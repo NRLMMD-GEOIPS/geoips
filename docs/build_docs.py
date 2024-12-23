@@ -18,11 +18,13 @@ from rich.logging import Console
 from rich.progress import Progress
 import rich_argparse
 import pygit2
-import jinja2
+import yaml
 import sphinx.cmd.build as sphinx_build_module
 from sphinx.ext.apidoc import main as sphinx_apidoc
 
 from update_release_note_index import main as generate_release_note_index
+
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 
 def init_logger(use_rich):
@@ -110,8 +112,8 @@ def parse_args_with_argparse():
     parser.add_argument(
         "-f",
         "--force",
-        type=str,
         default=False,
+        action="store_true",
         help="Replace output dir if it already exists",
     )
 
@@ -248,14 +250,11 @@ def get_section_replace_string(section):
     str
         A placeholder string corresponding to the section.
 
-    Notes
-    -----
-    It is unclear WHY this is the placeholder string or what IDX stands for.
     """
-    return section.upper() + "IDX"
+    return section.upper() + "_OPTIONAL"
 
 
-def get_sections():
+def get_sections(package_name):
     """
     Return sections.
 
@@ -273,32 +272,28 @@ def get_sections():
     This could potentially be from a config file in the future. For now, it is hard
     coded like the original build_docs.sh script.
     """
-    required_sections = ["releases"]
+    with open(os.path.join(__location__, "docs-sections.yaml"), "r") as f:
+        section_data = yaml.safe_load(f)
 
-    optional_sections = [
-        "intro",
-        "starter",
-        "userguide",
-        "devguide",
-        "deployguide",
-        "opguide",
-        "contact",
-    ]
+    section_data["optional"] = section_data["current"] + section_data["legacy"]
 
-    return required_sections, optional_sections
+    return (
+        (x.replace("PKGNAME", package_name) for x in section_data[category])
+        for category in ["required", "optional"]
+    )
 
 
-def return_jinja2_rendered_file_content(template_path):
+def return_file_content(template_path):
     """
-    Render a Jinja2 template file into a string.
+    Render file into a string.
 
-    This function reads the content of the template file, renders it using
-    Jinja2, and returns the resulting string.
+    This function reads the content of the template file
+    and returns the resulting string.
 
     Parameters
     ----------
     template_path : str
-        The file path to the Jinja2 template.
+        The file path to the template.
 
     Returns
     -------
@@ -306,7 +301,7 @@ def return_jinja2_rendered_file_content(template_path):
         The rendered template content as a string.
     """
     with open(template_path, "rt") as template_file:
-        return jinja2.Template(template_file.read()).render()
+        return template_file.read()
 
 
 def update_content_for_section(
@@ -396,11 +391,11 @@ def generate_top_level_index_file(
     )
     build_index_file_path = os.path.join(build_dir, "index.rst")
 
-    content = return_jinja2_rendered_file_content(template_index_file_path)
+    content = return_file_content(template_index_file_path)
 
     # Replace required sections
-    for section in required_sections:
-        content = update_content_for_section(build_dir, content, section, log=log)
+    # for section in required_sections:
+    #    content = update_content_for_section(build_dir, content, section, log=log)
 
     # Replace optional sections
     for section in optional_sections:
@@ -508,7 +503,7 @@ def stage_docs_files_for_building(
 
     create_conf_py_from_template(build_dir, geoips_docs_dir, package_name)
 
-    required_sections, optional_sections = get_sections()
+    required_sections, optional_sections = get_sections(package_name)
     generate_top_level_index_file(
         build_dir,
         geoips_docs_dir,
@@ -740,7 +735,38 @@ def build_release_notes_with_brassy(
     generate_release_note_index(os.path.join(releases_dir, "index.rst"), releases_dir)
 
 
-def import_non_docs_files(repo_dir, build_dir):
+def get_auxiliary_files():
+    """
+    Load auxiliary file information from a YAML configuration file.
+
+    This function reads the `auxiliary_files.yaml` file located in the directory
+    specified by `__location__` and returns the parsed dictionary of auxiliary
+    files. The returned data corresponds to the "auxiliary files" field in the
+    YAML file, which should be defined relative to the repository's root directory.
+
+    Returns
+    -------
+    dict
+        A dictionary containing information about auxiliary files as defined
+        under the "auxiliary files" key in the YAML file.
+
+    Examples
+    --------
+    >>> aux_files = get_auxiliary_files()
+    >>> aux_files
+    {'config.json': 'config/config.json', 'notes.txt': 'docs/notes.txt'}
+
+    Notes
+    -----
+    The `__location__` variable must point to the directory containing the
+    `auxiliary_files.yaml` file.
+    """
+    with open(os.path.join(__location__, "auxiliary_files.yaml"), "r") as f:
+        data = yaml.safe_load(f)
+    return data["auxiliary files"]  # relative to root of repo_dir
+
+
+def import_non_docs_files(repo_dir, build_dir, log=logging.getLogger(__name__)):
     """
     Copy auxiliary non-documentation files from the repository to the build directory.
 
@@ -763,11 +789,15 @@ def import_non_docs_files(repo_dir, build_dir):
     -----
     The list of auxiliary files to copy is defined within the function.
     """
-    auxiliary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
+    auxiliary_files = get_auxiliary_files()
     import_dir = os.path.join(build_dir, "import")
     os.mkdir(import_dir)
     for file in auxiliary_files:
-        shutil.copyfile(os.path.join(repo_dir, file), os.path.join(import_dir, file))
+        filename = os.path.basename(file)
+        source = os.path.join(repo_dir, file)
+        dest = os.path.join(import_dir, filename)
+        log.info(f"Copying {source} to {dest}")
+        shutil.copyfile(source, dest)
 
 
 def build_html_docs(
@@ -817,7 +847,7 @@ def build_html_docs(
     )
 
     # grab auxillary files not in docs and place them in "import" dir
-    import_non_docs_files(repo_dir, build_dir)
+    import_non_docs_files(repo_dir, build_dir, log=log)
 
     # build release rst files
     log.info("Building API docs")

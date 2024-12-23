@@ -41,6 +41,7 @@ extensions = [
     "m2r2",
     "sphinx-pydantic",
     "sphinxcontrib.autodoc_pydantic",
+    "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

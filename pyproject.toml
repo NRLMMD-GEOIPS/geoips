@@ -97,6 +97,7 @@ pydata-sphinx-theme = { version = "*", optional = true }
 sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
+sphinxcontrib-mermaid = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
 brassy = { version = "*", optional = true }
 sphinx-argparse = { version = "*", optional = true }
@@ -138,6 +139,7 @@ doc = [
     "sphinx-argparse",           # Required for building documentation for the CLI, which uses autoprogram
     "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
+    "sphinxcontrib-mermaid",     # Required for UML rendering
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune", 	# Required for rendering markdown into RST-based documentation
@@ -161,8 +163,6 @@ test = [
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
-    "pytest-cov",      # Reports on test coverage
-    "pixelmatch",
     "pytest-xdist",
 ]
 debug = ["ipython"]
