@@ -1,0 +1,53 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE product_file SYSTEM "../productfiles.dtd">
+
+<!--
+    Notes:
+        See ../productfiles.dtd in this directory for full notes.  All DTD information
+        is contained there.
+        Arunas 20140407 varged celcius to celsius
+-->
+<product_file>
+<product method="rgb" name="Day-Microphys-Winter">
+    <rgb_args>
+        <source name='seviri'>
+            <var zenith='yes'>B02Ref</var> <!-- 0.86um B03 ABI   VIS008  0.8um MSG Veggie band, near-IR                                         -->
+            <var zenith='yes'>B04BT</var> <!-- 3.9um  B07 ABI   IR_039  3.9um MSG Shortwave window band, IR (with reflected daytime component) -->
+            <var>B09BT</var> <!--11.2um  B14 ABI   IR_108 10.8um MSG IR Longwave Window band, IR                                  -->
+        </source>
+        <red>
+            <equation>B02Ref</equation>
+            <range>
+                <min_value>0</min_value>
+                <max_value>1.0</max_value>
+                <units>albedo</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+            <!-- Need to add solar correction -->
+        </red>
+        <grn>
+            <equation>B04BT</equation>
+            <range>
+                <min_value>0</min_value>
+                <max_value>25</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>1.5</gamma1>
+            <gamma2>1.0</gamma2>
+            <!-- Need to add solar correction -->
+        </grn>
+        <blu>
+            <equation>B09BT</equation>
+            <range>
+                <min_value>-70</min_value>
+                <max_value>50</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </blu>
+        <day_night>day</day_night>
+    </rgb_args>
+</product>
+</product_file>
