@@ -1,0 +1,36 @@
+enhancement:
+- title: 'Update variable name AMSR to AMSR2'
+  description: 'Updates non-operational instrument name to refelect the current instrument in use'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: 'Update inline documentation / comments from AMSR to AMSR2'
+  description: 'Eliminates inconsistent instrument reference'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
