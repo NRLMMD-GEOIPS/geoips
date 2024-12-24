@@ -170,27 +170,3 @@ def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
 
 
 LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
-
-
-def main():
-    """Initialize good and bad plugins."""
-    good_plg_yaml = {
-        "interface": "product",
-        "family": "single",
-        "name": "Infrared",
-        "docstring": "Test docstring",
-    }
-    good_plg = PluginModel(**good_plg_yaml)
-    print(good_plg)
-
-    bad_plg_yaml = {
-        "interface": "product",
-        "family": "single",
-        "name": "Infrared-bad-name",
-        "docstring": "Test docstring",
-    }
-    bad_plg = PluginModel(**bad_plg_yaml)
-
-
-if __name__ == "__main__":
-    main()

@@ -42,7 +42,9 @@ def test_bad_product_step_definition_model_validator_empty_input():
     assert error_info[0]["msg"] == "Value error, Empty : Missing step details"
 
 
-def test_bad_product_step_definition_model_validator_invalid_plugin_name(valid_step_data):
+def test_bad_product_step_definition_model_validator_invalid_plugin_name(
+    valid_step_data,
+):
     """Tests ProductStepDefinitionModel custom validator against invalid plugin name."""
     invalid_data = copy.deepcopy(valid_step_data)
     invalid_data["name"] = ""
