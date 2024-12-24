@@ -163,16 +163,17 @@ LineArgs = Annotated[dict, AfterValidator(line_args)]
 def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     """Validate a latitude and longitude coordinate."""
     if arg[0] < -90 or arg[0] > 90:
-        raise ValueError("Latitude must be between -90 and 90")
+        raise ValueError("Latitude must be between -90 and 90.")
     if arg[1] < -180 or arg[1] > 180:
-        raise ValueError("Longitude must be between -180 and 180")
+        raise ValueError("Longitude must be between -180 and 180.")
     return arg
 
 
 LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
 
 
-if __name__ == "__main__":
+def main():
+    """Initialize good and bad plugins."""
     good_plg_yaml = {
         "interface": "product",
         "family": "single",
@@ -189,3 +190,7 @@ if __name__ == "__main__":
         "docstring": "Test docstring",
     }
     bad_plg = PluginModel(**bad_plg_yaml)
+
+
+if __name__ == "__main__":
+    main()

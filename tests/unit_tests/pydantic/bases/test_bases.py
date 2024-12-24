@@ -16,14 +16,165 @@ from pydantic import Field, ValidationError
 from geoips.pydantic import bases
 
 
+@pytest.mark.parametrize(
+    "valid_identifier",
+    [
+        "variable",
+        "_underscore_prefixed_variable",
+        "variable_aplha_numberic123",
+        "_",
+        "valid_variable_with_underscore",
+    ],
+    ids=[
+        "simple identifier",
+        "underscore-prefixed",
+        "alphanumeric",
+        "single underscore",
+        "contains underscore",
+    ],
+)
+def test_good_valid_python_identifier(valid_identifier):
+    """Tests python_identifier call against multiple valid Python identifiers."""
+    assert bases.python_identifier(valid_identifier) == valid_identifier
+
+
+@pytest.mark.parametrize(
+    "invalid_identifier, expected_error",
+    [
+        ("123_starts_with_number", "is not a valid Python identifier"),
+        ("invalid_$_symbol", "is not a valid Python identifier"),
+        ("variable with_space", "is not a valid Python identifier"),
+        ("", "is not a valid Python identifier"),
+        ("class", "is a reserved Python keyword"),
+    ],
+    ids=[
+        "starts with number",
+        "contains invalid specical character",
+        "contains space",
+        "empty variable name",
+        "uses reserved keyword",
+    ],
+)
+def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
+    """Tests python_identifier call against multiple invalid Python identifiers."""
+    with pytest.raises(ValueError) as exec_info:
+        bases.python_identifier(invalid_identifier)
+
+    assert isinstance(exec_info.value, ValueError), "Exception raised is not ValueError"
+    error_message = str(exec_info.value)
+    assert (
+        expected_error in error_message
+    ), f"{error_message} does not match {expected_error}"
+
+
+# Test mpl_artist_args
+
+
+class MockArtist:
+    """Sample class to test mpl_artist_args call."""
+
+    def __init__(self):
+        """For recording all method calls made to the artist object."""
+        self.calls = []
+
+    def __call__(self, x, y):
+        """Simulate object behavior for test purposes."""
+        self.calls.append(("create", x, y))
+        return self
+
+    def set(self, **kwargs):
+        """Simulate set method behavior in Matplotlib Artists."""
+        self.calls.append(("set", kwargs))
+
+
+@pytest.fixture
+def mock_artist():
+    """Fixure to provide a fresh instance of MockArtist for each test."""
+    return MockArtist()
+
+
+@pytest.mark.parametrize(
+    "sample_args, expected_calls",
+    [
+        ({"color": "blue", "linewidth": 4, "enabled": True},
+         [{"color": "blue"}, {"linewidth": 4}]),
+        ({"color": "red", "enabled": False}, [{"color": "red"}]),
+        ({}, []),
+    ],
+)
+def test_multi_mpl_artist_args(mock_artist, sample_args, expected_calls):
+    """Tests mpl_artist_args call with valid arguments."""
+    mock_artist = MockArtist()
+
+    output = bases.mpl_artist_args(sample_args, mock_artist)
+
+    assert mock_artist.calls[0] == ("create", [0, 1], [0, 1])
+    set_calls = [call[1] for call in mock_artist.calls if call[0] == "set"]
+    assert set_calls == expected_calls
+    assert output == sample_args
+
+
+# lat_lon_coordinate
+@pytest.mark.parametrize(
+    "valid_coordinates",
+    [
+        (0, 0),
+        (45, 90),
+        (-90, -180),
+        (90, 180),
+        (-90, -180),
+        (90, 180),
+    ],
+    ids=[
+        "Null Island",
+        "sample valid lat. and long.",
+        "South Pole / Minimum Boundary",
+        "North Pole / Maximum Boundary",
+        "Edge case : Minimum valid boundary",
+        "Edge case : Maximum valid boundary",
+    ]
+)
+def test_good_lat_lon_coordinate_valid(valid_coordinates):
+    """Tests lat_lon_coordinate call with valid inputs."""
+    assert bases.lat_lon_coordinate(valid_coordinates) == valid_coordinates
+
+
+@pytest.mark.parametrize(
+    ("invalid_coordinates", "expected_error"),
+    [
+        ((-91, 0), "Latitude must be between -90 and 90."),
+        ((91, 0), "Latitude must be between -90 and 90."),
+        ((0, -181), "Longitude must be between -180 and 180."),
+        ((0, 181), "Longitude must be between -180 and 180."),
+    ],
+    ids=[
+        "Latitiude too low",
+        "Latitiude too high",
+        "Longitude too low",
+        "Longitude too high"
+    ]
+)
+def test_bad_lat_lon_coordinate_invalid(invalid_coordinates, expected_error):
+    """Tests lat_lon coordinate call with invalid inputs."""
+    with pytest.raises(ValueError) as exec_info:
+        bases.lat_lon_coordinate(invalid_coordinates)
+
+    assert isinstance(exec_info.value, ValueError), "Exception raised is not ValueError"
+
+    error_message = str(exec_info.value)
+    assert (
+        expected_error in error_message
+    ), f"{error_message} does not match {expected_error}"
+
+# Test PrettyBaseModel
+
+
 class MockPrettyBaseModel(bases.PrettyBaseModel):
     """Test PrettyBaseModel to test __str__method of PrettyBasemodel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin")
 
-
-# Test PrettyBaseModel
 
 def test_good_pretty_base_model_str():
     """Test if the PrettyBaseModel returns JSON data with two-sapce indentation."""
