@@ -106,6 +106,5 @@ def test_bad_product_Step_model_validator_invalid_plugin_name(
     assert (
         "step name : 'reader'"
         "and type : 'reader1' mismatch. "
-        "Check your product definition"
-        in error_info
+        "Check your product definition" in error_info
     )
