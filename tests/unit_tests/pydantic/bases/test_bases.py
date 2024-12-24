@@ -96,8 +96,10 @@ def mock_artist():
 @pytest.mark.parametrize(
     "sample_args, expected_calls",
     [
-        ({"color": "blue", "linewidth": 4, "enabled": True},
-         [{"color": "blue"}, {"linewidth": 4}]),
+        (
+            {"color": "blue", "linewidth": 4, "enabled": True},
+            [{"color": "blue"}, {"linewidth": 4}],
+        ),
         ({"color": "red", "enabled": False}, [{"color": "red"}]),
         ({}, []),
     ],
@@ -132,7 +134,7 @@ def test_multi_mpl_artist_args(mock_artist, sample_args, expected_calls):
         "North Pole / Maximum Boundary",
         "Edge case : Minimum valid boundary",
         "Edge case : Maximum valid boundary",
-    ]
+    ],
 )
 def test_good_lat_lon_coordinate_valid(valid_coordinates):
     """Tests lat_lon_coordinate call with valid inputs."""
@@ -151,8 +153,8 @@ def test_good_lat_lon_coordinate_valid(valid_coordinates):
         "Latitiude too low",
         "Latitiude too high",
         "Longitude too low",
-        "Longitude too high"
-    ]
+        "Longitude too high",
+    ],
 )
 def test_bad_lat_lon_coordinate_invalid(invalid_coordinates, expected_error):
     """Tests lat_lon coordinate call with invalid inputs."""
@@ -165,6 +167,7 @@ def test_bad_lat_lon_coordinate_invalid(invalid_coordinates, expected_error):
     assert (
         expected_error in error_message
     ), f"{error_message} does not match {expected_error}"
+
 
 # Test PrettyBaseModel
 
