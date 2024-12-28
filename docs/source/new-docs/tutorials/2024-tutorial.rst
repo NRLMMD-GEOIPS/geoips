@@ -3,7 +3,7 @@
 Product Creation by Extending GeoIPS
 ************************************
 
-This tutorial elaborates on product creation using GeoIPS. We will create three products
+This tutorial explains how to create products with GeoIPS. We will create three products
 using CLAVR-x: **Cloud-Top-Height**, **Cloud-Base-Height**, and **Cloud-Depth**. Products
 are the cornerstone plugin for GeoIPS, as they define how to produce a specific product as
 a combination of other plugins. Products use other plugins, such as an algorithm, colormapper,
