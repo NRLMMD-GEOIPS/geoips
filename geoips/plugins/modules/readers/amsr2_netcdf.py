@@ -1,20 +1,17 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read AMSR2 data products."""
 
+# Python Standard Libraries
+from glob import glob
 import logging
 from os.path import basename
-from glob import glob
+
+# Third-Party Libraries
+import numpy
+import pandas
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -69,6 +66,7 @@ chan_nums = {
 interface = "readers"
 family = "standard"
 name = "amsr2_netcdf"
+source_names = ["amsr2"]
 
 
 def read_amsr_winds(wind_xarray):
@@ -106,9 +104,6 @@ def read_amsr_winds(wind_xarray):
     )
 
     # Set wind_speed_kts appropriately
-    import numpy
-    import xarray
-
     # convert to kts
     wind_xarray["wind_speed_kts"] = wind_xarray["WSPD"] * MS_TO_KTS
 
@@ -123,7 +118,6 @@ def read_amsr_winds(wind_xarray):
     )
 
     # Set time array appropriately
-    import pandas
 
     dtstrs = []
     LOG.info("Reading scan_times")
@@ -160,8 +154,6 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    import xarray
-
     LOG.info("Reading AMSR data %s", varname)
     sub_xarray = xarray.Dataset()
     sub_xarray.attrs = full_xarray.attrs.copy()
@@ -204,11 +196,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     )
 
     if time_array is None:
-        import numpy
 
         # Set time appropriately
-        import pandas
-
         dtstrs = []
         LOG.info("Reading scan_times, for dims %s", sub_xarray[varnames[varname]].dims)
         for scan_time in full_xarray["Scan_Time"]:
@@ -236,7 +225,7 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
-            "Using existing scan_times, for dims %s", sub_xarray[varnames[varname]].dims
+            "Using existing scan_times for dims %s", sub_xarray[varnames[varname]].dims
         )
         sub_xarray["time"] = time_array
     from geoips.xarray_utils.time import (
@@ -330,8 +319,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray
-
     LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
     ingested = []

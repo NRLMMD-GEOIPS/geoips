@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """GeoIPS CLI "config" command.
 
 Various configuration-based commands for setting up your geoips environment.

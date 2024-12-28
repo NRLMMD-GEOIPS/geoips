@@ -1,0 +1,32 @@
+name: Deploy docs
+
+# 1. Tag and Release - on merge of v*-version-release
+#    * Tag current version
+#    * Release just tagged version
+# 2. Package and Publish - on published release (from #1)
+#    * Build wheel
+#    * Publish to pypi
+# 3. Deploy docs - on published release (from #1)
+#    * pip install geoips
+#    * pip install plugin repo
+#    * build docs with geoips/docs/build_docs.sh
+#    * deploy docs with geoips/docs/deploy_pages.sh
+
+on:
+  # Triggers the workflow on published release
+  release:
+    types:
+      - published
+  # Allows run of this workflow manually from the Actions tab
+  # Must be merged to default before it will be available to manually run.
+  workflow_dispatch:
+
+jobs:
+  deploy-docs:
+    name: Deploy docs
+    # You do not appear to be able to use variables in the "uses" field.
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-deploy-docs.yaml@main
+    permissions:
+      contents: write
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}

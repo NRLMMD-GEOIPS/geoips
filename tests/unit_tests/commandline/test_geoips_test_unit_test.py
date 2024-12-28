@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test for GeoIPS CLI `test unit-test` command.
 
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
@@ -23,7 +26,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #         This includes failing cases as well.
 #         """
 #         if not hasattr(self, "_cmd_list"):
-#             base_args = self._test_unit_test_args
+#             base_args = ["geoips", "test", "unit-test"]
 #             self._cmd_list = [
 #                 base_args + ["commandline", "-n", "test_geoips_list_packages.py"]
 #             ]

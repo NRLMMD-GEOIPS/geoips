@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """GeoIPS CLI "validate" command.
 
 Validates the appropriate plugin based on the arguments provided using the associated

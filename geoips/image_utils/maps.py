@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """matplotlib geographic map (basemap or cartopy) utilities."""
 
@@ -359,6 +350,8 @@ def compute_lat_auto_spacing(area_def):
         lat_spacing = int(lat_extent / 5)
     elif lat_extent > 2.5:
         lat_spacing = 1
+    elif lat_extent == 0:
+        lat_spacing = 2
     else:
         lat_spacing = lat_extent / 5.0
     return lat_spacing

@@ -1,18 +1,10 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _requirement_spec:
 
-###################################
 Software Requirements Specification
 ###################################
 
@@ -23,7 +15,6 @@ For **Geolocated Information Processing System**
  | Naval Research Laboratory Marine Meteorology Division
  | 7 February 2023
 
-*****************
 Table of Contents
 *****************
 
@@ -50,7 +41,6 @@ Table of Contents
         * `4.2 Products Over Various Spatial Domains`_
         * `4.3 Products of Varied Output Formats`_
 
-****************
 Revision History
 ****************
 +-------------------+---------------+--------------------------------+-----------+
@@ -63,7 +53,7 @@ Revision History
 +-------------------+---------------+--------------------------------+-----------+
 
 1. Introduction
-==================
+===============
 
 1.1 Purpose
 -----------
@@ -79,7 +69,8 @@ portability and simplified interfacing between modules.
 
 Some of the primary benefits / requirements of GeoIPS include:
 
-* Seamless application to proprietary data types and products (no reference to external functionality within the main code base)
+* Seamless application to proprietary data types and products (no reference to external functionality within the main
+  code base)
 * Consistent product application across multiple sensors (both open source and proprietary)
 * Flexible workflow to allow efficient real-time processing as well as interactive processing
 * Modular interfaces to facilitate product development
@@ -88,7 +79,6 @@ Some of the primary benefits / requirements of GeoIPS include:
 * Ability to interface with workflow management tools (cylc)
 * Ability to interface with databases (postgres)
 
-
 1.2 Intended Audience and Reading Suggestions
 ---------------------------------------------
 
@@ -96,9 +86,8 @@ This document is primarily intended for system administrators, users, testers an
 
 Software developers should consider this required reading prior to working through the documentation.
 
-
 1.3 Product Scope
-------------------------
+-----------------
 
 The GeoIPS® "core" package is responsible for data processing from reading and reformatting the data into the
 common internal GeoIPS® internal format, through algorithm and product application, to outputting user
@@ -110,9 +99,8 @@ configurable data formats (imagery, NetCDF, etc).
 Data collection, data transfers, and product dissemination are all site specific implementations for driving
 GeoIPS® processing, and fall outside the scope of the GeoIPS® "core" processing system.
 
-
 1.4 References
----------------------------------------------
+--------------
 
 Software Requirements Specification Template
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -129,7 +117,7 @@ GeoIPS uses Sphinx with the Napoleon extension for automated documentation gener
 https://www.sphinx-doc.org/en/master/usage/extensions/napoleon.html
 
 GeoIPS Syntax and Style Checking
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 GeoIPS uses the NumPy docstring format within the code base for simplicity:
 
@@ -139,10 +127,8 @@ bandit, flake8, and black are used to enforce appropriate style, security,
 and syntax usage.  flake8-rst and flake8-rst-docstring plugins are used to
 enforce numpy docstring formatting.
 
-
 Overall Description
 ===================
-
 
 2.1 Product Perspective
 -----------------------
@@ -162,7 +148,6 @@ into unique products, and facilitate streamlined operational transitions.  This 
 will be used across the METOC community – including basic research, real-time implementation,
 and operational processing.
 
-
 With the plethora of weather satellites coming on line, it is imperative to develop a sustainable,
 open source, community supported, efficient, modular processing platform to enable future functionality
 and facilitate near real-time operational capability for all new sensors and products.
@@ -171,13 +156,11 @@ The GeoIPS® project will deliver a much needed capability for efficient environ
 processing, benefiting METOC users across the community.  The collaborative nature of GeoIPS®
 development will lead to increased efficiency and functionality of the final product.
 
-
 2.2 Product Functions
 ---------------------
 
 .. image:: ../images/geoips_overview/GeoIPS_Structure_Overview.png
    :width: 800
-
 
 2.3 User Classes and Characteristics
 ------------------------------------
@@ -204,14 +187,12 @@ products and sectors.  Operators will implement minimal changes to the GeoIPS® 
 and will require additional software outside of the GeoIPS® system to drive the real-time
 processing (processing workflows, database management systems, data dissemination protocols).
 
-
 2.4 Operating Environment
 -------------------------
 
 GeoIPS® is developed and tested under the GNU/Linux operating system, on 64-bit x86 hardware architecture.
 
 GeoIPS® must be fully functional under RHEL 8.4 with SELinux enabled (including Fortran and C compiled code)
-
 
 2.5 Design and Implementation Constraints
 -----------------------------------------
@@ -223,7 +204,6 @@ with additional requirements for specific readers and algorithms.
 
 GeoIPS® requires gfortran and gcc compilers – must support gcc version 8, 9, or 10.
 
-
 2.6 User Documentation
 ----------------------
 
@@ -231,14 +211,12 @@ The GEOIPS-Core code base, documentation, and tutorial support are available on 
 
 Test datasets can be obtained from geoips@nrlmry.navy.mil.
 
-
 2.7 Assumptions and Dependencies
 --------------------------------
 
 Hardware and software requirements stated in this document are pertinent to the GeoIPS-Core
 version of the codebase.  Additional site-specific packages and system implementations could
 incur additional resource requirements or software dependencies.
-
 
 External Interface Requirements
 ===============================
@@ -250,13 +228,13 @@ External Interface Requirements
 * Must run via command line interactively, one product at a time.
 * Must be able to run via config-based processing to efficiently drive multiple outputs.
 * Command line and config-based interfaces must map user requested options to modular software interfaces.
-* Must be able to support web-based requests. (Config-based processing supports web-based requests – potentially separate application to generate config file to drive processing)
+* Must be able to support web-based requests. (Config-based processing supports web-based requests – potentially
+  separate application to generate config file to drive processing)
 * Must be able to operate via queueing and scheduling systems (covered via config-based processing)
 * Must provide feedback throughout processing to monitor progress.
 
   * Log output (errors, warnings, status)
   * Messages during runtime identifying which part of the processing is currently active
-
 
 3.2 Hardware Interfaces
 -----------------------
@@ -269,7 +247,6 @@ Processing medium resolution next generation geostationary satellite data (ABI, 
 orbiter satellite data with GeoIPS® requires a minimum of 2 processors with 16GB memory.
 High resolution next generation geostationary satellite datasets requires at least 24GB memory.
 
-
 3.3 Software Interfaces
 -----------------------
 
@@ -281,7 +258,8 @@ Requirements:
 
     * Dask based processing
   * Managing queues to ensure multi-processing is handled properly is outside the scope of GeoIPS itself.
-  * Config-based processing allows driving processing in different configurations to ensure optimal efficient processing.
+  * Config-based processing allows driving processing in different configurations to ensure optimal efficient
+    processing.
 
 * **Must be able to map each point to**
 
@@ -388,7 +366,6 @@ Requirements:
   * Separate mapping of sensor to required variables for each supported product
     (allowing implementation of existing products to proprietary data types)
 
-
 System Features
 ===============
 
@@ -396,12 +373,12 @@ System Features
 --------------------------
 
 4.1.1 Description and Priority
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 High Priority - Must be able to produce output products from different combinations of input datasets.
 
 4.1.2 Stimulus/Response Sequences
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Required input data sets and desired output products must be specified via a single command line call.
 
@@ -410,10 +387,8 @@ Required data files and product parameters can be specified either via:
 * explicit command line options or
 * YAML config specifications
 
-
 4.1.3 Functional Requirements
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
 
 * **Must be able to produce output products from combinations of**
 
@@ -434,7 +409,6 @@ Required data files and product parameters can be specified either via:
 
 High Priority - Must be able to produce output products over a variety of user-specifiable spatial domains.
 
-
 4.2.2 Stimulus/Response Sequences
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
@@ -444,10 +418,8 @@ command line call. Sector information can be specified either via:
 * explicit command line options or
 * YAML config specifications
 
-
 4.2.3 Functional Requirements
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * **Must be able to produce products over various spatial domains for the above datasets**
 
@@ -456,18 +428,16 @@ command line call. Sector information can be specified either via:
   * Algorithms applied to raw datasets (original resolution / coverage)
   * 3 and 4 dimensional outputs (model data, sounder data, lidar data, etc)
 
-
 4.3 Products of Varied Output Formats
 -------------------------------------
 
 4.3.1 Description and Priority
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 High Priority - Must be able to produce output products of various user-specifiable output formats.
 
-
 4.3.2 Stimulus/Response Sequences
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Requested output formats must be requested via a single command line call.
 
@@ -476,9 +446,8 @@ Requested output format information can be specified either via:
 * explicit command line options or
 * YAML config specifications
 
-
 4.3.3 Functional Requirements
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 * **Must be able to produce the following output types for any combination of the above datasets and domains**
 

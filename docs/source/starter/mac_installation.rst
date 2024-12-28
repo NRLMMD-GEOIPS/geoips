@@ -1,18 +1,10 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _mac-installation:
 
-********************************
 Conda-based Installation for Mac
 ********************************
 
@@ -65,9 +57,11 @@ If desired, the GeoIPS environment variables can be added to your
 .. code:: bash
 
     # Mamba for Intel chips
-    curl -L -o conda_install.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+    curl -L -o conda_install.sh \
+    https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
     # Mamba for ARM (M1/M2) chips
-    curl -L -o conda_install.sh https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+    curl -L -o conda_install.sh \
+    https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
     # Anaconda for Intel chips
     curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
     # Anaconda for ARM (M1/M2) chips
@@ -142,10 +136,10 @@ To test your installation you will call two scripts:
 
     # Download the test data
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-    
+
     # Create the GeoIPS plugin registries
     create_plugin_registries
-    
+
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
 

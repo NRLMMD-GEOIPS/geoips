@@ -1,15 +1,20 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Semi-Abstract CLI Test Class implementing attributes shared by commands."""
 
 import abc
 import contextlib
+from importlib import metadata
 import io
 from numpy import any
 import pytest
 import subprocess
 import sys
 
+from geoips.commandline.cmd_instructions import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
-from geoips.geoips_utils import get_entry_point_group, is_editable
+from geoips.geoips_utils import is_editable
 
 
 gcli = GeoipsCLI()
@@ -18,42 +23,7 @@ gcli = GeoipsCLI()
 class BaseCliTest(abc.ABC):
     """Top-Level CLI Test Class which implements shared attributes for commands."""
 
-    _config_install_args = ["geoips", "config", "install"]
-    _get_family_args = ["geoips", "get", "family"]
-    _get_interface_args = ["geoips", "get", "interface"]
-    _get_package_args = ["geoips", "get", "package"]
-    _get_plugin_args = ["geoips", "get", "plugin"]
-    _list_interface_args = ["geoips", "list", "interface"]
-    _list_interfaces_args = ["geoips", "list", "interfaces"]
-    _list_plugins_args = ["geoips", "list", "plugins"]
-    _list_packages_args = ["geoips", "list", "packages"]
-    _list_scripts_args = ["geoips", "list", "scripts"]
-    _list_test_datasets_args = ["geoips", "list", "test-datasets"]
-    _list_unit_tests_args = ["geoips", "list", "unit-tests"]
-    _run_args = ["geoips", "run"]
-    _test_linting_args = ["geoips", "test", "linting"]
-    _test_script_args = ["geoips", "test", "script"]
-    _test_unit_test_args = ["geoips", "test", "unit-test"]
-    _validate_args = ["geoips", "validate"]
-    arg_list = [
-        _config_install_args,
-        _get_family_args,
-        _get_interface_args,
-        _get_package_args,
-        _get_plugin_args,
-        _list_interface_args,
-        _list_interfaces_args,
-        _list_plugins_args,
-        _list_packages_args,
-        _list_scripts_args,
-        _list_test_datasets_args,
-        _list_unit_tests_args,
-        _run_args,
-        _test_linting_args,
-        _test_script_args,
-        _test_unit_test_args,
-        _validate_args,
-    ]
+    alias_mapping = alias_mapping
 
     def generate_id(self, args):
         """Generate an ID for the test-arguments provided."""
@@ -64,7 +34,7 @@ class BaseCliTest(abc.ABC):
         """List of names of every installed GeoIPS package."""
         if not hasattr(self, "_plugin_package_names"):
             self._plugin_package_names = [
-                ep.value for ep in get_entry_point_group("geoips.plugin_packages")
+                ep.value for ep in metadata.entry_points(group="geoips.plugin_packages")
             ]
         return self._plugin_package_names
 
@@ -79,8 +49,7 @@ class BaseCliTest(abc.ABC):
                 "test_data_gpm",
                 "test_data_noaa_aws",
                 "test_data_sar",
-                "test_data_scat_1.11.2",
-                "test_data_scat_1.11.3",
+                "test_data_scat",
                 "test_data_smap",
                 "test_data_viirs",
             ]
@@ -139,7 +108,7 @@ class BaseCliTest(abc.ABC):
         """
         for header in headers:
             if selected_cols is None or headers[header] in selected_cols:
-                assert header in output or "has no" in output
+                assert header in output or "has no" in output or "No plugins" in output
 
     def assert_non_editable_error_or_wrong_package(self, args, error):
         """If we found a package in non-editable mode, assert that an error exists.
@@ -193,9 +162,13 @@ class BaseCliTest(abc.ABC):
                 # This is a specific case for the integration test scripts that
                 # only work for geoips. Make sure an error is raised that says
                 # we cannot run integration tests in packages other than 'geoips'
-                assert (
+                integration_error = (
                     "script: error: Only package 'geoips' has integration tests"
-                ) in error
+                )
+                package_name_error = (
+                    "error: argument --package_name/-p: invalid choice:"
+                )
+                assert integration_error in error or package_name_error in error
             elif (
                 "-p" in args
                 and args[pkg_idx] in self.plugin_package_names
@@ -355,6 +328,9 @@ class BaseCliTest(abc.ABC):
             case _ if ("--long" in args and "--columns" in args):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
+            case _ if ("--max-depth" in args and "-1" in args):
+                # Can't capture argparse.ArgumentError output using monkeypatch... yet
+                return False
             case _:
                 # Monkeypatch works for the provided arguments!
                 return True
@@ -373,7 +349,6 @@ class BaseCliTest(abc.ABC):
         """
         if args is None:
             return
-        print(f"Calling args: {args}")
         monkeypatch_viable = self.viable_monkeypatch(args)
         if monkeypatch_viable:
             # The arguments provided were valid for monkeypatch so we will be using it
@@ -398,8 +373,7 @@ class BaseCliTest(abc.ABC):
             output, error = output.decode(), error.decode()
             prc.terminate()
         assert len(output) or len(error)  # assert that some output was created
-        if len(error) and not len(output):
-            print(error)
+        if len(error) and (not len(output) or output == "\n"):
             self.check_error(args, error)
         else:
             print(output)

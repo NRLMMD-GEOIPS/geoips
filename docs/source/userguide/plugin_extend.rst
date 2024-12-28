@@ -1,32 +1,10 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
 
- .. dropdown:: Distribution Statement
-
-   | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
-   | # # #
-   | # # # Author:
-   | # # # Naval Research Laboratory, Marine Meteorology Division
-   | # # #
-   | # # # This program is free software: you can redistribute it and/or modify it under
-   | # # # the terms of the NRLMMD License included with this program. This program is
-   | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-   | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-   | # # # for more details. If you did not receive the license, for more information see:
-   | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _plugin-extend:
 
-**************************
 Extend GeoIPS with Plugins
 **************************
 
@@ -205,80 +183,34 @@ those steps before moving forward.
 We will now go hands on in creating a :ref:`Product<create-a-product>` for your custom
 GeoIPS Package.
 
-Developing Module-based plugin
-==============================
 
-Developing YAML-based plugin
-============================
+..
+   This is commented out for the workshop, but TODO should be populated later.
+   - Example Module-based Plugins
+   - Algorithms
+      - :ref:`Create an Algorithm<add-an-algorithm>`
+   - Colormappers
+      - :ref:`Create a Colormapper<create-colormappers>`
+   - Filename formatters
+   - Interpolators
+   - Output Formatters
+      - :ref:`Create an Output Formatter<create-output-formatter>`
+   - ProcFlows
+   - Readers
+      - :ref:`Get to Know Readers<describe-readers>`
+   - Title Formatters
+   - Example YAML-based Plugins
+   - Feature Annotators
+      - :ref:`Create a New Feature Annotator<create-feature-annotator>`
+   - Gridline Annotators
+      - :ref:`Create a New Gridline Annotator<create-gridline-annotator>`
+   - Product Defaults
+      - :ref:`Create New Product Defaults<create-product-defaults>`
+   - Products
+      - :ref:`Create New Products<create-a-product>`
+   - Dynamic Sectors
+   - Static Sectors
+      - :ref:`Create a Static Sector<create-a-static_sector>`
+   - ProcFlow Configurations
+   .. _entry-points: https://packaging.python.org/en/latest/specifications/entry-points/
 
-Example Module-based Plugins
-============================
-
-
-Algorithms
------------
-
-:ref:`Create an Algorithm<add-an-algorithm>`
-
-Colormappers
-------------
-
-:ref:`Create a Colormapper<create-colormappers>`
-
-Filename formatters
--------------------
-
-Interpolators
--------------
-
-Output Formatters
------------------
-
-:ref:`Create an Output Formatter<create-output-formatter>`
-
-ProcFlows
----------
-
-Readers
--------
-
-:ref:`Get to Know Readers<describe-readers>`
-
-Title Formatters
-----------------
-
-Example YAML-based Plugins
-==========================
-
-Feature Annotators
-------------------
-
-:ref:`Create a New Feature Annotator<create-feature-annotator>`
-
-Gridline Annotators
--------------------
-
-:ref:`Create a New Gridline Annotator<create-gridline-annotator>`
-
-Product Defaults
-----------------
-
-:ref:`Create New Product Defaults<create-product-defaults>`
-
-Products
---------
-
-:ref:`Create New Products<create-a-product>`
-
-Dynamic Sectors
----------------
-
-Static Sectors
---------------
-
-:ref:`Create a Static Sector<create-a-static_sector>`
-
-ProcFlow Configurations
------------------------
-
-.. _entry-points: https://packaging.python.org/en/latest/specifications/entry-points/

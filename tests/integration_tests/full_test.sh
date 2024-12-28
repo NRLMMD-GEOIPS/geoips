@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
 
@@ -45,9 +36,6 @@ data_fusion_pkgname=data_fusion
 template_basic_plugin_repopath=$GEOIPS_PACKAGES_DIR/template_basic_plugin
 template_basic_plugin_pkgname=my_package
 
-template_fusion_plugin_repopath=$GEOIPS_PACKAGES_DIR/template_fusion_plugin
-template_fusion_plugin_pkgname=my_fusion_package
-
 geoips_plugin_example_repopath=$GEOIPS_PACKAGES_DIR/geoips_plugin_example
 geoips_plugin_example_pkgname=geoips_plugin_example
 
@@ -67,16 +55,23 @@ for call in \
   "$geoips_repopath/docs/build_docs.sh $recenter_tc_repopath $recenter_tc_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $data_fusion_repopath $data_fusion_pkgname html_only" \
   "$geoips_repopath/docs/build_docs.sh $template_basic_plugin_repopath $template_basic_plugin_pkgname html_only" \
-  "$geoips_repopath/docs/build_docs.sh $template_fusion_plugin_repopath $template_fusion_plugin_pkgname html_only" \
   "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh" \
   "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh" \
   "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/abi.static.nasa_dust_rgb.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh" \
   "$geoips_repopath/tests/scripts/abi.config_based_output.sh" \
   "$geoips_repopath/tests/scripts/ahi.tc.WV.geotiff.sh" \
+  "$geoips_repopath/tests/scripts/ami.static.Infrared.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/ami.static.Visible.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh" \
+  "$geoips_repopath/tests/scripts/ami.tc.WV.geotiff.sh" \
+  "$geoips_repopath/tests/scripts/ami.WV-Upper.unprojected_image.sh" \
+  "$geoips_repopath/tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh" \
   "$geoips_repopath/tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh" \
   "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh" \
   "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh" \
@@ -88,11 +83,13 @@ for call in \
   "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh" \
+  "$geoips_repopath/tests/scripts/cli_dummy_script.sh" \
   "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh" \
   "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh" \
+  "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh" \
   "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh" \
   "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh" \
   "$geoips_repopath/tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh" \
@@ -108,7 +105,6 @@ for call in \
   "$recenter_tc_repopath/tests/scripts/smap.tc.windspeed.imagery_clean.sh" \
   "$recenter_tc_repopath/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh" \
   "$template_basic_plugin_repopath/tests/test_all.sh" \
-  "$template_fusion_plugin_repopath/tests/test_all.sh" \
   "$geoips_plugin_example_repopath/tests/test_all.sh" \
   "$geoips_clavrx_repopath/tests/test_all.sh" \
   "$data_fusion_repopath/tests/test_all.sh"

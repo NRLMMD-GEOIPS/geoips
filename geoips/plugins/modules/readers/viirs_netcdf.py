@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """VIIRS NetCDF reader.
 
@@ -56,18 +47,19 @@ of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 # Python Standard Libraries
+from collections import defaultdict
+from datetime import datetime
 import logging
 import os
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy
 import pandas as pd
 import xarray as xr
 
-from geoips.utils.context_managers import import_optional_dependencies
-
-# GeoIPS Libraries
+# GeoIPS imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -211,6 +203,7 @@ xvarnames = {
 interface = "readers"
 family = "standard"
 name = "viirs_netcdf"
+source_names = ["viirs"]
 
 
 def _get_geolocation_metadata(orig_shape, fnames, xarray):
@@ -340,9 +333,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from collections import defaultdict
-    from datetime import datetime
-
     # since fname is a LIST of input files, this reader needs additional adjustments to
     # read all files and put them into the XARRAY output (add one more array for
     # number of files)
@@ -606,6 +596,15 @@ def call(
                     ncvar[...], ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset
                 )
 
+                # Gamma, Scale factor from old Vis product
+                from geoips.data_manipulations.corrections import (
+                    apply_gamma,
+                    apply_scale_factor,
+                )
+
+                nparr_masked = apply_gamma(nparr_masked, 1.5)
+                nparr_masked = apply_scale_factor(nparr_masked, 100)
+
                 add_to_xarray(
                     refvarname,
                     nparr_masked,
@@ -656,12 +655,20 @@ def call(
                             ncvar.getncattr(attrname)
                         )
 
-        xarrays[data_type].attrs["resolution_km"] = (
-            float(ncdf_file.LongName[-4:-1]) / 1000.0
-        )
+        # LongName is something like:
+        # 'VIIRS/JPSS1 Day/Night Band 6-Min L1B Swath SDR 750m NRT'
+        # or
+        # 'VIIRS/NPP Day/Night Band 6-Min L1B Swath 750m'
+        long_name_parts = ncdf_file.LongName.split(" ")
+        if long_name_parts[-1] == "NRT":
+            resolution_m = long_name_parts[-2]
+        else:
+            resolution_m = long_name_parts[-1]
+        resolution_m = int(resolution_m.replace("m", ""))
+        LOG.info("Resolution: %s", resolution_m)
+        xarrays[data_type].attrs["resolution_km"] = resolution_m / 1000.0
 
         # close the files
-
         ncdf_file.close()
 
     # Geolocation resampling
