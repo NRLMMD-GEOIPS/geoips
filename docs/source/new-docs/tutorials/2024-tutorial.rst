@@ -4,12 +4,12 @@ Product Creation by Extending GeoIPS
 ************************************
 
 This tutorial explains how to create products with GeoIPS. We will create three products
-using Clouds from the Advanced Very High Resolution Radiometer (AVHRR) extended version
-(`CLAVR-x <https://www.star.nesdis.noaa.gov/portfolio/detail_Clouds.php>`_):
+using Clouds from the Advanced Very High Resolution Radiometer (AVHRR) extended
+version (`CLAVR-x <https://www.star.nesdis.noaa.gov/portfolio/detail_Clouds.php>`_):
 **Cloud-Top-Height**, **Cloud-Base-Height**, and **Cloud-Depth**. Products
-are the cornerstone plugin for GeoIPS, as they define how to produce a specific product as
-a combination of other plugins. Products use other plugins, such as an algorithm, colormapper,
-interpolater, etc. to generate the intended output.
+are the cornerstone plugin for GeoIPS, as they define how to produce a specific
+product as a combination of other plugins. Products use other plugins, such as
+an algorithm, colormapper, interpolater, etc. to generate the intended output.
 
 GeoIPS is almost entirely composed of plugins and can be extended by developing new plugins in
 external python packages. The ability to extend GeoIPS using plugins means that there is no
