@@ -23,7 +23,6 @@ Resources for Contributors
    :maxdepth: 1
    :caption: Contents:
 
-   code-of-conduct
    coding-standards
    git-workflow
 
