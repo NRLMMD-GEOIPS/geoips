@@ -1,0 +1,18 @@
+removal:
+- title: 'Remove Unused Sphinx Extensions'
+  description: 'Removed unused Sphinx extensions to simplify build process'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/docs/source/_templates/sphinx_conf.template.py'
+  related-issue:
+    number: 852
+    repo_url: ''
+  date:
+    start: 12-30-2024
+    finish: null
