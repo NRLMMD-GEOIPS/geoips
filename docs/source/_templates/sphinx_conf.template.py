@@ -34,12 +34,7 @@ needs_sphinx = "5.3.0"
 extensions = [
     "sphinx_design",
     "sphinx.ext.autodoc",
-    "sphinx.ext.mathjax",
-    "sphinx.ext.napoleon",
-    "sphinx.ext.viewcode",
-    "sphinxarg.ext",
     "sphinxcontrib.autoprogram",
-    "m2r2",
     "sphinxcontrib.mermaid",
 ]
 
