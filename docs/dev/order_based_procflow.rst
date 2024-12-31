@@ -25,7 +25,7 @@ OBP offers the following key advantages over other procflows:
 * **Scalable Architecture:** accomodates additional steps, enabling more
   complex product processing workflows.
 
-The OBP workflow consists of sequence of user-defined plugin operations. The
+The OBP Procflow consists of sequence of user-defined plugin operations. The
 top-level plugins which are used as steps in the OBP at minimum include readers
 ,algorithms, interpolators, and output formatters. These plugin operations, or
 steps, are defined in a YAML format within a product definition file and
