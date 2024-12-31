@@ -43,7 +43,7 @@ Version 1.13.1 (2024-07-07)
   * Update 'update_this_release_note'
   * Add release note for v1.13.1
   * Add release note for v1.13.2, finalize 1.13.1 release
-  
+
 Enhancements
 ============
 
