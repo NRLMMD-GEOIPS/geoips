@@ -356,4 +356,4 @@ the release note specified in this file.
 
 ::
 
-  modified: update_this_release_note  
+  modified: update_this_release_note
