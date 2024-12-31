@@ -1,0 +1,29 @@
+documentation:
+ - title: Add release note for version 1.14.2
+   description: |
+     *From GEOIPS#715: 2024-11-16, 1.14.2 updates*
+
+     Release note on release branch to force tag/release, package/publish,
+     and deploy docs.
+
+     Additionally add any updated files from geoips_ci/sync
+   files:
+     added:
+       - docs/source/releases/latest/1.14.2-release-note.yaml
+     modified:
+       - geoips_ci/sync updated files
+   related-issue:
+     number: 715
+documentation:
+ - title: Update upcoming and tagged versions
+   description: |
+     *From GEOIPS#715: 2024-11-16, 1.14.2 updates*
+
+     * Tagged version: 1.14.2
+     * Upcoming version: 1.14.4
+   files:
+     modified:
+       - .github/versions/tagged_version
+       - .github/versions/upcoming_version
+   related-issue:
+     number: 715
