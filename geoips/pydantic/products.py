@@ -116,13 +116,13 @@ class ProductStepDefinitionModel(BaseModel):
     @model_validator(mode="before")
     def _validate_plugin_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Validate & organize details for each step   .
+        Validate & organize details for each step.
 
         Parameters
         ----------
         values : dict
             A dictionary of plugin data. The key is plugin type, and
-            the value consists of plugin name & arguments
+            the value consists of plugin name and arguments
 
         Returns
         -------
