@@ -19,10 +19,10 @@ name = "order_based"
 def call(
     fnames: list[str], product_path: str, command_line_args: list[str] | None = None
 ) -> None:
-    """Run the order based procflow.
+    """Run the order based procflow (OBP).
 
-    Runs an OBP processing with the specified input data files &
-    steps listed in product definition file (PDF).
+    Process the specified input data files using the OBP in the order of steps
+    listed in the product definition file (PDF).
 
     Parameters
     ----------
