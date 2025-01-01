@@ -1,7 +1,7 @@
-.. .. dropdown:: Distribution Statement
+.. dropdown:: Distribution Statement
 
-..  | # # # This source code is protected under the license referenced at
-..  | # # # https://github.com/NRLMMD-GEOIPS.
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 ====================
 Order-Based Procflow
@@ -30,7 +30,7 @@ top-level plugins which are used as steps in the OBP at minimum include readers
 ,algorithms, interpolators, and output formatters. These plugin operations, or
 steps, are defined in a YAML format within a product definition file and
 validated using `Pydantic <https://docs.pydantic.dev/latest/>`_.
-The following code block below shows the syntax of a sample step definition:
+The code block below shows the syntax of a sample step definition:
 
 .. code-block:: yaml
 
