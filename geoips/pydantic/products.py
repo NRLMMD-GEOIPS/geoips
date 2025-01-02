@@ -17,18 +17,20 @@ from geoips.pydantic.bases import PluginModel
 def get_plugin_names(plugin_type: str) -> List[str]:
     """Retrieve a list of valid plugin names for a given plugin type.
 
-    Args
-    ----
-    plugin_type
+    Parameters
+    ----------
+    plugin_type : str
         The type of plugin
 
     Returns
     -------
-        list: A list of plugin names for a valid plugin type
+    list
+        A list of plugin names for a valid plugin type
 
     Raises
     ------
-        AttributeError: If the plugin type is invalid
+    AttributeError
+        If the plugin type is invalid
 
     """
     interface_name = plugin_type + "s"
