@@ -22,7 +22,7 @@ def call(
     """Run the order based procflow (OBP).
 
     Process the specified input data files using the OBP in the order of steps
-     listed in the product definition file (PDF).
+     listed in the product definition file.
 
     Parameters
     ----------
@@ -73,7 +73,8 @@ if __name__ == "__main__":
 
     parser = ArgumentParser(description="order-based procflow processing")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
-    parser.add_argument("-p", "--product_path", help="The path to the PDF.")
-
+    parser.add_argument(
+        "-p", "--product_path", help="The path to the product definition file."
+    )
     args = parser.parse_args()
     call(args.fnames, args.product_path)
