@@ -42,12 +42,12 @@ The code block below shows the syntax of a sample step definition:
 Description of properties
 *************************
 
-* step (required) : represents each stage (plugin) in the computational
+* `step` (required) : represents each stage (plugin) in the computational
   sequence. It is equivalent to the plugin type.
-* type (optional): Specifies the plugin type. This field is optional since it
+* `type` (optional): Specifies the plugin type. This field is optional since it
   can be inferred from the step.
-* name (required) : Specifies the specific plugin name for the step.
-* arguments (required) : Accepts a list of arguments validated against the
+* `name` (required) : Specifies the specific plugin name for the step.
+* `arguments` (required) : Accepts a list of arguments validated against the
   plugin's call signature. This field can also include other plugins (steps) if
   needed.
 

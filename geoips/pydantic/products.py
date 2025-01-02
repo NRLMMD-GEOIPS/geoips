@@ -143,10 +143,11 @@ class ProductStepDefinitionModel(BaseModel):
         # arguments = values.get("arguments", {})
         # Delegate arguments validation to each plugin type argument class
         plugin_type = values.get("type", " ").lower()
-        plugin_type_camel_case = "".join(
+        plugin_type_snake_case = "".join(
             [word.capitalize() for word in plugin_type.split("_")]
         )
-        plugin_arguments_model_name = f"{plugin_type_camel_case}ArgumentsModel"
+        plugin_arguments_model_name = f"{plugin_type_snake_case}ArgumentsModel"
+        print("plugin arugments model name \t", plugin_arguments_model_name)
         plugin_arguments_model = globals().get(plugin_arguments_model_name)
         if plugin_arguments_model is None:
             raise ValueError(
