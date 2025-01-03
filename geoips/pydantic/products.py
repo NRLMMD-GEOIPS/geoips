@@ -198,7 +198,7 @@ class ProductStepModel(BaseModel):
         # raise error if the step name (plugin type) is not valid
         if plugin_type not in valid_types:
             raise ValueError(
-                f"\n\ninvalid step name : {plugin_type}.\n\t"
+                f"invalid step name : {plugin_type}.\n\t"
                 f"Must be one of {valid_types}\n\n"
             )
 
@@ -211,7 +211,7 @@ class ProductStepModel(BaseModel):
         # ensure 'type' field matches step name
         if step_data["type"] != plugin_type:
             raise ValueError(
-                f"\n\nstep name : '{plugin_type}'"
+                f"step name : '{plugin_type}'"
                 f"and type : '{step_data['type']}' mismatch. "
                 f"Check your product definition\n\n"
             )
