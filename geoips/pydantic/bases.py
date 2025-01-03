@@ -145,21 +145,6 @@ def line_args(args: dict) -> dict:
 LineArgs = Annotated[dict, AfterValidator(line_args)]
 
 
-# def cartopy_feature_args(args: dict) -> dict:
-#     """Validate the arguments for a cartopy feature."""
-#     # Cartopy features are plotted using matplotlib.collections.Collection.
-#     # Collection plots patches. Its arguments are the same as those for Circle.
-#     # If not enabled, just ignore everything else
-#     if "enabled" not in args or not args["enabled"]:
-#         return {"enabled": False}
-#     # If enabled, test the other values by instantiating lines
-#     # with each argument
-#     artist_args(args, Circle(0, radius=1))
-#
-#
-# CartopyFeatureArgs = Annotated[dict, AfterValidator(cartopy_feature_args)]
-
-
 def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     """Validate a latitude and longitude coordinate."""
     if arg[0] < -90 or arg[0] > 90:
