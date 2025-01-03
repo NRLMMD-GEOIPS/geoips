@@ -45,8 +45,8 @@ Description of properties
 
 Few of the important fields definition from the product definition file.
 
-* `step` (required) : represents each stage (plugin) in the computational
-  sequence. It is equivalent to the plugin type.
+* `step` (required) : represents each stage (top-level plugin) in the
+  computational sequence. It is equivalent to the plugin type.
 * `type` (optional): Specifies the plugin type. This field is optional since it
   can be inferred from the step.
 * `name` (required) : Specifies the specific plugin name for the step.
