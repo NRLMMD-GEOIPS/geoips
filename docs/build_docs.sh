@@ -12,7 +12,7 @@ python3 $GEOIPS_PACKAGES_DIR/geoips/docs/build_docs.py \
   --geoips-docs-path $GEOIPS_PACKAGES_DIR/geoips/docs/ \
   --output-dir "$GEOIPS_PACKAGES_DIR/$2/docs/build/sphinx/html" \
   --save-temp-dir "$save_temp_dir" \
-  --force FORCE \
+  --force \
   --repo-path $repopath \
   $reponame
 retval=$?
