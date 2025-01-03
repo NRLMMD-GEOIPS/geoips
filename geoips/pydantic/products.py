@@ -153,7 +153,7 @@ class ProductStepDefinitionModel(BaseModel):
         plugin_arguments_model = globals().get(plugin_arguments_model_name)
         if plugin_arguments_model is None:
             raise ValueError(
-                f"""\n\n\tThe argument class/model "{plugin_arguments_model_name}" for
+                f"""The argument class/model "{plugin_arguments_model_name}" for
                 the plugin type "{plugin_type}" is not defined.\n\n"""
             )
         plugin_arguments_model(**values.get("arguments", {}))
