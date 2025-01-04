@@ -203,8 +203,7 @@ class ProductStepModel(BaseModel):
         # extract value for type field (if provided) otherwise
         # add the key value for step name
         if "type" not in step_data:
-            step_data = {"type": plugin_type.lower(), **step_data}
-            # print("plugin_type ", plugin_type)
+            step_data["type"] = plugin_type
 
         # ensure 'type' field matches step name
         if step_data["type"] != plugin_type:
