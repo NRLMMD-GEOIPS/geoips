@@ -98,13 +98,11 @@ class ProductStepDefinitionModel(BaseModel):
     name: str = Field(..., description="plugin name")
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
-    @model_validator(mode="before")
+    @model_validator(mode="after")
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Validate plugin name."""
-        if not values:
-            raise ValueError("The plugin_name cannot be empty")
-        plugin_name = values.get("name", "").lower()
-        plugin_type = values.get("type", " ").lower()
+        plugin_name = values.name
+        plugin_type = values.type
 
         valid_plugin_names = get_plugin_names(plugin_type)
         if plugin_name not in valid_plugin_names:
