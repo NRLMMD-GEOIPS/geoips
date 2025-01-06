@@ -90,7 +90,7 @@ class PluginModel(PrettyBaseModel):
     abspath: str = Field(None, description="The absolute path to the plugin.")
 
     @field_validator("docstring")
-    def validate_one_line_numpy_docstring(cls, value):
+    def validate_one_line_numpy_docstring(cls: type["PluginModel"], value: str) -> str:
         """Check that the docstring is a single line."""
         if "\n" in value:
             raise PydanticCustomError(
@@ -104,7 +104,7 @@ class PluginModel(PrettyBaseModel):
         return value
 
     @field_validator("relpath")
-    def validate_relative_path(cls, value):
+    def validate_relative_path(cls: type["PluginModel"], value: str) -> str:
         """Validate the relative path."""
         path = Path(value)
 
@@ -116,7 +116,7 @@ class PluginModel(PrettyBaseModel):
         return value
 
     @field_validator("abspath")
-    def validate_absolute_path(cls, value):
+    def validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
         """Validate absolute path."""
         path = Path(value)
         if not path.is_absolute():
