@@ -16,7 +16,6 @@ from typing import Tuple
 
 
 # Third-Party Libraries
-# from cartopy import feature
 from matplotlib.artist import Artist
 from matplotlib.lines import Line2D
 from pydantic import BaseModel, ConfigDict, Field, field_validator
@@ -28,7 +27,7 @@ from typing_extensions import Annotated
 class PrettyBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default."""
 
-    def __str__(self):
+    def __str__(self) -> str:
         """Return a string representation of a Pydantic model.
 
         The returned string will be formatted as JSON with two-space indentation.
