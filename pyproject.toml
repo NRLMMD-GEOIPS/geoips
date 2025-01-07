@@ -60,8 +60,8 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
-netcdf4 = "*"    # Base requirement, netcdf 1.7.0 causes seg fault in ABI reader
-numpy = "*"         # Base requirement numpy 1.26.4 still works, 2.0 breaks numexpr
+netcdf4 = "*"    # Base requirement
+numpy = "*"         # Base requirement
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
@@ -178,8 +178,6 @@ test = [
     "pytest-xdist",
 ]
 debug = ["ipython"]
-
-hdf = ["pyhdf"] # optional for modis due to conflicts
 
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
