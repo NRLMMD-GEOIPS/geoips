@@ -2,56 +2,66 @@ interface: products
 family: list
 name: ahi
 docstring: |
-  The ahi product_inputs configuration, which produces Infrared products, Vertical Velocity products,
-  Visible IR products, and Uncorrected Channel products.
+  AHI: Advanced Himawari Imager. Includes 16 channels with 0.5km to 2km resolution depending on spectral band. A full disk is retrieved every 10 minutes. 
+
+  Used on:
+  Himawari-9: Provides Western Pacific Coverage (140.7° W). This satellite was launched by the Meteorological Satellite Center of Japan Meteorological 
+  Agency (JMA) and replaced Himawari-8 at an altitude of 35,786 km.
 spec:
   products:
     - name: Infrared
       source_names: [ahi]
       docstring: |
-        The Infrared product_defaults for ahi product.
+        11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared
       spec:
         variables: ["B13BT"]
     - name: Infrared-Gray
       source_names: [ahi]
       docstring: |
-        The Infrared-Gray product_defaults for ahi product.
+        11.2 µm Gray Scale Infrared. This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared-Gray
       spec:
         variables: ["B13BT"]
     - name: IR-BD
       source_names: [ahi]
       docstring: |
-        The IR-BD product_defaults for ahi product.
+        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and includes a BD curve enhancement, known as the 
+        Dvorak Hurricane Curve for Tropical Cyclone Classification, and can help determine the intensity of storms. 
       product_defaults: IR-BD
       spec:
         variables: ["B13BT"] # JTWC requested Ch13 for ahi IR-BD, I don't know if it is necessary for all IR products.
     - name: WV
       source_names: [ahi]
       docstring: |
-        The WV product_defaults for ahi product.
+        6.9 µm Mid-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product 
+        utilizes channel 9 (6.9 µm) and is a mid-level product that can view as low as 500mb level. Warm colors illustrate cold (higher) effective 
+        layers and cool colors illustrate warm (lower) effective layers. This can show forecasters how much potential a storm has to develop and the 
+        locations of dry slots. 
       product_defaults: WV
       spec:
         variables: ["B09BT"] # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
     - name: WV-Lower
       source_names: [ahi]
       docstring: |
-        The WV-Lower product_defaults for ahi product.
+        7.3 µm Low-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor.  This product 
+        utilizes channel 10 (7.3 µm) and is a lower-level product that can view as low as 750mb level. This can show the forecaster how much potential 
+        a storm has to develop and the locations of dry slots.
       product_defaults: WV-Lower
       spec:
         variables: ["B10BT"] # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: WV-Upper
       source_names: [ahi]
       docstring: |
-        The WV-Upper product_defaults for ahi product.
+        6.2 µm Upper-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product 
+        utilizes channel 8 (6.2 µm) and is an upper-level product. This can be used to analyze potential storm development and the locations of dry slots. 
       product_defaults: WV-Upper
       spec:
         variables: ["B08BT"] # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
     - name: Visible
       source_names: [ahi]
       docstring: |
-        The Visible product_defaults for ahi product.
+        0.51 µm Visible. This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns.
       product_defaults: Visible
       spec:
         variables: ["B02Ref", "MED:solar_zenith_angle"] # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi), B01 0.635um seviri

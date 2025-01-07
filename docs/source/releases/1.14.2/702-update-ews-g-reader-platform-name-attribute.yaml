@@ -1,0 +1,11 @@
+bug fix:
+- description: |
+    Add support for handling legacy GOES-15 ews-g file, and update mapping of
+    platform_name: GOES-13 => EWS-G1, GOES-15 => EWS-G2
+
+    Add new `legacy_platform_name` attribute, which holds the satellite name used in the
+    source file
+  files:
+    modified:
+    - geoips/plugins/modules/readers/ewsg_netcdf.py
+  title: Update EWS-G reader platform name attribute

@@ -1,0 +1,132 @@
+enhancements:
+  - title: "Add databases interface"
+    description: |
+      Add databases interface
+
+      * geoips/interfaces/module_based/databases.py
+      * geoips/interfaces/__init__.py
+
+      Add databases interface to alias mapping, cmd instructions
+
+      * geoips/commandline/ancillary_info/alias_mapping.yaml
+      * geoips/commandline/ancillary_info/cmd_instructions.yaml
+
+      Update databases interface import in single_source procflow to geoips
+      not geoips_db.
+
+      * geoips/interfaces/module_based/databases.py
+
+      Ensure correct families are used from the single source procflow for database
+      writes.  Ensure all families are set up correctly in the databases interface,
+      with the correct arguments and kwargs so they are called correctly from the
+      procflow.
+
+      * geoips/plugins/modules/procflows/single_source.py
+    files:
+      modified:
+        - geoips/commandline/ancillary_info/alias_mapping.yaml
+        - geoips/commandline/ancillary_info/cmd_instructions.yaml
+        - geoips/interfaces/__init__.py
+        - geoips/plugins/modules/procflows/single_source.py
+      added:
+        - geoips/interfaces/module_based/databases.py
+bug fix:
+  - title: "Bug fixes for CLI"
+    description: |
+      Ensure we use str(docstring) when constructing package info for tabulate,
+      since tabulate will fail if any field is None. Perhaps we want to get
+      people to fix the missing docstring, but I expect at this point in the
+      code we should not fail catastrophically if a None has made it through.
+    files:
+      modified:
+        - geoips/commandline/geoips_list.py
+continuous integration:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+deprecation:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+documentation:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+enhancement:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+performance:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+removal:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
