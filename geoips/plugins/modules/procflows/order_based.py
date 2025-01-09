@@ -32,10 +32,6 @@ def call(
         path to the product definition file
     command_line_args : (list[str] | None, optional)
         fnames & product-path
-
-    Returns
-    -------
-        * None
     """
     with open(product_path) as product_definition_file:
         prod_dict = yaml.safe_load(product_definition_file)
