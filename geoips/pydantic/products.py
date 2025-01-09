@@ -11,7 +11,7 @@ from pydantic import BaseModel, Field, model_validator, ConfigDict
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.bases import PluginModel
+from geoips.pydantic.bases import PluginModel, StaticBaseModel
 
 
 def get_plugin_names(plugin_type: str) -> List[str]:
@@ -74,26 +74,25 @@ class AlgorithmArgumentsModel(BaseModel):
     pass
 
 
-class InterpolatorArgumentsModel(BaseModel):
+class InterpolatorArgumentsModel(StaticBaseModel):
     """Validate Interpolator arguments."""
 
     pass
 
 
-class ReaderArgumentsModel(BaseModel):
+class ReaderArgumentsModel(StaticBaseModel):
     """Validate Reader step arguments."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="allow")
     area_def: str = Field(None, description="Area definition identifier.")
     chans: List[str] = Field(None, description="List of channels to process.")
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
     self_register: bool = Field(False, description="Flag for self-registration.")
 
 
-class ProductStepDefinitionModel(BaseModel):
+class ProductStepDefinitionModel(StaticBaseModel):
     """Validate step definition : name, arguments."""
 
-    model_config = ConfigDict(extra="forbid")
     type: str = Field(..., description="plugin type")
     name: str = Field(..., description="plugin name")
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
@@ -159,7 +158,7 @@ class ProductStepDefinitionModel(BaseModel):
         return values
 
 
-class ProductStepModel(BaseModel):
+class ProductStepModel(StaticBaseModel):
     """Validate and process a sequence of steps with their data."""
 
     definition: ProductStepDefinitionModel = Field(..., description="Sequence of steps")
@@ -216,7 +215,7 @@ class ProductStepModel(BaseModel):
         return {"definition": step_data}
 
 
-class ProductSpecModel(BaseModel):
+class ProductSpecModel(StaticBaseModel):
     """The specification for a product."""
 
     # list of steps
@@ -225,7 +224,8 @@ class ProductSpecModel(BaseModel):
     )
 
 
-class ProductPluginModel(PluginModel):
+class ProductPluginModel(StaticBaseModel):
     """A plugin that produces a product."""
 
+    model_config = ConfigDict(extra="allow")
     spec: ProductSpecModel = Field(..., description="The product specification")

@@ -39,6 +39,12 @@ class PrettyBaseModel(BaseModel):
         return self.model_dump_json(indent=2)
 
 
+class StaticBaseModel(PrettyBaseModel):
+    """A Model for building customized Pydantic ConfigDict options."""
+
+    model_config = ConfigDict(extra="forbid")
+
+
 def python_identifier(val: str) -> str:
     """Validate if a string is a valid Python identifier.
 
@@ -72,10 +78,9 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-class PluginModel(PrettyBaseModel):
+class PluginModel(StaticBaseModel):
     """Base Plugin model for all GeoIPS plugins."""
 
-    model_config = ConfigDict(extra="forbid")
     interface: PythonIdentifier = Field(
         ..., description="The name of the plugin's interface."
     )
