@@ -7,7 +7,7 @@
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import BaseModel, Field, model_validator, ConfigDict
+from pydantic import Field, model_validator, ConfigDict
 
 # GeoIPS imports
 from geoips import interfaces
@@ -56,27 +56,31 @@ def get_plugin_types() -> List[str]:
     return list(set(plugin_types[:-1] for plugin_types in interface))
 
 
-class OutputFormatterArgumentsModel(BaseModel):
+class OutputFormatterArgumentsModel(StaticBaseModel):
     """output_formatters."""
 
+    model_config = ConfigDict(extra="allow")
     pass
 
 
-class FilenameFormatterArgumentsModel(BaseModel):
+class FilenameFormatterArgumentsModel(StaticBaseModel):
     """Validate FilenameFormatter arguments."""
 
+    model_config = ConfigDict(extra="allow")
     pass
 
 
-class AlgorithmArgumentsModel(BaseModel):
+class AlgorithmArgumentsModel(StaticBaseModel):
     """Validate Algorithm arguments."""
 
+    model_config = ConfigDict(extra="allow")
     pass
 
 
 class InterpolatorArgumentsModel(StaticBaseModel):
     """Validate Interpolator arguments."""
 
+    model_config = ConfigDict(extra="allow")
     pass
 
 
