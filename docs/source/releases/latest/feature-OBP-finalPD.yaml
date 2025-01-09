@@ -1,5 +1,5 @@
-feature:
-- description: 'The Order-Based Procflow (OBP) Reader implementation into GeoIPS as a non-feature addition.'
+future:
+- description: 'Validation for readers and yaml products for the Order-Based Procflow (OBP)'
   files:
     added:
     - 'geoips/plugins/modules/procflows/order_based.py'

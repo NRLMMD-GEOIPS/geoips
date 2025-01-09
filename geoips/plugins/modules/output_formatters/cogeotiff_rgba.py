@@ -6,6 +6,10 @@
 import os
 import logging
 
+# Internal utilities
+from geoips.errors import OutputFormatterDatelineError
+from geoips.errors import OutputFormatterInvalidProjectionError
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_formatters"
@@ -63,7 +67,7 @@ def call(
 ):
     """Create standard geotiff output using rasterio."""
     if area_def.proj_dict["proj"] != "eqc":
-        raise TypeError(
+        raise OutputFormatterInvalidProjectionError(
             "Projection must be 'eqc' in order to produce COGS output. "
             "This writer relies on equally spaced lat/lons"
         )
@@ -110,7 +114,7 @@ def call(
             # Updated for crossing dateline
             if maxlon < 0 and minlon > maxlon:
                 maxlon += 360
-                raise ValueError(
+                raise OutputFormatterDatelineError(
                     "Region CAN NOT cross the dateline. "
                     "Try again with a different sector"
                 )
