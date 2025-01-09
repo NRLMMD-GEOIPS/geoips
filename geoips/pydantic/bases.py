@@ -87,7 +87,6 @@ class PluginModel(StaticBaseModel):
     )
     family: PythonIdentifier = Field(..., description="The family of the plugin.")
     name: PythonIdentifier = Field(..., description="The name of the plugin.")
-    # Should write a test to ensure this is a valid numpy docstring
     docstring: str = Field(..., description="The docstring for the plugin.")
     package: PythonIdentifier = Field(
         None, description="The package the plugin belongs to."
