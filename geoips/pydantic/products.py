@@ -4,6 +4,7 @@
 """Order-based procflow Product building Models."""
 
 # Python Standard Libraries
+import logging
 from typing import Any, Dict, List
 
 # Third-Party Libraries
@@ -12,6 +13,14 @@ from pydantic import Field, model_validator, ConfigDict
 # GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic.bases import PluginModel, StaticBaseModel
+
+
+logging.basicConfig(
+    level=logging.WARNING,
+    format="%(asctime)s - %(name)s - %(levelname)s: %(message)s",
+    datefmt="%m-%Y-%d %H:%M:%S"
+)
+LOG = logging.getLogger(__name__)
 
 
 def get_plugin_names(plugin_type: str) -> List[str]:
@@ -89,9 +98,36 @@ class ReaderArgumentsModel(StaticBaseModel):
 
     model_config = ConfigDict(extra="allow")
     area_def: str = Field(None, description="Area definition identifier.")
-    chans: List[str] = Field(None, description="List of channels to process.")
+    variable: List[str] = Field(
+        None, description="List of channels to process", alias="chans",
+    )
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
     self_register: bool = Field(False, description="Flag for self-registration.")
+
+    @model_validator(mode="before")
+    def _handle_deprecated_chans(cls, values):
+        """
+        Check for the deprecated 'chans' field and issue a warning.
+
+        This method detects if `chans` is present in the input values and issues a
+        deprecation warning, recommending the use of 'variable' instead.
+
+        Parameters
+        ----------
+        values : dict
+            Input values to the model.
+
+        Returns
+        -------
+        dict
+            The original input values.
+        """
+        if "chans" in values:
+            LOG.warning(
+                "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
+                "'variable' instead."
+            )
+        return values
 
 
 class ProductStepDefinitionModel(StaticBaseModel):
