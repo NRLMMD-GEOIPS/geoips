@@ -65,7 +65,8 @@ def python_identifier(val: str) -> str:
 
     Raises
     ------
-        ValueError: If the input string is not a valid Python identifier.
+        ValueError: If the input string is not a valid Python identifier or if it's a
+        reserved Python keyword.
     """
     if not val.isidentifier():
         raise ValueError(f"{val} is not a valid Python identifier")
