@@ -27,10 +27,10 @@ OBP offers the following key advantages over other procflows:
   complex product processing workflows.
 
 The OBP Procflow consists of sequence of user-defined plugin operations. The
-top-level plugins which are used as steps in the OBP at minimum include readers
-, algorithms, interpolators, and output formatters. These plugin operations, or
-steps, are defined in a YAML format within a product definition file and
-validated using `Pydantic <https://docs.pydantic.dev/latest/>`_.
+top-level plugins required as steps in the OBP are readers, algorithms,
+interpolators, and output formatters. These plugin operations, or steps, are
+defined in a YAML format within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`.
+
 The code block below shows the syntax of a sample step definition:
 
 .. code-block:: yaml
