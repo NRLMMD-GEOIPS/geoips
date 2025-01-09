@@ -22,7 +22,7 @@ def call(
     """Run the order based procflow (OBP).
 
     Process the specified input data files using the OBP in the order of steps
-     listed in the product definition file.
+    listed in the product definition file.
 
     Parameters
     ----------
