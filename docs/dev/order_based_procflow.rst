@@ -13,8 +13,9 @@ Order-Based Procflow
 Overview
 --------
 
-The GeoIPS Order-Based Procflow (OBP) implements a computational workflow based
-on ETCVO sequence: Extract, Transform, Compute, Visualize, and Output.
+The Order-Based Procflow (OBP) implements an Extract, Transform,
+Compute, Visualize, and Output (ETCVO) workflow.
+
 OBP offers the following key advantages over other procflows:
 
 * **User-Defined Step Order:** allows users to specify the exact sequence
