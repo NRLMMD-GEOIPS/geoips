@@ -37,5 +37,7 @@ jobs:
     uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-build-docker-image.yaml@build_stable_image_on_tag
     permissions:
       contents: write
+      packages: write
     secrets:
       token: ${{ secrets.GITHUB_TOKEN }}
+      docker_token: ${{ secrets.DOCKER_REGISTRY_TOKEN }}
