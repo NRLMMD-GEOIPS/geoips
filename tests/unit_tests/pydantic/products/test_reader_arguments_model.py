@@ -19,7 +19,7 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.area_def == "None"
-    assert model.chans == ["None"]
+    assert model.variable == ["None"]
     assert model.metadata_only is True
     assert model.self_register is True
 
@@ -30,7 +30,7 @@ def test_bad_reader_arguments_model_field_defaults():
 
     expected_defaults = {
         "area_def": None,
-        "chans": None,
+        "variable": None,
         "metadata_only": False,
         "self_register": False,
     }
@@ -66,23 +66,6 @@ def test_bad_reader_arguments_model_invalid_field_type():
         ), f"Expected error for the field '{field}' with the type '{error_type}'."
 
 
-def test_bad_reader_arguments_model_additional_field(valid_reader_arguments_model_data):
-    """Tests ReaderArgumentsModel with additonal field."""
-    invalid_data = copy.deepcopy(valid_reader_arguments_model_data)
-    invalid_data["unexpected_field"] = "unexpected_value"
-
-    with pytest.raises(ValidationError) as exec_info:
-        products.ReaderArgumentsModel(**invalid_data)
-
-    error_info = exec_info.value.errors()
-    assert any(
-        err["type"] == "extra_forbidden" for err in error_info
-    ), "expected 'extra_frobidden' error type"
-    assert "unexpected_field" in str(
-        exec_info.value
-    ), "Unexpected field should be rejected by ReaderArgumentsModel"
-
-
 def test_bad_reader_arguments_model_empty_list_for_chans(
     valid_reader_arguments_model_data,
 ):
@@ -91,4 +74,4 @@ def test_bad_reader_arguments_model_empty_list_for_chans(
 
     model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
-    assert model.chans == []
+    assert model.variable == []

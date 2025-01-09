@@ -39,6 +39,7 @@ def valid_plugin_types():
     VALID_PLUGIN_TYPES = [
         "algorithm",
         "procflow",
+        "database",
         "sector_adjuster",
         "output_checker",
         "output_formatter",
