@@ -42,7 +42,7 @@ class PrettyBaseModel(BaseModel):
 class StaticBaseModel(PrettyBaseModel):
     """A Model for building customized Pydantic ConfigDict options."""
 
-    model_config = ConfigDict(extra="forbid")
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
 
 def python_identifier(val: str) -> str:
