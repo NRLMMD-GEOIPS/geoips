@@ -6,18 +6,26 @@
 from pydantic import BaseModel, ConfigDict
 
 
-class StandardBaseModel(BaseModel):
-    """Standard Base Model for Pydantic validation in GeoIPS."""
+class StaticBaseModel(BaseModel):
+    """Static Base Model for Pydantic validation in GeoIPS."""
 
-    model_config = ConfigDict(extra='allow')
+    model_config = ConfigDict(
+        extra="allow", str_strip_whitespace=True, populate_by_name=True
+    )
 
 
-class Model(StandardBaseModel):
+class DynamicBaseModel(BaseModel):
+    """Dynamic Base Model for Pydantic validation in GeoIPS."""
+
+    model_config = ConfigDict()
+
+
+class Model(StaticBaseModel):
     """Model specifically meant for testing StandardBaseModel."""
 
-    x: str
+    x: str 
 
 
-m = Model(x="hello", y="world")
+m = Model(x="hello", y="world ")
 
 print(m.model_dump())
