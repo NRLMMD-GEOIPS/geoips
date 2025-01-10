@@ -1,11 +1,15 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Order-based procflow Product building Models."""
+"""Product plugin models.
+
+Defines pydantic models related to Product plugins,
+including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
+"""
 
 # Python Standard Libraries
 import logging
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 # Third-Party Libraries
 from pydantic import Field, model_validator, ConfigDict
@@ -14,22 +18,16 @@ from pydantic import Field, model_validator, ConfigDict
 from geoips import interfaces
 from geoips.pydantic.bases import PluginModel, StaticBaseModel
 
-
-logging.basicConfig(
-    level=logging.WARNING,
-    format="%(asctime)s - %(name)s - %(levelname)s: %(message)s",
-    datefmt="%m-%Y-%d %H:%M:%S",
-)
 LOG = logging.getLogger(__name__)
 
 
 def get_plugin_names(plugin_type: str) -> List[str]:
-    """Retrieve a list of valid plugin names for a given plugin type.
+    """Return valid plugin names for passed plugin type.
 
     Parameters
     ----------
     plugin_type : str
-        The type of plugin
+        valid plugin interface name
 
     Returns
     -------
@@ -42,7 +40,12 @@ def get_plugin_names(plugin_type: str) -> List[str]:
         If the plugin type is invalid
 
     """
-    interface_name = plugin_type + "s"
+    interface_name = plugin_type
+    try:
+        if not interface_name[:-1] == "s":
+            interface_name = plugin_type + "s"
+    except IndexError as e:
+        raise ValueError("'plugin_type' must be at least one character.") from e
 
     try:
         interface = getattr(interfaces, interface_name)
@@ -51,23 +54,21 @@ def get_plugin_names(plugin_type: str) -> List[str]:
     return [plugin.name for plugin in interface.get_plugins() or []]
 
 
-def get_plugin_types() -> List[str]:
-    """Retrieve a list of plugin types from available interfaces.
+def get_plugin_types() -> Set[str]:
+    """Return plugin types from available interfaces.
 
     Returns
     -------
-    list of str
-        list of possible unique plugin types
+    set of str
+        set of possible unique plugin types
     """
-    return list(
-        {
+    return { # set comprehension
             # the [:-1] slice converts the plugin type from plural to singular
             # eg. 'Readers' => 'Reader'
             plugin_types[:-1]
             for ifs in interfaces.list_available_interfaces().values()
             for plugin_types in ifs
         }
-    )
 
 
 class OutputFormatterArgumentsModel(StaticBaseModel):
@@ -99,17 +100,22 @@ class InterpolatorArgumentsModel(StaticBaseModel):
 
 
 class ReaderArgumentsModel(StaticBaseModel):
-    """Validate Reader step arguments."""
+    """Reader step argument definition.
+    
+    Pydantic model defining and validating Reader step arguments.
+    """
+
 
     model_config = ConfigDict(extra="allow")
     area_def: str = Field(None, description="Area definition identifier.")
-    variable: List[str] = Field(
+    variables: List[str] = Field(
         None,
         description="List of channels to process",
-        alias="chans",
+        alias="chans", # Deprecated alias of variables TODO: deprecate using pydantic built-in
     )
-    metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
-    self_register: bool = Field(False, description="Flag for self-registration.")
+    metadata_only: bool = Field(False, description="Read metadata only.")
+
+    self_register: str = Field(None, description="Enable self-registration.")
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )

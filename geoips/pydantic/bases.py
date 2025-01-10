@@ -114,54 +114,65 @@ class PluginModel(StaticBaseModel):
     how this is used. [TODO: add link]"""
 
     interface: PythonIdentifier = Field(
-        ..., description="The name of the plugin's interface."
-    )
-    family: PythonIdentifier = Field(..., description="The family of the plugin.")
-    name: PythonIdentifier = Field(..., description="The name of the plugin.")
-    docstring: str = Field(..., description="The docstring for the plugin.")
+        ..., description="Name of the plugin's interface. Run geoips list interfaces to see available options."
+        ) # TODO: constrain this list to the interfaces of GeoIPS
+    family: PythonIdentifier = Field(..., description="Family of the plugin.") # TODO: constrain this list to the interfaces of GeoIPS
+    name: PythonIdentifier = Field(..., description="Plugin name.")
+    docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     package: PythonIdentifier = Field(
-        None, description="The package the plugin belongs to."
+        None, description="Package that contains this plugin."
     )
-    relpath: str = Field(None, description="The relative path to the plugin.")
-    abspath: str = Field(None, description="The absolute path to the plugin.")
+    relpath: str = Field(None, description="Path to the plugin file relative to its parent package.")
+    abspath: str = Field(None, description="Absolute path to the plugin file.")
 
-    @field_validator("docstring")
+    #TODO: Update to have two validators, allowing for full numpy docstrings
+    @field_validator("docstring") 
     def validate_one_line_numpy_docstring(cls: type["PluginModel"], value: str) -> str:
-        """Check that the docstring is a single line."""
+        """Validate string is one line, starts with a capital letter and ends with a period."""
         if "\n" in value:
             raise PydanticCustomError(
-                "single_line", "The docstring should be a single line.\n"
+                "single_line", "Docstring must be a single line.\n"
             )
         if not (value[0].isupper() and value.endswith(".")):
             raise PydanticCustomError(
                 "format_error",
-                "The docstring should start with a Capital letter & end with a period",
+                "Docstring must start with a capital letter and end with a period.",
             )
         return value
 
     @field_validator("relpath")
     def validate_relative_path(cls: type["PluginModel"], value: str) -> str:
-        """Validate the relative path."""
-        path = Path(value)
+        """Validate string can be cast as Path and is a relative path."""
+        custom_exception = PydanticCustomError(
+            "relative_path_error",
+            f"'relpath' must be relative path. Got '{value}'.",
+        )
+        try:
+            path = Path(value)
+        except ValueError, TypeError as e:
+            raise custom_exception from e
 
         if path.is_absolute():
-            raise PydanticCustomError(
-                "relative_path_error",
-                "The relpath must be relative path, not an absolute path.\n\n",
-            )
+            raise custom_exception
         return value
 
     @field_validator("abspath")
     def validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
-        """Validate absolute path."""
-        path = Path(value)
+        """Validate string can be cast as Path and is an absolute path."""
+        custom_exception = PydanticCustomError(
+            "absolute_path_error",
+            f"'abspath' must be absolute path. Got '{value}'.",
+        )
+        try:
+            path = Path(value)
+        except ValueError, TypeError as e:
+            raise custom_exception with e
+
         if not path.is_absolute():
-            raise PydanticCustomError(
-                "absolute_path_error", "The path must be an absolute path.\n\n"
-            )
+            raise custom_exception
         return value
 
-
+# TODO: Delete these (all future funcs) // move to future version
 def mpl_artist_args(args: dict, artist: Artist) -> dict:
     """Validate the arguments for a matplotlib artist."""
     line = artist([0, 1], [0, 1])
