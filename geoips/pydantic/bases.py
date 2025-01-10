@@ -1,12 +1,10 @@
-"""Implementations of Pydantic base models for GeoIPS.
+"""Pydantic base models for GeoIPS.
 
-The pydantic base models defined here are intended for use by other base
-models.
+Intended for use by other base models.
 
-``Plugin`` should be used as the parent class of all other plugin models.
+``PluginModel`` should be used as the parent class of all other plugin models.
 
-The other models defined here are intended to validate particular field types
-within plugin models.
+Other models defined here validate field types within child plugin models.
 """
 
 # Python Standard Libraries
@@ -28,7 +26,7 @@ class PrettyBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default."""
 
     def __str__(self) -> str:
-        """Return a string representation of a Pydantic model.
+        """Return a pretty-print string representation of a Pydantic model.
 
         The returned string will be formatted as JSON with two-space indentation.
 
@@ -40,7 +38,33 @@ class PrettyBaseModel(BaseModel):
 
 
 class StaticBaseModel(PrettyBaseModel):
-    """A Model for building customized Pydantic ConfigDict options."""
+    """A pydantic model with a custom Pydantic ConfigDict.
+    
+    Future
+    ------
+    
+    We will set these in future implementations of this class:
+
+     - strict: False
+validate_default = go for True if int type and default None are accpeted during validation
+- Will the sphinx shows None if the default value is not set
+str_strip_whitespace = yes
+set_min_length should be set to 1
+extra = allow (all plugins should accept **kwargs) on the ArgumentsModel such as Reader Arguments Model but forbid in all other places
+
+
+
+
+NEW
+
+New
+10:40
+populate_by_name = true
+10:40
+validate_assignment = True when we have Frozen as False
+10:40
+arbitary_types_allowed: not for YAML stuff but for class stuff
+    """
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
@@ -80,7 +104,14 @@ PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
 class PluginModel(StaticBaseModel):
-    """Base Plugin model for all GeoIPS plugins."""
+    """Base Plugin model for all GeoIPS plugins.
+    
+    This should be used as the base class for all top-level
+    PluginModels. It adds standard plugin attributes for inheritance.
+    It validates YAML plugins for the order based procflow.
+    
+    See the YAML plugin documentation here for more information about
+    how this is used. [TODO: add link]"""
 
     interface: PythonIdentifier = Field(
         ..., description="The name of the plugin's interface."
