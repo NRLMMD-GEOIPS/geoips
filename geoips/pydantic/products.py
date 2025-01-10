@@ -103,6 +103,7 @@ class ReaderArgumentsModel(StaticBaseModel):
     )
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
     self_register: bool = Field(False, description="Flag for self-registration.")
+    fnames: List[str] = Field(None, description="full path to the file(s) for static dataset inputs.")
 
     @model_validator(mode="before")
     def _handle_deprecated_chans(cls, values):
