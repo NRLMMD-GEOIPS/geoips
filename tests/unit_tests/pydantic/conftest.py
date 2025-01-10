@@ -27,9 +27,10 @@ def valid_reader_arguments_model_data():
     """Fixture to provide sample valid Reader arguments for testing."""
     return {
         "area_def": "None",
-        "chans": ["None"],
+        "variable": ["None"],
         "metadata_only": True,
         "self_register": True,
+        "fnames": ["None"]
     }
 
 

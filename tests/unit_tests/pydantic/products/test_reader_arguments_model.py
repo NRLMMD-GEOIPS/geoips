@@ -22,6 +22,7 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     assert model.variable == ["None"]
     assert model.metadata_only is True
     assert model.self_register is True
+    assert model.fnames == ["None"]
 
 
 def test_bad_reader_arguments_model_field_defaults():
@@ -33,6 +34,7 @@ def test_bad_reader_arguments_model_field_defaults():
         "variable": None,
         "metadata_only": False,
         "self_register": False,
+        "fnames": None
     }
 
     for field, expected_value in expected_defaults.items():
@@ -48,6 +50,7 @@ def test_bad_reader_arguments_model_invalid_field_type():
         "chans": "channel_1",
         "metadata_only": "invalid",
         "self_register": "invalid",
+        "fnames": "invalid"
     }
 
     with pytest.raises(ValidationError) as exec_info:
@@ -66,11 +69,11 @@ def test_bad_reader_arguments_model_invalid_field_type():
         ), f"Expected error for the field '{field}' with the type '{error_type}'."
 
 
-def test_bad_reader_arguments_model_empty_list_for_chans(
+def test_bad_reader_arguments_model_empty_list_for_variable(
     valid_reader_arguments_model_data,
 ):
-    """Tests ReaderArgumentsModel with empty list input for chans field."""
-    valid_reader_arguments_model_data["chans"] = []
+    """Tests ReaderArgumentsModel with empty list input for variable field."""
+    valid_reader_arguments_model_data["variable"] = []
 
     model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
