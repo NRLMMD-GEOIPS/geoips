@@ -18,7 +18,7 @@ from geoips.pydantic.bases import PluginModel, StaticBaseModel
 logging.basicConfig(
     level=logging.WARNING,
     format="%(asctime)s - %(name)s - %(levelname)s: %(message)s",
-    datefmt="%m-%Y-%d %H:%M:%S"
+    datefmt="%m-%Y-%d %H:%M:%S",
 )
 LOG = logging.getLogger(__name__)
 
@@ -59,10 +59,15 @@ def get_plugin_types() -> List[str]:
     list of str
         list of possible unique plugin types
     """
-    interface = []
-    for ifs in interfaces.list_available_interfaces().values():
-        interface.extend(ifs)
-    return list(set(plugin_types[:-1] for plugin_types in interface))
+    return list(
+        {
+            # the [:-1] slice converts the plugin type from plural to singular
+            # eg. 'Readers' => 'Reader'
+            plugin_types[:-1]
+            for ifs in interfaces.list_available_interfaces().values()
+            for plugin_types in ifs
+        }
+    )
 
 
 class OutputFormatterArgumentsModel(StaticBaseModel):
@@ -99,11 +104,15 @@ class ReaderArgumentsModel(StaticBaseModel):
     model_config = ConfigDict(extra="allow")
     area_def: str = Field(None, description="Area definition identifier.")
     variable: List[str] = Field(
-        None, description="List of channels to process", alias="chans",
+        None,
+        description="List of channels to process",
+        alias="chans",
     )
     metadata_only: bool = Field(False, description="Flag for metadata-only processing.")
     self_register: bool = Field(False, description="Flag for self-registration.")
-    fnames: List[str] = Field(None, description="full path to the file(s) for static dataset inputs.")
+    fnames: List[str] = Field(
+        None, description="full path to the file(s) for static dataset inputs."
+    )
 
     @model_validator(mode="before")
     def _handle_deprecated_chans(cls, values):
