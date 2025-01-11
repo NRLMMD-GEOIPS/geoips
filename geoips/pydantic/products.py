@@ -141,7 +141,7 @@ class ReaderArgumentsModel(StaticBaseModel):
         if "chans" in values:
             LOG.warning(
                 "'chans' is deprecated and will be removed in GeoIPS 2.0. Use"
-                "'variable' instead."
+                "'variables' instead."
             )
         return values
 
@@ -280,7 +280,7 @@ class ProductSpecModel(StaticBaseModel):
     )
 
 
-class ProductPluginModel(StaticBaseModel):
+class ProductPluginModel(PluginModel):
     """A plugin that produces a product."""
 
     model_config = ConfigDict(extra="allow")
