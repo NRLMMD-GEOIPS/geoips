@@ -62,13 +62,14 @@ def get_plugin_types() -> set[str]:
     set of str
         set of possible unique plugin types
     """
-    return { # set comprehension
-            # the [:-1] slice converts the plugin type from plural to singular
-            # eg. 'Readers' => 'Reader'
-            plugin_types[:-1]
-            for ifs in interfaces.list_available_interfaces().values()
-            for plugin_types in ifs
-        }
+    return {
+        # set comprehension
+        # the [:-1] slice converts the plugin type from plural to singular
+        # eg. 'Readers' => 'Reader'
+        plugin_types[:-1]
+        for ifs in interfaces.list_available_interfaces().values()
+        for plugin_types in ifs
+    }
 
 
 class OutputFormatterArgumentsModel(StaticBaseModel):
@@ -105,7 +106,6 @@ class ReaderArgumentsModel(StaticBaseModel):
     Pydantic model defining and validating Reader step arguments.
     """
 
-
     model_config = ConfigDict(extra="allow")
     area_def: str = Field(None, description="Area definition identifier.")
     variables: List[str] = Field(
@@ -114,7 +114,6 @@ class ReaderArgumentsModel(StaticBaseModel):
         alias="chans",  # Deprecated alias of variables TODO: deprecate using pydantic built-in
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
-
     self_register: List[str] = Field(None, description="Enable self-registration.")
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
