@@ -54,7 +54,7 @@ def get_plugin_names(plugin_type: str) -> List[str]:
     return [plugin.name for plugin in interface.get_plugins() or []]
 
 
-def get_plugin_types() -> Set[str]:
+def get_plugin_types() -> set[str]:
     """Return plugin types from available interfaces.
 
     Returns
@@ -101,7 +101,7 @@ class InterpolatorArgumentsModel(StaticBaseModel):
 
 class ReaderArgumentsModel(StaticBaseModel):
     """Reader step argument definition.
-    
+
     Pydantic model defining and validating Reader step arguments.
     """
 

@@ -10,7 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 from pathlib import Path
-from typing import Tuple
+from typing import Set, Tuple
 
 
 # Third-Party Libraries
@@ -39,10 +39,10 @@ class PrettyBaseModel(BaseModel):
 
 class StaticBaseModel(PrettyBaseModel):
     """A pydantic model with a custom Pydantic ConfigDict.
-    
+
     Future
     ------
-    
+
     We will set these in future implementations of this class:
 
      - strict: False
@@ -105,11 +105,11 @@ PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 class PluginModel(StaticBaseModel):
     """Base Plugin model for all GeoIPS plugins.
-    
+
     This should be used as the base class for all top-level
     PluginModels. It adds standard plugin attributes for inheritance.
     It validates YAML plugins for the order based procflow.
-    
+
     See the YAML plugin documentation here for more information about
     how this is used. [TODO: add link]"""
 
@@ -126,7 +126,7 @@ class PluginModel(StaticBaseModel):
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
     #TODO: Update to have two validators, allowing for full numpy docstrings
-    @field_validator("docstring") 
+    @field_validator("docstring")
     def validate_one_line_numpy_docstring(cls: type["PluginModel"], value: str) -> str:
         """Validate string is one line, starts with a capital letter and ends with a period."""
         if "\n" in value:
@@ -149,7 +149,7 @@ class PluginModel(StaticBaseModel):
         )
         try:
             path = Path(value)
-        except ValueError, TypeError as e:
+        except (ValueError, TypeError) as e:
             raise custom_exception from e
 
         if path.is_absolute():
@@ -165,8 +165,8 @@ class PluginModel(StaticBaseModel):
         )
         try:
             path = Path(value)
-        except ValueError, TypeError as e:
-            raise custom_exception with e
+        except (ValueError, TypeError) as e:
+            raise custom_exception from e
 
         if not path.is_absolute():
             raise custom_exception
