@@ -15,9 +15,9 @@ def valid_step_data():
         "name": "abi_netcdf",
         "arguments": {
             "area_def": "None",
-            "chans": ["None"],
+            "variables": ["None"],
             "metadata_only": False,
-            "self_register": False,
+            "self_register": ["None"],
         },
     }
 
@@ -27,9 +27,9 @@ def valid_reader_arguments_model_data():
     """Fixture to provide sample valid Reader arguments for testing."""
     return {
         "area_def": "None",
-        "variable": ["None"],
+        "variables": ["None"],
         "metadata_only": True,
-        "self_register": True,
+        "self_register": ["None"],
         "fnames": ["None"]
     }
 

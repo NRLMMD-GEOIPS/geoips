@@ -19,9 +19,9 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.area_def == "None"
-    assert model.variable == ["None"]
+    assert model.variables == ["None"]
     assert model.metadata_only is True
-    assert model.self_register is True
+    assert model.self_register == ["None"]
     assert model.fnames == ["None"]
 
 
@@ -31,9 +31,9 @@ def test_bad_reader_arguments_model_field_defaults():
 
     expected_defaults = {
         "area_def": None,
-        "variable": None,
+        "variables": None,
         "metadata_only": False,
-        "self_register": False,
+        "self_register": None,
         "fnames": None
     }
 
@@ -73,8 +73,8 @@ def test_bad_reader_arguments_model_empty_list_for_variable(
     valid_reader_arguments_model_data,
 ):
     """Tests ReaderArgumentsModel with empty list input for variable field."""
-    valid_reader_arguments_model_data["variable"] = []
+    valid_reader_arguments_model_data["variables"] = []
 
     model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
-    assert model.variable == []
+    assert model.variables == []

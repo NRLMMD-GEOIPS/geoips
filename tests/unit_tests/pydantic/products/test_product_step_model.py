@@ -57,9 +57,9 @@ def test_good_product_step_model_validator_valid_input(
             "name": "abi_netcdf",
             "arguments": {
                 "area_def": "None",
-                "chans": ["None"],
+                "variables": ["None"],
                 "metadata_only": False,
-                "self_register": False,
+                "self_register": ["None"],
             },
         }
     }

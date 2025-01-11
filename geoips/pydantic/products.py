@@ -111,11 +111,11 @@ class ReaderArgumentsModel(StaticBaseModel):
     variables: List[str] = Field(
         None,
         description="List of channels to process",
-        alias="chans", # Deprecated alias of variables TODO: deprecate using pydantic built-in
+        alias="chans",  # Deprecated alias of variables TODO: deprecate using pydantic built-in
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
 
-    self_register: str = Field(None, description="Enable self-registration.")
+    self_register: List[str] = Field(None, description="Enable self-registration.")
     fnames: List[str] = Field(
         None, description="full path to the file(s) for static dataset inputs."
     )

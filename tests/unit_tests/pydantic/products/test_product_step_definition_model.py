@@ -24,9 +24,9 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
     assert model.name == "abi_netcdf"
     assert model.arguments == {
         "area_def": "None",
-        "chans": ["None"],
+        "variables": ["None"],
         "metadata_only": False,
-        "self_register": False,
+        "self_register": ["None"],
     }
 
 
