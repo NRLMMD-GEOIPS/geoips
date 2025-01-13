@@ -3,7 +3,7 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-====================
+
 Order-Based Procflow
 ====================
 
@@ -36,22 +36,24 @@ The code block below shows the syntax of a sample step definition:
 
 .. code-block:: yaml
 
-    - step:                                         # synonym for plugin type
-       [type]:  <type_name>                         # optional, auto-filled if omitted
-       name:    <plugin_name>
-       arguments: {}
+    spec:
+      steps:
+        - step:     # Beginning of first step
+            _type:  <type_name>        #auto-filled, takes the value of step / plugin type
+            name:   <plugin_name>
+            arguments: {}
+        - step:     # Beginning of second step
 
 Description of properties
 *************************
 
 Few of the important fields definition from the product definition file.
 
-* `step` (required) : represents each stage (top-level plugin) in the
+* ``step`` (required) : represents each stage (top-level plugin) in the
   computational sequence. It is equivalent to the plugin type.
-* `type` (optional): Specifies the plugin type. This field is optional since it
-  can be inferred from the step.
-* `name` (required) : Specifies the specific plugin name for the step.
-* `arguments` (required) : Accepts a list of arguments validated against the
+* ``type`` (optional): private variable and for internal use only.
+* ``name`` (required) : Specifies the specific plugin name for the step.
+* ``arguments`` (required) : Accepts a list of arguments validated against the
   plugin's call signature. This field can also include other plugins (steps) if
   needed.
 
