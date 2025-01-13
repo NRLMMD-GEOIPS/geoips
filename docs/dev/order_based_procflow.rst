@@ -48,7 +48,7 @@ The code block below shows the syntax of a sample step definition:
 Description of properties
 -------------------------
 
-Few of the important fields definition from the product definition file.
+A few of the important field definitions from the product definition file are:
 
 * ``step`` (required) : represents each stage (top-level plugin) in the
   computational sequence. It is equivalent to the plugin type.
