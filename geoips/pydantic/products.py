@@ -9,7 +9,7 @@ including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 
 # Python Standard Libraries
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List
 
 # Third-Party Libraries
 from pydantic import Field, model_validator, ConfigDict
