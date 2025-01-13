@@ -46,7 +46,7 @@ The code block below shows the syntax of a sample step definition:
         - step:     # beginning of second step
 
 Description of properties
-*************************
+-------------------------
 
 Few of the important fields definition from the product definition file.
 
@@ -59,7 +59,7 @@ Few of the important fields definition from the product definition file.
   needed.
 
 Example of a Step Definition
-****************************
+----------------------------
 Below is an example YAML configuration for reader step:
 
 .. code-block:: yaml
@@ -76,7 +76,7 @@ Below is an example YAML configuration for reader step:
 
 
 Plugin Definition Requirements
-******************************
+------------------------------
 
 These plugin definitions must:
 
