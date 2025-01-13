@@ -39,6 +39,7 @@ The code block below shows the syntax of a sample step definition:
     spec:
       steps:
         - step:     # Beginning of first step
+            # Private, for internal use only
             _type:  <type_name>        #auto-filled, takes the value of step / plugin type
             name:   <plugin_name>
             arguments: {}
