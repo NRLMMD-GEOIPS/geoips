@@ -27,10 +27,10 @@ OBP offers the following key advantages over other procflows:
 * **Scalable Architecture:** Accommodates additional steps and enables more
   complex product processing workflows.
 
-The OBP is a sequence of user-defined plugin operations. The
-top-level plugins required as steps in the OBP are readers, algorithms,
-interpolators, and output formatters. We use the singular form of plugin type
-as the step name. These plugin operations, or steps, are defined in YAML format
+The OBP is a sequence of user-defined plugin operations. The top-level plugins
+required as steps in the OBP are readers, algorithms, interpolators, and
+output_formatters. We use the singular form of plugin type as the step name.
+These plugin operations, or steps, are defined in YAML format
 within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`.
 
 
