@@ -18,21 +18,39 @@ Compute, Visualize, and Output (ETCVO) workflow.
 
 OBP offers the following key advantages over other procflows:
 
-* **User-Defined Step Order:** allows users to specify the exact sequence
+* **User-Defined Step Order:** Allows users to specify the exact sequence
   of processing steps.
-* **Flexible Step Repetition:** supports repeating specific steps, such as
-  multiple algorithm plugins, as needed for a particular product.
-* **Comprehensive Error Control:** uses Pydantic validation for thorough error
-  checking and input validation.
-* **Scalable Architecture:** accomodates additional steps and enables more
+* **Flexible Step Repetition:** Supports repeating specific steps, such as
+  running multiple algorithm plugins, as needed for a particular product.
+* **Comprehensive Error Control:** Uses Pydantic validation for robust error
+  and input checking.
+* **Scalable Architecture:** Accommodates additional steps and enables more
   complex product processing workflows.
 
 The OBP is a sequence of user-defined plugin operations. The
 top-level plugins required as steps in the OBP are readers, algorithms,
-interpolators, and output formatters. These plugin operations, or steps, are
-defined in a YAML format within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`.
+interpolators, and output formatters. We use the singular form of plugin type
+as the step name. These plugin operations, or steps, are defined in YAML format
+within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`.
 
-The code block below shows the syntax of a sample step definition:
+
+Important Fields
+----------------
+
+A few of the important field definitions from the product definition file are:
+
+* ``step`` (required): represents each stage (top-level plugin) in the
+  computational sequence. It is equivalent to the plugin type.
+* ``type`` (optional): A private variable intended for internal use only.
+* ``name`` (required): Specifies the plugin name of type ``step``.
+* ``arguments`` (required): Accepts a list of arguments validated against the
+  plugin's call signature. This field can also include other nested-level
+  plugins (steps) when required.
+
+Syntax
+------
+
+The code block below demonstrates the syntax of a sample step definition:
 
 .. code-block:: yaml
 
@@ -45,34 +63,25 @@ The code block below shows the syntax of a sample step definition:
             arguments: {}
         - step:     # beginning of second step
 
-Description of properties
--------------------------
 
-A few of the important field definitions from the product definition file are:
+Example
+-------
 
-* ``step`` (required) : represents each stage (top-level plugin) in the
-  computational sequence. It is equivalent to the plugin type.
-* ``type`` (optional): private variable and for internal use only.
-* ``name`` (required) : Specifies the specific plugin name for the step.
-* ``arguments`` (required) : Accepts a list of arguments validated against the
-  plugin's call signature. This field can also include other plugins (steps) if
-  needed.
-
-Example of a Step Definition
-----------------------------
-Below is an example YAML configuration for reader step:
+The following code block demonstrates a valid YAML configuration for a reader
+step:
 
 .. code-block:: yaml
 
-    steps:
-    - reader:
-        name: abi_netcdf
-        arguments:
-          area_def: None
-          chans: None
-          metadata_only: False
-          self_register: False
-          variables: ['B14BT']
+    spec:
+      steps:
+      - reader:
+          name: abi_netcdf
+          arguments:
+            area_def: None
+            chans: None
+            metadata_only: False
+            self_register: False
+            variables: ['B14BT']
 
 
 Plugin Definition Requirements
@@ -80,15 +89,15 @@ Plugin Definition Requirements
 
 These plugin definitions must:
 
-* Conform to call signature for their plugin type.
-* Accept data matching the standard GeoIPS data format (except for the reader
-  step).
-* Return data matching the standard GeoIPS data format (except for the output
-  formatter step).
+* Conform to the call signature for their plugin type.
+* **Accept data**: The input for each step must conform to the standard GeoIPS
+  data format, except for the ``reader`` step.
+* **Return data**: The output data for each step must conform to the standard
+  GeoIPS data format except for the ``output_formatter`` step.
 
-Each step can also take other valid plugins as arguments. For instance, the
-Output Formatter step in the code-block below includes two additional plugins,
-colormapper and filename_formatter, for enhanced customization.
+Each step can also accept other valid plugins as arguments. For instance, the
+Output Formatter step in the code block below includes two additional plugins,
+``colormapper`` and ``filename_formatter``, for enhanced customization.
 
 .. code-block:: yaml
 
@@ -98,7 +107,7 @@ colormapper and filename_formatter, for enhanced customization.
     docstring: Read test.
     package: geoips
     spec:
-    steps:
+      steps:
         - reader:
             name: abi_netcdf
             arguments:
