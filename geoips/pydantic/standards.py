@@ -23,9 +23,16 @@ class DynamicBaseModel(BaseModel):
 class Model(StaticBaseModel):
     """Model specifically meant for testing StandardBaseModel."""
 
-    x: str 
+    x: str
+    y: str
 
 
-m = Model(x="hello", y="world ")
+# Won't strip white space from field values that are not members of the model
+# but are passed with extra=allow.
+# Won't strip the whitepsace if you pass the dictionary without initializing.
+# m = Model(x="hello ", y="world ")
 
-print(m.model_dump())
+
+data = {"x": " hello", "y": "world "}
+model = Model(**data)
+print(model.model_dump())
