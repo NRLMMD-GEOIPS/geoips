@@ -10,7 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 from pathlib import Path
-from typing import Set, Tuple
+from typing import Tuple
 
 
 # Third-Party Libraries
@@ -38,33 +38,7 @@ class PrettyBaseModel(BaseModel):
 
 
 class StaticBaseModel(PrettyBaseModel):
-    """A pydantic model with a custom Pydantic ConfigDict.
-
-    Future
-    ------
-
-    We will set these in future implementations of this class:
-
-     - strict: False
-validate_default = go for True if int type and default None are accpeted during validation
-- Will the sphinx shows None if the default value is not set
-str_strip_whitespace = yes
-set_min_length should be set to 1
-extra = allow (all plugins should accept **kwargs) on the ArgumentsModel such as Reader Arguments Model but forbid in all other places
-
-
-
-
-NEW
-
-New
-10:40
-populate_by_name = true
-10:40
-validate_assignment = True when we have Frozen as False
-10:40
-arbitary_types_allowed: not for YAML stuff but for class stuff
-    """
+    """A pydantic model with a custom Pydantic ConfigDict."""
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
 
