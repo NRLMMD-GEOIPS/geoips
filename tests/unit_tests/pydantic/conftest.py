@@ -30,7 +30,7 @@ def valid_reader_arguments_model_data():
         "variables": ["None"],
         "metadata_only": True,
         "self_register": ["None"],
-        "fnames": ["None"]
+        "fnames": ["None"],
     }
 
 
