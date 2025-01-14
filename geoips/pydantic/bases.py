@@ -85,24 +85,32 @@ class PluginModel(StaticBaseModel):
     It validates YAML plugins for the order based procflow.
 
     See the YAML plugin documentation here for more information about
-    how this is used. [TODO: add link]"""
+    how this is used. [TODO: add link]
+    """
 
+    # TODO: constrain this list to the interfaces of GeoIPS
     interface: PythonIdentifier = Field(
-        ..., description="Name of the plugin's interface. Run geoips list interfaces to see available options."
-        ) # TODO: constrain this list to the interfaces of GeoIPS
-    family: PythonIdentifier = Field(..., description="Family of the plugin.") # TODO: constrain this list to the interfaces of GeoIPS
+        ...,
+        description="""Name of the plugin's interface. Run geoips list interfaces to see
+        available options.""",
+    )
+    family: PythonIdentifier = Field(
+        ..., description="Family of the plugin."
+    )  # TODO: constrain this list to the interfaces of GeoIPS
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     package: PythonIdentifier = Field(
         None, description="Package that contains this plugin."
     )
-    relpath: str = Field(None, description="Path to the plugin file relative to its parent package.")
+    relpath: str = Field(
+        None, description="Path to the plugin file relative to its parent package."
+    )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
-    #TODO: Update to have two validators, allowing for full numpy docstrings
+    # TODO: Update to have two validators, allowing for full numpy docstrings
     @field_validator("docstring")
     def validate_one_line_numpy_docstring(cls: type["PluginModel"], value: str) -> str:
-        """Validate string is one line, starts with a capital letter and ends with a period."""
+        """Validate string is one line, starts uppercase, and ends with a period."""
         if "\n" in value:
             raise PydanticCustomError(
                 "single_line", "Docstring must be a single line.\n"
@@ -145,6 +153,7 @@ class PluginModel(StaticBaseModel):
         if not path.is_absolute():
             raise custom_exception
         return value
+
 
 # TODO: Delete these (all future funcs) // move to future version
 def mpl_artist_args(args: dict, artist: Artist) -> dict:
