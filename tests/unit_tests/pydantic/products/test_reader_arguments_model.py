@@ -3,9 +3,6 @@
 
 """Test Order-based procflow ReaderArgumentsModel."""
 
-# Python Standard Libraries
-import copy
-
 # Third-Party Libraries
 import pytest
 from pydantic import ValidationError
@@ -34,7 +31,7 @@ def test_bad_reader_arguments_model_field_defaults():
         "variables": None,
         "metadata_only": False,
         "self_register": None,
-        "fnames": None
+        "fnames": None,
     }
 
     for field, expected_value in expected_defaults.items():
@@ -50,7 +47,7 @@ def test_bad_reader_arguments_model_invalid_field_type():
         "chans": "channel_1",
         "metadata_only": "invalid",
         "self_register": "invalid",
-        "fnames": "invalid"
+        "fnames": "invalid",
     }
 
     with pytest.raises(ValidationError) as exec_info:
