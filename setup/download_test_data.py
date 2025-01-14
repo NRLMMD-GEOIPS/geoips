@@ -122,7 +122,8 @@ def download_from_git(repo_url, destination):
     """
     try:
         output_to_console(
-            f"Cloning repository from {repo_url} to {destination}", style="bold cyan"
+            f"Cloning repository from {repo_url} to {destination}",
+            style="bold cyan",
         )
         subprocess.check_output(["git", "clone", repo_url, destination])
         output_to_console("Repository successfully cloned.", style="bold green")
@@ -175,7 +176,14 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                     style="cyan",
                 )
                 # Trusting archives to not be malicious by not filtering files
-                tar.extractall(path=dest)  # nosec
+                # tar.extractall(path=dest)  # nosec
+                for item_to_extract in tar:
+                    if not os.path.abspath(
+                        os.path.join(dest, item_to_extract.name)
+                    ).startswith(dest):
+                        raise SystemExit(f"Found unsafe filepath in tar from url {url}")
+                    tar.extract(item_to_extract, path=dest)
+
         output_to_console("Success. Files downloaded and extracted.", style="green")
     except Exception as e:
         output_to_console("Failed to download or extract files.", style="bold red")
@@ -258,6 +266,8 @@ def main():
 
     test_data_urls = get_test_data_urls()
     if args.test_data_available:
+        if args.input is None:
+            raise argparse.ArgumentError("Please pass a test data set")
         if args.input in test_data_urls.keys():
             output_to_console(
                 f"{args.input} is available for direct download.", style="green"

@@ -1,0 +1,30 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE product_file SYSTEM "../productfiles.dtd">
+
+<!--
+    Notes:
+        See productfiles.dtd in this directory for full notes.  All DTD information
+        is contained there.
+-->
+<product_file>
+<product method='externalalg' name='ExtAlg'>
+    <externalalg_args>
+        <source name='seviri'>
+            <var>B09BT</var>
+        </source>
+        <day_night>both</day_night>
+        <!-- This probably should be set in ExtAlg_plot, since could/should
+                be different for different arrays.
+             But may be cases where useful to specify here...?
+        -->
+        <cmap>Greys_r</cmap>
+        <colorbar>
+            <cmap>Greys_r</cmap>
+            <ticks>30 60 90 120 150 180 210 240 256</ticks>
+            <title>Infrared (degrees C)</title>
+        </colorbar>
+        <coastcolor>0 180 0 255</coastcolor>
+        <gridcolor>0 180 0 255</gridcolor>
+    </externalalg_args>
+</product>
+</product_file>
