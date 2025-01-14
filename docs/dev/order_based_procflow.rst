@@ -39,7 +39,7 @@ Important Fields
 
 A few of the important field definitions from the product definition file are:
 
-* ``step`` (required): represents each stage (top-level plugin) in the
+* ``step`` (required): Represents each stage (top-level plugin) in the
   computational sequence. It is equivalent to the plugin type.
 * ``type`` (optional): A private variable intended for internal use only.
 * ``name`` (required): Specifies the plugin name of type ``step``.
@@ -58,8 +58,8 @@ The code block below demonstrates the syntax of a sample step definition:
       steps:
         - step:     # beginning of first step
             # private, for internal use only
-            _type:  <type_name>        #takes the value of step / plugin type
-            name:   <plugin_name>
+            type:  <type_name>        #takes the value of step / plugin type
+            name:  <plugin_name>
             arguments: {}
         - step:     # beginning of second step
 
@@ -78,9 +78,9 @@ step:
           name: abi_netcdf
           arguments:
             area_def: None
-            chans: None
+            variables: None
             metadata_only: False
-            self_register: False
+            self_register: None
             variables: ['B14BT']
 
 
@@ -112,9 +112,9 @@ Output Formatter step in the code block below includes two additional plugins,
             name: abi_netcdf
             arguments:
             area_def: None
-            chans: None
+            variables: None
             metadata_only: False
-            self_register: False
+            self_register: None
             variables: ['B14BT']
         - algorithm:
             name: single_channel
@@ -134,6 +134,6 @@ Output Formatter step in the code block below includes two additional plugins,
                 arguments:
                 suffix: ".png"
 
-The code block above demonstrates a valid product definition for an Order-Based
-procflow.
+The code block above demonstrates a valid example of a product definition for
+an Order-Based Procflow.
 
