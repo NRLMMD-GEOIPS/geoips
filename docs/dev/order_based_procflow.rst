@@ -91,9 +91,9 @@ These plugin definitions must:
 
 * Conform to the call signature for their plugin type.
 * **Accept data**: The input for each step must conform to the standard GeoIPS
-  data format, except for the ``reader`` step.
+  data `format <https://docs.xarray.dev/en/stable/>`, except for the ``reader`` step.
 * **Return data**: The output data for each step must conform to the standard
-  GeoIPS data format except for the ``output_formatter`` step.
+  GeoIPS data `format <https://docs.xarray.dev/en/stable/>` except for the ``output_formatter`` step.
 
 Each step can also accept other valid plugins as arguments. For instance, the
 Output Formatter step in the code block below includes two additional plugins,
