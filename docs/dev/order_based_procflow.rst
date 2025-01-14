@@ -39,10 +39,9 @@ Important Fields
 
 A few of the important field definitions from the product definition file are:
 
-* ``step`` (required): Represents each stage (top-level plugin) in the
-  computational sequence. It is equivalent to the plugin type.
-* ``type`` (private): A private variable intended for internal use only.
-* ``name`` (required): Specifies the plugin name of type ``step``.
+* ``step`` (required): A top-level plugin in the computational sequence.
+* ``type`` (private): A private variable intended for internal use.
+* ``name`` (required): The name of the plugin name for the ``step`` type.
 * ``arguments`` (required): Accepts a list of arguments validated against the
   plugin's call signature. This field can also include other nested-level
   plugins (steps) when required.
@@ -78,9 +77,8 @@ step:
           name: abi_netcdf
           arguments:
             area_def: None
-            variables: None
             metadata_only: False
-            self_register: None
+            self_register: [None]
             variables: ['B14BT']
 
 
@@ -112,9 +110,8 @@ Output Formatter step in the code block below includes two additional plugins,
             name: abi_netcdf
             arguments:
             area_def: None
-            variables: None
             metadata_only: False
-            self_register: None
+            self_register: [None]
             variables: ['B14BT']
         - algorithm:
             name: single_channel
