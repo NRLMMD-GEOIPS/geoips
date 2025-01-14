@@ -31,7 +31,7 @@ The OBP is a sequence of user-defined plugin operations. The top-level plugins
 required as steps in the OBP are readers, algorithms, interpolators, and
 output_formatters. We use the singular form of plugin type as the step name.
 These plugin operations, or steps, are defined in YAML format
-within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`.
+within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`_.
 
 
 Important Fields
@@ -41,7 +41,7 @@ A few of the important field definitions from the product definition file are:
 
 * ``step`` (required): Represents each stage (top-level plugin) in the
   computational sequence. It is equivalent to the plugin type.
-* ``type`` (optional): A private variable intended for internal use only.
+* ``type`` (private): A private variable intended for internal use only.
 * ``name`` (required): Specifies the plugin name of type ``step``.
 * ``arguments`` (required): Accepts a list of arguments validated against the
   plugin's call signature. This field can also include other nested-level
@@ -91,9 +91,9 @@ These plugin definitions must:
 
 * Conform to the call signature for their plugin type.
 * **Accept data**: The input for each step must conform to the standard GeoIPS
-  data `format <https://docs.xarray.dev/en/stable/>`, except for the ``reader`` step.
+  data `format <https://docs.xarray.dev/en/stable/>`_, except for the ``reader`` step.
 * **Return data**: The output data for each step must conform to the standard
-  GeoIPS data `format <https://docs.xarray.dev/en/stable/>` except for the ``output_formatter`` step.
+  GeoIPS data `format <https://docs.xarray.dev/en/stable/>`_ except for the ``output_formatter`` step.
 
 Each step can also accept other valid plugins as arguments. For instance, the
 Output Formatter step in the code block below includes two additional plugins,
