@@ -25,11 +25,11 @@ def call(
 
     Parameters
     ----------
-    fnames : (list[str])
+    fnames : list of str
         list of filenames to process
-    product_path : (str)
+    product_path : str
         path to the product definition file
-    command_line_args : (list[str] | None, optional)
+    command_line_args : list of str, None
         fnames & product-path
     """
     with open(product_path) as product_definition_file:
