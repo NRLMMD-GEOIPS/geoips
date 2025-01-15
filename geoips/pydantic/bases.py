@@ -14,8 +14,6 @@ from typing import Tuple
 
 
 # Third-Party Libraries
-from matplotlib.artist import Artist
-from matplotlib.lines import Line2D
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
@@ -153,24 +151,5 @@ class PluginModel(StaticBaseModel):
         if not path.is_absolute():
             raise custom_exception
         return value
-
-
-# TODO: Delete these (all future funcs) // move to future version
-def mpl_artist_args(args: dict, artist: Artist) -> dict:
-    """Validate the arguments for a matplotlib artist."""
-    line = artist([0, 1], [0, 1])
-    for key, arg in args.items():
-        if key == "enabled":
-            continue
-        line.set(**{key: arg})
-    return args
-
-
-def line_args(args: dict) -> dict:
-    """Validate the arguments for a matplotlib line."""
-    return mpl_artist_args(args, Line2D([0, 1], [0, 1]))
-
-
-LineArgs = Annotated[dict, AfterValidator(line_args)]
 
 
