@@ -10,7 +10,6 @@ import yaml
 from geoips import interfaces
 from geoips.pydantic.products import ProductPluginModel
 
-
 interface = "procflows"
 family = "standard"
 name = "order_based"
@@ -28,7 +27,7 @@ def call(
     ----------
     fnames : (list[str])
         list of filenames to process
-    product-path : (str)
+    product_path : (str)
         path to the product definition file
     command_line_args : (list[str] | None, optional)
         fnames & product-path
