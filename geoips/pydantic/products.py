@@ -12,7 +12,7 @@ import logging
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import Field, model_validator, ConfigDict
+from pydantic import ConfigDict, Field, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
@@ -149,7 +149,7 @@ class ReaderArgumentsModel(StaticBaseModel):
 class ProductStepDefinitionModel(StaticBaseModel):
     """Validate step definition : name, arguments."""
 
-    type: str = Field(..., description="plugin type")
+    type: str = Field(..., description="for internal use only, plugin type", exclude=True)
     name: str = Field(..., description="plugin name")
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
