@@ -149,8 +149,10 @@ class ReaderArgumentsModel(StaticBaseModel):
 class ProductStepDefinitionModel(StaticBaseModel):
     """Validate step definition : name, arguments."""
 
-    type: str = Field(..., description="for internal use only, plugin type", exclude=True)
-    name: str = Field(..., description="plugin name")
+    type: str = Field(
+        ..., description="for internal use only, plugin type", exclude=True
+    )
+    name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @model_validator(mode="after")
@@ -284,4 +286,7 @@ class ProductPluginModel(PluginModel):
     """A plugin that produces a product."""
 
     model_config = ConfigDict(extra="allow")
+    source_names: List[str] = Field(
+        ..., description="Data sources handled by this product"
+    )
     spec: ProductSpecModel = Field(..., description="The product specification")
