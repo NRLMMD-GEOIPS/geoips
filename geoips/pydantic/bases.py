@@ -10,14 +10,15 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 from pathlib import Path
-from typing import Tuple
-
 
 # Third-Party Libraries
 from pydantic import BaseModel, ConfigDict, Field, field_validator
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
+
+# GeoIPS imports
+from geoips.plugin_registry import plugin_registry
 
 
 class PrettyBaseModel(BaseModel):
@@ -98,7 +99,9 @@ class PluginModel(StaticBaseModel):
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     package: PythonIdentifier = Field(
-        None, description="Package that contains this plugin."
+        ...,
+        description="Package that contains this plugin.",
+        default_factory=plugin_registry.get_package_name,
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
@@ -151,5 +154,3 @@ class PluginModel(StaticBaseModel):
         if not path.is_absolute():
             raise custom_exception
         return value
-
-
