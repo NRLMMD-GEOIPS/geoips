@@ -39,8 +39,6 @@ extensions = [
     "sphinx.ext.viewcode",
     "sphinxcontrib.autoprogram",
     "m2r2",
-    "sphinx-pydantic",
-    "sphinxcontrib.autodoc_pydantic",
     "sphinxcontrib.mermaid",
 ]
 
