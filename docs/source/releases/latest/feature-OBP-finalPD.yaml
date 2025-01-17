@@ -11,6 +11,8 @@ future:
     - ''
     modified:
     - '../pyproject.toml'
+    - 'geoips/plugin_registry.py'
+    - 'pyproject.toml'
     moved:
     - ''
   related-issue:
@@ -22,7 +24,6 @@ documentation:
   files:
     added:
     - 'docs/dev/order_based_procflow.rst'
-    - 'docs/source/_templates/conf_PKG.py'
     deleted:
     - ''
     modified:
@@ -38,10 +39,11 @@ testing:
   files:
     added:
     - 'tests/unit_tests/pydantic/conftest.py'
-    - 'tests/unit_tests/pydantic/test_products.py'
-    - 'tests/unit_tests/pydantic/test_bases.py'
-    - 'tests/unit_tests/pydantic/test_reader_arguments_model.py'
-    - 'tests/unit_tests/pydantic/test_product_step_definition_model.py'
+    - 'tests/unit_tests/pydantic/bases/test_bases.py'
+    - 'tests/unit_tests/pydantic/products/test_products.py'
+    - 'tests/unit_tests/pydantic/products/test_reader_arguments_model.py'
+    - 'tests/unit_tests/pydantic/products/test_product_step_model.py'
+    - 'tests/unit_tests/pydantic/products/test_product_step_definition_model.py'
     deleted:
     - ''
     modified:
