@@ -60,7 +60,7 @@ def get_plugin_types() -> set[str]:
     Returns
     -------
     set of str
-        set of possible unique plugin types
+        singular names of distinct plugin types
     """
     return {
         # set comprehension
@@ -234,7 +234,8 @@ class ProductStepModel(StaticBaseModel):
         Returns
         -------
         dict
-            The processed step data after step name validation
+            processed step data after step name validation.
+
 
         Raises
         ------
