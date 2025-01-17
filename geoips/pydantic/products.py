@@ -173,7 +173,7 @@ class ProductStepDefinitionModel(StaticBaseModel):
     @model_validator(mode="before")
     def _validate_plugin_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Validate & organize details for each step.
+        Validate and organize details for each step.
 
         Parameters
         ----------
