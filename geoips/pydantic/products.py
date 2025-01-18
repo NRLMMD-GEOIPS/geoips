@@ -219,8 +219,8 @@ class ProductStepDefinitionModel(StaticBaseModel):
         )
         if plugin_arguments_model is None:
             raise ValueError(
-                f"""The argument class/model "{plugin_arguments_model_name}" for
-                the plugin type "{plugin_type}" is not defined."""
+                f'The argument class/model "{plugin_arguments_model_name}" for'
+                f'the plugin type "{plugin_type}" is not defined.'
             )
         plugin_arguments_model(**values.get("arguments", {}))
 
