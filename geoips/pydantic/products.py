@@ -214,6 +214,7 @@ class ProductStepDefinitionModel(StaticBaseModel):
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
         }
+        # plugin_arguments_model = globals().get(plugin_arguments_model_name)
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name
         )
