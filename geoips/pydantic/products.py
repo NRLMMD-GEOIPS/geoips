@@ -205,19 +205,7 @@ class ProductStepDefinitionModel(StaticBaseModel):
             [word.capitalize() for word in plugin_type.split("_")]
         )
         plugin_arguments_model_name = f"{plugin_type_pascal_case}ArgumentsModel"
-
-        # Dictionary listing all plugin arguments models
-        plugin_arguments_models = {
-            "ReaderArgumentsModel": ReaderArgumentsModel,
-            "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
-            "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
-            "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
-            "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
-        }
-        # plugin_arguments_model = globals().get(plugin_arguments_model_name)
-        plugin_arguments_model = plugin_arguments_models.get(
-            plugin_arguments_model_name
-        )
+        plugin_arguments_model = globals().get(plugin_arguments_model_name)
         if plugin_arguments_model is None:
             raise ValueError(
                 f"""The argument class/model "{plugin_arguments_model_name}" for
