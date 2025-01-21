@@ -5,7 +5,7 @@ bug fix:
     reference imagery for multiple tests. It us unclear what caused the
     differences, but we determined that the differences were acceptable.
   files:
-    added:
+    added: []
     modified:
     - 'tests/outputs/abi.static.Infrared.imagery_annotated.low_memory/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png'
     - 'tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png'
@@ -14,8 +14,8 @@ bug fix:
     - 'tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png'
     - 'tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png'
     - 'tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png'
-    deleted:
-    moved:
+    deleted: []
+    moved: []
   related-issue:
     number: 866
     repo_url: ''
