@@ -1761,6 +1761,11 @@ def call(fnames, command_line_args=None):
                         continue
                     composite_kwargs = output_dict.get("composite_kwargs", {})
                     if composite_kwargs.get("composite_products"):
+                        if not product_db:
+                            LOG.interactive(
+                                "Product database disabled, cannot create composite"
+                            )
+                            continue
                         from geoips.utils.composite import find_preproc_alg_files
 
                         # Required kwargs for generating composite
@@ -1776,8 +1781,17 @@ def call(fnames, command_line_args=None):
                         db_kwargs = config_dict["available_sectors"][sector_type].get(
                             "product_database_writer_kwargs", {}
                         )
-                        db_schemas = db_kwargs.get("schema_name")
-                        db_tables = db_kwargs.get("table_name")
+                        # Default schema and tables
+                        db_schema = db_kwargs.get("schema_name")
+                        db_table = db_kwargs.get("table_name")
+                        # Check to see if products should be queried from other schema
+                        # and/or tables - fall back to defaults if not specified.
+                        query_schema = comp_settings.get(
+                            "database_query_schema", db_schema
+                        )
+                        query_table = comp_settings.get(
+                            "database_query_table", db_table
+                        )
 
                         preproc_files = find_preproc_alg_files(
                             product_time=alg_xarray.start_datetime,
@@ -1789,8 +1803,8 @@ def call(fnames, command_line_args=None):
                             file_format=comp_file_format,
                             product_db=product_db,
                             db_query_plugin=db_query_plugin,
-                            db_schemas=db_schemas,
-                            db_tables=db_tables,
+                            db_schemas=[query_schema],
+                            db_tables=[query_table],
                         )
                         if preproc_files:
                             pre_proc = reader(preproc_files)

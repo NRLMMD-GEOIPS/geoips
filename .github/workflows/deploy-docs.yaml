@@ -1,16 +1,12 @@
 name: Deploy docs
 
-# 1. Brassy - on merge of v*-version-release
-#    * generate release notes
-#    * commit and push to v*-add-rst-release-note
-#    * open PR to default branch
-# 2. Tag and Release - on merge of v*-add-rst-release-note
+# 1. Tag and Release - on merge of v*-version-release
 #    * Tag current version
 #    * Release just tagged version
-# 3. Package and Publish - on published release (from #2)
+# 2. Package and Publish - on published release (from #1)
 #    * Build wheel
 #    * Publish to pypi
-# 4. Deploy docs - on published release (from #2)
+# 3. Deploy docs - on published release (from #1)
 #    * pip install geoips
 #    * pip install plugin repo
 #    * build docs with geoips/docs/build_docs.sh
