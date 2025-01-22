@@ -7,9 +7,6 @@ documentation:
    files:
      added:
        - docs/source/releases/latest/1.14.1-release-note.yaml
-   related-issue:
-     number: 562
-     repo_url: GEOIPS
 documentation:
  - title: Update upcoming and tagged versions
    description: |
@@ -21,6 +18,3 @@ documentation:
      modified:
        - .github/versions/tagged_version
        - .github/versions/upcoming_version
-   related-issue:
-     number: 562
-     repo_url: GEOIPS

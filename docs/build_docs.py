@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Builds geoips and geoips plugin documentation."""
 
 import tempfile
@@ -9,6 +12,7 @@ import logging.handlers
 import argparse
 import shutil
 import os
+from subprocess import call
 
 import brassy.actions.build_release_notes as brassy_build
 import brassy.utils.CLI  # noqa # because of a brassy bug; will be fixed in next vers
@@ -101,6 +105,12 @@ def parse_args_with_argparse():
         help="Output dir to write built docs to",
     )
     parser.add_argument(
+        "--save-temp-dir",
+        type=str,
+        default=None,
+        help="Output dir to write temporary build files to (for debugging purposes)",
+    )
+    parser.add_argument(
         "--repo-path",
         type=str,
         default=None,
@@ -131,8 +141,8 @@ def parse_args_with_argparse():
             args.repo_path = package_path
         except ModuleNotFoundError as e:
             raise e(f"Could not automatically find repo_path for {args.package_name}.")
-        except pygit2.GitError as e:
-            raise e(
+        except pygit2.GitError:
+            raise pygit2.GitError(
                 "Could not automatically find usable repo_path for "
                 f"{args.package_name}. Found {package_path} but it is not a git repo"
             )
@@ -425,13 +435,9 @@ def copy_template_files_to_non_geoips_repo(geoips_docs_dir, build_dir):
     build_dir : str
         The directory where the documentation is being built.
     """
-    shutil.copy(
+    shutil.copytree(
         os.path.join(geoips_docs_dir, "source", "_static"),
-        build_dir,
-    )
-    shutil.copy(
-        os.path.join(geoips_docs_dir, "source", "fancyhf.sty"),
-        build_dir,
+        os.path.join(build_dir, "_static"),
     )
     template_path = os.path.join(build_dir, "_templates")
     os.makedirs(template_path, exist_ok=True)
@@ -655,7 +661,10 @@ def build_release_note_from_dir_with_brassy(
 
 
 def build_release_notes_with_brassy(
-    releases_dir, license_url, log=logging.getLogger(__name__)
+    releases_dir,
+    license_url,
+    log=logging.getLogger(__name__),
+    save_temp_dir=None,
 ):
     """Generate release notes for each subdirectory in a specified releases directory.
 
@@ -671,6 +680,8 @@ def build_release_notes_with_brassy(
     log : logging.Logger, optional
         Logger instance used for logging debug and warning messages. By default,
         uses a logger with the module's name.
+    save_temp_dir : str
+        Optional path to directory to save temp files for reference in debugging
 
     Notes
     -----
@@ -725,8 +736,12 @@ def build_release_notes_with_brassy(
             build_release_note_from_dir_with_brassy(
                 release_dir, release_filename, release_version, header_file.name
             )
+            if save_temp_dir:
+                log.info(f"Writing temp files to {save_temp_dir}")
+                os.makedirs(save_temp_dir, mode=0o755, exist_ok=True)
+                shutil.copy(release_filename, save_temp_dir)
             # TODO: pythonize and call directly; requires update to pink
-            os.system(f"pink {release_filename}")  # nosec
+            call(["pink", release_filename], shell=False)
 
     log.info(
         "Generating index.rst for release notes, "
@@ -797,7 +812,11 @@ def import_non_docs_files(repo_dir, build_dir, log=logging.getLogger(__name__)):
         source = os.path.join(repo_dir, file)
         dest = os.path.join(import_dir, filename)
         log.info(f"Copying {source} to {dest}")
-        shutil.copyfile(source, dest)
+        try:
+            log.info(f"Copying {source} to {dest}")
+            shutil.copyfile(source, dest)
+        except FileNotFoundError:
+            log.warning(f"Could not fine aux file {source}")
 
 
 def build_html_docs(
@@ -809,6 +828,7 @@ def build_html_docs(
     force_overwrite,
     license_url,
     log=logging.getLogger(__name__),
+    save_temp_dir=None,
 ):
     """
     Build the HTML documentation for package.
@@ -835,6 +855,8 @@ def build_html_docs(
         URL that points to the license for the package.
     log : logging.Logger, optional
         Logger for logging messages; defaults to the module logger.
+    save_temp_dir : str
+        Optional path to directory to save temp files for reference in debugging
     """
     log.info("Setting docs files up for building")
     # copy and validate files
@@ -852,7 +874,9 @@ def build_html_docs(
     # build release rst files
     log.info("Building API docs")
     releases_dir = os.path.join(build_dir, "releases")
-    build_release_notes_with_brassy(releases_dir, license_url)
+    build_release_notes_with_brassy(
+        releases_dir, license_url, save_temp_dir=save_temp_dir
+    )
 
     # build api doc rst files
     apidoc_build_path = os.path.join(build_dir, f"{package_name}_api")
@@ -887,6 +911,7 @@ def main(
     output_dir,
     force_overwrite,
     license_url,
+    save_temp_dir,
 ):
     """Prepare for and execute documentation build.
 
@@ -904,6 +929,8 @@ def main(
         The path to the GeoIPS documentation directory (usually geoips/docs)
     output_dir : str
         The directory where the built documentation will be placed.
+    save_temp_dir : str
+        Optional path to directory to save temp files for reference in debugging
     """
     log = init_logger(True)
     log.debug("Program initialized")
@@ -934,6 +961,7 @@ def main(
             force_overwrite,
             license_url,
             log=log,
+            save_temp_dir=save_temp_dir,
         )
 
 
@@ -947,4 +975,5 @@ if __name__ == "__main__":
         output_dir=args.output_dir,
         force_overwrite=args.force,
         license_url=args.license_url,
+        save_temp_dir=args.save_temp_dir,
     )
