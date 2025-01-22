@@ -76,6 +76,10 @@ sectors:
   - sec
   - secs
   - sector
+workflows:
+  - wf
+  - wfs
+  - workflow
 package:
   - pkg
 packages:
