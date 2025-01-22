@@ -504,10 +504,31 @@ class BaseYamlInterface(BaseInterface):
                     f"Plugin [{name}] doesn't exist under interface [{self.name}]"
                 )
             abspath = str(files(package) / relpath)
-            plugin = yaml.safe_load(open(abspath, "r"))
-            plugin["package"] = package
-            plugin["abspath"] = abspath
-            plugin["relpath"] = relpath
+            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
+            doc_length = sum(1 for _ in doc_iter)
+            if doc_length > 1:
+                plugin_found = False
+                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
+                    if plugin["name"] == name:
+                        plugin_found = True
+                        plugin["package"] = package
+                        plugin["abspath"] = abspath
+                        plugin["relpath"] = relpath
+                        break
+                if not plugin_found:
+                    raise PluginRegistryError(
+                        f"Error: YAML plugin under name '{name}' could not be found. "
+                        "Please ensure this plugin exists, and if it does, run "
+                        "'create_plugin_registries'."
+                    )
+                # NOTE: Haven't created a validator for this yet so we are just going to
+                # convert this to an object without validating for the time being.
+                return self._plugin_yaml_to_obj(name, plugin)
+            else:
+                plugin = yaml.safe_load(open(abspath, "r"))
+                plugin["package"] = package
+                plugin["abspath"] = abspath
+                plugin["relpath"] = relpath
         validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to

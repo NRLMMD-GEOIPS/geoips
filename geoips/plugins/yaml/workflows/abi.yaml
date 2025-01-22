@@ -1,0 +1,245 @@
+interface: workflows
+family: order_based
+name: abi_infrared
+docstring: |
+  ABI Infrared Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-Infrared
+        arguments:
+          variables: ["B14BT"]
+---
+interface: workflows
+family: order_based
+name: abi_infrared_gray
+docstring: |
+  ABI Infrared Gray Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-Infrared-Gray
+        arguments:
+          variables: ["B14BT"]
+---
+interface: workflows
+family: order_based
+name: abi_ir_bd
+docstring: |
+  ABI Infrared Brightness Difference Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-IR-BD
+        arguments:
+          variables: ["B14BT"]
+---
+interface: workflows
+family: order_based
+name: abi_wv
+docstring: |
+  ABI Water Vapor Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-WV
+        arguments:
+          variables: ["B09BT"]
+---
+interface: workflows
+family: order_based
+name: abi_wv_lower
+docstring: |
+  ABI Water Vapor Lower Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-WV-Lower
+        arguments:
+          variables: ["B10BT"]
+---
+interface: workflows
+family: order_based
+name: abi_wv_upper
+docstring: |
+  ABI Water Vapor Upper Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-WV-Upper
+        arguments:
+          variables: ["B08BT"]
+---
+interface: workflows
+family: order_based
+name: abi_visible
+docstring: |
+  ABI Visible Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-Visible
+        arguments:
+          variables: ["B03Ref", "MED:solar_zenith_angle"]
+          # NOTE: The override would not apply directly to a colormapper, rather as an
+          # overridden colormapper argument to the preselected output formatter
+          colormapper:
+            plugin:
+              name: matplotlib_linear_norm
+              arguments:
+                cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
+---
+interface: workflows
+family: order_based
+name: abi_visible_high_res
+docstring: |
+  ABI Visible High Resolution Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-Visible
+        arguments:
+          variables: ["B02Ref", "HIGH:solar_zenith_angle"]
+          # NOTE: The override would not apply directly to a colormapper, rather as an
+          # overridden colormapper argument to the preselected output formatter
+          colormapper:
+            plugin:
+              name: matplotlib_linear_norm
+              arguments:
+                cbar_label: "Reflectance, ABI B02 Visible Band"
+---
+interface: workflows
+family: order_based
+name: abi_nasa_dust_rgb
+docstring: |
+  ABI NASA Dust RGB Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-nasa_dust_rgb
+        arguments:
+          variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
+          interpolator:
+            plugin:
+              name: interp_gauss
+              arguments:
+                sigmaval: 10000
+---
+interface: workflows
+family: order_based
+name: abi_dmw_low
+docstring: |
+  ABI DWM Low Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-windbarbs_dmw_low
+        arguments:
+          variables: ["wind_speed", "wind_direction", "pressure"]
+          algorithm:
+            plugin:
+              name: windbarbs_dmw
+              arguments:
+                var_map:
+                  speed: wind_speed
+                  direction: wind_direction
+                  pressure: pressure
+---
+interface: workflows
+family: order_based
+name: abi_dmw_mid
+docstring: |
+  ABI DWM Middle Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-windbarbs_dmw_mid
+        arguments:
+          variables: ["wind_speed", "wind_direction", "pressure"]
+          algorithm:
+            plugin:
+              name: windbarbs_dmw
+              arguments:
+                var_map:
+                  speed: wind_speed
+                  direction: wind_direction
+                  pressure: pressure
+---
+interface: workflows
+family: order_based
+name: abi_dmw_high
+docstring: |
+  ABI DWM High Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-windbarbs_dmw_high
+        arguments:
+          variables: ["wind_speed", "wind_direction", "pressure"]
+          algorithm:
+            plugin:
+              name: windbarbs_dmw
+              arguments:
+                var_map:
+                  speed: wind_speed
+                  direction: wind_direction
+                  pressure: pressure
+---
+interface: workflows
+family: order_based
+name: abi_dmw_low_mid_high
+docstring: |
+  ABI DWM Low-Mid-High Workflow
+spec:
+  steps:
+    - reader:
+        name: abi_netcdf
+        arguments: {}
+    - workflow:
+        name: ob-windbarbs_dmw_multi_level
+        arguments:
+          variables: ["wind_speed", "wind_direction", "pressure"]
+          algorithm:
+            plugin:
+              name: windbarbs_dmw
+              arguments:
+                var_map:
+                  speed: wind_speed
+                  direction: wind_direction
+                  pressure: pressure
