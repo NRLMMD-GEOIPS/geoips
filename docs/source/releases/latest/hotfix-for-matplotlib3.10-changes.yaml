@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Hotfix for matplotlib regression'
+  description: 'Changes to matplotlib cause our imagery outputs to change. It is unclear why currently, but the changes are substantial. This rolls the version back as a hotfix while we work with the matplotlib team to discover what the root cause of these changes are.'
+  files:
+    modified:
+    - 'pyproject.toml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: Jan 22 2025
+    finish: Jan 22 2025
