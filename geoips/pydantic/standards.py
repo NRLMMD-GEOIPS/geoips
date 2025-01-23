@@ -27,6 +27,9 @@ class StaticBaseModel(PrettyBaseModel):
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
     has_disallowed_fields: ClassVar[bool] = False  # Default: no disallowed fields
+    #  has_disallowed_fields = True
+    #  set this in the inherited models, preferably before field definitions
+    #  when you would like to call check_internal_fields 
 
     @classmethod
     def _has_key_nested(cls, obj, key):
