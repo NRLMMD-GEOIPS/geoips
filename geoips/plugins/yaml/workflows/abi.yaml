@@ -7,11 +7,11 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-Infrared
         arguments:
           variables: ["B14BT"]
+    - workflow:
+        name: ob-Infrared
+        spec: {}
 ---
 interface: workflows
 family: order_based
@@ -22,11 +22,11 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-Infrared-Gray
         arguments:
           variables: ["B14BT"]
+    - workflow:
+        name: ob-Infrared-Gray
+        spec: {}
 ---
 interface: workflows
 family: order_based
@@ -37,11 +37,11 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-IR-BD
         arguments:
           variables: ["B14BT"]
+    - workflow:
+        name: ob-IR-BD
+        spec: {}
 ---
 interface: workflows
 family: order_based
@@ -52,11 +52,11 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-WV
         arguments:
           variables: ["B09BT"]
+    - workflow:
+        name: ob-WV
+        spec: {}
 ---
 interface: workflows
 family: order_based
@@ -67,11 +67,11 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-WV-Lower
         arguments:
           variables: ["B10BT"]
+    - workflow:
+        name: ob-WV-Lower
+        spec: {}
 ---
 interface: workflows
 family: order_based
@@ -82,11 +82,11 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-WV-Upper
         arguments:
           variables: ["B08BT"]
+    - workflow:
+        name: ob-WV-Upper
+        spec: {}
 ---
 interface: workflows
 family: order_based
@@ -97,18 +97,19 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-Visible
         arguments:
           variables: ["B03Ref", "MED:solar_zenith_angle"]
-          # NOTE: The override would not apply directly to a colormapper, rather as an
-          # overridden colormapper argument to the preselected output formatter
-          colormapper:
-            plugin:
-              name: matplotlib_linear_norm
-              arguments:
-                cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
+    - workflow:
+        name: ob-Visible
+        spec:
+          steps:
+            - output_formatter:
+                name: imagery_annotated
+                arguments:
+                  colormapper:
+                    name: matplotlib_linear_norm
+                    arguments:
+                      cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
 ---
 interface: workflows
 family: order_based
@@ -119,18 +120,19 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-Visible
         arguments:
           variables: ["B02Ref", "HIGH:solar_zenith_angle"]
-          # NOTE: The override would not apply directly to a colormapper, rather as an
-          # overridden colormapper argument to the preselected output formatter
-          colormapper:
-            plugin:
-              name: matplotlib_linear_norm
-              arguments:
-                cbar_label: "Reflectance, ABI B02 Visible Band"
+    - workflow:
+        name: ob-Visible
+        spec:
+          steps:
+            - output_formatter:
+                name: imagery_annotated
+                arguments:
+                  colormapper:
+                    name: matplotlib_linear_norm
+                    arguments:
+                      cbar_label: "Reflectance, ABI B02 Visible Band"
 ---
 interface: workflows
 family: order_based
@@ -141,16 +143,16 @@ spec:
   steps:
     - reader:
         name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-nasa_dust_rgb
         arguments:
           variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
-          interpolator:
-            plugin:
-              name: interp_gauss
-              arguments:
-                sigmaval: 10000
+    - workflow:
+        name: ob-nasa_dust_rgb
+        spec:
+          steps:
+            - interpolator:
+                name: interp_gauss
+                arguments:
+                  sigmaval: 10000
 ---
 interface: workflows
 family: order_based
@@ -160,20 +162,20 @@ docstring: |
 spec:
   steps:
     - reader:
-        name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-windbarbs_dmw_low
+        name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-          algorithm:
-            plugin:
-              name: windbarbs_dmw
-              arguments:
-                var_map:
-                  speed: wind_speed
-                  direction: wind_direction
-                  pressure: pressure
+    - workflow:
+        name: ob-windbarbs_dmw_low
+        spec:
+          steps:
+            - algorithm:
+                name: windbarbs_dmw
+                arguments:
+                  var_map:
+                    speed: wind_speed
+                    direction: wind_direction
+                    pressure: pressure
 ---
 interface: workflows
 family: order_based
@@ -183,20 +185,20 @@ docstring: |
 spec:
   steps:
     - reader:
-        name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-windbarbs_dmw_mid
+        name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-          algorithm:
-            plugin:
-              name: windbarbs_dmw
-              arguments:
-                var_map:
-                  speed: wind_speed
-                  direction: wind_direction
-                  pressure: pressure
+    - workflow:
+        name: ob-windbarbs_dmw_mid
+        spec:
+          steps:
+            - algorithm:
+                name: windbarbs_dmw
+                arguments:
+                  var_map:
+                    speed: wind_speed
+                    direction: wind_direction
+                    pressure: pressure
 ---
 interface: workflows
 family: order_based
@@ -206,20 +208,20 @@ docstring: |
 spec:
   steps:
     - reader:
-        name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-windbarbs_dmw_high
+        name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-          algorithm:
-            plugin:
-              name: windbarbs_dmw
-              arguments:
-                var_map:
-                  speed: wind_speed
-                  direction: wind_direction
-                  pressure: pressure
+    - workflow:
+        name: ob-windbarbs_dmw_high
+        spec:
+          steps:
+            - algorithm:
+                name: windbarbs_dmw
+                arguments:
+                  var_map:
+                    speed: wind_speed
+                    direction: wind_direction
+                    pressure: pressure
 ---
 interface: workflows
 family: order_based
@@ -229,17 +231,17 @@ docstring: |
 spec:
   steps:
     - reader:
-        name: abi_netcdf
-        arguments: {}
-    - workflow:
-        name: ob-windbarbs_dmw_multi_level
+        name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-          algorithm:
-            plugin:
-              name: windbarbs_dmw
-              arguments:
-                var_map:
-                  speed: wind_speed
-                  direction: wind_direction
-                  pressure: pressure
+    - workflow:
+        name: ob-windbarbs_dmw_multi_level
+        spec:
+          steps:
+            - algorithm:
+                name: windbarbs_dmw
+                arguments:
+                  var_map:
+                    speed: wind_speed
+                    direction: wind_direction
+                    pressure: pressure

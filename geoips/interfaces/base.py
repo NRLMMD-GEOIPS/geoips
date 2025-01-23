@@ -506,7 +506,7 @@ class BaseYamlInterface(BaseInterface):
             abspath = str(files(package) / relpath)
             doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
             doc_length = sum(1 for _ in doc_iter)
-            if doc_length > 1:
+            if doc_length > 1 or self.name == "workflows":
                 plugin_found = False
                 for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
                     if plugin["name"] == name:
