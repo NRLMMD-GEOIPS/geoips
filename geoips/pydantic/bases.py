@@ -26,7 +26,11 @@ from geoips.plugin_registry import plugin_registry
 
 
 class PrettyBaseModel(BaseModel):
-    """Make Pydantic models pretty-print by default."""
+    """Make Pydantic models pretty-print by default.
+
+    This model overrides the default string representation of Pyantic models to generate
+    a user-friendly, JSON-formatted output with two-space indentation.
+    """
 
     def __str__(self) -> str:
         """Return a pretty-print string representation of a Pydantic model.
