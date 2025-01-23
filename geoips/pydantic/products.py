@@ -298,7 +298,4 @@ class ProductPluginModel(PluginModel):
     """A plugin that produces a product."""
 
     model_config = ConfigDict(extra="allow")
-    source_names: List[str] = Field(
-        ..., description="Data sources handled by this product"
-    )
     spec: ProductSpecModel = Field(..., description="The product specification")
