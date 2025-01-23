@@ -9,6 +9,7 @@ Other models defined here validate field types within child plugin models.
 
 # Python Standard Libraries
 import keyword
+import logging
 from pathlib import Path
 
 # Third-Party Libraries
@@ -22,6 +23,8 @@ from typing_extensions import Annotated
 from geoips.plugin_registry import plugin_registry
 
 # from geoips import interfaces
+
+LOG = logging.getLogger(__name__)
 
 
 class PrettyBaseModel(BaseModel):
@@ -38,7 +41,8 @@ class PrettyBaseModel(BaseModel):
 
         Returns
         -------
-            str: A JSON-formatted string representation of the Pydantic model.
+        str
+            A JSON-formatted string representation of the Pydantic model.
         """
         return self.model_dump_json(indent=2)
 
@@ -73,22 +77,30 @@ def python_identifier(val: str) -> str:
 
     Parameters
     ----------
-        val: str
-            The input string to validate.
+    val : str
+        The input string to validate.
 
     Returns
     -------
-        str: The input string if it is a valid Python identifier.
+    str
+        The input string if it is a valid Python identifier.
 
     Raises
     ------
-        ValueError: If the input string is not a valid Python identifier or if it's a
-        reserved Python keyword.
+    ValueError
+        If the input string is invalid as a Python identifier or a reserved keyword.
     """
+    error_messages = []
     if not val.isidentifier():
-        raise ValueError(f"{val} is not a valid Python identifier")
+        error_messages.append(f"{val} is not a valid Python identifier.")
     if keyword.iskeyword(val):
-        raise ValueError(f"{val} is a reserved Python keyword")
+        error_messages.append(f"{val} is a reserved Python keyword.")
+
+    if error_messages:
+        error_message = " ".join(error_messages) + " Please update it."
+        LOG.error(error_message, exc_info=True)
+        raise ValueError(error_message)
+
     return val
 
 
