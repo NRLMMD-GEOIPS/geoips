@@ -15,7 +15,6 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
-from typing import ClassVar
 from typing_extensions import Annotated
 
 
@@ -39,16 +38,28 @@ class PrettyBaseModel(BaseModel):
 
         Returns
         -------
-            str: A string representation of the Pydantic model.
+            str: A JSON-formatted string representation of the Pydantic model.
         """
         return self.model_dump_json(indent=2)
 
 
 class StaticBaseModel(PrettyBaseModel):
-    """A pydantic model with a custom Pydantic ConfigDict."""
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
+    customized configurations such as forbidding extra fields.
+
+    Attributes
+    ----------
+    model_config : ConfigDict
+        Configuration for the Pydantic model:
+        - `extra="forbid"`: Does not allow any additional fileds in the input data.
+        - `populate_by_name=True`: Enables populaitng fields by their aliases.
+
+
+    """
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
-    has_disallowed_fields: ClassVar[bool] = False  # Default: no disallowed fields
 
 
 def python_identifier(val: str) -> str:
