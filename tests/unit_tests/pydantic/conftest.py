@@ -70,6 +70,7 @@ def valid_plugin_data():
         "family": "geoips_family",
         "name": "geoips_name",
         "docstring": "This is a valid numpy docstring.",
+        "description": "This is a valid numpy docstring.",
         "package": "geoips_package",
         "relpath": "geoips/tests/unit_tests/pydantic",
         "abspath": "/home/kumar/geoips/geoips/tests/unit_tests/pydantic",

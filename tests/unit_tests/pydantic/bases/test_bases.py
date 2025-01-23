@@ -120,6 +120,7 @@ def test_good_plugin_valid_instance(valid_plugin_data):
     assert plugin.family == valid_plugin_data["family"]
     assert plugin.name == valid_plugin_data["name"]
     assert plugin.docstring == valid_plugin_data["docstring"]
+    assert plugin.description == valid_plugin_data["description"]
     assert plugin.package == valid_plugin_data["package"]
     assert plugin.relpath == valid_plugin_data["relpath"]
     assert plugin.abspath == valid_plugin_data["abspath"]
@@ -176,13 +177,13 @@ def test_good_plugin_model_docstring(valid_plugin_data, docstring):
 def test_bad_plugin_model_docstring(valid_plugin_data, invalid_docstring):
     """Test PluginModel with invalid docstring usecases."""
     data = copy.deepcopy(valid_plugin_data)
-    data["docstring"] = invalid_docstring
+    data["description"] = invalid_docstring
 
     with pytest.raises(ValueError) as exec_info:
         bases.PluginModel(**data)
 
     error_info = exec_info.value.errors()
-    assert any(error["loc"] == ("docstring",) for error in error_info)
+    assert any(error["loc"] == ("description",) for error in error_info)
     assert any("valid string" in error["msg"] for error in error_info)
 
 

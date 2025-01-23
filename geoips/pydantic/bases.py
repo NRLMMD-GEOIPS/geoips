@@ -12,13 +12,17 @@ import keyword
 from pathlib import Path
 
 # Third-Party Libraries
-from pydantic import BaseModel, ConfigDict, Field, field_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
+from typing import ClassVar
 from typing_extensions import Annotated
+
 
 # GeoIPS imports
 from geoips.plugin_registry import plugin_registry
+
+# from geoips import interfaces
 
 
 class PrettyBaseModel(BaseModel):
@@ -40,6 +44,7 @@ class StaticBaseModel(PrettyBaseModel):
     """A pydantic model with a custom Pydantic ConfigDict."""
 
     model_config = ConfigDict(extra="forbid", populate_by_name=True)
+    has_disallowed_fields: ClassVar[bool] = False  # Default: no disallowed fields
 
 
 def python_identifier(val: str) -> str:
@@ -98,6 +103,10 @@ class PluginModel(StaticBaseModel):
     )  # TODO: constrain this list to the interfaces of GeoIPS
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
+    description: str = Field(
+        None,
+        description=("A short description or defaults to first line from docstring."),
+    )
     package: PythonIdentifier = Field(
         ...,
         description="Package that contains this plugin.",
@@ -109,7 +118,17 @@ class PluginModel(StaticBaseModel):
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
     # TODO: Update to have two validators, allowing for full numpy docstrings
-    @field_validator("docstring")
+    @model_validator(mode="before")
+    def _set_description(cls, values):
+        """Set ``description`` to first line of ``dosctring`` field if not provided."""
+        if "description" not in values:
+            # first_line_from_docstring = values["docstring"].strip().split("\n", 1)[0]
+            values["description"] = values["docstring"].strip().split(".")[0]
+            # return first_line_from_docstring
+        return values
+
+    @field_validator("description")
+    # (length limit)
     def validate_one_line_numpy_docstring(cls: type["PluginModel"], value: str) -> str:
         """Validate string is one line, starts uppercase, and ends with a period."""
         if "\n" in value:
