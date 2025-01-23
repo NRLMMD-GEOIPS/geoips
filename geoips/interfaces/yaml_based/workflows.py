@@ -55,7 +55,6 @@ class WorkflowsInterface(BaseYamlInterface):
                                 # conflict, and add any default key / values that aren't
                                 # present in the override dictionary
                                 dsteps[didx] = self._deep_merge(deepcopy(dstep), ostep)
-                                print(dsteps)
                 final_steps.extend(dsteps)
             else:
                 final_steps.append(step)
