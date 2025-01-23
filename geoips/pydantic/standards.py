@@ -3,7 +3,8 @@
 
 """Pydantic Standard Base Model for GeoIPS."""
 
-from pydantic import BaseModel, ConfigDict
+from pydantic import BaseModel, ConfigDict, model_validator
+from typing import ClassVar
 
 
 class PrettyBaseModel(BaseModel):
@@ -21,13 +22,83 @@ class PrettyBaseModel(BaseModel):
         return self.model_dump_json(indent=2)
 
 
-class StandardBaseModel(BaseModel):
-    """Standard Base Model for Pydantic validation in GeoIPS."""
+class StaticBaseModel(PrettyBaseModel):
+    """A pydantic model with a custom Pydantic ConfigDict."""
 
-    model_config = ConfigDict(extra="allow")
+    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+    has_disallowed_fields: ClassVar[bool] = False  # Default: no disallowed fields
+
+    @classmethod
+    def _has_key_nested(cls, obj, key):
+        """
+        Recursively searches if an internal field exists in the input dictionary.
+
+        Parameters
+        ----------
+        obj : dict
+            Input dictionary to search.
+        key : str
+            The internal field to look for.
+
+        Returns
+        -------
+        bool
+            True if the internal field exists, False otherwise.
+        """
+        if isinstance(obj, dict):
+            if key in obj:
+                return True
+            return any(cls._has_key_nested(v, key) for v in obj.values())
+        elif isinstance(obj, list):
+            return any(cls._has_key_nested(item, key) for item in obj)
+        return False
+
+    @model_validator(mode="before")
+    def check_internal_fields(cls, values):
+        """
+        Validate internal fields and warn if the user tries to set them.
+
+        Parameters
+        ----------
+        values: dict
+            dictionary containing step details.
+
+        Returns
+        -------
+        dict
+            dictionary containing step details.
+
+        Raises
+        ------
+        ValueError
+            If a disallowed field is found in the input.
+        """
+        disallowed_fields = cls.get_disallowed_fields()
+        for field in disallowed_fields:
+            # if field in values and values[field] is not None:
+            if cls._has_key_nested(values, field):
+                raise ValueError(f"{field} can't be user-defined; set internally")
+        return values
+
+    @classmethod
+    def get_disallowed_fields(cls):
+        """
+        Return a list of fields restricted from user user input.
+
+        Submodels should override this method to specify fields where user input
+        is restricted. By default, it returns an empty list, indicating no fields are
+        restricted.
+
+        Returns
+        -------
+        list
+            A list of field names (strings)
+
+        """
+        return []
 
 
-class Model(StandardBaseModel):
+class Model(StaticBaseModel):
     """Model specifically meant for testing StandardBaseModel."""
 
     x: str
