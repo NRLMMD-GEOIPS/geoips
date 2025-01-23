@@ -26,7 +26,7 @@ spec:
           inverse: null
           norm: null
     - output_formatter:
-        name: imagery_annoated
+        name: imagery_annotated
         arguments:
           colormapper:
             name: matplotlib_linear_norm

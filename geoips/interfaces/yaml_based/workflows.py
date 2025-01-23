@@ -85,7 +85,7 @@ class WorkflowsInterface(BaseYamlInterface):
                 # If both values are dictionaries, recursively merge
                 self._deep_merge(default[key], value)
             else:
-                # Otherwise, override or add the key-value pair from dict2
+                # Otherwise, override or add the key-value pair from override
                 default[key] = value
         return default
 
