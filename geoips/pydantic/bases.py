@@ -53,12 +53,12 @@ class StaticBaseModel(PrettyBaseModel):
     This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
     customized configurations such as forbidding extra fields.
 
-    Attributes
-    ----------
-    model_config : ConfigDict
-        Configuration for the Pydantic model:
-        - `extra="forbid"`: Does not allow any additional fileds in the input data.
-        - `populate_by_name=True`: Enables populaitng fields by their aliases.
+    # Attributes
+    # ----------
+    # model_config : ConfigDict
+    #     Configuration for the Pydantic model:
+    #     - `extra="forbid"`: Does not allow any additional fileds in the input data.
+    #     - `populate_by_name=True`: Enables populaitng fields by their aliases.
 
 
     """
@@ -70,8 +70,8 @@ def python_identifier(val: str) -> str:
     """Validate if a string is a valid Python identifier.
 
     Validate if a string is a valid Python identifier and not a reserved Python keyword.
-    See https://docs.python.org/3/reference/lexical_analysis.html#identifiers for more
-    information on Python identifiers and reserved keywords.
+    `See <https://docs.python.org/3/reference/lexical_analysis.html#identifiers>`_ for
+    more information on Python identifiers and reserved keywords.
 
     Validation is performed by calling `str.isidentifier` and `keyword.iskeyword`.
 
@@ -115,8 +115,9 @@ class PluginModel(StaticBaseModel):
     PluginModels. It adds standard plugin attributes for inheritance.
     It validates YAML plugins for the order based procflow.
 
-    See the YAML plugin documentation here for more information about
-    how this is used. [TODO: add link]
+    See the YAML plugin documentation `here
+    <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/plugin_development/product_default.rst>`_
+    for more information about how this is used.
     """
 
     # TODO: constrain this list to the interfaces of GeoIPS
