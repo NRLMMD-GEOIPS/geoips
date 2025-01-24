@@ -17,7 +17,7 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
-from typing_extensions import Annotated, Any
+from typing_extensions import Annotated
 
 
 # GeoIPS imports
@@ -145,9 +145,7 @@ class PluginModel(StaticBaseModel):
         description="""Name of the plugin's interface. Run geoips list interfaces to see
         available options.""",
     )
-    family: PythonIdentifier = Field(
-        ..., description="Family of the plugin."
-    )
+    family: PythonIdentifier = Field(..., description="Family of the plugin.")
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
@@ -198,7 +196,9 @@ class PluginModel(StaticBaseModel):
 
     # TODO: Update to have two validators, allowing for full numpy docstrings
     @model_validator(mode="before")
-    def _set_description(cls: type["PluginModel"], values: dict[str, str | int | float | None]):
+    def _set_description(
+        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+    ):
         """
         Set ``description`` to first line of ``dosctring`` field if not provided.
 
@@ -215,7 +215,11 @@ class PluginModel(StaticBaseModel):
 
         """
         if "description" not in values or values.get("description") is None:
-            values["description"] = values.get("docstring").strip().split("\n", 1)[0]
+            first_line = values.get("docstring")
+            if first_line:
+                values["description"] = (
+                    values.get("docstring").strip().split("\n", 1)[0]
+                )
         return values
 
     @field_validator("description", mode="after")
@@ -251,12 +255,11 @@ class PluginModel(StaticBaseModel):
         if not (value[0].isalnum() and value.endswith(".")):
             raise PydanticCustomError(
                 "format_error",
-                "Description must start with an alphanumeric letter and end with a period.",
+                "Description must start with a letter or number and end with a period.",
             )
         if len("description") > 72:
             raise PydanticCustomError(
-                "length_error",
-                "Description cannot be more than 72 characters."
+                "length_error", "Description cannot be more than 72 characters."
             )
         return value
 
