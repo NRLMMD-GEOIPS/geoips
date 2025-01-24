@@ -168,7 +168,7 @@ def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     ), f"Incorrect interface. Must be one of {valid_interfaces}"
 
 
-# Parameterized test input for a valid docstring test
+# Parameterized test input for a valid description test
 @pytest.mark.parametrize(
     "docstring",
     ["This is a valid docstring."],
@@ -181,7 +181,7 @@ def test_good_plugin_model_docstring(valid_plugin_data, docstring):
     assert model.docstring == docstring
 
 
-# Parameterized test input for multiple invalid docstrings
+# Parameterized test input for multiple invalid descriptions
 @pytest.mark.parametrize(
     "invalid_docstring",
     [
@@ -212,6 +212,60 @@ def test_bad_plugin_model_description(valid_plugin_data, invalid_docstring):
     error_info = exec_info.value.errors()
     assert any(error["loc"] == ("description",) for error in error_info)
     assert any("valid string" in error["msg"] for error in error_info)
+
+
+@pytest.mark.parametrize(
+    "docstring_input, expected_description",
+    [
+        (
+            {"docstring": "First line. \n Second line.", "description": None},
+            "First line.",
+        ),
+    ],
+    ids=[
+        "Description is None",
+    ],
+)
+def test_bad_plugin_model_set_description(
+    valid_plugin_data, docstring_input, expected_description
+):
+    """Test PluginModel's set_description() method when descritpion is set to None."""
+    data = copy.deepcopy(valid_plugin_data)
+    data.update(docstring_input)
+    model = bases.PluginModel(**data)
+
+    assert model.description == expected_description, (
+        f"Expected description: {expected_description},"
+        f"but got this: {model.docstring}"
+    )
+
+
+@pytest.mark.parametrize(
+    "docstring_input, expected_description",
+    [
+        (
+            {
+                "docstring": "First line. \n Second line.",
+            },
+            "First line.",
+        ),
+    ],
+    ids=[
+        "Description not provided",
+    ],
+)
+def test_bad_plugin_model_set_descrption_without_input_field(
+    valid_plugin_data, docstring_input, expected_description
+):
+    """Test PluginModel's set_description() method when description field is missing."""
+    data = copy.deepcopy(valid_plugin_data)
+    data.pop("description", None)
+    data.update(docstring_input)
+    model = bases.PluginModel(**data)
+    assert model.description == expected_description, (
+        f"Expected description: {expected_description},"
+        f"but got this: {model.docstring}"
+    )
 
 
 @pytest.mark.parametrize(
