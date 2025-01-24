@@ -218,7 +218,7 @@ class PluginModel(StaticBaseModel):
             first_line = values.get("docstring")
             if first_line:
                 values["description"] = (
-                    values.get("docstring").strip().split("\n", 1)[0]
+                    values.get("docstring").strip().split("\n", 1)[0].strip()
                 )
         return values
 
