@@ -11,7 +11,7 @@
 # import pytest
 
 # GeoIPS Libraries
-from geoips.pydantic import products
+from geoips.pydantic import workflows
 
 
 # The following tests would be added in the later stage of OBP
@@ -28,12 +28,12 @@ from geoips.pydantic import products
 def test_bad_get_plugin_types_missing_types(valid_plugin_types):
     """Test get_plugin_types call to check there are no missing plugin types."""
     assert not (
-        set(valid_plugin_types) - set(products.get_plugin_types())
+        set(valid_plugin_types) - set(workflows.get_plugin_types())
     ), "Missing plugin type(s)"
 
 
 def test_bad_get_plugin_types_unexpected_or_new_plugin_type(valid_plugin_types):
     """Tests get_plugin_types call to check for no unexpected plugin is reported."""
-    assert not (set(products.get_plugin_types()) - set(valid_plugin_types)), (
+    assert not (set(workflows.get_plugin_types()) - set(valid_plugin_types)), (
         "Unexpected New plugin type(s) -" " update test or check function:\n\n"
     )

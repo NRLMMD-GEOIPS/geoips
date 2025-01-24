@@ -8,12 +8,12 @@ import pytest
 from pydantic import ValidationError
 
 # GeoIPS Libraries
-from geoips.pydantic import products
+from geoips.pydantic import workflows
 
 
 def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
     """Tests ReaderArgumentsModel with valid inputs."""
-    model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
+    model = workflows.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.area_def == "None"
     assert model.variables == ["None"]
@@ -24,7 +24,7 @@ def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
 
 def test_bad_reader_arguments_model_field_defaults():
     """Tests if the default value for a given field is valid or not."""
-    model = products.ReaderArgumentsModel()
+    model = workflows.ReaderArgumentsModel()
 
     expected_defaults = {
         "area_def": None,
@@ -51,7 +51,7 @@ def test_bad_reader_arguments_model_invalid_field_type():
     }
 
     with pytest.raises(ValidationError) as exec_info:
-        products.ReaderArgumentsModel(**invalid_test_data)
+        workflows.ReaderArgumentsModel(**invalid_test_data)
 
     error_info = exec_info.value.errors()
 
@@ -72,6 +72,6 @@ def test_bad_reader_arguments_model_empty_list_for_variable(
     """Tests ReaderArgumentsModel with empty list input for variable field."""
     valid_reader_arguments_model_data["variables"] = []
 
-    model = products.ReaderArgumentsModel(**valid_reader_arguments_model_data)
+    model = workflows.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.variables == []

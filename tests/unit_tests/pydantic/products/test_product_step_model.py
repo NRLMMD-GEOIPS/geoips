@@ -11,7 +11,7 @@ from pydantic import ValidationError
 import pytest
 
 # GeoIPS Libraries
-from geoips.pydantic import products
+from geoips.pydantic import workflows
 
 
 def test_good_product_step_model_valid_initialization(valid_step_data):
@@ -22,14 +22,14 @@ def test_good_product_step_model_valid_initialization(valid_step_data):
     required_test_data = {"reader": test_data}
     # print("\n\n\nupdated test data", required_test_data)
 
-    model = products.ProductStepModel(**required_test_data)
+    model = workflows.ProductStepModel(**required_test_data)
     assert model.definition.type == "reader"
 
 
 def test_bad_product_step_model_empty_initialization():
     """Tests ProductStepModel with empty input."""
     with pytest.raises(ValidationError) as exec_info:
-        products.ProductStepModel()
+        workflows.ProductStepModel()
 
     error_info = exec_info.value.errors()
 
@@ -48,7 +48,7 @@ def test_good_product_step_model_validator_valid_input(
     test_data.pop("type")
     required_test_data = {"reader": test_data}
 
-    model = products.ProductStepModel(**required_test_data)
+    model = workflows.ProductStepModel(**required_test_data)
 
     validated_data = model._plugin_name_validator(required_test_data)
     assert validated_data == {
@@ -76,7 +76,7 @@ def test_bad_product_step_model_validator_invalid_plugin_type(
     required_test_data["invalid_plugin_type"] = required_test_data.pop("reader")
 
     with pytest.raises(ValidationError) as exec_info:
-        products.ProductStepModel(**required_test_data)
+        workflows.ProductStepModel(**required_test_data)
 
     error_info = str(exec_info.value)
     assert "invalid_plugin_type" in error_info
@@ -100,7 +100,7 @@ def test_bad_product_Step_model_validator_invalid_plugin_name(
     }
 
     with pytest.raises(ValidationError) as exec_info:
-        products.ProductStepModel(**invalid_test_data)
+        workflows.ProductStepModel(**invalid_test_data)
 
     error_info = str(exec_info.value)
     assert (

@@ -66,7 +66,7 @@ def valid_plugin_types():
 def valid_plugin_data():
     """Fixture providing valid sample data for Plugin model."""
     return {
-        "interface": "geoips_interface",
+        "interface": "procflows",
         "family": "geoips_family",
         "name": "geoips_name",
         "docstring": "This is a valid numpy docstring.",
