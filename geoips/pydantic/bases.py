@@ -8,6 +8,7 @@ Other models defined here validate field types within child plugin models.
 """
 
 # Python Standard Libraries
+from functools import lru_cache
 import keyword
 import logging
 from pathlib import Path
@@ -22,7 +23,7 @@ from typing_extensions import Annotated
 # GeoIPS imports
 from geoips.plugin_registry import plugin_registry
 
-# from geoips import interfaces
+from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
 
@@ -108,6 +109,25 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
+@lru_cache(maxsize=None)
+def get_interfaces() -> set[str]:
+    """Return a set of distinct interfaces.
+
+    This function returns all available plugin interfaces. The results are cached for
+    runtime memory optimizaiton.
+
+    Returns
+    -------
+    set of str
+        set of interfaces
+    """
+    return {
+        available_interfaces
+        for ifs in interfaces.list_available_interfaces().values()
+        for available_interfaces in ifs
+    }
+
+
 class PluginModel(StaticBaseModel):
     """Base Plugin model for all GeoIPS plugins.
 
@@ -120,7 +140,6 @@ class PluginModel(StaticBaseModel):
     for more information about how this is used.
     """
 
-    # TODO: constrain this list to the interfaces of GeoIPS
     interface: PythonIdentifier = Field(
         ...,
         description="""Name of the plugin's interface. Run geoips list interfaces to see
@@ -144,6 +163,38 @@ class PluginModel(StaticBaseModel):
         None, description="Path to the plugin file relative to its parent package."
     )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
+
+    @field_validator("interface", mode="before")
+    def valid_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
+        """
+        Validate the input for the 'interface' field.
+
+        Ensures that the input value is one of the valid interfaces. Raises a ValueError
+        if the input is not valid.
+
+        Parameters
+        ----------
+        cls : Type
+            PluginModel class.
+        value :
+            Value of the 'interface' field to validate.
+
+        Returns
+        -------
+        PythonIdentifier
+            Validated value if it is valid.
+
+        Raises
+        ------
+        ValueError
+            If the 'interface' field value is not in the list of valid interfaces.
+        """
+        valid_interfaces = get_interfaces()
+        if value not in valid_interfaces:
+            raise ValueError(
+                f"Incorrect interface: {value}.Must be one of {valid_interfaces}"
+            )
+        return value
 
     # TODO: Update to have two validators, allowing for full numpy docstrings
     @model_validator(mode="before")
