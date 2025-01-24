@@ -144,6 +144,30 @@ def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
     ), "Unexpected field should be mentioned in the error"
 
 
+def test_good_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
+    """Test PluginModel's valid_interface() method with valid interfaces."""
+    model = bases.PluginModel(**valid_plugin_data)
+    valid_interface = model.valid_interface(model.interface)
+    assert valid_interface in valid_interfaces
+
+
+def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
+    """Test PluginModel's  valid_interface() method with invalid interfaces."""
+    invalid_data = valid_plugin_data.copy()
+    invalid_data["interface"] = "invalid_interface_name"
+
+    with pytest.raises(ValidationError) as exec_info:
+        bases.PluginModel(**invalid_data)
+
+    error_info = exec_info.value.errors()
+    assert any(
+        err["type"] == "value_error" for err in error_info
+    ), "expected error type : 'Value error' "
+    assert "interface" in str(
+        exec_info.value
+    ), f"Incorrect interface. Must be one of {valid_interfaces}"
+
+
 # Parameterized test input for a valid docstring test
 @pytest.mark.parametrize(
     "docstring",
@@ -161,7 +185,10 @@ def test_good_plugin_model_docstring(valid_plugin_data, docstring):
 @pytest.mark.parametrize(
     "invalid_docstring",
     [
-        ("This is a \n a multiline docstring.", "The docstring must be one line only."),
+        (
+            "This is a \n a multiline docstring.",
+            "The description must be one line only.",
+        ),
         ("Docstring with missing period", "The docstring must end with a period"),
         (
             "docstring starting with lower case and ending with no period",
@@ -174,7 +201,7 @@ def test_good_plugin_model_docstring(valid_plugin_data, docstring):
         "Start with Capital & end in period",
     ],
 )
-def test_bad_plugin_model_docstring(valid_plugin_data, invalid_docstring):
+def test_bad_plugin_model_description(valid_plugin_data, invalid_docstring):
     """Test PluginModel with invalid docstring usecases."""
     data = copy.deepcopy(valid_plugin_data)
     data["description"] = invalid_docstring
