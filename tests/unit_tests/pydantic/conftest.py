@@ -23,6 +23,12 @@ def valid_step_data():
 
 
 @pytest.fixture
+def valid_interfaces(valid_plugin_types):
+    """Fixture to provide list of valid GeoIPS interfaces."""
+    return {f"{plugin_type}s" for plugin_type in valid_plugin_types}
+
+
+@pytest.fixture
 def valid_reader_arguments_model_data():
     """Fixture to provide sample valid Reader arguments for testing."""
     return {
