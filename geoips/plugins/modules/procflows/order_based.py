@@ -8,7 +8,7 @@ import yaml
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.products import ProductPluginModel
+from geoips.pydantic.workflows import ProductPluginModel
 
 interface = "procflows"
 family = "standard"
