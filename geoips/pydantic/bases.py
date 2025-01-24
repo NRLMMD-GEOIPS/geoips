@@ -17,7 +17,7 @@ from pathlib import Path
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
-from typing_extensions import Annotated
+from typing_extensions import Annotated, Any
 
 
 # GeoIPS imports
@@ -147,7 +147,7 @@ class PluginModel(StaticBaseModel):
     )
     family: PythonIdentifier = Field(
         ..., description="Family of the plugin."
-    )  # TODO: constrain this list to the interfaces of GeoIPS
+    )
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
@@ -198,26 +198,65 @@ class PluginModel(StaticBaseModel):
 
     # TODO: Update to have two validators, allowing for full numpy docstrings
     @model_validator(mode="before")
-    def _set_description(cls, values):
-        """Set ``description`` to first line of ``dosctring`` field if not provided."""
-        if "description" not in values:
-            # first_line_from_docstring = values["docstring"].strip().split("\n", 1)[0]
-            values["description"] = values["docstring"].strip().split(".")[0]
-            # return first_line_from_docstring
+    def _set_description(cls: type["PluginModel"], values: dict[str, str | int | float | None]):
+        """
+        Set ``description`` to first line of ``dosctring`` field if not provided.
+
+        Parameters
+        ----------
+        values : dict
+            Dictionary of field values before validation.
+
+        Returns
+        -------
+        dict
+            Updated dictionary of field values, setting ``description`` if it was not
+            provided.
+
+        """
+        if "description" not in values or values.get("description") is None:
+            values["description"] = values.get("docstring").strip().split("\n", 1)[0]
         return values
 
-    @field_validator("description")
-    # (length limit)
-    def validate_one_line_numpy_docstring(cls: type["PluginModel"], value: str) -> str:
-        """Validate string is one line, starts uppercase, and ends with a period."""
+    @field_validator("description", mode="after")
+    def validate_one_line_docstring(cls: type["PluginModel"], value: str) -> str:
+        """
+        Validate that the description adheres to required single line standards.
+
+        The description string must meet the following requirements:
+        - Must be a single line.
+        - First letter must be be alphanumeric.
+        - Must end with a period.
+        - Must not exceed 72 characters.
+
+        Parameters
+        ----------
+        value : str
+            ``description`` string to validate.
+
+        Returns
+        -------
+        str
+            Validated ``description`` string.
+
+        Raises
+        ------
+        PydanticCustomError
+            If the ``description`` field violates any of the validation rules.
+        """
         if "\n" in value:
             raise PydanticCustomError(
-                "single_line", "Docstring must be a single line.\n"
+                "single_line", "Description must be a single line.\n"
             )
-        if not (value[0].isupper() and value.endswith(".")):
+        if not (value[0].isalnum() and value.endswith(".")):
             raise PydanticCustomError(
                 "format_error",
-                "Docstring must start with a capital letter and end with a period.",
+                "Description must start with an alphanumeric letter and end with a period.",
+            )
+        if len("description") > 72:
+            raise PydanticCustomError(
+                "length_error",
+                "Description cannot be more than 72 characters."
             )
         return value
 
