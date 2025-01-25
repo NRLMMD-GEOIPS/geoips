@@ -35,13 +35,12 @@ def call(
     command_line_args : list of str, None
         fnames and product-path
     """
-    with open(product_name) as product_definition_file:
-        prod_dict = yaml.safe_load(product_definition_file)
-        prod = ProductPluginModel(**prod_dict)
+    # with open(product_name) as product_definition_file:
+    #     prod_dict = yaml.safe_load(product_definition_file)
+    #     prod = ProductPluginModel(**prod_dict)
 
-    # prod_plugin = products.get_plugin("abi", "Infrared")
-    # print("prod_plugin is", prod_plugin)
-    # prod = ProductPluginModel(**prod_plugin)
+    prod_plugin = interfaces.workflows.get_plugin("read_test")
+    prod = ProductPluginModel(**prod_plugin)
 
     for step in prod.spec.steps:
         step_def = step.definition
