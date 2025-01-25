@@ -34,6 +34,8 @@ def test_bad_get_plugin_types_missing_types(valid_plugin_types):
 
 def test_bad_get_plugin_types_unexpected_or_new_plugin_type(valid_plugin_types):
     """Tests get_plugin_types call to check for no unexpected plugin is reported."""
-    assert not (set(workflows.get_plugin_types()) - set(valid_plugin_types)), (
-        "Unexpected New plugin type(s) -" " update test or check function:\n\n"
+    unexpected_types = set(workflows.get_plugin_types()) - set(valid_plugin_types)
+    assert not unexpected_types, (
+        f"Unexpected new plugin type(s): {unexpected_types}."
+        "Update the test or check the function implementation."
     )

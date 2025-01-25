@@ -63,6 +63,7 @@ def valid_plugin_types():
         "sector",
         "interpolator",
         "filename_formatter",
+        "workflow"
     ]
     return VALID_PLUGIN_TYPES
 

@@ -223,7 +223,7 @@ class PluginModel(StaticBaseModel):
         return values
 
     @field_validator("description", mode="after")
-    def validate_one_line_docstring(cls: type["PluginModel"], value: str) -> str:
+    def validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
 
