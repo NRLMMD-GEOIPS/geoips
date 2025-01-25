@@ -1,5 +1,5 @@
 bug fix:
-- title: 'Update pytest ini file to add GeoIPS repo root to pythonpath on pytest run '
+- title: 'Update pytest ini file to add GeoIPS repo root to pythonpath on pytest run'
   description: 'Fixes failing unit tests that should be passing that started raising import errors by adding the root repo dir to the python path. This was previously automatically done by installing GeoIPS in editable mode.'
   files:
     modified: 
