@@ -9,6 +9,9 @@ import yaml
 # GeoIPS imports
 from geoips import interfaces
 from geoips.pydantic.workflows import ProductPluginModel
+from geoips.pydantic.bases import PluginModel
+from geoips.interfaces import products
+
 
 interface = "procflows"
 family = "standard"
@@ -36,6 +39,10 @@ def call(
         prod_dict = yaml.safe_load(product_definition_file)
         prod = ProductPluginModel(**prod_dict)
 
+    # prod_plugin = products.get_plugin("abi", "Infrared")
+    # print("prod_plugin is", prod_plugin)
+    # prod = ProductPluginModel(**prod_plugin)
+
     for step in prod.spec.steps:
         step_def = step.definition
         print(
@@ -48,11 +55,11 @@ def call(
         interface = step_def.type + "s"
 
         # the if-else ladder will go away after all steps are implemented
-        plugin_instance = getattr(interfaces, interface, None).get_plugin(step_def.name)
+        # plugin_instance = getattr(interfaces, interface, None).get_plugin(step_def.name)
         if interface == "readers":
             print(
-                f"\n\n{step_def.type} processing details:\n\n\t"
-                f"{plugin_instance(fnames, step_def.arguments)}\n\n"
+                # f"\n\n{step_def.type} processing details:\n\n\t"
+                # f"{plugin_instance(fnames, step_def.arguments)}\n\n"
             )
         elif interface == "algorithms":
             pass

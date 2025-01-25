@@ -33,9 +33,25 @@ output_formatters. We use the singular form of plugin type as the step name.
 These plugin operations, or steps, are defined in YAML format
 within a product definition file and validated using `Pydantic <https://docs.pydantic.dev/latest/>`_.
 
+Model example
+-------------
 
-Important Fields
-----------------
+
+User Model
+==========
+
+.. .. py:pydantic_model:: geoips.Pydantic.products
+..    :members:
+..    :undoc-members:
+..    :show-field-summary:
+..    :show-validator-summary:
+
+
+.. .. automodule:: geoips.pydantic.bases
+..    :members:
+
+Importantq Fields
+-----------------
 
 A few of the important field definitions from the product definition file are:
 
