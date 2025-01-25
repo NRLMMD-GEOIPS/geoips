@@ -24,7 +24,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2024_0
 	--reader_name smap_remss_winds_netcdf \
 	--product_name unsectored \
 	--output_formatter windspeed_awips2_formatter \
-	--output_formatter_kwargs '{"working_directory":"/home/coleman/geoips/outdirs/"}'
+	--output_formatter_kwargs '{"working_directory":"/tmp/"}'
 ss_retval=$?
 
 exit $((ss_retval))
