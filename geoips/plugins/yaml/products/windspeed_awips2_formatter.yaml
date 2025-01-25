@@ -1,0 +1,51 @@
+# @ Replace all instances of @ within this template with appropriate values for your
+# @ particular use case. Then remove all lines within this file containing "@"
+
+# @ This file defines a plugin for the "products" interface.
+# @
+# @ This products plugin belongs to the "list" family which means that it contains a
+# @ list of one or more individual product plugins.
+# @
+# @ Each product plugin defined in this file (only one) defines a new GeoIPS product.
+# @ Each product specifies which data source (source_name) it is valid for, which family
+# @ family the product belongs to, which plugins to use to produce the product (e.g.
+# @ which algorithm, interpolator, and colormapper plugins), and the arguments to be
+# @ passed to each of those plugins.
+# @
+# @ Each product can be specified in two ways:
+# @ - It can specify its "family" and fully specify all plugins and agruments
+# @   directly here.
+# @ - It can specify a "product_defaults" plugin from which to collect its "family", its
+# @   plugins, and its plugin arguments. When using a "product_defaults" plugin, the
+# @   default values can additionally be overridden in this product definition.
+# @
+# @ This file uses the "family" method of specification. The product_defaults method can
+# @ be seen in the accompanying "amsr2_product_defaults.yaml" file.
+
+# @ Product plugins always use the "products" interface
+interface: products
+# @ Specify that this is a list of product plugins
+family: list
+# @ Uniquely identify the product list plugin
+name: windspeed_awips2_formatter
+# @ Include your own descriptive docstring that describes this list of products.
+docstring: |
+  Create AWIPS2 products from SMAP and SMOS windspeed data
+
+spec:
+  products:
+    # @ Below is a list of products. In this case there is only one product, but
+    # @ additional products can be defined as additional elements in the YAML list.
+
+    # @ name is a unique, *case-sensitive* identifier for an individual product.
+    # @ GeoIPS convention for product names is to use numbers, letters, and hyphens.
+    - name: windspeed-awips2-formatter
+
+      # @ source_name must be a valid geoips "source_name".
+      source_names: [windspeed-awips2-formatter]
+
+      # @ Include your own descriptive docstring that describes this particular product.
+      docstring: |
+        Create AWIPS2 products from SMAP and SMOS windspeed data using this output formatter
+
+      family: interpolator_algorithm_colormapper
