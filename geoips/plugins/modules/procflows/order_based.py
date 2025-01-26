@@ -35,11 +35,8 @@ def call(
     command_line_args : list of str, None
         fnames and product-path
     """
-    # with open(product_name) as product_definition_file:
-    #     prod_dict = yaml.safe_load(product_definition_file)
-    #     prod = ProductPluginModel(**prod_dict)
 
-    prod_plugin = interfaces.workflows.get_plugin("read_test")
+    prod_plugin = interfaces.workflows.get_plugin(product_name)
     prod = ProductPluginModel(**prod_plugin)
 
     for step in prod.spec.steps:
@@ -74,8 +71,6 @@ if __name__ == "__main__":
 
     parser = ArgumentParser(description="order-based procflow processing")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
-    parser.add_argument(
-        "-p", "--product_name", help="The path to the product definition file."
-    )
+    parser.add_argument("-p", "--product_name", help="The product name to process.")
     args = parser.parse_args()
     call(args.fnames, args.product_name)
