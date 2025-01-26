@@ -7,6 +7,7 @@ future:
     - 'geoips/pydantic/__init__.py'
     - 'geoips/pydantic/bases.py'
     - 'geoips/pydantic/products.py'
+    - 'geoips/interfaces/yaml_based/workflows.py'
     deleted:
     - ''
     modified:
