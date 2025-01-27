@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Builds geoips and geoips plugin documentation."""
 
 import tempfile
@@ -9,6 +12,7 @@ import logging.handlers
 import argparse
 import shutil
 import os
+from subprocess import call
 
 import brassy.actions.build_release_notes as brassy_build
 import brassy.utils.CLI  # noqa # because of a brassy bug; will be fixed in next vers
@@ -18,11 +22,13 @@ from rich.logging import Console
 from rich.progress import Progress
 import rich_argparse
 import pygit2
-import jinja2
+import yaml
 import sphinx.cmd.build as sphinx_build_module
 from sphinx.ext.apidoc import main as sphinx_apidoc
 
 from update_release_note_index import main as generate_release_note_index
+
+__location__ = os.path.realpath(os.path.join(os.getcwd(), os.path.dirname(__file__)))
 
 
 def init_logger(use_rich):
@@ -99,6 +105,12 @@ def parse_args_with_argparse():
         help="Output dir to write built docs to",
     )
     parser.add_argument(
+        "--save-temp-dir",
+        type=str,
+        default=None,
+        help="Output dir to write temporary build files to (for debugging purposes)",
+    )
+    parser.add_argument(
         "--repo-path",
         type=str,
         default=None,
@@ -110,8 +122,8 @@ def parse_args_with_argparse():
     parser.add_argument(
         "-f",
         "--force",
-        type=str,
         default=False,
+        action="store_true",
         help="Replace output dir if it already exists",
     )
 
@@ -129,8 +141,8 @@ def parse_args_with_argparse():
             args.repo_path = package_path
         except ModuleNotFoundError as e:
             raise e(f"Could not automatically find repo_path for {args.package_name}.")
-        except pygit2.GitError as e:
-            raise e(
+        except pygit2.GitError:
+            raise pygit2.GitError(
                 "Could not automatically find usable repo_path for "
                 f"{args.package_name}. Found {package_path} but it is not a git repo"
             )
@@ -248,14 +260,11 @@ def get_section_replace_string(section):
     str
         A placeholder string corresponding to the section.
 
-    Notes
-    -----
-    It is unclear WHY this is the placeholder string or what IDX stands for.
     """
-    return section.upper() + "IDX"
+    return section.upper() + "_OPTIONAL"
 
 
-def get_sections():
+def get_sections(package_name):
     """
     Return sections.
 
@@ -273,32 +282,28 @@ def get_sections():
     This could potentially be from a config file in the future. For now, it is hard
     coded like the original build_docs.sh script.
     """
-    required_sections = ["releases"]
+    with open(os.path.join(__location__, "docs-sections.yaml"), "r") as f:
+        section_data = yaml.safe_load(f)
 
-    optional_sections = [
-        "intro",
-        "starter",
-        "userguide",
-        "devguide",
-        "deployguide",
-        "opguide",
-        "contact",
-    ]
+    section_data["optional"] = section_data["current"] + section_data["legacy"]
 
-    return required_sections, optional_sections
+    return (
+        (x.replace("PKGNAME", package_name) for x in section_data[category])
+        for category in ["required", "optional"]
+    )
 
 
-def return_jinja2_rendered_file_content(template_path):
+def return_file_content(template_path):
     """
-    Render a Jinja2 template file into a string.
+    Render file into a string.
 
-    This function reads the content of the template file, renders it using
-    Jinja2, and returns the resulting string.
+    This function reads the content of the template file
+    and returns the resulting string.
 
     Parameters
     ----------
     template_path : str
-        The file path to the Jinja2 template.
+        The file path to the template.
 
     Returns
     -------
@@ -306,7 +311,7 @@ def return_jinja2_rendered_file_content(template_path):
         The rendered template content as a string.
     """
     with open(template_path, "rt") as template_file:
-        return jinja2.Template(template_file.read()).render()
+        return template_file.read()
 
 
 def update_content_for_section(
@@ -396,11 +401,11 @@ def generate_top_level_index_file(
     )
     build_index_file_path = os.path.join(build_dir, "index.rst")
 
-    content = return_jinja2_rendered_file_content(template_index_file_path)
+    content = return_file_content(template_index_file_path)
 
     # Replace required sections
-    for section in required_sections:
-        content = update_content_for_section(build_dir, content, section, log=log)
+    # for section in required_sections:
+    #    content = update_content_for_section(build_dir, content, section, log=log)
 
     # Replace optional sections
     for section in optional_sections:
@@ -430,13 +435,9 @@ def copy_template_files_to_non_geoips_repo(geoips_docs_dir, build_dir):
     build_dir : str
         The directory where the documentation is being built.
     """
-    shutil.copy(
+    shutil.copytree(
         os.path.join(geoips_docs_dir, "source", "_static"),
-        build_dir,
-    )
-    shutil.copy(
-        os.path.join(geoips_docs_dir, "source", "fancyhf.sty"),
-        build_dir,
+        os.path.join(build_dir, "_static"),
     )
     template_path = os.path.join(build_dir, "_templates")
     os.makedirs(template_path, exist_ok=True)
@@ -508,7 +509,7 @@ def stage_docs_files_for_building(
 
     create_conf_py_from_template(build_dir, geoips_docs_dir, package_name)
 
-    required_sections, optional_sections = get_sections()
+    required_sections, optional_sections = get_sections(package_name)
     generate_top_level_index_file(
         build_dir,
         geoips_docs_dir,
@@ -660,7 +661,10 @@ def build_release_note_from_dir_with_brassy(
 
 
 def build_release_notes_with_brassy(
-    releases_dir, license_url, log=logging.getLogger(__name__)
+    releases_dir,
+    license_url,
+    log=logging.getLogger(__name__),
+    save_temp_dir=None,
 ):
     """Generate release notes for each subdirectory in a specified releases directory.
 
@@ -676,6 +680,8 @@ def build_release_notes_with_brassy(
     log : logging.Logger, optional
         Logger instance used for logging debug and warning messages. By default,
         uses a logger with the module's name.
+    save_temp_dir : str
+        Optional path to directory to save temp files for reference in debugging
 
     Notes
     -----
@@ -730,8 +736,12 @@ def build_release_notes_with_brassy(
             build_release_note_from_dir_with_brassy(
                 release_dir, release_filename, release_version, header_file.name
             )
+            if save_temp_dir:
+                log.info(f"Writing temp files to {save_temp_dir}")
+                os.makedirs(save_temp_dir, mode=0o755, exist_ok=True)
+                shutil.copy(release_filename, save_temp_dir)
             # TODO: pythonize and call directly; requires update to pink
-            os.system(f"pink {release_filename}")  # nosec
+            call(["pink", release_filename], shell=False)
 
     log.info(
         "Generating index.rst for release notes, "
@@ -740,7 +750,38 @@ def build_release_notes_with_brassy(
     generate_release_note_index(os.path.join(releases_dir, "index.rst"), releases_dir)
 
 
-def import_non_docs_files(repo_dir, build_dir):
+def get_auxiliary_files():
+    """
+    Load auxiliary file information from a YAML configuration file.
+
+    This function reads the `auxiliary_files.yaml` file located in the directory
+    specified by `__location__` and returns the parsed dictionary of auxiliary
+    files. The returned data corresponds to the "auxiliary files" field in the
+    YAML file, which should be defined relative to the repository's root directory.
+
+    Returns
+    -------
+    dict
+        A dictionary containing information about auxiliary files as defined
+        under the "auxiliary files" key in the YAML file.
+
+    Examples
+    --------
+    >>> aux_files = get_auxiliary_files()
+    >>> aux_files
+    {'config.json': 'config/config.json', 'notes.txt': 'docs/notes.txt'}
+
+    Notes
+    -----
+    The `__location__` variable must point to the directory containing the
+    `auxiliary_files.yaml` file.
+    """
+    with open(os.path.join(__location__, "auxiliary_files.yaml"), "r") as f:
+        data = yaml.safe_load(f)
+    return data["auxiliary files"]  # relative to root of repo_dir
+
+
+def import_non_docs_files(repo_dir, build_dir, log=logging.getLogger(__name__)):
     """
     Copy auxiliary non-documentation files from the repository to the build directory.
 
@@ -763,11 +804,19 @@ def import_non_docs_files(repo_dir, build_dir):
     -----
     The list of auxiliary files to copy is defined within the function.
     """
-    auxiliary_files = ["CODE_OF_CONDUCT.md"]  # relative to root of repo_dir
+    auxiliary_files = get_auxiliary_files()
     import_dir = os.path.join(build_dir, "import")
     os.mkdir(import_dir)
     for file in auxiliary_files:
-        shutil.copyfile(os.path.join(repo_dir, file), os.path.join(import_dir, file))
+        filename = os.path.basename(file)
+        source = os.path.join(repo_dir, file)
+        dest = os.path.join(import_dir, filename)
+        log.info(f"Copying {source} to {dest}")
+        try:
+            log.info(f"Copying {source} to {dest}")
+            shutil.copyfile(source, dest)
+        except FileNotFoundError:
+            log.warning(f"Could not fine aux file {source}")
 
 
 def build_html_docs(
@@ -779,6 +828,7 @@ def build_html_docs(
     force_overwrite,
     license_url,
     log=logging.getLogger(__name__),
+    save_temp_dir=None,
 ):
     """
     Build the HTML documentation for package.
@@ -805,6 +855,8 @@ def build_html_docs(
         URL that points to the license for the package.
     log : logging.Logger, optional
         Logger for logging messages; defaults to the module logger.
+    save_temp_dir : str
+        Optional path to directory to save temp files for reference in debugging
     """
     log.info("Setting docs files up for building")
     # copy and validate files
@@ -817,12 +869,14 @@ def build_html_docs(
     )
 
     # grab auxillary files not in docs and place them in "import" dir
-    import_non_docs_files(repo_dir, build_dir)
+    import_non_docs_files(repo_dir, build_dir, log=log)
 
     # build release rst files
     log.info("Building API docs")
     releases_dir = os.path.join(build_dir, "releases")
-    build_release_notes_with_brassy(releases_dir, license_url)
+    build_release_notes_with_brassy(
+        releases_dir, license_url, save_temp_dir=save_temp_dir
+    )
 
     # build api doc rst files
     apidoc_build_path = os.path.join(build_dir, f"{package_name}_api")
@@ -857,6 +911,7 @@ def main(
     output_dir,
     force_overwrite,
     license_url,
+    save_temp_dir,
 ):
     """Prepare for and execute documentation build.
 
@@ -874,6 +929,8 @@ def main(
         The path to the GeoIPS documentation directory (usually geoips/docs)
     output_dir : str
         The directory where the built documentation will be placed.
+    save_temp_dir : str
+        Optional path to directory to save temp files for reference in debugging
     """
     log = init_logger(True)
     log.debug("Program initialized")
@@ -904,6 +961,7 @@ def main(
             force_overwrite,
             license_url,
             log=log,
+            save_temp_dir=save_temp_dir,
         )
 
 
@@ -917,4 +975,5 @@ if __name__ == "__main__":
         output_dir=args.output_dir,
         force_overwrite=args.force,
         license_url=args.license_url,
+        save_temp_dir=args.save_temp_dir,
     )

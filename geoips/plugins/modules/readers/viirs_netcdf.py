@@ -596,6 +596,15 @@ def call(
                     ncvar[...], ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset
                 )
 
+                # Gamma, Scale factor from old Vis product
+                from geoips.data_manipulations.corrections import (
+                    apply_gamma,
+                    apply_scale_factor,
+                )
+
+                nparr_masked = apply_gamma(nparr_masked, 1.5)
+                nparr_masked = apply_scale_factor(nparr_masked, 100)
+
                 add_to_xarray(
                     refvarname,
                     nparr_masked,
