@@ -59,7 +59,7 @@ class StaticBaseModel(PrettyBaseModel):
     # model_config : ConfigDict
     #     Configuration for the Pydantic model:
     #     - `extra="forbid"`: Does not allow any additional fileds in the input data.
-    #     - `populate_by_name=True`: Enables populaitng fields by their aliases.
+    #     - `populate_by_name=True`: Enables populating fields by their aliases.
 
 
     """
@@ -93,9 +93,9 @@ def python_identifier(val: str) -> str:
     """
     error_messages = []
     if not val.isidentifier():
-        error_messages.append(f"{val} is not a valid Python identifier.")
+        error_messages.append(f"'{val}' is not a valid Python identifier.")
     if keyword.iskeyword(val):
-        error_messages.append(f"{val} is a reserved Python keyword.")
+        error_messages.append(f"'{val}' is a reserved Python keyword.")
 
     if error_messages:
         error_message = " ".join(error_messages) + " Please update it."
@@ -189,9 +189,9 @@ class PluginModel(StaticBaseModel):
         """
         valid_interfaces = get_interfaces()
         if value not in valid_interfaces:
-            raise ValueError(
-                f"Incorrect interface: {value}.Must be one of {valid_interfaces}"
-            )
+            err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
+            LOG.error(err_msg, exc_info=True)
+            raise ValueError(err_msg)
         return value
 
     # TODO: Update to have two validators, allowing for full numpy docstrings
@@ -215,11 +215,9 @@ class PluginModel(StaticBaseModel):
 
         """
         if "description" not in values or values.get("description") is None:
-            first_line = values.get("docstring")
-            if first_line:
-                values["description"] = (
-                    values.get("docstring").strip().split("\n", 1)[0].strip()
-                )
+            temp_string = values.get("docstring")
+            if temp_string:
+                values["description"] = temp_string.strip().split("\n", 1)[0].strip()
         return values
 
     @field_validator("description", mode="after")
@@ -248,19 +246,33 @@ class PluginModel(StaticBaseModel):
         PydanticCustomError
             If the ``description`` field violates any of the validation rules.
         """
+        error_messages = {
+            "single_line": "Description must be a single line.",
+            "format_error": ("Description must start with a letter / number and end"
+                             "with a period."),
+            "length_error": "Description cannot be more than 72 characters, reduce by:",
+        }
         if "\n" in value:
-            raise PydanticCustomError(
-                "single_line", "Description must be a single line.\n"
+            LOG.error(
+                "'error': %s 'input_provided': %r",
+                error_messages["single_line"],
+                value,
+                exc_info=True,
             )
+            raise PydanticCustomError("single_line", error_messages["single_line"])
         if not (value[0].isalnum() and value.endswith(".")):
-            raise PydanticCustomError(
-                "format_error",
-                "Description must start with a letter or number and end with a period.",
+            LOG.error(
+                "'error': %s 'input_provided': %r",
+                error_messages["format_error"],
+                value,
+                exc_info=True,
             )
-        if len("description") > 72:
-            raise PydanticCustomError(
-                "length_error", "Description cannot be more than 72 characters."
-            )
+            raise PydanticCustomError("format_error", error_messages["format_error"])
+        if len(value) > 72:
+            excess_length = len(value) - 72
+            err_msg = f"{error_messages['length_error']} {excess_length} characters"
+            LOG.error("'error': %s 'input_provided': %r", err_msg, value, exc_info=True)
+            raise PydanticCustomError("length_error", err_msg)
         return value
 
     @field_validator("relpath")
