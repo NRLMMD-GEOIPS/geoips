@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Update pytest ini file to add GeoIPS repo root to pythonpath on pytest run'
+  description: 'Fixes failing unit tests that should be passing that started raising import errors by adding the root repo dir to the python path. This was previously automatically done by installing GeoIPS in editable mode.'
+  files:
+    modified: 
+    - 'pytest.ini'
+  related-issue:
+    number: 875
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: Jan 21 2025
+    finish: Jan 23 2025
