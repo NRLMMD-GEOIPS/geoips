@@ -6,6 +6,7 @@ on:
   pull_request:
     types:
       - closed
+    # You do not appear to be able to use variables in triggers
     branch: main
   # Allows run of this workflow manually from the Actions tab
   # Must be merged to default branch before it will be available

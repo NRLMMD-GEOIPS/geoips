@@ -122,7 +122,8 @@ def download_from_git(repo_url, destination):
     """
     try:
         output_to_console(
-            f"Cloning repository from {repo_url} to {destination}", style="bold cyan"
+            f"Cloning repository from {repo_url} to {destination}",
+            style="bold cyan",
         )
         subprocess.check_output(["git", "clone", repo_url, destination])
         output_to_console("Repository successfully cloned.", style="bold green")
