@@ -34,7 +34,7 @@ jobs:
     # Note since this is run after merge to main, reusable-build-docker-image will
     # build the stable image specifically, which will subsequently be used by
     # the plugin packages.
-    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-build-docker-image.yaml@build_stable_image_on_tag
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-build-docker-image.yaml@main
     permissions:
       contents: write
       packages: write
