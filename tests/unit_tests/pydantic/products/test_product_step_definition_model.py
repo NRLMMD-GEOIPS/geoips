@@ -1,7 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Test Order-based procflow ProductStepDefinition Model."""
+"""Test Order-based procflow WorkflowStepDefinition Model."""
 
 
 # Python Standard Libraries
@@ -15,10 +15,10 @@ import pytest
 from geoips.pydantic import workflows
 
 
-def test_good_product_step_definition_model_valid_step(valid_step_data):
-    """Tests ProductStepDefinitionModel with valid data."""
+def test_good_workflow_step_definition_model_valid_step(valid_step_data):
+    """Tests WorkflowStepDefinitionModel with valid data."""
     # creating an instance of PSDModel
-    model = workflows.ProductStepDefinitionModel(**valid_step_data)
+    model = workflows.WorkflowStepDefinitionModel(**valid_step_data)
 
     assert model.type == "reader"
     assert model.name == "abi_netcdf"
@@ -30,10 +30,10 @@ def test_good_product_step_definition_model_valid_step(valid_step_data):
     }
 
 
-def test_bad_product_step_definition_model_validator_empty_input():
-    """Tests ProductStepDefinitionModel with empty input."""
+def test_bad_workflow_step_definition_model_validator_empty_input():
+    """Tests WorkflowStepDefinitionModel with empty input."""
     with pytest.raises(ValidationError) as exec_info:
-        workflows.ProductStepDefinitionModel()
+        workflows.WorkflowStepDefinitionModel()
 
     error_info = exec_info.value.errors()
 
@@ -42,14 +42,14 @@ def test_bad_product_step_definition_model_validator_empty_input():
     assert error_info[0]["msg"] == "Value error, Empty : Missing step details"
 
 
-def test_bad_product_step_definition_model_validator_invalid_plugin_name(
+def test_bad_workflow_step_definition_model_validator_invalid_plugin_name(
     valid_step_data,
 ):
-    """Tests ProductStepDefinitionModel custom validator against invalid plugin name."""
+    """Tests WorkflowStepDefinitionModel custom validator against invalid plugin name."""
     invalid_data = copy.deepcopy(valid_step_data)
     invalid_data["name"] = ""
     with pytest.raises(ValidationError) as exec_info:
-        workflows.ProductStepDefinitionModel(**invalid_data)
+        workflows.WorkflowStepDefinitionModel(**invalid_data)
 
     error_info = exec_info.value.errors()
 
@@ -58,34 +58,34 @@ def test_bad_product_step_definition_model_validator_invalid_plugin_name(
     assert "Must be one of " in error_info[0]["msg"]
 
 
-def test_bad_product_step_definition_model_invalid_field_type(
+def test_bad_workflow_step_definition_model_invalid_field_type(
     mocker, valid_reader_arguments_model_data, valid_step_data
 ):
-    """Tests ProductStepDefinitionModel for invalid field type instantiation."""
+    """Tests WorkflowStepDefinitionModel for invalid field type instantiation."""
 
     def mock_init(self, **kwargs):
         self.__dict__.update(kwargs)
 
-    mocker.patch.object(workflows.ProductStepDefinitionModel, "__init__", mock_init)
+    mocker.patch.object(workflows.WorkflowStepDefinitionModel, "__init__", mock_init)
 
     invalid_test_data_PSDModel = {
         "type": 123,
         "name": 123,
         "arguments": valid_reader_arguments_model_data,
     }
-    model = workflows.ProductStepDefinitionModel(**invalid_test_data_PSDModel)
+    model = workflows.WorkflowStepDefinitionModel(**invalid_test_data_PSDModel)
 
     assert model.type == 123, "Expected 'type' to retain the invalid value"
     assert model.name == 123, "Expected 'name' to retain the invalid value"
 
 
-def test_bad_product_step_definition_model_additional_field(valid_step_data):
+def test_bad_workflow_step_definition_model_additional_field(valid_step_data):
     """Tests ReaderArgumentsModel with additonal field."""
     invalid_data = copy.deepcopy(valid_step_data)
     invalid_data["unexpected_field"] = "unexpected_value"
 
     with pytest.raises(ValidationError) as exec_info:
-        workflows.ProductStepDefinitionModel(**invalid_data)
+        workflows.WorkflowStepDefinitionModel(**invalid_data)
 
     error_info = exec_info.value.errors()
     assert any(
@@ -93,4 +93,4 @@ def test_bad_product_step_definition_model_additional_field(valid_step_data):
     ), "expected 'extra_frobidden' error type"
     assert "unexpected_field" in str(
         exec_info.value
-    ), "Unexpected field should be rejected by the ProductStepDefinitionModel"
+    ), "Unexpected field should be rejected by the WorkflowStepDefinitionModel"

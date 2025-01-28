@@ -1,7 +1,7 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Test Order-based procflow product building classes."""
+"""Test Order-based procflow workflow building classes."""
 
 # Python Standard Libraries
 import copy
@@ -14,22 +14,22 @@ import pytest
 from geoips.pydantic import workflows
 
 
-def test_good_product_step_model_valid_initialization(valid_step_data):
-    """Tests ProductStepModel with valid inputs."""
+def test_good_workflow_step_model_valid_initialization(valid_step_data):
+    """Tests WorkflowStepModel with valid inputs."""
     test_data = copy.deepcopy(valid_step_data)
     test_data.pop("type")
     # print("\n\n\nupdated test data", test_data)
     required_test_data = {"reader": test_data}
     # print("\n\n\nupdated test data", required_test_data)
 
-    model = workflows.ProductStepModel(**required_test_data)
+    model = workflows.WorkflowStepModel(**required_test_data)
     assert model.definition.type == "reader"
 
 
-def test_bad_product_step_model_empty_initialization():
-    """Tests ProductStepModel with empty input."""
+def test_bad_workflow_step_model_empty_initialization():
+    """Tests WorkflowStepModel with empty input."""
     with pytest.raises(ValidationError) as exec_info:
-        workflows.ProductStepModel()
+        workflows.WorkflowStepModel()
 
     error_info = exec_info.value.errors()
 
@@ -40,15 +40,15 @@ def test_bad_product_step_model_empty_initialization():
     assert error_info[0]["msg"] == "Value error, Empty : Step data cannot be empty."
 
 
-def test_good_product_step_model_validator_valid_input(
+def test_good_workflow_step_model_validator_valid_input(
     valid_step_data, valid_plugin_types
 ):
-    """Tests ProductStepModel's custom validator."""
+    """Tests WorkflowStepModel's custom validator."""
     test_data = copy.deepcopy(valid_step_data)
     test_data.pop("type")
     required_test_data = {"reader": test_data}
 
-    model = workflows.ProductStepModel(**required_test_data)
+    model = workflows.WorkflowStepModel(**required_test_data)
 
     validated_data = model._plugin_name_validator(required_test_data)
     assert validated_data == {
@@ -66,26 +66,26 @@ def test_good_product_step_model_validator_valid_input(
     assert model.definition.type in valid_plugin_types
 
 
-def test_bad_product_step_model_validator_invalid_plugin_type(
+def test_bad_workflow_step_model_validator_invalid_plugin_type(
     valid_step_data, valid_plugin_types
 ):
-    """Tests ProductStepModel's custom validator against invalid plugin type."""
+    """Tests WorkflowStepModel's custom validator against invalid plugin type."""
     test_data = copy.deepcopy(valid_step_data)
     test_data.pop("type")
     required_test_data = {"reader": test_data}
     required_test_data["invalid_plugin_type"] = required_test_data.pop("reader")
 
     with pytest.raises(ValidationError) as exec_info:
-        workflows.ProductStepModel(**required_test_data)
+        workflows.WorkflowStepModel(**required_test_data)
 
     error_info = str(exec_info.value)
     assert "invalid_plugin_type" in error_info
 
 
-def test_bad_product_Step_model_validator_invalid_plugin_name(
+def test_bad_workflow_Step_model_validator_invalid_plugin_name(
     valid_step_data, valid_plugin_types
 ):
-    """Tests ProductStepModel's custom validator against invalid plugin name."""
+    """Tests WorkflowStepModel's custom validator against invalid plugin name."""
     invalid_test_data = {
         "reader": {
             "type": "reader1",
@@ -100,11 +100,11 @@ def test_bad_product_Step_model_validator_invalid_plugin_name(
     }
 
     with pytest.raises(ValidationError) as exec_info:
-        workflows.ProductStepModel(**invalid_test_data)
+        workflows.WorkflowStepModel(**invalid_test_data)
 
     error_info = str(exec_info.value)
     assert (
         "step name : 'reader'"
         "and type : 'reader1' mismatch. "
-        "Check your product definition" in error_info
+        "Check your workflow definition" in error_info
     )

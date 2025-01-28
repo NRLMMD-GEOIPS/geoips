@@ -6,7 +6,7 @@ import logging
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.workflows import ProductPluginModel
+from geoips.pydantic.workflows import WorkflowPluginModel
 
 LOG = logging.getLogger(__name__)
 
@@ -17,20 +17,20 @@ def call(
     """Run the order based procflow (OBP).
 
     Process the specified input data files using the OBP in the order of steps
-    listed in the product definition file.
+    listed in the workflow definition file.
 
     Parameters
     ----------
     fnames : list of str
         list of filenames to process
     product_name : str
-        path to the product definition file
+        product name to process
     command_line_args : list of str, None
-        fnames and product-path
+        fnames and product-name
     """
     LOG.interactive(f"The product : '{product_name}' is currently being processed.")
     prod_plugin = interfaces.workflows.get_plugin(product_name)
-    prod = ProductPluginModel(**prod_plugin)
+    prod = WorkflowPluginModel(**prod_plugin)
 
     for step in prod.spec.steps:
         step_def = step.definition

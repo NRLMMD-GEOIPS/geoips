@@ -1,9 +1,9 @@
 # # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Product plugin models.
+"""Workflow plugin models.
 
-Defines pydantic models related to Product plugins,
+Defines pydantic models related to Workflow plugins,
 including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 """
 
@@ -148,7 +148,7 @@ class ReaderArgumentsModel(StaticBaseModel):
         return values
 
 
-class ProductStepDefinitionModel(StaticBaseModel):
+class WorkflowStepDefinitionModel(StaticBaseModel):
     """Validate step definition : name, arguments."""
 
     type: str = Field(
@@ -229,10 +229,10 @@ class ProductStepDefinitionModel(StaticBaseModel):
         return values
 
 
-class ProductStepModel(StaticBaseModel):
+class WorkflowStepModel(StaticBaseModel):
     """Validate and process a sequence of steps with their data."""
 
-    definition: ProductStepDefinitionModel = Field(..., description="Sequence of steps")
+    definition: WorkflowStepDefinitionModel = Field(..., description="Sequence of steps")
 
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -281,23 +281,23 @@ class ProductStepModel(StaticBaseModel):
             raise ValueError(
                 f"step name : '{plugin_type}'"
                 f"and type : '{step_data['type']}' mismatch. "
-                f"Check your product definition\n\n"
+                f"Check your workflow definition\n\n"
             )
 
         return {"definition": step_data}
 
 
-class ProductSpecModel(StaticBaseModel):
-    """The specification for a product."""
+class WorkflowSpecModel(StaticBaseModel):
+    """The specification for a workflow."""
 
     # list of steps
-    steps: List[ProductStepModel] = Field(
-        ..., description="Steps to produce the product."
+    steps: List[WorkflowStepModel] = Field(
+        ..., description="Steps to produce the workflow."
     )
 
 
-class ProductPluginModel(PluginModel):
-    """A plugin that produces a product."""
+class WorkflowPluginModel(PluginModel):
+    """A plugin that produces a workflow."""
 
     model_config = ConfigDict(extra="allow")
-    spec: ProductSpecModel = Field(..., description="The product specification")
+    spec: WorkflowSpecModel = Field(..., description="The workflow specification")
