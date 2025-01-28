@@ -45,7 +45,7 @@ def test_bad_workflow_step_definition_model_validator_empty_input():
 def test_bad_workflow_step_definition_model_validator_invalid_plugin_name(
     valid_step_data,
 ):
-    """Tests WorkflowStepDefinitionModel custom validator against invalid plugin name."""
+    """Tests WorkflowStepDefinitionModel validator against invalid plugin name."""
     invalid_data = copy.deepcopy(valid_step_data)
     invalid_data["name"] = ""
     with pytest.raises(ValidationError) as exec_info:
