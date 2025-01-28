@@ -114,7 +114,6 @@ class ReaderArgumentsModel(StaticBaseModel):
         None,
         description="List of channels to process",
         alias="chans",
-        # Deprecated alias of variables TODO: deprecate using pydantic built-in
     )
     metadata_only: bool = Field(False, description="Read metadata only.")
     self_register: List[str] = Field(None, description="Enable self-registration.")
@@ -215,7 +214,6 @@ class WorkflowStepDefinitionModel(StaticBaseModel):
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
         }
-        # plugin_arguments_model = globals().get(plugin_arguments_model_name)
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name
         )
@@ -232,9 +230,7 @@ class WorkflowStepDefinitionModel(StaticBaseModel):
 class WorkflowStepModel(StaticBaseModel):
     """Validate and process a sequence of steps with their data."""
 
-    definition: WorkflowStepDefinitionModel = Field(
-        ..., description="Sequence of steps"
-    )
+    definition: WorkflowStepDefinitionModel = Field(..., description="Sequence of steps")
 
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:

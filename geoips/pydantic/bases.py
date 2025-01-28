@@ -201,7 +201,6 @@ class PluginModel(StaticBaseModel):
             raise ValueError(err_msg)
         return value
 
-    # TODO: Update to have two validators, allowing for full numpy docstrings
     @model_validator(mode="before")
     def _set_description(
         cls: type["PluginModel"], values: dict[str, str | int | float | None]
