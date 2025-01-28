@@ -232,7 +232,9 @@ class WorkflowStepDefinitionModel(StaticBaseModel):
 class WorkflowStepModel(StaticBaseModel):
     """Validate and process a sequence of steps with their data."""
 
-    definition: WorkflowStepDefinitionModel = Field(..., description="Sequence of steps")
+    definition: WorkflowStepDefinitionModel = Field(
+        ..., description="Sequence of steps"
+    )
 
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:

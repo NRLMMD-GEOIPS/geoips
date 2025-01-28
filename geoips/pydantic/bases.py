@@ -12,10 +12,16 @@ from functools import lru_cache
 import keyword
 import logging
 from pathlib import Path
-import os
 
 # Third-Party Libraries
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator, ValidationInfo
+from pydantic import (
+    BaseModel,
+    ConfigDict,
+    Field,
+    field_validator,
+    model_validator,
+    ValidationInfo,
+)
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
@@ -356,7 +362,11 @@ class PluginModel(StaticBaseModel):
         return value
 
     @model_validator(mode="before")
-    def validate_file_exists(cls: type["PluginModel"], values: dict[str, str | int | float | None], info: ValidationInfo):
+    def validate_file_exists(
+        cls: type["PluginModel"],
+        values: dict[str, str | int | float | None],
+        info: ValidationInfo,
+    ):
         """
         Validate if the ``relpath`` and ``abspath`` refer to same file and path exists.
 
