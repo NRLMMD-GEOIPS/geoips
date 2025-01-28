@@ -10,7 +10,7 @@ import os
 
 # Third-Party Libraries
 import pytest
-from pydantic import Field, ValidationError, ValidationInfo
+from pydantic import Field, ValidationError
 
 # GeoIPS Libraries
 from geoips.pydantic import bases
