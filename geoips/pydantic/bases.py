@@ -15,7 +15,7 @@ from pathlib import Path
 import os
 
 # Third-Party Libraries
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator, ValidationInfo
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
@@ -354,3 +354,37 @@ class PluginModel(StaticBaseModel):
         if not path.is_absolute():
             raise custom_exception
         return value
+
+    @model_validator(mode="before")
+    def validate_file_exists(cls: type["PluginModel"], values: dict[str, str | int | float | None], info: ValidationInfo):
+        """
+        Validate if the ``relpath`` and ``abspath`` refer to same file and path exists.
+
+        Parameters
+        ----------
+        values : dict
+            The model's fields as dictionary.
+        """
+        rel_path_string = values.get("relpath")
+        abs_path_string = values.get("abspath")
+
+        try:
+            path = Path(abs_path_string)
+        except (ValueError, TypeError) as e:
+            LOG.error(
+                "Failed to create Path object. 'input_provided': %r, 'error':%s",
+                abs_path_string,
+                str(e),
+                exc_info=True,
+            )
+
+        if abs_path_string.endswith(rel_path_string):
+            LOG.debug("Relative path and absolute path refer to the same file")
+
+        context = info.context or {}
+        skip_exists_check = context.get("skip_exists_check", False)
+        if not skip_exists_check and not path.exists():
+            err_msg = f"Path does not exist: {abs_path_string}"
+            LOG.error("%s", err_msg)
+            raise FileNotFoundError(err_msg)
+        return values

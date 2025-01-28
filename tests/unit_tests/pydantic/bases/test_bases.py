@@ -10,7 +10,7 @@ import os
 
 # Third-Party Libraries
 import pytest
-from pydantic import Field, ValidationError
+from pydantic import Field, ValidationError, ValidationInfo
 
 # GeoIPS Libraries
 from geoips.pydantic import bases
@@ -327,7 +327,7 @@ def test_good_plugin_model_abspath(valid_plugin_data, abspath_valid):
     """Test PluginModel with valid abspath instances."""
     data = copy.deepcopy(valid_plugin_data)
     data["abspath"] = abspath_valid
-    model = bases.PluginModel(**data)
+    model = bases.PluginModel.model_validate(data, context={"skip_exists_check": True})
     assert model.abspath == abspath_valid
 
 
@@ -346,7 +346,7 @@ def test_bad_plugin_model_abspath(valid_plugin_data, abspath_invalid):
     data["abspath"] = abspath_invalid
 
     with pytest.raises(ValidationError) as exec_info:
-        bases.PluginModel(**data)
+        bases.PluginModel.model_validate(data, context={"skip_exists_check": True})
 
     error_info = exec_info.value.errors()
     assert any(error["loc"] == ("abspath",) for error in error_info)
