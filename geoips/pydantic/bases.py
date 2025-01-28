@@ -12,6 +12,7 @@ from functools import lru_cache
 import keyword
 import logging
 from pathlib import Path
+import os
 
 # Third-Party Libraries
 from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
@@ -248,8 +249,9 @@ class PluginModel(StaticBaseModel):
         """
         error_messages = {
             "single_line": "Description must be a single line.",
-            "format_error": ("Description must start with a letter / number and end"
-                             "with a period."),
+            "format_error": (
+                "Description must start with a letter / number and end" "with a period."
+            ),
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
         if "\n" in value:
@@ -275,9 +277,26 @@ class PluginModel(StaticBaseModel):
             raise PydanticCustomError("length_error", err_msg)
         return value
 
-    @field_validator("relpath")
+    @field_validator("relpath", mode="before")
     def validate_relative_path(cls: type["PluginModel"], value: str) -> str:
-        """Validate string can be cast as Path and is a relative path."""
+        """
+        Validate string can be cast as Path and is a relative path.
+
+        Parameters
+        ----------
+        value : str
+            The path string to validate.
+
+        Returns
+        -------
+        value : str
+            The validated relative path.
+
+        Raises
+        ------
+        relative_path_error
+            If the path is absolute or invalid.
+        """
         custom_exception = PydanticCustomError(
             "relative_path_error",
             f"'relpath' must be relative path. Got '{value}'.",
@@ -285,15 +304,38 @@ class PluginModel(StaticBaseModel):
         try:
             path = Path(value)
         except (ValueError, TypeError) as e:
+            LOG.error(
+                "Failed to create Path object. 'input_provided': %r, 'error':%s",
+                value,
+                str(e),
+                exc_info=True,
+            )
             raise custom_exception from e
 
         if path.is_absolute():
             raise custom_exception
         return value
 
-    @field_validator("abspath")
+    @field_validator("abspath", mode="before")
     def validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
-        """Validate string can be cast as Path and is an absolute path."""
+        """
+        Validate string can be cast as Path and is an absolute path.
+
+        Parameters
+        ----------
+        value : str
+            The path string to validate.
+
+        Returns
+        -------
+        value : str
+            The validated relative path.
+
+        Raises
+        ------
+        relative_path_error
+            If the path is relative or invalid.
+        """
         custom_exception = PydanticCustomError(
             "absolute_path_error",
             f"'abspath' must be absolute path. Got '{value}'.",
@@ -301,6 +343,12 @@ class PluginModel(StaticBaseModel):
         try:
             path = Path(value)
         except (ValueError, TypeError) as e:
+            LOG.error(
+                "Failed to create Path object. 'input_provided': %r, 'error':%s",
+                value,
+                str(e),
+                exc_info=True,
+            )
             raise custom_exception from e
 
         if not path.is_absolute():
