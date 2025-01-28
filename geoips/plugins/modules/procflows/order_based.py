@@ -10,6 +10,10 @@ from geoips.pydantic.workflows import WorkflowPluginModel
 
 LOG = logging.getLogger(__name__)
 
+interface = "workflows"
+family = "standard"
+name = "order_based"
+
 
 def call(
     fnames: list[str], product_name: str, command_line_args: list[str] | None = None
