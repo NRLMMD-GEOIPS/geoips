@@ -53,9 +53,9 @@ def call(
             plugin_instance = getattr(interfaces, interface, None).get_plugin(
                 step_def.name
             )
-        #  Tab spaces and newline escape sequences will be removed later.
-        #  I added them for formatting purposes and the reviewer's convenience.
-        #  The severity level will eventually be moved to info.
+            #  Tab spaces and newline escape sequences will be removed later.
+            #  I added them for formatting purposes and the reviewer's convenience.
+            #  The severity level will eventually be moved to info.
             LOG.interactive(
                 f"\t {step_def.type} processing details:\n\n\t"
                 f"{plugin_instance(fnames, step_def.arguments)}\n\n"
