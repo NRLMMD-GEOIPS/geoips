@@ -50,7 +50,7 @@ User Model
 .. .. automodule:: geoips.pydantic.bases
 ..    :members:
 
-Importantq Fields
+Important Fields
 -----------------
 
 A few of the important field definitions from the product definition file are:
@@ -105,9 +105,9 @@ These plugin definitions must:
 
 * Conform to the call signature for their plugin type.
 * **Accept data**: The input for each step must conform to the standard GeoIPS
-  data `format <https://docs.xarray.dev/en/stable/>`_, except for the ``reader`` step.
+  data :ref:`xarray_standards`, except for the ``reader`` step.
 * **Return data**: The output data for each step must conform to the standard
-  GeoIPS data `format <https://docs.xarray.dev/en/stable/>`_ except for the ``output_formatter`` step.
+  GeoIPS data :ref:`xarray_standards` except for the ``output_formatter`` step.
 
 Each step can also accept other valid plugins as arguments. For instance, the
 Output Formatter step in the code block below includes two additional plugins,
