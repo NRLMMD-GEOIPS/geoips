@@ -7,6 +7,8 @@ Intended for use by other base models.
 Other models defined here validate field types within child plugin models.
 """
 
+import yaml
+
 # Python Standard Libraries
 from functools import lru_cache
 import keyword
@@ -25,7 +27,6 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
-import yaml
 
 
 # GeoIPS imports
@@ -361,27 +362,6 @@ class PluginModel(StaticBaseModel):
             raise custom_exception
         return value
 
-    @model_validator(mode="before")
-    def _validate_rel_and_abs_path_inputs(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
-    ):
-        """Validate whether ``relpath`` and ``abspath`` are set correctly."""
-        computed_relpath = values.get("relpath")
-        computed_abspath = values.get("abspath")
-
-        with open(computed_abspath) as product_definition_file:
-            prod_dict = yaml.safe_load(product_definition_file)
-            user_provided_relpth = prod_dict.get("relpath")
-            user_provided_abspth = prod_dict.get("abspath")
-
-        if Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve():
-            LOG.interactive("Provided relpath was invalid ! path was reset accordingy.")
-
-        if Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve():
-            LOG.interactive("Provided abspath was invalid ! path was reset accordingy.")
-
-        return values
-
     @model_validator(mode="after")
     def validate_file_exists(
         cls: type["PluginModel"],
@@ -410,7 +390,7 @@ class PluginModel(StaticBaseModel):
             rel_path = Path(rel_path_raw)
         except (ValueError, TypeError) as e:
             LOG.error(
-                "Failed to create Path object for 'relpath'. 'input_provided': %r, 'error':%s",
+                "Failed to create Path object for 'relpath'. 'input': %r, 'error':%s",
                 rel_path_raw,
                 str(e),
                 exc_info=True,
@@ -423,7 +403,7 @@ class PluginModel(StaticBaseModel):
             abs_path = Path(abs_path_raw)
         except (ValueError, TypeError) as e:
             LOG.error(
-                "Failed to create Path object for 'abspath'. 'input_provided': %r, 'error':%s",
+                "Failed to create Path object for 'abspath'. 'input': %r, 'error':%s",
                 abs_path_raw,
                 str(e),
                 exc_info=True,
@@ -452,4 +432,31 @@ class PluginModel(StaticBaseModel):
             err_msg = f"Path does not exist: {absolute_path_built_from_relative}"
             LOG.error("%s", err_msg)
             raise FileNotFoundError(err_msg)
+        return values
+
+    # This validator is under development
+    @model_validator(mode="after")
+    def _validate_rel_and_abs_path_inputs(
+        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+    ):
+        """Validate whether ``relpath`` and ``abspath`` are set correctly."""
+        computed_relpath = values.relpath
+        computed_abspath = values.abspath
+
+        with open(computed_abspath) as product_definition_file:
+            prod_dict = yaml.safe_load(product_definition_file)
+            user_provided_relpth = prod_dict.get("relpath")
+            user_provided_abspth = prod_dict.get("abspath")
+
+        print("UDR", Path(user_provided_relpth))
+        print("UDA", Path(user_provided_abspth))
+        print("CR", Path(computed_relpath))
+        print("CA", Path(computed_abspath))
+
+        if Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve():
+            LOG.interactive("Provided relpath was invalid ! path was reset accordingy.")
+
+        if Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve():
+            LOG.interactive("Provided abspath was invalid ! path was reset accordingy.")
+
         return values
