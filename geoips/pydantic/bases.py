@@ -362,7 +362,9 @@ class PluginModel(StaticBaseModel):
         return value
 
     @model_validator(mode="before")
-    def _validate_rel_and_abs_path_inputs(cls: type["PluginModel"], values: dict[str, str | int | float | None]):
+    def _validate_rel_and_abs_path_inputs(
+        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+    ):
         """Validate whether ``relpath`` and ``abspath`` are set correctly."""
         computed_relpath = values.get("relpath")
         computed_abspath = values.get("abspath")
