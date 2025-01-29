@@ -25,12 +25,13 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
+import yaml
 
 
 # GeoIPS imports
+from geoips import interfaces
 from geoips.plugin_registry import plugin_registry
 
-from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
 
@@ -282,7 +283,7 @@ class PluginModel(StaticBaseModel):
             raise PydanticCustomError("length_error", err_msg)
         return value
 
-    @field_validator("relpath", mode="before")
+    @field_validator("relpath", mode="after")
     def validate_relative_path(cls: type["PluginModel"], value: str) -> str:
         """
         Validate string can be cast as Path and is a relative path.
@@ -321,7 +322,7 @@ class PluginModel(StaticBaseModel):
             raise custom_exception
         return value
 
-    @field_validator("abspath", mode="before")
+    @field_validator("abspath", mode="after")
     def validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
         """
         Validate string can be cast as Path and is an absolute path.
@@ -361,6 +362,25 @@ class PluginModel(StaticBaseModel):
         return value
 
     @model_validator(mode="before")
+    def _validate_rel_and_abs_path_inputs(cls: type["PluginModel"], values: dict[str, str | int | float | None]):
+        """Validate whether ``relpath`` and ``abspath`` are set correctly."""
+        computed_relpath = values.get("relpath")
+        computed_abspath = values.get("abspath")
+
+        with open(computed_abspath) as product_definition_file:
+            prod_dict = yaml.safe_load(product_definition_file)
+            user_provided_relpth = prod_dict.get("relpath")
+            user_provided_abspth = prod_dict.get("abspath")
+
+        if Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve():
+            LOG.interactive("Provided relpath was invalid ! path was reset accordingy.")
+
+        if Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve():
+            LOG.interactive("Provided abspath was invalid ! path was reset accordingy.")
+
+        return values
+
+    @model_validator(mode="after")
     def validate_file_exists(
         cls: type["PluginModel"],
         values: dict[str, str | int | float | None],
@@ -374,26 +394,60 @@ class PluginModel(StaticBaseModel):
         values : dict
             The model's fields as dictionary.
         """
-        rel_path_string = values.get("relpath")
-        abs_path_string = values.get("abspath")
+        context = info.context or {}
+        skip_exists_check = context.get("skip_exists_check", False)
+        rel_path_raw = values.relpath
+        abs_path_raw = values.abspath
 
+        rel_path = abs_path = None
+
+        # if not skip_exists_check:
         try:
-            path = Path(abs_path_string)
+            if rel_path_raw is None:
+                raise ValueError("relpath is None")
+            rel_path = Path(rel_path_raw)
         except (ValueError, TypeError) as e:
             LOG.error(
-                "Failed to create Path object. 'input_provided': %r, 'error':%s",
-                abs_path_string,
+                "Failed to create Path object for 'relpath'. 'input_provided': %r, 'error':%s",
+                rel_path_raw,
+                str(e),
+                exc_info=True,
+            )
+            raise
+
+        try:
+            if abs_path_raw is None:
+                raise ValueError("abspath is None")
+            abs_path = Path(abs_path_raw)
+        except (ValueError, TypeError) as e:
+            LOG.error(
+                "Failed to create Path object for 'abspath'. 'input_provided': %r, 'error':%s",
+                abs_path_raw,
                 str(e),
                 exc_info=True,
             )
 
-        if abs_path_string.endswith(rel_path_string):
-            LOG.debug("Relative path and absolute path refer to the same file")
+        # combining rel_path and ab_path since both refers to same file
+        if rel_path is None or abs_path is None:
+            err_msg = "invalid realtive file path or absolute file paths"
+            LOG.error(err_msg)
+            raise ValueError(err_msg)
 
-        context = info.context or {}
-        skip_exists_check = context.get("skip_exists_check", False)
-        if not skip_exists_check and not path.exists():
-            err_msg = f"Path does not exist: {abs_path_string}"
+        # determine the base path from order_based.py
+        obp_script_dir = Path(__file__).resolve().parent
+        base_path = obp_script_dir.parents[0]
+
+        # buidling the absolute path from the relative path
+        absolute_path_built_from_relative = (base_path / rel_path).resolve()
+
+        if absolute_path_built_from_relative == abs_path:
+            LOG.debug("Relative path and absolute path refer to the same file.")
+
+        # if abs_path_string.endswith(rel_path_string):
+        #     LOG.debug("Relative path and absolute path refer to the same file")
+
+        if not skip_exists_check and not absolute_path_built_from_relative.exists():
+            err_msg = f"Path does not exist: {absolute_path_built_from_relative}"
             LOG.error("%s", err_msg)
             raise FileNotFoundError(err_msg)
         return values
