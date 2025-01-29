@@ -32,7 +32,7 @@ def call(
     command_line_args : list of str, None
         fnames and product-name
     """
-    LOG.interactive(f"The product : '{product_name}' is currently being processed.")
+    LOG.interactive(f"The product : '{product_name}' has begun processing.")
     prod_plugin = interfaces.workflows.get_plugin(product_name)
     prod = WorkflowPluginModel(**prod_plugin)
 
@@ -68,6 +68,7 @@ def call(
             pass
         else:
             pass
+    LOG.interactive(f"The product : '{product_name}' has finished processing.")
 
 
 if __name__ == "__main__":
