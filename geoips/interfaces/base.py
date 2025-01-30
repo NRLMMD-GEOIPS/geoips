@@ -371,9 +371,16 @@ class BaseInterface:
         metadata: dict
             - A dictionary of metadata for the requested plugin.
         """
-        interface_registry = self.plugin_registry.registered_plugins[
-            self.interface_type
-        ][self.name]
+        interface_registry = self.plugin_registry.registered_plugins.get(
+            self.interface_type, {}
+        ).get(self.name)
+
+        if interface_registry is None:
+            raise KeyError(
+                "Error: There is no interface in the plugin registry of type '"
+                f"{self.interface_type}' called '{self.name}'."
+            )
+
         if isinstance(name, tuple):
             # This occurs for product plugins: i.e. ('abi', 'Infrared')
             metadata = interface_registry.get(name[0], {}).get(name[1])
