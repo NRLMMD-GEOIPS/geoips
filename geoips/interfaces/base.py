@@ -303,6 +303,8 @@ class BaseInterface:
     from geoips.plugin_registry import plugin_registry
 
     plugin_registry = plugin_registry
+    name = "BaseInterface"
+    interface_type = None  # This is set by child classes
 
     def __new__(cls):
         """Plugin interface new method."""
@@ -352,6 +354,45 @@ class BaseInterface:
                     "Plugin registries not found, please run 'create_plugin_registries'"
                 )
         return self._registered_yaml_based_plugins
+
+    def get_plugin_metadata(self, name):
+        """Retrieve a plugin's metadata.
+
+        Where the metadata of the plugin matches the plugin's corresponding entry in the
+        plugin registry.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the plugin whose metadata we want.
+
+        Returns
+        -------
+        metadata: dict
+            - A dictionary of metadata for the requested plugin.
+        """
+        interface_registry = self.plugin_registry.registered_plugins[
+            self.interface_type
+        ][self.name]
+        if isinstance(name, tuple):
+            # This occurs for product plugins: i.e. ('abi', 'Infrared')
+            metadata = interface_registry.get(name[0], {}).get(name[1])
+        elif isinstance(name, str):
+            metadata = interface_registry.get(name)
+        else:
+            raise KeyError(
+                f"Error: cannot search the plugin registry with the provided name = "
+                f"{name}. Please provide either a string or a tuple of strings."
+            )
+
+        if metadata is None:
+            raise PluginRegistryError(
+                f"Error: There is no associated plugin under interface '{self.name}' "
+                f"called '{name}'. If you're sure this plugin exists, please run "
+                "'create_plugin_registries'."
+            )
+
+        return metadata
 
 
 class BaseYamlInterface(BaseInterface):
