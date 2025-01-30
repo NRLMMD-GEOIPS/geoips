@@ -448,15 +448,28 @@ class PluginModel(StaticBaseModel):
             user_provided_relpth = prod_dict.get("relpath")
             user_provided_abspth = prod_dict.get("abspath")
 
-        print("UDR", Path(user_provided_relpth))
-        print("UDA", Path(user_provided_abspth))
         print("CR", Path(computed_relpath))
         print("CA", Path(computed_abspath))
 
-        if Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve():
-            LOG.interactive("Provided relpath was invalid ! path was reset accordingy.")
+        if user_provided_relpth:
+            print("UDR", Path(user_provided_relpth))
+        if user_provided_abspth:
+            print("UDA", Path(user_provided_abspth))
 
-        if Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve():
-            LOG.interactive("Provided abspath was invalid ! path was reset accordingy.")
+        if (
+            user_provided_abspth
+            and Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve()
+        ):
+            LOG.interactive(
+                "Provided relpath was invalid ! path was reset accordingly."
+            )
+
+        if (
+            user_provided_relpth
+            and Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve()
+        ):
+            LOG.interactive(
+                "Provided abspath was invalid ! path was reset accordingly."
+            )
 
         return values
