@@ -11,6 +11,8 @@ enhancement:
     modified:
       - geoips/interfaces/base.py
       - geoips/interfaces/yaml_based/products.py
+    added:
+      - tests/unit_tests/plugins/test_get_plugin_metadata.py
   related-issue:
     number: null
     repo_url: ''
