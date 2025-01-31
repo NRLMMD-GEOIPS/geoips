@@ -81,11 +81,13 @@ def write_bad_comparisons_to_file(badcomps, compare_products, compare_strings, d
             "BADCOMPARES Commands to copy %d files that had bad comparisons",
             len(badcomps),
         )
-        LOG.info(f"  source {fname_badcptest}")
+        LOG.debug(f"  source {fname_badcptest}")
         LOG.interactive(f"  source {fname_cp}")
+        # Include print statement for easy copy/paste at the command line
+        print(f"  source {fname_cp}")
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "BADCOMPARES")
-        with open(fname_cp, "w") as fobj:
+        with open(fname_cp, "a") as fobj:
             for badcomp in badcomps:
                 if compare_strings is not None:
                     for compare_string in compare_strings:
@@ -101,7 +103,7 @@ def write_bad_comparisons_to_file(badcomps, compare_products, compare_strings, d
                     ]
                 ):
                     fobj.write(f"gzip {comparison_filename}\n")
-        with open(fname_badcptest, "w") as fobj:
+        with open(fname_badcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for badcomp in badcomps:
                 badcomp = badcomp.replace("IMAGE ", "")
@@ -165,7 +167,9 @@ def write_remove_temp_files_to_file(remove_temp_files, diffdir):
             len(remove_temp_files),
         )
         LOG.interactive(f"  source {fname_rmtemp}")
-        with open(fname_rmtemp, "w") as fobj:
+        # Include print statement for easy copy/paste at the command line
+        print(f"  source {fname_rmtemp}")
+        with open(fname_rmtemp, "a") as fobj:
             for remove_temp_file in remove_temp_files:
                 fobj.write(f"rm -v {remove_temp_file}\n")
     return 0
@@ -234,13 +238,15 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
             "incorrect files from test output path.",
             len(missingproducts),
         )
-        LOG.info("  source {0}".format(fname_missingprodcptest))
+        LOG.debug("  source {0}".format(fname_missingprodcptest))
         # If there are missing products, ensure the source command to
         # remove them from the comparison test outputs directory is
         # printed at the interactive log level
         LOG.interactive("  source {0}".format(fname_rm))
+        # Include print statement for easy copy/paste at the command line
+        print("  source {0}".format(fname_rm))
         test_path = join(diffdir, "MISSINGPRODUCTS")
-        with open(fname_rm, "w") as fobj:
+        with open(fname_rm, "a") as fobj:
             # Now loop through each missing product to write them to the file
             for missingproduct in missingproducts:
                 missingproduct_basename = basename(missingproduct)
@@ -260,12 +266,16 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                             "stored_comparison"
                         ]
                         fobj.write(f"  rm -v {comparison_filename}\n")
-                        LOG.interactive(f"    TEST OUTPUT: {comparison_filename}")
+                        LOG.debug(f"    TEST OUTPUT: {comparison_filename}")
                     else:
-                        LOG.interactive(f"    TEST OUTPUT: {file_for_comparison}")
+                        comparison_filename = compare_products[compare_product][
+                            "stored_comparison"
+                        ]
+                        fobj.write(f"  rm -v {comparison_filename}\n")
+                        LOG.debug(f"    TEST OUTPUT: {file_for_comparison}")
         # This is just for testing purposes - write out copy commands to
         # copy the missing product into a test location for easy review.
-        with open(fname_missingprodcptest, "w") as fobj:
+        with open(fname_missingprodcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingproduct in missingproducts:
                 # For display purposes - tifs are easier to view
@@ -334,11 +344,13 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
             "MISSINGCOMPARE Commands to copy %d missing files to comparison path.",
             len(missingcomps),
         )
-        LOG.info("  source {0}".format(fname_missingcompcptest))
+        LOG.debug("  source {0}".format(fname_missingcompcptest))
         LOG.interactive("  source {0}".format(fname_cp))
+        # Include print statement for easy copy/paste at the command line
+        print("  source {0}".format(fname_cp))
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "MISSINGCOMPARE")
-        with open(fname_cp, "w") as fobj:
+        with open(fname_cp, "a") as fobj:
             for missingcomp in missingcomps:
                 # We are passing the missingcomp directly to the diff dir
                 # We have no knowledge if these should be gzipped or not,
@@ -346,7 +358,7 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
                 # gzip before commiting if desired.
                 fobj.write(f"  cp -v {missingcomp} {comparison_path}\n")
                 LOG.interactive(f"    CURR OUTPUT: {missingcomp}")
-        with open(fname_missingcompcptest, "w") as fobj:
+        with open(fname_missingcompcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingcomp in missingcomps:
                 # For display purposes - tifs are easier to view
@@ -409,9 +421,9 @@ def write_good_comparisons_to_file(goodcomps, compare_strings, diffdir):
         LOG.warning("GOODCOMPARE %s", goodcompare)
     if len(goodcomps) > 0:
         fname_goodcptest = join(diffdir, "cptest_GOODCOMPARE.txt")
-        LOG.info(f"source {fname_goodcptest}")
+        LOG.debug(f"source {fname_goodcptest}")
         test_path = join(diffdir, "GOODCOMPARE")
-        with open(fname_goodcptest, "w") as fobj:
+        with open(fname_goodcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for goodcomp in goodcomps:
                 if compare_strings is not None:
@@ -752,7 +764,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 remove_temp_files += [output_product_for_comparison]
 
             log_with_emphasis(
-                LOG.info, "COMPARE {basename(output_product_for_comparison)}"
+                LOG.info, f"COMPARE {basename(output_product_for_comparison)}"
             )
             found_one = False
             for compare_product in compare_products:

@@ -4,17 +4,20 @@
 """Advanced Himawari Imager Data Reader."""
 
 # Python Standard Libraries
-import os
-import logging
-from glob import glob
-from struct import unpack
 from datetime import datetime, timedelta
+from glob import glob
+import logging
+import os
+import re
+from struct import unpack
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray
 from scipy.ndimage import zoom
 
+# GeoIPS Libraries
+from geoips.interfaces import readers
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -139,6 +142,7 @@ ALL_GVARS = {
 interface = "readers"
 family = "standard"
 name = "ahi_hsd"
+source_names = ["ahi"]
 
 
 class AutoGenError(Exception):
@@ -976,6 +980,57 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )
+
+
+def call_single_time(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    test_arg="AHI Default Test Arg",
+):
+    """
+    Read AHI HSD data data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     process_datetimes = {}
     LOG.interactive("AHI reader test_arg: %s", test_arg)
     print_mem_usage("MEMUSG", verbose=False)
@@ -1097,6 +1152,9 @@ def call(
     xarray_obj.attrs["data_provider"] = "jma"
     xarray_obj.attrs["platform_name"] = highest_md["block_01"]["satellite_name"].lower()
     xarray_obj.attrs["area_definition"] = area_def
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # If metadata_only requested, return here.
     if metadata_only:
@@ -1321,7 +1379,6 @@ def call(
 
     print_mem_usage("MEMUSG", verbose=False)
     xarray_objs = {}
-    import re
 
     for dsname in datavars.keys():
         xobj = xarray.Dataset()

@@ -265,6 +265,7 @@ Improve error message when user missing ``pixelmatch``
 ------------------------------------------------------
 
 When a user uses the image output checker with ``--compare-path`` without
+
 ``pixelmatch`` installed, an error is raised. The old error was confusing.
 This change improves the error, and directs the user on how to ameliorate
 the issue.

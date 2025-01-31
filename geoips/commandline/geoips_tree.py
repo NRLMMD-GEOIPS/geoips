@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """GeoIPS CLI "tree" command.
 
 Single 'geoips tree' command which will display GeoIPS CLI commands up to a --max-depth
@@ -22,6 +25,27 @@ class GeoipsTree(GeoipsExecutableCommand):
 
     name = "tree"
     command_classes = []
+
+    describe_sectors_outputted = False
+    list_sectors_outputted = False
+
+    @property
+    def cmd_aliases(self):
+        """List of aliases we don't want to include in the tree.
+
+        Without this attribute there will be an entry for each alias of a command name.
+        So for 'list' (or 'ls'), there will be two 'geoips list' entries which we don't
+        want.
+        """
+        if not hasattr(self, "_cmd_aliases"):
+            self._cmd_aliases = []
+            for cmd_name in self.alias_mapping:
+                for alias in self.alias_mapping[cmd_name]:
+                    # Aliases below are names of actual commands and we need to deal
+                    # with this using conditionals in 'print_tree'
+                    if alias not in ["sector"]:
+                        self._cmd_aliases.append(alias)
+        return self._cmd_aliases
 
     @property
     def top_level_parser(self):
@@ -108,7 +132,7 @@ class GeoipsTree(GeoipsExecutableCommand):
             ),
         )
 
-    def print_tree(self, parser, colored=False, level=0, max_depth=2, short_name=False):
+    def print_tree(self, parser, color=False, level=0, max_depth=2, short_name=False):
         """Display GeoIPS CLI commands up to 'max_depth' in a tree-like fashion.
 
         This function is recursively called up to 'max_depth' to generate that tree of
@@ -120,7 +144,7 @@ class GeoipsTree(GeoipsExecutableCommand):
         ----------
         parser: argparse.ArgumentParser
             - The parser associated with the command at the current depth.
-        colored: bool
+        color: bool
             - Whether or not we want the output to be colored by depth.
         level: int
             - The current depth of the command tree (starts at 0).
@@ -144,6 +168,15 @@ class GeoipsTree(GeoipsExecutableCommand):
             # The case above would result in 'geoips config install'
             cmd_name = " ".join(split_cmd[3:5] + [split_cmd[-1]])[1:]
 
+        if (
+            cmd_name == "geoips describe sectors" and self.describe_sectors_outputted
+        ) or (cmd_name == "geoips list sectors" and self.list_sectors_outputted):
+            # Due to how we've structured aliases, these commands need to be manually
+            # checked that they've only ran once. This is caused by 'geoips test sector'
+            # command, where 'sector is the actual name of a command so we can't include
+            # it in the 'cmd_aliases' property of this class.
+            return
+
         if short_name:
             # Just grab the exact name of the command.
             # Ie. 'geoips' or 'config' or 'install'
@@ -151,16 +184,26 @@ class GeoipsTree(GeoipsExecutableCommand):
         else:
             cmd_txt = cmd_name
 
-        url = f"{self.cmd_line_url}#{cmd_name.replace(' ', '-')}"
-        hyperlink = self.link(url, cmd_txt)
+        # Commenting these portions out until we can get the documentation build and
+        # make this easily testable. The introduction of Class Factories for commands
+        # has made this much harder to implement.
 
-        if colored:
+        # url = f"{self.cmd_line_url}#{cmd_name.replace(' ', '-')}"
+        # hyperlink = self.link(url, cmd_txt)
+        hyperlink = cmd_txt
+
+        if color:
             # print the command tree in a colored fashion
             color = self.level_to_color.get(level, Fore.WHITE)
             print(f"{indent}{color}{hyperlink}{Style.RESET_ALL}")
         else:
             # Otherwise just print the string in a normal fashion
             print(f"{indent}{hyperlink}")
+
+        if cmd_name == "geoips describe sectors":
+            self.describe_sectors_outputted = True
+        elif cmd_name == "geoips list sectors":
+            self.list_sectors_outputted = True
 
         if (
             hasattr(parser, "_subparsers")
@@ -171,13 +214,14 @@ class GeoipsTree(GeoipsExecutableCommand):
             # exceeding the max depth specified, then call print_tree again.
             subparsers_action = parser._subparsers._group_actions[0]
             for choice, subparser in subparsers_action.choices.items():
-                self.print_tree(
-                    subparser,
-                    colored=colored,
-                    level=level + 1,
-                    max_depth=max_depth,
-                    short_name=short_name,
-                )
+                if choice not in self.cmd_aliases:
+                    self.print_tree(
+                        subparser,
+                        color=color,
+                        level=level + 1,
+                        max_depth=max_depth,
+                        short_name=short_name,
+                    )
 
     def __call__(self, args):
         """Run the `geoips tree <opt_args>` command.
@@ -195,7 +239,7 @@ class GeoipsTree(GeoipsExecutableCommand):
             )
         self.print_tree(
             self.top_level_parser,
-            colored=args.color,
+            color=args.color,
             max_depth=depth,
             short_name=args.short_name,
         )

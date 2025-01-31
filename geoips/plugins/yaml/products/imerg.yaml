@@ -2,13 +2,14 @@ interface: products
 family: list
 name: imerg
 docstring: |
+  IMERG: Integrated Multi-satellitE Retrievals for GPM. Derived Sensor Product.
   The imerg product_inputs configuration, which produces Rain and RainNearest products.
 spec:
   products:
     - name: Rain
       source_names: [imerg]
       docstring: |
-        The Rain product_defaults configuration for imerg products.
+        Monitors Precipitation.
       product_defaults: Rain
       spec:
         variables: ["rain"]

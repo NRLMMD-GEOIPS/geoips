@@ -1,0 +1,12 @@
+bug fix:
+- description: |
+    Removed NOAA AWS dataset from the base tests 
+    because it was unused resulting in a ~6X faster install 
+    (2m 28s -> 24s) and a ~4.25 smaller data footprint (3.8Gb -> 894Mb).
+  files:
+    modified:
+      - 'tests/integration_tests/base_install.sh'
+  related-issue:
+    number: 764
+    repo_url: ''
+  title: 'Remove unused NOAA AWS dataset from base tests'
