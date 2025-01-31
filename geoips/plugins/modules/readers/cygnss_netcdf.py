@@ -102,12 +102,29 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
 # Unit test functions
 def get_test_files(test_data_dir):
-    """Generate testing xarray from test data."""
+    """
+    Generate a testing xarray dataset from NetCDF files in the test data directory.
+
+    Parameters
+    ----------
+    test_data_dir : str
+        Path to the directory containing test data.
+
+    Returns
+    -------
+    xarray.Dataset
+        The dataset created from the NetCDF test files.
+
+    Raises
+    ------
+    FileNotFoundError
+        If no NetCDF files are found in the specified directory.
+    """
     filepath = test_data_dir + "/test_data_cygnss/data/*.nc"
     filelist = glob.glob(filepath)
+    if not filelist:
+        raise FileNotFoundError("No files found")
     tmp_xr = call(filelist)
-    if len(filelist) == 0:
-        raise NameError("No files found")
     return tmp_xr
 
 
