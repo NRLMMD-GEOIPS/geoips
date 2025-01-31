@@ -76,6 +76,18 @@ spec:
             name: matplotlib_linear_norm
             arguments:
               cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
+    - name: VisibleHighRes
+      source_names: [abi]
+      docstring: |
+        The Visible product_defaults configuration for abi product.
+      product_defaults: Visible
+      spec:
+        variables: ["B02Ref", "HIGH:solar_zenith_angle"]
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              cbar_label: "Reflectance, ABI B02 Visible Band"
     - name: nasa_dust_rgb
       source_names: [abi]
       docstring: |
