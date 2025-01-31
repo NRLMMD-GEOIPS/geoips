@@ -19,9 +19,11 @@ performance:
       - tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png
       - tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh
     modified:
+      - geoips/commandline/ancillary_info/test_data.py
       - geoips/plugins/modules/procflows/single_source.py
       - geoips/plugins/yaml/products/seviri.yaml
       - setup/check_system_requirements.sh
+      - setup/test-data-urls.yaml
       - tests/integration_tests/full_install.sh
       - tests/integration_tests/full_test.sh
   title: New Product Family unsectored_xarray_dict_to_algorithm_to_output_format
