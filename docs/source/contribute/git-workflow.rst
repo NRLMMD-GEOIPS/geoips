@@ -225,7 +225,7 @@ This could include related pull requests from multiple repositories.
   * Click green "Merge branch" from each PR
   * Click "Delete head branch" from each PR
 * This should automatically update the Project so all related PRs and Issues
-  are moved to the "Done" columnn
+  are moved to the "Done" column
 
 FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 ======================================================================
