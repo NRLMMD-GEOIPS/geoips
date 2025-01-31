@@ -1023,9 +1023,20 @@ class OutputCheckersInterface(BaseModuleInterface):
             raise TypeError("There isn't an output checker built for this data type.")
         return checker_name
 
-    def get_plugin(self, name):
-        """Get the output checker plugin corresponding to checker_name."""
-        plug = super().get_plugin(name)
+    def get_plugin(self, name, rebuild_registries=False):
+        """Return the output checker plugin corresponding to checker_name.
+
+        Parameters
+        ----------
+        name : str
+            - The name the desired plugin.
+        rebuild_registries: boolean (default=False)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              true and get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
+        """
+        plug = super().get_plugin(name, rebuild_registries)
         if self.valid_plugin(plug):
             return plug
 

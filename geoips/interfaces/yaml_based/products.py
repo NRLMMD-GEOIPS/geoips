@@ -97,7 +97,9 @@ class ProductsInterface(BaseYamlInterface):
             names += [(source_name, yaml_plugin["name"])]
         return names
 
-    def get_plugin(self, source_name, name, product_spec_override=None):
+    def get_plugin(
+        self, source_name, name, product_spec_override=None, rebuild_registries=False
+    ):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.
 
         If product_spec_override dict is passed, values contained within
@@ -107,10 +109,25 @@ class ProductsInterface(BaseYamlInterface):
         product_spec_override[product_name] matches the format of the product
         "spec" field.
 
-        Additionall, if the special key product_spec_override["all"] is included,
+        Additionally, if the special key product_spec_override["all"] is included,
         it will apply to all products not specified by name within the dictionary.
+
+        Parameters
+        ----------
+        source_name : str
+            - The name the source which the product is derived from.
+        name : str
+            - The name the desired plugin.
+        dict : str
+            - Dictionary specifying what information of the product's spec that is to be
+              overridden at runtime.
+        rebuild_registries: boolean (default=False)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              true and get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
         """
-        prod_plugin = super().get_plugin((source_name, name))
+        prod_plugin = super().get_plugin((source_name, name), rebuild_registries)
         if product_spec_override is not None:
             # Default to no override arguments
             override_args = {}
