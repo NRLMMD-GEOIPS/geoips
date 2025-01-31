@@ -105,9 +105,9 @@ def get_test_files(test_data_dir):
     """Generate testing xarray from test data."""
     filepath = test_data_dir + "/test_data_cygnss/data/*.nc"
     filelist = glob.glob(filepath)
+    if not filelist:
+        raise FileNotFoundError("No files found")
     tmp_xr = call(filelist)
-    if len(filelist) == 0:
-        raise NameError("No files found")
     return tmp_xr
 
 
