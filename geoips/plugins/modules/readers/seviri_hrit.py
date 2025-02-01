@@ -471,7 +471,12 @@ class ChanList(object):
 
 
 def call_single_time(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    mask_sat_zen_greater=None,
 ):
     """Read SEVIRI hrit data products.
 
@@ -491,6 +496,10 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    mask_sat_zen_greater : int, default=None
+        * If provided, mask all pixels where satellize zenith angle is greater than
+          'mask_sat_zen_greater'.
+        * If not provided, don't mask by satellize zenith angle.
 
     Returns
     -------
@@ -778,9 +787,10 @@ def call_single_time(
         else:
             gvars[adname][var] = np.ma.masked_less_equal(gvars[adname][var], -999)
 
-        if "satellite_zenith_angle" in gvars[adname].keys():
+        if "satellite_zenith_angle" in gvars[adname].keys() and mask_sat_zen_greater:
             gvars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75, gvars[adname][var]
+                gvars[adname]["satellite_zenith_angle"] > mask_sat_zen_greater,
+                gvars[adname][var],
             )
 
     for var in datavars[adname].keys():
@@ -791,9 +801,10 @@ def call_single_time(
         else:
             datavars[adname][var] = np.ma.masked_less_equal(datavars[adname][var], -999)
 
-        if "satellite_zenith_angle" in gvars[adname].keys():
+        if "satellite_zenith_angle" in gvars[adname].keys() and mask_sat_zen_greater:
             datavars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75, datavars[adname][var]
+                gvars[adname]["satellite_zenith_angle"] > mask_sat_zen_greater,
+                datavars[adname][var],
             )
 
     xarray_objs = {}
@@ -819,7 +830,14 @@ def call_single_time(
     return xarray_objs
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    mask_sat_zen_greater=None,
+):
     """Read SEVIRI hrit data products.
 
     Parameters
@@ -838,6 +856,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    mask_sat_zen_greater : int, default=None
+        * If provided, mask all pixels where satellize zenith angle is greater than
+          'mask_sat_zen_greater'.
+        * If not provided, don't mask by satellize zenith angle.
 
     Returns
     -------
@@ -866,4 +888,5 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         chans,
         area_def,
         self_register,
+        mask_sat_zen_greater,
     )
