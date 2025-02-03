@@ -1,0 +1,20 @@
+refactor:
+- title: 'Update variable name AMSR to AMSR2'
+  description: |
+    Updates non-operational instrument name (Advanced Microwave Scanning Radiometer) 
+    to refelect the current instrument in use (Advanced Microwave Scanning Radiometer 2)
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
