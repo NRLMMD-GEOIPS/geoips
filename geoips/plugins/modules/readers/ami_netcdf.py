@@ -4,20 +4,21 @@
 """Standard GeoIPS xarray dictionary based GeoKOMPSAT AMI NetCDF data reader."""
 
 # Python Standard Libraries
+from datetime import datetime, timedelta
 import glob
 import logging
-import numpy as np
 import os
-import xarray
-from datetime import datetime, timedelta
 
+# Third-Party Libraries
 import netCDF4 as ncdf
+import numpy as np
+import xarray
 
+from geoips.interfaces import readers
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
     get_geolocation,
 )
-
 
 LOG = logging.getLogger(__name__)
 try:
@@ -42,6 +43,7 @@ except Exception:
 interface = "readers"
 family = "standard"
 name = "ami_netcdf"
+source_names = ["ami"]
 
 # These should be added to the data file object
 BADVALS = {
@@ -110,7 +112,7 @@ Equations and code from GEO-KOMPSAT-2A Level 1B Data User Manual.
 """
 
 
-def latlon_from_lincol_geos(Resolution, Line, Column, metadata):
+def latlon_from_lincol_geos(Line, Column, metadata):
     """Calculate latitude and longitude from array indices.
 
     Uses geostationary projection (likely won't work with extended local area files).
@@ -120,22 +122,12 @@ def latlon_from_lincol_geos(Resolution, Line, Column, metadata):
     if not os.path.isfile(fname):
         degtorad = 3.14159265358979 / 180.0
 
-        if Resolution == "HIGH":
-            COFF = 11000.5
-            CFAC = 8.170135561335742e7
-            LOFF = 11000.5
-            LFAC = 8.170135561335742e7
-        elif Resolution == "MED":
-            COFF = 5500.5
-            CFAC = 4.0850677806678705e7
-            LOFF = 5500.5
-            LFAC = 4.0850677806678705e7
-        else:
-            COFF = 2750.5
-            CFAC = 2.0425338903339352e7
-            LOFF = 2750.5
-            LFAC = 2.0425338903339352e7
-        sub_lon = 128.2
+        COFF = metadata["COFF"]
+        CFAC = metadata["CFAC"]
+        LOFF = metadata["LOFF"]
+        LFAC = metadata["LFAC"]
+
+        sub_lon = metadata["sub_lon"]
         sub_lon = sub_lon * degtorad
 
         x = np.empty_like(Column)
@@ -415,6 +407,13 @@ def _get_geolocation_metadata(metadata):
     geomet["roi_factor"] = 5  # roi = res * roi_factor, was 10
     geomet["num_lines"] = metadata["data"]["number_of_lines"]
     geomet["num_samples"] = metadata["data"]["number_of_columns"]
+    # Dynamically get offsets and scale factors needed for correct geolocation
+    # calculation
+    geomet["sub_lon"] = metadata["projection"]["sub_longitude"]
+    geomet["CFAC"] = np.abs(metadata["projection"]["cfac"])
+    geomet["COFF"] = np.abs(metadata["projection"]["coff"])
+    geomet["LFAC"] = np.abs(metadata["projection"]["lfac"])
+    geomet["LOFF"] = np.abs(metadata["projection"]["loff"])
     return geomet
 
 
@@ -546,6 +545,52 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )
+
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """
+    Read Geo-Kompsat NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     gvars = {}
     datavars = {}
     geo_metadata = {}
@@ -623,6 +668,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         "satellite_name"
     ]
     xarray_obj.attrs["area_definition"] = area_def
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # Get appropriate sector name
     if area_def:
@@ -708,7 +756,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
         i, j = np.meshgrid(i, j)
         (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-            self_register, j, i, geo_metadata[adname]
+            Column=j, Line=i, metadata=geo_metadata[adname]
         )
 
         gvars[adname] = get_geolocation(
@@ -738,7 +786,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 j = np.arange(0, geo_metadata[res]["num_samples"], dtype="f")
                 i, j = np.meshgrid(i, j)
                 (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-                    res, j, i, geo_metadata[res]
+                    Column=j, Line=i, metadata=geo_metadata[res]
                 )
 
                 gvars[res] = get_geolocation(

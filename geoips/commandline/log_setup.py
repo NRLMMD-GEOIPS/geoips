@@ -8,8 +8,7 @@ import sys
 from textwrap import wrap
 
 
-logging_setup_done = False
-log = None
+logging.captureWarnings(True)
 
 
 def log_with_emphasis(print_func, *messages):
@@ -190,12 +189,6 @@ def setup_logging(logging_level=None, verbose=True):
     instance via `LOG = logging.getLogger(__name__)` and it will behave the same as the
     root logger.
 
-    If this function was called previously in the program's traceback in any other
-    location, then setup_logging will default to the log setup in the very first call.
-    This is done so log statements aren't duplicated the number of times this function
-    has been called. Therefore, it is smart to ensure that the first call to this
-    function is the lowest log level you'ld like to capture.
-
     Parameters
     ----------
     logging_level : str, default=None
@@ -206,34 +199,21 @@ def setup_logging(logging_level=None, verbose=True):
         Determines which log formatter will be used. If `True`, a longer format will be
         used, providing more information, but also cluttering the screen. If `False`, a
         shorter format will be used.
-
-    Globals
-    -------
-    logging_setup_done: bool
-        - Whether or not this function has already been called
-    log: logging.RootLogger
-        - A root logging object that has the GeoIPS log format applied. This will only
-          be set once in a program's execution.
     """
-    global logging_setup_done, log
-
-    if not logging_setup_done:
-        log = logging.getLogger()
-        # If logging_level was not specified, default to INTERACTIVE here.
-        if not logging_level:
-            logging_level = "INTERACTIVE"
-        log.setLevel(getattr(logging, logging_level))
-        fmt = logging.Formatter(
-            "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
-            "%d_%H%M%S",
-        )
-        if not verbose:
-            fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
+    log = logging.getLogger()
+    # If logging_level was not specified, default to INTERACTIVE here.
+    if not logging_level:
+        logging_level = "INTERACTIVE"
+    log.setLevel(getattr(logging, logging_level))
+    fmt = logging.Formatter(
+        "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
+        "%d_%H%M%S",
+    )
+    if not verbose:
+        fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
+    if not log.handlers:
         stream_hndlr = logging.StreamHandler(sys.stdout)
         stream_hndlr.setFormatter(fmt)
         stream_hndlr.setLevel(logging.INFO)
         log.addHandler(stream_hndlr)
-
-        logging_setup_done = True
-
     return log
