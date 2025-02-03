@@ -174,7 +174,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 # Otherwise, assume this is a new sector that is being developed, and
                 # automate plugin registry creation if it does not already exist as an
                 # entry in the registry.
-                rebuild_registries = 0
+                rebuild_registries = True
             sect = sectors.get_plugin(
                 sector_name, rebuild_registries=rebuild_registries
             )
