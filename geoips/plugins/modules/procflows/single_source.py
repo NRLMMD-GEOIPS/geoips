@@ -11,6 +11,7 @@ import inspect
 import xarray
 
 # Internal utilities
+from geoips.errors import PluginError
 from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -961,6 +962,50 @@ def process_xarray_dict_to_output_format(
         # No input filename list, no check that output filename list matches
         LOG.info(
             "Not checking output file list for output family %s", output_plugin.family
+        )
+
+    # We theoretically can do this for all output_formatters that don't require an area
+    # definition
+    elif output_plugin.family == "unprojected":
+        # If there is not a colormap dictionary already provided in output_formatter
+        # kwargs, then try to retrieve it here. If it's not possible, raise a
+        # PluginError which points out that no colormapper plugin was provided and
+        # therefore we can't produce an unprojected image.
+        if "mpl_colors_info" not in output_formatter_kwargs:
+            prd_plg = products.get_plugin(
+                prod_plugin["source_names"][0], prod_plugin.name
+            )
+            cmap_name = (
+                prd_plg["spec"].get("colormapper", {}).get("plugin", {}).get("name")
+            )
+            if cmap_name:
+                cmap_plg = colormappers.get_plugin(cmap_name)
+                output_formatter_kwargs["mpl_colors_info"] = cmap_plg(
+                    **prd_plg["spec"]["colormapper"]["plugin"]["arguments"]
+                )
+        else:
+            raise PluginError(
+                f"Error: product plugin '{prod_plugin.name}' does not have a "
+                "colormapper plugin that is needed for the 'unprojected_image'"
+                "output formatter. Please add a colormapper plugin to your product, and"
+                " try again."
+            )
+        # Unprojected Output formatter expects the xarray including the data for your
+        # product rather than a dictionary containing that xarray. We probably could
+        # just default to 'xobjs[prod_plugin.name]', however adding this conditional
+        # doesn't hurt in the case xobjs is an xarray.Dataset(). Shouldn't happen,
+        # but again, doesn't hurt to add this functionality.
+        if isinstance(xobjs, dict):
+            in_xobjs = xobjs[prod_plugin.name]
+        else:
+            in_xobjs = xobjs
+        # Apply unprojected image output formatter
+        LOG.info("Applying output formatter of family %s", output_plugin.family)
+        curr_products = output_plugin(
+            in_xobjs,
+            prod_plugin.name,
+            output_fnames,
+            **output_formatter_kwargs,
         )
 
     else:
@@ -1946,6 +1991,13 @@ def call(fnames, command_line_args=None):
                 window_start_time=window_start_time,
                 window_end_time=window_end_time,
             )
+        # This is a workaround so these products can use single source and other
+        # algorithms which don't return a dictionary of xarrays. Just convert this back
+        # to a dictionary under the hood and hope the metadata included in 'xdict.attrs'
+        # is enough for your filename formatter.
+        if not isinstance(xdict, dict):
+            xdict = {prod_plugin.name: xdict, "METADATA": xdict[[]]}
+
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
