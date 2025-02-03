@@ -27,6 +27,15 @@ from ._version import __version__, __version_tuple__
 import logging  # noqa
 from geoips.commandline.log_setup import add_logging_level
 
+from matplotlib import rcParams
+
+# Disable interpolation in calls to matplotlib.plt.imshow()
+# Interpolation will still work for other plotting functions.
+# This is disabled because we pre-interpolate our imagery and
+# we don't need matplotlib to reinterpolate. We explicitly compute
+# the size our our axes instances to accommodate the imagery.
+rcParams["image.interpolation"] = "none"
+
 
 add_logging_level("INTERACTIVE", 35)
 
