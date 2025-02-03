@@ -1,19 +1,17 @@
 enhancement:
 - title: 'Migrate integration tests to pytest'
-  description: 'This migrates the tests from shell scripts to pytest scripts. It also adds related documentation.'
+  description: 'This migrates the tests from shell scripts to pytest scripts. It also adds related documentation and deprecates existing geoips shell scripts.'
   files:
     added:
-    - 'docs/dev/integration_tests.rst'
-    - 'tests/integration_tests/test_integration.py'
+    - 'docs/source/releases/latest/integrate-test-all-into-pytest-tests.yaml'
     modified:
+    - 'docs/dev/integration_tests.rst'
     - 'pytest.ini'
-    deleted:
-    - 'tests/integration_tests/base_test.sh'
-    - 'tests/integration_tests/full_test.sh'
-    - 'tests/integration_tests/test_full_test.py'
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/test_all.sh'
   related-issue:
     number: 834
     repo_url: ''
   date:
-    start: null
-    finish: null
+    start: Dec 31, 2024
+    finish: Feb 3, 2025
