@@ -6,10 +6,7 @@
 import isodate
 from datetime import timedelta
 
-try:
-    from geoips_db.interfaces import databases
-except ImportError:
-    pass
+from geoips.interfaces import databases
 
 
 def find_preproc_alg_files(
