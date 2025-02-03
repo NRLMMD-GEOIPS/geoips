@@ -20,6 +20,7 @@ from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
 
 from geoips.errors import PluginError, PluginRegistryError
+from geoips.filenames.base_paths import PATHS
 
 LOG = logging.getLogger(__name__)
 
@@ -307,6 +308,7 @@ class BaseInterface(abc.ABC):
     plugin_registry = plugin_registry_module.plugin_registry
     name = "BaseInterface"
     interface_type = None  # This is set by child classes
+    rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
 
     def __new__(cls):
         """Plugin interface new method."""
@@ -322,7 +324,7 @@ class BaseInterface(abc.ABC):
         return super(BaseInterface, cls).__new__(cls)
 
     @abc.abstractmethod
-    def get_plugin(self, name, rebuild_registries=False):
+    def get_plugin(self, name, rebuild_registries=rbr):
         """Abstract function for retrieving a plugin under a certain interface.
 
         Parameters
@@ -583,7 +585,7 @@ class BaseYamlInterface(BaseInterface):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
-    def get_plugin(self, name, rebuild_registries=False):
+    def get_plugin(self, name, rebuild_registries=None):
         """Get a plugin by its name.
 
         This default method can be overridden to provide different search
@@ -596,15 +598,26 @@ class BaseYamlInterface(BaseInterface):
         name: str or tuple(str)
             - The name of the yaml-based plugin. Either a single string or a tuple of
               strings for product plugins.
-        rebuild_registries: boolean (default=False)
+        rebuild_registries: boolean (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
-              true and get_plugin fails, rebuild the plugin registry, call then call
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
         """
         from importlib.resources import files
 
         registered_yaml_plugins = self.registered_yaml_based_plugins
+
+        if rebuild_registries is None:
+            rebuild_registries = self.rbr
+        elif not isinstance(rebuild_registries, bool):
+            raise ValueError(
+                "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
+                f" value. Encountered this '{rebuild_registries}' instead."
+            )
 
         if isinstance(name, tuple):
             # These are stored in the yaml as str(name),
@@ -863,16 +876,19 @@ class BaseModuleInterface(BaseInterface):
         # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
         return type(plugin_type, (plugin_base_class,), obj_attrs)()
 
-    def get_plugin(self, name, rebuild_registries=False):
+    def get_plugin(self, name, rebuild_registries=None):
         """Retrieve a plugin from this interface by name.
 
         Parameters
         ----------
         name : str
             - The name the desired plugin.
-        rebuild_registries : boolean (default=False)
+        rebuild_registries: boolean (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
-              true and get_plugin fails, rebuild the plugin registry, call then call
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
 
@@ -889,6 +905,15 @@ class BaseModuleInterface(BaseInterface):
         # Find the plugin module
         # Convert the module into an object
         registered_module_plugins = self.registered_module_based_plugins
+
+        if rebuild_registries is None:
+            rebuild_registries = self.rbr
+        elif not isinstance(rebuild_registries, bool):
+            raise ValueError(
+                "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
+                f" value. Encountered this '{rebuild_registries}' instead."
+            )
+
         if name not in registered_module_plugins[self.name]:
             err_str = (
                 f"Plugin '{name}', "

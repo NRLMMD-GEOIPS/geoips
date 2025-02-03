@@ -141,9 +141,12 @@ class ProductsInterface(BaseYamlInterface):
         dict : str
             - Dictionary specifying what information of the product's spec that is to be
               overridden at runtime.
-        rebuild_registries: boolean (default=False)
+        rebuild_registries: boolean (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
-              true and get_plugin fails, rebuild the plugin registry, call then call
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
         """
