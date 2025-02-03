@@ -1,0 +1,17 @@
+documentation:
+- title: 'Make all documentation sections optional'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    Previously required introduction and user guide - allow building documentation
+    with only release notes and API.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'docs/build_docs.sh'
+    - 'docs/source/_templates/index_PKG.html'
+    moved:
+    - ''

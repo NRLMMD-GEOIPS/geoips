@@ -1,0 +1,43 @@
+name: Build stable docker image
+
+# 1. Tag and Release - on merge of v*-version-release
+#    * Tag current version
+#    * Release just tagged version
+# 2. Package and Publish - on published release (from #1)
+#    * Build wheel
+#    * Publish to pypi
+# 3. Deploy docs - on published release (from #1)
+#    * pip install geoips
+#    * pip install plugin repo
+#    * build docs with geoips/docs/build_docs.sh
+#    * deploy docs with geoips/docs/deploy_pages.sh
+# 4. GEOIPS REPO ONLY - build stable docker image on published release (from #1)
+#    * Stable image required for all plugin packages to use for CI
+#    * doc-test workflow will fail on all plugin packages without stable image.
+#    * reusable-build-docker-image is set up to build specifically the stable
+#      image on the default branch - since this workflow is run after merge to
+#      the default branch, it will build the stable image.
+
+on:
+  # triggers the workflow on published release
+  release:
+    types:
+      - published
+  # allows run of this workflow manually from the actions tab
+  # must be merged to default before it will be available to manually run.
+  workflow_dispatch:
+
+jobs:
+  build-stable-image:
+    name: Build stable docker image
+    # You do not appear to be able to use variables in the "uses" field.
+    # Note since this is run after merge to main, reusable-build-docker-image will
+    # build the stable image specifically, which will subsequently be used by
+    # the plugin packages.
+    uses: NRLMMD-GEOIPS/geoips_ci/.github/workflows/reusable-build-docker-image.yaml@main
+    permissions:
+      contents: write
+      packages: write
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
+      docker_token: ${{ secrets.DOCKER_REGISTRY_TOKEN }}

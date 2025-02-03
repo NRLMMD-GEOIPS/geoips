@@ -21,9 +21,9 @@ import logging
 import numpy as np
 from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
 
-# Installed Libraries
-
 # GeoIPS Libraries
+from geoips.errors import NoValidFilesError
+from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -185,18 +185,21 @@ def compare_dicts(d1, d2, skip=None):
 
 def get_top_level_metadata(fnames, sect):
     """Get top level metadata."""
+    md = {}
     for fname in fnames:
         df = HritFile(fname)
         if "block_2" in df.metadata.keys():
             break
-    md = {}
-    if "GEOS" in df.metadata["block_2"]["projection"]:
+    if "GEOS" in df.metadata.get("block_2", {}).get("projection", {}):
         md["sector_name"] = "Full-Disk"
     else:
+        projection = df.metadata.get("block_2", {}).get("projection", {})
+        st = df.start_datetime.isoformat()
+        et = df.start_datetime.isoformat()
         raise HritError(
-            "Unknown projection encountered: {}".format(
-                df.metadata["block_2"]["projection"]
-            )
+            f"Unknown projection encountered: {projection}.\n"
+            f"start_datetime={st}\n"
+            f"end_datetime={et}"
         )
     md["start_datetime"] = df.start_datetime
     md["end_datetime"] = df.start_datetime
@@ -217,6 +220,7 @@ def get_top_level_metadata(fnames, sect):
     #     raise HritError('Unknown satname encountered: {}'.format(msg_satname))
     md["platform_name"] = msg_satname[0:3] + "-" + msg_satname[-1]  # msg-1 or msg-4
     md["source_name"] = "seviri"
+    md["source_file_names"] = [os.path.basename(fname) for fname in fnames]
     md["area_definition"] = sect
     md["sample_distance_km"] = 3.0
 
@@ -466,7 +470,9 @@ class ChanList(object):
         return cls(chans)
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
     """Read SEVIRI hrit data products.
 
     Parameters
@@ -502,9 +508,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     gvars = {}
     datavars = {}
     adname = "undefined"
-    # Remove any HRV files from file list
-    # See note 1 at top of module
-    fnames = [fname for fname in fnames if not any(val in fname for val in ["HRV"])]
+    if not fnames:
+        raise NoValidFilesError("No files found in list, skipping")
 
     # Check inputs
     if self_register and self_register != "LOW":
@@ -812,3 +817,53 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     LOG.info("")
 
     return xarray_objs
+
+
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+    """Read SEVIRI hrit data products.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
+    # Remove any HRV files from file list. Need to do this here instead of in
+    # 'call_single_time' as that will initially be fed one file at a time. If that file
+    # is a HRV file, then this will result in an empty list and an error thrown in
+    # 'get_top_level_metadata'.
+    # See note 1 at top of module
+    fnames = [fname for fname in fnames if not any(val in fname for val in ["HRV"])]
+
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )

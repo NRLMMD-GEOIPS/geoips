@@ -1,0 +1,51 @@
+GitHub Actions:
+- title: 'Move reusable workflows and sync files to geoips_ci'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    Create a new repository, geoips_ci, that will manage all GeoIPS Ecosystem 
+    reusable workflows, as well as files to sync to all GeoIPS plugin
+    repositories.
+
+    Simplify brassy-notes and tag-and-release to filter on pr merged immediately
+    (rather than trying to pass pr merged flag into reusable workflow). These should
+    never run on a closed but not merged PR.
+  files:
+    added:
+    - .github/workflows/brassy-notes.yaml
+    - .github/workflows/deploy-docs.yaml
+    - .github/workflows/package-and-publish.yaml
+    - .github/workflows/tag-and-release.yaml
+    deleted:
+    - .github/sync/.flake8
+    - .github/sync/.github/release.yml
+    - .github/sync/.github/workflows/codeql.yml
+    - .github/sync/.gitignore
+    - .github/sync/CHANGELOG.rst
+    - .github/workflows/reusable-brassy-notes.yaml
+    - .github/workflows/reusable-check-release-branch.yaml
+    - .github/workflows/reusable-deploy-docs.yaml
+    - .github/workflows/reusable-get-versions.yaml
+    - .github/workflows/reusable-package-and-publish.yaml
+    - .github/workflows/reusable-print-variables.yaml
+    - .github/workflows/reusable-tag-and-release.yaml
+    modified:
+    - ''
+    moved:
+    - ''
+- title: 'Add standard synced files to geoips repo'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    These files auto-copied from geoips_ci.
+  files:
+    added:
+    - .flake8
+    - pytest.ini
+    - bandit.yml
+    deleted:
+    - ''
+    modified:
+    - 'CHANGELOG.rst'
+    moved:
+    - ''
