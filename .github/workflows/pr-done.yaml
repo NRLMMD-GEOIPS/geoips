@@ -48,47 +48,50 @@ jobs:
 
       - name: Validate feature files and doc changes
         run: |
+          # Exit immediately on error, treat unset variables as errors, and catch pipeline errors.
+          set -euo pipefail
+
           # 1. Define the list of valid top-level keys that require documentation.
           KEYS=("feature" "enhancement" "deprecation")
-
+  
           # 2. Get all changed files in this pull request (from base to current HEAD).
-          CHANGED_FILES=$(git diff --name-only ${{ github.event.pull_request.base.sha }} HEAD)
-
-          # 3. Filter changed files for YAML in 'latest' and RST in 'docs/'.
-          CHANGED_FEATURE_FILES=$(echo "${CHANGED_FILES}" | grep '^docs/source/releases/latest.*\.yaml$' || true)
+          CHANGED_FILES=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" HEAD)
+  
+          # 3. Filter changed files for YAML files in 'docs/source/releases/latest/' and RST files in 'docs/'.
+          CHANGED_FEATURE_FILES=$(echo "${CHANGED_FILES}" | grep '^docs/source/releases/latest/.*\.yaml$' || true)
           CHANGED_DOC_FILES=$(echo "${CHANGED_FILES}" | grep '^docs/.*\.rst$' || true)
-
-          # 4. If no YAML files in 'latest' changed, we can exit successfully.
+  
+          # 4. If no YAML files in 'latest' changed, exit successfully.
           if [ -z "${CHANGED_FEATURE_FILES}" ]; then
-            echo "No YAML files in 'docs/source/releases/latest' were changed. Skipping doc check."
+            echo "No YAML files in 'docs/source/releases/latest/' were changed. Skipping doc check."
             exit 0
           fi
-
-          # 5. For each changed YAML file in 'latest', check if it has *any* of the listed keys.
+  
+          # Set the field separator to newline to handle file paths with spaces.
+          IFS=$'\n'
+  
+          # 5. For each changed YAML file in 'latest', check if it has any of the required keys.
           for file in ${CHANGED_FEATURE_FILES}; do
-            # We'll track if at least one required key is found in this file.
             KEY_FOUND=false
-
+  
             for key in "${KEYS[@]}"; do
-              # yq e ".<key>" will return null if the top-level key doesn't exist
+              # 'yq e ".<key>"' returns 'null' if the key is not present.
               key_value=$(yq e ".${key}" "$file" 2>/dev/null || true)
-
+  
               if [ "$key_value" != "null" ]; then
                 KEY_FOUND=true
                 break
               fi
             done
-
-            # 6. If at least one of the keys was found, require .rst doc changes.
+  
+            # 6. If a required key is found, ensure that some .rst doc changes were made.
             if [ "$KEY_FOUND" = true ]; then
               if [ -z "${CHANGED_DOC_FILES}" ]; then
-                echo "Error: The file '$file' has a top-level key from [${KEYS[*]}], but no .rst documentation was modified in 'docs/'."
-                echo "Please update relevant .rst documentation in 'docs/' to document changes."
+                echo "Error: The file '$file' contains a top-level key from [${KEYS[*]}], but no .rst documentation was modified in 'docs/'."
+                echo "Please update the relevant .rst documentation in 'docs/' to document your changes."
                 exit 1
               fi
             fi
           done
-
+  
           echo "All changed YAML files with required keys have associated documentation changes. ✅"
-
-
