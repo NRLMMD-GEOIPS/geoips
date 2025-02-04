@@ -5,7 +5,7 @@ on:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-  All checkboxes checked:
+  All_checkboxes_checked:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -34,7 +34,7 @@ jobs:
             echo "All checkboxes appear to be checked!"
           fi
           name: Check Feature/Enhancement Files Require Docs
-  Docs Added:
+  Docs_added:
     runs-on: ubuntu-latest
     permissions:
       contents: read
