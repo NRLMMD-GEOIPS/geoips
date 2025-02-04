@@ -33,7 +33,7 @@ jobs:
           else
             echo "All checkboxes appear to be checked!"
           fi
-  Docs_added:
+  Docs_added_or_not_needed:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -53,7 +53,7 @@ jobs:
           # Exit immediately on error, treat unset variables as errors, and catch pipeline errors.
           set -euo pipefail
 
-          # 1. Define the list of valid top-level keys that require documentation.
+          # 1. Define the list of valid top-level keys that require documentation from brassy change files.
           KEYS=("feature" "enhancement" "deprecation")
   
           # 2. Get all changed files in this pull request (from base to current HEAD).
