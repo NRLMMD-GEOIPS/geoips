@@ -26,6 +26,8 @@ Refactoring Updates:
     added:
       - tests/unit_tests/plugins/test_get_plugin.py
     modified:
+      - geoips/commandline/args.py
+      - geoips/commandline/geoips_run.py
       - geoips/commandline/geoips_test.py
       - geoips/filenames/base_paths.py
       - geoips/interfaces/base.py

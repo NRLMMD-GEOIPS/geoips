@@ -263,8 +263,8 @@ def add_args(parser, arglist=None, legacy=False):
             "--rebuild_registries",
             type=bool,
             choices=[True, False],
-            # Will default to $GEOIPS_REBUILD_REGISTRIES if set, else False
-            default=getenv("GEOIPS_REBUILD_REGISTRIES", False),
+            # Will default to $GEOIPS_REBUILD_REGISTRIES if set, else True
+            default=getenv("GEOIPS_REBUILD_REGISTRIES", True),
             help=(
                 "Whether or not you want to rebuild plugin registries if you encounter "
                 "a failure when retrieving a plugin."
