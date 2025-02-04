@@ -1,12 +1,14 @@
-name: "Validate PR Checkboxes"
+name: "PR Complete"
 
 on:
   pull_request:
     types: [opened, edited, reopened, synchronize]
 
 jobs:
-  ensure-all-checkboxes-checked:
+  All checkboxes checked:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Fetch PR body and validate checkboxes
         run: |
@@ -32,8 +34,10 @@ jobs:
             echo "All checkboxes appear to be checked!"
           fi
           name: Check Feature/Enhancement Files Require Docs
-  check-docs-added:
+  Docs Added:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - name: Check out code
         uses: actions/checkout@v3
