@@ -425,9 +425,6 @@ class PluginModel(StaticBaseModel):
         if absolute_path_built_from_relative == abs_path:
             LOG.debug("Relative path and absolute path refer to the same file.")
 
-        # if abs_path_string.endswith(rel_path_string):
-        #     LOG.debug("Relative path and absolute path refer to the same file")
-
         if not skip_exists_check and not absolute_path_built_from_relative.exists():
             err_msg = f"Path does not exist: {absolute_path_built_from_relative}"
             LOG.error("%s", err_msg)
