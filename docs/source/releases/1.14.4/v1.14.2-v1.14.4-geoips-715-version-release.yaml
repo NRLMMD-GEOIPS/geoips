@@ -1,0 +1,125 @@
+bug fix:
+  - title: "Make CODE_OF_CONDUCT.md optional in build_docs.py"
+    description: |
+      Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "docs/build_docs.py"
+    related-issue:
+      internal: GEOIPS#715 - 1.14.4 version release bug fixes
+    date:
+      start: 2024-12-12
+      finish: 2024-12-12
+  - title: "Resolve string-based OUTPUT_CHECKER_THRESHOLD_IMAGE return"
+    description: |
+      We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
+      Set it explicitly, rather than using get_env_var.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/filenames/base_paths.py"
+    related-issue:
+      internal: GEOIPS#715 - 1.14.4 version release bug fixes
+    date:
+      start: 2024-12-12
+      finish: 2024-12-12
+installation:
+  - title: "Update installation instructions to use miniforge installer"
+    description: "mambaforge deprecated"
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "docs/source/starter/installation.rst"
+    related-issue:
+      internal: GEOIPS#715 - 1.14.4 version release bug fixes
+    date:
+      start: 2024-12-12
+      finish: 2024-12-12
+removal:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+performance:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+documentation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+continuous integration:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null

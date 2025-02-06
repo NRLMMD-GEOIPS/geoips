@@ -1,0 +1,20 @@
+documentation:
+ - title: Add release note for version 1.14.1
+   description: |
+     *From GEOIPS#562: 2024-09-24, 1.14.1 updates*
+     Release note on release branch to force tag/release, package/publish,
+     and deploy docs.
+   files:
+     added:
+       - docs/source/releases/latest/1.14.1-release-note.yaml
+documentation:
+ - title: Update upcoming and tagged versions
+   description: |
+     *From GEOIPS#562: 2024-09-25, 1.14.1 updates*
+
+     * Tagged version: 1.14.1
+     * Upcoming version: 1.14.2
+   files:
+     modified:
+       - .github/versions/tagged_version
+       - .github/versions/upcoming_version

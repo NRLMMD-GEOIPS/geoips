@@ -10,6 +10,10 @@ coverage-checkers:
   - cchk
   - cchks
   - coverage-checker
+databases:
+  - db
+  - dbs
+  - database
 filename-formatters:
   - ffmt
   - ffmts
@@ -86,3 +90,5 @@ list:
   - ls
 validate:
   - val
+source-names:
+  - src-names
