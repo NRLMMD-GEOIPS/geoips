@@ -1,105 +1,16 @@
-bug fix:
-- description: ''
-  files:
-    added:
-    - ''
-    deleted:
-    - ''
-    modified:
-    - ''
-    moved:
-    - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
-continuous integration:
-- description: ''
-  files:
-    added:
-    - ''
-    deleted:
-    - ''
-    modified:
-    - ''
-    moved:
-    - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
-deprecation:
-- description: ''
-  files:
-    added:
-    - ''
-    deleted:
-    - ''
-    modified:
-    - ''
-    moved:
-    - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
 documentation:
-- description: ''
+- description: 'This adds a very basic example of running a near-real time process of GeoIPS by watching a dir with inotifywait.'
   files:
     added:
     - ''
     deleted:
     - ''
     modified:
-    - ''
+    - 'docs/source/new-docs/tutorials/using-inotifywait-for-basic-near-real-time-processing.rst'
+    - 'docs/source/new-docs/tutorials/index.rst'
     moved:
     - ''
   related-issue:
-    number: 0
+    number: 766
     repo_url: ''
-  title: 'Basic NRTP tutorial'
-enhancement:
-- description: ''
-  files:
-    added:
-    - ''
-    deleted:
-    - ''
-    modified:
-    - ''
-    moved:
-    - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
-performance:
-- description: ''
-  files:
-    added:
-    - ''
-    deleted:
-    - ''
-    modified:
-    - ''
-    moved:
-    - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
-removal:
-- description: ''
-  files:
-    added:
-    - ''
-    deleted:
-    - ''
-    modified:
-    - ''
-    moved:
-    - ''
-  related-issue:
-    number: 0
-    repo_url: ''
-  title: ''
+  title: 'Add basic NRTP tutorial'
