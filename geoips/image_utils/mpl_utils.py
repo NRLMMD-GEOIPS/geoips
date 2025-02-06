@@ -315,7 +315,7 @@ def get_title_string_from_objects(
     return title_string
 
 
-def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
+def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None, bkgrnd_clr=None):
     """
     Plot the "data" array and map in the matplotlib "main_ax".
 
@@ -329,6 +329,9 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
         Basemap or Cartopy CRS instance
     mpl_colors_info : dict
         Specifies matplotlib Colors parameters for use in both plotting and colorbar
+    bkgrnd_clr: string (default = None)
+        - The background color to apply to the image. If None, the image background will
+          be white.
 
     See Also
     --------
@@ -336,6 +339,8 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
         for field descriptions for mpl_colors_info
     """
     # main_ax.set_aspect('auto')
+    if bkgrnd_clr:
+        main_ax.set_facecolor(bkgrnd_clr)
 
     LOG.info("imshow")
     import numpy
@@ -370,7 +375,13 @@ def plot_image(main_ax, data, mapobj, mpl_colors_info, zorder=None):
 
 
 def create_figure_and_main_ax_and_mapobj(
-    x_size, y_size, area_def, font_size=None, existing_mapobj=None, noborder=False
+    x_size,
+    y_size,
+    area_def,
+    frame_clr=None,
+    font_size=None,
+    existing_mapobj=None,
+    noborder=False,
 ):
     """
     Create a figure of x pixels horizontally and y pixels vertically.
@@ -385,11 +396,14 @@ def create_figure_and_main_ax_and_mapobj(
     y_size : int
         number pixels vertically
         ysize = (float(y_size)/dpi)/(top_margin - bottom_margin)
-    font_size : int
-        matplotlib font size
     area_def : AreaDefinition
         pyresample AreaDefinition object - used for
         initializing map object (basemap or cartopy)
+    frame_clr: string (default = None)
+        - The color to apply to the frame of the image (where title, label, colorbar...)
+          is set. If None, the frame background color will be white.
+    font_size : int
+        matplotlib font size
     existing_mapobj : CRS or basemap, optional
         If specified, do not regenerate mapobj. If None, create
         CRS or basemap object from specified area_def.
@@ -465,9 +479,9 @@ def create_figure_and_main_ax_and_mapobj(
 
     if is_crs(mapobj):
         # frameon=False creates transparent titles with cartopy
-        fig = plt.figure()
+        fig = plt.figure(facecolor=frame_clr)
     else:
-        fig = plt.figure(frameon=False)
+        fig = plt.figure(frameon=False, facecolor=frame_clr)
     fig.set_size_inches(xsize, ysize)
     set_fonts(y_size, font_size=font_size)
 
