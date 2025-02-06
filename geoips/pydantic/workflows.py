@@ -51,7 +51,7 @@ def get_plugin_names(plugin_type: str) -> List[str]:
         interface = getattr(interfaces, interface_name)
     except AttributeError as e:
         error_message = f"{plugin_type} is not a valid plugin type"
-        LOG.error(error_message, exc_info=True)
+        LOG.critical(error_message, exc_info=True)
         raise AttributeError(error_message) from e
     return [plugin.name for plugin in interface.get_plugins() or []]
 

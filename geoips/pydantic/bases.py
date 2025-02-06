@@ -108,7 +108,7 @@ def python_identifier(val: str) -> str:
 
     if error_messages:
         error_message = " ".join(error_messages) + " Please update it."
-        LOG.error(error_message, exc_info=True)
+        LOG.interactive(error_message, exc_info=True)
         raise ValueError(error_message)
 
     return val
@@ -199,7 +199,7 @@ class PluginModel(StaticBaseModel):
         valid_interfaces = get_interfaces()
         if value not in valid_interfaces:
             err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
-            LOG.error(err_msg, exc_info=True)
+            LOG.critical(err_msg, exc_info=True)
             raise ValueError(err_msg)
         return value
 
@@ -262,7 +262,7 @@ class PluginModel(StaticBaseModel):
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
         if "\n" in value:
-            LOG.error(
+            LOG.critical(
                 "'error': %s 'input_provided': %r",
                 error_messages["single_line"],
                 value,
@@ -270,7 +270,7 @@ class PluginModel(StaticBaseModel):
             )
             raise PydanticCustomError("single_line", error_messages["single_line"])
         if not (value[0].isalnum() and value.endswith(".")):
-            LOG.error(
+            LOG.critical(
                 "'error': %s 'input_provided': %r",
                 error_messages["format_error"],
                 value,
@@ -280,7 +280,7 @@ class PluginModel(StaticBaseModel):
         if len(value) > 72:
             excess_length = len(value) - 72
             err_msg = f"{error_messages['length_error']} {excess_length} characters"
-            LOG.error("'error': %s 'input_provided': %r", err_msg, value, exc_info=True)
+            LOG.critical("'error': %s 'input_provided': %r", err_msg, value, exc_info=True)
             raise PydanticCustomError("length_error", err_msg)
         return value
 
@@ -311,7 +311,7 @@ class PluginModel(StaticBaseModel):
         try:
             path = Path(value)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object. 'input_provided': %r, 'error':%s",
                 value,
                 str(e),
@@ -350,7 +350,7 @@ class PluginModel(StaticBaseModel):
         try:
             path = Path(value)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object. 'input_provided': %r, 'error':%s",
                 value,
                 str(e),
@@ -363,7 +363,7 @@ class PluginModel(StaticBaseModel):
         return value
 
     @model_validator(mode="after")
-    def validate_file_exists(
+    def validate_path_equivalence_and_existence(
         cls: type["PluginModel"],
         values: dict[str, str | int | float | None],
         info: ValidationInfo,
@@ -389,7 +389,7 @@ class PluginModel(StaticBaseModel):
                 raise ValueError("relpath is None")
             rel_path = Path(rel_path_raw)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object for 'relpath'. 'input': %r, 'error':%s",
                 rel_path_raw,
                 str(e),
@@ -402,7 +402,7 @@ class PluginModel(StaticBaseModel):
                 raise ValueError("abspath is None")
             abs_path = Path(abs_path_raw)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object for 'abspath'. 'input': %r, 'error':%s",
                 abs_path_raw,
                 str(e),
@@ -412,7 +412,7 @@ class PluginModel(StaticBaseModel):
         # combining rel_path and ab_path since both refers to same file
         if rel_path is None or abs_path is None:
             err_msg = "invalid realtive file path or absolute file paths"
-            LOG.error(err_msg)
+            LOG.critical(err_msg)
             raise ValueError(err_msg)
 
         # determine the base path from order_based.py
@@ -427,7 +427,7 @@ class PluginModel(StaticBaseModel):
 
         if not skip_exists_check and not absolute_path_built_from_relative.exists():
             err_msg = "Path does not exist: " + str(absolute_path_built_from_relative)
-            LOG.error(err_msg)
+            LOG.critical(err_msg)
             raise FileNotFoundError(err_msg)
         return values
 
