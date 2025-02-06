@@ -25,7 +25,8 @@ On Debian machines, you can install it with:
 Step 2: Create a Watch Script
 -----------------------------
 
-Create a shell script that will monitor a directory and process new files using GeoIPS.
+Create a shell script that will monitor a directory and process new files using GeoIPS. 
+This is an example script, but you can run whatever processing you want:
 
 .. code-block:: bash
 
