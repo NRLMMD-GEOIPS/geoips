@@ -9,7 +9,6 @@ Using ``inotifywait`` for Near Real-Time Processing
 This tutorial explains how to run **GeoIPS** for near real-time data processing
 using ``inotifywait``.
 
-
 Step 1: Install Dependencies
 ----------------------------
 
@@ -25,7 +24,7 @@ On Debian machines, you can install it with:
 Step 2: Create a Watch Script
 -----------------------------
 
-Create a shell script that will monitor a directory and process new files using GeoIPS. 
+Create a shell script that will monitor a directory and process new files using GeoIPS.
 This is an example script, but you can run whatever processing you want:
 
 .. code-block:: bash

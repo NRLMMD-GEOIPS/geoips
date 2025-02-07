@@ -4,7 +4,7 @@
  | # # # https://github.com/NRLMMD-GEOIPS.
 
 Tutorials
-==========
+=========
 
 .. toctree::
    :maxdepth: 2
