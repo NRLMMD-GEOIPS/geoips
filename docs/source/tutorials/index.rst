@@ -14,4 +14,5 @@ Tutorials
     plugin_development/product/index
     plugin_development/static_sector/index
     plugin_development/reader
+    using-inotifywait-for-basic-near-real-time-processing
     dev_setup
