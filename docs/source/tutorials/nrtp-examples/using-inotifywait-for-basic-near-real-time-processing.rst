@@ -103,4 +103,5 @@ The script triggers a GeoIPS run when a new file is written.
 To run in the background and capture logs, use:
 
 .. code-block:: bash
+
     nohup ./geoips-watch.sh > geoips-watch.log 2>&1 &
