@@ -9,7 +9,7 @@ documentation:
     modified:
     - 'docs/source/tutorials/index.rst'
     - 'tests/integration_tests/test_integration.py'
-    deleted:
+    moved:
     - 'docs/source/tutorials/plugin_development/algorithm.rst'
     - 'docs/source/tutorials/plugin_development/colormapper/colorful_cloud_height.png'
     - 'docs/source/tutorials/plugin_development/colormapper/index.rst'
