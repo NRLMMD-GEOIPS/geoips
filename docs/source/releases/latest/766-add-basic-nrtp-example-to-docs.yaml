@@ -1,5 +1,5 @@
 documentation:
-- description: 'This adds a very basic example of running a near-real time process of GeoIPS by watching a dir with inotifywait.'
+- description: 'This adds a very basic example of running a near-real time process of GeoIPS by watching a dir with inotifywait. This moved a lot of files around to add sub-sections to the rendering of the tutorials.rst file, but few edits were made.'
   files:
     added:
     - 'docs/source/releases/latest/766-add-basic-nrtp-example-to-docs.yaml'
