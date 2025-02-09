@@ -7,8 +7,6 @@ Intended for use by other base models.
 Other models defined here validate field types within child plugin models.
 """
 
-import yaml
-
 # Python Standard Libraries
 from functools import lru_cache
 import keyword
@@ -172,7 +170,7 @@ class PluginModel(StaticBaseModel):
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
     @field_validator("interface", mode="before")
-    def valid_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
+    def _validate_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
         """
         Validate the input for the 'interface' field.
 
@@ -229,7 +227,7 @@ class PluginModel(StaticBaseModel):
         return values
 
     @field_validator("description", mode="after")
-    def validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
+    def _validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
 
@@ -285,7 +283,7 @@ class PluginModel(StaticBaseModel):
         return value
 
     @field_validator("relpath", mode="after")
-    def validate_relative_path(cls: type["PluginModel"], value: str) -> str:
+    def _validate_relative_path(cls: type["PluginModel"], value: str) -> str:
         """
         Validate string can be cast as Path and is a relative path.
 
@@ -324,7 +322,7 @@ class PluginModel(StaticBaseModel):
         return value
 
     @field_validator("abspath", mode="after")
-    def validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
+    def _validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
         """
         Validate string can be cast as Path and is an absolute path.
 
@@ -363,7 +361,7 @@ class PluginModel(StaticBaseModel):
         return value
 
     @model_validator(mode="after")
-    def validate_path_equivalence_and_existence(
+    def _validate_path_equivalence_and_existence(
         cls: type["PluginModel"],
         values: dict[str, str | int | float | None],
         info: ValidationInfo,
@@ -429,31 +427,4 @@ class PluginModel(StaticBaseModel):
             err_msg = "Path does not exist: " + str(absolute_path_built_from_relative)
             LOG.critical(err_msg)
             raise FileNotFoundError(err_msg)
-        return values
-
-    # This validator is under development
-    @model_validator(mode="after")
-    def _validate_rel_and_abs_path_inputs(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
-    ):
-        """Validate whether ``relpath`` and ``abspath`` are set correctly."""
-        computed_relpath = values.relpath
-        computed_abspath = values.abspath
-
-        with open(computed_abspath) as product_definition_file:
-            prod_dict = yaml.safe_load(product_definition_file)
-            user_provided_relpth = prod_dict.get("relpath")
-            user_provided_abspth = prod_dict.get("abspath")
-
-        print("UDR", Path(user_provided_relpth))
-        print("UDA", Path(user_provided_abspth))
-        print("CR", Path(computed_relpath))
-        print("CA", Path(computed_abspath))
-
-        if Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve():
-            LOG.interactive("Provided relpath was invalid ! path was reset accordingy.")
-
-        if Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve():
-            LOG.interactive("Provided abspath was invalid ! path was reset accordingy.")
-
         return values
