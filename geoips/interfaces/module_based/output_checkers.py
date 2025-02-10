@@ -1023,16 +1023,19 @@ class OutputCheckersInterface(BaseModuleInterface):
             raise TypeError("There isn't an output checker built for this data type.")
         return checker_name
 
-    def get_plugin(self, name, rebuild_registries=False):
+    def get_plugin(self, name, rebuild_registries=None):
         """Return the output checker plugin corresponding to checker_name.
 
         Parameters
         ----------
         name : str
             - The name the desired plugin.
-        rebuild_registries: boolean (default=False)
+        rebuild_registries: bool (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
-              true and get_plugin fails, rebuild the plugin registry, call then call
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
         """
