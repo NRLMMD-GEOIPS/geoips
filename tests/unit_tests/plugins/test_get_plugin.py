@@ -16,16 +16,17 @@ def yield_interface_plugin_tuples():
     Yield tuples (interface_name, plugin_name_tuple, expected_output) to use when
     attempting to load a plugin in the `test_get_plugin` function. The tuple will
     contain three elements:
-        - interface_name:
-            - The name of the interface that we want to attempt to load a plugin from.
-        - plugin_name_tuple:
-            - A tuple containing one or two strings defining which plugin should be
-              loaded. Two strings is used for the Products interface and one string is
-              used for all other interfaces.
-        - expected_output:
-            - A string describing the expected outcome. This is used in the
-              `test_get_plugin` function to determine which part of the logic to follow
-              and how to test the results.
+
+    - interface_name:
+        - The name of the interface that we want to attempt to load a plugin from.
+    - plugin_name_tuple:
+        - A tuple containing one or two strings defining which plugin should be
+            loaded. Two strings is used for the Products interface and one string is
+            used for all other interfaces.
+    - expected_output:
+        - A string describing the expected outcome. This is used in the
+            `test_get_plugin` function to determine which part of the logic to follow
+            and how to test the results.
     """
     registry = plugin_registry_module.plugin_registry.registered_plugins
     for plugin_type in registry:
