@@ -191,13 +191,5 @@ class PluginRegistry:
             )
         return plugin_type
 
-    def get_package_name(self):
-        """Return the current package name."""
-        current_module_path = os.path.abspath(__file__)
-        for pkg in metadata.entry_points(group="geoips.plugin_packages"):
-            if current_module_path.startswith(str(resources.files(pkg.value))):
-                return pkg.value
-        raise PluginRegistryError("Could not determine the current package name")
-
 
 plugin_registry = PluginRegistry()

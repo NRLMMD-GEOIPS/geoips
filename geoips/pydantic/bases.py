@@ -8,7 +8,6 @@ Other models defined here validate field types within child plugin models.
 """
 
 # Python Standard Libraries
-from functools import lru_cache
 import keyword
 import logging
 from pathlib import Path
@@ -29,8 +28,7 @@ from typing_extensions import Annotated
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.plugin_registry import plugin_registry
-
+from geoips.interfaces import workflows
 
 LOG = logging.getLogger(__name__)
 
@@ -116,7 +114,6 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-@lru_cache(maxsize=None)
 def get_interfaces() -> set[str]:
     """Return a set of distinct interfaces.
 
@@ -159,15 +156,44 @@ class PluginModel(StaticBaseModel):
         None,
         description=("A short description or defaults to first line from docstring."),
     )
-    package: PythonIdentifier = Field(
-        ...,
-        description="Package that contains this plugin.",
-        default_factory=plugin_registry.get_package_name,
+    package: PythonIdentifier = (
+        Field(..., description="Package that contains this plugin."),
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
     )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
+
+    @model_validator(mode="before")
+    def _derive_package_name(
+        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+    ):
+        """
+        'package' value is derived by calling ``get_plugin_metadata()``.
+
+        Parameters
+        ----------
+        values : dict
+            Dictionary of field values before validation.
+
+        Returns
+        -------
+        dict
+            Updated dictionary with the `package` field set based on the
+            metadata retrived from ``get_plugin_metadata()``.
+        """
+        # name is guaranteed to exist due to Pydantic validation.
+        # No need to raise an error for 'name'.
+        metadata = workflows.get_plugin_metadata(values.get("name"))
+        if "package" not in metadata:
+            err_msg = (
+                "Metadata for '%s' workflow plugin must contain 'package' key."
+                % values.get("name")
+            )
+            LOG.critical(err_msg)
+            raise ValueError(err_msg)
+        values["package"] = metadata.get("package")
+        return values
 
     @field_validator("interface", mode="before")
     def _validate_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
@@ -278,7 +304,9 @@ class PluginModel(StaticBaseModel):
         if len(value) > 72:
             excess_length = len(value) - 72
             err_msg = f"{error_messages['length_error']} {excess_length} characters"
-            LOG.critical("'error': %s 'input_provided': %r", err_msg, value, exc_info=True)
+            LOG.critical(
+                "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
+            )
             raise PydanticCustomError("length_error", err_msg)
         return value
 
