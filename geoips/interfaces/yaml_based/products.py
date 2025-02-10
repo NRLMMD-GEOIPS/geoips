@@ -118,7 +118,7 @@ class ProductsInterface(BaseYamlInterface):
         return super().get_plugin_metadata((source_name, name))
 
     def get_plugin(
-        self, source_name, name, product_spec_override=None, rebuild_registries=False
+        self, source_name, name, product_spec_override=None, rebuild_registries=None
     ):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.
 
@@ -141,7 +141,7 @@ class ProductsInterface(BaseYamlInterface):
         dict : str
             - Dictionary specifying what information of the product's spec that is to be
               overridden at runtime.
-        rebuild_registries: boolean (default=None)
+        rebuild_registries: bool (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
               None, default to what we have set in geoips.filenames.base_paths, which
               defaults to True. If specified, use the input value of rebuild_registries,

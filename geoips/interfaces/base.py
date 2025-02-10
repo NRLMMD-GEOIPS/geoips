@@ -332,11 +332,13 @@ class BaseInterface(abc.ABC):
         name: str or tuple(str)
             - The name of the yaml-based plugin. Either a single string or a tuple of
               strings for product plugins.
-        rebuild_registries: boolean (default=False)
+        rebuild_registries: bool (default=True)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
               true and get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
+            - rbr (ReBuildRegistries) is set in geoips.filenames.base_paths with a
+              default value of True. Users and developers can change this if desired.
         """
         pass
 
@@ -349,7 +351,7 @@ class BaseInterface(abc.ABC):
 
         Parameters
         ----------
-        yaml: boolean (default=False)
+        yaml: bool (default=False)
             - Truth value as to whether or not we want to create a .yaml registry. If
               false, then create the default .json registry instead.
         """
@@ -374,7 +376,7 @@ class BaseInterface(abc.ABC):
         name: str or tuple(str)
             - The name of the yaml plugin. Either a single string or a tuple of strings
               for product plugins.
-        rebuild_registries: boolean (default=False)
+        rebuild_registries: bool
             - Whether or not to rebuild the registries if get_plugin fails. If set to
               true and get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
@@ -427,7 +429,7 @@ class BaseInterface(abc.ABC):
         This property provides centeralized error handling for missing plugin
         registries.
         """
-        if not hasattr(self, "_registered_module_based_plugins"):
+        if not hasattr(self, "_registered_yaml_based_plugins"):
             try:
                 self._registered_yaml_based_plugins = (
                     self.plugin_registry.registered_plugins["yaml_based"]
@@ -598,7 +600,7 @@ class BaseYamlInterface(BaseInterface):
         name: str or tuple(str)
             - The name of the yaml-based plugin. Either a single string or a tuple of
               strings for product plugins.
-        rebuild_registries: boolean (default=None)
+        rebuild_registries: bool (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
               None, default to what we have set in geoips.filenames.base_paths, which
               defaults to True. If specified, use the input value of rebuild_registries,
@@ -883,7 +885,7 @@ class BaseModuleInterface(BaseInterface):
         ----------
         name : str
             - The name the desired plugin.
-        rebuild_registries: boolean (default=None)
+        rebuild_registries: bool (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
               None, default to what we have set in geoips.filenames.base_paths, which
               defaults to True. If specified, use the input value of rebuild_registries,
