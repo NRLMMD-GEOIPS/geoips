@@ -2,13 +2,20 @@ interface: products
 family: list
 name: atms
 docstring: |
+  ATMS: Advanced Technology Microwave Sounder. Temperatures, Humidity, Precipitation, and sounding in nearly-all-weather conditions. 
+
+  Used on
+  NPP: Suomi National Polar-orbiting Partnership. Launched by the National Oceanic and Atmospheric Administration (NOAA) and the National 
+  Aeronautics and Space Administration (NASA), NPP orbits at an altitude of 833 km, has an orbital period of 101.44 minutes, and has an 
+  orbital inclination of 98.79°. Included in the Joint Polar Satellite System alongside NOAA-20 and -21. 
+
   The atms product_inputs configuration, which produces 89V products, 165H products, and 183H products
 spec:
   products:
     - name: 89V
       source_names: [atms]
       docstring: |
-        The 89V product_defaults for atms product.
+        Vertically polarized channel at 89 GHz, used to look at ice formations
       product_defaults: 89V
       spec:
         variables: ["V89"]
@@ -27,7 +34,7 @@ spec:
     - name: 165H
       source_names: [atms]
       docstring: |
-        The 165H product_defaults for atms product.
+        Horizontally polarized channel at 165 GHz. High Frequency single channel.
       product_defaults: 165H
       spec:
         variables: ["H165"]
@@ -46,7 +53,7 @@ spec:
     - name: 183H
       source_names: [atms]
       docstring: |
-        The 183H product_defaults for atms product.
+        Horizontally polarized channel at 183 GHz. Could display moisture information in the mi-upper atmosphere.
       product_defaults: 183H
       spec:
         variables: ["H183"]

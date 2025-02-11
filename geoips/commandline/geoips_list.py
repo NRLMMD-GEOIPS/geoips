@@ -520,7 +520,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
                     pkg_name_requested = True
                     pkg_entry.append(package_name)
                 elif header == "docstring":
-                    pkg_entry.append(docstring)
+                    pkg_entry.append(str(docstring))
                 elif header == "package_path":
                     pkg_entry.append(package_path)
                 elif header == "version":

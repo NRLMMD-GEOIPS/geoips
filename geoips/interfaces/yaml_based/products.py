@@ -97,6 +97,26 @@ class ProductsInterface(BaseYamlInterface):
             names += [(source_name, yaml_plugin["name"])]
         return names
 
+    def get_plugin_metadata(self, source_name, name):
+        """Retrieve a product plugin's metadata.
+
+        Where the metadata of the plugin matches the plugin's corresponding entry in the
+        plugin registry.
+
+        Parameters
+        ----------
+        source_name: str
+            - The source (sensor) which this product is derived from.
+        name: str
+            - The name of the product plugin whose metadata we'd like to retrieve.
+
+        Returns
+        -------
+        metadata: dict
+            - A dictionary of metadata for the requested plugin.
+        """
+        return super().get_plugin_metadata((source_name, name))
+
     def get_plugin(self, source_name, name, product_spec_override=None):
         """Retrieve a Product plugin by source_name, name, and product_spec_override.
 

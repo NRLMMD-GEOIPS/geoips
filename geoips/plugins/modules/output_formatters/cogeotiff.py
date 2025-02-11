@@ -6,6 +6,10 @@
 import os
 import logging
 
+# Internal utilities
+from geoips.errors import OutputFormatterDatelineError
+from geoips.errors import OutputFormatterInvalidProjectionError
+
 LOG = logging.getLogger(__name__)
 
 interface = "output_formatters"
@@ -63,7 +67,7 @@ def call(
 ):
     """Create standard geotiff output using rasterio."""
     if area_def.proj_dict["proj"] != "eqc":
-        raise TypeError(
+        raise OutputFormatterInvalidProjectionError(
             "Projection must be 'eqc' in order to produce COGS output. "
             "This writer relies on equally spaced lat/lons"
         )
@@ -102,7 +106,7 @@ def call(
             # Updated for crossing dateline
             if maxlon < 0 and minlon > maxlon:
                 maxlon += 360
-                raise ValueError(
+                raise OutputFormatterDatelineError(
                     "Region CAN NOT cross the dateline. "
                     "Try again with a different sector"
                 )
@@ -146,9 +150,9 @@ def call(
 
             with memfile.open(**src_profile) as mem:
                 # Populate the input file with numpy array
-                mem.write(plot_data.astype(uint8), indexes=1)
                 cmap_dict = get_rasterio_cmap_dict(mpl_colors_info["cmap"])
                 mem.write_colormap(1, cmap_dict)
+                mem.write(plot_data.astype(uint8), indexes=1)
 
                 dst_profile = cog_profiles.get("deflate")
                 cog_translate(
