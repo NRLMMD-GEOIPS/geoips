@@ -28,6 +28,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "fci_netcdf"
+source_names = ["fci"]
 
 
 DATASET_INFO = {
@@ -52,24 +53,43 @@ DATASET_INFO = {
 
 BAND_MAP = {
     "B01Ref": "vis_04",
+    "B01Rad": "vis_04",
     "B02Ref": "vis_05",
+    "B02Rad": "vis_05",
     "B03Ref": "vis_06",
+    "B03Rad": "vis_06",
     "B04Ref": "vis_08",
+    "B04Rad": "vis_08",
     "B05Ref": "vis_09",
+    "B05Rad": "vis_09",
     "B06Ref": "nir_13",
+    "B06Rad": "nir_13",
     "B07Ref": "nir_16",
+    "B07Rad": "nir_16",
     "B08Ref": "nir_22",
+    "B08Rad": "nir_22",
     "B09BT": "ir_38",
+    "B09Rad": "ir_38",
     "B10BT": "wv_63",
+    "B10Rad": "wv_63",
     "B11BT": "wv_73",
+    "B11Rad": "wv_73",
     "B12BT": "ir_87",
+    "B12Rad": "ir_87",
     "B13BT": "ir_97",
+    "B13Rad": "ir_97",
     "B14BT": "ir_105",
+    "B14Rad": "ir_105",
     "B15BT": "ir_123",
+    "B15Rad": "ir_123",
     "B16BT": "ir_133",
+    "B16Rad": "ir_133",
     "HRB03Ref": "vis_06_hr",
+    "HRB03Rad": "vis_06_hr",
     "HRB09BT": "ir_38_hr",
+    "HRB09Rad": "ir_38_hr",
     "HRB14BT": "ir_105_hr",
+    "HRB14Rad": "ir_105_hr",
 }
 
 CHAN_MAP = {val: key for key, val in BAND_MAP.items()}
@@ -219,15 +239,18 @@ def final_calibrated_variable_name(ncvar_name, chan_map=CHAN_MAP):
     return chan_map[ncvar_name] + cal_name
 
 
-def scene_to_xarray(fci_files, read_chans, metadata=None, area_def=None):
+def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
     """Load files into satpy.Scene object then convert to xarray.Dataset.
 
     Parameters
     ----------
     fci_files : list
         List of FCI netCDF files on disk
-    read_chans : list
-        Channels/variables to load into memory
+    geoips_chans : list
+        Channels/variables denoted in GeoIPS nomenclature to load into memory. Allows us
+        to read in radiances, reflectances, or brightness temperatures even though the
+        variable in the dataset itself (such as 'vis_04') does not provide that
+        information.
     metadata : dict, optional
         Standard geoips attributes, by default None
     area_def : pyresample.AreaDefinition, optional
@@ -239,11 +262,36 @@ def scene_to_xarray(fci_files, read_chans, metadata=None, area_def=None):
         Calibrated FCI MTG data
     """
     scn = Scene(filenames=fci_files, reader="fci_l1c_nc")
-    scn.load(read_chans)
+    for gchan in geoips_chans:
+        rchan = BAND_MAP.get(gchan)
+        if rchan is None:
+            # Most likely encountered a geolocation variable which will be computed
+            # later
+            continue
+        if "Rad" in gchan:
+            calibration = "radiance"
+        elif "Ref" in gchan:
+            calibration = "reflectance"
+        elif "BT" in gchan:
+            calibration = "brightness_temperature"
+        else:
+            # Star denotes the highest calibration, which is BT I think.
+            calibration = "*"
+        scn.load([rchan], calibration=calibration)
+        # We might be deriving data from the same variable multiple times
+        # I.e. B01Rad and B01Ref. Rename these data queries to the GeoIPS variable name
+        # so we don't have conflicts.
+        scn[gchan] = scn[rchan]
+        # Delete the satpy named variable
+        del scn[rchan]
+    # Resample all variables in this scene to the finest resolution area definition
+    # found. scn.resample() defaults to scn.finest_area()
+    scn = scn.resample()
+    LOG.interactive("Resampled scene to finest resolution.")
     if area_def:
         scn = scn.crop(area=area_def)
     xr = scn.to_xarray_dataset()
-    lons, lats = scn[read_chans[0]].attrs["area"].get_lonlats()
+    lons, lats = scn.finest_area().get_lonlats()
     # Mask inf values with -999.9 for compatibility with get_geolocation func
     lons[np.isinf(lons)] = -999.9
     lats[np.isinf(lats)] = -999.9
@@ -253,14 +301,15 @@ def scene_to_xarray(fci_files, read_chans, metadata=None, area_def=None):
     xr["longitude"] = (("y", "x"), lons)
     for gkey, gvar in gvars.items():
         xr[gkey] = (("y", "x"), gvar)
-    for dkey in read_chans + list(gvars):
+    # Use a set here because gvars could include the same variables as geoips_chans
+    # For example, we request satellite and solar zenith angle in our geoips_chans,
+    # which is already included in gvars
+    for dkey in set(geoips_chans + list(gvars)):
         # Flip data arrays upside down - otherwise image will be upside down in
         # unprojected output
         LOG.debug("Flipping data for %s", dkey)
         xr[dkey].data = np.flipud(xr[dkey].compute().data)
-    # Rename FCI variable names with standard GeoIPS names
-    rename_vars = {x: CHAN_MAP[x] for x in read_chans}
-    xr = xr.rename(rename_vars)
+
     # Temporarily convert reflectances from % ranging from 0-100 to 0-1
     # This is required until gamma correction can handle reflecances from 0-100
     # This will happen when all readers return reflectance ranging from 0-100
@@ -330,9 +379,7 @@ def satpy_read_fci_netcdf_files(
     # returns all data at the same size of the lowest available resolution)
     if self_register:
         adname = "FULL_DISK"
-        ingested[adname] = scene_to_xarray(
-            fci_files, read_chans, metadata=standard_meta
-        )
+        ingested[adname] = scene_to_xarray(fci_files, chans, metadata=standard_meta)
     # Otherwise read in chans with similar resolutions to maintain resolution
     else:
         for res, rchans in DATASET_INFO.items():
@@ -342,12 +389,18 @@ def satpy_read_fci_netcdf_files(
                 continue
             LOG.info("Reading in following chans: %s: %s", res, read_res_chans)
             ingested[res] = scene_to_xarray(
-                fci_files, read_chans, metadata=standard_meta, area_def=area_def
+                fci_files, chans, metadata=standard_meta, area_def=area_def
             )
     return ingested
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+):
     """Read and calibrate FCI data.
 
     Parameters
