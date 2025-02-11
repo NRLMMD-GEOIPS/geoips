@@ -40,7 +40,7 @@ future:
     moved:
     - ''
   related-issue:
-    number: 0
+    number: null
     repo_url: ''
   title: 'Order-Based Procflow'
 documentation:
@@ -56,7 +56,7 @@ documentation:
     moved:
     - ''
   related-issue:
-    number: 0
+    number: null
     repo_url: ''
   title: 'Order-Based Procflow Documentation'
 testing:
@@ -77,6 +77,6 @@ testing:
     moved:
     - ''
   related-issue:
-    number: 0
+    number: null
     repo_url: ''
   title: 'Order-Based Procflow Testing'
