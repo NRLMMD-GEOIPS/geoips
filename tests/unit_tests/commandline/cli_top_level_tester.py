@@ -312,7 +312,7 @@ class BaseCliTest(abc.ABC):
             case _ if "linting" in args:
                 # Can't capture linting output using monkeypatch... yet
                 return False
-            case _ if ("test" in args and "script" in args):
+            case _ if "test" in args and "script" in args:
                 # Can't capture bash script output using monkeypatch... yet
                 return False
             case _ if (
@@ -325,10 +325,10 @@ class BaseCliTest(abc.ABC):
             case _ if any(["non_existent" in arg for arg in args]):
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
-            case _ if ("--long" in args and "--columns" in args):
+            case _ if "--long" in args and "--columns" in args:
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
-            case _ if ("--max-depth" in args and "-1" in args):
+            case _ if "--max-depth" in args and "-1" in args:
                 # Can't capture argparse.ArgumentError output using monkeypatch... yet
                 return False
             case _:
