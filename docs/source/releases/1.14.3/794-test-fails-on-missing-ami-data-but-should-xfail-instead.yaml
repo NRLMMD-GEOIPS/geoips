@@ -1,0 +1,10 @@
+bug fix:
+- title: 'Change fail state for unit test'
+  description: |
+    Changed reader unit-test to xfail on missing data rather than fail.
+  files:
+    modified:
+    - 'tests/unit_tests_long/plugins/modules/readers/test_readers.py'
+  related-issue:
+    number: 794
+    repo_url: ''

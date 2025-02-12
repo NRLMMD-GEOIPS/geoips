@@ -2,13 +2,23 @@ interface: products
 family: list
 name: smos-spd
 docstring: |
-  The smos-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products.
+
+  Used on
+  SMOS - Soil Moisture and Ocean Salinity. 755 km altitude. Launched in November of 2009.
+
+  Soil Moisture sensor that “smart people can use for windspeed” (Sampson, Meteorologist).
+  Wavelength (3 cm) is long enough to penetrate heavy rains but shows low resolution (40
+  km).
+
+  The smos-spd product_inputs configuration, which produces windspeed, unsectored, and
+  sectored products.
 spec:
   products:
     - name: windspeed
       source_names: [smos-spd]
       docstring: |
-        The windspeed product_defaults configuration for smos-spd products.
+        Measures the sea surface wind speed. Can help predict with cloud movements or
+        water vapor, when there are no clouds present.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]

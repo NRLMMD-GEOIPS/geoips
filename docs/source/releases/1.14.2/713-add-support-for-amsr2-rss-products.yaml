@@ -1,0 +1,17 @@
+enhancement:
+- description: |
+    Add new product yaml for AMSR2 RSS source inputs. This YAML is more or less a carbon
+    copy of the amsr2_winds product YAML, but with the sensor name set as amsr2rss
+
+    Also add new test script and comparison outputs for AMSR2 RSS. Add test script call
+    to both test_all.sh and integration_tests/full_test.sh
+  files:
+    added:
+    - geoips/plugins/yaml/products/amsr2_rss.yaml
+    - tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png
+    - tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png.yaml
+    - tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh
+    modified:
+    - tests/integration_tests/full_test.sh
+    - tests/test_all.sh
+  title: Add support for AMSR2 RSS products

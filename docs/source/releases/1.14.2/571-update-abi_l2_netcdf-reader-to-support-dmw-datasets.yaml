@@ -1,0 +1,60 @@
+enhancement:
+- description: |
+    *From issue GEOIPS#571: 2024-08-29, Add derived motion wind products*
+
+    Update ABI L2 netCDF reader to work with 1D datasets, such as DMW files. Some of the
+    L2 files (such as DMW) are not supported the backend satpy abi_l2_nc reader, so fall
+    back on xarray.load_dataset() if that is the case. If multiple files holding 1D
+    datasets are passed in for a single scan time and they all share the same dimension,
+    they are concatenated into one dataset.
+
+    Add "m s-1" to "kts" unit conversion support
+
+    Add new windbarbs_dmw algorithm that is capable of filtering wind retrievals to
+    specified pressure level ranges.
+
+    Also add new colormap and output formatterfor displaying multiple assigned height
+    levels on a single image. The new output formatter also imports from the existing
+    imagery_windbarbs output formatter, where minor updates were made to that formatter
+    to handle the formatting and plotting of ingested DMW data (such as thinning
+    pressure if that variable exists, and being able to control which variable is
+    used for coloring the windbarbs).
+
+    Add support to interp_pyresample for handling abi datasets of 1-dimension
+
+    Add new product YAMLs for displaying DMWs at Low, Mid, or High levels, or displaying
+    all levels on a single image. Add to ABI source YAML.
+
+    Add new test scripts and example output for DMW products.
+
+  files:
+    added:
+    - "geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level.py"
+    - "geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_high.yaml"
+    - "geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_low.yaml"
+    - "geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_mid.yaml"
+    - "geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_multi_level.yaml"
+    - "tests/outputs/abi.static.DMW-High.imagery_windbarbs/20210929.000020.goes-16.abi.DMW-High.goes_east.3p32.noaa.10p0.png"
+    - "tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png"
+    - "tests/scripts/abi.config_based_dmw_overlay.sh"
+    - "tests/scripts/abi.static.dmw.imagery_windbarbs_high.sh"
+    - "tests/yaml_configs/abi_dmw_overlay.yaml"
+    modified:
+    - "geoips/data_manipulations/conversions.py"
+    - "geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py"
+    - "geoips/plugins/modules/colormappers/winds/dmw_wind_levels.py"
+    - "geoips/plugins/modules/interpolators/utils/interp_pyresample.py"
+    - "geoips/plugins/modules/output_formatters/imagery_windbarbs.py"
+    - "geoips/plugins/modules/readers/abi_l2_netcdf.py"
+    - "geoips/plugins/yaml/products/abi.yaml"
+    - "tests/test_all.sh"
+  related-issue:
+    number: 571
+  title: "Add support for ABI Derived Motion Winds (DMW) products"
+bug fix:
+  - title: "Bug fixes for ABI DMW config based test script"
+    description: |
+      Ensure file inputs use $GEOIPS_TESTDATA_DIR.
+    files:
+      modified:
+        - tests/scripts/abi.config_based_dmw_overlay.sh

@@ -1,0 +1,24 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: nasa_dust_rgb
+docstring: |
+  The nasa_dust_rgb product_defaults configuration.
+spec:
+  interpolator:
+    plugin:
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000
+  algorithm:
+    plugin:
+      name: nasa_dust_rgb
+      arguments: {}
+  mtif_type: rgb
+  colormapper:
+    plugin:
+      name: cmap_rgb
+      arguments: {}
+  coverage_checker:
+    plugin:
+      name: rgba
+      arguments: {}

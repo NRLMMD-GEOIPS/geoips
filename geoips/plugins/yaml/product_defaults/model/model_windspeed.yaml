@@ -1,0 +1,25 @@
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: model_windspeed
+docstring: |
+  The windspeed product_defaults configuration for models.
+spec:
+  algorithm: 
+    plugin:
+      name: model_channel
+      arguments:
+        output_data_range: [0,200]
+        min_outbounds: crop
+        max_outbounds: crop
+
+  mtif_type: windspeed
+  colormapper:
+    plugin:
+      name: wind_radii_transitions
+      arguments:
+        data_range: [0, 200]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
+

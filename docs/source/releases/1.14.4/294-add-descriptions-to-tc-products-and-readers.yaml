@@ -1,0 +1,144 @@
+documentation:
+  - title: "Add more descriptive product descriptions"
+    description: |
+      Update docstrings for various products to provide more information/background
+      on products.
+
+      Ensure no fields (ie, product_defaults) are inadvertently removed with the
+      addition of product descriptions.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - geoips/plugins/yaml/products/abi.yaml
+        - geoips/plugins/yaml/products/ahi.yaml
+        - geoips/plugins/yaml/products/amsr2.yaml
+        - geoips/plugins/yaml/products/amsu-b.yaml
+        - geoips/plugins/yaml/products/ascat.yaml
+        - geoips/plugins/yaml/products/ascatuhr.yaml
+        - geoips/plugins/yaml/products/atms.yaml
+        - geoips/plugins/yaml/products/gmi.yaml
+        - geoips/plugins/yaml/products/modis.yaml
+        - geoips/plugins/yaml/products/sar-spd.yaml
+        - geoips/plugins/yaml/products/seviri.yaml
+        - geoips/plugins/yaml/products/smap-spd.yaml
+        - geoips/plugins/yaml/products/smos-spd.yaml
+        - geoips/plugins/yaml/products/ssmis.yaml
+        - geoips/plugins/yaml/products/viirs.yaml
+    related-issue:
+      internal: GEOIPS#294 - TC product descriptions
+    date:
+      start: 2024-07-24
+      finish: 2024-12-13
+enhancement:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+deprecation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+removal:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+performance:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+documentation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+continuous integration:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null

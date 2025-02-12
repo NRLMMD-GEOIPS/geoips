@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Changed plaformdirs version in requirements.txt'
+  description: 'The previous platformdir version caused a circular dependency error, this updates the version number to allow installation from requirements.txt.'
+  files:
+    modified:
+    - 'environments/requirements.txt'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2024-12-18
+    finish: 2024-12-18

@@ -1,0 +1,19 @@
+interface: product_defaults
+family: algorithm_interpolator_colormapper
+name: model_waves
+docstring: |
+  The wave product_defaults configuration for models.
+spec:
+  algorithm: 
+    plugin:
+      name: model_channel
+      arguments: {}
+  colormapper:
+    plugin:
+      name: wave_height_cmap
+      arguments: {}
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}
+

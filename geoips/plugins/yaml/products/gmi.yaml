@@ -2,6 +2,11 @@ interface: products
 family: list
 name: gmi
 docstring: |
+  GMI: GPM Microwave Imager. 53° zenith angle. 1450 km swath width. 2-3 hour global coverage. Conical scan.
+
+  Used on
+  GPM: Global Precipitation Measurement. Joint mission with NASA and JAXA and successor of TRMM. 407 km altitude. 65° inclination. Non-sun-synchronous.
+  
   The gmi product_inputs configuration, which produces color37, 37pct, color89, 89H, 89V, 89HW, 89H-Legacy, 89H-Physical, 166H, 166V,
   183-1H, 183-3H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products.
 spec:
@@ -9,7 +14,7 @@ spec:
     - name: color37
       source_names: [gmi]
       docstring: |
-        The color37 product_defaults for gmi product.
+        Composite image.
       product_defaults: color37
       spec:
         variables: ["H37", "V37"]
@@ -47,7 +52,7 @@ spec:
     - name: color89
       source_names: [gmi]
       docstring: |
-        The color89 product_defaults for gmi product.
+        Composite image.
       product_defaults: color89
       spec:
         variables: ["H89", "V89"]
@@ -66,7 +71,7 @@ spec:
     - name: 89pct
       source_names: [gmi]
       docstring: |
-        The 89pct product_defaults for gmi product.
+        89 GHz Polarized Corrected Brightness Temperature.
       product_defaults: 89pct
       spec:
         variables: ["H89", "V89"]
@@ -85,7 +90,8 @@ spec:
     - name: 89H
       source_names: [gmi]
       docstring: |
-        The 89H product_defaults for gmi product.
+        Horizontally polarized channel at 89 GHz. Used for detection of radiation suppression due to scattering effect from ice particles 
+        (high clouds), most useful for presentation of strong TC spiral convective zones in low amplitudes of TBs, especially the eyewall location.
       product_defaults: 89H
       spec:
         variables: ["H89"]
@@ -123,7 +129,7 @@ spec:
     - name: 89HW
       source_names: [gmi]
       docstring: |
-        The 89HW product_defaults for gmi product.
+        Single channel image at high frequency. Designed for display of weak storms observed by horizontal polarization
       product_defaults: 89HW
       spec:
         variables: ["H89"]
@@ -161,7 +167,7 @@ spec:
     - name: 89H-Physical
       source_names: [gmi]
       docstring: |
-        The 89H-Physical product_defaults for gmi product.
+        Single channel image at low frequency.
       product_defaults: 89H-Physical
       spec:
         variables: ["H89"]
@@ -313,7 +319,7 @@ spec:
     - name: 37H-Legacy
       source_names: [gmi]
       docstring: |
-        The 37H-Legacy product_defaults for gmi product.
+        Single channel image at low frequency.
       product_defaults: 37H-Legacy
       spec:
         variables: ["H37"]
@@ -351,7 +357,7 @@ spec:
     - name: 37H
       source_names: [gmi]
       docstring: |
-        The 37H product_defaults for gmi product.
+        Horizontally polarized channel at 37 GHz, single channel image at low frequency. Used for display of mixed precipitating/ice particles (mid-level clouds).
       product_defaults: 37H
       spec:
         variables: ["H37"]
@@ -370,7 +376,7 @@ spec:
     - name: 37V
       source_names: [gmi]
       docstring: |
-        The 37V product_defaults for gmi product.
+        Vertically polarized channel at 37 GHz
       product_defaults: 37V
       spec:
         variables: ["V37"]

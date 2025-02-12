@@ -2,34 +2,44 @@ interface: products
 family: list
 name: viirs
 docstring: |
+  VIIRS: Visible Infrared Imaging Radiometer Suite. From the National Aeronautics and Space Administration (NASA), NVIIRS contains 
+  22 channels and has a swath of 3000km. The sensor passes a point on earth twice a day and has a spatial resolution of 750m or 375m 
+  depending on the wavelength. 
+
+  Used on:
+  NPP: Suomi National Polar-orbiting Partnership. Launched by the National Oceanic and Atmospheric Administration (NOAA) and the National 
+  Aeronautics and Space Administration (NASA), NPP orbits at an altitude of 833 km, has an orbital period of 101.44 minutes, and has an orbital 
+  inclination of 98.79°. Included in the Joint Polar Satellite System alongside NOAA-20 and -21. 
+
   The viirs product_inputs configuration, which produces Infrared, Night-vis, and Visible products.
 spec:
   products:
     - name: Infrared
       source_names: [viirs]
       docstring: |
-        The Infrared product_defaults configuration for viirs products.
+        11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared
       spec:
         variables: ["I05BT"]
     - name: Infrared-Gray
       source_names: [viirs]
       docstring: |
-        The Infrared-Gray product_defaults configuration for viirs products.
+        11.2 µm Gray Scale Infrared. This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared-Gray
       spec:
         variables: ["I05BT"]
     - name: IR-BD
       source_names: [viirs]
       docstring: |
-        The IR-BD product_defaults configuration for viirs products.
+        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and includes a BD curve enhancement, known as the 
+        Dvorak Hurricane Curve for Tropical Cyclone Classification, and can help determine the intensity of storms. 
       product_defaults: IR-BD
       spec:
         variables: ["I05BT"]
     - name: Night-Vis
       source_names: [viirs]
       docstring: |
-        The Night-Vis product_defaults configuration for viirs products.
+        Night Visible. Study thicker clouds, study precipitation and provides consistency with daytime products.
       product_defaults: Night-Vis
       spec:
         variables: ["DNBRad", "DNB:solar_zenith_angle"]
@@ -43,7 +53,7 @@ spec:
     - name: Night-Vis-IR
       source_names: [viirs]
       docstring: |
-        The Night-Vis-IR product configuration for viirs products.
+        Night Visible with Infrared RGB. Study thicker clouds, study precipitation and provides consistency with daytime products.
       product_defaults: RGB-Default
       spec:
         variables: ["DNBRad", "M16BT"]
@@ -63,7 +73,7 @@ spec:
     - name: Visible
       source_names: [viirs]
       docstring: |
-        The Visible product_defaults configuration for viirs products.
+        0.51 µm Visible. This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns. 
       product_defaults: Visible
       spec:
         variables: ["M05Ref"] # Ocean Color Aerosol: VIIRS M05 0.673um
@@ -72,3 +82,10 @@ spec:
             name: matplotlib_linear_norm
             arguments:
               cbar_label: "Reflectance, VIIRS M05 0.673um Band"
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [0, 100.0] # This replaces the default value found in product_params/Visible.yaml
+              gamma_list: [] # This replaces the default value found in product_params/Visible.yaml
+              scale_factor: 1.0

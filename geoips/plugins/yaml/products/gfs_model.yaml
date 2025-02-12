@@ -1,0 +1,31 @@
+interface: products
+family: list
+name: gfs
+docstring: |
+  The gfs product_inputs configuration.
+spec:
+  products:
+    - name: Model-Windspeed
+      source_names: [gfs]
+      docstring: |
+        The Windspeed product_defaults configuration for gfs products.
+      product_defaults: model_windspeed
+      spec:
+        variables: ["windspeed_kts"]
+        algorithm:
+          plugin:
+            name: model_channel
+            arguments:
+              output_data_range: [0,200]
+              min_outbounds: crop
+              max_outbounds: crop
+              pressure_key: 'fine_press'
+              time_fcst: -1
+
+    - name: Model-WaveHeight
+      source_names: [gfs]
+      docstring: | 
+        The Wave height of gfs model, from wind and swell.
+      product_defaults: model_waves
+      spec:
+        variables: ["significant_height_of_combined_wind_waves_and_swell"]

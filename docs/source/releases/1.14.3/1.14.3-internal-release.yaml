@@ -1,0 +1,70 @@
+Release Process:
+- title: Add 1.14.3 release note
+  description: |
+    Currently tagged internal version 1.14.2.
+  files:
+    added:
+    - docs/source/releases/latest/1.14.3-internal-release.yaml
+  related-issue:
+    internal: GEOIPS#715 - 1.14.3 updates*
+  date:
+    start: 2024-11-23
+    finish: 2024-12-11
+- title: Update internal and github.com 'upcoming_version' and 'tagged_version'
+  description: |
+    Updated 'update_this_release_note' file in geoips repo for the
+    next internal version -
+    1.14.4
+    next github.com version -
+    1.15.0
+  files:
+    modified:
+    - .github/versions/upcoming_version
+    - .github/versions/tagged_version
+  related-issue:
+    internal: GEOIPS#715 - 1.14.3 updates*
+  date:
+    start: 2024-11-23
+    finish: 2024-11-23
+Bug fixes:
+- title: Fix import for NearestNDInterpolator
+  description: |
+    This is from scipy, not pykdtree
+  files:
+    modified:
+    - geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+  related-issue:
+    internal: GEOIPS#715 - 1.14.3 updates*
+  date:
+    start: 2024-12-09
+    finish: 2024-12-09
+- title: Resolve documentation build errors for external repositories
+  description: |
+    * geoips-docs-dir point to geoips repo for build_docs.sh pass through, not
+      current repository (build_docs.sh).
+    * Ensure introduction/index.rst is an optional section (not currently in all repos)
+      (build_docs.py and index.template.rst)
+    * Use shutil.copytree to copy geoips _static templates to
+      current repo build directory (build_docs.py)
+  files:
+    modified:
+    - docs/build_docs.py
+    - docs/build_docs.sh
+    - docs/source/_templates/index.template.rst
+  related-issue:
+    internal: GEOIPS#715 - 1.14.3 updates*
+  date:
+    start: 2024-12-10
+    finish: 2024-12-10
+- title: Update AMI unprojected test image for slight edge of scan differences
+  description: |
+    Jeremy and Evan saw this same discrepancy with their local github.com runs,
+    updating to the most recent version, likely a dependency version update.
+  related-issue:
+    internal: GEOIPS#715 - 1.14.3 updates*
+  date:
+    start: 2024-12-10
+    finish: 2024-12-10
+  files:
+    modified:
+    - tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png

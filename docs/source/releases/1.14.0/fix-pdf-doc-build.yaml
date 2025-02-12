@@ -1,0 +1,22 @@
+documentation:
+- title: 'Resolve pdf doc build issues'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    PDF doc builds often fail when html succeeds - this MUST be tested regularly
+    on PR merge, to ensure we keep up with pdf builds as well as html. Much easier to
+    resolve issues as they crop up rather than much later when we realize it's failing.
+
+    Temporarily turn off all pdf builds, and comment out the pdf download from the
+    documentation index template.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - '.github/workflows/doc-test.yaml'
+    - '.github/workflows/reusable-deploy-docs.yaml'
+    - 'docs/source/_templates/index_PKG.html'
+    moved:
+    - ''

@@ -40,7 +40,7 @@ def get_data_box_definition(source_name, lons, lats):
     )
     from pyresample.geometry import GridDefinition
 
-    if source_name == "abi":
+    if source_name == "abi" and lons.ndim > 1:
         data_box_definition = GridDefinition(
             lons=numpy.ma.array(lons, subok=False),
             lats=numpy.ma.array(lats, subok=False),

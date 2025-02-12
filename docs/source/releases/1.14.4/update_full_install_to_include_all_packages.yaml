@@ -1,0 +1,151 @@
+installation:
+  - title: "Update full install to include all packages available on github.com"
+    description: |
+      Allow passing an argument to full_install.sh that requests installing
+      all packages currently available on github.com.  Default full install
+      (with no arguments) still includes only actively maintained/tested/vetted
+      packages with complete and functional integration tests, but additional
+      packages included when "include_reference_repos" is passed to allow
+      development on new and planned repositories.
+
+      This also serves to test test_data_github check_system_requirements.sh option,
+      since that is currently unused on github.com.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "tests/integration_tests/full_install.sh"
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: 2024-12-11
+      finish: 2024-12-11
+bug fixes:
+  - title: "Clone git test data repositories to the correct location"
+    description: |
+      Previously git test data repositories would be cloned directly in
+      $GEOIPS_TESTDATA_DIR, update download_test_data.py to ensure test data
+      repos are cloned to $GEOIPS_TESTDATA_DIR/[test_data_repo_name]
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - setup/check_system_requirements.sh
+        - setup/download_test_data.py
+    date:
+      start: 2024-12-11
+      finish: 2024-12-11
+  - title: "Use autoescape=True for jinja template"
+    description: |
+      Use autoescape=True for jinja template
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - docs/build_docs.py
+    date:
+      start: 2024-12-11
+      finish: 2024-12-11
+deprecation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+removal:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+performance:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+documentation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+continuous integration:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null

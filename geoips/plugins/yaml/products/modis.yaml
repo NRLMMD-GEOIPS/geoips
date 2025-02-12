@@ -2,27 +2,39 @@ interface: products
 family: list
 name: modis
 docstring: |
+  MODIS: Moderate-resolution Imaging Spectro-radiometer. Swath of 2230 km. Objective include cloud cover and
+  depth, as well as water vapor and sea surface temperature.
+
+  Used on
+  TERRA: Earth Observation System - Terra. Altitude of 705 km, and sun synchronous orbit. First of the EOS Programme launched by NASA.
+
+  AQUA: Earth Observation System - Aqua. Altitude of 705 km, and sun synchronous orbit. Second of the EOS Programme launched by NASA.
+
   The modis product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products.
 spec:
   products:
     - name: Infrared
       source_names: [modis]
       docstring: |
-        The Infrared product_defaults configuration for modis products.
+        11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection
+        within a Tropical Cyclone.
       product_defaults: Infrared
       spec:
         variables: ["chan31.0BT"]
     - name: Infrared-Gray
       source_names: [modis]
       docstring: |
-        The Infrared-Gray product_defaults configuration for modis products.
+        11.2 µm Gray Scale Infrared. This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection
+        within a Tropical Cyclone.
       product_defaults: Infrared-Gray
       spec:
         variables: ["chan31.0BT"]
     - name: IR-BD
       source_names: [modis]
       docstring: |
-        The IR-BD product_defaults configuration for modis products.
+        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and
+        includes a BD curve enhancement, known as the Dvorak Hurricane Curve for Tropical Cyclone Classification,
+        and can help determine the intensity of storms.
       product_defaults: IR-BD
       spec:
         variables: ["chan31.0BT"]
@@ -43,7 +55,7 @@ spec:
     - name: Visible
       source_names: [modis]
       docstring: |
-        The Visible product_defaults configuration for modis products.
+        0.51 µm Visible. This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns.
       product_defaults: Visible
       spec:
         variables: ["chan1.0Ref", "solar_zenith_angle"] # chan-1 is MODIS high res vis at 250m

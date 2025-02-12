@@ -1,0 +1,43 @@
+bug fix:
+- description: |
+    *From GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times*
+
+    Geostationary readers previously could only handle one scan time per run through.
+    This is a limiting factor to these readers and one or more scientists at CIRA needed
+    these readers to be able to handle multiple scan times per use. We've made the
+    corresponding updates to geostaionary readers that were requested could read
+    multiple scan times. If this PR goes well, it might be a good idea to support this
+    functionality on other readers in the future.
+
+    Updates also include modificaionts to colormap_utils.py and single source to support
+    octopy. Octopy uses rgba tuples (rather than rgb) and therefore colormap_utils.py
+    required updates to it's code to support variable tuple lengths. single_source.py
+    was updated to interpolate on multiple variables for octopy, such as 'u' and 'v'.
+
+    See 'docs/source/releases/latest/ami-ewsg-multi-scan-time.yaml' for additional
+    updates which have been merged into this PR.
+  related-issue:
+    number: 312
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  title: 'Update Geostationary readers to support multiple scan times'
+  files:
+    modified:
+      - geoips/image_utils/colormap_utils.py
+      - geoips/interfaces/module_based/readers.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - geoips/plugins/modules/readers/abi_netcdf.py
+      - geoips/plugins/modules/readers/ahi_hsd.py
+      - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/plugins/modules/yaml/products/ami.yaml
+      - setup/test-data-urls.yaml
+      - tests/integration_tests/full_install.sh
+      - tests/integration_tests/full_test.sh
+      - tests/scripts/seviri.WV-Upper.unprojected_image.sh
+      - tests/outputs/seviri.WV-Upper.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
+      - tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+      - tests/outputs/abi.tc.Infrared.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png.yaml
+      - tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png.yaml
+    added:
+      - geoips/plugins/modules/algorithms/absdiff_mst.py
+      - tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
+      - tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh

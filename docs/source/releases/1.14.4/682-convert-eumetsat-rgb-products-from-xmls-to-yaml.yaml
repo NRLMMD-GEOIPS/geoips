@@ -1,0 +1,133 @@
+enhancement:
+- title: 'Add EUMETSAT RGB Products'
+  description: |
+    The original XML EUMETSAT RGB specifications were pulled from GeoIPS v1.1.16, and
+    ported to GeoIPS 1.13+ as a python module-based algorithm plugin.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - tests/outputs/seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global.22p76.nesdisstar.20p0.png
+    - tests/outputs/seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global.22p76.nesdisstar.20p0.png
+    - geoips/plugins/modules/algorithms/visir/Natural_Color.py
+    - geoips/plugins/modules/algorithms/visir/Dust_RGB.py
+    - tests/scripts/seviri.Dust-RGB.imagery_clean.sh
+    - tests/scripts/seviri.Natural-Color.imagery_clean.sh
+    modified:
+    - geoips/plugins/yaml/products/seviri.yaml
+    - tests/test_all.sh
+  related-issue:
+    internal: GEOIPS#682 - EUMETSAT RGB Products
+  date:
+    start: 2024-06-20
+    finish: 2024-12-13
+enhancement:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

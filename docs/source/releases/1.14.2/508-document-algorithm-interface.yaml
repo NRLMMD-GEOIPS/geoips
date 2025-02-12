@@ -1,0 +1,9 @@
+documentation:
+- description: 'Create documentation for the algorithm interface.'
+  files:
+    added:
+    - 'docs/source/new-docs/concepts/functionality/interfaces/module_based/algorithm.rst'
+    - 'docs/source/releases/latest/508-document-algorithm-interface.yaml'
+  related-issue:
+    number: 508
+  title: 'Add algorithm interface documentation'

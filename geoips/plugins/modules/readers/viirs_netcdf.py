@@ -47,18 +47,19 @@ of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 # Python Standard Libraries
+from collections import defaultdict
+from datetime import datetime
 import logging
 import os
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy
 import pandas as pd
 import xarray as xr
 
-from geoips.utils.context_managers import import_optional_dependencies
-
-# GeoIPS Libraries
+# GeoIPS imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -202,6 +203,7 @@ xvarnames = {
 interface = "readers"
 family = "standard"
 name = "viirs_netcdf"
+source_names = ["viirs"]
 
 
 def _get_geolocation_metadata(orig_shape, fnames, xarray):
@@ -331,9 +333,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from collections import defaultdict
-    from datetime import datetime
-
     # since fname is a LIST of input files, this reader needs additional adjustments to
     # read all files and put them into the XARRAY output (add one more array for
     # number of files)
@@ -596,6 +595,15 @@ def call(
                 nparr_masked = numpy.ma.masked_greater(
                     ncvar[...], ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset
                 )
+
+                # Gamma, Scale factor from old Vis product
+                from geoips.data_manipulations.corrections import (
+                    apply_gamma,
+                    apply_scale_factor,
+                )
+
+                nparr_masked = apply_gamma(nparr_masked, 1.5)
+                nparr_masked = apply_scale_factor(nparr_masked, 100)
 
                 add_to_xarray(
                     refvarname,

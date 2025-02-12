@@ -2,6 +2,11 @@ interface: products
 family: list
 name: amsr2
 docstring: |
+  AMSR2: Advanced Microwave Scanning Radiometer- 2. Zenith angle is 55°. Swath is 1450 km. Observes 99% of the earth every 2 days. Conical scan.
+
+  Used on:
+  GCOM-W1: Global Change Observation Mission for Water. Aka “SHIZUKU”. 700 km altitude. Launched May of 2012 by JAXA. Inclination of 98° and is sun-synchronous. 
+  
   The amsr2 products configuration, which produces windspeed, unsectored, sectored, color37, 37pct, color89, 89pct, 89H,
   89V, 89HW, 89H-Physical, 89H-Legacy, 37H-Legacy, 37H-Physical, 37H, and 37V products.
 spec:
@@ -9,7 +14,8 @@ spec:
     - name: windspeed
       source_names: [amsr2]
       docstring: |
-        The windspeed product_defaults for amsr2 product.
+        Measures the sea surface wind speed. Can help predict with cloud movements or water vapor, when there are no clouds present. 
+        Also used to predict the damages to people, land, and ships.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
@@ -30,7 +36,7 @@ spec:
     - name: color37
       source_names: [amsr2]
       docstring: |
-        The color37 product_defaults for amsr2 product.
+        37 GHz RGB Color Product. Shows concentric rainbands and areas of embedded heavy rainfall. Composite image.
       product_defaults: color37
       spec:
         variables: ["tb36h", "tb36v"]
@@ -49,7 +55,7 @@ spec:
     - name: 37pct
       source_names: [amsr2]
       docstring: |
-        The 37pct product_defaults for amsr2 product.
+        37 GHz Polarized Corrected Brightness Temperature.
       product_defaults: 37pct
       spec:
         variables: ["tb36h", "tb36v"]
@@ -68,7 +74,7 @@ spec:
     - name: color89
       source_names: [amsr2]
       docstring: |
-        The color89 product_defaults for amsr2 product.
+        89 GHz RGB Color Product. Composite image
       product_defaults: color89
       spec:
         variables: ["tb89hA", "tb89vA"]
@@ -87,7 +93,7 @@ spec:
     - name: 89pct
       source_names: [amsr2]
       docstring: |
-        The 89pct product_defaults for amsr2 product.
+        89 GHz Polarization Corrected Brightness Temperature.
       product_defaults: 89pct
       spec:
         variables: ["tb89hA", "tb89vA"]
@@ -106,7 +112,9 @@ spec:
     - name: 89H
       source_names: [amsr2]
       docstring: |
-        The 89H product_defaults for amsr2 product.
+        Horizontally polarized channel at 89 GHz. Used for detection of radiation suppression due to scattering effect from 
+        ice particles (high clouds), most useful for presentation of strong TC spiral convective zones in low amplitudes of TBs, 
+        especially the eyewall location.
       product_defaults: 89H
       spec:
         variables: ["tb89hA"]
@@ -125,7 +133,7 @@ spec:
     - name: 89V
       source_names: [amsr2]
       docstring: |
-        The 89V product_defaults for amsr2 product.
+        Vertically polarized channel at 89 GHz, used to look at ice formations.
       product_defaults: 89V
       spec:
         variables: ["tb89vA"]
@@ -163,7 +171,7 @@ spec:
     - name: 89H-Physical
       source_names: [amsr2]
       docstring: |
-        The 89H-Physical product_defaults for amsr2 product.
+        Single channel image at high frequency.
       product_defaults: 89H-Physical
       spec:
         variables: ["tb89hA"]
@@ -239,7 +247,7 @@ spec:
     - name: 37H
       source_names: [amsr2]
       docstring: |
-        The 37H product_defaults for amsr2 product.
+        Horizontally polarized channel at 37 GHz
       product_defaults: 37H
       spec:
         variables: ["tb36h"]
@@ -258,7 +266,7 @@ spec:
     - name: 37V
       source_names: [amsr2]
       docstring: |
-        The 37V product_defaults for amsr2 product.
+        Vertically polarized channel at GHz
       product_defaults: 37V
       spec:
         variables: ["tb36v"]

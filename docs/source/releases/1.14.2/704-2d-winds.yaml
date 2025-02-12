@@ -1,0 +1,8 @@
+bug fix:
+  - title: "Bug fixes for 2 dimensional windbarbs"
+    description: |
+      Updated windbarb algorithms to handle 2d windbarbs.
+    files:
+      modified:
+        - geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py
+        - geoips/plugins/modules/output_formatters/imagery_windbarbs.py

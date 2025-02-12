@@ -1,0 +1,14 @@
+enhancement:
+- description: |
+    Add new reader for VIIRS L2 netCDF files.
+    (e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
+  files:
+    added:
+    - geoips/plugins/modules/readers/viirs_l2_netcdf.py
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  title: VIIRS L2 netCDF reader

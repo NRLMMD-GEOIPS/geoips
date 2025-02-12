@@ -1,0 +1,10 @@
+testing:
+- title: 'Update GeoIPS CLAVR-X Test Data'
+  description: |
+    New updates made to GeoIPS, and corresponding plugin packages geoips_clavrx and
+    recenter tc introduced a new test script in geoips_clavrx that uses data not
+    originally included in the ``test_data_clavrx`` dataset. We've updated the
+    url of this dataset and the tar file to include this new test data.
+  files:
+    modified:
+      - setup/test-data-urls.yaml

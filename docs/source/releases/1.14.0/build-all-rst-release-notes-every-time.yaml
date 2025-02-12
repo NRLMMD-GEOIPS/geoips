@@ -1,0 +1,38 @@
+Documentation:
+- title: 'Build RST release notes from YAML files every time'
+  description: |
+    *From issue GEOIPS#562: 2024-08-15, version update*
+
+    Rather than generating and checking in RST files with
+    each release, save all the original YAML files and produce
+    RST every time from within build_docs.sh.
+
+    Store the release notes in X.Y.Z directories, producing
+    X.Y.Z.rst during the build_docs process. Update the index.rst
+    generating code to support either vX_Y_Z.rst or X.Y.Z.rst
+    filename format.
+
+    This allows simply moving the 'latest' release note directory
+    to X.Y.Z during the release process, and maintaining a record
+    of all the original release notes in perpetuity, facilitating
+    rapid release roll backs or evaluation of previous release notes.
+
+    Note we also now ignore an 'upcoming' release note directory,
+    as that is a temporary location to store the release note for
+    the upcoming release during the version release process for
+    the current version ('latest').  At the end of the release
+    process, the 'upcoming' directory will be moved to 'latest'
+    to prepare for the next release.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - 'docs/build_docs.sh'
+    - 'docs/update_release_note_index.py'
+    moved:
+    - ''
+  related-issue:
+    number: 562
+    repo_url: 'GEOIPS/geoips'

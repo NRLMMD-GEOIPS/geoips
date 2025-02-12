@@ -11,6 +11,8 @@ import inspect
 import xarray
 
 # Internal utilities
+from geoips.errors import OutputFormatterDatelineError
+from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
@@ -560,8 +562,9 @@ def apply_alg_first(
     if alg_plugin.family in ["xarray_to_numpy"]:
         # Why does this one use sect_xarrays and not curr_sect_xarrays?
         # And it uses variable_names, not variables.
+        # print(variable_names,variables)
         alg_xarray = apply_alg_xarray_to_numpy(
-            alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variable_names
+            alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variables
         )
     elif alg_plugin.family in ["xarray_dict_area_def_to_numpy"]:
         # Why does this one use sect_xarrays and not curr_sect_xarrays?
@@ -604,7 +607,11 @@ def apply_interp_after_alg(
         final_xarray = alg_xarray
     # If required, interpolate the result prior to returning
     elif prod_plugin.family == "algorithm_interpolator_colormapper":
-        interp_args["varlist"] = [prod_plugin.name]
+        if interp_args.get("varlist") is None or interp_args["varlist"] is None:
+            # Just assume the only thing we're interpolating is the product name itself
+            interp_args["varlist"] = [prod_plugin.name]
+        # Otherwise use the varlist that was provided. For example, a user could produce
+        # Additional variables from their algorithm alongside their product name
         final_xarray = perform_interpolation(
             interp_plugin,
             area_def,
@@ -713,9 +720,11 @@ def apply_alg_xarray_to_numpy(
                 alg_plugin.family,
                 alg_plugin.name,
             )
+            alg_xarray = sect_xarrays[dsname]
             alg_xarray[prod_plugin.name] = xarray.DataArray(
                 alg_plugin(sect_xarrays[dsname], **alg_args)
             )
+            # drops geo values?
     return alg_xarray
 
 
@@ -1198,15 +1207,34 @@ def plot_data(
                 output_plugin.family,
                 output_plugin.name,
             )
-            output_products = output_plugin(
-                area_def,
-                xarray_obj=alg_xarray,
-                product_name=prod_plugin.name,
-                output_fnames=list(output_fnames.keys()),
-                product_name_title=display_name,
-                mpl_colors_info=mpl_colors_info,
-                **output_kwargs,
-            )
+            try:
+                output_products = output_plugin(
+                    area_def,
+                    xarray_obj=alg_xarray,
+                    product_name=prod_plugin.name,
+                    output_fnames=list(output_fnames.keys()),
+                    product_name_title=display_name,
+                    mpl_colors_info=mpl_colors_info,
+                    **output_kwargs,
+                )
+            except OutputFormatterInvalidProjectionError as e:
+                LOG.warning(
+                    "Failed to produce %s output: %s",
+                    output_plugin.name,
+                    "; ".join(list(output_fnames.keys())),
+                )
+                LOG.warning("OutputFormatterInvalidProjectionError: %s", e)
+                output_fnames = {}
+                output_products = []
+            except OutputFormatterDatelineError as e:
+                LOG.warning(
+                    "Failed to produce %s output: %s",
+                    output_plugin.name,
+                    "; ".join(list(output_fnames.keys())),
+                )
+                LOG.warning("OutputFormatterDatelineError: %s", e)
+                output_fnames = {}
+                output_products = []
             if output_products != list(output_fnames.keys()):
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "unprojected":
@@ -1833,7 +1861,7 @@ def call(fnames, command_line_args=None):
     output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
-        from geoips_db.interfaces import databases
+        from geoips.interfaces import databases
 
         db_writer = databases.get_plugin(product_db_writer)
         if not getenv("GEOIPS_DB_URI"):
@@ -2209,6 +2237,7 @@ def call(fnames, command_line_args=None):
             # processed array)
             if ":" in covg_varname:
                 covg_varname = covg_varname.split(":")[1]
+
             covg = covg_plugin(
                 alg_xarray,
                 covg_varname,
@@ -2309,14 +2338,33 @@ def call(fnames, command_line_args=None):
                         "product": product_name,
                         "fileType": fprod.split(".")[-1],
                     }
-                    product_added = db_writer(
-                        fprod,
-                        area_def=area_def,
-                        xarray_obj=alg_xarray,
-                        additional_attrs=additional_attrs,
-                        **product_db_writer_kwargs,
-                    )
-                    database_writes += [product_added]
+                    if db_writer.family == "xarray_area_def_to_table":
+                        product_added = db_writer(
+                            product_filename=fprod,
+                            xarray_obj=alg_xarray,
+                            area_def=area_def,
+                            additional_attrs=additional_attrs,
+                            **product_db_writer_kwargs,
+                        )
+                        database_writes += [product_added]
+                    elif db_writer.family == "xarray_dict_to_table":
+                        product_added = db_writer(
+                            product_filename=fprod,
+                            xarray_dict=alg_xarray,
+                            area_def=area_def,
+                            additional_attrs=additional_attrs,
+                            **product_db_writer_kwargs,
+                        )
+                        database_writes += [product_added]
+                    else:
+                        LOG.error(
+                            "FAILED DB WRITE: Only "
+                            "xarray_area_def_to_table and xarray_dict_to_table "
+                            "db_writer families supported. Either reformat "
+                            "db_writer plugin as correct family, or add support "
+                            "for additional families in the procflow and "
+                            "databases interface."
+                        )
 
             process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
             num_jobs += 1

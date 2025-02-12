@@ -1,0 +1,52 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE product_file SYSTEM "../productfiles.dtd">
+
+<!--
+    Notes:
+        See ../productfiles.dtd in this directory for full notes.  All DTD information
+        is contained there.
+        Arunas 20140407 varged celcius to celsius
+-->
+<product_file>
+<product method="rgb" name="Airmass">
+    <rgb_args>
+        <source name='seviri'>
+            <var>B05BT</var>
+            <var>B06BT</var>
+            <var>B08BT</var>
+            <var>B09BT</var>
+        </source>
+        <red>
+            <equation>B05BT-B06BT</equation>
+            <range>
+                <min_value>-25</min_value>
+                <max_value>0</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </red>
+        <grn>
+            <equation>B08BT-B09BT</equation>
+            <range>
+                <min_value>-40</min_value>
+                <max_value>5</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </grn>
+        <blu>
+            <equation>B05BT</equation>
+            <range>
+                <min_value>-30</min_value>
+                <max_value>-65</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </blu>
+        <day_night>day</day_night>
+    </rgb_args>
+</product>
+</product_file>

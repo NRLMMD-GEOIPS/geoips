@@ -33,6 +33,7 @@ def call(
     min_night_zen=None,
     gamma_list=None,
     scale_factor=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """Apply data range and requested corrections to a single channel product.
 
@@ -44,6 +45,12 @@ def call(
     arrays : list of numpy.ndarray
         * list of numpy.ndarray or numpy.MaskedArray of channel data
         * MUST be length one for single_channel algorithm.
+        * If applying solar zenith corrections and diurnal masking, the second index in
+          the arrays list must be the solar zenith angle array. This is controlled in
+          product YAML.
+        * If applying a satellite zenith angle cutoff, the final index in the arrays
+          list must be the satellite zenith angle array. This is controlled in the
+          product YAML.
     output_data_range : list of float, default=None
         * list of min and max value for output data product.
         * This is applied LAST after all other corrections/adjustments
@@ -86,6 +93,9 @@ def call(
               (see data_manipulations.corrections.apply_solar_zenith_correction)
             * If False, returned data will not be modified based on solar zenith
               angle
+    satellite_zenith_angle_cutoff : float, default=None
+        * Cutoff for masking data where satellite zenith angle exceeds threshold
+        * If None, no masking
 
     Notes
     -----
@@ -93,11 +103,12 @@ def call(
 
     1. Mask night
     2. Mask day
-    3. Apply solar zenith correction
-    4. Apply gamma values
-    5. Apply scale factor
-    6. Convert units
-    7. Apply data range.
+    3. Apply satellite zenith angle cutoff
+    4. Apply solar zenith correction
+    5. Apply gamma values
+    6. Apply scale factor
+    7. Convert units
+    8. Apply data range.
 
     NOTE: If "norm=True" is specified, the "output_data_range" will NOT
     match the actual range of the returned data, since the normalized data
@@ -120,7 +131,7 @@ def call(
     # Mask everything greater than max_day_zen
     # day zenith angles are less than 90
     # night zenith angles are greater than 90
-    if max_day_zen and len(arrays) == 2:
+    if max_day_zen and len(arrays) >= 2:
         from geoips.data_manipulations.info import percent_unmasked
         from geoips.data_manipulations.corrections import mask_night
 
@@ -132,7 +143,7 @@ def call(
     # Mask everything less than min_night_zen
     # day zenith angles are less than 90
     # night zenith angles are greater than 90
-    if mask_day and min_night_zen and len(arrays) == 2:
+    if mask_day and min_night_zen and len(arrays) >= 2:
         from geoips.data_manipulations.info import percent_unmasked
         from geoips.data_manipulations.corrections import mask_day
 
@@ -141,7 +152,19 @@ def call(
         data = mask_day(data, sun_zenith, min_night_zen)
         LOG.info("Percent unmasked night only %s", percent_unmasked(data))
 
-    if sun_zen_correction and len(arrays) == 2:
+    if satellite_zenith_angle_cutoff is not None and len(arrays) >= 2:
+        from geoips.data_manipulations.info import percent_unmasked
+        from geoips.data_manipulations.corrections import apply_satellite_zenith_cutoff
+
+        sat_zenith = arrays[-1]
+        data = apply_satellite_zenith_cutoff(
+            data, sat_zenith, satellite_zenith_angle_cutoff
+        )
+        LOG.info(
+            "Percent unmasked after zenith angle cutoff %s", percent_unmasked(data)
+        )
+
+    if sun_zen_correction and len(arrays) >= 2:
         sun_zenith = arrays[1]
         from geoips.data_manipulations.corrections import apply_solar_zenith_correction
 

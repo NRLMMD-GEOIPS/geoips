@@ -1,0 +1,9 @@
+enhancement:
+- description: |
+    Increase flexibility when querying the product database for finding inputs to create
+    a composited product. User is now able to specify if the expected composite inputs
+    are located in a different product database schema/table than the current configuration.
+  files:
+    modified:
+    - geoips/plugins/modules/procflows/config_based.py
+  title: Override product database schema/tables when searching for composite inputs

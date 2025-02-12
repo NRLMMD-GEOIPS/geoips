@@ -53,4 +53,10 @@ class TestReaders:
             reader.module, "get_test_parameters"
         ):
             pytest.xfail(reader_name + " has no test modules")
-        self.verify_plugin(reader)
+        try:
+            self.verify_plugin(reader)
+        except ValueError as e:
+            if "Input files inconsistent." in str(e):
+                pytest.xfail(reader_name + "is missing test data")
+            else:
+                raise e

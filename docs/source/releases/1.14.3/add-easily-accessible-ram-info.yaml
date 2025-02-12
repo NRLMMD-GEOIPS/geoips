@@ -1,0 +1,10 @@
+documentation:
+- title: 'Add additional info to RAM system install requirements section'
+  description: |
+    This existed elsewhere in the docs, but is more clear when included here in the install requirements.
+  files:
+    modified:
+    - 'docs/source/new-docs/getting-started/system-requirements/index.rst'
+  related-issue:
+    number: null
+    repo_url: ''

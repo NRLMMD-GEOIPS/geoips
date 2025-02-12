@@ -756,6 +756,23 @@ def get_area_defs_from_available_sectors(
         if sector_dict.get("trackfiles"):
             sector_dict["tcdb"] = False
 
+        # Check if sector_list specified under YAML output config file is a list or a
+        # dictionary. If sector_list is a list, static sectors are enabled for all
+        # platforms that use the output config YAML. If sector_list is a dictionary,
+        # each key is a platform name that holds a list of static sectors to be
+        # processed for said platform. If sector_list is a dictionary, and the platform
+        # name is not a key, warning is raised and sector_list is set as an empty list.
+        if sector_dict.get("sector_list") and isinstance(
+            sector_dict.get("sector_list"), dict
+        ):
+            try:
+                sector_dict["sector_list"] = sector_dict["sector_list"][
+                    xobjs["METADATA"].platform_name
+                ]
+            except KeyError as resp:
+                LOG.warning("%s MISSING PLATFORM NAME", resp)
+                sector_dict["sector_list"] = []
+
         # This is the standard "get_area_defs_from_command_line_args", YAML config
         # specified sector information matches the command line specified sector
         # information
@@ -1744,6 +1761,11 @@ def call(fnames, command_line_args=None):
                         continue
                     composite_kwargs = output_dict.get("composite_kwargs", {})
                     if composite_kwargs.get("composite_products"):
+                        if not product_db:
+                            LOG.interactive(
+                                "Product database disabled, cannot create composite"
+                            )
+                            continue
                         from geoips.utils.composite import find_preproc_alg_files
 
                         # Required kwargs for generating composite
@@ -1759,8 +1781,17 @@ def call(fnames, command_line_args=None):
                         db_kwargs = config_dict["available_sectors"][sector_type].get(
                             "product_database_writer_kwargs", {}
                         )
-                        db_schemas = db_kwargs.get("schema_name")
-                        db_tables = db_kwargs.get("table_name")
+                        # Default schema and tables
+                        db_schema = db_kwargs.get("schema_name")
+                        db_table = db_kwargs.get("table_name")
+                        # Check to see if products should be queried from other schema
+                        # and/or tables - fall back to defaults if not specified.
+                        query_schema = comp_settings.get(
+                            "database_query_schema", db_schema
+                        )
+                        query_table = comp_settings.get(
+                            "database_query_table", db_table
+                        )
 
                         preproc_files = find_preproc_alg_files(
                             product_time=alg_xarray.start_datetime,
@@ -1772,8 +1803,8 @@ def call(fnames, command_line_args=None):
                             file_format=comp_file_format,
                             product_db=product_db,
                             db_query_plugin=db_query_plugin,
-                            db_schemas=db_schemas,
-                            db_tables=db_tables,
+                            db_schemas=[query_schema],
+                            db_tables=[query_table],
                         )
                         if preproc_files:
                             pre_proc = reader(preproc_files)

@@ -2,6 +2,15 @@ interface: products
 family: list
 name: ascat
 docstring: |
+ASACAT: 
+  The Advanced SCATterometer is real aperture radar (5.255 GHz C-band) and uses vertically polarized antennas. Measures wind speed 
+  and direction over oceans. Also useful for polar ice, tropical vegetation, subsurface climate related features. 
+
+  Used on
+  METOP-B/C - Meteorological operational satellite – B and Meteorological operational satellite – C. METOP-B, launched in September, 2012, 
+  has an altitude of 817 km, inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an altitude of 817 km, 
+  inclination of 98.7°, orbital period of 101 minutes and was launched November, 2018. Sun-synchronous and orbits daily.
+
   The ascat product_inputs configuration, which produces Windspeed products, Windbarbs products, Wind-ambiguity products,
   and Unsectored/Sectored products.
 spec:
@@ -9,7 +18,7 @@ spec:
     - name: windspeed
       source_names: [ascat]
       docstring: |
-        The windspeed product_defaults for ascat product.
+        Measures the sea surface wind speed. Can help predict with cloud movements or water vapor, when there are no clouds present.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
@@ -39,14 +48,15 @@ spec:
     - name: windbarbs
       source_names: [ascat]
       docstring: |
-        The windbarbs product_defaults for ascat product.
+        Show speed and direction in a specific location. Used to see the direction of the wind as well as the intensity.
       product_defaults: windbarbs
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met", "rain_flag"]
     - name: wind-ambiguities
       source_names: [ascat]
       docstring: |
-        The wind-ambiguities product_defaults for ascat product.
+        Scatterometer data that shows and abstract of possible wind 
+        direction. Usually have four cases so the first two shown are most likely. 
       product_defaults: wind-ambiguities
       spec:
         variables:

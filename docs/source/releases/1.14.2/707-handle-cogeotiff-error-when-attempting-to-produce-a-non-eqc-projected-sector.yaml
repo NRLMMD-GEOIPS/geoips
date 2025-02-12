@@ -1,0 +1,19 @@
+bug fix:
+- description: |
+    Replace TypeError and ValueError with custom GeoIPS errors in cogeotiff output
+    formatters. Replace TypeError with OutputFormatterInvalidProjectionError, which is
+    raised when the sector projection is not eqc. Replace ValueError with
+    OutputFormatterDatelineError, which is raised when a sector crosses the dateline.
+
+    Handle OutputFormatterInvalidProjectionError and OutputFormatterDatelineError raised
+    by output formatters. Not handling these errors can cause issues with config_based
+    processing, where multiple sectors may be passed to the procflow and they might not
+    all be the same projection or cross the dateline. For this type of scenario, rather
+    than raising an error and stopping all processing, log a warning of the issue.
+  files:
+    modified:
+    - geoips/errors.py
+    - geoips/plugins/modules/output_formatters/cogeotiff.py
+    - geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
+    - geoips/plugins/modules/procflows/single_source.py
+  title: Handle cogeotiff error when producing output for a non-eqc projected sector

@@ -3,10 +3,21 @@
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
 
-import logging
-from os.path import basename
+# Python Standard Libraries
 from copy import deepcopy
 from glob import glob
+import logging
+from os.path import basename
+
+# Third-Party Libraries
+import numpy
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -16,6 +27,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "scat_noaa_winds_netcdf"
+source_names = ["ascat"]
 
 
 def read_noaa_data(wind_xarray):
@@ -80,8 +92,6 @@ def read_noaa_data(wind_xarray):
             "wind_dir_sol": "wind_dir_deg_ambiguity_met",
         }
     )
-    import xarray
-    import numpy
 
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
@@ -164,12 +174,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:

@@ -158,12 +158,17 @@ Additional info::
     SZ_angle:  solar zinath angle (deg)
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
+import os
 
-# library for hdf files
+# Third-Party Libraries
 import h5py
-
 import matplotlib
+import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 matplotlib.use("agg")
 
@@ -217,6 +222,7 @@ VARLIST = [
 interface = "readers"
 family = "standard"
 name = "amsub_mirs"
+source_names = ["amsu-b"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -253,12 +259,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
     xarrays = []
     for fname in fnames:
         LOG.info("Reading file %s", fname)

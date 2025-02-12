@@ -1,0 +1,22 @@
+reader_name: abi_l2_netcdf
+fuse_product: Infrared-Gray
+resampled_read: True
+
+available_sectors:
+  static:
+    sector_list:
+      - w_atlantic
+
+outputs:
+  static:
+    requested_sector_type: static
+    output_formatter: imagery_windbarbs_multi_level
+    filename_formatters: ["geoips_fname"]
+    remove_duplicates: null
+    product_names:
+      - DMW-LowMidHigh
+    minimum_coverage: 0.1
+    background_products:
+      config_names: ["abi", "ahi", "seviri"]
+      product_names: ["Visible", "Infrared-Gray"]
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_windbarbs_multi_level

@@ -1,0 +1,12 @@
+bug fix:
+- description: |
+    Mask data with bad lat/lons. This will not only break downstream interpolation
+    but also results in bad start datetimes in the metadata
+
+    Also update how metadata_only impacts the reader behavior. Previously reader would
+    read in all data if metadata_only was True, and also did not properly set the
+    xarray attributes if metadata_only was False.
+  files:
+    modified:
+    - geoips/plugins/modules/readers/atms_hdf5.py
+  title: Bug fix ATMS reader

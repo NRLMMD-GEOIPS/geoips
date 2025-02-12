@@ -1,0 +1,27 @@
+enchancement:
+- description: |
+    Fixed a viirs_sdr_hdf5 bowtie bug, and reflectance channel differences
+    between viirs_netcdf data. Created a GFS GRIB reader and algorithm 
+    to modify, and slice model data. Fixed several bugs, plotting polar
+    data, and sectoring N-dimensional data variables.
+  title: 'Reader functionality and product fixes'
+  files:
+    added:
+      - docs/source/new-docs/concepts/functionality/data_units.rst
+      - geoips/plugins/modules/algorithms/model_channel.py
+      - geoips/plugins/modules/readers/gfs_grib.py
+      - geoips/plugins/yaml/product_defaults/model/model_waves.yaml
+      - geoips/plugins/yaml/product_defaults/model/model_windspeed.yaml
+      - geoips/plugins/yaml/products/gfs_model.yaml
+      - geoips/plugins/yaml/product_defaults/model/model_waves.yaml
+      - geoips/plugins/modules/algorithms/model/model_windbarbs.py
+      - geoips/plugins/yaml/product_defaults/model/model_windbarbs.yaml
+    modified:
+      - geoips/plugins/yaml/products/viirs.yaml
+      - geoips/plugins/modules/readers/viirs_netcdf.py
+      - geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+      - geoips/image_utils/maps.py
+      - geoips/plugins/modules/algorithms/sfc_winds/windbarbs.py
+      - pyproject.toml
+      - geoips/xarray_utils/data.py
+      - geoips/xarray_utils/data.py

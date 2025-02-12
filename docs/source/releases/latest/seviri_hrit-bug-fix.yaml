@@ -1,0 +1,21 @@
+bug fix:
+- title: 'seviri_hrit bug fix'
+  description: |
+    The seviri_hrit reader had a bug caused by meteosat second generation High
+    Resolution Visible (HRV) files. With our new reader updates which allow
+    geostationary readers to handle multiple scan times, we broke the method in which
+    this reader filtered out HRV files. The functionality was the same, but when
+    seviri_hrit:call_single_time was fed a singular file, and that file was HRV, an
+    error would occur in 'get_top_level_metadata'. This is due to the fact that we feed
+    in files to 'call_single_time' individually the first time around to get a list of
+    start datetimes, so we know which files to group together. We need to do the
+    filtering before we call 'call_single_time', and things will work as expected.
+  files:
+    modified:
+      - geoips/plugins/modules/readers/seviri_hrit.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 1/21/25
+    finish: 1/21/25

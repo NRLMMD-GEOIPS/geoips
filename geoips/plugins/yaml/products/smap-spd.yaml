@@ -2,13 +2,20 @@ interface: products
 family: list
 name: smap-spd
 docstring: |
+  SMAP-SPD: Radar frequency is 1.26 GHz. Radar footprint is 29km x 35km. Radar ground resolution is 1-3km. Radiometer frequency 
+  is 1.41 GHz. Radiometer footprint is 39km x 47km. Radiometer ground resolution is 30km. Sun-synchronous. Coverage every 2-3 days. 
+  Swath width is 1000km.
+
+  Used on 
+  SMAP: Soil Moisture Active Passive. 685 km altiude. Orbital Period is 98.5 minutes.
+
   The smap-spd product_inputs configuration, which produces windspeed, unsectored, and sectored products.
 spec:
   products:
     - name: windspeed
       source_names: [smap-spd]
       docstring: |
-        The windspeed product_defaults configuration for smap-spd products.
+        Measures the sea surface wind speed. Can help predict with cloud movements or water vapor, when there are no clouds present.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
