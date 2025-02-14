@@ -9,8 +9,9 @@
 		"dockerfile": "../Dockerfile",
 	},
 	"mounts": [
-		"source=${localEnv:CARTOPY_SHAPEFILES},target=/app/geoips_packages/shapefiles,type=bind,readonly",
-		"source=${localEnv:GEOIPS_TESTDATA_DIR},target=/mnt/geoips_testdata,type=bind,readonly",
+		"source=${localEnv:CARTOPY_SHAPEFILES}/shapefiles,target=/app/geoips_packages/shapefiles,type=bind",//,readonly",
+		"source=${localEnv:CARTOPY_SHAPEFILES}/clone,target=/app/geoips_packages/shapefiles_clone,type=bind",//,readonly",
+		"source=${localEnv:GEOIPS_TESTDATA_DIR},target=/mnt/geoips_testdata,type=bind",//,readonly",
 		"source=${localEnv:GEOIPS_OUTDIRS},target=/output,type=bind",
 		],
 	"workspaceMount": "source=${localWorkspaceFolder},target=/app/geoips_packages/geoips,type=bind",

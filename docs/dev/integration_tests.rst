@@ -117,7 +117,7 @@ In this example, the full node ID for that particular test would be:
 
 ``tests/test_integration.py::test_integ_full_test_script[script=$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh]``
 
-Running the Single Test
+Running a Single Test
 =======================
 
 Once you have identified the specific test’s node ID, you can run just that
@@ -147,7 +147,7 @@ Interpreting Test Results
 
 - **Successful Run**:
   If all tests pass, `pytest` will report a summary at the end indicating
-  success (e.g., `== 53 passed in 30.00m ==`).
+  success (e.g, `== 53 passed in 30.00m ==`).
 
 - **Failures**:
   If any script fails, `pytest` will display a traceback and the relevant
