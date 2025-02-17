@@ -112,14 +112,14 @@ initial setup done:
 
     git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx  # download the remote
     repository
-    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx  # installing the geoips_clavrx
+    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx  # install geoips_clavrx
 
-    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx  # install the clavrx
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx
     test data repo
     $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # run tests to verify geoips-clavrx installation
 
-#. Now, set the following additonal environment variables which are specific to
-   your product plugin development
+#. Set the following additonal environment variables which are specific to
+   your product plugin development.
 
    .. code-block:: shell
 
