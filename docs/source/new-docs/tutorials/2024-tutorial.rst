@@ -23,7 +23,7 @@ that GeoIPS terms a "plugin package". The plugin package can contain one or
 more plugins. It is configured in a special way such that, when it is
 installed, it registers itself and its plugins with GeoIPS.
 
-.. _plugin-vocabulary:
+.. _plugin-vocabulary1:
 
 GeoIPS Plugin Vocabulary
 ************************
@@ -55,7 +55,7 @@ GeoIPS through the use of
    static configuration options for GeoIPS.  Examples of YAML-based plugins
    include ``sectors``, ``products``, and ``feature-annotators``.
 
-.. _required-attributes:
+.. _required-attributes1:
 
 Plugin Attributes:
 ------------------
@@ -86,7 +86,7 @@ product plugin:
    able to see what each plugin does provided the ``docstring`` for that plugin
    is filled.
 
-.. _plugin-development-setup:
+.. _plugin-development-setup1:
 
 Product Plugin Development Initial Setup
 ****************************************
@@ -142,9 +142,9 @@ plugins.
       git clone --no-tags --single-branch $GEOIPS_REPO_URL/template_basic_plugin.git
 
    .. NOTE::
-    If you're not able to move into the directory listed in the above code-block. Verify if the values of
-    environment variable(s) is/are set using the command shown below otherwise check the step three again
-    and if needed take help, we will be using these environment variables again in the development
+    If you're not able to move into the directory listed in the above code-block, verify if the values of
+    environment variables are set using the command shown below. Otherwise, check step three again
+    and seek help if needed.
 
     .. code-block:: shell
 
@@ -329,8 +329,8 @@ This will write some log output. If your script succeeded it will end with
 INTERACTIVE: Return Value 0. To view your output, look for a line that says
 SINGLESOURCESUCCESS. Open the PNG file, it should look like the image below.
 
-.. image:: ../../images/command_line_examples/my_cloud_top_height.png
-   :width: 800
+.. .. image:: ../../images/command_line_examples/my_cloud_top_height.png
+..    :width: 800
 
 Okay! We've developed a plugin which produces CLAVR-x Cloud Top Height. This is
 nice, but what if we want to extend our plugin to produce Cloud Base Height?
@@ -529,5 +529,5 @@ with INFO: Return Value 0. To view your output, look for a line that says
 SINGLESOURCESUCCESS. Open the PNG file to view your Cloud Depth Image! It
 should look like the image shown below.
 
-.. image:: ../../images/command_line_examples/my_cloud_depth.png
-   :width: 800
+.. .. image:: ../../images/command_line_examples/my_cloud_depth.png
+..    :width: 800
