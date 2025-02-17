@@ -105,8 +105,8 @@ initial setup done:
    You will know if geoips environment is enabled if it shows up ahead of your
    username in your command prompt.
 
-#. Next, let's install GeoIPS CLAVR-x package and test the installation. This
-   is needed as we are developing products for GeoIPS CLAVR-x.
+#. Install GeoIPS CLAVR-x package and verify the installation, as this is
+   essential for developing products with GeoIPS CLAVR-x.
 
    .. code-block:: shell
 
@@ -151,7 +151,7 @@ initial setup done:
       echo $MY_PKG_DIR  :  # should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
 #.  Owning tutorial template package: change it's name, set the git branch to
-    main, change it's remote repo URL, and push
+    main, change it's remote repo URL, and push.
 
     .. code-block:: shell
 
@@ -161,8 +161,8 @@ initial setup done:
        git branch -m main
        git push -u origin main
 
-#. Navigate to your Plugins directory and look around. Also, we will change the
-   repo name from ``my_package`` to your own package name
+#. Navigate to your plugins directory and explore its contents. Also, change
+   the repository name from ``my_package`` to your specific package name.
 
    .. code-block:: shell
 
@@ -194,19 +194,14 @@ initial setup done:
 Plugin Product Custom Definition & Development
 **********************************************
 
-Now that initial setup is done, we will first start with installing your bare
-bones version of your plugin. After that we will go hands on in creating a
-product CLAVR-x Cloud-Top-Height.
-
-We are now going to dive into hands-on experience by creating a product
-which lets us edit the package after it is installed. The subsequent edits will
-be reflected in the installed package
+This concludes the initial setup. Next, install the bare-bones version of your
+plugin, followed by development of a CLAVR-x Cloud-Top-Height product.
 
    .. code-block:: python
 
       pip install -e .  # remember there is a period character at the end
 
-#. Copy the template product plugin definition file to new file to modify:
+#. Copy the template product plugin definition file to a new file to modify:
 
    .. code-block:: shell
 
@@ -245,11 +240,12 @@ be reflected in the installed package
 Cloud Top Height Product:
 -------------------------
 
-Now we'll add the ``spec`` portion to the yaml file created in the last step to
-support our new product plugin. ``spec`` is a container for the 'specification'
+Now add the ``spec`` portion to the yaml file created in the last step to
+support new product plugin. ``spec`` is a container for the 'specification'
 of your yaml plugin. In this case, it contains a list of ``products``, as shown
-below. Denoted by the ``family: list`` property shown above, this yaml file
-will contain a list of products, which can be of length 1 if you so desire.
+below. As indicated by the ``family: list`` property shown above, this yaml
+file will contain a list of products, which can be of length 1 if you so
+desire.
 
 Append the code below at the end of yaml file, under the docstring you wrote,
 with no tabs behind it. YAML is a whitespace-based coding language, similar to
@@ -312,11 +308,11 @@ test of package you're developing.
            --sector_list conus
        ss_retval=$?
 
-   As shown above, we define which procflow we want to use, which reader,
-   what product will be displayed, how to output it, which filename formatter will be used,
-   the minimum coverage needed to create an output (% based), as well as the sector used to
-   plot the data. Many more items can be added if wanted. If you'd like some examples of
-   that, feel free to peruse the `GeoIPS Scripts Directory
+   As shown above, you can specify the desired procflow, reader, and product
+   to be displayed. Additionally, you can define the output method, filename
+   formatter, and set the minimum coverage percentage required to generate an
+   output, and choose the sector for data plotting. Additonal items can be
+   added if desired. For examples, feel free to peruse the `GeoIPS Scripts Directory
    <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts>`_.
 
 #. Run your test script as shown below to produce Cloud Top Height Imagery:
@@ -331,9 +327,9 @@ SINGLESOURCESUCCESS. Open the PNG file, it should look like the image below.
 .. .. image:: ../../images/command_line_examples/my_cloud_top_height.png
 ..    :width: 800
 
-Okay! We've developed a plugin which produces CLAVR-x Cloud Top Height. This is
-nice, but what if we want to extend our plugin to produce Cloud Base Height?
-What about Cloud Depth? Using the method shown above, we're going to extend our
+Okay! you've developed a plugin which produces CLAVR-x Cloud Top Height. This
+is nice, but what if you want to extend our plugin to produce Cloud Base
+Height? What about Cloud Depth? Using the method shown above, you can configure
 my_clavrx_products.yaml to produce just that.
 
 Cloud Base Height Product:
@@ -383,8 +379,8 @@ after completing this tutorial.
 Cloud Depth Product:
 --------------------
 
-Now that we have products for both Cloud Top Height and Cloud Base Height,
-we can develop a product that produces Cloud Depth. To do so, use your
+Now that you have products for both Cloud Top Height and Cloud Base Height,
+you can develop a product that produces Cloud Depth. To do so, use your
 definitions of My-Cloud-Top-Height and My-Cloud-Base-Height as examples, create
 a product definition for My-Cloud-Depth.
 ::
@@ -426,11 +422,11 @@ Edit my_clavrx_products.yaml. Here is a helful hint to get you started:
           spec:
             variables: ["cld_height_acha", "cld_height_base", "latitude", "longitude"]
 
-We now have two variables, but if we examine the `Cloud-Height Product Defaults
+You now have two variables, but if you examine the `Cloud-Height Product Defaults
 <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
-we see that it uses the ``single_channel`` algorithm. This doesn't work for our use case,
-since the ``single_channel`` algorithm just manipulates a single data variable and
-plots it. Therefore, we need a new algorithm! See the
+you will see that it uses the ``single_channel`` algorithm. This doesn't work
+for this use case, since the ``single_channel`` algorithm just manipulates a
+single data variable and plots it. Therefore, you need a new algorithm! See the
 :ref:`Algorithms Section<add-an-algorithm>` to keep moving forward with this turorial.
 
 .. _cloud-depth-product1:
@@ -439,14 +435,15 @@ Using Your Cloud Depth Product
 ------------------------------
 
 Note: Before moving forward in this section, make sure you've completed
-:ref:`creating a new algorithm<add-an-algorithm>`. We are going to modify our Cloud
-Depth product to use the algorithm we just created.
+:ref:`creating a new algorithm<add-an-algorithm>`. Next, modify the Cloud
+Depth product to utilize the newly created algorithm.
 
-Now that we've created our cloud depth algorithm, we need to implement it in
-our cloud depth product. As shown in the :ref:`Product Defaults Section<create-product-defaults>`,
-we can override the product defaults specified to our own specification. To do so,
-modify ``My-Cloud-Depth`` product in my_clavrx_products.yaml to the code block shown
-below.
+To integrate the newly created cloud depth algorithm into Cloud Depth product,
+modify the ``My-Cloud-Depth `` entry in your my_clavrx_products.yaml file. As
+detailed in the :ref:`Product Defaults Section<create-product-defaults>`,
+you can override the default product settings to align with your specific
+requirements. Update the ``My-Cloud-Depth`` product configuration in
+my_clavrx_products.yaml as shown below:
 
 .. code-block:: yaml
 
@@ -485,23 +482,21 @@ below.
                   output_data_range: [0, 20]
                   scale_factor: 0.001
 
-The changes shown above modify My-Cloud-Depth to use our ``my_cloud_depth``
-algorithm that we created. If we left this portion unchanged, My-Cloud-Depth
-would use the ``single_channel`` algorithm, which is unfit for our purposes. We
-also added two other arguments, ``output_data_range`` ands ``scale_factor``,
-which override the Cloud-Height product defaults arguments for those two
-variables. Output data range of [0, 20] states that our data will be in the
-range of zero to twenty, and the scale factor says that we are scaling our data
-to be in kilometers.
+The changes shown above modify My-Cloud-Depth to the newly created
+``my_cloud_depth`` algorithm. If you leave this portion unchanged,
+My-Cloud-Depth would use the ``single_channel`` algorithm, which is unfit for
+intended purposes. Additionally, two other arguments, ``output_data_range`` and
+``scale_factor`` override the Cloud-Height product defaults arguments.
+Output data range of [0, 20] states that the  data will be in the range of zero
+to twenty, and the scale factor specifies data scaling to be in kilometers.
 
-To use this modified My-Cloud-Depth product, follow the series of commands. We
-will be creating a new test script which implements our new changes.
+Create a new test script to validate the My-Cloud-Depth product.
 ::
 
     cd $MY_PKG_DIR/tests/scripts
     cp clavrx.conus_annotated.my-cloud-top-height.sh clavrx.conus_annotated.my-cloud-depth.sh
 
-Now we need to edit ``clavrx.conus_annotated.my-cloud-depth.sh`` to implement
+Edit ``clavrx.conus_annotated.my-cloud-depth.sh`` to implement
 ``My-Cloud-Depth`` rather than ``My-Cloud-Top-Height``. Your new test script should look
 like the code shown below.
 
@@ -517,8 +512,7 @@ like the code shown below.
       --sector_list conus
   ss_retval=$?
 
-Nice! Now all we need to do is run our script. This will display Cloud Depth
-over the CONUS sector. To do so, run the command below.
+Execute the script to diplay Cloud Depth over the CONUS sector.
 ::
 
     $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-depth.sh
