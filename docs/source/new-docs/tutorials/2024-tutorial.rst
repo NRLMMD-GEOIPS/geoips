@@ -100,7 +100,7 @@ initial setup done:
 
    .. code-block:: shell
 
-    mamba activate geoips # activating python envrionment
+    mamba activate geoips  # activating python envrionment
 
    You will know if geoips environment is enabled if it shows up ahead of your
    username in your command prompt.
@@ -110,22 +110,22 @@ initial setup done:
 
    .. code-block:: shell
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx # download the remote
+    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx  # download the remote
     repository
-    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx # installing the geoips_clavrx
+    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx  # installing the geoips_clavrx
 
-    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx      # Install the clavrx
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx  # install the clavrx
     test data repo
-    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # Run tests to verify geoips-clavrx installation
+    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # run tests to verify geoips-clavrx installation
 
 #. Now, set the following additonal environment variables which are specific to
    your product plugin development
 
    .. code-block:: shell
 
-      export MY_PKG_NAME=<your package name>    #read the note below for your package name,
-      export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME    #your package directory
-      export MY_PKG_URL=<your package’s URL on version control platform(GitLab)> #your package VCS url
+      export MY_PKG_NAME=<your package name>  # read the note below for your package name,
+      export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME  # your package directory
+      export MY_PKG_URL=<your package’s URL on version control platform(GitLab)>  # your package VCS url
 
    .. NOTE::
       Select a package name that is all lowercase, begins with a letter, and
@@ -138,18 +138,18 @@ plugins.
 
    .. code-block:: shell
 
-      cd $GEOIPS_PACKAGES_DIR         #Go to your package directory
+      cd $GEOIPS_PACKAGES_DIR  # go to your package directory
       git clone --no-tags --single-branch $GEOIPS_REPO_URL/template_basic_plugin.git
 
    .. NOTE::
-    If you're not able to move into the directory listed in the above code-block, verify if the values of
-    environment variables are set using the command shown below. Otherwise, check step three again
-    and seek help if needed.
+    If you're not able to move into the directory listed in the above code-block, verify
+    that the environment variables are set using the commands shown below. Otherwise,
+    check step three again and seek help if needed.
 
     .. code-block:: shell
 
-      echo $MY_PKG_NAME : #should reflect your package name
-      echo $MY_PKG_DIR  : #should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
+      echo $MY_PKG_NAME :  # should reflect your package name
+      echo $MY_PKG_DIR  :  # should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
 #.  Owning tutorial template package: change it's name, set the git branch to
     main, change it's remote repo URL, and push
@@ -262,11 +262,11 @@ Python in that aspect.
       products:
         - name: My-Cloud-Top-Height      # name of the product you're defining
           source_names: [clavrx]         # defined as metadata in the corresponding reader
-          docstring: |                   # Pipe says to YAML this will be a multiline comment
+          docstring: |                   # pipe says to YAML this will be a multiline comment
             CLAVR-x Cloud Top Height
           product_defaults: Cloud-Height # see the Product Defaults section for more info
           spec:
-            # Variables are the required parameters needed for the product generation
+            # variables are the required parameters needed for the product generation
             variables: ["cld_height_acha", "latitude", "longitude"]
 
 Script to Visualize Your Product
