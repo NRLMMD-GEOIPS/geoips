@@ -100,7 +100,7 @@ initial setup done:
 
    .. code-block:: shell
 
-    mamba activate geoips  # activating python envrionment
+    mamba activate geoips  # activating Python environment
 
    You will know if geoips environment is enabled if it shows up ahead of your
    username in your command prompt.
@@ -110,12 +110,10 @@ initial setup done:
 
    .. code-block:: shell
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx  # download the remote
-    repository
+    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx  # clone the remote repository
     pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx  # install geoips_clavrx
 
-    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx
-    test data repo
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx  # download test data for geoips-clavrx
     $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # run tests to verify geoips-clavrx installation
 
 #. Set the following additonal environment variables which are specific to
@@ -123,7 +121,7 @@ initial setup done:
 
    .. code-block:: shell
 
-      export MY_PKG_NAME=<your package name>  # read the note below for your package name,
+      export MY_PKG_NAME=<your package name>  # refer to the note below regarding your package name
       export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME  # your package directory
       export MY_PKG_URL=<your package’s URL on version control platform(GitLab)>  # your package VCS url
 
