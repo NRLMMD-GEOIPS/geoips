@@ -41,18 +41,17 @@ GeoIPS through the use of
 
 Module-based Plugin
 -------------------
-A module-based plugin is a plugin that extends GeoIPS by adding new
-functionality that is capable of performing an action (e.g. apply an algorithm,
-read data, apply formatting, etc.).  Module-based plugins are defined as a
-single python module that contains a handful of required top-level variables and
-a single function that performs the action of the plugin. Examples of
-module-based plugins include ``algorithms``, ``readers``, and various types of
-formatters.
+A module-based plugin extends GeoIPS by adding new functionality capable of
+performing specific actions, such as applying an algorithm, read data, or
+formatting outputs. These plugins are defined as a single python modules
+containing a few required top-level variables and a function that executes the
+plugin's action. Examples of module-based plugins include ``algorithms``,
+``readers``, and various types of formatters.
 
 YAML-based Plugin
 -----------------
-A YAML-based plugin is a plugin that extends GeoIPS by adding a new set of
-static configuration options for GeoIPS.  Examples of YAML-based plugins include
+A YAML-based plugin extends GeoIPS by adding a new set of static configuration
+options for GeoIPS.  Examples of YAML-based plugins include
 ``sectors``, ``products``, and ``feature-annotators``.
 
 .. _required-attributes:
