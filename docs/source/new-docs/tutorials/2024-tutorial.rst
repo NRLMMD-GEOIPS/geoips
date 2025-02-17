@@ -39,21 +39,20 @@ Plugins are stored in installable Python packages that register their payload wi
 GeoIPS through the use of
 `entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
 
-#. Module-based Plugin
+Module-based Plugin
+-------------------
+A module-based plugin extends GeoIPS by adding new functionality capable of
+performing specific actions, such as applying an algorithm, read data, or
+formatting outputs. These plugins are defined as a single python modules
+containing a few required top-level variables and a function that executes the
+plugin's action. Examples of module-based plugins include ``algorithms``,
+``readers``, and various types of formatters.
 
-   A module-based plugin is a plugin that extends GeoIPS by adding new
-   functionality that is capable of performing an action (e.g. apply an
-   algorithm, read data, apply formatting, etc.).  Module-based plugins are
-   defined as a single python module that contains a handful of required
-   top-level variables and a single function that performs the action of the
-   plugin. Examples of module-based plugins include ``algorithms``,
-   ``readers``, and various types of formatters.
-
-#. YAML-based Plugin
-
-   A YAML-based plugin is a plugin that extends GeoIPS by adding a new set of
-   static configuration options for GeoIPS.  Examples of YAML-based plugins
-   include ``sectors``, ``products``, and ``feature-annotators``.
+YAML-based Plugin
+-----------------
+A YAML-based plugin extends GeoIPS by adding a new set of static configuration
+options for GeoIPS.  Examples of YAML-based plugins include
+``sectors``, ``products``, and ``feature-annotators``.
 
 .. _required-attributes1:
 
@@ -94,16 +93,16 @@ Product Plugin Development Initial Setup
 Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the
 initial setup done:
 
-#. To develop a new GeoIPS plugin, install :ref:`GeoIPS<linux-installation>`
-   and make sure that you have ``geoips`` Python environment enabled throughout
-   this tutorial using
+#. To develop a new GeoIPS plugin, first install :ref:`GeoIPS<linux-installation>`
+   and ensure that the ``geoips`` Python environment is enabled throughout this
+   tutorial.
 
    .. code-block:: shell
 
     mamba activate geoips  # activating Python environment
 
-   You will know if geoips environment is enabled if it shows up ahead of your
-   username in your command prompt.
+   You will know the geoips conda environment is enabled if (geoips) appears before
+   your username in the command prompt.
 
 #. Install GeoIPS CLAVR-x package and verify the installation, as this is
    essential for developing products with GeoIPS CLAVR-x.
