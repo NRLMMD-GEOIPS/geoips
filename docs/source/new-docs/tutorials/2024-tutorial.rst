@@ -131,10 +131,11 @@ initial setup done:
       Select a package name that is all lowercase, begins with a letter, and
       sticks to just letters, numbers, and underscores.
 
-#. Navigate to your product plugin directory and clone the example repository of customized plugin development,
-`Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_ that would guide us through
-the process of creating a new plugin package containing one or more custom
-plugins.
+#. Navigate to your product plugin directory and clone the example repository
+   of customized plugin development, `Template Basic Plugin
+   <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_. This
+   repository serves as a base for building a new plugin package that contains
+   one or more custom plugins.
 
    .. code-block:: shell
 
