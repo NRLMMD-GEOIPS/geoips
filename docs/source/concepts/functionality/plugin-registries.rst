@@ -50,7 +50,6 @@ by including the quoted portion of the code below.
     source ~/.bashrc
     conda activate geoips
 
-
 When to Create/Update Plugin Registries
 ---------------------------------------
 The plugin registries must be created/updated any time one of the following
@@ -60,11 +59,6 @@ occurs:
 * A new plugin package is installed or reinstalled
 * A plugin package is uninstalled
 * An individual plugin is added, edited, or removed
-
-.. note::
-    We hope to automate the process of creating/updating the plugin registries
-    in the future to avoid requiring the user to directly call
-    ``create_plugin_registries``.
 
 How to Create/Update the Plugin Registries
 ------------------------------------------
