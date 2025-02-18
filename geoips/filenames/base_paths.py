@@ -92,6 +92,13 @@ def initialize_paths():
         "GEOIPS_BASEDIR",
         os.path.abspath(os.path.join(paths["GEOIPS_PACKAGES_DIR"], os.pardir)),
     )
+    paths["GEOIPS_REBUILD_REGISTRIES"] = get_env_var(
+        "GEOIPS_REBUILD_REGISTRIES",
+        True,
+    )
+    # Convert the string to a bool
+    if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
+        paths["GEOIPS_REBUILD_REGISTRIES"] = False
 
     # Identify defaults for global GeoIPS variables.  The actual values for
     # these variables will be set using get_env_var below.
@@ -153,6 +160,10 @@ def initialize_paths():
         paths["BASE_PATH"]: {
             "TC_TEMPLATE": "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
         },
+        paths["GEOIPS_REBUILD_REGISTRIES"]: {
+            "GEOIPS_REBUILD_REGISTRIES_TRUE": True,
+            "GEOIPS_REBUILD_REGISTRIES_FALSE": False,
+        },
     }
 
     # looping through all the directory-based paths and global variables set above
@@ -167,7 +178,10 @@ def initialize_paths():
         sub_directories,
     ) in default_derivative_directory_path_defaults.items():
         for key, sub_path in sub_directories.items():
-            paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
+            if "GEOIPS_REBUILD_REGISTRIES" in key:
+                paths[key] = get_env_var(key, sub_path, rstrip_path=False)
+            else:
+                paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
 
     # Handling special cases now: home for linux/windows
     if not os.getenv("HOME"):

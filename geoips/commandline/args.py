@@ -258,6 +258,18 @@ def add_args(parser, arglist=None, legacy=False):
             help="""Specify logging config level for GeoIPS commands.""",
             type=str.upper,
         )
+    if arglist is None or "rebuild_registries" in arglist:
+        parser.add_argument(
+            "--rebuild_registries",
+            type=bool,
+            choices=[True, False],
+            # Will default to $GEOIPS_REBUILD_REGISTRIES if set, else True
+            default=getenv("GEOIPS_REBUILD_REGISTRIES", True),
+            help=(
+                "Whether or not you want to rebuild plugin registries if you encounter "
+                "a failure when retrieving a plugin."
+            ),
+        )
 
     sect_group = parser.add_argument_group(
         title="Sector Requests: General arguments for sectors"

@@ -1,0 +1,40 @@
+Refactoring Updates:
+- description: |
+    *From GEOIPS#647: 2024-06-19, Automating ``create_plugin_registries``*
+
+    The command 'create_plugin_registries' has greatly improved the time it takes to
+    operate GeoIPS under the hood. This is because all plugins are no longer loaded into
+    memory, as we can now traverse a plugin registry to load the exact plugins we need
+    to, when we need them. Unfortuneately, this requires the user to run
+    'create_plugin_registries' anytime a new plugin has been added to one or more plugin
+    packages. We've been thinking for a long time of how to automate this process, and
+    this update does just that.
+
+    'create_plugin_registries' can now either be ran manually, or will attempt to be
+    done automatically by GeoIPS when a plugin is requested. It will be done
+    automatically if a user calls 'get_plugin' using the 'rebuild_registries=True'
+    keyword argument. If a user has no registries in any of their plugin packages, then
+    this is ran the first time get_plugin is called when certain attributes of the
+    associated interface are being initialized.
+
+    If the registries already exist, but a plugin is missing or seemingly out of sync,
+    then 'create_plugin_registries' will be ran, and get_plugin will be called again. If
+    the failure persists, then it is likely a problem on the user's end that they need
+    to fix before running GeoIPS. Now, users no longer have to run
+    'create_plugin_registries', unless they choose to do so manually.
+  files:
+    added:
+      - tests/unit_tests/plugins/test_get_plugin.py
+    modified:
+      - docs/source/concepts/functionality/plugin-registries.rst
+      - geoips/commandline/args.py
+      - geoips/commandline/geoips_run.py
+      - geoips/commandline/geoips_test.py
+      - geoips/filenames/base_paths.py
+      - geoips/interfaces/base.py
+      - geoips/interfaces/module_based/output_checkers.py
+      - geoips/interfaces/yaml_based/products.py
+  related-issue:
+    number: 647
+    repo_url: https://github.com/NRLMMD-GEOIPS/geoips/
+  title: Automate ``create_plugin_registries``
