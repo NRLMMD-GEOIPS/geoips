@@ -1,0 +1,18 @@
+documentation:
+  - title: "Web Documentation for the GeoIPS Tutorial"
+    description: "Tutorial on developing GeoIPS plugins for product generation using CLAVR-x"
+    files:
+      deleted:
+        - "geoips/geoips/docs/source/new-docs/tutorials/2023-tutorial.rst"
+      moved:
+        - ""
+      added:
+        - "geoips/geoips/docs/source/new-docs/tutorials/2024-tutorial.rst"
+      modified:
+        - "geoips/geoips/docs/source/userguide/index.rst"
+    related-issue:
+      number: 615
+      repo_url: ""
+    date:
+      start: null
+      finish: null
