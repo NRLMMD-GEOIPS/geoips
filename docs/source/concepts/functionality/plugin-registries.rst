@@ -47,6 +47,8 @@ by including the quoted portion of the code below.
 .. code:: bash
 
     echo "export GEOIPS_REBUILD_REGISTRIES=0" >> ~/.bashrc
+    source ~/.bashrc
+    conda activate geoips
 
 
 When to Create/Update Plugin Registries
