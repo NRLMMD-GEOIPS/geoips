@@ -23,67 +23,8 @@ that GeoIPS terms a "plugin package". The plugin package can contain one or
 more plugins. It is configured in a special way such that, when it is
 installed, it registers itself and its plugins with GeoIPS.
 
-.. _plugin-vocabulary1:
-
-GeoIPS Plugin Vocabulary
-************************
-
-Plugin
-------
-A GeoIPS plugin is used to develop a new product by using/extending GeoIPS
-through a Python module or a YAML file. By product we mean development of a
-new functionality using GeoIPS as a base. The type (Python module / YMAL) of
-the product plugin is determined by its interface.
-
-Plugins are stored in installable Python packages that register their payload with
-GeoIPS through the use of
-`entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
-
-Module-based Plugin
--------------------
-A module-based plugin extends GeoIPS by adding new functionality capable of
-performing specific actions, such as applying an algorithm, read data, or
-formatting outputs. These plugins are defined as a single python modules
-containing a few required top-level variables and a function that executes the
-plugin's action. Examples of module-based plugins include ``algorithms``,
-``readers``, and various types of formatters.
-
-YAML-based Plugin
------------------
-A YAML-based plugin extends GeoIPS by adding a new set of static configuration
-options for GeoIPS.  Examples of YAML-based plugins include
-``sectors``, ``products``, and ``feature-annotators``.
-
-.. _required-attributes1:
-
-Plugin Attributes:
-------------------
-
-The following are the top level attributes required while defining a new
-product plugin:
-
-#. Interface
-
-   An ``interface`` defines a class of GeoIPS plugins that extend the same type
-   of functionality within GeoIPS. For example, some commonly used interfaces
-   include the ``algorithms``, ``colormappers``, and ``sectors`` interfaces.
-
-#. Family
-
-   A ``family`` is a subset of an interface's plugins which accept specific
-   sets of arguments/properties. Module-based plugins of the same ``family``
-   have similar call signatures. YAML-based plugins of the same ``family`` are
-   validated against the same schema (i.e. they contain the same properties).
-
-#. Docstring
-
-   A ``docstring`` is a chunk of documentation which describes what your plugin
-   does. This property is required for every GeoIPS plugin created,
-   module-based or YAML-based. We require this property for proper
-   documentation of created plugins, and it will also be a useful feature later
-   on when the GeoIPS Command Line Interface (CLI) is created, as you will be
-   able to see what each plugin does provided the ``docstring`` for that plugin
-   is filled.
+Recommended refresher reading on :ref:`plugin-vocabulary` and
+:ref:`required-attributes` before moving ahead.
 
 .. _plugin-development-setup1:
 
