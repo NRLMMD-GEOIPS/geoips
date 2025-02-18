@@ -264,8 +264,8 @@ This will write some log output. If your script succeeded it will end with
 INTERACTIVE: Return Value 0. To view your output, look for a line that says
 SINGLESOURCESUCCESS. Open the PNG file, it should look like the image below.
 
-.. .. image:: ../../images/command_line_examples/my_cloud_top_height.png
-..    :width: 800
+.. image:: ../../tutorials/extending-with-plugins/product/my_cloud_top_height.png
+   :width: 800
 
 Okay! you've developed a plugin which produces CLAVR-x Cloud Top Height. This
 is nice, but what if you want to extend our plugin to produce Cloud Base
@@ -369,8 +369,6 @@ for this use case, since the ``single_channel`` algorithm just manipulates a
 single data variable and plots it. Therefore, you need a new algorithm! See the
 :ref:`Algorithms Section<add-an-algorithm>` to keep moving forward with this turorial.
 
-.. _cloud-depth-product1:
-
 Using Your Cloud Depth Product
 ------------------------------
 
@@ -462,5 +460,5 @@ with INFO: Return Value 0. To view your output, look for a line that says
 SINGLESOURCESUCCESS. Open the PNG file to view your Cloud Depth Image! It
 should look like the image shown below.
 
-.. .. image:: ../../images/command_line_examples/my_cloud_depth.png
-..    :width: 800
+.. image:: ../../tutorials/extending-with-plugins/product/my_cloud_depth.png
+   :width: 800
