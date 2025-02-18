@@ -60,47 +60,26 @@ options for GeoIPS.  Examples of YAML-based plugins include
 Plugin Attributes:
 ------------------
 
+The following are the top-level plugin attributes. Any required attribute will
+be explicitly stated.
+
 #. Interface
 
-   An ``interface`` defines a class of GeoIPS plugins that extend the same type
-   of functionality within GeoIPS. For example, some commonly used interfaces
-   include the ``algorithms``, ``colormappers``, and ``sectors`` interfaces.
+   **Required.** An ``interface`` defines a class of GeoIPS plugins that extend
+   the same type of functionality within GeoIPS. For example, some commonly
+   used interfaces include the ``algorithms``, ``colormappers``, and
+   ``sectors`` interfaces.
 
-#. Family
+#. Family (Required)
 
-   A ``family`` is a subset of an interface's plugins which accept specific
-   sets of arguments/properties. Module-based plugins of the same ``family``
-   have similar call signatures. YAML-based plugins of the same ``family`` are
-   validated against the same schema (i.e. they contain the same properties).
+   **Required.** A ``family`` is a subset of an interface's plugins which
+   accept specific sets of arguments/properties. Module-based plugins of the
+   same ``family`` have similar call signatures. YAML-based plugins of the same
+   ``family`` are validated against the same schema (i.e. they contain the same
+   properties).
 
-#. Docstring
+#. Docstring (Required)
 
-   A ``docstring`` is a block of documentation that describes a plugin's
-   functionality. It is required for all GeoIPS plugins, whether
+   **Required.** A ``docstring`` is a block of documentation that describes a
+   plugin's functionality. It is required for all GeoIPS plugins, whether
    module-based or YAML-based, to ensure proper documentation.
-
-
-Interface
----------
-
-An ``interface`` defines a class of GeoIPS plugins that extend the same type of
-functionality within GeoIPS. For example, some commonly used interfaces
-include the ``algorithms``, ``colormappers``, and ``sectors`` interfaces.
-
-Family
-------
-
-A ``family`` is a subset of an interface's plugins which accept specific sets
-of arguments/properties. Module-based plugins of the same ``family`` have
-similar call signatures. YAML-based plugins of the same ``family`` are
-validated against the same schema (i.e. they contain the same properties).
-
-Docstring
----------
-
-A ``docstring`` is a chunk of documentation which describes what your plugin
-does. This property is required for every GeoIPS plugin created, module-based
-or YAML-based. We require this property for proper documentation of created
-plugins, and it will also be a useful feature later on when the GeoIPS Command
-Line Interface (CLI) is created, as you will be able to see what each plugin
-does provided the ``docstring`` for that plugin is filled.
