@@ -30,6 +30,29 @@ family = "standard"
 name = "fci_netcdf"
 source_names = ["fci"]
 
+# Used to convert from wavenumber (mW·m⁻²·sr⁻¹·(cm⁻¹)⁻¹)
+# to wavelength (W·m⁻²·sr⁻¹·µm⁻¹)
+RADIANCE_CONVERSION_COEFFICIENTS = {
+    "B01Rad": 50.26570892,
+    "B02Rad": 38.74919891,
+    "B03Rad": 24.66601944,
+    "B04Rad": 13.51755047,
+    "B05Rad": 11.98462009,
+    "B06Rad": 5.261388779,
+    "B07Rad": 3.84947896,
+    "B08Rad": 1.965775013,
+    "B09Rad": 0.697183013,
+    "B10Rad": 0.2536683083,
+    "B11Rad": 0.1817249954,
+    "B12Rad": 0.1306722015,
+    "B13Rad": 0.1071347967,
+    "B14Rad": 0.0899727419,
+    "B15Rad": 0.06602230668,
+    "B16Rad": 0.05665054172,
+    "HRB03Rad": 24.66601944,
+    "HRB09Rad": 0.697183013,
+    "HRB14Rad": 0.0899727419,
+}
 
 DATASET_INFO = {
     # HIGH resolution = 0.5km at nadir
@@ -286,12 +309,15 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
         del scn[rchan]
     # Resample all variables in this scene to the finest resolution area definition
     # found. scn.resample() defaults to scn.finest_area()
-    scn = scn.resample()
+    # Renaming to a new variable due to a bug raised here:
+    # https://github.com/pytroll/satpy/issues/2909
+    resampled_scn = scn.resample()
     LOG.interactive("Resampled scene to finest resolution.")
     if area_def:
-        scn = scn.crop(area=area_def)
-    xr = scn.to_xarray_dataset()
-    lons, lats = scn.finest_area().get_lonlats()
+        resampled_scn = resampled_scn.crop(area=area_def)
+
+    xr = resampled_scn.to_xarray_dataset()
+    lons, lats = resampled_scn.finest_area().get_lonlats()
     # Mask inf values with -999.9 for compatibility with get_geolocation func
     lons[np.isinf(lons)] = -999.9
     lats[np.isinf(lats)] = -999.9
@@ -309,6 +335,9 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
         # unprojected output
         LOG.debug("Flipping data for %s", dkey)
         xr[dkey].data = np.flipud(xr[dkey].compute().data)
+        # Convert from wavenumber to wavelength
+        if dkey.endswith("Rad"):
+            xr[dkey].data = xr[dkey].data * RADIANCE_CONVERSION_COEFFICIENTS[dkey]
 
     # Temporarily convert reflectances from % ranging from 0-100 to 0-1
     # This is required until gamma correction can handle reflecances from 0-100
