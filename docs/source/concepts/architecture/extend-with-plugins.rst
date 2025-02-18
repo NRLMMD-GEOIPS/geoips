@@ -32,8 +32,8 @@ GeoIPS Plugin Vocabulary
 Plugin
 ------
 A GeoIPS plugin may be either a Python module or a YAML file that extends
-GeoIPS with new functionality. Whether a plugin is a Python module or a YAML
-file is determined by its interface.
+GeoIPS with new functionality. The type (Python module / YMAL) of
+the product plugin is determined by its interface.
 
 Plugins are stored in installable Python packages that register their payload with
 GeoIPS through the use of
@@ -55,6 +55,30 @@ options for GeoIPS.  Examples of YAML-based plugins include
 ``sectors``, ``products``, and ``feature-annotators``.
 
 .. _required-attributes:
+
+
+Plugin Attributes:
+------------------
+
+#. Interface
+
+   An ``interface`` defines a class of GeoIPS plugins that extend the same type
+   of functionality within GeoIPS. For example, some commonly used interfaces
+   include the ``algorithms``, ``colormappers``, and ``sectors`` interfaces.
+
+#. Family
+
+   A ``family`` is a subset of an interface's plugins which accept specific
+   sets of arguments/properties. Module-based plugins of the same ``family``
+   have similar call signatures. YAML-based plugins of the same ``family`` are
+   validated against the same schema (i.e. they contain the same properties).
+
+#. Docstring
+
+   A ``docstring`` is a block of documentation that describes a plugin's
+   functionality. It is required for all GeoIPS plugins, whether
+   module-based or YAML-based, to ensure proper documentation.
+
 
 Interface
 ---------
