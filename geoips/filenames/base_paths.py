@@ -96,6 +96,9 @@ def initialize_paths():
         "GEOIPS_REBUILD_REGISTRIES",
         True,
     )
+    # Convert the string to a bool
+    if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
+        paths["GEOIPS_REBUILD_REGISTRIES"] = False
 
     # Identify defaults for global GeoIPS variables.  The actual values for
     # these variables will be set using get_env_var below.
