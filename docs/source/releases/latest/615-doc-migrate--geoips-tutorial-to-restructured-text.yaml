@@ -10,6 +10,7 @@ documentation:
         - "geoips/geoips/docs/source/new-docs/tutorials/2024-tutorial.rst"
       modified:
         - "geoips/geoips/docs/source/userguide/index.rst"
+        - "geoips/geoips/docs/source/concepts/architecture/extend-with-plugins.rst"
     related-issue:
       number: 615
       repo_url: ""
