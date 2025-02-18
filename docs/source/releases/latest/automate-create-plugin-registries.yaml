@@ -26,6 +26,7 @@ Refactoring Updates:
     added:
       - tests/unit_tests/plugins/test_get_plugin.py
     modified:
+      - docs/source/concepts/functionality/plugin-registries.rst
       - geoips/commandline/args.py
       - geoips/commandline/geoips_run.py
       - geoips/commandline/geoips_test.py
