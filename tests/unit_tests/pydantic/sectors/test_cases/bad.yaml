@@ -1,0 +1,478 @@
+interface: sectors
+family: area_definition_static
+name: docstring_missing_period
+docstring: "Local Area Sector for GeoKompsat (Korea)"
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: docstring_lowercase_first_letter
+docstring: "local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: docstring_invalid_first_character
+docstring: "1ocal Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: metadata_invalid_type
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: 8912
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: metadata_missing_key
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    # continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_missing_key
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  # area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_invalid_key
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: 8912
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_invalid_projection
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    # a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_invalid_resolution
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    # - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_invalid_shape
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    # height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_invalid_center
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0]
+---
+interface: sectors
+family: area_definition_static
+name: spec_invalid_area_extent
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  area_extent:
+    # lower_left_xy: [-10000000, -10000000]
+    upper_right_xy: [10000000, 10000000]
+---
+interface: sectors
+family: area_definition_static
+name: missing_relpath
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: missing_abspath
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+package: "geoips"
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
+---
+interface: sectors
+family: area_definition_static
+name: missing_package
+docstring: "Local Area Sector for GeoKompsat (Korea)."
+metadata:
+  region:
+    continent: Asia
+    country: Korea
+    area: x
+    subarea: x
+    state: x
+    city: x
+abspath: /home/evan/geoips/geoips_packages/geoips/tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+relpath: tests/unit_tests/pydantic/sectors/test_cases/bad.yaml
+spec:
+  area_id: korea
+  description: Korea
+  projection:
+    a: 6371228.0
+    lat_0: 37.3491
+    lon_0: 127.5288
+    proj: eqc
+    units: m
+  resolution:
+    - 1000
+    - 1000
+  shape:
+    height: 1500
+    width: 1500
+  center: [0, 0]
