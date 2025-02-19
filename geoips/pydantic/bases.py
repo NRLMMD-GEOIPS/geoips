@@ -54,7 +54,7 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        return self.model_dump_json(indent=2)
+        return self.model_dump_json(indent=2, exclude_unset=True)
 
 
 class StaticBaseModel(PrettyBaseModel):
