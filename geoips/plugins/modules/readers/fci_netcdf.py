@@ -30,6 +30,8 @@ family = "standard"
 name = "fci_netcdf"
 source_names = ["fci"]
 
+# Needed until the satpy devs can fix this issue:
+# https://github.com/pytroll/satpy/issues/3067
 # Used to convert from wavenumber (mW·m⁻²·sr⁻¹·(cm⁻¹)⁻¹)
 # to wavelength (W·m⁻²·sr⁻¹·µm⁻¹)
 RADIANCE_CONVERSION_COEFFICIENTS = {
@@ -312,6 +314,10 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
     # Renaming to a new variable due to a bug raised here:
     # https://github.com/pytroll/satpy/issues/2909
     resampled_scn = scn.resample()
+    # Likely that we want to take a different approach on this. It'd be nice to have
+    # multiple xarray datasets, where each dataset differs by it's resolution. Similar
+    # to abi_netcdf's LOW, MED, HIGH. Likely will need to create multiple scenes
+    # for that to work.
     LOG.interactive("Resampled scene to finest resolution.")
     if area_def:
         resampled_scn = resampled_scn.crop(area=area_def)
