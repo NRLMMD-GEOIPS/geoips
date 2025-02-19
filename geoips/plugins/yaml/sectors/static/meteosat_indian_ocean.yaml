@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: meteosat_indian_ocean
-docstring: "Meteosat-Indian-Ocean Coverage"
+docstring: "Meteosat-Indian-Ocean Coverage."
 metadata:
   region:
     continent: Global

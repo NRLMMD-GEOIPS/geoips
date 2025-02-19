@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: middle_east
-docstring: "Middle Eastern Region"
+docstring: "Middle Eastern Region."
 metadata:
   region:
     continent: Asia
