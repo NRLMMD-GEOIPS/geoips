@@ -1,0 +1,30 @@
+performance:
+- description: |
+    Added support for a new a new product/product_defaults family called
+    unsectored_xarray_dict_to_algorithm_to_output_format. Additionally, modified output
+    formatter plugin 'unprojected_image' for 3D data. If 3D data is specified, then this
+    output formatter will produce a series of 2D slices for each level of the 3D data.
+
+    While family 'unsectored_xarray_dict_to_algorithm_to_output_format' was referenced
+    in single_source.py, there was no actual schema that supported this family.
+    Therefore, we've created that new schema, and updated parts of single_source to
+    support using the 'unprojected_image' output formatter for this new family. All in
+    all, by making use of these changes, we can avoid using the procflow arguments
+    'self_register_dataset' and 'self_register_source', which would reproject geospatial
+    datasets onto themselves. This was inefficent, and depending on the size of the
+    dataset, could add close to another minute of processing to your workflow.
+  files:
+    added:
+      - geoips/schema/product_defaults/unsectored_xarray_dict_to_algorithm_to_output_format.yaml
+      - tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png
+      - tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh
+    modified:
+      - geoips/commandline/ancillary_info/test_data.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - geoips/plugins/yaml/products/seviri.yaml
+      - setup/check_system_requirements.sh
+      - setup/test-data-urls.yaml
+      - tests/integration_tests/full_install.sh
+      - tests/integration_tests/full_test.sh
+  title: New Product Family unsectored_xarray_dict_to_algorithm_to_output_format
+
