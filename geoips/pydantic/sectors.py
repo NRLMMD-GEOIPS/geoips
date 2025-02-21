@@ -170,7 +170,7 @@ class SectorProjection(BaseModel, extra="allow"):
             "different if carried out again at a later date."
         ),
     )
-    x_0: XYCoordinate.x = Field(
+    x_0: float = Field(
         0.0,
         description=(
             "False easting, easting at false origin or easting at projection centre "
@@ -178,7 +178,7 @@ class SectorProjection(BaseModel, extra="allow"):
             "*Defaults to 0.0.*"
         ),
     )
-    y_0: XYCoordinate.y = Field(
+    y_0: float = Field(
         0.0,
         description=(
             "False northing, northing at false origin or northing at projection centre "
