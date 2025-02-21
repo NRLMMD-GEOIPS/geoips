@@ -52,14 +52,59 @@ class SectorProjection(BaseModel, extra="allow"):
     issue and, if possible, a pull request on GitHub.
     """
 
-    # This sets "a" to be a constant value of 6371228.0
-    # I honestly don't know where this comes from, but it's been used for all of the
-    # sectors we have. I'm not sure if it's a good idea to hardcode this value.
     proj: str = Field(description="Proj projection alias.")
     a: EarthConstants = Field(
         EarthConstants.SEMI_MAJOR_AXIS,
         description="Semimajor axis of the ellipsoid in meters.",
     )
+    R: Annotated[
+        float,
+        Field(
+            None,
+            strict=True,
+            ge=0,
+            description=(
+                "Radius of the sphere, given in meters. If used in conjunction with "
+                "``+ellps``, :option:`+R` takes precedence."
+                "See https://proj.org/en/stable/usage/ellipsoids.html#ellipsoid-size-parameters "  # NOQA
+                "for more information."
+            ),
+        ),
+    ]
+    ellps: str = Field(
+        "GRS80",
+        description=(
+            "The name of a built-in ellipsoid definition. "
+            "See https://proj.org/en/stable/usage/ellipsoids.html#built-in-ellipsoid-definitions "  # NOQA
+            " for more information, or execute :option:`proj -le` for a list of "
+            "built-in ellipsoid names."
+            "*Defaults to 'GRS80'.*"
+        ),
+    )
+    h: Annotated[
+        float,
+        Field(
+            None,
+            strict=True,
+            ge=0,
+            description=(
+                "Height of the view point above the Earth and must be in the same units"
+                " as the radius of the sphere or semimajor axis of the ellipsoid."
+            ),
+        ),
+    ]
+    k_0: Annotated[
+        float,
+        Field(
+            1.0,
+            strict=True,
+            ge=0,
+            description=(
+                "Scale factor. Determines scale factor used in the projection."
+                "*Defaults to 1.0.*"
+            ),
+        ),
+    ]
     lat_0: Annotated[
         float,
         Field(
@@ -68,6 +113,40 @@ class SectorProjection(BaseModel, extra="allow"):
             ge=-90,
             le=90,
             description="Latitude of origin in degrees.",
+        ),
+    ]
+    lat_1: Annotated[
+        float,
+        Field(
+            0.0,
+            strict=True,
+            ge=-90,
+            le=90,
+            description=("First standard parallel." "*Defaults to 0.0.*"),
+        ),
+    ]
+    lat_2: Annotated[
+        float,
+        Field(
+            0.0,
+            strict=True,
+            ge=-90,
+            le=90,
+            description=("Second standard parallel." "*Defaults to 0.0.*"),
+        ),
+    ]
+    lat_ts: Annotated[
+        float,
+        Field(
+            0.0,
+            strict=True,
+            ge=0,
+            description=(
+                "Latitude of true scale. Defines the latitude where scale is not "
+                "distorted."
+                "Takes precedence over ``+k_0`` if both options are used together."
+                "*Defaults to 0.0.*"
+            ),
         ),
     ]
     lon_0: Annotated[
@@ -80,7 +159,34 @@ class SectorProjection(BaseModel, extra="allow"):
             description="Longitude of origin in degrees.",
         ),
     ]
-    units: Literal["m", "km"] = Field(
+    t_epoch: float = Field(None, description=("Central epoch of the transformation."))
+    t_final: float = Field(
+        None,
+        description=(
+            "Final epoch that the coordinate will be propagated to after transformation."  # NOQA
+            "The special epoch *now* can be used instead of writing a specific period in"  # NOQA
+            "time. When *now* is used, it is replaced internally with the epoch of the "
+            "transformation. This means that the resulting coordinate will be slightly "
+            "different if carried out again at a later date."
+        ),
+    )
+    x_0: XYCoordinate.x = Field(
+        0.0,
+        description=(
+            "False easting, easting at false origin or easting at projection centre "
+            "(naming and meaning depend on the projection method). Always in meters."
+            "*Defaults to 0.0.*"
+        ),
+    )
+    y_0: XYCoordinate.y = Field(
+        0.0,
+        description=(
+            "False northing, northing at false origin or northing at projection centre "
+            "(naming and meaning depend on the projection method). Always in meters."
+            "*Defaults to 0.0.*"
+        ),
+    )
+    units: Literal["m", "km", "degrees"] = Field(
         "m",
         description=(
             "Units of the projection. "
