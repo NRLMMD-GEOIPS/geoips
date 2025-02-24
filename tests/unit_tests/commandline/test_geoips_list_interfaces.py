@@ -26,7 +26,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
             self._cmd_list = [base_args, alias_args]
             for argset in [base_args, alias_args]:
                 for pkg_name in self.plugin_package_names:
-                    self._cmd_list.append(argset + ["-i", "-p", pkg_name])
+                    self._cmd_list.append(argset + ["-wp", "-p", pkg_name])
             # Add argument list which selects certain columns for generic interfaces
             self._cmd_list.append(
                 base_args
@@ -52,7 +52,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
             self._cmd_list.append(
                 base_args
                 + [
-                    "-i",
+                    "-wp",
                     "-p",
                     "geoips",
                     "--columns",
@@ -63,7 +63,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
             self._cmd_list.append(
                 alias_args
                 + [
-                    "-i",
+                    "-wp",
                     "-p",
                     "geoips",
                     "--columns",
@@ -97,15 +97,15 @@ class TestGeoipsListInterfaces(BaseCliTest):
             "ls",
             "interfaces",
         ]
-        assert args != ["geoips", "list", "interfaces", "-i"]
+        assert args != ["geoips", "list", "interfaces", "-wp"]
         assert "usage: To use, type `geoips list interfaces`" in error
         if "--long" in args and "--columns" in args:
             assert (
                 "error: argument --columns/-c: not allowed with argument --long/-l"
                 in error
             )
-        elif "-p" in args and "-i" not in args:
-            assert "You cannot use the `-p` flag without the `-i` flag." in error
+        elif "-p" in args and "-wp" not in args:
+            assert "You cannot use the `-p` flag without the `-wp` flag." in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips list interfaces ...' successful output is correct.
@@ -124,7 +124,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
         else:
             # The args provided are valid, so test that the output is actually correct
             selected_cols = self.retrieve_selected_columns(args)
-            if "-i" in args or "-p" in args:
+            if "-wp" in args or "-p" in args:
                 headers = {
                     "GeoIPS Package": "package",
                     "Interface Type": "plugin_type",

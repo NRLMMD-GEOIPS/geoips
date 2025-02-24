@@ -166,7 +166,7 @@ class BaseCliTest(abc.ABC):
                     "script: error: Only package 'geoips' has integration tests"
                 )
                 package_name_error = (
-                    "error: argument --package_name/-p: invalid choice:"
+                    "error: argument --package-name/-p: invalid choice:"
                 )
                 assert integration_error in error or package_name_error in error
             elif (

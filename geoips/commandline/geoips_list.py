@@ -278,8 +278,8 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
 
     Will either list information about available GeoIPS interfaces (done via
     `geoips list interfaces`), or list information about implemented interface-specific
-    plugins implemented in all, or a certain package (done via
-    'geoips list interfaces -i <-p> <package_name>').
+    plugins created in all, or a certain package (done via
+    'geoips list interfaces --with-plugins <-p> <package_name>').
 
     Called via `geoips list interfaces`. Outputs the following data in a tabular format.
     """

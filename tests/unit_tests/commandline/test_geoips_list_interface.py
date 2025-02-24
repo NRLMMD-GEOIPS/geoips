@@ -98,7 +98,7 @@ class TestGeoipsListInterface(BaseCliTest):
             # interface exists, so check that the package name is incorrect
             assert args[-1] not in self.plugin_package_names
             usg_str = (
-                f"error: argument --package_name/-p: invalid "
+                f"error: argument --package-name/-p: invalid "
                 f"choice: '{args[-1]}' (choose from"
             )
             assert usg_str in error.replace("\n", "")

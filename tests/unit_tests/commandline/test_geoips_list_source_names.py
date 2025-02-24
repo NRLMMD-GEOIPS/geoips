@@ -71,10 +71,10 @@ class TestGeoipsListSourceNames(BaseCliTest):
         elif "-p" in args and args[-1] not in self.plugin_package_names:
             # check the package name is incorrect
             usg_str = (
-                f"error: argument --package_name/-p: invalid "
+                f"error: argument --package-name/-p: invalid "
                 f"choice: '{args[-1]}' (choose from"
             )
-            assert usg_str in error.replace("\n", "")
+            assert usg_str in error  # .replace("\n", "")
         assert (
             "usage: To use, type `geoips list source-names`" in error
             or "usage: To use, type `geoips list <cmd> <sub-cmd>`" in error
