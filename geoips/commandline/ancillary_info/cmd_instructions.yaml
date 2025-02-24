@@ -160,6 +160,9 @@ instructions:
       "sector_spec_generators", "title_formatters", "feature_annotators",
       "gridline_annotators", "product_defaults", "products", "sectors", "interfaces",
       "packages", "plugins", "scripts", "test-datasets", "unit-tests"].
+
+      "For any of these commands, you can additionally specify --available-columns to "
+      "see how you can filter your results."
     usage_str: |
       To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
