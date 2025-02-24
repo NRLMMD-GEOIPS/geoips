@@ -176,7 +176,7 @@ instructions:
   geoips_list_interface: &list-single-interface
     help_str: |
       List off plugins found under this interface. This is useful for seeing what
-      plugins have been implemented through all, or a certain, GeoIPS Package. This
+      plugins have been created through all, or a certain, GeoIPS Package. This
       information can then be used with
       `geoips describe <interface_name> <plugin_name>` to retrieve more information
       about a certain plugin.
@@ -220,10 +220,11 @@ instructions:
       information can then be used with `geoips describe <interface_name>` to
       retrieve more information about a certain interface.
     usage_str: |
-      To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for
-      seeing what has been implemented (-i) in a certain package (-p), or all packages.
-      For example, to see what interfaces have been implemented in a certain package,
-      run `geoips list interfaces -i -p <pkg_name>`, or you can remove the `-p` flag to
+      To use, type `geoips list interfaces`. Optionally includes `-wp`
+      (or `--with-plugins``) and `-p` flags for seeing what has plugins of any interface
+      have been created (-wp) in a certain package (-p), or all packages. For example,
+      to  see what interfaces have been implemented in a certain package, run `geoips
+      list  interfaces --with-plugins -p <pkg_name>`, or you can remove the `-p` flag to
       see what's been implemented in every package.
     output_info:
       - Absolute Path

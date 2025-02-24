@@ -78,7 +78,7 @@ class ParentParsers:
 
     list_parser = argparse.ArgumentParser(add_help=False)
     list_parser.add_argument(
-        "--package_name",
+        "--package-name",
         "-p",
         type=str,
         default="all",

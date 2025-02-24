@@ -290,8 +290,8 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     def add_arguments(self):
         """Add arguments to the list-suparser for the List Interfaces Command."""
         self.parser.add_argument(
-            "--implemented",
-            "-i",
+            "--with-plugins",
+            "-wp",
             default=False,
             action="store_true",
             help=str(
@@ -323,14 +323,14 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             - The Argument Namespace for GeoipsListInterfaces Command
         """
         package_name = args.package_name
-        # Flag representing whether or not we want to list what's implemented or
+        # Flag representing whether or not we want to list what's been created or
         # what's available.
-        implemented = args.implemented
-        if package_name != "all" or (implemented and package_name):
-            # If you're listing a certain package, implemented is implied. If it's
-            # 'all' packages, make sure implemented as added if we are going to list in
-            # that fasion.
-            self.list_implemented_interfaces(package_name, args)
+        wp = args.with_plugins
+        if package_name != "all" or (wp and package_name):
+            # If you're listing a certain package, with-plugins is implied. If it's
+            # 'all' packages, make sure --with-plugins as added if we are going to list
+            # in that fasion.
+            self.list_interfaces_with_plugins(package_name, args)
         else:
             # Otherwise just list off available interfaces.
             self.list_available_interfaces(args)
@@ -398,11 +398,11 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             )
         )
 
-    def list_implemented_interfaces(self, package_name, args):
-        """List the implemented interface[s] within [a] GeoIPS Package[s].
+    def list_interfaces_with_plugins(self, package_name, args):
+        """List the interface[s] with plugins within [a] GeoIPS Package[s].
 
         Ie. search through all, or an individual package and list off what has been
-        implemented in such package[s].
+        created in such package[s].
 
         Printed to Terminal
         -------------------
