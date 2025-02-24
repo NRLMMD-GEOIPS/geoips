@@ -7,10 +7,7 @@ Intended for use by other base models.
 Other models defined here validate field types within child plugin models.
 """
 
-import yaml
-
 # Python Standard Libraries
-from functools import lru_cache
 import keyword
 import logging
 from pathlib import Path
@@ -31,8 +28,7 @@ from typing_extensions import Annotated
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.plugin_registry import plugin_registry
-
+from geoips.interfaces import workflows
 
 LOG = logging.getLogger(__name__)
 
@@ -108,7 +104,7 @@ def python_identifier(val: str) -> str:
 
     if error_messages:
         error_message = " ".join(error_messages) + " Please update it."
-        LOG.error(error_message, exc_info=True)
+        LOG.interactive(error_message, exc_info=True)
         raise ValueError(error_message)
 
     return val
@@ -118,7 +114,6 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-@lru_cache(maxsize=None)
 def get_interfaces() -> set[str]:
     """Return a set of distinct interfaces.
 
@@ -161,18 +156,47 @@ class PluginModel(StaticBaseModel):
         None,
         description=("A short description or defaults to first line from docstring."),
     )
-    package: PythonIdentifier = Field(
-        ...,
-        description="Package that contains this plugin.",
-        default_factory=plugin_registry.get_package_name,
+    package: PythonIdentifier = (
+        Field(..., description="Package that contains this plugin."),
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
     )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
+    @model_validator(mode="before")
+    def _derive_package_name(
+        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+    ):
+        """
+        'package' value is derived by calling ``get_plugin_metadata()``.
+
+        Parameters
+        ----------
+        values : dict
+            Dictionary of field values before validation.
+
+        Returns
+        -------
+        dict
+            Updated dictionary with the `package` field set based on the
+            metadata retrived from ``get_plugin_metadata()``.
+        """
+        # name is guaranteed to exist due to Pydantic validation.
+        # No need to raise an error for 'name'.
+        metadata = workflows.get_plugin_metadata(values.get("name"))
+        if "package" not in metadata:
+            err_msg = (
+                "Metadata for '%s' workflow plugin must contain 'package' key."
+                % values.get("name")
+            )
+            LOG.critical(err_msg)
+            raise ValueError(err_msg)
+        values["package"] = metadata.get("package")
+        return values
+
     @field_validator("interface", mode="before")
-    def valid_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
+    def _validate_interface(cls, value: PythonIdentifier) -> PythonIdentifier:
         """
         Validate the input for the 'interface' field.
 
@@ -199,7 +223,7 @@ class PluginModel(StaticBaseModel):
         valid_interfaces = get_interfaces()
         if value not in valid_interfaces:
             err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
-            LOG.error(err_msg, exc_info=True)
+            LOG.critical(err_msg, exc_info=True)
             raise ValueError(err_msg)
         return value
 
@@ -229,7 +253,7 @@ class PluginModel(StaticBaseModel):
         return values
 
     @field_validator("description", mode="after")
-    def validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
+    def _validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
 
@@ -262,7 +286,7 @@ class PluginModel(StaticBaseModel):
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
         if "\n" in value:
-            LOG.error(
+            LOG.critical(
                 "'error': %s 'input_provided': %r",
                 error_messages["single_line"],
                 value,
@@ -270,7 +294,7 @@ class PluginModel(StaticBaseModel):
             )
             raise PydanticCustomError("single_line", error_messages["single_line"])
         if not (value[0].isalnum() and value.endswith(".")):
-            LOG.error(
+            LOG.critical(
                 "'error': %s 'input_provided': %r",
                 error_messages["format_error"],
                 value,
@@ -280,12 +304,14 @@ class PluginModel(StaticBaseModel):
         if len(value) > 72:
             excess_length = len(value) - 72
             err_msg = f"{error_messages['length_error']} {excess_length} characters"
-            LOG.error("'error': %s 'input_provided': %r", err_msg, value, exc_info=True)
+            LOG.critical(
+                "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
+            )
             raise PydanticCustomError("length_error", err_msg)
         return value
 
     @field_validator("relpath", mode="after")
-    def validate_relative_path(cls: type["PluginModel"], value: str) -> str:
+    def _validate_relative_path(cls: type["PluginModel"], value: str) -> str:
         """
         Validate string can be cast as Path and is a relative path.
 
@@ -311,7 +337,7 @@ class PluginModel(StaticBaseModel):
         try:
             path = Path(value)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object. 'input_provided': %r, 'error':%s",
                 value,
                 str(e),
@@ -324,7 +350,7 @@ class PluginModel(StaticBaseModel):
         return value
 
     @field_validator("abspath", mode="after")
-    def validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
+    def _validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
         """
         Validate string can be cast as Path and is an absolute path.
 
@@ -350,7 +376,7 @@ class PluginModel(StaticBaseModel):
         try:
             path = Path(value)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object. 'input_provided': %r, 'error':%s",
                 value,
                 str(e),
@@ -363,7 +389,7 @@ class PluginModel(StaticBaseModel):
         return value
 
     @model_validator(mode="after")
-    def validate_file_exists(
+    def _validate_path_equivalence_and_existence(
         cls: type["PluginModel"],
         values: dict[str, str | int | float | None],
         info: ValidationInfo,
@@ -389,7 +415,7 @@ class PluginModel(StaticBaseModel):
                 raise ValueError("relpath is None")
             rel_path = Path(rel_path_raw)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object for 'relpath'. 'input': %r, 'error':%s",
                 rel_path_raw,
                 str(e),
@@ -402,7 +428,7 @@ class PluginModel(StaticBaseModel):
                 raise ValueError("abspath is None")
             abs_path = Path(abs_path_raw)
         except (ValueError, TypeError) as e:
-            LOG.error(
+            LOG.critical(
                 "Failed to create Path object for 'abspath'. 'input': %r, 'error':%s",
                 abs_path_raw,
                 str(e),
@@ -412,7 +438,7 @@ class PluginModel(StaticBaseModel):
         # combining rel_path and ab_path since both refers to same file
         if rel_path is None or abs_path is None:
             err_msg = "invalid realtive file path or absolute file paths"
-            LOG.error(err_msg)
+            LOG.critical(err_msg)
             raise ValueError(err_msg)
 
         # determine the base path from order_based.py
@@ -425,12 +451,9 @@ class PluginModel(StaticBaseModel):
         if absolute_path_built_from_relative == abs_path:
             LOG.debug("Relative path and absolute path refer to the same file.")
 
-        # if abs_path_string.endswith(rel_path_string):
-        #     LOG.debug("Relative path and absolute path refer to the same file")
-
         if not skip_exists_check and not absolute_path_built_from_relative.exists():
-            err_msg = f"Path does not exist: {absolute_path_built_from_relative}"
-            LOG.error("%s", err_msg)
+            err_msg = "Path does not exist: " + str(absolute_path_built_from_relative)
+            LOG.critical(err_msg)
             raise FileNotFoundError(err_msg)
         return values
 
