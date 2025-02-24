@@ -74,7 +74,7 @@ class TestGeoipsListSourceNames(BaseCliTest):
                 f"error: argument --package-name/-p: invalid "
                 f"choice: '{args[-1]}' (choose from"
             )
-            assert usg_str in error  # .replace("\n", "")
+            assert usg_str in error.replace("\n", "")
         assert (
             "usage: To use, type `geoips list source-names`" in error
             or "usage: To use, type `geoips list <cmd> <sub-cmd>`" in error
