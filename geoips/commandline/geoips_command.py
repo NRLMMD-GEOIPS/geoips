@@ -14,6 +14,7 @@ from importlib import metadata, resources
 import json
 from os.path import dirname
 from shutil import get_terminal_size
+import sys
 
 from colorama import Fore, Style
 from tabulate import tabulate
@@ -97,12 +98,22 @@ class ParentParsers:
         "--columns",
         "-c",
         type=str,
-        nargs="+",
+        nargs="*",
         default=None,
         help="""Specific Headers of Data you'd like to see listed.
                 For more in formation on headers available, run
                 'geoips list <cmd> <positional_args> --columns help'.
                 """,
+    )
+    mutex_group.add_argument(
+        "--available-columns",
+        "-ac",
+        default=False,
+        action="store_true",
+        help=(
+            "Whether or not we want to list what columns are available for a specific "
+            "list command. If true, just list available columns and return."
+        ),
     )
 
 
@@ -525,6 +536,9 @@ class GeoipsExecutableCommand(GeoipsCommand):
             "source_names": "Source Names",
             "relpath": "Relative Path",
         }
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         table_data = self._generate_table_data_by_interface(
             interface,
@@ -618,6 +632,40 @@ class GeoipsExecutableCommand(GeoipsCommand):
             table_data.append(plugin_entry)
         return table_data
 
+    def list_available_columns_if_applicable(self, args, default_headers):
+        """List available columns from the provided command if applicable.
+
+        This applies to all 'geoips list <cmd>' commands and will be applied if
+        'geoips list <cmd> ... --columns' is specified with no columns listed.
+        """
+        columns = args.columns
+        list_available_columns = args.available_columns
+        if list_available_columns:
+            print(f"\nGeoIPS List {self.name.title()} Available Columns")
+            print(
+                f"{(len('GeoIPS List ' + self.name.title() + ' Available Columns')) * '-'}"  # NOQA
+            )
+            print(f"{list(default_headers.keys())}\n")
+            print_beta_warning()
+            sys.exit()
+        # Only occurs if --columns is specified and nothing else comes after it
+        if isinstance(columns, list) and len(columns) == 0:
+            err_str = (
+                f"Error: --columns must be specified with a list of one or more strings"
+                "specifying what columns you'd like to output. Here is a list of "
+                f"columns available for this command: {list(default_headers.keys())}"
+            )
+            self.parser.error(err_str)
+        elif isinstance(columns, list) and any(
+            [column not in default_headers for column in columns]
+        ):
+            err_str = (
+                f"One or more of the column headers provided, is not a valid header. "
+                "Please select one or more of the following keys, which correspond to "
+                f"the appropriate value:\n{list(default_headers.keys())}"
+            )
+            self.parser.error(err_str)
+
 
 class CommandClassFactory:
     """An abstract class factory for creating CLI-based Command Classes.
@@ -685,3 +733,19 @@ class CommandClassFactory:
             (base_class,),
             class_attrs,
         )
+
+
+def print_beta_warning():
+    """Notify the user that the CLI is still in Beta development stage."""
+    print(
+        Fore.RED
+        + "\nWARNING: "
+        + Fore.YELLOW
+        + "The GeoIPS CLI is currently under development and is subject "
+        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
+        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
+        "an issue here:\n"
+        + Fore.BLUE
+        + "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
+        + Style.RESET_ALL
+    )

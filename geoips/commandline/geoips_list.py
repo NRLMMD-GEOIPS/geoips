@@ -69,6 +69,9 @@ class GeoipsListSourceNames(GeoipsExecutableCommand):
                 "therefore no implemented source_names."
             )
             return
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         src_name_mapping = self.match_readers_with_source_name(interface_registry)
         src_name_info = []
@@ -161,6 +164,9 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             "unit_test_dir": "Unit Test Directory",
             "unit_test_name": "Unit Test Name",
         }
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         for pkg_name in package_names:
             unit_test_info = []
@@ -251,6 +257,9 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
             self.parser.error("Error: '-p' flag is not supported for this command")
         dataset_info = []
         default_headers = {"data_host": "Data Host", "dataset_name": "Dataset Name"}
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         for test_dataset_name in list(test_dataset_dict.keys()):
             dataset_entry = []
@@ -362,6 +371,9 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             "docstring": "Docstring",
             "abspath": "Absolute Path",
         }
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         for interface_name in interfaces.__all__:
             interface = getattr(interfaces, interface_name)
@@ -423,6 +435,9 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
             "plugin_type": "Interface Type",
             "interface": "Interface Name",
         }
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         for plugin_package_name, pkg_path in zip(
             self.plugin_package_names, self.plugin_package_paths
@@ -507,6 +522,9 @@ class GeoipsListPackages(GeoipsExecutableCommand):
             "package_path": "Package Path",
             "version": "Version Number",
         }
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         pkg_name_requested = False
         for package_name, package_path in zip(
@@ -708,6 +726,9 @@ class GeoipsListScripts(GeoipsExecutableCommand):
             # list scripts from a certain package.
             plugin_package_names = [package_name]
         default_headers = {"package": "GeoIPS Package", "filename": "Filename"}
+        # Provide a listing of available columns if improperly specified
+        self.list_available_columns_if_applicable(args, default_headers)
+        # No error occured, continue with this method
         headers = self._get_headers_by_command(args, default_headers)
         for plugin_package_name in plugin_package_names:
             if not is_editable(plugin_package_name):
