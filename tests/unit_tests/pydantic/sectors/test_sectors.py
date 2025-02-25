@@ -2,7 +2,6 @@
 
 from copy import deepcopy
 from importlib.resources import files
-from pprint import pprint
 
 from pydantic import ValidationError
 import pytest
@@ -201,7 +200,5 @@ def test_sector_plugins(good_sector, key, val):
         bad_sector = val
     else:
         bad_sector[key] = val
-        pprint(bad_sector)
     with pytest.raises(ValidationError):
-        sobj = SectorPluginModel(**bad_sector)
-        print(sobj)
+        SectorPluginModel(**bad_sector)
