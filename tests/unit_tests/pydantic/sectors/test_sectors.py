@@ -98,7 +98,7 @@ test_cases = {
 }
 
 
-def generate_ids(key_val):  # NOQA
+def generate_ids(key_val):
     """Generate an ID for the key value pair provided.
 
     Parameters
