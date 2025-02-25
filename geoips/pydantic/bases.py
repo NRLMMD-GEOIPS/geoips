@@ -24,6 +24,7 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
+import yaml
 
 
 # GeoIPS imports
@@ -184,7 +185,10 @@ class PluginModel(StaticBaseModel):
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
-        metadata = workflows.get_plugin_metadata(values.get("name"))
+
+        metadata = getattr(interfaces, values.get("interface")).get_plugin_metadata(
+            values.get("name")
+        )
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."

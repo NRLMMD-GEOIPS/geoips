@@ -31,7 +31,6 @@ class SectorDict(dict):
             for subkey in keys[:-1]:
                 current = current.setdefault(subkey, {})
             dict.__setitem__(current, keys[-1], value)
-            # self[keys[-1]] = value
         else:
             dict.__setitem__(self, key, value)
 
