@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
-name: global
-docstring: "Global sector."
+name: global_cylindrical
+docstring: "Global Cylindrical Sector."
 metadata:
   region:
     continent: Global
@@ -11,8 +11,8 @@ metadata:
     state: x
     city: x
 spec:
-  area_id: global
-  description: "Global Sector"
+  area_id: global_cylindrical
+  description: "Global Cylindrical Sector"
   projection:
     a: 6371228.0
     lat_0: 0
