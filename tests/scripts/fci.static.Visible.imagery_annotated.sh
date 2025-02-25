@@ -13,7 +13,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_mtg_fci_day/data/mt1_fdh
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/fci.static.<product>.imagery_annotated" \
              --output_formatter imagery_annotated \
              --filename_formatter geoips_fname \
-             --sector_list global
+             --sector_list global_cylindrical
 
 retval=$?
 

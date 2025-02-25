@@ -12,7 +12,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.080
              --product_name Volcanic_Ash \
              --output_formatter imagery_clean \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.Volcanic_Ash.imagery_clean" \
-             --sector_list global \
+             --sector_list global_cylindrical \
              --filename_formatter geoips_fname
 retval=$?
 
