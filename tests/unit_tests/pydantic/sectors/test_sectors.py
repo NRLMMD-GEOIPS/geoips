@@ -43,131 +43,70 @@ class SectorDict(dict):
 
 
 test_cases = {
-    "good_sector": "I work!",
-    "docstring_missing_period": "Local Area Sector for GeoKompsat (Korea)",
-    "docstring_invalid_first_character": "~ocal Area Sector for GeoKompsat (Korea).",
-    "metadata/region/continent": 8912,
-    "metadata/region": {
-        "country": "Korea",
-        "area": "x",
-        "subarea": "x",
-        "state": "x",
-        "city": "x",
-    },
-    "spec": {
-        "description": "Korea",
-        "resolution": [1000, 1000],
-        "shape": {"height": 1500, "width": 1500},
-        "center": [0, 0],
-    },
-    "spec/area_id": 8912,
-    "spec/projection": {
-        "a": 6371228.0,
-        "lat_0": 37.3491,
-        "lon_0": 127.5288,
-        "units": "m",
-    },
-    "spec/resolution": [1000],
-    "spec/shape": {"width": 1500},
-    "spec/center": [0],
-    "spec/area_extent": {"upper_right_xy": [10000000, 10000000]},
-    "plugin_missing_relpath": {
-        "interface": "sectors",
-        "family": "area_definition_static",
-        "name": "korea",
-        "docstring": "Local Area Sector for GeoKompsat (Korea)",
-        "metadata": {
-            "region": {
-                "continent": "Asia",
+    "docstring": [
+        ("Local Area Sector for GeoKompsat (Korea)", "docstring_missing_period"),
+        (
+            "~ocal Area Sector for GeoKompsat (Korea).",
+            "docstring_invalid_first_character",
+        ),
+    ],
+    "metadata/region/continent": [(8912, "continent_invalid_type")],
+    "metadata/region": [
+        (
+            {
                 "country": "Korea",
                 "area": "x",
                 "subarea": "x",
                 "state": "x",
                 "city": "x",
-            }
-        },
-        "abspath": f"{str(files('geoips') / 'plugins/yaml/sectors/static/geokompsat.yaml')}",  # NOQA
-        "package": "geoips",
-        "spec": {
-            "area_id": "Korea",
-            "description": "Korea",
-            "projection": {
+            },
+            "metadata_missing_continent",
+        ),
+    ],
+    "spec": [
+        (
+            {
+                "description": "Korea",
+                "resolution": [1000, 1000],
+                "shape": {"height": 1500, "width": 1500},
+                "center": [0, 0],
+            },
+            "spec_missing_projection",
+        ),
+    ],
+    "spec/area_id": [(8912, "area_id_invalid_type")],
+    "spec/projection": [
+        (
+            {
                 "a": 6371228.0,
                 "lat_0": 37.3491,
                 "lon_0": 127.5288,
-                "proj": "eqc",
                 "units": "m",
             },
-            "resolution": [1000, 1000],
-            "shape": {"height": 1500, "width": 1500},
-            "center": [0, 0],
-        },
-    },
-    "plugin_missing_abspath": {
-        "interface": "sectors",
-        "family": "area_definition_static",
-        "name": "korea",
-        "docstring": "Local Area Sector for GeoKompsat (Korea)",
-        "metadata": {
-            "region": {
-                "continent": "Asia",
-                "country": "Korea",
-                "area": "x",
-                "subarea": "x",
-                "state": "x",
-                "city": "x",
-            }
-        },
-        "relpath": "tests/unit_tests/pydantic/sectors/test_cases/good.yaml",
-        "package": "geoips",
-        "spec": {
-            "area_id": "Korea",
-            "description": "Korea",
-            "projection": {
-                "a": 6371228.0,
-                "lat_0": 37.3491,
-                "lon_0": 127.5288,
-                "proj": "eqc",
-                "units": "m",
-            },
-            "resolution": [1000, 1000],
-            "shape": {"height": 1500, "width": 1500},
-            "center": [0, 0],
-        },
-    },
-    "plugin_missing_package": {
-        "interface": "sectors",
-        "family": "area_definition_static",
-        "name": "korea",
-        "docstring": "Local Area Sector for GeoKompsat (Korea)",
-        "metadata": {
-            "region": {
-                "continent": "Asia",
-                "country": "Korea",
-                "area": "x",
-                "subarea": "x",
-                "state": "x",
-                "city": "x",
-            }
-        },
-        "abspath": f"{str(files('geoips') / 'plugins/yaml/sectors/static/geokompsat.yaml')}",  # NOQA
-        "relpath": "plugins/yaml/sectors/static/geokompsat.yaml",
-        "spec": {
-            "area_id": "Korea",
-            "description": "Korea",
-            "projection": {
-                "a": 6371228.0,
-                "lat_0": 37.3491,
-                "lon_0": 127.5288,
-                "proj": "eqc",
-                "units": "m",
-            },
-            "resolution": [1000, 1000],
-            "shape": {"height": 1500, "width": 1500},
-            "center": [0, 0],
-        },
-    },
+            "projection_missing_proj",
+        )
+    ],
+    "spec/resolution": [([1000], "resolution_invalid_dimensions")],
+    "spec/shape": [({"width": 1500}, "shape_missing_height")],
+    "spec/center": [([0], "center_invalid_dimensions")],
+    "spec/area_extent": [
+        ({"upper_right_xy": [10000000, 10000000]}, "area_extent_missing_lower_left_xy")
+    ],
+    "relpath": [(None, "missing_relpath")],
+    "abspath": [(None, "missing_abspath")],
+    "package": [(None, "missing_package")],
 }
+
+
+def generate_ids(key_val):  # NOQA
+    """Generate an ID for the key value pair provided.
+
+    Parameters
+    ----------
+    key_val: tuple(str, tuple(any, str))
+        - The (key, (val, val_id)) tuple to use for testing.
+    """
+    return key_val[1][1]
 
 
 @pytest.fixture
@@ -184,8 +123,37 @@ def good_sector():
     return SectorDict(deepcopy(good_yaml))
 
 
-@pytest.mark.parametrize(("key", "val"), test_cases.items(), ids=test_cases.keys())
-def test_sector_plugins(good_sector, key, val):
+# "good_sector" is passed as a string in parametrize since indirect=True tells pytest
+# to treat it as a fixture name.
+@pytest.mark.parametrize(
+    "good_sector",
+    [pytest.param("good_sector", id="good_sector")],
+    indirect=True,
+)
+def test_good_sector(good_sector):
+    """Assert that a well formatted sector plugin is valid.
+
+    Parameters
+    ----------
+    good_sector: dict
+        - A dictionary representing a valid sector plugin.
+    """
+    SectorPluginModel(**good_sector)
+
+
+def yield_key_value_pairs():
+    """Yield a key value pair for bad sectors that need to be tested.
+
+    Where the key value pair refers to the attribute to set, and the invalid value to
+    set it to.
+    """
+    for key in list(test_cases.keys()):
+        for val in test_cases[key]:
+            yield (key, val)
+
+
+@pytest.mark.parametrize("key_val", yield_key_value_pairs(), ids=generate_ids)
+def test_bad_sector_plugins(good_sector, key_val):
     """Perform validation on static sector plugins, including failing cases.
 
     Parameters
@@ -195,17 +163,19 @@ def test_sector_plugins(good_sector, key, val):
     key: str
         - The path to the attribute which we'll make invalid
     val: any
-        - The value of the invalid attribute
+        - The value of an invalid attribute
     """
     bad_sector = good_sector
-    if key == "good_sector":
-        SectorPluginModel(**good_sector)
-        return
-    elif key.startswith("docstring"):
-        bad_sector["docstring"] = val
-    elif key.startswith("plugin"):
-        bad_sector = val
+    key = key_val[0]
+    val = key_val[1][0]
+    if key in ["abspath", "relpath", "package"]:
+        bad_sector.pop(key)
     else:
         bad_sector[key] = val
-    with pytest.raises(ValidationError):
+    if key != "package":
+        with pytest.raises(ValidationError):
+            SectorPluginModel(**bad_sector)
+    else:
+        # 'package' will be automatically set by the before validation occurs. Grabbed
+        # from plugin's metadata found in the registry.
         SectorPluginModel(**bad_sector)
