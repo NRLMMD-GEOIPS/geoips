@@ -52,7 +52,7 @@ class SectorProjection(BaseModel, extra="allow"):
     issue and, if possible, a pull request on GitHub.
     """
 
-    proj: str = Field(description="Proj projection alias.")
+    proj: str = Field(..., description="Proj projection alias.")
     a: EarthConstants = Field(
         EarthConstants.SEMI_MAJOR_AXIS,
         description="Semimajor axis of the ellipsoid in meters.",
@@ -261,11 +261,11 @@ class SectorAreaExtent(BaseModel):
     """
 
     lower_left_xy: Tuple[int, int] = Field(
-        None,
+        ...,
         description="Lower left corner of the sector in projection units.",
     )
     upper_right_xy: Tuple[int, int] = Field(
-        None,
+        ...,
         description="Upper right corner of the sector in projection units. ",
     )
 
@@ -364,15 +364,28 @@ class CenterSpec(BaseModel):
     )
 
 
+class RegionMetadata(BaseModel):
+    """Metadata format for standard static sectors covering a specific region."""
+
+    model_config = ConfigDict(coerce_numbers_to_str=False, extra="forbid")
+
+    continent: str = Field(..., description="Continent which the sector resides in.")
+    country: str = Field(..., description="Country which the sector resides in.")
+    area: str = Field(..., description="Geographic area of the sector.")
+    subarea: str = Field(..., description="Geographic subarea of the sector.")
+    state: str = Field(..., description="State which the sector resides in.")
+    city: str = Field(..., description="City which the sector resides in.")
+
+
 class StaticMetadata(BaseModel):
     """Metadata format for standard static sectors."""
 
-    continent: str = Field(None, description="Continent which the sector resides in.")
-    country: str = Field(None, description="Country which the sector resides in.")
-    area: str = Field(None, description="Geographic area of the sector.")
-    subarea: str = Field(None, description="Geographic subarea of the sector.")
-    state: str = Field(None, description="State which the sector resides in.")
-    city: str = Field(None, description="City which the sector resides in.")
+    region: RegionMetadata = Field(
+        ...,
+        description=(
+            "Metadata format for standard static sectors covering a specific region."
+        ),
+    )
 
 
 class BoxMetadata(BaseModel):
