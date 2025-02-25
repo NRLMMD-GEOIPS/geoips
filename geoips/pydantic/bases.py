@@ -29,7 +29,6 @@ import yaml
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.interfaces import workflows
 
 LOG = logging.getLogger(__name__)
 

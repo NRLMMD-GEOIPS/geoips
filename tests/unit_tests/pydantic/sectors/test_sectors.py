@@ -11,6 +11,13 @@ from geoips.pydantic.sectors import SectorPluginModel
 
 
 class SectorDict(dict):
+    """Custom dictionary class used to access Sector Plugins using paths.
+
+    Where a 'path' is a key which can include slashes ('/') for easy access to the
+    values contained in nested dictionaries.
+
+    I.e. some_dict["key1/key2/key3"] = some_val
+    """
 
     def __setitem__(self, key, value):
         """Set an item under key with value 'value'.
@@ -165,6 +172,7 @@ test_cases = {
 
 @pytest.fixture
 def good_sector():
+    """Return a consistent dictionary that is a valid GeoIPS sector plugin."""
     good_yaml = yaml.safe_load(
         open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
     )
