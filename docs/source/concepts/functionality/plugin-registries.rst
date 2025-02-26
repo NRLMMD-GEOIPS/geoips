@@ -8,7 +8,47 @@
 Using Plugin Registries
 ***********************
 
-Plugin registries are a cache used by GeoIPS to speed up start up times.
+Plugin registries are a cache used by GeoIPS to speed up start up times. By default
+GeoIPS automates the creation of the plugin registry, but this can be turned off if
+desired by changing an environment variable.
+
+Automatic creation of the plugin registry occurs if a requested plugin could not be
+found in the registry. GeoIPS will attempt to build the registry once if this failure
+occurs. However, if the missing plugin persists after the registry has been
+automatically created, an error will be raised informing the user how to fix this
+problem.
+
+If using manual plugin registry creation, please follow the sections
+below.
+
+Turning Off Automatic Creation of Plugin Registries
+---------------------------------------------------
+
+By default, GeoIPS automates the creation of plugin registries. If manual creation is
+preferred, all the user has to do is create an evironment variable called
+``GEOIPS_REBUILD_REGISTRIES`` and set it to false. When creating this variable, there
+are two options:
+
+1. Single Session Manual Creation
+---------------------------------
+Use this method if you only want automatic creation of the plugin registry to be turned
+off for a single terminal session.
+
+.. code:: bash
+
+    export GEOIPS_REBUILD_REGISTRIES=0
+
+2. Sesson Persisting Manual Creation
+------------------------------------
+Use this method if you want automatic creation of the plugin registry to be turned off
+for all of your terminal sessions. Note you can also manually update your ``.bashrc``
+by including the quoted portion of the code below.
+
+.. code:: bash
+
+    echo "export GEOIPS_REBUILD_REGISTRIES=0" >> ~/.bashrc
+    source ~/.bashrc
+    conda activate geoips
 
 When to Create/Update Plugin Registries
 ---------------------------------------
@@ -19,11 +59,6 @@ occurs:
 * A new plugin package is installed or reinstalled
 * A plugin package is uninstalled
 * An individual plugin is added, edited, or removed
-
-.. note::
-    We hope to automate the process of creating/updating the plugin registries
-    in the future to avoid requiring the user to directly call
-    ``create_plugin_registries``.
 
 How to Create/Update the Plugin Registries
 ------------------------------------------
