@@ -398,8 +398,6 @@ def satpy_read_fci_netcdf_files(
     avail_vars = avail_chans_in_file(fci_files[0])
     if not chans:
         chans = avail_vars
-    mapped_chans = [BAND_MAP.get(x, x) for x in chans]
-    read_chans = list(set(avail_vars).intersection(set(mapped_chans)))
     ingested = {}
     standard_meta = get_standard_geoips_attrs(
         load_metadata_single_file(fci_files[0], group="data"), area_def
@@ -418,13 +416,19 @@ def satpy_read_fci_netcdf_files(
     # Otherwise read in chans with similar resolutions to maintain resolution
     else:
         for res, rchans in DATASET_INFO.items():
-            read_res_chans = [x for x in read_chans if any([x in rchans])]
-            if not read_res_chans and not metadata_only:
+            # Find the indices of variables that correspond to the current resolution
+            read_idxs = np.array([BAND_MAP.get(x, x) in rchans for x in chans])
+            if not any(read_idxs) and not metadata_only:
                 LOG.info("No channels to read at %s resolution", res)
                 continue
-            LOG.info("Reading in following chans: %s: %s", res, read_res_chans)
+            # Use those indices to retrieve the correct 'geoips' variables that we'll
+            # need to read
+            read_geoips_chans = list(np.array(chans)[read_idxs])
+            LOG.info("Reading in following chans: %s: %s", res, read_geoips_chans)
+            # Ingest the returned xarray dataset to the current resolution of the
+            # xarray_dictionary
             ingested[res] = scene_to_xarray(
-                fci_files, chans, metadata=standard_meta, area_def=area_def
+                fci_files, read_geoips_chans, metadata=standard_meta, area_def=area_def
             )
     return ingested
 
