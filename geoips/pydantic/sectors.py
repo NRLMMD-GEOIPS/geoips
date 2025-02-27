@@ -7,13 +7,12 @@ from typing_extensions import Annotated
 
 from pydantic import (
     Field,
-    BaseModel,
     ConfigDict,
     field_validator,
 )
 from pydantic.functional_validators import AfterValidator
 
-from geoips.pydantic.bases import PluginModel
+from geoips.pydantic.bases import FrozenModel, PermissiveFrozenModel, PluginModel
 
 
 class EarthConstants(float, Enum):
@@ -22,7 +21,7 @@ class EarthConstants(float, Enum):
     SEMI_MAJOR_AXIS = 6371228.0  # Semimajor axis of the earth in meters.
 
 
-class XYCoordinate(BaseModel):
+class XYCoordinate(FrozenModel):
     """A coordinate in projection units."""
 
     x: float = Field(None, description="The x coordinate in projection units.")
@@ -41,8 +40,7 @@ def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
 LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
 
 
-# Ex: Change inheritance to PermissiveFrozenModel
-class SectorProjection(BaseModel, extra="allow"):
+class SectorProjection(PermissiveFrozenModel):
     """Projection information for a sector.
 
     This is a dictionary that provides Proj projection information for the sector. For
@@ -200,7 +198,7 @@ class SectorProjection(BaseModel, extra="allow"):
 
 
 # Ex: Change inheritance to FrozenModel
-class SectorShape(BaseModel, extra="forbid"):
+class SectorShape(FrozenModel):
     """The shape of the sector in pixels."""
 
     height: Annotated[
@@ -223,7 +221,7 @@ class SectorShape(BaseModel, extra="forbid"):
     ]
 
 
-class SectorResolution(BaseModel, extra="forbid"):
+class SectorResolution(FrozenModel):
     """The resolution of the sector in projection units.
 
     The height and width of pixels in the units specified by the sector's projection
@@ -256,7 +254,7 @@ class SectorResolution(BaseModel, extra="forbid"):
     ]
 
 
-class SectorAreaExtent(BaseModel):
+class SectorAreaExtent(FrozenModel):
     """The extent of the sector in projection units.
 
     For more information on how this is used, see the pyresample documentation.
@@ -272,7 +270,8 @@ class SectorAreaExtent(BaseModel):
     )
 
 
-class AreaDefinitionSpec(BaseModel):
+# This possibly could be PermissiveFrozenModel
+class AreaDefinitionSpec(FrozenModel):
     """Defines an AreaDefinition for use with pyresample.
 
     The resulting dictionary should be able to just be passed to
@@ -351,7 +350,7 @@ class AreaDefinitionSpec(BaseModel):
     )
 
 
-class RegionMetadata(BaseModel):
+class RegionMetadata(FrozenModel):
     """Metadata format for standard static sectors covering a specific region."""
 
     model_config = ConfigDict(coerce_numbers_to_str=False, extra="forbid")
@@ -364,7 +363,7 @@ class RegionMetadata(BaseModel):
     city: str = Field(..., description="City which the sector resides in.")
 
 
-class StaticMetadata(BaseModel):
+class StaticMetadata(FrozenModel):
     """Metadata format for standard static sectors."""
 
     region: RegionMetadata = Field(
@@ -375,7 +374,7 @@ class StaticMetadata(BaseModel):
     )
 
 
-class BoxMetadata(BaseModel):
+class BoxMetadata(FrozenModel):
     """Metadata format for pyroCb sectors."""
 
     min_lat: Annotated[
@@ -438,7 +437,7 @@ class StitchedMetadata(StaticMetadata):
     )
 
 
-class TCMetadata(BaseModel):
+class TCMetadata(FrozenModel):
     """Metdata format for Tropical Cyclone sectors."""
 
     pressure: Annotated[
@@ -516,7 +515,7 @@ class TCMetadata(BaseModel):
     )
 
 
-class VolcanoMetadata(BaseModel):
+class VolcanoMetadata(FrozenModel):
     """Metadata format for Volcano sectors."""
 
     summit_elevation: float = Field(
