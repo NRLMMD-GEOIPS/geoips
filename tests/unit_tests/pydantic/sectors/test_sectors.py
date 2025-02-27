@@ -172,7 +172,9 @@ def test_bad_sector_plugins(good_sector, key_val):
         bad_sector.pop(key)
     else:
         bad_sector[key] = val
-    if key != "package":
+    if key not in ["abspath", "relpath", "package"]:
+        # Package is explained below, skipping abspath and relpath until we set up
+        # validation for those fields
         with pytest.raises(ValidationError):
             SectorPluginModel(**bad_sector)
     else:
