@@ -26,7 +26,6 @@ from typing_extensions import Annotated
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.interfaces import workflows
 
 LOG = logging.getLogger(__name__)
 
@@ -219,7 +218,7 @@ class PluginModel(FrozenModel):
                 f"Must be one of {get_interfaces()}"
             )
         # the above exception handling would be further improved by checking the
-        # existence of plugin registry in the fuutre issue
+        # existence of plugin registry in the fuutre issue #906
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
