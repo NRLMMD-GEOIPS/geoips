@@ -6,7 +6,6 @@
 # Python Standard Libraries
 import copy
 import json
-import os
 
 # Third-Party Libraries
 import pytest
@@ -147,8 +146,7 @@ def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
 def test_good_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     """Test PluginModel's valid_interface() method with valid interfaces."""
     model = bases.PluginModel(**valid_plugin_data)
-    valid_interface = model.valid_interface(model.interface)
-    assert valid_interface in valid_interfaces
+    assert model.interface in valid_interfaces
 
 
 def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
@@ -266,88 +264,3 @@ def test_bad_plugin_model_set_descrption_without_input_field(
         f"Expected description: {expected_description},"
         f"but got this: {model.docstring}"
     )
-
-
-@pytest.mark.parametrize(
-    "relpath_valid",
-    [
-        "relative/path",
-        "./relative/path",
-        "../parent/path",
-    ],
-    ids=[
-        "simple relative pat",
-        "relative path from current directory",
-        "relative path from parent directory",
-    ],
-)
-def test_good_plugin_model_relpath(valid_plugin_data, relpath_valid):
-    """Test PluginModel with valid relative path instances."""
-    data = copy.deepcopy(valid_plugin_data)
-    data["relpath"] = relpath_valid
-    model = bases.PluginModel(**data)
-    assert model.relpath == relpath_valid
-
-
-@pytest.mark.parametrize(
-    "relpath_invalid",
-    [
-        "/sample/absolute/path",
-    ],
-    ids=[
-        "The 'relpath' must be a relative path",
-    ],
-)
-def test_bad_plugin_model_relpath(valid_plugin_data, relpath_invalid):
-    """Test PluginModel with invalid relative path instances."""
-    data = copy.deepcopy(valid_plugin_data)
-    data["relpath"] = relpath_invalid
-    # model = bases.PluginModel(**data)
-
-    with pytest.raises(ValueError) as exec_info:
-        bases.PluginModel(**data)
-
-    error_info = exec_info.value.errors()
-    assert any(error["loc"] == ("relpath",) for error in error_info)
-    assert any("relative path" in error["msg"] for error in error_info)
-
-
-@pytest.mark.parametrize(
-    "abspath_valid",
-    [
-        "/simple/absolute/path",
-        os.path.expanduser("~/user/path"),
-    ],
-    ids=[
-        "simple absolute path",
-        "from home dir absolute path",
-    ],
-)
-def test_good_plugin_model_abspath(valid_plugin_data, abspath_valid):
-    """Test PluginModel with valid abspath instances."""
-    data = copy.deepcopy(valid_plugin_data)
-    data["abspath"] = abspath_valid
-    model = bases.PluginModel.model_validate(data, context={"skip_exists_check": True})
-    assert model.abspath == abspath_valid
-
-
-@pytest.mark.parametrize(
-    "abspath_invalid",
-    [
-        "relative/path",
-    ],
-    ids=[
-        "The 'abspath' must be an absolute path",
-    ],
-)
-def test_bad_plugin_model_abspath(valid_plugin_data, abspath_invalid):
-    """Test PluginModel with invalid abspath."""
-    data = copy.deepcopy(valid_plugin_data)
-    data["abspath"] = abspath_invalid
-
-    with pytest.raises(ValidationError) as exec_info:
-        bases.PluginModel.model_validate(data, context={"skip_exists_check": True})
-
-    error_info = exec_info.value.errors()
-    assert any(error["loc"] == ("abspath",) for error in error_info)
-    assert any("absolute path" in error["msg"] for error in error_info)

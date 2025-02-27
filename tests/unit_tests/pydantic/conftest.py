@@ -75,10 +75,10 @@ def valid_plugin_data():
     return {
         "interface": "procflows",
         "family": "geoips_family",
-        "name": "geoips_name",
+        "name": "read_test",
         "docstring": "This is a valid numpy docstring.",
         "description": "This is a valid numpy docstring.",
-        "package": "geoips_package",
+        "package": "geoips",
         "relpath": "geoips/tests/unit_tests/pydantic",
         "abspath": "/home/kumar/geoips/geoips/tests/unit_tests/pydantic",
     }

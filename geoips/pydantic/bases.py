@@ -10,7 +10,6 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
-from pathlib import Path
 
 # Third-Party Libraries
 from pydantic import (
@@ -19,7 +18,6 @@ from pydantic import (
     Field,
     field_validator,
     model_validator,
-    ValidationInfo,
 )
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
@@ -54,23 +52,48 @@ class PrettyBaseModel(BaseModel):
         return self.model_dump_json(indent=2, exclude_unset=True)
 
 
-class StaticBaseModel(PrettyBaseModel):
+class FrozenModel(PrettyBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
-    customized configurations such as forbidding extra fields.
-
-    # Attributes
-    # ----------
-    # model_config : ConfigDict
-    #     Configuration for the Pydantic model:
-    #     - `extra="forbid"`: Does not allow any additional fileds in the input data.
-    #     - `populate_by_name=True`: Enables populating fields by their aliases.
-
-
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are not allowed, and the object data cannot be modified after initialization.
     """
 
-    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=True)
+
+
+class PermissiveFrozenModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are allowed, but the object data cannot be modified after initialization.
+    """
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=True)
+
+
+class DynamicModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are not allowed, but the object data can be modified after initialization.
+    """
+
+    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=False)
+
+
+class PermissiveDynamicModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are allowed, and the object data can be modified after initialization.
+    """
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=False)
 
 
 def python_identifier(val: str) -> str:
@@ -133,7 +156,7 @@ def get_interfaces() -> set[str]:
     }
 
 
-class PluginModel(StaticBaseModel):
+class PluginModel(FrozenModel):
     """Base Plugin model for all GeoIPS plugins.
 
     This should be used as the base class for all top-level
@@ -313,150 +336,3 @@ class PluginModel(StaticBaseModel):
             )
             raise PydanticCustomError("length_error", err_msg)
         return value
-
-    @field_validator("relpath", mode="after")
-    def _validate_relative_path(cls: type["PluginModel"], value: str) -> str:
-        """
-        Validate string can be cast as Path and is a relative path.
-
-        Parameters
-        ----------
-        value : str
-            The path string to validate.
-
-        Returns
-        -------
-        value : str
-            The validated relative path.
-
-        Raises
-        ------
-        relative_path_error
-            If the path is absolute or invalid.
-        """
-        custom_exception = PydanticCustomError(
-            "relative_path_error",
-            f"'relpath' must be relative path. Got '{value}'.",
-        )
-        try:
-            path = Path(value)
-        except (ValueError, TypeError) as e:
-            LOG.critical(
-                "Failed to create Path object. 'input_provided': %r, 'error':%s",
-                value,
-                str(e),
-                exc_info=True,
-            )
-            raise custom_exception from e
-
-        if path.is_absolute():
-            raise custom_exception
-        return value
-
-    @field_validator("abspath", mode="after")
-    def _validate_absolute_path(cls: type["PluginModel"], value: str) -> str:
-        """
-        Validate string can be cast as Path and is an absolute path.
-
-        Parameters
-        ----------
-        value : str
-            The path string to validate.
-
-        Returns
-        -------
-        value : str
-            The validated relative path.
-
-        Raises
-        ------
-        relative_path_error
-            If the path is relative or invalid.
-        """
-        custom_exception = PydanticCustomError(
-            "absolute_path_error",
-            f"'abspath' must be absolute path. Got '{value}'.",
-        )
-        try:
-            path = Path(value)
-        except (ValueError, TypeError) as e:
-            LOG.critical(
-                "Failed to create Path object. 'input_provided': %r, 'error':%s",
-                value,
-                str(e),
-                exc_info=True,
-            )
-            raise custom_exception from e
-
-        if not path.is_absolute():
-            raise custom_exception
-        return value
-
-    @model_validator(mode="after")
-    def _validate_path_equivalence_and_existence(
-        cls: type["PluginModel"],
-        values: dict[str, str | int | float | None],
-        info: ValidationInfo,
-    ):
-        """
-        Validate if the ``relpath`` and ``abspath`` refer to same file and path exists.
-
-        Parameters
-        ----------
-        values : dict
-            The model's fields as dictionary.
-        """
-        context = info.context or {}
-        skip_exists_check = context.get("skip_exists_check", False)
-        rel_path_raw = values.relpath
-        abs_path_raw = values.abspath
-
-        rel_path = abs_path = None
-
-        # if not skip_exists_check:
-        try:
-            if rel_path_raw is None:
-                raise ValueError("relpath is None")
-            rel_path = Path(rel_path_raw)
-        except (ValueError, TypeError) as e:
-            LOG.critical(
-                "Failed to create Path object for 'relpath'. 'input': %r, 'error':%s",
-                rel_path_raw,
-                str(e),
-                exc_info=True,
-            )
-            raise
-
-        try:
-            if abs_path_raw is None:
-                raise ValueError("abspath is None")
-            abs_path = Path(abs_path_raw)
-        except (ValueError, TypeError) as e:
-            LOG.critical(
-                "Failed to create Path object for 'abspath'. 'input': %r, 'error':%s",
-                abs_path_raw,
-                str(e),
-                exc_info=True,
-            )
-
-        # combining rel_path and ab_path since both refers to same file
-        if rel_path is None or abs_path is None:
-            err_msg = "invalid realtive file path or absolute file paths"
-            LOG.critical(err_msg)
-            raise ValueError(err_msg)
-
-        # determine the base path from order_based.py
-        obp_script_dir = Path(__file__).resolve().parent
-        base_path = obp_script_dir.parents[0]
-
-        # buidling the absolute path from the relative path
-        absolute_path_built_from_relative = (base_path / rel_path).resolve()
-
-        if absolute_path_built_from_relative == abs_path:
-            LOG.debug("Relative path and absolute path refer to the same file.")
-
-        if not skip_exists_check and not absolute_path_built_from_relative.exists():
-            err_msg = "Path does not exist: " + str(absolute_path_built_from_relative)
-            LOG.critical(err_msg)
-            raise FileNotFoundError(err_msg)
-        return values
