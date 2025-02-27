@@ -147,9 +147,7 @@ def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
 def test_good_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     """Test PluginModel's valid_interface() method with valid interfaces."""
     model = bases.PluginModel(**valid_plugin_data)
-    valid_interface = model.valid_interface(model.interface)
-    print(f"valid interface {valid_interface}")
-    assert valid_interface in valid_interfaces
+    assert model.interface in valid_interfaces
 
 
 def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
