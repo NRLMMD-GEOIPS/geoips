@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: paris
-docstring: "City of Paris"
+docstring: "City of Paris."
 metadata:
   region:
     continent: Europe

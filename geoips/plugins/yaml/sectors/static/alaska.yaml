@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: alaska
-docstring: "Alaskan State"
+docstring: "Alaskan State."
 metadata:
   region:
     continent: NorthAmerica

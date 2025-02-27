@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: w_atlantic
-docstring: "Western Atlantic"
+docstring: "Western Atlantic."
 metadata:
   region:
     continent: x

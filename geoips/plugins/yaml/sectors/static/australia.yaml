@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: australia
-docstring: "Australian Continent"
+docstring: "Australian Continent."
 metadata:
   region:
     continent: Australia

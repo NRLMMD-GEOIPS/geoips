@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: vancouver
-docstring: "City of Vancouver"
+docstring: "City of Vancouver."
 metadata:
   region:
     continent: NorthAmerica

@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: mediterranean
-docstring: "Mediterranean Region"
+docstring: "Mediterranean Region."
 metadata:
   region:
     continent: x

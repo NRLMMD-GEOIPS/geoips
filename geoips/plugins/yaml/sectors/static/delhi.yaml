@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: delhi
-docstring: "City of Delhi"
+docstring: "City of Delhi."
 metadata:
   region:
     continent: Asia

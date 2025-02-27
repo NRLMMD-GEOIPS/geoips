@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: ewsg
-docstring: "Full Disk sector for EWS-G"
+docstring: "Full Disk sector for EWS-G."
 metadata:
   region:
     continent: Global

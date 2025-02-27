@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: europe
-docstring: "European Continent"
+docstring: "European Continent."
 metadata:
   region:
     continent: Europe
