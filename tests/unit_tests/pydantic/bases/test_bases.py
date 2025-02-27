@@ -153,9 +153,9 @@ def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     """Test PluginModel's  valid_interface() method with invalid interfaces."""
     invalid_interface = "invalid_interface_name"
 
-    assert invalid_interface not in valid_interfaces, (
-        f"'{invalid_interface}' should not be a valid interface."
-    )
+    assert (
+        invalid_interface not in valid_interfaces
+    ), f"'{invalid_interface}' should not be a valid interface."
 
     invalid_data = valid_plugin_data.copy()
     invalid_data["interface"] = invalid_interface
