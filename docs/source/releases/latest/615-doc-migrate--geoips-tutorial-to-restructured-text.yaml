@@ -1,5 +1,5 @@
 documentation:
-  - title: "Web Documentation for the GeoIPS Tutorial"
+  - title: "ReStructured Text port of the 2024 GeoIPS Tutorial"
     description: "Tutorial on developing GeoIPS plugins for product generation using CLAVR-x"
     files:
       deleted:
