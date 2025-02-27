@@ -41,6 +41,7 @@ def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
 LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
 
 
+# Ex: Change inheritance to PermissiveFrozenModel
 class SectorProjection(BaseModel, extra="allow"):
     """Projection information for a sector.
 
@@ -198,6 +199,7 @@ class SectorProjection(BaseModel, extra="allow"):
     )
 
 
+# Ex: Change inheritance to FrozenModel
 class SectorShape(BaseModel, extra="forbid"):
     """The shape of the sector in pixels."""
 

@@ -50,6 +50,8 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
+        # Check if exclude unset removes all None attributes or just those which weren't
+        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
         return self.model_dump_json(indent=2, exclude_unset=True)
 
 
