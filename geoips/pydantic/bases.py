@@ -54,7 +54,7 @@ class PrettyBaseModel(BaseModel):
 class FrozenModel(PrettyBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are not allowed, and the object data cannot be modified after initialization.
     """
@@ -65,12 +65,34 @@ class FrozenModel(PrettyBaseModel):
 class PermissiveFrozenModel(PrettyBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are allowed, but the object data cannot be modified after initialization.
     """
 
     model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=True)
+
+
+class DynamicModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are not allowed, but the object data can be modified after initialization.
+    """
+
+    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=False)
+
+
+class PermissiveDynamicModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are allowed, and the object data can be modified after initialization.
+    """
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=False)
 
 
 def python_identifier(val: str) -> str:
