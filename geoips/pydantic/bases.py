@@ -24,7 +24,6 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
-import yaml
 
 
 # GeoIPS imports
@@ -460,44 +459,4 @@ class PluginModel(StaticBaseModel):
             err_msg = "Path does not exist: " + str(absolute_path_built_from_relative)
             LOG.critical(err_msg)
             raise FileNotFoundError(err_msg)
-        return values
-
-    # This validator is under development
-    @model_validator(mode="after")
-    def _validate_rel_and_abs_path_inputs(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
-    ):
-        """Validate whether ``relpath`` and ``abspath`` are set correctly."""
-        computed_relpath = values.relpath
-        computed_abspath = values.abspath
-
-        with open(computed_abspath) as product_definition_file:
-            prod_dict = yaml.safe_load(product_definition_file)
-            user_provided_relpth = prod_dict.get("relpath")
-            user_provided_abspth = prod_dict.get("abspath")
-
-        print("CR", Path(computed_relpath))
-        print("CA", Path(computed_abspath))
-
-        if user_provided_relpth:
-            print("UDR", Path(user_provided_relpth))
-        if user_provided_abspth:
-            print("UDA", Path(user_provided_abspth))
-
-        if (
-            user_provided_abspth
-            and Path(user_provided_abspth).resolve() != Path(computed_abspath).resolve()
-        ):
-            LOG.interactive(
-                "Provided relpath was invalid ! path was reset accordingly."
-            )
-
-        if (
-            user_provided_relpth
-            and Path(user_provided_relpth).resolve() == Path(computed_relpath).resolve()
-        ):
-            LOG.interactive(
-                "Provided abspath was invalid ! path was reset accordingly."
-            )
-
         return values

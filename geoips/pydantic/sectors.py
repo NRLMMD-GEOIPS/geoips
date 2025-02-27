@@ -351,21 +351,6 @@ class AreaDefinitionSpec(BaseModel):
     )
 
 
-class CenterSpec(BaseModel):
-    """Model for how to specify the center of a sector plugin."""
-
-    projection: str = Field(..., description="Name of the PROJ projection in use.")
-    center: LatLonCoordinate = Field(
-        ..., description="Lat/Lon center coordinate in degrees."
-    )
-    shape: Union[Tuple[int, int], SectorShape] = Field(
-        ..., description="Shape of the sector in pixels."
-    )
-    resolution: Union[float, Tuple[float, float], SectorResolution] = Field(
-        ..., description="Resolution of the sector in projection units."
-    )
-
-
 class RegionMetadata(BaseModel):
     """Metadata format for standard static sectors covering a specific region."""
 
@@ -578,7 +563,7 @@ class SectorPluginModel(PluginModel):
     """Sector plugin format."""
 
     model_config = ConfigDict(extra="allow")
-    spec: Union[AreaDefinitionSpec, CenterSpec] = Field(
+    spec: AreaDefinitionSpec = Field(
         ...,
         description=(
             "Specification of the sector's geographical domain. "
