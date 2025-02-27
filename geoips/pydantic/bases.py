@@ -51,23 +51,26 @@ class PrettyBaseModel(BaseModel):
         return self.model_dump_json(indent=2)
 
 
-class StaticBaseModel(PrettyBaseModel):
+class FrozenModel(PrettyBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
     This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
-    customized configurations such as forbidding extra fields.
-
-    # Attributes
-    # ----------
-    # model_config : ConfigDict
-    #     Configuration for the Pydantic model:
-    #     - `extra="forbid"`: Does not allow any additional fileds in the input data.
-    #     - `populate_by_name=True`: Enables populating fields by their aliases.
-
-
+    customized configurations. It is intended for use in cases where additional fields
+    are not allowed, and the object data cannot be modified after initialization.
     """
 
-    model_config = ConfigDict(extra="forbid", populate_by_name=True)
+    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=True)
+
+
+class PermissiveFrozenModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+
+    This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
+    customized configurations. It is intended for use in cases where additional fields
+    are allowed, but the object data cannot be modified after initialization.
+    """
+
+    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=True)
 
 
 def python_identifier(val: str) -> str:
@@ -130,7 +133,7 @@ def get_interfaces() -> set[str]:
     }
 
 
-class PluginModel(StaticBaseModel):
+class PluginModel(FrozenModel):
     """Base Plugin model for all GeoIPS plugins.
 
     This should be used as the base class for all top-level
