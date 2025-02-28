@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Non-Editable Unit Test Fix'
+  description: |
+    @mindyls pointed out that the 'geoips list unit-tests' unit-test module was failing
+    when one or more package was installed in non-editable mode. This wasn't caught by
+    our github actions as we install packages in editable mode for testing. We should
+    probably change this to test in both modes for the future.
+
+    This PR updated some of the commandline unit test code, specifically for
+    non-editable mode cases, to fix these failing tests. All commandline unit tests on
+    my end are now passing.
+  files:
+    modified:
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - tests/unit_tests/commandline/test_geoips_list_scripts.py
+  date:
+    start: 02/24/25
+    finish: 02/24/25
