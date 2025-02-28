@@ -327,7 +327,7 @@ a product definition for My-Cloud-Depth.
 
     cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
 
-Edit my_clavrx_products.yaml. Here is a helful hint to get you started:
+Edit my_clavrx_products.yaml. Here is a helpful hint to get you started:
   * We will define Cloud Depth for this tutorial as the difference between CTH
     and CBH
 
@@ -425,7 +425,7 @@ The changes shown above modify My-Cloud-Depth to the newly created
 My-Cloud-Depth would use the ``single_channel`` algorithm, which is unfit for
 intended purposes. Additionally, two other arguments, ``output_data_range`` and
 ``scale_factor`` override the Cloud-Height product defaults arguments.
-Output data range of [0, 20] states that the  data will be in the range of zero
+Output data range of [0, 20] states that the data will be in the range of zero
 to twenty, and the scale factor specifies data scaling to be in kilometers.
 
 Create a new test script to validate the My-Cloud-Depth product.
@@ -450,7 +450,7 @@ like the code shown below.
       --sector_list conus
   ss_retval=$?
 
-Execute the script to diplay Cloud Depth over the CONUS sector.
+Execute the script to display Cloud Depth over the CONUS sector.
 ::
 
     $MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-depth.sh

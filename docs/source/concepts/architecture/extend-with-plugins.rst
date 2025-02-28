@@ -11,13 +11,13 @@ Extend GeoIPS with Plugins
 GeoIPS is almost entirely composed of plugins and can be extended by developing
 new plugins in external python packages. The ability to extend GeoIPS using
 plugins means that there is no need to edit the main GeoIPS code to add new
-functionality.  Most types of functionality in GeoIPS can be extended. If you
-encounter something that you would like to be able to extend but are unable to,
+functionality.  Most types of functionality in GeoIPS can be extended. If you encounter something that you would like
+to be able to extend but are unable to, 
 please contact the GeoIPS team or create an issue on GitHub.
 
-Developing a new plugin for GeoIPS requires developing a new Python package
-that GeoIPS erms a "plugin package". The plugin package can contain one or
-more plugins. It is configured in a special way such that, when it is
+Developing a new plugin for GeoIPS requires developing a new Python package,
+known as a "plugin package" within GeoIPS. The plugin package can contain one
+or more plugins. It is configured in a special way such that, when it is
 installed, it registers itself and its plugins with GeoIPS.
 
 An example repository `Template Basic Plugin <https://github.com/NRLMMD-GEOIPS/template_basic_plugin/tree/main>`_
