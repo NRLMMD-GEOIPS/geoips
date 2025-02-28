@@ -309,21 +309,12 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
         scn[gchan] = scn[rchan]
         # Delete the satpy named variable
         del scn[rchan]
-    # Resample all variables in this scene to the finest resolution area definition
-    # found. scn.resample() defaults to scn.finest_area()
-    # Renaming to a new variable due to a bug raised here:
-    # https://github.com/pytroll/satpy/issues/2909
-    resampled_scn = scn.resample()
-    # Likely that we want to take a different approach on this. It'd be nice to have
-    # multiple xarray datasets, where each dataset differs by it's resolution. Similar
-    # to abi_netcdf's LOW, MED, HIGH. Likely will need to create multiple scenes
-    # for that to work.
-    LOG.interactive("Resampled scene to finest resolution.")
-    if area_def:
-        resampled_scn = resampled_scn.crop(area=area_def)
 
-    xr = resampled_scn.to_xarray_dataset()
-    lons, lats = resampled_scn.finest_area().get_lonlats()
+    if area_def:
+        scn = scn.crop(area=area_def)
+
+    xr = scn.to_xarray_dataset()
+    lons, lats = scn.finest_area().get_lonlats()
     # Mask inf values with -999.9 for compatibility with get_geolocation func
     lons[np.isinf(lons)] = -999.9
     lats[np.isinf(lats)] = -999.9
