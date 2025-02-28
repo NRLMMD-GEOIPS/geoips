@@ -35,6 +35,7 @@ future:
     - 'geoips/interfaces/base.py'
     - 'geoips/plugin_registry.py'
     - 'geoips/plugins/modules/procflows/__init__.py'
+    - 'geoips/plugins/yaml/products/abi.yaml'
     - 'geoips/plugins/yaml/sectors/static/alaska.yaml'
     moved:
     - ''
