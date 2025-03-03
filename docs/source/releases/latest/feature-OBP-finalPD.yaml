@@ -48,7 +48,6 @@ documentation:
   files:
     added:
     - 'docs/dev/order_based_procflow.rst'
-    - 'docs/source/_templates/sphinx_conf.template.py'
     deleted:
     - ''
     modified:
