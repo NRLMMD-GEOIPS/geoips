@@ -38,7 +38,6 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
     # "sphinx_pydantic",
-    "sphinxcontrib.autodoc_pydantic",
     "sphinx.ext.viewcode",
     "sphinxcontrib.autoprogram",
     "m2r2",
