@@ -127,8 +127,19 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
             # fields for one test. Test them separately
             bad_field = e.errors()[0]["loc"][0]
             err_msg = e.errors()[0]["msg"]
+            # Find the module which contains the failing model. I.e. PluginModel in
+            # geoips.pydantic.bases
+            module = None
+            for mod in gpydan._modules:
+                if failing_model in gpydan._classes[mod]:
+                    module = mod
+                    break
             # Assert that the failing field was found in the model expected to fail
-            assert bad_field in getattr(gpydan, failing_model).model_fields
+            assert (
+                module
+                and bad_field
+                in getattr(gpydan._modules[module], failing_model).model_fields
+            )
             if err_str:
                 # Assert that the error string provided is in the error message returned
                 # or equal to the error message returned.
