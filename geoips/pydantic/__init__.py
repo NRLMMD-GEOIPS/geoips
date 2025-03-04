@@ -55,5 +55,5 @@ def collect_classes(modules):
     return classes
 
 
-_modules = collect_modules(__name__)
+_modules = collect_modules()
 _classes = collect_classes(_modules)  # NOQA
