@@ -139,15 +139,7 @@ and run integration tests:
 6. Test output
 --------------
 
-For reference, the end of the output from the base_test.sh command should
-look something like below, indicating that none of the tests failed:
-
-.. code:: bash
-
-    Package: geoips_base
-    Total run time: 82 seconds
-    Number data types run: 3
-    Number data types failed: 0
+The end of the test output should have no errors.
 
 7. OPTIONAL: Capture working requirements.txt for base install
 --------------------------------------------------------------
