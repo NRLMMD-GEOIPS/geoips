@@ -3,13 +3,12 @@ family: area_definition_static
 name: france
 docstring: "Country of France."
 metadata:
-  region:
-    continent: Europe
-    country: France
-    area: x
-    subarea: x
-    state: x
-    city: x
+  continent: Europe
+  country: France
+  area: x
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: france
   description: Country of France

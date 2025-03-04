@@ -3,13 +3,12 @@ family: area_definition_static
 name: goes_east
 docstring: "Full disk sector for GOES-East."
 metadata:
-  region:
-    continent: Global
-    country: x
-    area: GOES-East
-    subarea: x
-    state: x
-    city: x
+  continent: Global
+  country: x
+  area: GOES-East
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: goes_east
   description: GOES-East Coverage

@@ -350,10 +350,10 @@ class AreaDefinitionSpec(FrozenModel):
     )
 
 
-class RegionMetadata(FrozenModel):
-    """Metadata format for standard static sectors covering a specific region."""
+class StaticMetadata(FrozenModel):
+    """Metadata format for standard static sectors."""
 
-    model_config = ConfigDict(coerce_numbers_to_str=False, extra="forbid")
+    model_config = ConfigDict(coerce_numbers_to_str=False)
 
     continent: str = Field(..., description="Continent which the sector resides in.")
     country: str = Field(..., description="Country which the sector resides in.")
@@ -361,17 +361,6 @@ class RegionMetadata(FrozenModel):
     subarea: str = Field(..., description="Geographic subarea of the sector.")
     state: str = Field(..., description="State which the sector resides in.")
     city: str = Field(..., description="City which the sector resides in.")
-
-
-class StaticMetadata(FrozenModel):
-    """Metadata format for standard static sectors."""
-
-    region: RegionMetadata = Field(
-        ...,
-        description=(
-            "Metadata format for standard static sectors covering a specific region."
-        ),
-    )
 
 
 class BoxMetadata(FrozenModel):

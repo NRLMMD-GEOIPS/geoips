@@ -3,13 +3,12 @@ family: area_definition_static
 name: europe
 docstring: "European Continent."
 metadata:
-  region:
-    continent: Europe
-    country: x
-    area: Continental
-    subarea: x
-    state: x
-    city: x
+  continent: Europe
+  country: x
+  area: Continental
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: europe
   description: European Continent

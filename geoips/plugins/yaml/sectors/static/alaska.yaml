@@ -3,13 +3,12 @@ family: area_definition_static
 name: alaska
 docstring: "Alaskan State."
 metadata:
-  region:
-    continent: NorthAmerica
-    country: UnitedStates
-    area: x
-    subarea: x
-    state: Alaska
-    city: x
+  continent: NorthAmerica
+  country: UnitedStates
+  area: x
+  subarea: x
+  state: Alaska
+  city: x
 spec:
   area_id: alaska
   description: Alaskan State

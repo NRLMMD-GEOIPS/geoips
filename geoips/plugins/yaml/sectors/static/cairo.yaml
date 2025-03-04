@@ -3,13 +3,12 @@ family: area_definition_static
 name: cairo
 docstring: "City of Cairo."
 metadata:
-  region:
-    continent: Africa
-    country: Egypt
-    area: x
-    subarea: x
-    state: Cairo
-    city: Cairo
+  continent: Africa
+  country: Egypt
+  area: x
+  subarea: x
+  state: Cairo
+  city: Cairo
 spec:
   area_id: cairo
   description: City of Cairo

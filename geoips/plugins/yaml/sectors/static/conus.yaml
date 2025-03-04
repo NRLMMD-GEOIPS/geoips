@@ -3,13 +3,12 @@ family: area_definition_static
 name: conus
 docstring: "Continental United States."
 metadata:
-  region:
-    continent: NorthAmerica
-    country: UnitedStates
-    area: Continental
-    subarea: x
-    state: x
-    city: x
+  continent: NorthAmerica
+  country: UnitedStates
+  area: Continental
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: conus
   description: Continental United States

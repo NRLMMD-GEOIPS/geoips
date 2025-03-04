@@ -3,13 +3,12 @@ family: area_definition_static
 name: russia
 docstring: "Russian Country."
 metadata:
-  region:
-    continent: Asia
-    country: Russia
-    area: x
-    subarea: x
-    state: x
-    city: x
+  continent: Asia
+  country: Russia
+  area: x
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: russia
   description: Russian Country

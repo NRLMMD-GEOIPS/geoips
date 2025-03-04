@@ -9,20 +9,20 @@ docstring_invalid_first_character:
   cls: PluginModel
   err_str: Description must start with a letter / number and endwith a period.
 continent_invalid_type:
-  key: metadata/region/continent
+  key: metadata/continent
   val: 8912
-  cls: RegionMetadata
-  err_str: null
+  cls: StaticMetadata
+  err_str: Input should be a valid string
 metadata_missing_continent:
-  key: metadata/region
+  key: metadata
   val:
     country: Korea
     area: x
     subarea: x
     state: x
     city: x
-  cls: RegionMetadata
-  err_str: null
+  cls: StaticMetadata
+  err_str: Field required
 spec_missing_projection:
   key: spec
   val:
@@ -33,13 +33,12 @@ spec_missing_projection:
       width: 1500
     center: [0, 0]
   cls: AreaDefinitionSpec
-  err_str: null
+  err_str: Field required
 area_id_invalid_type:
   key: spec/area_id
-  val:
-    8912
+  val: 8912
   cls: AreaDefinitionSpec
-  err_str: null
+  err_str: Input should be a valid string
 projection_missing_proj:
   key: spec/projection
   val:
@@ -48,42 +47,45 @@ projection_missing_proj:
     lon_0: 137
     units: m
   cls: SectorProjection
-  err_str: null
-resolution_invalid_dimensions:
+  err_str: Field required
+resolution_missing_dy:
   key: spec/resolution
-  val: [1000]
+  val:
+    dx: 1000
   cls: SectorResolution
-  err_str: null
+  err_str: Field required
 shape_missing_height:
   key: spec/shape
   val:
     width:
       15000
   cls: SectorShape
-  err_str: null
-center_invalid_dimensions:
+  err_str: Field required
+center_missing_y:
   key: spec/center
-  val: [0]
+  val:
+    x: 0
   cls: AreaDefinitionSpec
-  err_str: null
+  err_str: Field required
 area_extent_missing_lower_left_xy:
   key: spec/area_extent
-  val: [10000000, 10000000]
+  val:
+    upper_right_xy: [10000000, 10000000]
   cls: SectorAreaExtent
-  err_str: null
+  err_str: Field required
 missing_relpath:
   key: relpath
   val: null
   cls: PluginModel
-  err_str: null
+  err_str: Field required
 missing_abspath:
   key: abspath
   val: null
   cls: PluginModel
-  err_str: null
+  err_str: Field required
 missing_package:
   key: package
   val: null
   cls: PluginModel
-  err_str: null
+  err_str: Field required
 

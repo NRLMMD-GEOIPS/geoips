@@ -3,13 +3,12 @@ family: area_definition_static
 name: meteosat_africa
 docstring: "Meteosat-Africa Converage."
 metadata:
-  region:
-    continent: Africa
-    country: x
-    area: Meteosat-Africa
-    subarea: x
-    state: x
-    city: x
+  continent: Africa
+  country: x
+  area: Meteosat-Africa
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: meteosat_africa
   description: Meteosat-Africa Coverage

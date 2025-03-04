@@ -3,13 +3,12 @@ family: area_definition_static
 name: saskatchewan
 docstring: "Saskatchewan Province."
 metadata:
-  region:
-    continent: NorthAmerica
-    country: Canada
-    area: x
-    subarea: x
-    state: Saskatchewan
-    city: x
+  continent: NorthAmerica
+  country: Canada
+  area: x
+  subarea: x
+  state: Saskatchewan
+  city: x
 spec:
   area_id: saskatchewan
   description: Saskatchewan Province

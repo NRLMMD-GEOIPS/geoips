@@ -3,13 +3,12 @@ family: area_definition_static
 name: australia
 docstring: "Australian Continent."
 metadata:
-  region:
-    continent: Australia
-    country: x
-    area: Continental
-    subarea: x
-    state: x
-    city: x
+  continent: Australia
+  country: x
+  area: Continental
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: australia
   description: Australian Continent

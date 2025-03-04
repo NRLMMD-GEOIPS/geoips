@@ -3,13 +3,12 @@ family: area_definition_static
 name: korea
 docstring: "Local Area Sector for GeoKompsat (Korea)."
 metadata:
-  region:
-    continent: Asia
-    country: Korea
-    area: x
-    subarea: x
-    state: x
-    city: x
+  continent: Asia
+  country: Korea
+  area: x
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: korea
   description: Korea

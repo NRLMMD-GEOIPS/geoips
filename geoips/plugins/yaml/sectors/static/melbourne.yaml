@@ -3,13 +3,12 @@ family: area_definition_static
 name: melbourne
 docstring: "City of Melbourne."
 metadata:
-  region:
-    continent: Australia
-    country: x
-    area: x
-    subarea: x
-    state: Victoria
-    city: Melbourne
+  continent: Australia
+  country: x
+  area: x
+  subarea: x
+  state: Victoria
+  city: Melbourne
 spec:
   area_id: melbourne
   description: City of Melbourne

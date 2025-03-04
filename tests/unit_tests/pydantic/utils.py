@@ -3,8 +3,8 @@
 # from collections import UserDict
 import logging
 
+import numpy as np
 from pydantic import ValidationError
-import pytest
 import yaml
 
 from geoips import pydantic as gpydan
@@ -120,13 +120,23 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     # Otherwise, set the bad value in the plugin, and test for ValidationErrors
     else:
         bad_plugin[key] = val
-        with pytest.raises(ValidationError) as e:
+        try:
             plugin_model(**bad_plugin)
+        except ValidationError as e:
             # The code below assumes that your test only raised one error. That's how
-            # we've structured testing for the time being. I.e. don't create two invalid
-            # fields for one test. Test them separately
-            bad_field = e.errors()[0]["loc"][0]
-            err_msg = e.errors()[0]["msg"]
+            # we've structured testing for the time being. In the case that one or more
+            # errors are reported, we default to the last error of the failing model
+            # reported, or, if no failing model could be associated with this error,
+            # we just default to the last error reported.
+            errors = e.errors()
+            if len(e.errors()) > 1:
+                val_err = attempt_to_associate_model_with_error(failing_model, errors)
+            else:
+                val_err = errors[0]
+            # In testing, it seems that the last 'loc' is always the failing attribute
+            bad_field = val_err["loc"][-1]
+            err_msg = val_err["msg"]
+            print(err_msg)
             # Find the module which contains the failing model. I.e. PluginModel in
             # geoips.pydantic.bases
             module = None
@@ -144,3 +154,38 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
                 # Assert that the error string provided is in the error message returned
                 # or equal to the error message returned.
                 assert err_str in err_msg or err_str == err_msg
+
+
+def attempt_to_associate_model_with_error(failing_model, errors):
+    """Attempt to associate the correct error with the model that should be failing.
+
+    This occurs when more than one error was raised for a given test. Assuming that
+    two fields were not incorrect, only one, then this means that a field is one of a
+    Union of models and/or other fields. Attempt to locate the correct error based on
+    the model provided.
+
+    Parameters
+    ----------
+    failing_model: str
+        - The name (case sensitive) of the model that we expect to raise this error
+    errors: pydantic.ValidationError.errors() -- list
+        - A list of errors containing information on why a field failed to validate.
+    """
+    val_err_idxs = []
+    for err in errors:
+        failing_model_found = False
+        for loc in err["loc"]:
+            if loc == failing_model:
+                failing_model_found = True
+                break
+        val_err_idxs.append(failing_model_found)
+    val_err_idxs = np.array(val_err_idxs)
+    # If no errors could be associated with the failing model, just default
+    # to the last error reported
+    if not np.any(val_err_idxs):
+        val_err = np.array(errors)[-1]
+    # Otherwise, choose the last error associated with the failing model.
+    else:
+        val_err = np.array(errors)[val_err_idxs][-1]
+
+    return val_err

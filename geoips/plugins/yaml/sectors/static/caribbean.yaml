@@ -3,13 +3,12 @@ family: area_definition_static
 name: caribbean
 docstring: "Caribbean Region."
 metadata:
-  region:
-    continent: x
-    country: x
-    area: Caribbean
-    subarea: x
-    state: x
-    city: x
+  continent: x
+  country: x
+  area: Caribbean
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: caribbean
   description: Caribbean Region
