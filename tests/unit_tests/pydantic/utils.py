@@ -1,6 +1,6 @@
 """Generic testing utilities used for pydantic unit testing."""
 
-from collections import UserDict
+# from collections import UserDict
 import logging
 
 from pydantic import ValidationError
@@ -27,8 +27,10 @@ class PathDict(dict):
 
     def __setitem__(self, key, value):
         """Set an item under key with value 'value'.
+
         Custom implementation of dict's __setitem__, which makes use of paths to
         set an item which may be multiple levels deep.
+
         Parameters
         ----------
         key: str
@@ -55,7 +57,7 @@ def load_test_cases(path):
     Parameters
     ----------
     path: str
-        - The path to your *.yaml file.
+        - The path to your .yaml file.
 
     Returns
     -------
