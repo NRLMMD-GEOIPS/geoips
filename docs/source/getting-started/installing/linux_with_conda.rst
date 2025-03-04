@@ -119,8 +119,9 @@ and run integration tests:
 - ``base_install.sh`` will clone repositories containing test data.
 - ``create_plugin_registries`` will identify and register all available plugins
   from all geoips plugin packages, for run-time execution.
-- ``base_test.sh`` will run a few integration tests to ensure that your
-  installation is working correctly.
+- ``test_installation.py`` will run a few integration tests to ensure that your
+  installation is working correctly. For more information on running test_installation.py
+  please see https://github.com/NRLMMD-GEOIPS/geoips/blob/942ef8e7d66a163fa7feba9e1f17a95d3ba83b63/docs/dev/integration_tests.rst#L114
 
 .. code:: bash
 
@@ -133,7 +134,7 @@ and run integration tests:
     create_plugin_registries
 
     # Run integration tests
-    $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
+    pytest -m "integration and base"
 
 6. Test output
 --------------
