@@ -136,7 +136,6 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
             # In testing, it seems that the last 'loc' is always the failing attribute
             bad_field = val_err["loc"][-1]
             err_msg = val_err["msg"]
-            print(err_msg)
             # Find the module which contains the failing model. I.e. PluginModel in
             # geoips.pydantic.bases
             module = None
