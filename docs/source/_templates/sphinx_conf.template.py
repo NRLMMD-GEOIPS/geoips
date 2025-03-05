@@ -23,7 +23,6 @@ sys.path.extend(
     ]
 )
 
-sys.path.insert(0, os.path.abspath("../../../geoips"))
 # -- General configuration ------------------------------------------------
 
 # If your documentation needs a minimal Sphinx version, state it here.
@@ -37,19 +36,12 @@ extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.mathjax",
     "sphinx.ext.napoleon",
-    # "sphinx_pydantic",
-    "sphinxcontrib.autodoc_pydantic",
     "sphinx.ext.viewcode",
+    "sphinxarg.ext",
     "sphinxcontrib.autoprogram",
     "m2r2",
     "sphinxcontrib.mermaid",
 ]
-
-autodoc_pydantic_model_show_json = True  # Show JSON schema for models
-autodoc_pydantic_model_show_config = True  # Include the Config class
-autodoc_pydantic_field_show_constraints = True  # Show field constraints
-autodoc_pydantic_field_list_validators = True  # Include field validators
-autodoc_pydantic_settings_show_json = True  # Show JSON for settings models
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]

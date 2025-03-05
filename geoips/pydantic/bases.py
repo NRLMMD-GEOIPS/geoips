@@ -208,10 +208,18 @@ class PluginModel(FrozenModel):
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
-
-        metadata = getattr(interfaces, values.get("interface")).get_plugin_metadata(
-            values.get("name")
-        )
+        interface_name = values.get("interface")
+        try:
+            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
+                values.get("name")
+            )
+        except AttributeError:
+            raise ValueError(
+                f"Invalid interface: '{interface_name}'."
+                f"Must be one of {get_interfaces()}"
+            )
+        # the above exception handling would be further improved by checking the
+        # existence of plugin registry in the fuutre issue #906
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."

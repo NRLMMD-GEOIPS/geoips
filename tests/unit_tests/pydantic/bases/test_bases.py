@@ -151,19 +151,17 @@ def test_good_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces)
 
 def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     """Test PluginModel's  valid_interface() method with invalid interfaces."""
+    invalid_interface = "invalid_interface_name"
+
+    assert (
+        invalid_interface not in valid_interfaces
+    ), f"'{invalid_interface}' should not be a valid interface."
+
     invalid_data = valid_plugin_data.copy()
-    invalid_data["interface"] = "invalid_interface_name"
+    invalid_data["interface"] = invalid_interface
 
-    with pytest.raises(ValidationError) as exec_info:
+    with pytest.raises(ValueError, match="Invalid interface"):
         bases.PluginModel(**invalid_data)
-
-    error_info = exec_info.value.errors()
-    assert any(
-        err["type"] == "value_error" for err in error_info
-    ), "expected error type : 'Value error' "
-    assert "interface" in str(
-        exec_info.value
-    ), f"Incorrect interface. Must be one of {valid_interfaces}"
 
 
 # Parameterized test input for a valid description test

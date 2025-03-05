@@ -14,20 +14,3 @@ spec:
         name: abi_netcdf
         arguments:
           variables: ['B14BT']
-    - algorithm:
-        name: single_channel
-        arguments:
-          output_data_range: [-90.0, 30.0]
-    - interpolator:
-        name: interp_nearest
-    - output_formatter:
-        name: imagery_annotated
-        arguments:
-          colormapper:
-            name: Infrared
-            arguments:
-              data_range: [-90.0, 30.0]
-          filename_formatter:
-            name: geoips_fname
-            arguments:
-              suffix: ".png"
