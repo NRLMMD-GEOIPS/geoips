@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: e_pacific
-docstring: "Eastern Pacific"
+docstring: "Eastern Pacific."
 metadata:
-  region:
-    continent: x
-    country: x
-    area: Eastern Pacific
-    subarea: x
-    state: x
-    city: x
+  continent: x
+  country: x
+  area: Eastern Pacific
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: e_pacific
   description: Eastern Pacific

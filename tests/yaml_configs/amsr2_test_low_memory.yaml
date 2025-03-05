@@ -10,9 +10,9 @@ available_sectors:
       - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat
     tc_spec_template: tc_web
 
-  global:
+  global_cylindrical:
     sector_list:
-      - global
+      - global_cylindrical
 
 outputs:
   tc_overlay:
@@ -44,8 +44,8 @@ outputs:
       config_names: ['abi', 'ahi', 'seviri']
       product_names: ['Visible', 'Infrared-Gray']
 
-  global_overlay:
-    requested_sector_type: global
+  global_cylindrical_overlay:
+    requested_sector_type: global_cylindrical
     minimum_coverage: 10
     produce_times:
       required_minutes: [0, 20, 40]

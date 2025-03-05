@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: asia
-docstring: "Asian Continent"
+docstring: "Asian Continent."
 metadata:
-  region:
-    continent: Asia
-    country: x
-    area: Continental
-    subarea: x
-    state: x
-    city: x
+  continent: Asia
+  country: x
+  area: Continental
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: asia
   description: Asian Continent

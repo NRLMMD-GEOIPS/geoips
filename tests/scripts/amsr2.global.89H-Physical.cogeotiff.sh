@@ -13,7 +13,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s20200
           --product_name 89H-Physical \
           --filename_formatter geotiff_fname \
           --output_formatter cogeotiff \
-          --sector_list global \
+          --sector_list global_cylindrical \
           --minimum_coverage 0 \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.global.<product>.cogeotiff"
 ss_retval=$?
