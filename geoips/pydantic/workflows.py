@@ -75,7 +75,14 @@ def get_plugin_types() -> set[str]:
 
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
-    """output_formatters."""
+    """Validate Output Formatter arugments."""
+
+    model_config = ConfigDict(extra="allow")
+    pass
+
+
+class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
+    """Validate Coverage Checker arguments."""
 
     model_config = ConfigDict(extra="allow")
     pass
@@ -213,6 +220,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
+            "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
         }
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name

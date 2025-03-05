@@ -1,6 +1,6 @@
 interface: workflows
 family: order_based
-name: ob-WV
+name: ob_WV
 docstring: |
   The WV workflow configuration.
 spec:

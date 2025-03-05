@@ -7,6 +7,7 @@ from copy import deepcopy
 import logging
 
 from geoips.interfaces.base import BaseYamlInterface
+from geoips.pydantic.workflows import WorkflowPluginModel
 
 
 LOG = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ class WorkflowsInterface(BaseYamlInterface):
     """Interface for workflow plugins."""
 
     name = "workflows"
+    validator = WorkflowPluginModel
 
     def get_plugin(self, name, rebuild_registries=None):
         """Retrieve a workflow plugin from the given name.
@@ -25,7 +27,7 @@ class WorkflowsInterface(BaseYamlInterface):
         name: str
             - The name of the workflow plugin we want to retrieve.
         """
-        plugin = super().get_plugin(name)
+        plugin = super().get_plugin(name, rebuild_registries=rebuild_registries)
         steps = plugin["spec"]["steps"]
         final_steps = []
         for step in steps:

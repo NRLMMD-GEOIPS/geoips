@@ -1,8 +1,8 @@
 interface: workflows
 family: order_based
-name: ob-Infrared-Gray
+name: ob_Infrared_Gray
 docstring: |
-  The Infrared-Gray Workflow configuration.
+  The Infrared_Gray Workflow configuration.
 spec:
   steps:
     - interpolator:
