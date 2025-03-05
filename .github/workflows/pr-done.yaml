@@ -1,0 +1,99 @@
+name: "PR Complete"
+
+on:
+  pull_request:
+    types: [opened, edited, reopened, synchronize]
+
+jobs:
+  All_checkboxes_checked:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Fetch PR body and validate checkboxes
+        run: |
+          # 1. Fetch the pull request body via GitHub API
+          PR_BODY=$(curl -s \
+            -H "Authorization: Bearer ${{ secrets.GITHUB_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }} \
+          | jq -r .body)
+
+          echo "Pull Request Body:"
+          echo "$PR_BODY"
+
+          # 2. Look for any unchecked boxes ("[ ]")
+          UNCHECKED=$(echo "$PR_BODY" | grep '\[ \]' || true)
+
+          # 3. If any are found, fail the build
+          if [ -n "$UNCHECKED" ]; then
+            echo "Error: Found unchecked checkboxes:"
+            echo "$UNCHECKED"
+            exit 1
+          else
+            echo "All checkboxes appear to be checked!"
+          fi
+  Docs_added_or_not_needed:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Install yq (for YAML parsing)
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y yq
+
+      - name: Validate feature files and doc changes
+        run: |
+          # Exit immediately on error, treat unset variables as errors, and catch pipeline errors.
+          set -euo pipefail
+
+          # 1. Define the list of valid top-level keys that require documentation from brassy change files.
+          KEYS=("feature" "enhancement" "deprecation")
+  
+          # 2. Get all changed files in this pull request (from base to current HEAD).
+          CHANGED_FILES=$(git diff --name-only "${{ github.event.pull_request.base.sha }}" HEAD)
+  
+          # 3. Filter changed files for YAML files in 'docs/source/releases/latest/' and RST files in 'docs/'.
+          CHANGED_FEATURE_FILES=$(echo "${CHANGED_FILES}" | grep '^docs/source/releases/latest/.*\.yaml$' || true)
+          CHANGED_DOC_FILES=$(echo "${CHANGED_FILES}" | grep '^docs/.*\.rst$' || true)
+  
+          # 4. If no YAML files in 'latest' changed, exit successfully.
+          if [ -z "${CHANGED_FEATURE_FILES}" ]; then
+            echo "No YAML files in 'docs/source/releases/latest/' were changed. Skipping doc check."
+            exit 0
+          fi
+  
+          # Set the field separator to newline to handle file paths with spaces.
+          IFS=$'\n'
+  
+          # 5. For each changed YAML file in 'latest', check if it has any of the required keys.
+          for file in ${CHANGED_FEATURE_FILES}; do
+            KEY_FOUND=false
+  
+            for key in "${KEYS[@]}"; do
+              # 'yq e ".<key>"' returns 'null' if the key is not present.
+              key_value=$(yq e ".${key}" "$file" 2>/dev/null || true)
+  
+              if [ "$key_value" != "null" ]; then
+                KEY_FOUND=true
+                break
+              fi
+            done
+  
+            # 6. If a required key is found, ensure that some .rst doc changes were made.
+            if [ "$KEY_FOUND" = true ]; then
+              if [ -z "${CHANGED_DOC_FILES}" ]; then
+                echo "Error: The file '$file' contains a top-level key from [${KEYS[*]}], but no .rst documentation was modified in 'docs/'."
+                echo "Please update the relevant .rst documentation in 'docs/' to document your changes."
+                exit 1
+              fi
+            fi
+          done
+  
+          echo "All changed YAML files with required keys have associated documentation changes. ✅"
