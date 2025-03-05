@@ -154,7 +154,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ..., description="for internal use only, plugin type", exclude=True
     )
     name: str = Field(..., description="plugin name", init=False)
-    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @model_validator(mode="after")
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
@@ -170,6 +169,68 @@ class WorkflowStepDefinitionModel(FrozenModel):
             )
 
         return values
+
+
+class YamlStepDefinitionModel(WorkflowStepDefinitionModel):
+    spec: Dict[str, Any] = Field(default_factory=dict, description="step args")
+
+    @model_validator(mode="before")
+    def _validate_plugin_spec(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Validate and organize details for each step.
+
+        Parameters
+        ----------
+        values : dict
+            A dictionary of plugin data. The key is plugin type, and
+            the value consists of plugin name and arguments
+
+        Returns
+        -------
+        values : dict
+            A validated and structured dictionary with the following fields:
+
+            - `type` : str
+                The type of the plugin.
+            - `name` : str
+                The name of the plugin.
+            - `arguments` : dict
+                The arguments associated with the plugin.
+
+        """
+        if not values:
+            raise ValueError("Empty : Missing step details")
+
+        # Delegate arguments validation to each plugin type argument class
+        plugin_type = values.get("type")
+        if not plugin_type:
+            raise ValueError("Plugin name cannot be empty")
+        plugin_type_pascal_case = "".join(
+            [word.capitalize() for word in plugin_type.split("_")]
+        )
+        plugin_arguments_model_name = f"{plugin_type_pascal_case}SpecModel"
+        # Dictionary listing all plugin arguments models
+        plugin_arguments_models = {
+            "WorkflowSpecModel": WorkflowSpecModel,
+            # "SectorSpecModel": SectorSpecModel,
+        }
+        plugin_arguments_model = plugin_arguments_models.get(
+            plugin_arguments_model_name
+        )
+        if plugin_arguments_model is None:
+            raise ValueError(
+                f'The argument class/model "{plugin_arguments_model_name}" for'
+                f'the plugin type "{plugin_type}" is not defined.'
+            )
+        plugin_arguments_model(**values.get("arguments", {}))
+
+        return values
+
+
+class ModuleStepDefinitionModel(WorkflowStepDefinitionModel):
+
+
+    arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @model_validator(mode="before")
     def _validate_plugin_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
