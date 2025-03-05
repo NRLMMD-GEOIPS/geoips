@@ -17,7 +17,7 @@ class WorkflowsInterface(BaseYamlInterface):
 
     name = "workflows"
 
-    def get_plugin(self, name):
+    def get_plugin(self, name, rebuild_registries=None):
         """Retrieve a workflow plugin from the given name.
 
         Parameters
