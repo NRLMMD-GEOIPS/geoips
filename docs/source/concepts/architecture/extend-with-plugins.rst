@@ -28,7 +28,7 @@ GeoIPS Plugin Vocabulary
 Plugin
 ------
 A GeoIPS plugin may be either a Python module or a YAML file that extends GeoIPS with new functionality. The type
-(Python module / YMAL) of the product plugin is determined by its interface.
+(Python module / YAML) of the product plugin is determined by its interface.
 
 Plugins are stored in installable Python packages that register their payload with GeoIPS through the use of
 `entrypoints <https://packaging.python.org/en/latest/specifications/entry-points/>`_.
@@ -55,7 +55,7 @@ The following are the top-level plugin attributes. Any required attribute will b
 
 #. Interface
 
-   **Required.** An ``interface`` defines a class of GeoIPS plugins that extend    the same type of functionality
+   **Required.** An ``interface`` defines a class of GeoIPS plugins that extend a specific type of functionality
    within GeoIPS. For example, some commonly used interfaces include the ``algorithms``, ``colormappers``, and
    ``sectors`` interfaces.
 

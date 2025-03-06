@@ -6,12 +6,12 @@ Advanced Very High Resolution Radiometer (AVHRR) extended version
 (`CLAVR-x <https://www.star.nesdis.noaa.gov/portfolio/detail_Clouds.php>`_): **Cloud-Top-Height**,
 **Cloud-Base-Height**, and **Cloud-Depth**. Products are the cornerstone plugin for GeoIPS, as they define how to
 produce a specific product as a combination of other plugins. Products use other plugins, such as an algorithm,
-colormapper, interpolater, etc. to generate the intended output.
+colormapper, interpolater, etc., to generate the intended output.
 
 GeoIPS is almost entirely composed of plugins and can be extended by developing new plugins in external python
 packages. The ability to extend GeoIPS using plugins means that there is no need to edit the main GeoIPS code to add
 new functionality.  Most types of functionality in GeoIPS can be extended. If you're facing issues with existing
-plugins or integrating your own plugin, please reach out GeoIPS team or create an issue on GitHub.
+plugins or integrating your own plugin, please reach out to the GeoIPS team or create an issue on GitHub.
 
 Developing a new plugin for GeoIPS requires developing a new Python package that GeoIPS terms a "plugin package". The
 plugin package can contain one or more plugins. It is configured in a special way such that, when it is installed, it
@@ -46,7 +46,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
     $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx  # download test data for geoips-clavrx
     $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # run tests to verify geoips-clavrx installation
 
-#. Set the following additonal environment variables which are specific to your product plugin development.
+#. Set the following additional environment variables which are specific to your product plugin development.
 
    .. code-block:: shell
 
@@ -76,7 +76,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
       echo $MY_PKG_NAME :  # should reflect your package name
       echo $MY_PKG_DIR  :  # should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
-#.  Owning tutorial template package: change it's name, set the git branch to main, change it's remote repo URL, and
+#.  Take ownership of tutorial template package: change its name, set the git branch to main, change its remote repo URL, and
     push.
 
     .. code-block:: shell
