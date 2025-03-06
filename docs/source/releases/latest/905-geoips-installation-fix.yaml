@@ -1,6 +1,9 @@
 documentation:
-- title: title: Fixing installation issues
-  description: Fixing the links to the installation instructions in the readme and changing the base_test.sh to running integration_test.py with pytest to test the installation.
+- title: Fixing installation issues
+  description: |
+          Fixing the links to the installation instructions 
+          in the readme and changing the base_test.sh to running 
+          integration_test.py with pytest to test the installation.
   files:
     modified:
     - README.md
