@@ -1,5 +1,3 @@
-:orphan:
-
 Product Creation by Extending GeoIPS
 ************************************
 
@@ -236,7 +234,7 @@ package's ``tests/`` directory as they can be later used for regression test of 
 This will write some log output. If your script succeeded it will end with INTERACTIVE: Return Value 0. To view your
 output, look for a line that says SINGLESOURCESUCCESS. Open the PNG file, it should look like the image below.
 
-.. image:: ../../tutorials/extending-with-plugins/product/my_cloud_top_height.png
+.. image:: extending-with-plugins/product/my_cloud_top_height.png
    :width: 800
 
 Okay! you've developed a plugin which produces CLAVR-x Cloud Top Height. This is nice, but what if you want to extend
@@ -420,5 +418,5 @@ This will output a bunch of log output. If your script succeeded it will end wit
 output, look for a line that says SINGLESOURCESUCCESS. Open the PNG file to view your Cloud Depth Image! It should
 look like the image shown below.
 
-.. image:: ../../tutorials/extending-with-plugins/product/my_cloud_depth.png
+.. image:: extending-with-plugins/product/my_cloud_depth.png
    :width: 800
