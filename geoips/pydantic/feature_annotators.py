@@ -26,7 +26,7 @@ class CartopyFeature(PermissiveFrozenModel):
     # NOTE: Once we add land / ocean features, we'll need to add another field, labeled
     # facecolor.
     linewidth: float = Field(
-        None, gt=0, description="The width in pixels of the specified feature."
+        None, ge=0, description="The width in pixels of the specified feature."
     )
 
 
