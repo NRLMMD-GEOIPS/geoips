@@ -17,7 +17,7 @@ Essentially, the procflow is the driver of GeoIPS processing that determines
 which order to call other plugins, such as algorithms and output formatters.
 
 Examples of procflows plugins can be found in the list of GeoIPS built-in
-`procflows <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/procflows>`_.
+`procflows <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/procflows>`__.
 Most cases involving the production of basic imagery will use the
 `single_source` procflow. More complex cases, if unable to use `single_source`,
 will usually be able to use the
