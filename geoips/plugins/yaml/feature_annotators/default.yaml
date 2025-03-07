@@ -2,8 +2,9 @@ interface: feature_annotators
 name: default
 family: cartopy
 docstring: |
-  The default feature_annotators plugin. All line types enabled. All colored red.
-  2px coastlines, 1px countries, 0.5px states borders, and 0px rivers.
+  The default feature_annotators plugin.
+  All line types enabled. All colored red. 2px coastlines, 1px countries, 0.5px states
+  borders, and 0px rivers.
 spec:
   coastline:
     enabled: true
