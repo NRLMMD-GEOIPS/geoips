@@ -1,6 +1,6 @@
 interface: workflows
 family: order_based
-name: ob-windbarbs_dmw_multi_level
+name: ob_windbarbs_dmw_multi_level
 docstring: |
   The windbarbs workflow configuration.
 spec:

@@ -1,6 +1,6 @@
 interface: workflows
 family: order_based
-name: ob-windbarbs_dmw_mid
+name: ob_windbarbs_dmw_mid
 docstring: |
   The windbarbs workflow configuration.
 spec:

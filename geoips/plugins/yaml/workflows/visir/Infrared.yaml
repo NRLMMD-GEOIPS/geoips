@@ -1,6 +1,6 @@
 interface: workflows
 family: order_based
-name: ob-Infrared
+name: ob_Infrared
 docstring: |
   The Infrared Workflow configuration.
 spec:

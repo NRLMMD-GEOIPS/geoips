@@ -1,8 +1,8 @@
 interface: workflows
 family: order_based
-name: ob-WV-Lower
+name: ob_WV_Lower
 docstring: |
-  The WV-Lower workflow configuration.
+  The WV_Lower workflow configuration.
 spec:
   steps:
     - interpolator:
