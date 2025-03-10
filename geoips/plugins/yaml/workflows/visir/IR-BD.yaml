@@ -1,8 +1,8 @@
 interface: workflows
 family: order_based
-name: ob-IR-BD
+name: ob_IR_BD
 docstring: |
-  The IR-BD product_defaults configuration.
+  The IR_BD product_defaults configuration.
 spec:
   steps:
     - interpolator:
