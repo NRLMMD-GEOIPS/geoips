@@ -15,9 +15,9 @@ available_sectors:
     self_register_dataset: Brightness_Temperature_89_GHz_AH
     self_register_source: amsr2
 
-  global:
+  global_cylindrical:
     sector_list:
-      - global
+      - global_cylindrical
 
 outputs:
   unprojected:
@@ -30,8 +30,8 @@ outputs:
     product_names:
       - 89pct
 
-  global_overlay:
-    requested_sector_type: global
+  global_cylindrical_overlay:
+    requested_sector_type: global_cylindrical
     minimum_coverage: 10
     produce_times:
       required_minutes: [0, 20, 40]

@@ -5996,13 +5996,13 @@ yaml_based:
       package: geoips
       plugin_type: yaml_based
       relpath: plugins/yaml/sectors/static/france.yaml
-    global:
-      docstring: Global sector
+    global_cylindrical:
+      docstring: Global Cylindrical Sector.
       family: area_definition_static
       interface: sectors
       package: geoips
       plugin_type: yaml_based
-      relpath: plugins/yaml/sectors/static/global.yaml
+      relpath: plugins/yaml/sectors/static/global_cylindrical.yaml
     goes_east:
       docstring: Full disk sector for GOES-East
       family: area_definition_static

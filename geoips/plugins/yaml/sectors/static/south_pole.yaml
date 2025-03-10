@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: south_pole
-docstring: "South Pole Region"
+docstring: "South Pole Region."
 metadata:
-  region:
-    continent: x
-    country: x
-    area: SouthPole
-    subarea: x
-    state: x
-    city: x
+  continent: x
+  country: x
+  area: SouthPole
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: south_pole
   description: South Pole Region

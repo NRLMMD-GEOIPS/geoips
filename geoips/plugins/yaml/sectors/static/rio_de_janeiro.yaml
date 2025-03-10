@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: rio_de_janeiro
-docstring: "Rio De Janeiro City"
+docstring: "Rio De Janeiro City."
 metadata:
-  region:
-    continent: SouthAmerica
-    country: Brazil
-    area: x
-    subarea: x
-    state: x
-    city: Rio De Janeiro
+  continent: SouthAmerica
+  country: Brazil
+  area: x
+  subarea: x
+  state: x
+  city: Rio De Janeiro
 spec:
   area_id: rio_de_janeiro
   description: Rio De Janeiro City
