@@ -129,12 +129,12 @@ def parallels(area_def, grid_size):
     lat_ticks : list
         latitude locations for gridlines
     """
+    lats = area_def.get_lonlats()[1]
     if grid_size == "auto":
-        grid_size = compute_lat_auto_spacing(area_def)
+        grid_size = compute_lat_auto_spacing(lats)
 
     gs = float(grid_size)
 
-    lats = area_def.get_lonlats()[1]
     mlats = np.ma.masked_greater(lats, 90)
     min_parallel = ceil(float(mlats.min()) / gs) * gs
     max_parallel = ceil(float(mlats.max()) / gs) * gs
@@ -160,8 +160,9 @@ def meridians(area_def, grid_size):
     meridians_to_draw : list
         longitude locations for gridlines
     """
+    lons = area_def.get_lonlats()[0]
     if grid_size == "auto":
-        grid_size = compute_lon_auto_spacing(area_def)
+        grid_size = compute_lon_auto_spacing(lons)
 
     gs = float(grid_size)
 
@@ -346,10 +347,16 @@ def set_gridlines_info_dict(gridlines_info, area_def):
     return use_gridlines_info
 
 
-def compute_lat_auto_spacing(area_def):
-    """Compute automatic spacing for latitude lines based on area definition."""
-    minlat = area_def.area_extent_ll[1]
-    maxlat = area_def.area_extent_ll[3]
+def compute_lat_auto_spacing(lats):
+    """Compute automatic spacing for latitude lines.
+
+    Parameters
+    ----------
+    lats: np.ndarray
+        - ndarray of latitude values to compute spacing off of.
+    """
+    minlat = lats.min()
+    maxlat = lats.max()
     lat_extent = maxlat - minlat
     if lat_extent > 5:
         lat_spacing = int(lat_extent / 5)
@@ -362,10 +369,16 @@ def compute_lat_auto_spacing(area_def):
     return lat_spacing
 
 
-def compute_lon_auto_spacing(area_def):
-    """Compute automatic spacing for longitude lines based on area definition."""
-    minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
-    maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
+def compute_lon_auto_spacing(lons):
+    """Compute automatic spacing for longitude lines.
+
+    Parameters
+    ----------
+    lons: np.ndarray
+        - ndarray of longitude values to compute spacing off of.
+    """
+    minlon = lons.min()
+    maxlon = lons.max()
     if minlon > maxlon and maxlon < 0:
         maxlon = maxlon + 360
     lon_extent = maxlon - minlon

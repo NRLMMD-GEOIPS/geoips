@@ -425,9 +425,11 @@ def get_minmax_latlon_from_area_def(area_def, lon_pad, lat_pad):
     min_lon, min_lat, max_lon, max_lat: float
         - These degree (float) values will be returned in the order listed above.
     """
-    extent_lonlat = list(
-        area_def.area_extent_ll
-    )  # [min_lon, min_lat, max_lon, max_lat]
+    lon, lat = area_def.get_lonlats()
+    extent_lonlat = [lon.min(), lat.min(), lon.max(), lat.max()]
+    # extent_lonlat = list(
+    #     area_def.area_extent_ll
+    # )  # [min_lon, min_lat, max_lon, max_lat]
     min_lon, max_lon = -180, 180
 
     # Check if the area_def includes either North or South Pole. If it does, we have to
