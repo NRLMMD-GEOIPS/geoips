@@ -1,0 +1,29 @@
+documentation:
+- title: Add Conceptual Interface Documentation
+  description: |
+      Add documentation describing, conceptually, what the different types of GeoIPS plugins are.
+  files:
+    moved:
+    - 'docs/source/concepts/functionality/interfaces/module_based/algorithm.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/feature_annotators.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/gridline_annotators.rst'
+    added:
+    - 'docs/source/concepts/functionality/interfaces/module_based/colormapper.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/filename_formats.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/interpolators.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/output_formats.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/procflows.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/readers.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/title_formats.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/dynamic_sectors.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/product_defaults.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/products.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/static_sectors.rst'
+    - 'docs/source/releases/latest/915-add-conceptual-interface-documentation.yaml'
+  related-issue:
+    number: 915
+    repo_url: https://github.com/NRLMMD-GEOIPS/geoips
+  date:
+    start: 2/25/25
+    finish: 3/10/25
+
