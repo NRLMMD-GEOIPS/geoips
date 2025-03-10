@@ -1,0 +1,27 @@
+interface: workflows
+family: order_based
+name: ob_nasa_dust_rgb
+docstring: |
+  The nasa_dust_rgb workflow configuration.
+spec:
+  steps:
+    - interpolator:
+        name: interp_gauss
+        arguments:
+          sigmaval: 10000
+    - algorithm:
+        name: nasa_dust_rgb
+        arguments: {}
+    - coverage_checker:
+        name: rgba
+        arguments: {}
+    - output_formatter:
+        name: imagery_annotated
+        arguments:
+          colormapper:
+            name: cmap_rgb
+            arguments: {}
+          filename_formatter:
+            name: geoips_fname
+            arguments:
+              suffix: ".png"
