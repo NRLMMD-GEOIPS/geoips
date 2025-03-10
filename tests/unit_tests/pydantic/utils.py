@@ -2,11 +2,13 @@
 
 # from collections import UserDict
 import logging
+from importlib.resources import files
 
 import numpy as np
 from pydantic import ValidationError
 import yaml
 
+from geoips import interfaces
 from geoips import pydantic as gpydan
 
 
@@ -77,6 +79,56 @@ def load_test_cases(path):
     return test_cases
 
 
+def load_geoips_yaml_plugin(interface_name, plugin_name):
+    """Load a GeoIPS YAML plugin via yaml.safe_load, not interface.get_plugin.
+
+    This will be used until we convert all of our schema to pydantic. If we load a
+    plugin via <interface>.get_plugin, this sometimes will cause errors due to different
+    validation protocols.
+
+    Parameters
+    ----------
+    inteface_name: str
+        - The name of the GeoIPS plugin's interface.
+    plugin_name: str
+        - The name of the plugin of type 'interface_name'.
+
+    Returns
+    -------
+    yam: dict
+        - A dictionary object representing the yaml plugin requested.
+    """
+    yam_ints = interfaces.list_available_interfaces()["yaml_based"]
+    if interface_name not in yam_ints:
+        raise KeyError(
+            f"'{interface_name}' is not a valid yaml interface. Please select an "
+            f"interface out of any of the following {yam_ints}."
+        )
+    interface = getattr(interfaces, interface_name)
+    registry = interface.plugin_registry.registered_plugins["yaml_based"][
+        interface_name
+    ]
+    if isinstance(plugin_name, tuple):
+        # Likely a product. Do a nested search for the plugin.
+        entry = registry[plugin_name[0]][plugin_name[1]]
+    else:
+        entry = registry[plugin_name]
+
+    relpath = entry["relpath"]
+    abspath = str(files("geoips") / relpath)
+    package = "geoips"
+
+    yam = yaml.safe_load(open(abspath, "r"))
+    # Append these attributes to the plugin for further validation. 'get_plugin'
+    # already does this, but since we're loading in a different manner, we do this
+    # manually for the time being.
+    yam["abspath"] = abspath
+    yam["relpath"] = relpath
+    yam["package"] = package
+
+    return yam
+
+
 def validate_good_plugin(good_plugin, plugin_model):
     """Assert that a well formatted plugin is valid.
 
@@ -143,12 +195,19 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
                 if failing_model in gpydan._classes[mod]:
                     module = mod
                     break
-            # Assert that the failing field was found in the model expected to fail
-            assert (
-                module
-                and bad_field
-                in getattr(gpydan._modules[module], failing_model).model_fields
-            )
+                elif hasattr(gpydan._modules[mod], failing_model):
+                    # This behaviour occurs for the 'ColorType' attribute, which is a
+                    # type instance but not actually a pydantic class. Skip the field
+                    # assertion below
+                    module = "pass"
+                    break
+            if module != "pass":
+                # Assert that the failing field was found in the model expected to fail
+                assert (
+                    module
+                    and bad_field
+                    in getattr(gpydan._modules[module], failing_model).model_fields
+                )
             if err_str:
                 # Assert that the error string provided is in the error message returned
                 # or equal to the error message returned.
