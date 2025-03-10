@@ -1,4 +1,4 @@
-:
+:orphan:
 
 .. dropdown:: Distribution Statement
 
