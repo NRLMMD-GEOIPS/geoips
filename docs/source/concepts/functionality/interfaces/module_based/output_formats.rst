@@ -27,7 +27,9 @@ Output formatters can be executed in two ways:
 1. **Specification at the Command Line:** Output formatters are specified
 as arguments at the command line. For example:
 
-`--output_formatter imagery_annotated`
+   .. code-block:: bash
+
+      --output_formatter imagery_annotated
 
 2. **Direct Invocation:** Call the output formatter from within a program:
 

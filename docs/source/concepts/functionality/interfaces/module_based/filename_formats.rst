@@ -30,7 +30,9 @@ Filename formatters can be applied in two ways:
 1. **Specification at the Command Line:** Filename formatters are specified
 as arguments at the command line. For example:
 
-`--filename_formatter geoips_fname`
+   .. code-block:: bash
+
+      --filename_formatter geoips_fname
 
 For an example of calling a filename formatter from a test script, see the
 `ABI Infrared <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_

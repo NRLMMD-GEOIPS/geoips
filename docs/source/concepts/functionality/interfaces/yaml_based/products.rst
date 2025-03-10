@@ -27,4 +27,6 @@ for instruction on setting up a new product.
 Products are defined in a YAML file, as shown in the tutorial above. They are
 then included as arguments at the command line:
 
-`--product_name My-Cloud-Top-Height`
+   .. code-block:: bash
+
+        --product_name My-Cloud-Top-Height

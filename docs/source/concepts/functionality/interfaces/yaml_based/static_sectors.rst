@@ -27,9 +27,13 @@ for instruction on setting up a new static sector.
 Static sectors are defined in a YAML file, as shown in the tutorial above.
 They are then included as arguments at the command line. For example:
 
-`--sector_list conus`
+   .. code-block:: bash
+
+        --sector_list conus
 
 Note that GeoIPS can run the same product for multiple geographic sectors by
 passing multiple sectors to the `sector_list` argument:
 
-`--sector_list conus canada`
+   .. code-block:: bash
+
+        --sector_list conus canada

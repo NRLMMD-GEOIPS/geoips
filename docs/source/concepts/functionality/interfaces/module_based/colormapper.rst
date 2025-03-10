@@ -41,6 +41,9 @@ using the `colorbar_kwargs`, `set_ticks_kwargs`, and `set_label_kwargs` keys.
 For an example of how a custom colormapper is formatted, see the
 `Infrared colormapper <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/visir/Infrared.py>`_.
 
+Using a Colormapper
+===================
+
 Colormappers can be applied in two ways:
 
 1. **Inclusion in Product Specifications:** If using one of the existing output

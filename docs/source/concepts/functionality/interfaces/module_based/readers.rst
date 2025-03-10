@@ -29,7 +29,9 @@ Readers can be called in two ways:
 1. **Specification at the Command Line:** Readers are specified as arguments at
 the command line. For example, the ABI Level 1b NetCDF reader is called as follows:
 
-`--reader_name abi_netcdf`
+   .. code-block:: bash
+
+      --reader_name abi_netcdf
 
 The
 `ABI Infrared <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_

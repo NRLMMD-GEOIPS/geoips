@@ -31,7 +31,9 @@ Procflows can be executed in two ways:
 as the primary argument at the command line when running GeoIPS.
 For example, the single_source procflow is called as follows:
 
-`geoips run single_source`
+   .. code-block:: bash
+
+      geoips run single_source
 
 The
 `ABI Infrared <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_

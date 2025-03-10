@@ -37,7 +37,9 @@ as arguments at the command line. Since they are called from within an output
 formatter, they are passed as an output formatter keyword argument formatted as
 a JSON dictionary:
 
-`--output_formatter_kwargs '{"title_formatter": "static_standard"}'`
+   .. code-block:: bash
+
+      --output_formatter_kwargs '{"title_formatter": "static_standard"}'
 
 For an example of calling a filename formatter from a test script, see the
 `ABI Infrared <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_

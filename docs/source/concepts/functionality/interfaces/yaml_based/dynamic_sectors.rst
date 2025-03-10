@@ -26,4 +26,6 @@ GeoIPS has a several built-in dynamic sector templates, which can be accessed
 Dynamic sectors are defined in a YAML file, and are then included as arguments
 at the command line. For example:
 
-`--tc_spec_template tc_web_ascatuhr_barbs`
+   .. code-block:: bash
+
+        --tc_spec_template tc_web_ascatuhr_barbs
