@@ -1,0 +1,16 @@
+documentation:
+- title: Fixing installation issues
+  description: |
+          Fixing the links to the installation instructions 
+          in the readme and changing the base_test.sh to running 
+          integration_test.py with pytest to test the installation.
+  files:
+    modified:
+    - README.md
+    - linux_with_conda.rst
+  related-issue:
+    number: 905
+    repo_url: https://github.com/NRLMMD-GEOIPS/geoips
+  date:
+    start: 2/28/25
+    finish: 3/4/25

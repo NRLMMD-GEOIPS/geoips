@@ -11,6 +11,8 @@ from importlib import resources
 from os.path import basename
 import pytest
 
+from geoips.geoips_utils import is_editable
+
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
 
@@ -85,6 +87,10 @@ class TestGeoipsListScripts(BaseCliTest):
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
             assert "usage: To use, type `geoips list scripts`" in output
+        elif "-p" not in args and any(
+            [is_editable(pkg_name) for pkg_name in self.plugin_package_names]
+        ):
+            self.assert_non_editable_error_or_wrong_package(args, output)
         else:
             # Checking tabular output from the list-scripts command
             if "-p" in args:
@@ -136,4 +142,5 @@ def test_command_combinations(monkeypatch, args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'list', 'scripts'])
     """
+    # if "-p" not in args and
     test_sub_cmd.test_command_combinations(monkeypatch, args)
