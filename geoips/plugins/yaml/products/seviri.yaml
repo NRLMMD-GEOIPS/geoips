@@ -2,48 +2,82 @@ interface: products
 family: list
 name: seviri
 docstring: |
+  SEVIRI: Spinning Enhanced Visible Infra-Red Imager. Includes 12 channels, with 11 narrow-bandwidth, and 1 high resolution broad bandwidth.
+
+  Used on
+  MSG-2: Meteosat Second Generation Program. Includes four operational satellites in a joint mission between ESA and EUMETAT. This 
+  includes Meteosat 9, 10, and 11 being currently active.
+  
   The seviri product_inputs configuration, which produces Infrared, Vertical Velocity, and Visible products.
 spec:
   products:
     - name: Infrared
       source_names: [seviri]
       docstring: |
-        The Infrared product_defaults configuration for seviri products.
+        11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared
       spec:
         variables: ["B09BT"]
     - name: Infrared-Gray
       source_names: [seviri]
       docstring: |
-        The Infrared-Gray product_defaults configuration for seviri products.
+        11.2 µm Gray Scale Infrared. This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared-Gray
       spec:
         variables: ["B09BT"]
     - name: IR-BD
       source_names: [seviri]
       docstring: |
-        The IR-BD product_defaults configuration for seviri products.
+        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and includes a BD curve enhancement, known 
+        as the Dvorak Hurricane Curve for Tropical Cyclone Classification, and can help determine the intensity of storms. 
       product_defaults: IR-BD
       spec:
         variables: ["B09BT"]
     - name: WV-Lower
       source_names: [seviri]
       docstring: |
-        The WV-Lower product_defaults configuration for seviri products.
+        7.3 µm Low-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor.  
+        This product utilizes channel 10 (7.3 µm) and is a lower-level product that can view as low as 750mb level. This can show the forecaster how 
+        much potential a storm has to develop and the locations of dry slots.
       product_defaults: WV-Lower
       spec:
         variables: ["B06BT"] # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: WV-Upper
       source_names: [seviri]
       docstring: |
-        The WV-Upper product_defaults configuration for seviri products.
+        6.2 µm Upper-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product 
+        utilizes channel 8 (6.2 µm) and is an upper-level product. This can be used to analyze potential storm development and the locations of dry slots. 
       product_defaults: WV-Upper
       spec:
         variables: ["B05BT"] # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
+    - name: WV-Upper-No-SR
+      source_names: [seviri]
+      docstring: |
+        The WV-Upper No Self Register product_defaults configuration for seviri products.
+      family: unsectored_xarray_dict_to_algorithm_to_output_format
+      spec:
+        variables: ["B05BT"]
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-70.0, 0.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        mtif_type: ir
+        colormapper:
+          plugin:
+            name: WV
+            arguments:
+              data_range: [-70.0, 0.0]
     - name: Visible
       source_names: [seviri]
       docstring: |
-        The Visible product_defaults configuration for seviri products.
+        0.51 µm Visible. This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns.
       product_defaults: Visible
       spec:
         variables: ["B01Ref", "solar_zenith_angle"] # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi),  B01 0.635um seviri
@@ -56,3 +90,93 @@ spec:
             arguments:
               cbar_label: "Reflectance, SEVIRI B01 0.635um red band"
         # cbar_label: "Reflectance, SEVIRI B02 0.81um Veggie Band"
+    - name: Dust_RGB
+      source_names: [seviri]
+      docstring: |
+        The Dust RGB product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B07BT", "B09BT", "B10BT"]
+        algorithm:
+            plugin:
+                name: Dust_RGB
+    - name: Natural_Color
+      source_names: [seviri]
+      docstring: |
+        The Natural Color product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B01Ref", "B02Ref", "B03Ref"]
+        algorithm:
+            plugin:
+                name: Natural_Color
+    - name: airmass
+      source_names: [seviri]
+      docstring: |
+        The airmass product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B05BT", "B06BT", "B08BT", "B09BT"]
+        algorithm:
+            plugin:
+                name: airmass
+    - name: Convective_Storms
+      source_names: [seviri]
+      docstring: |
+        The Convective Storms product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B04BT", "B05BT", "B06BT", "B09BT", "B01Ref", "B03Ref"]
+        algorithm:
+            plugin:
+                name: Convective_Storms
+    - name: Day_Microphys_Summer
+      source_names: [seviri]
+      docstring: |
+        The Summer Day Microphyics product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B02Ref", "B04BT", "B09BT"]
+        algorithm:
+            plugin:
+                name: Day_Microphys_Summer
+    - name: Day_Microphys_Winter
+      source_names: [seviri]
+      docstring: |
+        The Winter Day Microphyics product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B02Ref", "B04BT", "B09BT"]
+        algorithm:
+            plugin:
+                name: Day_Microphys_Winter
+    - name: Day_Solar
+      source_names: [seviri]
+      docstring: |
+        The day solar product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B02Ref", "B03Ref", "B04BT"]
+        algorithm:
+            plugin:
+                name: Day_Solar
+    - name: Night_Microphys
+      source_names: [seviri]
+      docstring: |
+        The Night_Microphys product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B04BT", "B09BT", "B10BT"]
+        algorithm:
+            plugin:
+                name: Night_Microphys
+    - name: Volcanic_Ash
+      source_names: [seviri]
+      docstring: |
+        The Volcanic-Ash product configuration for seviri products.
+      product_defaults: RGB-Default
+      spec:
+        variables: ["B07BT", "B09BT", "B10BT"]
+        algorithm:
+            plugin:
+                name: Volcanic_Ash

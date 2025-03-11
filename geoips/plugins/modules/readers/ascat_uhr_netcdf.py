@@ -3,14 +3,16 @@
 
 """Read derived surface winds from BYU ASCAT UHR NetCDF data."""
 
+# Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
-from datetime import datetime
 import os
-from os.path import basename
 
+# Third-Party Libraries
 import numpy
 import xarray
 
+# GeoIPS imports
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
     get_max_from_xarray_time,
@@ -24,6 +26,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "ascat_uhr_netcdf"
+source_names = ["ascatuhr"]
 
 
 def read_byu_data(wind_xarray, fname):
@@ -233,8 +236,6 @@ def read_byu_data(wind_xarray, fname):
                     "Start time greater than 1day ahead of expected time. "
                     "Removing one day from applied offset"
                 )
-                from datetime import timedelta
-
                 timediff -= numpy.array(timedelta(days=1), dtype="timedelta64")
             wind_xarray["time"] = wind_xarray["time"] + timediff
 
@@ -299,15 +300,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))
     wind_xarray.attrs["source_name"] = "unknown"
     wind_xarray.attrs["platform_name"] = "unknown"
 
-    wind_xarray.attrs["source_file_names"] = [basename(fname)]
+    wind_xarray.attrs["source_file_names"] = [os.path.basename(fname)]
     wind_xarray.attrs["interpolation_radius_of_influence"] = 20000
     # 1.25km grid, 4km accuracy
     wind_xarray.attrs["sample_distance_km"] = 4

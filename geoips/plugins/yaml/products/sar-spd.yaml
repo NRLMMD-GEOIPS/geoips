@@ -2,20 +2,25 @@ interface: products
 family: list
 name: sar-spd
 docstring: |
+  SAR-SPD: Synthetic Aperture Rader.
+
+  Used on
+  Sentinel-1: Two-satellite program to provide operational continuity to the Envisat ASAR.
+  
   The sar-spd product_inputs configuration, which produces windspeed, nrcs, incident-angle, unsectored, and sectored products.
 spec:
   products:
     - name: windspeed
       source_names: [sar-spd]
       docstring: |
-        The windspeed product_defaults configuration for sar-spd products.
+        Measures the sea surface wind speed. Can help predict with cloud movements or water vapor, when there are no clouds present.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: nrcs
       source_names: [sar-spd]
       docstring: |
-        The nrcs product_defaults configuration for sar-spd products.
+        Normalized Radar Cross Section. 
       product_defaults: nrcs
       spec:
         variables: ["nrcs"]

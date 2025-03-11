@@ -1,0 +1,116 @@
+enhancement:
+- title: 'Rewrite docs build in python'
+  description: 'The docs build script has been re-written in Python. It now builds the docs in a temporary directory and only overwrites the docs on disk if the build is successful. Please start calling docs/build_docs.py instead of docs/build_docs.sh.'
+  files:
+    added:
+    - 'docs/build_docs.py'
+    - 'docs/source/releases/latest/Add-create_plugin_regitries-to-base_install.yaml'
+    - 'docs/__init__.py'
+    modified:
+    - 'docs/build_docs.sh'
+    - 'pyproject.toml'
+    - 'pytest.ini'
+    - 'tests/integration_tests/base_install.sh'
+    - '.github/workflows/doc-test.yaml'
+    - 'docs/source/_templates/index.template.rst'
+    - 'docs/source/_templates/sphinx_conf.template.py'
+    - 'docs/update_release_note_index.py'
+    - 'docs/source/new-docs/contribute/code-of-conduct.rst'
+    deleted:
+    - 'tests/integration_tests/test_full_test.py'
+  related-issue:
+    number: 774
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: 'Added documentation for new docs build script'
+  description: 'The docs build script has been re-written in python. This adds documentation on how to use it and what it does.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/new-docs/concepts/functionality/documentation-building.rst'
+    modified:
+    - 'docs/source/devguide/index.rst'
+  related-issue:
+    number: 774
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

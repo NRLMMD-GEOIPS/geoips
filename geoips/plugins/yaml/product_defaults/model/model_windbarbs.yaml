@@ -1,0 +1,36 @@
+interface: product_defaults
+family: algorithm_colormapper
+name: model_windbarbs
+docstring: |
+  The model windbarbs product_defaults configuration.
+spec:
+  algorithm:
+    plugin:
+      name: model_windbarbs
+      arguments:
+        output_data_range: [0, 200]
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+  mtif_type: image
+  colormapper:
+    plugin:
+      name: wind_radii_transitions
+      arguments:
+        data_range: [0, 200]
+  windbarb_plotter:
+    plugin:
+      name: imagery_windbarbs
+      arguments:
+        thinning: 1  # skip data points
+        length: 5.0
+        width: 1.5
+        sizes_dict:
+          height: 0.7
+          spacing: 0.3
+        rain_size: 0
+  coverage_checker:
+    plugin:
+      name: windbarbs
+      arguments: {}

@@ -1,0 +1,16 @@
+enhancement:
+- title: Enable full suite of integration tests to be run in parallel via pytest.
+  description: 'This adds a helper python file with pytest-capable tests that call
+    the same shell scripts called by full_test.sh. This is helpful when
+    combined with pytest-xdist''s ability to run pytests in parallel.
+    It also gives developers the ability to run tests with an alternative
+    CLI output format. Users should continue to run full_test.sh.'
+  files:
+    modified:
+    - tests/integration_tests/test_full_test.py
+    - pyproject.toml
+    - pytest.ini
+  date:
+    start: Nov 7, 2024
+    finish: Nov 12, 2024
+

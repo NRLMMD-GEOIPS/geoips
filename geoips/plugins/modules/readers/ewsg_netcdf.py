@@ -36,11 +36,13 @@ EWS-G file information::
 import logging
 import os
 
-# Installed Libraries
-import numpy as np
-import xarray as xr
+# Third-Party Libraries
 import calendar
+import numpy as np
+import pandas as pd
+import xarray as xr
 
+from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
@@ -80,6 +82,7 @@ xvarnames = {
 interface = "readers"
 family = "standard"
 name = "ewsg_netcdf"
+source_names = ["gvar"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -119,8 +122,55 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import pandas as pd
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )
 
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """Read EWS-G data in netcdf4 format for one or more files.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * NOT YET IMPLEMENTED
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * NOT YET IMPLEMENTED
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * NOT YET IMPLEMENTED
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * NOT YET IMPLEMENTED
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     # --------------- loop input files ---------------
     xarray_ewsg = xr.Dataset()
     xarray_ewsg.attrs["source_file_names"] = []
@@ -128,9 +178,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     for fname in fnames:
         # check for a correct goes-13 data file
-
         data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
-
         if data_name != "nc":
             LOG.info("Warning: EWS-G data type:  data_type=", data_name)
             raise
@@ -139,37 +187,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         ncdf_file = ncdf.Dataset(str(fname), "r")
         LOG.info("    Trying file %s", fname)
 
-        if ncdf_file.satellite == "goes-13":
+        if ncdf_file.satellite in ["goes-13", "goes-15"]:
             LOG.info("found a NOAA EWS-G data file")
         else:
             LOG.info("not a NOAA EWS-G data file: skip it")
-            raise
-
-        # *************** input VIRRS variables  and output xarray required by geo
-
-        # for varname in ncdf_file.variables.keys():
-        for var in VARLIST:
-            varname = var
-            data = ncdf_file[varname]
-            # masked_data=np.ma.masked_equal(ncdf_file[varname],ncdf_file[varname].missing_value)
-            masked_data = np.ma.masked_equal(data, data.missing_value)
-
-            if var in xvarnames:
-                varname = xvarnames[var]  # rename zenith/azimuth-related variables
-
-            xarray_ewsg[varname] = xr.DataArray(masked_data)
-            """
-            # scale_factor should not be applied
-            if 'scale_factor' in data.ncattrs():
-                # apply scale_factor correction
-                #xarray_ewsg[varname]=xarray_ewsg[varname]*ncdf_file[varname].scale_factor
-                xarray_ewsg[varname]=xarray_ewsg[varname]*data.scale_factor
-            """
-            # convert unit from degree to Kelvin for ch2, ch4, and ch6 (ch1 is in unit
-            # of albedo)
-            if varname in ["gvar_ch2", "gvar_ch4", "gvar_ch6"]:
-                xarray_ewsg[varname] = xarray_ewsg[varname] + 273.15
-                xarray_ewsg[varname].attrs["units"] = "Kelvin"
+            raise ValueError(
+                f"Found {ncdf_file.satellite}, expected either goes-13 or goes-15"
+            )
 
         # setup attributes
         # use fname to get an initial info of  year, month, day
@@ -248,15 +272,54 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # ncdf_file.sensor_name is gvissr - I think that is a mistake on
         # Terascan's part - hold out from years ago
         xarray_ewsg.attrs["source_name"] = "gvar"
+
         if ncdf_file.satellite == "goes-13":
-            xarray_ewsg.attrs["platform_name"] = "ews-g"
+            xarray_ewsg.attrs["platform_name"] = "ews-g1"
+        if ncdf_file.satellite == "goes-15":
+            xarray_ewsg.attrs["platform_name"] = "ews-g2"
+        xarray_ewsg.attrs["legacy_platform_name"] = ncdf_file.satellite
         xarray_ewsg.attrs["data_provider"] = "noaa"
-        xarray_ewsg.attrs["source_file_names"] += [os.path.basename(fname)]
+        xarray_ewsg.attrs["source_file_names"] = [
+            os.path.basename(fname) for fname in fnames
+        ]
 
         # MTIFs need to be "prettier" for PMW products, so 2km resolution for
         # final image
         xarray_ewsg.attrs["sample_distance_km"] = 2
         xarray_ewsg.attrs["interpolation_radius_of_influence"] = 3000
+        # Just return the metadata
+        if metadata_only:
+            # close the files
+            ncdf_file.close()
+            return {"METADATA": xarray_ewsg}
+        # Otherwise, get the actual data, as well as the metadata
+        # *************** input VIRRS variables  and output xarray required by geo
+
+        # for varname in ncdf_file.variables.keys():
+        for var in VARLIST:
+            varname = var
+            data = ncdf_file[varname]
+            # masked_data=np.ma.masked_equal(
+            #   ncdf_file[varname],ncdf_file[varname].missing_value
+            # )
+            masked_data = np.ma.masked_equal(data, data.missing_value)
+
+            if var in xvarnames:
+                varname = xvarnames[var]  # rename zenith/azimuth-related variables
+
+            xarray_ewsg[varname] = xr.DataArray(masked_data)
+            """
+            # scale_factor should not be applied
+            if 'scale_factor' in data.ncattrs():
+                # apply scale_factor correction
+                #xarray_ewsg[varname]=xarray_ewsg[varname]*ncdf_file[varname].scale_factor  # NOQA
+                xarray_ewsg[varname]=xarray_ewsg[varname]*data.scale_factor
+            """
+            # convert unit from degree to Kelvin for ch2, ch4, and ch6 (ch1 is in unit
+            # of albedo)
+            if varname in ["gvar_ch2", "gvar_ch4", "gvar_ch6"]:
+                xarray_ewsg[varname] = xarray_ewsg[varname] + 273.15
+                xarray_ewsg[varname].attrs["units"] = "Kelvin"
 
         # close the files
         ncdf_file.close()

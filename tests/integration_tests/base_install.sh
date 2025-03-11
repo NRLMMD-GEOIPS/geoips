@@ -12,4 +12,4 @@ fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_amsr2 $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_noaa_aws $test_exit $install_script
+create_plugin_registries

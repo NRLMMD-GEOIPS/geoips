@@ -116,13 +116,17 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     # Check if timestamp on file is newer than timestamp in database -
     # if not, just return and don't do anything.
     if data:
-        database_timestamp = datetime.strptime(
-            cc.execute(
-                "SELECT last_updated from tc_trackfiles WHERE filename = ?",
-                (tc_trackfilename,),
-            ).fetchone()[0],
-            "%Y-%m-%d %H:%M:%S.%f",
-        )
+        try:
+            database_timestamp = datetime.strptime(
+                cc.execute(
+                    "SELECT last_updated from tc_trackfiles WHERE filename = ?",
+                    (tc_trackfilename,),
+                ).fetchone()[0],
+                "%Y-%m-%d %H:%M:%S.%f",
+            )
+        except ValueError as resp:
+            LOG.exception(f"Failed on {tc_trackfilename}")
+            raise (ValueError(f"FAILED ON {tc_trackfilename}: {resp}"))
         if file_timestamp < database_timestamp:
             LOG.info("")
             LOG.interactive(

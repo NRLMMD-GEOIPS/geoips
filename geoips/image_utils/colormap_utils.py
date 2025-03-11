@@ -187,7 +187,8 @@ def from_ascii(fname, cmap_name=None, reverse=False):
 
     import numpy
 
-    carray = numpy.zeros([len(lines), 3])
+    carray = numpy.zeros([len(lines), len(lines[0].strip().split())])
+    # carray = numpy.zeros([len(lines), 3])
     for num, line in enumerate(lines):
         carray[num, :] = [float(val) for val in line.strip().split()]
 

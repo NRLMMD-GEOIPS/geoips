@@ -3,11 +3,319 @@
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Version 1.13.1 (2024-06-01)
-*****************************
+Version 1.13.1 (2024-07-07)
+***************************
 
-* Update 'update_this_release_note'
-* Add release note for v1.13.1
+* Enhancements
+
+  * Add histogram_csv output formatter
+  * Add oceansat-3 products
+  * Add get_cmap_data_range to products/dev.py
+  * Add scipy griddata alpha masking corrections
+* Bug Fixes
+
+  * Replace test_data_scat_1.11.2 and 1.11.3 with test_data_scat in unit test
+  * Update 89pct colormapper data range to match algorithm
+  * Fixed log double printing
+* Installation Updates
+
+  * Add git lfs install to config_geoips
+  * Add source gitconfigs to base_install
+  * Freeze git<2.45 and git-lfs<3.4
+  * Ensure github downloads also decompress test data
+  * Allow test_data_github clones with only \*.tgz files
+  * Freeze netCDF4 < 1.7 due to ABI reader core dump
+* Documentation Updates
+
+  * Only required <pkg>_api and releases docs/source directories
+  * Require mistune==0.8.4
+  * Remove check_old_docs_frozen.py, use git in actions
+* Testing Updates
+
+  * Use enviroment variable to control output checker image comparison threshold.
+  * If tests pass within threshold but not exactly, include exact diff image in logs
+  * Add bio012024.dat B-deck file
+  * Remove template_fusion_plugin test calls
+  * Update test outputs due to minor pixel differences
+  * Pass clobber=True into atms netcdf test script
+* Release Updates
+
+  * Update 'update_this_release_note'
+  * Add release note for v1.13.1
+  * Add release note for v1.13.2, finalize 1.13.1 release
+
+Enhancements
+============
+
+Add scipy griddata alpha masking corrections
+--------------------------------------------
+
+Per recommendations from Nick Zorn MIT LL, implement alpha masking corrections
+to help resolve edge of scan issues when using scipy's griddata interpolation
+
+::
+
+  modified: geoips/plugins/modules/interpolators/utils/interp_scipy.py
+  modified: pyproject.toml
+
+Add get_cmap_data_range to products/dev.py
+------------------------------------------
+
+To allow pulling ranges separately from algorithm and colormapper plugins,
+add an option to geoips/dev/product.py to get the colormapper range.
+
+This should eventually be added directly to the plugin interfaces, but for now
+following the template of get_data_range.
+
+::
+
+  modified: geoips/dev/product.py
+
+Add oceansat-3 products
+-----------------------
+
+Adding sectored/unsectored products, and adding to scat knmi winds.
+
+::
+
+  modified: geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+  modified: geoips/plugins/yaml/products/oscat.yaml
+
+Add histogram_csv output formatter
+----------------------------------
+
+This was inadvertently not added.
+
+::
+
+  new file: geoips/plugins/modules/output_formatters/histogram_csv.py
+
+Bug Fixes
+=========
+
+Update 89pct colormapper data range to match algorithm
+------------------------------------------------------
+
+::
+
+  modified: geoips/plugins/yaml/product_defaults/pmw_89/89pct.yaml
+
+Replace test_data_scat_1.11.2 and 1.11.3 with test_data_scat in unit test
+-------------------------------------------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+::
+
+  modified:   tests/unit_tests/commandline/cli_top_level_tester.py
+
+Fixed log printing double
+-------------------------
+
+Fixed a bug where the new CLI and the old CLI would both create handlers for logging,
+resulting in a double printing for stdout logs, and double lines when running
+run_procflow. This was fixed by checking for multiple handlers in logging.
+
+::
+
+  modified: geoips/commandline/log_setup.py
+
+Installation Updates
+====================
+
+Freeze netCDF4 < 1.7 due to ABI reader core dump
+------------------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+ABI Reader core dumps with netCDF 1.7.1.  1.6 still works.
+
+::
+
+  modified: pyproject.toml
+
+Allow test_data_github clones with only \*.tgz files
+----------------------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+Previously required data, outputs, or docs subdir.  Allow only a tgz file.
+
+::
+
+  modified: setup/check_system_requirements.sh
+
+Ensure github downloads also decompress test data
+-------------------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+Many github repos contain compressed datasets - ensure
+data is decompressed after cloning if required.
+
+::
+
+  modified:   setup/check_system_requirements.sh
+
+Freeze git<2.45 and git-lfs<3.4
+--------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+Now git and git lfs both break git lfs clones.
+Freeze at versions 2.44 and 3.3 until they fix
+their bugs.
+
+::
+
+  doc/source/starter/installation.rst
+
+Add git lfs install to config_geoips
+------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+::
+
+    modified:   setup/config_geoips
+
+Add source gitconfigs to base_install
+-------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+This includes timeout and buffer size updates that
+can help with large clones.
+
+::
+
+    modified:   setup/check_system_requirements.sh
+    modified:   tests/integration_tests/base_install.sh
+
+Documentation Updates
+=====================
+
+Remove check_old_docs_frozen.py, use git in actions
+---------------------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+::
+
+  removed: docs/check_old_docs_frozen.py
+  modified: .github/workflows/check-old-docs-frozen.yml
+
+Only required <pkg>_api and releases docs/source directories
+------------------------------------------------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+Make introduction and userguide optional.
+
+::
+
+  modified:   docs/build_docs.sh
+  modified:   docs/source/_templates/index_PKG.html
+
+Require mistune==0.8.4
+----------------------
+
+*From GEOIPS#513: 2024-06-01, bug fixes*
+
+Somehow mistune 3.0.2 was installed once, which had errors
+
+m2r2 = { version = "*", optional = true }
+Version 3.0.2 causes error , 0.8.4 works
+Unsure why there was such a wide range of version numbers installed.
+
+::
+
+  File "lib/python3.10/site-packages/m2r2.py", line 82, in <module>
+  class RestBlockGrammar(mistune.BlockGrammar):
+  AttributeError: module 'mistune' has no attribute 'BlockGrammar'
+
+::
+
+  modified:   pyproject.toml
+
+Testing Updates
+===============
+
+Use enviroment variable to control output checker image comparison threshold
+----------------------------------------------------------------------------
+
+Set OUTPUT_CHECKER_THRESHOLD_IMAGE within base_paths - default to 0.05 if env
+variable is not set, else use environemnt variable.  Default to base_paths
+threshold within the image output checker.
+
+::
+
+  modified: geoips/filenames/base_paths.py
+  modified: geoips/interfaces/module_based/output_checkers.py
+  modified: geoips/plugins/modules/output_checkers/image.py
+
+If tests pass within threshold but not exactly, include exact diff image in logs
+--------------------------------------------------------------------------------
+
+If the test passes the threshold, but images are not identical, include the
+exact difference in the log output for reference. This allows tracking what
+is actually different, but still allows the test to pass.
+
+::
+
+  modified: geoips/interfaces/module_based/output_checkers.py
+
+Pass clobber=True into atms netcdf test script
+----------------------------------------------
+
+When running atms netcdf output test script for a second time without setting
+clobber=True, the output does not get written so the test fails. Update netcdf
+output formatters to take a "clobber" argument, then add that argument to the
+output_formatter_kwargs in the atms test script.
+
+::
+
+  modified: geoips/plugins/modules/output_formatters/netcdf_geoips.py
+  modified: geoips/plugins/modules/output_formatters/netcdf_xarray.py
+  modified: tests/scripts/atms.tc.165H.netcdf_geoips.sh
+
+Update test outputs due to minor pixel differences
+--------------------------------------------------
+
+A few coastline pixels difference for ABI and AMSR annotated test outputs. Unsure
+what caused this, but updating to get 0 return.
+
+::
+
+  modified: tests/outputs/abi.static.Infrared.imagery_annotated/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+  modified: tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+  modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified: tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+  modified: tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png
+  modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png
+  modified: tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png
+  modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png
+  modified: tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png
+
+Remove template_fusion_plugin test calls
+----------------------------------------
+
+Going to rely on a combination of template_basic_plugin, geoips_plugin_examples,
+and data_fusion repos for use cases and examples.  Only maintain a single plugin
+template repo.
+
+::
+
+  modified: tests/integration_tests/full_test.sh
+
+Add bio012024.dat B-deck file
+-----------------------------
+
+::
+
+  new file:   tests/sectors/tc_bdecks/bio012024.dat
 
 Release Process
 ===============
@@ -23,6 +331,19 @@ this release note.
 ::
 
   modified: docs/source/releases/v1_13_1.rst
+  modified: docs/source/releases/index.rst
+
+Add release note for v1.13.2, finalize 1.13.1 release
+-----------------------------------------------------
+
+*From GEOIPS#513: 2024-07-07, 1.13.1 updates*
+
+All updates until the next release (v1.13.2) will be included in
+this release note. This finalizes the 1.13.1 release.
+
+::
+
+  modified: docs/source/releases/v1_13_2.rst
   modified: docs/source/releases/index.rst
 
 Update 'update_this_release_note'

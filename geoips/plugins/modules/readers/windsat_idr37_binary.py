@@ -100,14 +100,16 @@ The actual idr37 data record (idr_record) in C::
     Its total length of idr_record is 72 bytes
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
 import os
-from datetime import datetime
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 
 # import pandas as pd
+import xarray
+
 
 LOG = logging.getLogger(__name__)
 
@@ -141,6 +143,7 @@ gvar_info = {
 interface = "readers"
 family = "standard"
 name = "windsat_idr37_binary"
+source_names = ["windsat"]
 
 # NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
 # variables are needed in this for moving through the binary file correctly. There is
@@ -246,8 +249,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # Need to set up time to be read in by the metadata (year and jday are arrays)
     time_start = time_s_date + " " + time_s_hhmm
     time_end = time_e_date + " " + time_e_hhmm
-
-    import xarray
 
     xarray_obj = xarray.Dataset()
 
@@ -473,10 +474,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_sdr_fwd.attrs = xarray_obj.attrs.copy()
     xarray_sdr_aft.attrs = xarray_obj.attrs.copy()
 
-    from numpy import datetime64
-
-    timediff = datetime64("2000-01-01T12:00:00") - datetime64("1970-01-01T00:00:00")
-    timestamps = ftime_jd2000.astype("datetime64[s]") + timediff
+    timediff = np.datetime64("2000-01-01T12:00:00") - np.datetime64(
+        "1970-01-01T00:00:00"
+    )
+    timestamps = ftime_jd2000.astype("np.datetime64[s]") + timediff
     xarray_sdr_aft["time"] = xarray.DataArray(timestamps)
     xarray_sdr_aft["latitude"] = xarray.DataArray(alat)
     xarray_sdr_aft["longitude"] = xarray.DataArray(alon)

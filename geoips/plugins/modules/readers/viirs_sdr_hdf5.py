@@ -1,3 +1,6 @@
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """VIIRS SDR Satpy reader.
 
 This VIIRS reader is designed for reading the NPP/JPSS SDR HDF5 files.
@@ -12,26 +15,31 @@ V1.1.0:  NRL-Monterey, Aug. 2024
 import logging
 import os
 
-# Installed Libraries
-import xarray as xr
-import numpy as np
+# Third-Party Libraries
 import h5py
-from pandas import date_range
-from pykdtree.kdtree import KDTree
+import numpy as np
+from pandas import DataFrame, date_range, to_datetime
+from scipy.interpolate import NearestNDInterpolator
+import xarray as xr
+
+# GeoIPS Libraries
+from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
 # installed to process data of this type.
+
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "viirs_sdr_hdf5"
+source_names = ["viirs"]
 
-try:
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package and print to LOG.info if the import fails."""
     import satpy
-except ImportError:
-    LOG.info("Failed import satpy. If you need it, install it.")
 
 VARLIST = {
     "DNB": ["DNB"],
@@ -50,7 +58,6 @@ def bowtie_correction(band, lat, lon):
     # Unfold
     ord_lat = np.sort(lat, axis=0)
     unfold_idx = np.argsort(lat, axis=0)
-    # no_shift_flag = np.argsort(ord_lat, axis=0) == unfold_idx
 
     rad_fold = np.take_along_axis(band, unfold_idx, axis=0)
     sort_lon = np.take_along_axis(lon, unfold_idx, axis=0)
@@ -58,65 +65,31 @@ def bowtie_correction(band, lat, lon):
     if np.all(np.isnan(rad_fold)):
         LOG.debug("All nan band, no bowtie correction")
         return rad_fold, ord_lat, sort_lon
-
-    # Adjust lon, not used for satpy
-    # Only need for manual read with overlapping granuales
-    # ord_lon = np.empty(lon.shape)
-    # xi = np.arange(sort_lon.shape[0])
-
-    # for x in range(lon.shape[1]):
-    # 0 shift xi values
-    # xo = xi[no_shift_flag[:, x]]
-
-    # if all(no_shift_flag[:, x]):
-    # if there was no shift in the column
-    # ord_lon[:, x] = lon[:, x]
-    # continue
-    # elif not any(no_shift_flag[:, x]):
-    # if the whole column was shifted (should be rare)
-    # ord_lon[:, x] = sort_lon[:, x]
-    # continue
-
-    # longitude values that were not shifted
-    # noshift_lon = sort_lon[xo,x]
-    # noshift_lon = sort_lon[:, x][no_shift_flag[:, x]]
-    # replace only values that were shifted
-    # nsf = no_shift_flag[:, x]
-
-    # ord_lon[nsf, x] = noshift_lon
-    # ord_lon[~nsf, x] = np.interp(xi, xo, noshift_lon)[~nsf]
-
-    # Resample
-    point_mask = np.isnan(rad_fold)
-
-    good_points = np.dstack((ord_lat[~point_mask], sort_lon[~point_mask]))[0]
-    bad_points = np.dstack((ord_lat[point_mask], sort_lon[point_mask]))[0]
+    if np.all(np.isnan(rad_fold)):
+        LOG.debug("All NaNs, no bowtie correction")
+        return rad_fold, ord_lat, sort_lon
 
     res_band = rad_fold.copy()
-    good_rad = rad_fold[~point_mask]
-    rad_idx = np.indices(rad_fold.shape)
-    ridx, ridy = rad_idx[0][point_mask], rad_idx[1][point_mask]
-    os.environ["OMP_NUM_THREADS"] = "64"
+    # mask and indicies of bad data
+    rad_nan_flag = np.isnan(rad_fold)
+    nan_mask = np.where(~rad_nan_flag)
 
-    kd_tree = KDTree(good_points)
-    # print("Querying")
-    dist, idx = kd_tree.query(bad_points, k=4)  # ,workers=4)
-
-    for i in range(bad_points.shape[0]):
-        xi, yi = ridx[i], ridy[i]
-
-        if np.any(dist[i] == 0):
-            # weight the zero to a small value
-            weight = np.where(dist[i] == 0, 1e-6, dist[i])
-            res_band[xi, yi] = np.average(good_rad[idx[i]], weights=1 / weight)
-            continue
-
-        res_band[xi, yi] = np.average(good_rad[idx[i]], weights=1 / dist[i])
+    interp = NearestNDInterpolator(np.transpose(nan_mask), rad_fold[nan_mask])
+    interp_nans = interp(*np.indices(rad_fold.shape)[:, rad_nan_flag], **{"workers": 4})
+    res_band[rad_nan_flag] = interp_nans
 
     return res_band, ord_lat.astype(np.float64), sort_lon.astype(np.float64)
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    resample=False,
+    bowtie=True,
+):
     """Read VIIRS SDR hdf5 data products.
 
     Parameters
@@ -193,11 +166,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if idx["name"] in VARLIST[var]
         ]
         if len(dataset_ids) == 0:
-            # print("No datasets found for {}.".format(VARLIST[var]))
+            LOG.warning("No variables found in data for viirs_sdr reader.")
             continue
 
         for d in dataset_ids:
-            # print("Loading {}".format(d))
             tmp_scn.load([d])
             full_key = tmp_scn[d].attrs["name"] + tmp_scn[d].attrs[
                 "calibration"
@@ -205,14 +177,25 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
             tmp_ma = tmp_scn[d].to_masked_array().data
 
-            #
+            # load band
             tmp_scn.load([d])
 
             lat = tmp_scn[d].area.lats.to_masked_array().data
             lon = tmp_scn[d].area.lons.to_masked_array().data
 
             # bowtie correction
-            band_data, band_lat, band_lon = bowtie_correction(tmp_ma, lat, lon)
+            if bowtie:
+                band_data, band_lat, band_lon = bowtie_correction(tmp_ma, lat, lon)
+            else:
+                band_data, band_lat, band_lon = tmp_ma, lat, lon
+
+            if "Ref" in full_key:
+                from geoips.data_manipulations.corrections import apply_gamma
+
+                # gamma expects data 0-1 range
+                # Gamma factor derived from log rule
+                # log(mean)/log(0.5) for mean rng 0 to 1
+                band_data = apply_gamma(band_data / 100, 1.65) * 100
 
             tmp_dask |= {full_key: (("dim_0", "dim_1"), band_data)}
 
@@ -225,15 +208,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             ("dim_0", "dim_1"),
             band_lon,
         )
-        # print("Setting cal vals")
+
         # sample time to the proper shape (N*48), while lat/lon are ()
         time_range = date_range(
-            start=scn_start, end=scn_end, periods=tmp_coor["latitude"][1].shape[0]
+            start=scn_start,
+            end=scn_end,
+            periods=tmp_coor["latitude"][1].shape[0],
         ).values
         interp_time = np.tile(time_range, (tmp_coor["latitude"][1].shape[1], 1)).T
         tmp_coor["time"] = (("dim_0", "dim_1"), interp_time)
-        # # print(tmp_coor["latitude"][1].shape)
-        # raise
 
         tmp_attrs = tmp_scn[VARLIST[var][0]].attrs
 
@@ -256,7 +239,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         tmp_scn.load(cal_params)
         tmp_cal_params = {
-            i.removeprefix("dnb_"): (("dim_0", "dim_1"), tmp_scn[i].to_masked_array())
+            i.removeprefix("dnb_"): (
+                ("dim_0", "dim_1"),
+                tmp_scn[i].to_masked_array(),
+            )
             for i in cal_params
         }
 
@@ -264,7 +250,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             try:
                 from lunarref.lib.liblunarref import lunarref
 
-                # tmp_scn.load(["dnb_moon_illumination_fraction"])
                 # this results in the wrong value..
                 # np.arccos((tmp_scn["dnb_moon_illumination_fraction"].data/50)-1)
 
@@ -291,11 +276,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         coor_xr = xr.Dataset(data_vars=tmp_coor)
         cal_xr = xr.Dataset(data_vars=tmp_cal_params)
 
-        try:
-            tmp_xr = xr.merge([obs_xr, coor_xr, cal_xr])
-        except ValueError:
-            # downsample for certain bands
-            tmp_xr = xr.merge([obs_xr, coor_xr])
+        if cal_xr.sizes["dim_0"] > coor_xr.sizes["dim_0"]:
+            cal_xr = cal_xr.coarsen(dim_0=2, dim_1=2).mean()
+
+        tmp_xr = xr.merge([obs_xr, coor_xr, cal_xr])
 
         tmp_xr.attrs = {
             "source_file_name": base_fnames,
@@ -310,5 +294,64 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         full_xr |= {var: tmp_xr}
     full_xr["METADATA"] = xr.Dataset(attrs=tmp_xr.attrs)
+
+    # Geolocation resampling
+    if resample and area_def:
+        adname = area_def.area_id
+        new_shape = area_def.shape
+
+        LOG.info("")
+        LOG.info("Getting geolocation information for {}.".format(adname))
+
+        for dtype in full_xr.keys():
+            if "latitude" not in full_xr[dtype].variables:
+                LOG.info(
+                    "No data read for dataset %s, removing from xarray list", dtype
+                )
+                continue
+            fldk_lats = full_xr[dtype]["latitude"]
+            fldk_lons = full_xr[dtype]["longitude"]
+            # Get just the metadata we need
+            geo_metadata = full_xr[dtype].attrs.copy()
+            geo_metadata["num_lines"], geo_metadata["num_samples"] = fldk_lats.shape
+            geo_metadata["scene"] = "stitched_granules"
+            geo_metadata["fnames"] = geo_metadata.pop("source_file_name")
+            geo_metadata["roi_factor"] = 5
+            lines, samples = get_indexes(geo_metadata, fldk_lats, fldk_lons, area_def)
+
+            index_mask = lines != -999
+
+            new_dim0 = "dim_{:d}".format(new_shape[0])
+            new_dim1 = "dim_{:d}".format(new_shape[1])
+
+            for varname in full_xr[dtype].variables.keys():
+                new_var = np.full(new_shape, -999.1)
+                new_var[index_mask] = full_xr[dtype][varname].values[
+                    lines[index_mask], samples[index_mask]
+                ]
+                # out_var = new_var
+                if varname not in cal_params + ["latitude", "longitude"]:
+                    # Set values <= -999.9 to NaN so they also get interpolated.
+                    new_var[np.where(new_var <= -999.9)] = np.nan
+                    # Interpolate missing data.
+                    out_var = np.array(DataFrame(new_var).interpolate())
+                else:
+                    out_var = new_var
+                full_xr[dtype][varname] = xr.DataArray(
+                    out_var, dims=[new_dim0, new_dim1]
+                )
+            if "time" in full_xr[dtype].variables:
+                time_data = full_xr[dtype]["time"].data
+                time_data = np.asarray(to_datetime(time_data.ravel())).reshape(
+                    time_data.shape
+                )
+                full_xr[dtype]["time"].data = time_data
+
+            ll_mask = full_xr[dtype]["latitude"].data >= -90
+            for varname in full_xr[dtype].variables.keys():
+                full_xr[dtype][varname] = full_xr[dtype][varname].where(ll_mask)
+
+        LOG.interactive("Done with geolocation for {}".format(adname))
+        LOG.info("")
 
     return full_xr

@@ -23,11 +23,6 @@ from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
 
 
-# Logging utitilies will be set up once PR 659, Apply Scope to CLI Arguments, has been
-# merged. Until that point we'll set up no logging in the CLI as it will duplicate all
-# log statements used in our procflows.
-
-
 class GeoipsCLI(GeoipsCommand):
     """Top-Level Class for the GeoIPS Commandline Interface (CLI).
 
@@ -73,18 +68,40 @@ class GeoipsCLI(GeoipsCommand):
             # Otherwise use the default instructions which we know are correct
             # (and if they're not, the appropriate error will be raised.)
             self.cmd_instructions = None
+
+        # parse_known_args expects arguments in a specific order. So, currrently,
+        # 'geoips --log-level info <rest of command>' will work but
+        # 'geoips <rest of command> --log-level info' will not. The functionality below
+        # rearranges the log level arguments to match the working version. This way,
+        # users can add --log-level <log_level_name> anywhere in the command and it will
+        # work.
+        if set(sys.argv).intersection(set(["--log-level", "-log"])):
+            # One of the flags was found in the arguments provided
+            log_idx = max(
+                [
+                    idx if arg in ["--log-level", "-log"] else -1
+                    for idx, arg in enumerate(sys.argv)
+                ]
+            )
+            # Make sure that the argument list is long enough for log level to be
+            # provided. It doesn't have to be correct, that validation will be done
+            # by argparse
+            if len(sys.argv) > log_idx + 1:
+                flag = sys.argv[log_idx]
+                log_level = sys.argv[log_idx + 1]
+                # Get the flag and log_level, remove them from the argument list, and
+                # insert them in working locations.
+                # I.e. geoips --log-level <log_level_name>
+                sys.argv.pop(log_idx + 1)
+                sys.argv.pop(log_idx)
+                sys.argv.insert(1, log_level)
+                sys.argv.insert(1, flag)
+
         super().__init__(legacy=legacy)
 
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
-        # NOTE: We should discuss how we want to share the selected LOG to child classes
-        # They can all use the functionality below, however that would be redundant and
-        # there is likely a better way to fix this. Unfortunately 'parse_known_args'
-        # didn't work and this is our best solution for the time being.
-
-        # self.LOG = getattr(LOG, self.GEOIPS_ARGS.log_level)
-        # self.LOG("LOG LEVEL = {self.GEOIPS_ARGS.log_level}")
         if hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.

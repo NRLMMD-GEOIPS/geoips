@@ -8,10 +8,13 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
+
+# Third-Party Libraries
 import numpy as np
-
 from scipy.ndimage import zoom
+import xarray
 
+from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -26,17 +29,17 @@ LOG = logging.getLogger(__name__)
 # Installed Libraries
 
 with import_optional_dependencies(loglevel="info"):
-    """Attempt to import a package and print to LOG.info if the import fails."""
-    # If this reader is not installed on the system, don't fail alltogether, just skip
-    # this import.  This reader will not work if the import fails and the package will
-    # have to be installed to process data of this type.
+    """Attempt to import a package & print to LOG.info if the import fails."""
+    # If this reader is not installed on the system, don't fail alltogether,
+    # just skip this import. This reader will not work if the import fails
+    # and the package will have to be installed to process data of this type.
     import netCDF4 as ncdf
     import numexpr as ne
 
 interface = "readers"
 family = "standard"
 name = "abi_netcdf"
-
+source_names = ["abi"]
 
 nprocs = 6
 
@@ -266,6 +269,9 @@ def _get_variable_metadata(df):
             metadata[name] = df.variables[name][...]
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
+            if name in ["x", "y"]:
+                metadata[f"{name}_add_offset"] = df.variables[name].add_offset
+                metadata[f"{name}_scale_factor"] = df.variables[name].scale_factor
         except KeyError:
             LOG.info("Warning! Variable-level metadata field missing: {0}".format(name))
     metadata["num_lines"] = metadata["y"].size
@@ -539,6 +545,52 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )
+
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """
+    Read ABI NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     gvars = {}
     datavars = {}
     standard_metadata = {}
@@ -591,7 +643,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # required size.
     # Dict structure is channel{metadata}
     file_info = {}
-    import xarray
 
     xarray_obj = xarray.Dataset()
     for md in all_metadata.values():
@@ -629,6 +680,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_obj.attrs["end_datetime"] = edt
     xarray_obj.attrs["source_name"] = "abi"
     xarray_obj.attrs["data_provider"] = "noaa"
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # G16 -> goes-16
     xarray_obj.attrs["platform_name"] = highest_md["file_info"]["platform_ID"].replace(

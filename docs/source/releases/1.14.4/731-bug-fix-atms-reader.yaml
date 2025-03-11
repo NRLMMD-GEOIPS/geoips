@@ -1,0 +1,15 @@
+bug fix:
+- description: |
+    Only crop ATMS data to valid indices when the "valid_indices" key exists in the
+    xarray dataset. This key is only populated when reading in a GEO file. As a result,
+    the reader will error when only reading in SDR files.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - geoips/plugins/modules/readers/atms_hdf5.py
+    moved:
+    - ''
+  title: Bug fix ATMS reader - Only crop to valid indices when key exists

@@ -43,3 +43,7 @@ properties:
       borders: *line-args
       rivers: *line-args
       states: *line-args
+      # Background color for map-portion of the annotated image. Must be either a
+      # matplotlib named color or a hexadecimal color string.
+      background:
+        type: string

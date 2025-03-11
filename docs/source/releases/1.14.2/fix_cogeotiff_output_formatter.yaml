@@ -1,0 +1,114 @@
+bug fix:
+  - title: "Fix cogeotiff colormap bug"
+    description: |
+      PhotometricInterpretation error
+      https://gis.stackexchange.com/questions/352813/gdal-creating-color-ramp-gives-error-1-tiffsetfieldimages-out-tif-cannot-mod
+      Moved the mem.write cogeotiff.py#L153
+      line after the mem.write_colormap line below it.
+
+      Also added the cogeotiff and cogeotiff_rgba tests scripts to
+      both test_all.sh and full_test.sh
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - "geoips/plugins/modules/output_formatters/cogeotiff.py"
+        - "tests/integration_tests/full_test.sh"
+        - "tests/test_all.sh"
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+continuous integration:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+deprecation:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+documentation:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+enhancement:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+performance:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""
+removal:
+  - description: ""
+    files:
+      added:
+        - ""
+      deleted:
+        - ""
+      modified:
+        - ""
+      moved:
+        - ""
+    related-issue:
+      number: 0
+      repo_url: ""
+    title: ""

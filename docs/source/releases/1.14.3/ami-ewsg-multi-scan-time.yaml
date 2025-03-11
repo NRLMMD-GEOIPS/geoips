@@ -1,0 +1,27 @@
+enhancement:
+- description: |
+    Related to *GEOIPS#312: Bug Fix: Update geostationary readers to support multiple scan times*
+
+    New updates to readers ewsg_netcdf and ami_netcdf. With the new updates, the
+    aforementioned readers are now able to take in multiple scan times of files and
+    output them appropriately in a xarray dictionary format. Alongside these updates,
+    we refactored readers changed in PR #427 (which addressed the issue above) to reduce
+    code duplication. Now all of the readers which can read in multiple scan times have
+    the same logic in their call functions regardless of the data being read in or the
+    operations needed to read it.
+
+    Note: we have not been able to acquire ews-g1 data yet and therefore have not been
+    able to test the new changes as of the time of writing this.
+  files:
+    modified:
+      - geoips/interfaces/module_based/readers.py
+      - geoips/plugins/modules/readers/abi_netcdf.py
+      - geoips/plugins/modules/readers/ahi_hsd.py
+      - geoips/plugins/modules/readers/ami_netcdf.py
+      - geoips/plugins/modules/readers/ewsg_netcdf.py
+      - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/pluginsyaml/sectors/static/korea.yaml
+  related-issue:
+    number: 312
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  title: 'AMI EWSG Multi Scan Time Update'

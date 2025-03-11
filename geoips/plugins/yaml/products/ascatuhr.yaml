@@ -2,6 +2,13 @@ interface: products
 family: list
 name: ascatuhr
 docstring: |
+  ASCATUHR: The Advanced SCATterometer Ultra High Resolution
+  
+  Used on
+  METOP-B/C - Meteorological operational satellite – B and Meteorological operational satellite – C. METOP-B, launched in September, 2012, 
+  has an altitude of 817 km, inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an altitude of 817 km, 
+  inclination of 98.7°, orbital period of 101 minutes and was launched November, 2018. Sun-synchronous and orbits daily.
+
   The ascatuhr product_inputs configuration, which produces Windspeed products, Windbarbs products,
   Wind-ambiguity products, Unsectored/Sectored products, Sigma0 products, and NRCS products
 spec:
@@ -9,14 +16,14 @@ spec:
     - name: windspeed
       source_names: [ascatuhr]
       docstring: |
-        The windspeed product_defaults for ascatuhr product.
+        Measures the sea surface wind speed. Can help predict with cloud movements or water vapor, when there are no clouds present.
       product_defaults: windspeed
       spec:
         variables: ["wind_speed_kts"]
     - name: windbarbs
       source_names: [ascatuhr]
       docstring: |
-        The windbarbs product_defaults for ascatuhr product.
+        Show speed and direction in a specific location. Used to see the direction of the wind as well as the intensity.
       product_defaults: windbarbs
       spec:
         variables: ["wind_speed_kts", "wind_dir_deg_met"]
@@ -45,7 +52,7 @@ spec:
     - name: nrcs
       source_names: [ascatuhr]
       docstring: |
-        The nrcs product_defaults for ascatuhr product.
+        Normalized Radar Cross Section. 
       product_defaults: nrcs
       spec:
         variables: ["sigma0_mean"]

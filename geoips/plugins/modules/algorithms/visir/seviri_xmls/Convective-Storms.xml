@@ -1,0 +1,54 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE product_file SYSTEM "../productfiles.dtd">
+
+<!--
+    Notes:
+        See ../productfiles.dtd in this directory for full notes.  All DTD information
+        is contained there.
+        Arunas 20140407 varged celcius to celsius
+-->
+<product_file>
+<product method="rgb" name="Convective-Storms">
+    <rgb_args>
+        <source name='seviri'>
+            <var>B05BT</var>
+            <var>B06BT</var>
+            <var zenith='yes'>B04BT</var>
+            <var>B09BT</var>
+            <var zenith='yes'>B03Ref</var>
+            <var zenith='yes'>B01Ref</var>
+        </source>
+        <red>
+            <equation>B05BT-B06BT</equation>
+            <range>
+                <min_value>-35</min_value>
+                <max_value>5</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </red>
+        <grn>
+            <equation>B04BT-B09BT</equation>
+            <range>
+                <min_value>-5</min_value>
+                <max_value>60</max_value>
+                <units>celsius</units>
+            </range>
+            <gamma1>0.5</gamma1>
+            <gamma2>1.0</gamma2>
+        </grn>
+        <blu>
+            <equation>B03Ref-B01Ref</equation>
+            <range>
+                <min_value>-0.75</min_value>
+                <max_value>0.25</max_value>
+                <units>reflectance</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </blu>
+        <day_night>day</day_night>
+    </rgb_args>
+</product>
+</product_file>
