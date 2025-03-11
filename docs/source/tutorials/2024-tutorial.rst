@@ -106,7 +106,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
    .. code-block:: shell
 
       cd $MY_PKG_DIR
-      git mv my_package $MY_PACKAGE_NAME
+      git mv my_package $MY_PKG_NAME
 
 #. Update Pertinent files
 
@@ -144,16 +144,11 @@ CLAVR-x Cloud-Top-Height product.
    .. code-block:: shell
 
       cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-      cp amsr2_product_defaults.yaml my_clavrx_products.yaml
+      cp amsr2_using_product_defaults.yaml my_clavrx_products.yaml
 
-#. Navigate to your product plugins directory and create a file called ``my_clavrx_products.yaml``
+#. Within ``my_clavrx_products.yaml``, optionally remove all lines preceded by "#@".
 
-   .. code-block:: shell
-
-      cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
-      touch ``my_clavrx_products.yaml``
-
-#. Now, create a file called ``my_clavrx_products.yaml`` and add the following code into it
+#. Update ``my_clavrx_products.yaml`` to reflect the following values for the four properties listed below:
 
    .. code-block:: yaml
 
