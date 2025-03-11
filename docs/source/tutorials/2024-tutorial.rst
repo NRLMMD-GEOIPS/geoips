@@ -87,7 +87,8 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
       echo $MY_PKG_NAME :  # should reflect your package name
       echo $MY_PKG_DIR  :  # should reflect merged path of $GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
 
-#.  Take ownership of tutorial template package: change its name, set the git branch to main, change its remote repo URL, and
+#.  Take ownership of tutorial template package: change its name, set the git branch to main, change its remote repo
+URL, and
     push.
 
     .. code-block:: shell
