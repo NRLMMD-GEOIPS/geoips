@@ -1,18 +1,16 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _filename_formats:
+.. _filename_formats_functionality:
 
 **************************
 Filename Formats in GeoIPS
 **************************
 
 A filename format is a module-based GeoIPS plugin that defines how an output
-file is named. Filaname formatters generally produce a unique filename based
+file is named. Filename formatters generally produce a unique filename based
 on the metadata of the xarray dataset, but this plugin type is flexible. The
 output of this plugin is a string, so it can be formatted however the user
 desires.
@@ -47,4 +45,4 @@ formatter can be called directly:
       fname_fmt = "geoips_fname"
       output_filename = filename_formatters.get_plugin(fname_fmt)
 
-The output of the plugin can then be used when saving the output.
+The output of the plugin can then be used when saving the file.

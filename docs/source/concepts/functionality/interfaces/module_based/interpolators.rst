@@ -1,11 +1,9 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _interpolators:
+.. _interpolators_functionality:
 
 ***********************
 Interpolators in GeoIPS
@@ -14,7 +12,7 @@ Interpolators in GeoIPS
 An interpolator is a module-based GeoIPS plugin that takes data in its native
 resolution and interpolates it to a grid with a different resolution. This
 interpolation can be done either before or after running an algorithm, or
-without running an algorithm at all.
+independently of running any algorithm.
 
 Interpolators can be executed in two ways:
 
@@ -34,4 +32,4 @@ tutorials.
 
       from geoips.interfaces import interpolators
       interp_name = "interp_nearest"
-      interpolator = interpolator.get_plugin(interp_name)
+      interpolator = interpolators.get_plugin(interp_name)

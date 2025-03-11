@@ -1,11 +1,9 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _colormapper:
+.. _colormapper_functionality:
 
 *******************
 Colormaps in GeoIPS
@@ -19,7 +17,7 @@ image. This information can include things like the matplotlib-compatible
 colormap (existing or user-created), the data range covered by the colormap,
 and information about the colorbar (if one is desired).
 
-Most colormappers contain a standard set of information that is useful for plotting:
+Most colormappers include a standard set of information that is useful for plotting:
   * cmap: The matplotlib colormap object that will be applied to the image.
   * norm: An object that scales your values so the colorbar covers the
     specified range.

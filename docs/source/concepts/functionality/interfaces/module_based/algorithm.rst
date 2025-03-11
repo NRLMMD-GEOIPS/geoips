@@ -1,9 +1,9 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
+
+.. _algorithm_functionality:
 
 ********************
 Algorithms in GeoIPS

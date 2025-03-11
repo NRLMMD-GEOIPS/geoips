@@ -1,11 +1,9 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _output_formats:
+.. _output_formats_functionality:
 
 ************************
 Output Formats in GeoIPS

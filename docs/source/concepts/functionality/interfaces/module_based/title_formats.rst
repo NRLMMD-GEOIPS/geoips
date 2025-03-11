@@ -1,11 +1,9 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _title_formats:
+.. _title_formats_functionality:
 
 ***********************
 Title Formats in GeoIPS
@@ -41,6 +39,6 @@ a JSON dictionary:
 
       --output_formatter_kwargs '{"title_formatter": "static_standard"}'
 
-For an example of calling a filename formatter from a test script, see the
-`ABI Infrared <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_
+For an example of calling a title formatter from a test script, see the
+`HY-2 windspeed <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh>`_
 test script.

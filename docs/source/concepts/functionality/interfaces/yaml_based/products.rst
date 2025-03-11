@@ -1,17 +1,15 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _products:
+.. _products_functionality:
 
 ******************
 Products in GeoIPS
 ******************
 
-A product is a yaml-based GeoIPS plugin that defines the information needed to
+A product is a YAML-based GeoIPS plugin that defines the information needed to
 produce a particular output from a particular data source. This information
 includes the source of the data that will be processed, which plugins are
 needed to produce the output, what order they go in (via the `family`

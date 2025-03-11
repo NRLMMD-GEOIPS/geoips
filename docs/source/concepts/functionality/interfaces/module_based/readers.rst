@@ -1,11 +1,9 @@
-:orphan:
-
 .. dropdown:: Distribution Statement
 
  | # # # This source code is protected under the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _readers:
+.. _readers_functionality:
 
 *****************
 Readers in GeoIPS
@@ -15,7 +13,7 @@ A reader is a module-based GeoIPS plugin that reads data from a specific
 source, such as, for example, Level 1b data from the GOES ABI sensor.
 GeoIPS has a wide array of 
 `built-in readers <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/readers>`_
-available for use, primarily focused on satellite-based meteorological data,
+available for use, which are primarily focused on satellite-based meteorological data,
 but can support nearly any type of environmental data.
 
 Note that when developing readers, some variables and attributes are required
