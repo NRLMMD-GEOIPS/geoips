@@ -68,9 +68,8 @@ If desired, the GeoIPS environment variables can be added to your
       wget https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-Linux-x86_64.sh
 
 - Make the installation script executable, and run the installer.
-  Accept the license terms and cofirm the location.
-- You will see a message from the installer asking you to close and re-open
-  the shell at the end of the installation, but this step is not required.
+  - Accept the license terms and cofirm the location.
+  - Follow any additional instructions provided by the installer.
 
   .. code:: bash
 
@@ -78,8 +77,6 @@ If desired, the GeoIPS environment variables can be added to your
       # No terminal reconnection is required afterward.
       # Make sure you set env vars again if you restart your terminal !
       ./Mambaforge-Linux-x86_64.sh
-      # Run source ~/.bashrc to apply the Conda configurations.
-      source ~/.bashrc
 
 
   .. code:: bash
