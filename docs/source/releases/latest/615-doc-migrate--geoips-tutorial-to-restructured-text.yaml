@@ -1,5 +1,5 @@
 documentation:
-  - title: "ReStructured Text port of the 2024 GeoIPS Tutorial"
+  - title: "reStructuredText port of the 2024 GeoIPS Tutorial"
     description: "Tutorial on developing GeoIPS plugins for product generation using CLAVR-x"
     files:
       deleted:
@@ -10,7 +10,7 @@ documentation:
         - "geoips/geoips/docs/source/new-docs/tutorials/2024-tutorial.rst"
       modified:
         - "geoips/geoips/docs/source/concepts/architecture/extend-with-plugins.rst"
-        - "/geoips/geoips/docs/source/tutorials/index.rst"
+        - "geoips/geoips/docs/source/tutorials/index.rst"
     related-issue:
       number: 615
       repo_url: ""
