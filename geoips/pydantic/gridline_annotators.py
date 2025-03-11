@@ -92,7 +92,9 @@ class Labels(PermissiveFrozenModel):
 class Lines(FrozenModel):
     """Model used to format gridlines in annotated imagery."""
 
-    color: str = Field(..., description="Color of the line.")
+    color: ColorType = Field(
+        ..., description="Color of the line (named color, hex, or rgb tuple)."
+    )
     linestyle: List[int] = Field(
         ...,
         min_items=2,
