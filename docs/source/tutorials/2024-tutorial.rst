@@ -31,7 +31,8 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
 
    .. code-block:: shell
 
-    mamba activate geoips  # activating Python environment
+    # activating Python environment
+    mamba activate geoips
 
    You will know the geoips conda environment is enabled if (geoips) appears before your username in the command prompt.
 
@@ -40,19 +41,30 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
 
    .. code-block:: shell
 
-    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx  # clone the remote repository
-    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx  # install geoips_clavrx
+    # clone the remote repository
+    git clone https://github.com/NRLMMD-GEOIPS/geoips_clavrx $GEOIPS_PACKAGES_DIR/geoips_clavrx
 
-    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx  # download test data for geoips-clavrx
-    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh  # run tests to verify geoips-clavrx installation
+    # install geoips_clavrx
+    pip install -e $GEOIPS_PACKAGES_DIR/geoips_clavrx
+
+    # download test data for geoips-clavrx
+    $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_clavrx
+
+    # run tests to verify geoips-clavrx installation
+    $GEOIPS_PACKAGES_DIR/geoips_clavrx/tests/test_all.sh
 
 #. Set the following additional environment variables which are specific to your product plugin development.
 
    .. code-block:: shell
 
-      export MY_PKG_NAME=<your package name>  # refer to the note below regarding your package name
-      export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME  # your package directory
-      export MY_PKG_URL=<your package’s URL on version control platform(GitLab)>  # your package VCS url
+      # refer to the note below regarding your package name
+      export MY_PKG_NAME=<your package name>
+
+      # your package directory
+      export MY_PKG_DIR=$GEOIPS_PACKAGES_DIR/$MY_PKG_NAME
+
+      # your package VCS url
+      export MY_PKG_URL=<your package’s URL on version control platform(GitLab)>
 
    .. NOTE::
       Choose a package name that is all lowercase, begins with a letter, and
@@ -64,7 +76,8 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
 
    .. code-block:: shell
 
-      cd $GEOIPS_PACKAGES_DIR  # go to your package directory
+      # go to your package directory
+      cd $GEOIPS_PACKAGES_DIR
       git clone --no-tags --single-branch $GEOIPS_REPO_URL/template_basic_plugin.git
 
    .. NOTE::
