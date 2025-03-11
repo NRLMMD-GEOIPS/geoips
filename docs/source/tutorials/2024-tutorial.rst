@@ -211,7 +211,7 @@ package's ``tests/`` directory as they can be later used for regression test of 
 
         cd $MY_PKG_DIR/tests/scripts
 
-#. Create a bash bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it to include the codeblock
+#. Create a bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it to include the codeblock
    below.
 
    .. code-block:: bash
@@ -336,7 +336,7 @@ You now have two variables, but if you examine the `Cloud-Height Product Default
 <https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml>`_
 you will see that it uses the ``single_channel`` algorithm. This doesn't work for this use case, since the
 ``single_channel`` algorithm just manipulates a single data variable and plots it. Therefore, you need a new
-algorithm! See the :ref:`Algorithms Section<add-an-algorithm>` to keep moving forward with this turorial.
+algorithm! See the :ref:`Algorithms Section<add-an-algorithm>` to keep moving forward with this tutorial.
 
 Using Your Cloud Depth Product
 ------------------------------
