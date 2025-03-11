@@ -2,8 +2,10 @@ interface: gridline_annotators
 family: cartopy
 name: north_pole
 docstring: |
-  The north_pole gridline_annotators plugin. Top and left gridline labels, latitude and longitude lines colored
-  black, 5 deg spacing, 1px linewidth, and [4, 2] linestyle
+  The north_pole gridline_annotators plugin.
+
+  Top and left gridline labels, latitude and longitude lines colored black, 5 deg
+  spacing, 1px linewidth, and [4, 2] linestyle
 spec:
   labels:
     top: true
