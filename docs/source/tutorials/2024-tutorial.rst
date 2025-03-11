@@ -160,9 +160,9 @@ CLAVR-x Cloud-Top-Height product.
    properties help GeoIPS understand the type of plugin you are developing and also defines the schema your plugin
    will be validated against.
 
-   It is recommended to go through the definitions of the top level attributes such as ``interface``, ``family``, and
-   ``docstring`` that are required in any GeoIPS plugin. Click here :ref:`click here <required-attributes>` (page
-   scrolls up) to go the related documentation.
+   It is recommended to review the definitions of the top level attributes such as ``interface``, ``family``, and
+   ``docstring`` required in any GeoIPS plugin. Click here :ref:`click here <required-attributes>` (page
+   scrolls up) to view the related documentation.
 
 Cloud Top Height Product:
 -------------------------
