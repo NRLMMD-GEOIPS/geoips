@@ -13,9 +13,10 @@ from tests.unit_tests.pydantic.utils import (
     validate_good_plugin,
 )
 
+interface = "sectors"
 
-test_cases = load_test_cases("./test_cases.yaml")
-good_yaml = load_geoips_yaml_plugin("sectors", "korea")
+test_cases = load_test_cases(interface)
+good_yaml = load_geoips_yaml_plugin(interface, "korea")
 
 
 @pytest.fixture

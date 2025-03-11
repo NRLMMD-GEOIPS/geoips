@@ -3,6 +3,7 @@
 # from collections import UserDict
 import logging
 from importlib.resources import files
+import os
 
 import numpy as np
 from pydantic import ValidationError
@@ -50,7 +51,7 @@ class PathDict(dict):
             dict.__setitem__(self, key, value)
 
 
-def load_test_cases(path):
+def load_test_cases(interface_name):
     """Load a set of test cases used to validate pydantic model(s).
 
     This can either be a top level model, such as SectorPluginModel, or a component
@@ -58,15 +59,21 @@ def load_test_cases(path):
 
     Parameters
     ----------
-    path: str
-        - The path to your .yaml file.
+    interface_name: str
+        - The name of the interface that's going to be tested.
 
     Returns
     -------
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    test_cases = yaml.safe_load(open(path, "r"))
+    fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases.yaml"
+    if not os.path.exists(fpath):
+        raise FileNotFoundError(
+            f"Error: No test cases file could be found. Expected {fpath} but it did not"
+            " exist. Please create this file and rerun your tests."
+        )
+    test_cases = yaml.safe_load(open(fpath, "r"))
     for id, val in test_cases.items():
         for key in list(val.keys()):
             if key not in ("key", "val", "cls", "err_str"):

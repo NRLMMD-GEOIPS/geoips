@@ -13,9 +13,10 @@ from tests.unit_tests.pydantic.utils import (
     validate_good_plugin,
 )
 
+interface = "feature_annotators"
 
-test_cases = load_test_cases("./test_cases.yaml")
-good_yaml = load_geoips_yaml_plugin("feature_annotators", "default_oldlace")
+test_cases = load_test_cases(interface)
+good_yaml = load_geoips_yaml_plugin(interface, "default_oldlace")
 
 
 @pytest.fixture
