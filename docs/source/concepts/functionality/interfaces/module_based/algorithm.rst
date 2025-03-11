@@ -44,7 +44,7 @@ product default specification, which can be executed via the command line or a t
 script using a GeoIPS procflow.
 
 For examples of including an algorithm in a product implementation, see the
-`product defaults <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/userguide/plugin_development/product_default.rst>`_
+:ref:`product defaults <create-product-defaults>`
 and
-`products <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/userguide/plugin_development/product.rst>`_
+:ref:`products <create-a-product>`
 tutorials.
