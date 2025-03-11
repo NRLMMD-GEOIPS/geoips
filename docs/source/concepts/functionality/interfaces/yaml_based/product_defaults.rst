@@ -26,7 +26,7 @@ be referenced in the product definition. Each product definition would use
 this product_default, but would specify a different colormapper.
 
 See the
-`product defaults tutorial <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/product_default.rst>`_
+:ref:`product defaults tutorial <create-product-defaults>`
 for instruction on setting up a new product template (and its related product).
 
 Product defaults are defined in a YAML file, as shown in the tutorial above.

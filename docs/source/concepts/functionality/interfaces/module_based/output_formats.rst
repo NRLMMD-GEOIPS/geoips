@@ -5,11 +5,11 @@
 
 .. _output_formats_functionality:
 
-************************
-Output Formats in GeoIPS
-************************
+***************************
+Output Formatters in GeoIPS
+***************************
 
-An output format is a module-based GeoIPS plugin designed to output a dataset
+An output formatter is a module-based GeoIPS plugin designed to output a dataset
 to a file. This encompasses many varied types of output, including geotiff,
 netCDF, and imagery. Output formatters vary in complexity depending on the
 output type.
@@ -17,8 +17,8 @@ output type.
 Examples of output formatter plugins can be found in the list of GeoIPS built-in
 `output formatters <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/output_formatters>`_.
 
-A tutorial for implementing a new output formatter can be found
-`here <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/output_formatter.rst>`_.
+A tutorial for implementing a new output formatter can be found in the
+:ref:`GeoIPS Documentation <create-output-formatter>`
 
 Output formatters can be executed in two ways:
 

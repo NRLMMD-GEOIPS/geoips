@@ -19,7 +19,7 @@ Products are a key plugin for GeoIPS, as they define much of the information
 GeoIPS needs to determine how to produce an output.
 
 See the
-`products tutorial <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/product/index.rst>`_
+:ref:`products tutorial <create-a-product>`
 for instruction on setting up a new product.
 
 Products are defined in a YAML file, as shown in the tutorial above. They are

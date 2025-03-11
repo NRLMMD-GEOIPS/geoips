@@ -5,11 +5,11 @@
 
 .. _filename_formats_functionality:
 
-**************************
-Filename Formats in GeoIPS
-**************************
+*****************************
+Filename Formatters in GeoIPS
+*****************************
 
-A filename format is a module-based GeoIPS plugin that defines how an output
+A filename formatter is a module-based GeoIPS plugin that defines how an output
 file is named. Filename formatters generally produce a unique filename based
 on the metadata of the xarray dataset, but this plugin type is flexible. The
 output of this plugin is a string, so it can be formatted however the user

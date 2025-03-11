@@ -18,7 +18,7 @@ but can support nearly any type of environmental data.
 
 Note that when developing readers, some variables and attributes are required
 to be set to ensure compatibility with other components of GeoIPS. See the
-`reader plugin development <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/reader.rst>`_
+:ref:`reader plugin development <describe-readers>`
 tutorial for the list of required variables and attributes, as well as
 information on developing and using a new reader.
 

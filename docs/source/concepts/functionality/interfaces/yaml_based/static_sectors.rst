@@ -15,11 +15,12 @@ GeoIPS about how to plot data in a particular geographic area, including the
 location, projection, and resolution of the data. Static sectors, unlike
 dynamic sectors, do not calculate any location information at runtime.
 
-GeoIPS has many built-in static sectors, which can be accessed
-`here <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/sectors/static>`_.
+GeoIPS has many built-in
+`static sectors <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/yaml/sectors/static>`_
+covering regions across the globe.
 
 See the
-`static sector tutorial <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/static_sector/index.rst>`_
+:ref:`static sector tutorial <create-a-static_sector>`
 for instruction on setting up a new static sector.
 
 Static sectors are defined in a YAML file, as shown in the tutorial above.

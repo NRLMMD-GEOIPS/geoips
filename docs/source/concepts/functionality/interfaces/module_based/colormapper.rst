@@ -52,7 +52,7 @@ script using a GeoIPS procflow.
 For examples of including a colormapper in a product implementation, see the
 `Extend GeoIPS with a Colormapper <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/colormapper/index.rst>`_
 and
-`product defaults <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/userguide/plugin_development/product_default.rst>`_
+:ref:`product defaults <create-product-defaults>`
 tutorials.
 
 2. **Direct Invocation:** If you have your own output formatter, the colormapper

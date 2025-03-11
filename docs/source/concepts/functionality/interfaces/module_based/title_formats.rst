@@ -5,11 +5,11 @@
 
 .. _title_formats_functionality:
 
-***********************
-Title Formats in GeoIPS
-***********************
+**************************
+Title Formatters in GeoIPS
+**************************
 
-A title format is a module-based GeoIPS plugin that generates a title that is
+A title formatter is a module-based GeoIPS plugin that generates a title that is
 applied to image-based outputs. Title formatters generally contain useful
 information (e.g. valid time) concerning the plotted data, but this plugin type
 can be customized however the user desires.
