@@ -40,6 +40,12 @@ coastline_invalid_arguments_set:
     linewidth: 2
   cls: FeatureAnnotatorSpec
   err_str: Value error, If 'enabled' is False, 'edgecolor' and 'linewidth' must not be provided.
+coastline_set_missing_edgecolor_linewidth:
+  key: spec/coastline
+  val:
+    enabled: true
+  cls: FeatureAnnotatorSpec
+  err_str: Value error, If 'enabled' is True, both 'edgecolor' and 'linewidth' must be provided.
 color_invalid_type:
   key: spec/background
   val: 17
