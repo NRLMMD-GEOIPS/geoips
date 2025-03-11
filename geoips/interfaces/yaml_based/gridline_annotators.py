@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Gridline Annotator interface module."""
 
@@ -19,6 +10,29 @@ class GridlineAnnotatorsInterface(BaseYamlInterface):
     """Interface for gridline annotator plugins."""
 
     name = "gridline_annotators"
+
+    # Keyword arguments that can be used to adjust the style of lat/lon labels applied
+    # to annotated imagery. See geoips.image_utils.maps:draw_gridlines for how this is
+    # implemented
+    label_kwargs = {
+        "alpha": ["number"],
+        "backgroundcolor": ["string"],
+        "color": ["string"],
+        "fontfamily": ["string"],
+        "fontsize": ["number", "string"],
+        "fontstretch": ["integer", "string"],
+        "fontstyle": ["string"],
+        "fontvariant": ["string"],
+        "fontweight": ["integer", "string"],
+        "linespacing": ["number"],
+        "mouseover": ["boolean"],
+        "position": ["array"],
+        "rotation": ["number", "string"],
+        "rotation_mode": ["string"],
+        "snap": ["boolean"],
+        "wrap": ["boolean"],
+        "zorder": ["number"],
+    }
 
 
 gridline_annotators = GridlineAnnotatorsInterface()

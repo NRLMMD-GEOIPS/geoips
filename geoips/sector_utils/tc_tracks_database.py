@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Utilities for creating a database of tropical cyclone tracks."""
 
@@ -125,13 +116,17 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     # Check if timestamp on file is newer than timestamp in database -
     # if not, just return and don't do anything.
     if data:
-        database_timestamp = datetime.strptime(
-            cc.execute(
-                "SELECT last_updated from tc_trackfiles WHERE filename = ?",
-                (tc_trackfilename,),
-            ).fetchone()[0],
-            "%Y-%m-%d %H:%M:%S.%f",
-        )
+        try:
+            database_timestamp = datetime.strptime(
+                cc.execute(
+                    "SELECT last_updated from tc_trackfiles WHERE filename = ?",
+                    (tc_trackfilename,),
+                ).fetchone()[0],
+                "%Y-%m-%d %H:%M:%S.%f",
+            )
+        except ValueError as resp:
+            LOG.exception(f"Failed on {tc_trackfilename}")
+            raise (ValueError(f"FAILED ON {tc_trackfilename}: {resp}"))
         if file_timestamp < database_timestamp:
             LOG.info("")
             LOG.interactive(

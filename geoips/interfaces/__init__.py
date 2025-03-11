@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS interface module."""
 
@@ -28,6 +19,7 @@ from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
 from geoips.interfaces.module_based.output_checkers import output_checkers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
+from geoips.interfaces.module_based.databases import databases
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
 from geoips.interfaces.module_based.output_formatters import (
@@ -65,6 +57,7 @@ module_based_interfaces = [
     "algorithms",
     "colormappers",
     "coverage_checkers",
+    "databases",
     "filename_formatters",
     "interpolators",
     "output_checkers",

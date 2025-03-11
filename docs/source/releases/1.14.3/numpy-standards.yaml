@@ -1,0 +1,13 @@
+documentation:
+- description: |
+    Throughout GeoIPS, we have inconsistent coding standards.
+    The numpy docstring format is an external standard we already use,
+    and so we want that to be explicit in our documentation.
+    This adds explicit info on using numpy docstrings, as well as examples.
+  files:
+    modified:
+    - 'docs/source/new-docs/contribute/coding_standards.rst'
+  related-issue:
+    number: 502
+    repo_url: ''
+  title: 'Add numpy docstrings and examples to coding standards'

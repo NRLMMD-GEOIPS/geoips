@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read NASA GPM GMI hdf5 data files.
 
@@ -38,29 +29,30 @@ Dataset information::
              }
 """
 # Python Standard Libraries
-from os.path import basename
 from glob import glob
-import h5py
-import numpy as np
 import logging
+from os.path import basename
+
+# Third-Party Libraries
+import h5py
 import matplotlib
+import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 matplotlib.use("agg")
-
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "gmi_hdf5"
+source_names = ["gmi"]
 
 
 def read_gmi_file(fname, xarray_gmi):
     """Read a single GMI file fname."""
     fileobj = h5py.File(fname, mode="r")
-    import pandas as pd
-    import xarray as xr
-    import numpy
-
     # get the variables ( tbt/lon(nscan,npix), tb(nscan,npix,nChan),....., time(ns))
 
     lon = fileobj["S1"]["Longitude"][()]
@@ -141,49 +133,49 @@ def read_gmi_file(fname, xarray_gmi):
         )
     else:
         final_xarray["latitude"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["latitude"].to_masked_array(), lat])
+            np.vstack([xarray_gmi["latitude"].to_masked_array(), lat])
         )
         final_xarray["longitude"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["longitude"].to_masked_array(), lon])
+            np.vstack([xarray_gmi["longitude"].to_masked_array(), lon])
         )
         final_xarray["V10"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V10"].to_masked_array(), V10])
+            np.vstack([xarray_gmi["V10"].to_masked_array(), V10])
         )
         final_xarray["H10"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["H10"].to_masked_array(), H10])
+            np.vstack([xarray_gmi["H10"].to_masked_array(), H10])
         )
         final_xarray["V19"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V19"].to_masked_array(), V19])
+            np.vstack([xarray_gmi["V19"].to_masked_array(), V19])
         )
         final_xarray["H19"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["H19"].to_masked_array(), H19])
+            np.vstack([xarray_gmi["H19"].to_masked_array(), H19])
         )
         final_xarray["V23"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V23"].to_masked_array(), V23])
+            np.vstack([xarray_gmi["V23"].to_masked_array(), V23])
         )
         final_xarray["V37"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V37"].to_masked_array(), V37])
+            np.vstack([xarray_gmi["V37"].to_masked_array(), V37])
         )
         final_xarray["H37"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["H37"].to_masked_array(), H37])
+            np.vstack([xarray_gmi["H37"].to_masked_array(), H37])
         )
         final_xarray["V89"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V89"].to_masked_array(), V89])
+            np.vstack([xarray_gmi["V89"].to_masked_array(), V89])
         )
         final_xarray["H89"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["H89"].to_masked_array(), H89])
+            np.vstack([xarray_gmi["H89"].to_masked_array(), H89])
         )
         final_xarray["V166"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V166"].to_masked_array(), V166])
+            np.vstack([xarray_gmi["V166"].to_masked_array(), V166])
         )
         final_xarray["H166"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["H166"].to_masked_array(), H166])
+            np.vstack([xarray_gmi["H166"].to_masked_array(), H166])
         )
         final_xarray["V183-3"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V183-3"].to_masked_array(), V183_3])
+            np.vstack([xarray_gmi["V183-3"].to_masked_array(), V183_3])
         )
         final_xarray["V183-7"] = xr.DataArray(
-            numpy.vstack([xarray_gmi["V183-7"].to_masked_array(), V183_7])
+            np.vstack([xarray_gmi["V183-7"].to_masked_array(), V183_7])
         )
         new_time = xr.DataArray(
             pd.DataFrame(time_scan)
@@ -191,7 +183,7 @@ def read_gmi_file(fname, xarray_gmi):
             .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
         )
         final_xarray["time"] = xr.DataArray(
-            numpy.vstack(
+            np.vstack(
                 [
                     xarray_gmi["time"].to_masked_array(),
                     new_time.to_masked_array(),
@@ -238,8 +230,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray as xr
-
     # fname='data_gmi/20200518.203639.gpm.gmi.gpm_pps.x.gmi.TB2016.x.TB2016_1b_v05a.h5'
 
     LOG.info("Reading files %s", fnames)

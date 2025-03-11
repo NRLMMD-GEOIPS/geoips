@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "test" command.
 
@@ -19,14 +10,17 @@ from glob import glob
 from importlib import resources
 
 # from os import listdir
-from os.path import basename
+from os import environ, makedirs
+from os.path import basename, exists, join
 import sys
 
 # from pytest import main as invoke_pytest
 from subprocess import call
 
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.errors import PluginError
 from geoips.geoips_utils import is_editable
+from geoips.interfaces import sectors
 
 
 # class GeoipsTestUnitTest(GeoipsExecutableCommand):
@@ -111,6 +105,87 @@ from geoips.geoips_utils import is_editable
 
 #         test_path = str(f"{unit_test_dir}/{dir_name}/{test_name}")
 #         invoke_pytest(["-v", test_path])
+
+
+class GeoipsTestSector(GeoipsExecutableCommand):
+    """Test Command for creating a sector image based on the provided sector name.
+
+    This used to be ran via 'create_sector_image', however we are trying to consolidate
+    all independent console scripts to be used via the CLI. When this command is called
+    an image of the provided sector will be created so we can view whether or not it
+    matches the region of the globe we'd like to study.
+    """
+
+    name = "sector"
+    command_classes = []
+
+    def add_arguments(self):
+        """Instantiate the arguments that are supported for the test sector command.
+
+        Currently the "geoips test sector" command supports this format:
+            - geoips test sector <sector_name> --outdir <output_directory_path>
+        Where:
+            - <sector_name> is the name of any GeoIPS Sector Plugin that has an entry in
+              any package's plugin registry.
+            - --outdir is the full path to the directory in which you'd like to create
+              the sector image.
+        """
+        self.parser.add_argument(
+            "sector_name",
+            type=str,
+            help="Name of the sector plugin to create an image from.",
+        )
+        self.parser.add_argument(
+            "--outdir",
+            "-o",
+            type=str,
+            default=f"{environ['GEOIPS_OUTDIRS']}",
+            help="The output directory to create your sector image in.",
+        )
+
+    def __call__(self, args):
+        """Create the provided sector image based off the arguments provided.
+
+        This will retrieve the selected sector plugin from any GeoIPS Plugin package,
+        then create an image of that sector. This is a good way to quickly test whether
+        or not your sector plugin covers the area you expected with the correct
+        resolution.
+
+        Parameters
+        ----------
+        args: Argparse Namespace()
+            - The list argument namespace to parse through
+        """
+        sector_name = args.sector_name
+        outdir = args.outdir
+        # If the path to outdir doesn't already exist, make that path
+        if not exists(outdir):
+            makedirs(outdir)
+        # Create an image for the requested sector, including just the map and white
+        # background.
+        fname = join(outdir, f"{sector_name}.png")
+        try:
+            if "non_existent" in sector_name:
+                # This occurs for a unit test that we are just checking the error output
+                # for. No need to rebuild the plugin registry, which can be specified by
+                # using rebuild_registries=False
+                rebuild_registries = False
+            else:
+                # Otherwise, assume this is a new sector that is being developed, and
+                # automate plugin registry creation if it does not already exist as an
+                # entry in the registry.
+                rebuild_registries = True
+            sect = sectors.get_plugin(
+                sector_name, rebuild_registries=rebuild_registries
+            )
+        except PluginError:
+            raise self.parser.error(
+                f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
+                "found under 'geoips list interface sectors' or create a new plugin "
+                f"named '{sector_name}' and run 'create_plugin_registries'."
+            )
+        print(f"Creating {fname}.")
+        sect.create_test_plot(fname)
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -254,5 +329,5 @@ class GeoipsTest(GeoipsCommand):
     """Top-Level Test Command for testing GeoIPS and its corresponding Packages."""
 
     name = "test"
-    command_classes = [GeoipsTestLinting, GeoipsTestScript]
+    command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestSector]
     # command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]

@@ -1,0 +1,39 @@
+enhancement:
+- description: |
+    Add new reader for Meteosat Third Generation Flexible Combined Imager (MTG FCI).
+    This reader is a wrapper around satpy's FCI reader. MTG FCI data in netCDF format,
+    but require a special decompression filter in order to load the data into memory.
+    This filter can either be installed using EUMETSAT's fcidecomp plugin package
+    (https://gitlab.eumetsat.int/open-source/data-tailor-plugins/fcidecomp/-/tree/2.0.1/)
+    or with the hdf5plugin package available on pypi (https://pypi.org/project/hdf5plugin/)
+    In order to use this reader, the HDF5_PLUGIN_PATH is a required environment variable
+    that points to the directory holding the compiled decompression plugin. The satpy
+    documentation notes that 'import hdf5plugin' should be the only requirement to load
+    the data using their reader, and while that is the case, it appears that you are
+    unable to manipulate the data outside the satpy.scene object and will still encounter
+    a "NetCDF: Filter error: undefined filter encountered" error unless HDF5_PLUGIN_PATH
+    is a valid environment variable. We are using the pypi hdf5plugin package, and
+    set HDF5_PLUGIN_PATH to site-packages/hdf5plugin/plugins.
+
+    Updated the single_channel algorithm to apply a satellite zenith angle cutoff, rather
+    than requiring this mask to be applied in a reader. Uses a new function added to the
+    data_manipulations.corrections module.
+  files:
+    added:
+    - geoips/plugins/modules/readers/fci_netcdf.py
+    - geoips/plugins/yaml/products/fci.yaml
+    - tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p10.EUMETSAT.20p0.png
+    - tests/outputs/fci.unprojected_image.Infrared/20240113.115000.MTG-I1.fci.Infrared.self_register.71p89.EUMETSAT.0p0.png
+    - tests/scripts/fci.static.Visible.imagery_annotated.sh
+    - tests/scripts/fci.unprojected_image.Infrared.sh
+    deleted:
+    - ''
+    modified:
+    - geoips/data_manipulations/corrections.py
+    - geoips/plugins/modules/algorithms/single_channel.py
+    - pyproject.toml
+    - setup/config_geoips
+    - tests/test_all.sh
+    moved:
+    - ''
+  title: Create MTG FCI Reader

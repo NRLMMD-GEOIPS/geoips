@@ -1,16 +1,28 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS error module."""
+
+
+class NoValidFilesError(Exception):
+    """Exception to be raised when there are no valid files found.
+
+    Can be used from reader plugins if no valid files were passed to the reader.
+    """
+
+    pass
+
+
+class OutputFormatterDatelineError(Exception):
+    """Exception to be raised when there is a dateline error in an output formatter."""
+
+    pass
+
+
+class OutputFormatterInvalidProjectionError(Exception):
+    """Exception to be raised when there is a projection error in an OutputFormatter."""
+
+    pass
 
 
 class PluginError(Exception):
@@ -27,6 +39,12 @@ class PluginRegistryError(Exception):
 
 class CoverageError(Exception):
     """Raise exception on data coverage error."""
+
+    pass
+
+
+class PluginPackageNotFoundError(Exception):
+    """Raise exception stating a certain plugin package was not found."""
 
     pass
 

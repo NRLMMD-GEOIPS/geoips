@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test for GeoIPS CLI `list interfaces` command.
 
@@ -30,13 +21,25 @@ class TestGeoipsListInterfaces(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_interfaces_args
-            self._cmd_list = [base_args]
-            for pkg_name in self.plugin_package_names:
-                self._cmd_list.append(base_args + ["-i", "-p", pkg_name])
+            base_args = ["geoips", "list", "interfaces"]
+            alias_args = ["geoips", "ls", "interfaces"]
+            self._cmd_list = [base_args, alias_args]
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names:
+                    self._cmd_list.append(argset + ["-i", "-p", pkg_name])
             # Add argument list which selects certain columns for generic interfaces
             self._cmd_list.append(
                 base_args
+                + [
+                    "--columns",
+                    "package",
+                    "interface",
+                    "supported_famlies",
+                    "abspath",
+                ]
+            )
+            self._cmd_list.append(
+                alias_args
                 + [
                     "--columns",
                     "package",
@@ -57,11 +60,25 @@ class TestGeoipsListInterfaces(BaseCliTest):
                     "plugin_type",
                 ]
             )
+            self._cmd_list.append(
+                alias_args
+                + [
+                    "-i",
+                    "-p",
+                    "geoips",
+                    "--columns",
+                    "interface",
+                    "plugin_type",
+                ]
+            )
             self._cmd_list.append(base_args + ["-p", "geoips"])
+            self._cmd_list.append(alias_args + ["-p", "geoips"])
             # Add argument list with an invalid command call ("--long" with "--columns")
             self._cmd_list.append(base_args + ["--long", "--columns", "relpath"])
+            self._cmd_list.append(alias_args + ["--long", "--columns", "relpath"])
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(alias_args + ["-h"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -75,7 +92,11 @@ class TestGeoipsListInterfaces(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "interfaces"]
+        assert args != ["geoips", "list", "interfaces"] and args != [
+            "geoips",
+            "ls",
+            "interfaces",
+        ]
         assert args != ["geoips", "list", "interfaces", "-i"]
         assert "usage: To use, type `geoips list interfaces`" in error
         if "--long" in args and "--columns" in args:
@@ -98,7 +119,7 @@ class TestGeoipsListInterfaces(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list", "interfaces", "-h"]
+            assert "-h" in args
             assert "To use, type `geoips list interfaces`" in output
         else:
             # The args provided are valid, so test that the output is actually correct

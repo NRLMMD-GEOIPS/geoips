@@ -1,16 +1,8 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Utilities for tracking and monitoring memory and resource usage."""
+# Python standard Libraries
 # Python standard Libraries
 import logging
 import socket
@@ -20,6 +12,7 @@ import threading
 from ast import literal_eval
 from sys import argv
 from datetime import datetime
+import platform
 
 # Installed libraires
 import pandas as pd
@@ -129,13 +122,14 @@ class PidLog:
     def track_pids(self):
         """Track pids and create a dict of values."""
         self.usage_dict = {
-            "cpu_count": [],
             "cpu_percent": [],
             "thread_count": [],
             "unique_set_size": [],
             "res_set_size": [],
             "utc_datetime": [],
         }
+        if platform.system() == "Linux":
+            self.usage_dict["cpu_count"] = []
 
         while self.pid_bool:
 
@@ -156,7 +150,9 @@ class PidLog:
                     # CPU usage with oneshot doesn't work
 
                     with i.oneshot():
-                        tmp_cpu += [i.cpu_num()]
+                        # cpu_num only works for Linux, FreeBSD, SunOS
+                        if platform.system() == "Linux":
+                            tmp_cpu += [i.cpu_num()]
                         thrd_cnt += i.num_threads()
                         tmp_mem = i.memory_full_info()
                         uss_tmp += tmp_mem.uss
@@ -169,7 +165,8 @@ class PidLog:
 
             dtime = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
             self.usage_dict["cpu_percent"].append(cpu_per)
-            self.usage_dict["cpu_count"].append(len(set(tmp_cpu)))
+            if platform.system() == "Linux":
+                self.usage_dict["cpu_count"].append(len(set(tmp_cpu)))
             self.usage_dict["thread_count"].append(thrd_cnt)
             self.usage_dict["unique_set_size"].append(uss_tmp)
             self.usage_dict["res_set_size"].append(rss_tmp)
@@ -248,7 +245,8 @@ class PidLog:
             LOG.info("resource not defined")
         usage_dict["ru_cpuusg"] = max(self.usage_dict["cpu_percent"])  # [-1]
         usage_dict["ru_threads"] = max(self.usage_dict["thread_count"])
-        usage_dict["ru_cpucnt"] = max(self.usage_dict["cpu_count"])
+        if platform.system() == "Linux":
+            usage_dict["ru_cpucnt"] = max(self.usage_dict["cpu_count"])
         usage_dict["ru_uss"] = self.usage_dict["unique_set_size"][-1]
         usage_dict["ru_maxuss"] = max(self.usage_dict["unique_set_size"])
         LOG.info(
@@ -273,16 +271,16 @@ class PidLog:
 
     def save_csv(self):
         """Save a csv file to output."""
-        df = pd.DataFrame(
-            {
-                "Time [UTC]": self.usage_dict["utc_datetime"],
-                "CPU Count": self.usage_dict["cpu_count"],
-                "CPU Percent": self.usage_dict["cpu_percent"],
-                "Thread Count": self.usage_dict["thread_count"],
-                "USS [RAM bytes]": self.usage_dict["unique_set_size"],
-                "RSS [bytes]": self.usage_dict["res_set_size"],
-            }
-        )
+        usg_dict = {
+            "Time [UTC]": self.usage_dict["utc_datetime"],
+            "CPU Percent": self.usage_dict["cpu_percent"],
+            "Thread Count": self.usage_dict["thread_count"],
+            "USS [RAM bytes]": self.usage_dict["unique_set_size"],
+            "RSS [bytes]": self.usage_dict["res_set_size"],
+        }
+        if platform.system() == "Linux":
+            usg_dict["CPU Count"] = self.usage_dict["cpu_count"]
+        df = pd.DataFrame(usg_dict)
 
         outdir = os.path.join(gpaths["GEOIPS_OUTDIRS"], "memory_logs")
         if not os.path.exists(outdir):
@@ -319,7 +317,9 @@ def single_track_pid(procpid):
             # CPU usage with oneshot doesn't work
 
             with i.oneshot():
-                tmp_cpu += [i.cpu_num()]
+                # cpu_num only works for Linux, FreeBSD, SunOS
+                if platform.system() == "Linux":
+                    tmp_cpu += [i.cpu_num()]
                 thrd_cnt += i.num_threads()
                 tmp_mem = i.memory_full_info()
                 uss_tmp += tmp_mem.uss
@@ -330,12 +330,16 @@ def single_track_pid(procpid):
             # pid expired quickly, need to remove invalid values
             continue
 
-    # outputs CPU percent, CPU count, Thread count, USS, RSS
-    print(
-        "{}, {}, {}, {}, {}".format(
-            cpu_per, len(set(tmp_cpu)), thrd_cnt, uss_tmp, rss_tmp
+    if platform.system() == "Linux":
+        # outputs CPU percent, CPU count, Thread count, USS, RSS
+        print(
+            "{}, {}, {}, {}, {}".format(
+                cpu_per, len(set(tmp_cpu)), thrd_cnt, uss_tmp, rss_tmp
+            )
         )
-    )
+    else:
+        # outputs CPU percent, Thread count, USS, RSS
+        print("{}, {}, {}, {}".format(cpu_per, thrd_cnt, uss_tmp, rss_tmp))
 
 
 if __name__ == "__main__":

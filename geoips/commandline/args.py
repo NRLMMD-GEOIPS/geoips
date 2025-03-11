@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Command line script for kicking off geoips based procflows."""
 
@@ -266,6 +257,18 @@ def add_args(parser, arglist=None, legacy=False):
             default=getenv("GEOIPS_LOGGING_LEVEL"),
             help="""Specify logging config level for GeoIPS commands.""",
             type=str.upper,
+        )
+    if arglist is None or "rebuild_registries" in arglist:
+        parser.add_argument(
+            "--rebuild_registries",
+            type=bool,
+            choices=[True, False],
+            # Will default to $GEOIPS_REBUILD_REGISTRIES if set, else True
+            default=getenv("GEOIPS_REBUILD_REGISTRIES", True),
+            help=(
+                "Whether or not you want to rebuild plugin registries if you encounter "
+                "a failure when retrieving a plugin."
+            ),
         )
 
     sect_group = parser.add_argument_group(

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """SSMI binary reader.
 
@@ -67,10 +58,16 @@ SSMI input data info::
     char sft[HIRES][2];          /* surface types */
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
-from os.path import basename
+import os
 
+# Third-Party Libraries
 import matplotlib
+import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 matplotlib.use("agg")
 
@@ -79,6 +76,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "ssmi_binary"
+source_names = ["ssmi"]
 
 # NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
 # variables are needed in this for moving through the binary file correctly.
@@ -121,12 +119,6 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
     # from IPython import embed as shell
     fname = fnames[0]
 
@@ -612,7 +604,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_lores.attrs["source_name"] = "ssmi"
     xarray_lores.attrs["platform_name"] = satid
     xarray_lores.attrs["data_provider"] = "DMSP"
-    xarray_lores.attrs["source_file_names"] = [basename(fname)]
+    xarray_lores.attrs["source_file_names"] = [os.path.basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     # xarray_lores.attrs['sample_distance_km'] = 25
@@ -626,7 +618,7 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
     xarray_85ab.attrs["source_name"] = "ssmi"
     xarray_85ab.attrs["platform_name"] = satid
     xarray_85ab.attrs["data_provider"] = "DMSP"
-    xarray_85ab.attrs["source_file_names"] = [basename(fname)]
+    xarray_85ab.attrs["source_file_names"] = [os.path.basename(fname)]
 
     # MTIFs need to be "prettier" for PMW products, so 2km resolution for final image
     # xarray_85ab.attrs['sample_distance_km'] = 13

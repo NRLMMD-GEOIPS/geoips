@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Generates all available plugins from all installed GeoIPS packages.
 
@@ -21,6 +12,7 @@ EVERY currently installed plugin package. A separate registered_plugins.json is
 created at the top level package directory for each plugin package.
 """
 
+import warnings
 import yaml
 from importlib import metadata, resources, util
 from inspect import signature
@@ -234,6 +226,12 @@ def registry_sanity_check(plugin_packages, save_type):
                                             # the package Product plugin,
                                             # raise a PluginRegistryError
                                             # and remove the registries.
+                                            pkg_relpath = "not defined"
+                                            if "relpath" in pkg_plugin:
+                                                pkg_relpath = pkg_plugin["relpath"]
+                                            subplg_relpath = "not defined"
+                                            if "relpath" in sub_plg:
+                                                subplg_relpath = sub_plg["relpath"]
                                             error_message += """
                                                 Error with packages:
                                                 [{}, {}]:
@@ -242,14 +240,14 @@ def registry_sanity_check(plugin_packages, save_type):
                                                 plugin name [{}] found under
                                                 subplg name [{}]
                                                 relpath: {}
-                                                subplg relpath: {}""".format(
+                                                subplg relpath: {}\n""".format(
                                                 comp_pkg.value,
                                                 pkg.value,
                                                 interface,
                                                 sub_plg,
                                                 plugin,
-                                                pkg_plugin["relpath"],
-                                                sub_plg["relpath"],
+                                                pkg_relpath,
+                                                subplg_relpath,
                                             )
     if error_message:
         remove_registries(plugin_packages)
@@ -737,7 +735,7 @@ def add_text_plugin(package, relpath, plugins):
 
 
 def add_module_plugin(package, relpath, plugins):
-    """Add the yaml plugin associated with the filepaths and package to plugins.
+    """Add the module plugin associated with the filepaths and package to plugins.
 
     Parameters
     ----------
@@ -861,6 +859,23 @@ def add_module_plugin(package, relpath, plugins):
         "signature": str(signature(module.call)),
         "relpath": relpath,
     }
+    if interface_name == "readers":
+        if hasattr(module, "source_names"):
+            plugins[interface_name][name]["source_names"] = module.source_names
+        else:
+            warnings.warn(
+                (
+                    f"Plugin package '{package}'s reader"
+                    f" plugin '{name}' is using a deprecated source_names "
+                    "implementation. Please add a module-level 'source_names' "
+                    "attribute to this plugin and re-run "
+                    "'create_plugin_registries'. This will be fully deprecated "
+                    "when GeoIPS v2.0.0 is released."
+                ),
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            plugins[interface_name][name]["source_names"] = ["Unspecified"]
     del module
     # Return the final error message - an exception will be raised at the very
     # end after collecting and reporting on all errors if there were any errors

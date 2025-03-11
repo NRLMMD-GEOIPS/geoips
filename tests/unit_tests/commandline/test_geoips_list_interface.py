@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test for GeoIPS CLI `list interface` command.
 
@@ -35,19 +26,34 @@ class TestGeoipsListInterface(BaseCliTest):
         """
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
-            base_args = self._list_interface_args
-            for pkg_name in self.plugin_package_names + ["all"]:
-                for interface_name in interfaces.__all__:
-                    if pkg_name != "all":
-                        args = base_args + [interface_name, "-p", pkg_name]
-                    else:
-                        args = base_args + [interface_name]
-                    self._cmd_list.append(args)
+            base_args = ["geoips", "list"]
+            alias_args = ["geoips", "ls"]
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names + ["all"]:
+                    for interface_name in interfaces.__all__:
+                        interface_name = interface_name.replace("_", "-")
+                        if pkg_name != "all":
+                            args = argset + [interface_name, "-p", pkg_name]
+                        else:
+                            args = argset + [interface_name]
+                        self._cmd_list.append(args)
             # Add argument list with a non-existent interface
             self._cmd_list.append(base_args + ["non_existent_interface"])
+            self._cmd_list.append(alias_args + ["non_existent_interface"])
             # Add argument list that utilizes the --column optional arg
             self._cmd_list.append(
                 base_args
+                + [
+                    "algorithms",
+                    "--columns",
+                    "package",
+                    "interface",
+                    "plugin_type",
+                    "relpath",
+                ]
+            )
+            self._cmd_list.append(
+                alias_args
                 + [
                     "algorithms",
                     "--columns",
@@ -61,14 +67,20 @@ class TestGeoipsListInterface(BaseCliTest):
             self._cmd_list.append(
                 base_args + ["algorithms", "-p", "non_existent_package"]
             )
+            self._cmd_list.append(
+                alias_args + ["algorithms", "-p", "non_existent_package"]
+            )
             # Add argument list with an existing interface but w/ conflicting opt args
             self._cmd_list.append(
                 base_args + ["readers", "--long", "--columns", "package", "interface"]
             )
+            self._cmd_list.append(
+                alias_args + ["readers", "--long", "--columns", "package", "interface"]
+            )
         return self._cmd_list
 
     def check_error(self, args, error):
-        """Ensure that the 'geoips list interface...' error output is correct.
+        """Check that the 'geoips list <interface_name> ...' error output is correct.
 
         Parameters
         ----------
@@ -82,7 +94,7 @@ class TestGeoipsListInterface(BaseCliTest):
                 "error: argument --columns/-c: not allowed with argument --long/-l"
                 in error.replace("\n", "")
             )
-        elif args[3] in interfaces.__all__:
+        elif args[2] in interfaces.__all__:
             # interface exists, so check that the package name is incorrect
             assert args[-1] not in self.plugin_package_names
             usg_str = (
@@ -91,11 +103,14 @@ class TestGeoipsListInterface(BaseCliTest):
             )
             assert usg_str in error.replace("\n", "")
         else:
-            assert args[3] not in interfaces.__all__
-        assert "usage: To use, type `geoips list interface <interface_name>`" in error
+            assert args[2] not in interfaces.__all__
+        assert (
+            "usage: To use, type `geoips list <interface_name>`" in error
+            or "usage: To use, type `geoips list <cmd> <sub-cmd>`" in error
+        )
 
     def check_output(self, args, output):
-        """Ensure that the 'geoips list interface ...' successful output is correct.
+        """Check that the 'geoips list <interface_name> ...' success output is correct.
 
         Parameters
         ----------
@@ -105,7 +120,7 @@ class TestGeoipsListInterface(BaseCliTest):
             - Multiline str representing the output of the CLI call
         """
         # The args provided are valid, so test that the output is actually correct
-        interface = getattr(interfaces, args[3])
+        interface = getattr(interfaces, args[2].replace("-", "_"))
         interface_type = interface.interface_type
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a
@@ -143,16 +158,17 @@ test_sub_cmd = TestGeoipsListInterface()
     ids=test_sub_cmd.generate_id,
 )
 def test_command_combinations(monkeypatch, args):
-    """Test all 'geoips list interface ...' commands.
+    """Test all 'geoips list <interface_name> ...' commands.
 
-    This test covers every valid combination of commands for the 'geoips list interface'
-    command. We also test invalid commands, to ensure that the proper help documentation
-    is provided for those using the command incorrectly.
+    This test covers every valid combination of commands for the
+    'geoips list <interface_name>' command. We also test invalid commands, to ensure
+    that the proper help documentation is provided for those using the command
+    incorrectly.
 
     Parameters
     ----------
     args: 2D array of str
         - List of arguments to call the CLI with
-          (ie. ['geoips', 'list', 'interface', 'algorithms'])
+          (ie. ['geoips', 'list', 'algorithms'])
     """
     test_sub_cmd.test_command_combinations(monkeypatch, args)

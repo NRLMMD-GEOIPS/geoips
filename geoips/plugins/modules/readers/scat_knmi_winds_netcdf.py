@@ -1,22 +1,24 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
 
-import logging
-from os.path import basename
+# Python Standard Libraries
 from copy import deepcopy
 from glob import glob
+import logging
+from os.path import basename
+
+# Third-Party Libraries
 import numpy
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+    fix_datetime,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -26,6 +28,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "scat_knmi_winds_netcdf"
+source_names = ["ascat", "oscat", "hscat"]
 
 
 def read_knmi_data(wind_xarray):
@@ -52,6 +55,9 @@ def read_knmi_data(wind_xarray):
     elif wind_xarray.source == "ScatSat-1 OSCAT":
         geoips_metadata["source_name"] = "oscat"
         geoips_metadata["platform_name"] = "scatsat-1"
+    elif wind_xarray.source == "Oceansat-3 OSCAT":
+        geoips_metadata["source_name"] = "oscat"
+        geoips_metadata["platform_name"] = "oceansat-3"
     elif wind_xarray.source == "HY-2D HSCAT":
         geoips_metadata["source_name"] = "hscat"
         geoips_metadata["platform_name"] = "hy-2d"
@@ -91,7 +97,6 @@ def read_knmi_data(wind_xarray):
     wind_xarray = wind_xarray.rename(
         {"lat": "latitude", "lon": "longitude", "time": "time"}
     )
-    import xarray
 
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
@@ -154,13 +159,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-        fix_datetime,
-    )
-    import xarray
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:

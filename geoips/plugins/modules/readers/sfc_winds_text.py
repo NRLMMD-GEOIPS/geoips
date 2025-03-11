@@ -1,18 +1,14 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR text data."""
 
+# Python Standard Libraries
 import logging
+
+# Third-Party Libraries
+import numpy
+import pandas
 
 LOG = logging.getLogger(__name__)
 
@@ -21,6 +17,7 @@ MS_TO_KTS = 1.94384
 interface = "readers"
 family = "standard"
 name = "sfc_winds_text"
+source_names = ["sar-spd", "smap-spd", "smos-spd", "amsr2"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -66,8 +63,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             "Please call with a single file."
         )
     fname = fnames[0]
-    import numpy
-    import pandas
 
     LOG.info("Reading file %s", fname)
     data = numpy.loadtxt(fname, dtype=str, skiprows=0)

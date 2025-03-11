@@ -1,60 +1,49 @@
 .. dropdown:: Distribution Statement
 
- | # # # Distribution Statement A. Approved for public release. Distribution is unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+ | # # # This source code is protected under the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
 
 Version 1.12.3 (2024-05-15)
 ***************************
 
 * Formatting Updates
 
+  * Allow setting GEOIPS_LOGGING_LEVEL to override default "interactive"
   * Allow different colors for realtime and admin operational user setups
 * Bug fixes
 
   * Add geolocation variables to geokompsat reader
   * Add output of radiance to geokompsat reader
   * Add geolocation variable masking to AHI reader
+  * Ensure all plugin packages are tested in YAML plugin validation
   * Ignore missing import in hrit_reader
   * Fix xarray_to_xarray family
   * Update ANCILDATDIR to GEOIPS_ANCILDAT
   * Appropriately pull resolution from LongName
-  * Fix versions for xarray, rasterio, and cartopy in pyproject.toml
-  * Resolve typos in IR_BD and WV colormappers LOG statements
-  * Update to full path for test_interfaces call in base_test
-  * Resolve typo in netcdf output checker log_with_emphasis call
-  * Add current miniconda3 install to path
   * Check for GEOIPS_DB_URI when using database plugin
+  * Resolve typos in IR_BD and WV colormappers LOG statements
+  * Resolve typo in netcdf output checker log_with_emphasis call
 * Enhancements
 
   * Allow passing pyresample kd_tree arguments to interpolators
-  * Ensure all plugin packages are tested in YAML plugin validation
   * Allow replacing fields in product_spec_override
   * Add geolocation resampling to VIIRS reader
 * Testing Updates
 
-  * Use variables[varname] vs getattr(varname) for reader unit tests
-  * Update config-based AHI backgrounds for AHI geolocation masking update
   * Minor updates to geokompsat output image title/labels
+  * Update config-based AHI backgrounds for AHI geolocation masking update
+  * Use variables[varname] vs getattr(varname) for reader unit tests
+  * Update to full path for test_interfaces call in base_test
 * Installation Updates
 
-  * Allow passing arguments to pip
-  * Add general clone_repo command to check_system_requirements
+  * Fix versions for xarray, rasterio, and cartopy in pyproject.toml
+  * Add current miniconda3 install to path
   * Include mamba.sh setup in geoips_conda_init_setup
+  * Add general clone_repo command to check_system_requirements
+  * Allow passing arguments to pip
   * Output version-based requirements.txt immediately after base install.
   * Require matplotlib<3.9.0 due to matplotlib.cm.get_cmap deprecation
   * Limit git to <2.45.0 due to bug breaking git lfs clones
-* Release updates
-
-  * Allow setting GEOIPS_LOGGING_LEVEL to override default "interactive"
 * Documentation Updates
 
   * Allow including additional sections in plugin package documentation
@@ -114,7 +103,6 @@ Ignore missing import in hrit_reader
 
     modified:   geoips/plugins/modules/readers/utils/hrit_reader.py
 
-
 Add geolocation variables to geokompsat reader
 ----------------------------------------------
 
@@ -158,6 +146,27 @@ Modify xarray_to_xarray family so that it functions correctly.
 ::
 
   modified: geoips/plugins/modules/procflows/single_source.py
+
+Resolve typo in netcdf output checker log_with_emphasis call
+------------------------------------------------------------
+
+Fix typo in log_with_emphasis call in netcdf output checker.  Was calling for every
+line, updated to append all lines into a list, then a single call to log_with_emphasis.
+
+::
+
+  modified: geoips/plugins/modules/output_checkers/netcdf.py
+
+Resolve typos in IR_BD and WV colormappers LOG statements
+---------------------------------------------------------
+
+Fix typo in IR_BD.py and WV.py colormappers LOG.info statements - previously
+had a variable without a corresponding %s.
+
+::
+
+  modified: geoips/plugins/modules/colormappers/visir/IR_BD.py
+  modified: geoips/plugins/modules/colormappers/visir/WV.py
 
 Enhancements
 ============
@@ -292,6 +301,21 @@ Standardize xarray variable access.
 
   modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
 
+Update to full path for test_interfaces call in base_test
+---------------------------------------------------------
+
+Use full path to tests/utils/test_interfaces.py, rather than console script
+test_interfaces. test_interfaces is no longer a console script, because it
+relies on utilities in the "test" infrastructure, so is non-functional with
+a pip install of geoips only.
+
+::
+
+  modified: tests/integration_tests/base_test.sh
+
+Installation Updates
+====================
+
 Fix versions for xarray, rasterio, and cartopy in pyproject.toml
 ----------------------------------------------------------------
 
@@ -305,39 +329,6 @@ Require fixed versions for
 
   modified: pyproject.toml
 
-Resolve typos in IR_BD and WV colormappers LOG statements
----------------------------------------------------------
-
-Fix typo in IR_BD.py and WV.py colormappers LOG.info statements - previously
-had a variable without a corresponding %s.
-
-::
-
-  modified: geoips/plugins/modules/colormappers/visir/IR_BD.py
-  modified: geoips/plugins/modules/colormappers/visir/WV.py
-
-Update to full path for test_interfaces call in base_test
----------------------------------------------------------
-
-Use full path to tests/utils/test_interfaces.py, rather than console script
-test_interfaces. test_interfaces is no longer a console script, because it
-relies on utilities in the "test" infrastructure, so is non-functional with
-a pip install of geoips only.
-
-::
-
-  modified: tests/integration_tests/base_test.sh
-
-Resolve typo in netcdf output checker log_with_emphasis call
-------------------------------------------------------------
-
-Fix typo in log_with_emphasis call in netcdf output checker.  Was calling for every
-line, updated to append all lines into a list, then a single call to log_with_emphasis.
-
-::
-
-  modified: geoips/plugins/modules/output_checkers/netcdf.py
-
 Add current miniconda3 install to path
 --------------------------------------
 
@@ -347,17 +338,6 @@ during conda env calls.
 ::
 
   modified: setup/geoips_conda_init_setup
-
-Resolve typos in IR_BD and WV colormappers LOG statements
----------------------------------------------------------
-
-Fix typo in IR_BD.py and WV.py colormappers LOG.info statements - previously
-had a variable without a corresponding %s.
-
-::
-
-  modified: geoips/plugins/modules/colormappers/visir/IR_BD.py
-  modified: geoips/plugins/modules/colormappers/visir/WV.py
 
 Include mamba.sh setup in geoips_conda_init_setup
 -------------------------------------------------

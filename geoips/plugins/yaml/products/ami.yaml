@@ -62,3 +62,34 @@ spec:
             name: matplotlib_linear_norm
             arguments:
               cbar_label: "Reflectance, AMI B03 0.64um Red Band"
+    - name: absdiff-IR-BD
+      source_names: [ami]
+      docstring: |
+        The absolute difference between IR-BD between two Geokomsat AMI scan times.
+      family: algorithm_interpolator_colormapper
+      spec:
+        variables: ["IR112BT"]
+        algorithm:
+          plugin:
+            name: absdiff_mst
+            arguments:
+              output_data_range: [0.0, 35.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              cmap_name: turbo
+              cmap_source: matplotlib
+              data_range: [0.0, 35.0]
+              cbar_ticks: [0, 5, 10, 15, 20, 25, 30, 35]
+              cbar_label: 11µ BT (°C)
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}

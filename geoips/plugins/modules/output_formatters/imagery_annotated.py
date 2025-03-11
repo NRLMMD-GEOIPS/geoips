@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Matplot-lib based annotated image output."""
 
@@ -62,6 +53,17 @@ def call(
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
+    bkgrnd_clr = None
+    frame_clr = None
+    # If a feature_annotator plugin was supplied, attempt to get the image background
+    # color. Otherwise, just keep it as None.
+    if feature_annotator:
+        bkgrnd_clr = feature_annotator.get("spec", {}).get("background")
+    # If a gridline_annotator plugin was supplied, attempt to get the frame background
+    # color. Otherwise, just keep it as None.
+    if gridline_annotator:
+        frame_clr = gridline_annotator.get("spec", {}).get("background")
+
     if not mpl_colors_info:
         # Create the matplotlib color info dict - the fields in this dictionary
         # (cmap, norm, features, etc) will be used in plot_image to ensure the image
@@ -75,11 +77,21 @@ def call(
     if clean_fname:
         # Create matplotlib figure and main axis, where the main image will be plotted
         fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            area_def.x_size, area_def.y_size, area_def, noborder=True
+            area_def.x_size,
+            area_def.y_size,
+            area_def,
+            noborder=True,
+            frame_clr=frame_clr,
         )
 
         # Plot the actual data on a map
-        plot_image(main_ax, plot_data, mapobj, mpl_colors_info=mpl_colors_info)
+        plot_image(
+            main_ax,
+            plot_data,
+            mapobj,
+            mpl_colors_info=mpl_colors_info,
+            bkgrnd_clr=bkgrnd_clr,
+        )
 
         LOG.info("Saving the clean image %s", clean_fname)
         # Save the clean image with no gridlines or coastlines
@@ -98,10 +110,17 @@ def call(
         area_def,
         existing_mapobj=mapobj,
         noborder=False,
+        frame_clr=frame_clr,
     )
 
     # Plot the actual data on a map
-    plot_image(main_ax, plot_data, mapobj, mpl_colors_info=mpl_colors_info)
+    plot_image(
+        main_ax,
+        plot_data,
+        mapobj,
+        mpl_colors_info=mpl_colors_info,
+        bkgrnd_clr=bkgrnd_clr,
+    )
 
     if bg_data is not None and (
         hasattr(plot_data, "mask") or len(plot_data.shape) == 3
@@ -122,6 +141,7 @@ def call(
                 numpy.ma.masked_where(plot_data[:, :, 3], bg_data),
                 mapobj,
                 mpl_colors_info=bg_mpl_colors_info,
+                bkgrnd_clr=bkgrnd_clr,
             )
         else:
             plot_image(
@@ -129,6 +149,7 @@ def call(
                 numpy.ma.masked_where(~plot_data.mask, bg_data),
                 mapobj,
                 mpl_colors_info=bg_mpl_colors_info,
+                bkgrnd_clr=bkgrnd_clr,
             )
 
     # Set the title for final image

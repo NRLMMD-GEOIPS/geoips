@@ -1,0 +1,15 @@
+interface: products
+family: list
+name: cygnss
+docstring: |
+  The cygnss products configuration, which produces Windspeed products, Windbarbs products,
+  Wind-ambiguity products, and Unsectored/Sectored products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [cygnss]
+      docstring: |
+        The windspeed product_defaults for cygnss product.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]

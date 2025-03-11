@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Interpolation routines from the scipy package."""
 
@@ -18,6 +9,10 @@ import logging
 # from matplotlib import cm, colors
 import scipy
 import numpy
+
+# imports for alphashape-based masking
+import alphashape
+from skimage.measure import points_in_poly
 
 LOG = logging.getLogger(__name__)
 
@@ -154,12 +149,36 @@ def interp_griddata(
     interp_data = scipy.interpolate.griddata(
         (data_lats, data_lons), data_array, (gridlats, gridlons), method=method
     )
+    list_of_lons = numpy.reshape(gridlons, -1)
+    list_of_lats = numpy.reshape(gridlats, -1)
+
     # Free up memory ??
     gridlons = 1
     gridlats = 1
 
+    # Zip data_lons and data_lats and compute alphashape
+    datapts_2d = list(zip(data_lons.data, data_lats.data))
+    returned_polygons = alphashape.alphashape(datapts_2d, 1.0)
+    # If multiple polygons are returned, choose the one with the largest area
+    if returned_polygons.geom_type == "MultiPolygon":
+        alpha_shape = max(returned_polygons.geoms, key=lambda a: a.area)
+    elif returned_polygons.geom_type == "Polygon":
+        alpha_shape = returned_polygons
+
     interp_data = numpy.ma.masked_invalid(interp_data)
     interp_data = numpy.ma.masked_less(interp_data, data_array.min())
     interp_data = numpy.ma.masked_greater(interp_data, data_array.max())
+    input_shape_interp_data = interp_data.shape
+
+    zipped_lons_lats = numpy.asarray(list(zip(list_of_lons, list_of_lats)))
+    mask_exterior_coords_xy = numpy.asarray(list(zip(*alpha_shape.exterior.coords.xy)))
+    inside_hull_mask = numpy.reshape(
+        points_in_poly(zipped_lons_lats, mask_exterior_coords_xy),
+        input_shape_interp_data,
+    )
+
+    interp_data = numpy.ma.masked_where(
+        numpy.logical_not(inside_hull_mask), interp_data
+    )
 
     return interp_data

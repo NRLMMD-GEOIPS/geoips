@@ -1,0 +1,94 @@
+algorithms:
+  - alg
+  - algs
+  - algorithm
+colormappers:
+  - cmap
+  - cmaps
+  - colormapper
+coverage-checkers:
+  - cchk
+  - cchks
+  - coverage-checker
+databases:
+  - db
+  - dbs
+  - database
+filename-formatters:
+  - ffmt
+  - ffmts
+  - filename-formatter
+interpolators:
+  - interp
+  - interps
+  - interpolator
+output-checkers:
+  - ochk
+  - ochks
+  - output-checker
+output-formatters:
+  - ofmt
+  - ofmts
+  - output-formatter
+procflows:
+  - pfl
+  - pfls
+  - procflow
+readers:
+  - rdr
+  - rdrs
+  - reader
+sector-adjusters:
+  - sadj
+  - sadjs
+  - sector-adjuster
+sector-metadata-generators:
+  - smgen
+  - smgens
+  - sector-metadata-generator
+sector-spec-generators:
+  - ssgen
+  - ssgens
+  - sector-spec-generator
+title-formatters:
+  - tfmt
+  - tfmts
+  - title-formatter
+feature-annotators:
+  - fann
+  - fanns
+  - feature-annotator
+gridline-annotators:
+  - gann
+  - ganns
+  - gridline-annotator
+product-defaults:
+  - pdef
+  - pdefs
+  - prod-def
+  - prod-defs
+  - product-default
+products:
+  - prod
+  - prods
+  - product
+sectors:
+  - sec
+  - secs
+  - sector
+package:
+  - pkg
+packages:
+  - pkgs
+plugins:
+  - plgs
+config:
+  - cfg
+describe:
+  - desc
+list:
+  - ls
+validate:
+  - val
+source-names:
+  - src-names

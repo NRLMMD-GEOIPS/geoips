@@ -2,13 +2,20 @@ interface: products
 family: list
 name: amsu-b
 docstring: |
+  AMSU-B: Advanced Microwave Sounding Unit - A. 15 channels including the 54 GHz band. 2200 km swath width.
+
+  Used on:
+  METOP-B/C: Meteorological operational satellite – B and Meteorological operational satellite – C. METOP-B, launched in September, 2012, 
+  has an altitude of 817 km, inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an altitude of 817 km, 
+  inclination of 98.7°, orbital period of 101 minutes and was launched November, 2018. Sun-synchronous and orbits daily.
+
   The amsu-b product_inputs configuration, which produces 89V, 157V, 183-1H, 183-3H, and 190V products.
 spec:
   products:
     - name: 89V
       source_names: [amsu-b]
       docstring: |
-        The 89V product_defaults for amsu-b product.
+        Vertically polarized channel at 89 GHz, used to look at ice formations
       product_defaults: 89V
       spec:
         variables: ["Chan1_AT"]
@@ -27,7 +34,7 @@ spec:
     - name: 157V
       source_names: [amsu-b]
       docstring: |
-        The 157V product_defaults for amsu-b product.
+        Vertically polarized channel at 157 GHz, single channel image at high frequency
       product_defaults: 157V
       spec:
         variables: ["Chan2_AT"]
@@ -46,7 +53,7 @@ spec:
     - name: 183-1H
       source_names: [amsu-b]
       docstring: |
-        The 183-1H product_defaults for amsu-b product.
+        Horizontally polarized channel, single channel image at high frequency. Could display moisture information in the mid-upper atmosphere.
       product_defaults: 183-1H
       spec:
         variables: ["Chan3_AT"]
@@ -65,7 +72,7 @@ spec:
     - name: 183-3H
       source_names: [amsu-b]
       docstring: |
-        The 183-3H product_defaults for amsu-b product.
+        Horizontally polarized channel, single channel image at high frequency. Could display moisture information in the mid-upper atmosphere.
       product_defaults: 183-3H
       spec:
         variables: ["Chan4_AT"]
@@ -84,7 +91,7 @@ spec:
     - name: 190V
       source_names: [amsu-b]
       docstring: |
-        The 190V product_defaults for amsu-b product.
+        Vertically polarized channel at 190 GHz, single channel image at high frequency. Could display moisture information in the mid-upper atmosphere.
       product_defaults: 190V
       spec:
         variables: ["Chan5_AT"]

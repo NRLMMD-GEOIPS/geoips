@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read AMSU-B and MHS MIRS NetCDF data files.
 
@@ -167,12 +158,17 @@ Additional info::
     SZ_angle:  solar zinath angle (deg)
 """
 # Python Standard Libraries
+from datetime import datetime
 import logging
+import os
 
-# library for hdf files
+# Third-Party Libraries
 import h5py
-
 import matplotlib
+import numpy as np
+import pandas as pd
+import xarray as xr
+
 
 matplotlib.use("agg")
 
@@ -226,6 +222,7 @@ VARLIST = [
 interface = "readers"
 family = "standard"
 name = "amsub_mirs"
+source_names = ["amsu-b"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -262,12 +259,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import os
-    from datetime import datetime
-    import numpy as np
-    import pandas as pd
-    import xarray as xr
-
     xarrays = []
     for fname in fnames:
         LOG.info("Reading file %s", fname)

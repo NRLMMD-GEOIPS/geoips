@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/sh
 # rclone lsf publicAWS:noaa-goes16/ABI-L1b-RadF/2020/184/16/
@@ -34,13 +25,39 @@ if [[ "$8" == "" && -z "$GEOIPS_PACKAGES_DIR" ]]; then
 fi
 
 if [[ "$1" == "" || "$bad_command" == "1" ]]; then
-    echo "Usage: $0 <satellite> YYYY MM DD HH MN <testdata_dir> <rclone_conf>"
-    echo "    satellite: goes16, goes17, himawari8, himawari9, geokompsat"
-    echo "    testdata_dir: if 'default' or not specified, defaults to: "
+    echo "Usage: $0 <satellite> YYYY MM DD HH MN <testdata_dir> <rclone_conf> <collection> <wildcard_list>"
+    echo "    satellite:"
+    echo "        goes16"
+    echo "        goes17"
+    echo "        himawari8"
+    echo "        himawari9"
+    echo "        geokompsat"
+    echo "        noaa-20"
+    echo "        noaa-21"
+    echo "        snpp"
+    echo "        jpss"
+    echo "    testdata_dir: "
+    echo "        if 'default' or not specified, defaults to: "
     echo "       \$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/<satellite>/<YYYYmmdd>/<HHMN>"
-    echo "    rclone_conf: if 'default' or not specified, defaults to:"
+    echo "    rclone_conf: "
+    echo "        if 'default' or not specified, defaults to:"
     echo "        \$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf"
-    echo "    wildcard_list: list of strings to match in filenames (ie, channels). Defaults to all files for dtg"
+    echo "    collection:"
+    echo "        If not defined, defaults to L1B full disk for geostationary"
+    echo "        Since there are so many NOAA/NPP products, no sensible default.."
+    echo "        This refers to the initial subdirectory found in the NOAA AWS"
+    echo "          S3 buckets (prior to the date-based subdirs)"
+    echo "          ie: noaa-nesdis-snpp-pds.s3.amazonaws.com/VIIRS-IMG-GEO-TC"
+    echo "        examples of collections (you can find all available collections"
+    echo "          by navigating the S3 buckets on the web)"
+    echo "        viirs"
+    echo "           VIIRS-IMG-GEO-TC"
+    echo "           VIIRS-I5-SDR"
+    echo "        ahi"
+    echo "           AHI-L1b-FLDK"
+    echo "    wildcard_list: "
+    echo "        list of strings to match in filenames (ie, channels)."
+    echo "        Defaults to all files for dtg"
     exit 1
 fi
 
@@ -63,16 +80,18 @@ if [[ "$8" == "" || "$8" == "default" ]]; then
 else
     rclone_conf="$8"
 fi
-if [[ "$9" == "" ]]; then
-    wildcard_list=""
+if [[ "$9" == "" || "$9" == "default" ]]; then
+    collection=""
 else
-    wildcard_list="$9"
+    collection=$9
 fi
+wildcard_list=${10:-""}
 
 mkdir -p $testdata_dir
 
 if [[ "$satellite" == "himawari8" || "$satellite" == "himawari9" ]]; then
-    rclone_path="publicAWS:noaa-$satellite/AHI-L1b-FLDK/$yyyy/$mm/$dd/$hh$mn/"
+    collection=${collection:-"AHI-L1b-FLDK"}
+    rclone_path="publicAWS:noaa-$satellite/$collection/$yyyy/$mm/$dd/$hh$mn/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     for fname in $files; do
@@ -89,11 +108,11 @@ if [[ "$satellite" == "himawari8" || "$satellite" == "himawari9" ]]; then
         fi
     done
 elif [[ "$satellite" == "geokompsat" ]]; then
-    rclone_path="publicAWS:noaa-gk2a-pds/AMI/L1B/FD/$yyyy$mm/$dd/$hh/"
+    collection=${collection:-"AMI/L1B/FD"}
+    rclone_path="publicAWS:noaa-gk2a-pds/$collection/$yyyy$mm/$dd/$hh/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     echo "COMPARE: ${yyyy}${mm}${dd}${hh}${mn}"
-    break
     for fname in $files; do
         if [[ "$fname" =~ "${yyyy}${mm}${dd}${hh}${mn}" ]]; then
             if [[ "$wildcard_list" == "" ]]; then
@@ -109,8 +128,45 @@ elif [[ "$satellite" == "geokompsat" ]]; then
             fi
         fi
     done
+elif [[ "$satellite" == "noaa-20" || "$satellite" == "noaa-21" || "$satellite" == "jpss" || "$satellite" == "snpp" ]]; then
+    collection=${collection:-"VIIRS-I1-SDR"}
+    # https://noaa-nesdis-n20-pds.s3.amazonaws.com/VIIRS-I1-SDR/2024/08/07/SVI01_j01_d20240807_t0000596_e0002241_b34811_c20240807002901054000_oebc_ops.h5
+    if [[ "$satellite" == "noaa-20" ]]; then
+        resource_name="noaa-nesdis-n20-pds"
+    elif [[ "$satellite" == "noaa-21" ]]; then
+        resource_name="noaa-nesdis-n21-pds"
+    elif [[ "$satellite" == "snpp" ]]; then
+        resource_name="noaa-nesdis-snpp-pds"
+    elif [[ "$satellite" == "jpss" ]]; then
+        resource_name="noaa-nesdis-jpss"
+    fi
+    rclone_path="publicAWS:$resource_name/$collection/$yyyy/$mm/$dd/"
+    echo ""
+    echo "************************************************************************************************************"
+    echo "URL listing available files: https://${resource_name}.s3.amazonaws.com/index.html#$collection/$yyyy/$mm/$dd/"
+    echo "************************************************************************************************************"
+    echo ""
+    echo "rclone --config $rclone_conf lsf $rclone_path"
+    files=`rclone --config $rclone_conf lsf $rclone_path`
+    echo "COMPARE: d${yyyy}${mm}${dd}_t${hh}${mn}"
+    for fname in $files; do
+        if [[ "$fname" =~ "d${yyyy}${mm}${dd}_t${hh}${mn}" ]]; then
+            if [[ "$wildcard_list" == "" ]]; then
+                echo "rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/"
+                rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/
+            else
+                for wildcard in $wildcard_list; do
+                    if [[ "$fname" =~ "$wildcard" ]]; then
+                        echo "rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/"
+                        rclone --config $rclone_conf copy -P $rclone_path/$fname $testdata_dir/
+                    fi
+                done
+            fi
+        fi
+    done
 else
-    rclone_path="publicAWS:noaa-$satellite/ABI-L1b-RadF/$yyyy/$jday/$hh/"
+    collection=${collection:-"ABI-L1b-RadF"}
+    rclone_path="publicAWS:noaa-$satellite/$collection/$yyyy/$jday/$hh/"
     echo "rclone --config $rclone_conf lsf $rclone_path"
     files=`rclone --config $rclone_conf lsf $rclone_path`
     for fname in $files; do

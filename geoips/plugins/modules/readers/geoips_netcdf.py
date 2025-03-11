@@ -1,25 +1,22 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read pre-processed GeoIPS-formatted NetCDF data."""
 
 # Python Standard Libraries
+from datetime import datetime
+from os.path import basename
 import logging
+
+# Third-Party Libraries
+import xarray
 
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "geoips_netcdf"
+source_names = ["any"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -61,8 +58,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     LOG.info("Reading files %s", fnames)
 
-    from os.path import basename
-
     xarray_objs = {}
     for fname in fnames:
         xarray_objs[basename(fname)] = read_xarray_netcdf(fname)
@@ -74,9 +69,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
 def read_xarray_netcdf(ncdf_fname):
     """Read NetCDF file written out using the xarray python package."""
-    import xarray
-    from datetime import datetime
-
     try:
         xarray_obj = xarray.open_dataset(ncdf_fname)
     except IOError:

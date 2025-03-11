@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test for GeoIPS CLI `list scripts` command.
 
@@ -19,6 +10,8 @@ from glob import glob
 from importlib import resources
 from os.path import basename
 import pytest
+
+from geoips.geoips_utils import is_editable
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
 
@@ -33,22 +26,29 @@ class TestGeoipsListScripts(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_scripts_args
+            base_args = ["geoips", "list", "scripts"]
+            alias_args = ["geoips", "ls", "scripts"]
             self._cmd_list = []
-            for pkg_name in self.plugin_package_names + ["all"]:
-                if pkg_name != "all":
-                    args = base_args + ["-p", pkg_name]
-                else:
-                    args = base_args
-                self._cmd_list.append(args)
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names + ["all"]:
+                    if pkg_name != "all":
+                        args = argset + ["-p", pkg_name]
+                    else:
+                        args = argset
+                    self._cmd_list.append(args)
             # Add argument list which invokes the --columns flag
             self._cmd_list.append(base_args + ["--columns", "package", "filename"])
             self._cmd_list.append(base_args + ["--columns", "filename"])
             self._cmd_list.append(base_args + ["--columns", "package"])
+            self._cmd_list.append(alias_args + ["--columns", "package", "filename"])
+            self._cmd_list.append(alias_args + ["--columns", "filename"])
+            self._cmd_list.append(alias_args + ["--columns", "package"])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(alias_args + ["-h"])
             # Add argument list with a non-existent package
             self._cmd_list.append(base_args + ["-p", "non_existent_package"])
+            self._cmd_list.append(alias_args + ["-p", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -65,7 +65,11 @@ class TestGeoipsListScripts(BaseCliTest):
         if editable:
             # An error occurred using args. Assert that args is not valid and check the
             # output of the error.
-            assert args != ["geoips", "list", "scripts"]
+            assert args != ["geoips", "list", "scripts"] and args != [
+                "geoips",
+                "ls",
+                "scripts",
+            ]
             for pkg_name in self.plugin_package_names:
                 assert args != ["geoips", "list", "scripts", "-p", pkg_name]
             assert "usage: To use, type `geoips list scripts`" in error
@@ -83,6 +87,10 @@ class TestGeoipsListScripts(BaseCliTest):
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
             assert "usage: To use, type `geoips list scripts`" in output
+        elif "-p" not in args and any(
+            [is_editable(pkg_name) for pkg_name in self.plugin_package_names]
+        ):
+            self.assert_non_editable_error_or_wrong_package(args, output)
         else:
             # Checking tabular output from the list-scripts command
             if "-p" in args:
@@ -134,4 +142,5 @@ def test_command_combinations(monkeypatch, args):
     args: 2D array of str
         - List of arguments to call the CLI with (ie. ['geoips', 'list', 'scripts'])
     """
+    # if "-p" not in args and
     test_sub_cmd.test_command_combinations(monkeypatch, args)

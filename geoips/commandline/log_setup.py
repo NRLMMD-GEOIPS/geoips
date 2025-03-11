@@ -1,20 +1,14 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Geoips module for setting up logging handlers with a specified verbosity."""
 
 import logging
 import sys
 from textwrap import wrap
+
+
+logging.captureWarnings(True)
 
 
 def log_with_emphasis(print_func, *messages):
@@ -217,8 +211,9 @@ def setup_logging(logging_level=None, verbose=True):
     )
     if not verbose:
         fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
-    stream_hndlr = logging.StreamHandler(sys.stdout)
-    stream_hndlr.setFormatter(fmt)
-    stream_hndlr.setLevel(logging.INFO)
-    log.addHandler(stream_hndlr)
+    if not log.handlers:
+        stream_hndlr = logging.StreamHandler(sys.stdout)
+        stream_hndlr.setFormatter(fmt)
+        stream_hndlr.setLevel(logging.INFO)
+        log.addHandler(stream_hndlr)
     return log

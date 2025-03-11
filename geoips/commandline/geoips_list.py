@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "list" command.
 
@@ -25,9 +16,112 @@ import sys
 from tabulate import tabulate
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
-from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.commandline.geoips_command import (
+    CommandClassFactory,
+    GeoipsCommand,
+    GeoipsExecutableCommand,
+)
 from geoips.geoips_utils import is_editable
 from geoips import interfaces
+
+
+class GeoipsListSourceNames(GeoipsExecutableCommand):
+    """List Command for listing out source_names from available reader plugins.
+
+    This command is used to easily expose what source_names are supported by each
+    reader. If a reader module is missing the source_name attribute, then that will be
+    notified in the CLI output.
+    """
+
+    name = "source-names"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the list-subparser for the List Source Names Command."""
+        pass
+
+    def __call__(self, args):
+        """List all source-names in reader plugins held under <package_name>.
+
+        Printed to Terminal
+        -------------------
+        out_array: 2D Array of Strings
+            - GeoIPS Package
+            - Source Names
+            - Reader Name
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The list argument namespace to parse through
+        """
+        package_name = args.package_name
+        default_headers = {
+            "source_name": "Source Name",
+            "reader_names": "Reader Names",
+        }
+        interface_registry = self._get_registry_by_interface_and_package(
+            interfaces.readers, package_name
+        )
+        if interface_registry is None:
+            print(
+                f"\nPlugin Package '{package_name}' has no reader plugins and "
+                "therefore no implemented source_names."
+            )
+            return
+        headers = self._get_headers_by_command(args, default_headers)
+        src_name_mapping = self.match_readers_with_source_name(interface_registry)
+        src_name_info = []
+        for src_name, rdrs in src_name_mapping.items():
+            src_name_entry = []
+            for header in list(headers.keys()):
+                if header == "source_name":
+                    src_name_entry.append(src_name)
+                elif header == "reader_names":
+                    src_name_entry.append(list(rdrs))
+            src_name_info.append(src_name_entry)
+        if package_name == "all":
+            package_name = "All GeoIPS Plugin Packages"
+        print("-" * len(f"'{package_name}' Reader Source Names"))
+        print(f"'{package_name}' Reader Source Names")
+        print("-" * len(f"'{package_name}' Reader Source Names"))
+        print(
+            tabulate(
+                sorted(src_name_info),
+                headers=headers.values(),
+                tablefmt="rounded_grid",
+                maxcolwidths=self.terminal_width // len(headers),
+            )
+        )
+
+    def match_readers_with_source_name(self, registry):
+        """Assemble a dictionary of <source_name>:[readers] for tabular listing.
+
+        Match source_names found in the registry to readers which support that
+        source_name. Each key in the dictionary will be a unique source_name with values
+        that are the names of readers which support that source_name.
+
+        Parameters
+        ----------
+        registry: dict
+            - The readers portion of all GeoIPS plugin packages' plugin registries or
+              a single package's plugin registry.
+
+        Returns
+        -------
+        src_name_mapping: dict
+            - A dictionary mapping of source_name:[readers] which links readers to a
+              unique source_name which they support.
+        """
+        src_name_mapping = {}
+        for rdr_name in registry:
+            src_names = registry[rdr_name]["source_names"]
+            for src_name in src_names:
+                if src_name not in src_name_mapping:
+                    src_name_mapping[src_name] = set([rdr_name])
+                else:
+                    src_name_mapping[src_name].add(rdr_name)
+        return src_name_mapping
 
 
 class GeoipsListUnitTests(GeoipsExecutableCommand):
@@ -421,12 +515,12 @@ class GeoipsListPackages(GeoipsExecutableCommand):
 
             pkg_entry = []
             docstring = import_module(package_name).__doc__
-            for header in default_headers:
+            for header in headers:
                 if header == "package":
                     pkg_name_requested = True
                     pkg_entry.append(package_name)
                 elif header == "docstring":
-                    pkg_entry.append(docstring)
+                    pkg_entry.append(str(docstring))
                 elif header == "package_path":
                     pkg_entry.append(package_path)
                 elif header == "version":
@@ -529,13 +623,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
             - <package_name> is any GeoIPS package that is installed and recognized by
               the GeoIPS Library
         """
-        self.parser.add_argument(
-            "interface_name",
-            type=str.lower,
-            default="algorithms",
-            choices=interfaces.__all__,
-            help="GeoIPS Interfaces to list plugins_from",
-        )
+        pass
 
     def __call__(self, args):
         """List all elements of the selected list option.
@@ -560,7 +648,7 @@ class GeoipsListSingleInterface(GeoipsExecutableCommand):
         args: Namespace()
             - The list argument namespace to parse through
         """
-        interface_name = args.interface_name
+        interface_name = self.name.replace("-", "_")
         package_name = args.package_name
         try:
             interface = getattr(interfaces, interface_name)
@@ -676,12 +764,21 @@ class GeoipsList(GeoipsCommand):
     """Top-Level List Command for listing off GeoIPS Artifacts."""
 
     name = "list"
-    command_classes = [
-        GeoipsListSingleInterface,
+    generated_classes = []
+    for int_name in sorted(interfaces.__all__):
+        generated_classes.append(
+            CommandClassFactory(
+                GeoipsListSingleInterface,
+                int_name.replace("_", "-"),
+            ).generated_class
+        )
+
+    command_classes = generated_classes + [
         GeoipsListInterfaces,
         GeoipsListPackages,
         GeoipsListPlugins,
         GeoipsListScripts,
+        GeoipsListSourceNames,
         GeoipsListTestDatasets,
         GeoipsListUnitTests,
     ]

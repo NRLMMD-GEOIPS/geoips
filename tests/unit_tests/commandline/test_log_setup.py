@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit tests for geoips/commandline/log_setup.py.
 
@@ -19,11 +10,9 @@ Tests the following functions:
 
 import pytest
 
-import os
 import random
 import string
 from geoips import logging
-from glob import glob
 from geoips.commandline.log_setup import log_with_emphasis
 
 LOG = logging.getLogger(__name__)
@@ -179,19 +168,25 @@ def test_log_interactive_geoips(caplog):
     assert "INTERACTIVE" in caplog.text
 
 
-def test_log_interactive_from_directly_imported_plugin(caplog):
-    """Use ABI reader, which calls log.interactive.
-
-    It used to be that plugins loaded via get_plugin outside of GeoIPS could not call
-    log.interactive. They would raise an AttributeError. This is to ensure that problem
-    has been fixed and remains fixed.
-    """
-    from geoips.interfaces import readers
-
-    reader = readers.get_plugin("abi_netcdf")
-
-    test_data_dir = os.getenv("GEOIPS_TESTDATA_DIR")
-    test_data_dir += "/test_data_noaa_aws/data/goes16/20200918/1950"
-    test_data_files = glob(test_data_dir + "/*C14*.nc")
-    _ = reader(test_data_files)
-    assert "INTERACTIVE" in caplog.text
+# Commenting this out, unless we can identify a test that does not require having
+# test datasets cloned. Should not require test datasets to test interactive
+# log from a plugin.
+# def test_log_interactive_from_directly_imported_plugin(caplog):
+#     """Use ABI reader, which calls log.interactive.
+#
+#     It used to be that plugins loaded via get_plugin outside of GeoIPS could not call
+#     log.interactive. They would raise an AttributeError. This is to ensure that
+#     problem has been fixed and remains fixed.
+#     """
+#     from geoips.interfaces import readers
+#
+#     reader = readers.get_plugin("abi_netcdf")
+#
+#     test_data_dir = os.getenv("GEOIPS_TESTDATA_DIR")
+#     if test_data_dir:
+#         # Only run this test if GEOIPS_TESTDATA_DIR environment variable has been set
+#         # on the machine that is running the test.
+#         test_data_dir += "/test_data_noaa_aws/data/goes16/20200918/1950"
+#         test_data_files = glob(test_data_dir + "/*C14*.nc")
+#         _ = reader(test_data_files)
+#         assert "INTERACTIVE" in caplog.text

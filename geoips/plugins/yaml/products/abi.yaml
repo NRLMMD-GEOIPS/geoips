@@ -2,55 +2,69 @@ interface: products
 family: list
 name: abi
 docstring: |
-  The abi products configuration, which produces Infrared products, Vertical Velocity products, and the Visible IR products
+  ABI: Advanced Baseline Imager. 16 different spectral bands, ranging from visible to infrared channels, and resolution ranges for .5 to 2 km. 
+  A full disk is retrieved every ten minutes. 
+
+  Used on:
+  GOES 16: Geostationary Operational Environmental Satellite. GOES-R series. GOES East (75.2° W). NOAA and NASA. 35,786 km altitude.
+
+  GOES 18: Geostationary Operational Environmental Satellite. GOES-R series. Replacing GOES West (137.2° W). NOAA and NASA. 35,786 km altitude.    
+
 spec:
   products:
     - name: Infrared
       source_names: [abi]
       docstring: |
-        The Infrared product_defaults configuration for abi product.
+        11.2 µm Infrared.  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared
       spec:
         variables: ["B14BT"]
     - name: Infrared-Gray
       source_names: [abi]
       docstring: |
-        The Infrared-Gray product_defaults configuration for abi product.
+        11.2 µm Gray Scale Infrared. This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
       product_defaults: Infrared-Gray
       spec:
         variables: ["B14BT"]
     - name: IR-BD
       source_names: [abi]
       docstring: |
-        The IR-BD product_defaults configuration for abi product.
+        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and includes a BD curve enhancement, known as the 
+        Dvorak Hurricane Curve for Tropical Cyclone Classification, and can help determine the intensity of storms.  
       product_defaults: IR-BD
       spec:
         variables: ["B14BT"]
     - name: WV
       source_names: [abi]
       docstring: |
-        The WV product_defaults configuration for abi product.
+        6.9 µm Mid-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product 
+        utilizes channel 9 (6.9 µm) and is a mid-level product that can view as low as 500 mb level. Warm colors illustrate cold (higher) effective layers 
+        and cool colors illustrate warm (lower) effective layers. This can show forecasters how much potential a storm has to develop and the locations 
+        of dry slots.
       product_defaults: WV
       spec:
         variables: ["B09BT"] # B09 abi, 6.9um Mid-level WV; B09 ahi 6.9410 Mid-level WV; B27 modis 6.535-6.895um
     - name: WV-Lower
       source_names: [abi]
       docstring: |
-        The WV-Lower product_defaults configuration for abi product.
+        7.3 µm Low-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor.  This product utilizes 
+        channel 10 (7.3 µm) and is a lower-level product that can view as low as 750mb level. This can show the forecaster how much potential a storm has 
+        to develop and the locations of dry slots.
       product_defaults: WV-Lower
       spec:
         variables: ["B10BT"] # B10 abi, 7.3um Lower-level WV; B10 ahi 7.3467um Lower-level WV; B28 modis, B06 seviri IR7.3
     - name: WV-Upper
       source_names: [abi]
       docstring: |
-        The WV-Upper product_defaults configuration for abi product.
+        6.2 µm Upper-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product utilizes 
+        channel 8 (6.2 µm) and is an upper-level product. This can be used to analyze potential storm development and the locations of dry slots. 
       product_defaults: WV-Upper
       spec:
         variables: ["B08BT"] # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
     - name: Visible
       source_names: [abi]
       docstring: |
-        The Visible product_defaults configuration for abi product.
+        0.51 µm Visible. This daytime only product utilizes channel 2 (0.51 µm) and can be used for tracking the motion and cloud patterns.
       product_defaults: Visible
       spec:
         variables: ["B03Ref", "MED:solar_zenith_angle"] # RED: B03 0.64um ahi (hi  res) and B02 0.64um abi (hi), B01 0.635um seviri
@@ -62,3 +76,75 @@ spec:
             name: matplotlib_linear_norm
             arguments:
               cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
+    - name: nasa_dust_rgb
+      source_names: [abi]
+      docstring: |
+        The nasa_dust_rgb product_defaults for abi product.
+      product_defaults: nasa_dust_rgb
+      spec:
+        variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 10000
+    - name:  DMW-Low
+      source_names: [abi]
+      docstring: |
+        Use the windbarbs product_defaults for ABI L2 DMWV products.
+      product_defaults: windbarbs_dmw_low
+      spec:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+        algorithm:
+          plugin:
+            name: windbarbs_dmw
+            arguments:
+              var_map:
+                speed: wind_speed
+                direction: wind_direction
+                pressure: pressure
+    - name:  DMW-Mid
+      source_names: [abi]
+      docstring: |
+        Use the windbarbs product_defaults for ABI L2 DMWV products.
+      product_defaults: windbarbs_dmw_mid
+      spec:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+        algorithm:
+          plugin:
+            name: windbarbs_dmw
+            arguments:
+              var_map:
+                speed: wind_speed
+                direction: wind_direction
+                pressure: pressure
+    - name:  DMW-High
+      source_names: [abi]
+      docstring: |
+        Use the windbarbs product_defaults for ABI L2 DMWV products.
+      product_defaults: windbarbs_dmw_high
+      spec:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+        algorithm:
+          plugin:
+            name: windbarbs_dmw
+            arguments:
+              var_map:
+                speed: wind_speed
+                direction: wind_direction
+                pressure: pressure
+    - name:  DMW-LowMidHigh
+      source_names: [abi]
+      docstring: |
+        Use the windbarbs product_defaults for ABI L2 DMWV products.
+      product_defaults: windbarbs_dmw_multi_level
+      spec:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+        algorithm:
+          plugin:
+            name: windbarbs_dmw
+            arguments:
+              var_map:
+                speed: wind_speed
+                direction: wind_direction
+                pressure: pressure

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Code to implement GeoIPS Command Line Interface (CLI).
 
@@ -16,24 +7,20 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
 
-import logging
 from os.path import basename
 import sys
 
 from colorama import Fore, Style
 
-from geoips.commandline.cmd_instructions import get_cmd_instructions
-from geoips.commandline.log_setup import setup_logging
+from geoips.commandline.cmd_instructions import get_instructions
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
-from geoips.commandline.geoips_get import GeoipsGet
+from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_list import GeoipsList
 from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
+from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
-
-setup_logging()
-LOG = logging.getLogger(__name__)
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -47,10 +34,11 @@ class GeoipsCLI(GeoipsCommand):
     name = "geoips"  # Needed since we inherit from GeoipsCommand
     command_classes = [
         GeoipsConfig,
-        GeoipsGet,
+        GeoipsDescribe,
         GeoipsList,
         GeoipsRun,
         GeoipsTest,
+        GeoipsTree,
         GeoipsValidate,
     ]
 
@@ -75,11 +63,40 @@ class GeoipsCLI(GeoipsCommand):
             # Instructions dir has been provided, use the instructions found in that
             # directory so we can test that the correct functionality occurs for any
             # given instruction file state.
-            self.cmd_instructions = get_cmd_instructions(instructions_dir)
+            self.cmd_instructions = get_instructions(instructions_dir)
         else:
             # Otherwise use the default instructions which we know are correct
             # (and if they're not, the appropriate error will be raised.)
             self.cmd_instructions = None
+
+        # parse_known_args expects arguments in a specific order. So, currrently,
+        # 'geoips --log-level info <rest of command>' will work but
+        # 'geoips <rest of command> --log-level info' will not. The functionality below
+        # rearranges the log level arguments to match the working version. This way,
+        # users can add --log-level <log_level_name> anywhere in the command and it will
+        # work.
+        if set(sys.argv).intersection(set(["--log-level", "-log"])):
+            # One of the flags was found in the arguments provided
+            log_idx = max(
+                [
+                    idx if arg in ["--log-level", "-log"] else -1
+                    for idx, arg in enumerate(sys.argv)
+                ]
+            )
+            # Make sure that the argument list is long enough for log level to be
+            # provided. It doesn't have to be correct, that validation will be done
+            # by argparse
+            if len(sys.argv) > log_idx + 1:
+                flag = sys.argv[log_idx]
+                log_level = sys.argv[log_idx + 1]
+                # Get the flag and log_level, remove them from the argument list, and
+                # insert them in working locations.
+                # I.e. geoips --log-level <log_level_name>
+                sys.argv.pop(log_idx + 1)
+                sys.argv.pop(log_idx)
+                sys.argv.insert(1, log_level)
+                sys.argv.insert(1, flag)
+
         super().__init__(legacy=legacy)
 
     def execute_command(self):
@@ -115,6 +132,7 @@ def support_legacy_procflows():
     supported_procflows = ["config_based", "data_fusion", "single_source"]
     if (
         basename(sys.argv[0]) == "geoips"
+        and len(sys.argv) > 2
         and sys.argv[1] == "run"
         and (len(sys.argv) < 3 or sys.argv[2] not in supported_procflows)
     ):

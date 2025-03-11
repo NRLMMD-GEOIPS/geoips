@@ -1,0 +1,12 @@
+$id: products.unsectored_xarray_dict_to_algorithm_to_output_format
+$ref: bases.top
+type: object
+required:
+  - spec
+properties:
+  family:
+    const: unsectored_xarray_dict_to_algorithm_to_output_format
+  source_names:
+    type: array
+    items:
+      type: string

@@ -1,0 +1,7 @@
+bug fix:
+- description: |
+    Update any remaining database interface imports that still referenced geoips_db
+  files:
+    modified:
+    - geoips/utils/composite.pygeoips/utils/composite.py
+  title: Replace old database interface import

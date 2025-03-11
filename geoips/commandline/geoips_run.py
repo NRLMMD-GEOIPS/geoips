@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "run" command.
 
@@ -22,8 +13,12 @@ from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
 
-with import_optional_dependencies(loglevel="interactive"):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import data_fusion_args from Data Fusion."""
+    # NOTE: loglevel is set to 'info' here so we don't get the constant output of
+    # 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA
+    # every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to
+    # install it.
     from data_fusion.commandline.args import add_args as data_fusion_add_args
 
     data_fusion_installed = True

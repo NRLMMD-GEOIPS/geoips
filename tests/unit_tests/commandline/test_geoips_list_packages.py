@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test for GeoIPS CLI `list packages` command.
 
@@ -30,21 +21,32 @@ class TestGeoipsListPackages(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_packages_args
-            self._cmd_list = [base_args]
+            base_args = ["geoips", "list", "packages"]
+            alias_args = ["geoips", "ls", "packages"]
+            self._cmd_list = [base_args, alias_args]
             # Add argument list invoking the --columns flag
             self._cmd_list.append(base_args + ["--columns", "package", "package_path"])
+            self._cmd_list.append(alias_args + ["--columns", "package", "package_path"])
             self._cmd_list.append(base_args + ["--columns", "docstring", "package"])
+            self._cmd_list.append(alias_args + ["--columns", "docstring", "package"])
             self._cmd_list.append(
                 base_args + ["--columns", "docstring", "package_path"]
             )
             self._cmd_list.append(
+                alias_args + ["--columns", "docstring", "package_path"]
+            )
+            self._cmd_list.append(
                 base_args + ["--columns", "package", "docstring", "package_path"]
+            )
+            self._cmd_list.append(
+                alias_args + ["--columns", "package", "docstring", "package_path"]
             )
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(alias_args + ["-h"])
             # Add argument list with a non-existent command call ("-p")
             self._cmd_list.append(base_args + ["-p", "geoips"])
+            self._cmd_list.append(alias_args + ["-p", "geoips"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -58,7 +60,11 @@ class TestGeoipsListPackages(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "packages"]
+        assert args != ["geoips", "list", "packages"] and args != [
+            "geoips",
+            "ls",
+            "packages",
+        ]
         assert "usage: To use, type `geoips list packages`" in error
         assert "Error: '-p' flag is not supported for this command" in error
 
@@ -74,12 +80,15 @@ class TestGeoipsListPackages(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list", "packages", "-h"]
+            assert "-h" in args
             assert "type `geoips list packages`" in output
         else:
             # The args provided are valid, so test that the output is actually correct
             for arg in ["geoips", "list", "packages"]:
-                assert arg in args
+                if arg == "list":
+                    assert arg in args or "ls" in args
+                else:
+                    assert arg in args
             # Assert that the correct headers exist in the CLI output
             headers = {
                 "GeoIPS Package": "package",
@@ -91,7 +100,8 @@ class TestGeoipsListPackages(BaseCliTest):
             self.assert_correct_headers_in_output(output, headers, selected_cols)
             # Assert that we found every installed package
             for pkg_name in self.plugin_package_names:
-                assert pkg_name in output
+                if "--columns" not in args or "package" in selected_cols:
+                    assert pkg_name in output
 
 
 test_sub_cmd = TestGeoipsListPackages()

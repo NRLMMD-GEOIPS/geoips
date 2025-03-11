@@ -1,19 +1,23 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from REMSS WINDSAT netcdf data."""
 
+# Python Standard Libraries
 import logging
 from os.path import basename
+
+# Third-Party Libraries
+import xarray
+
+# GeoIPS Libraries
+from geoips.plugins.modules.readers.utils.remss_reader import (
+    read_remss_data,
+)
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -22,6 +26,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "windsat_remss_winds_netcdf"
+source_names = ["wsat"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -61,12 +66,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))
@@ -85,8 +84,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         and "Remote Sensing Systems" in wind_xarray.institution
     ):
         if hasattr(wind_xarray, "title") and "WindSat" in wind_xarray.title:
-            from .utils.remss_reader import read_remss_data
-
             wind_xarrays = read_remss_data(wind_xarray, "windsat")
 
     for wind_xarray in wind_xarrays.values():

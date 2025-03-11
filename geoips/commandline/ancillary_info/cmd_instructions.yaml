@@ -17,55 +17,114 @@ instructions:
       To use, type `geoips config install <test_dataset_name>`.
     output_info:
       - Not Applicable
-  geoips_get:
+  geoips_describe: &geoips-describe-artifact
     help_str: |
-      Retrieve an appropriate GeoIPS artifact. Currently supported `get` calls are:
-      ["family", "interface", "package", "plugin"]
+      Retrieve information about a GeoIPS artifact. For this command, an artifact is one
+      of ['interface', 'plugin', 'family']. To get more information on how to
+      retrieve these artifacts, see below.
+
+      * Interface:
+          * Command Signature:
+              * `geoips describe <interface_name>`
+          * Artifact Listing:
+              * `geoips list interfaces`
+          * output_info:
+              * Absolute Path
+              * Docstring
+              * Interface Name
+              * Interface Type
+              * Supported Families
+
+      * Plugin:
+          * Command Signature:
+              * `geoips describe <interface_name> <plugin_name>`
+          * Artifact Listing:
+              * `geoips list plugins <-p> <package_name>`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * GeoIPS Package
+              * Interface Name
+              * Plugin Type
+              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
+              * Relative Path
+
+      * Family:
+          * Command Signature:
+              * `geoips describe <interface_name> family <family_name>`
+          * Artifact Listing:
+              * `geoips list interfaces --columns interface supported_families`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * Family Path
+              * Interface Name
+              * Interface Type
+              * Required Arguments / Schema
     usage_str: |
-      To use, type `geoips get <cmd> <sub-cmd> ...`.
+      To use, type `geoips describe <interface_name> <sub-cmd> ...`.
     output_info:
       - Information related to the artifact that was retrieved.
-  geoips_get_family:
-    help_str: |
-      Retrieve the appropriate GeoIPS Family alongside descriptive information of
-      that family. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS families, run:
-      `geoips list interfaces`.
-    usage_str: |
-      To use, type `geoips get family <interface_name> <family_name>`, where
-      <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
-      family member of that interface.
-    output_info:
-      - Docstring
-      - Family Name
-      - Family Path
-      - Interface Name
-      - Interface Type
-      - Required Args / Schema
-  geoips_get_interface:
-    help_str: |
-      Retrieve the appropriate GeoIPS Interface alongside descriptive information of
-      that interface. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS interfaces, run:
-      `geoips list interfaces`.
-    usage_str: |
-      To use, type `geoips get interface <interface_name>`, where <interface_name> is a
-      valid GeoIPS Interface.
-    output_info:
-      - Absolute Path
-      - Docstring
-      - Documentation Link (If applicable)
-      - Interface Name
-      - Interface Type
-      - Supported Families
-  geoips_get_package:
+  geoips_describe_algorithms: *geoips-describe-artifact
+  geoips_describe_colormappers: *geoips-describe-artifact
+  geoips_describe_coverage-checkers: *geoips-describe-artifact
+  geoips_describe_databases: *geoips-describe-artifact
+  geoips_describe_filename-formatters: *geoips-describe-artifact
+  geoips_describe_interpolators: *geoips-describe-artifact
+  geoips_describe_output-checkers: *geoips-describe-artifact
+  geoips_describe_output-formatters: *geoips-describe-artifact
+  geoips_describe_procflows: *geoips-describe-artifact
+  geoips_describe_readers: *geoips-describe-artifact
+  geoips_describe_sector-adjusters: *geoips-describe-artifact
+  geoips_describe_sector-metadata-generators: *geoips-describe-artifact
+  geoips_describe_sector-spec-generators: *geoips-describe-artifact
+  geoips_describe_title-formatters: *geoips-describe-artifact
+  geoips_describe_feature-annotators: *geoips-describe-artifact
+  geoips_describe_gridline-annotators: *geoips-describe-artifact
+  geoips_describe_product-defaults: *geoips-describe-artifact
+  geoips_describe_products: *geoips-describe-artifact
+  geoips_describe_sectors: *geoips-describe-artifact
+  # geoips_describe_family:
+  #   help_str: |
+  #     Retrieve the appropriate GeoIPS Family alongside descriptive information of
+  #     that family. See output_info for each datum provided when this command is
+  #     called. For a listing of available GeoIPS families, run:
+  #     `geoips list interfaces`.
+  #   usage_str: |
+  #     To use, type `geoips describe family <interface_name> <family_name>`, where
+  #     <interface_name> is a valid GeoIPS Interface and <family_name> is a supported
+  #     family member of that interface.
+  #   output_info:
+  #     - Docstring
+  #     - Family Name
+  #     - Family Path
+  #     - Interface Name
+  #     - Interface Type
+  #     - Required Args / Schema
+  # geoips_describe_interface:
+  #   help_str: |
+  #     Retrieve the appropriate GeoIPS Interface alongside descriptive information of
+  #     that interface. See output_info for each datum provided when this command is
+  #     called. For a listing of available GeoIPS interfaces, run:
+  #     `geoips list interfaces`.
+  #   usage_str: |
+  #     To use, type `geoips describe interface <interface_name>`, where
+  #     <interface_name> is a valid GeoIPS Interface.
+  #   output_info:
+  #     - Absolute Path
+  #     - Docstring
+  #     - Documentation Link (If applicable)
+  #     - Interface Name
+  #     - Interface Type
+  #     - Supported Families
+  geoips_describe_package:
     help_str: |
       Retrieve the appropriate GeoIPS Package alongside descriptive information of
       that package. See output_info for each datum provided when this command is
       called. For a listing of available GeoIPS packages, run:
       `geoips list packages`.
     usage_str: |
-      To use, type `geoips get package <package_name>`, where <package_name> is a
+      To use, type `geoips describe package <package_name>`, where <package_name> is a
       valid GeoIPS Package.
     output_info:
       - GeoIPS Package
@@ -73,29 +132,34 @@ instructions:
       - Package Path
       - Source Code
       - Version Number
-  geoips_get_plugin:
-    help_str: |
-      Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
-      that plugin. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS Plugins, run:
-      `geoips list plugins`.
-    usage_str: |
-      To use, type `geoips get plugin <interface_name> <plugin_name>`, where
-      <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
-      identifier that has been implemented in any installed GeoIPS package.
-    output_info:
-      - Docstring
-      - Documentation Link (If applicable)
-      - Family
-      - Interface Name
-      - Package
-      - Relative Path
-      - Plugin Specific Info (signature / source_names / available overrides)
+  # geoips_describe_plugin:
+  #   help_str: |
+  #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
+  #     that plugin. See output_info for each datum provided when this command is
+  #     called. For a listing of available GeoIPS Plugins, run:
+  #     `geoips list plugins`.
+  #   usage_str: |
+  #     To use, type `geoips describe plugin <interface_name> <plugin_name>`, where
+  #     <interface_name> is a valid GeoIPS Interface and <plugin_name> is a valid plugin
+  #     identifier that has been implemented in any installed GeoIPS package.
+  #   output_info:
+  #     - Docstring
+  #     - Documentation Link (If applicable)
+  #     - Family
+  #     - Interface Name
+  #     - Package
+  #     - Relative Path
+  #     - Plugin Specific Info (signature / source_names / available overrides)
   geoips_list:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
-      available for listing are: ["interface", "interfaces", "packages", "plugins",
-      "scripts", "test-datasets", "unit-tests"].
+      available for listing are: ["algorithms", "colormappers", "coverage_checkers",
+      "databases",
+      "filename_formatters", "interpolators", "output_checkers", "output_formatters",
+      "procflows", "readers", "sector_adjusters", "sector_metadata_generators",
+      "sector_spec_generators", "title_formatters", "feature_annotators",
+      "gridline_annotators", "product_defaults", "products", "sectors", "interfaces",
+      "packages", "plugins", "scripts", "test-datasets", "unit-tests"].
     usage_str: |
       To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
@@ -109,18 +173,18 @@ instructions:
     output_info:
       - N/A
   list_interface:
-  geoips_list_interface:
+  geoips_list_interface: &list-single-interface
     help_str: |
-      List off plugins found under a certain interface. This is useful for seeing what
+      List off plugins found under this interface. This is useful for seeing what
       plugins have been implemented through all, or a certain, GeoIPS Package. This
       information can then be used with
-      `geoips get-plugin <interface_name> <plugin_name>` to get more information about a
-      certain plugin.
+      `geoips describe <interface_name> <plugin_name>` to retrieve more information
+      about a certain plugin.
     usage_str: |
-      To use, type `geoips list interface <interface_name>`. Optionally includes `-p`
+      To use, type `geoips list <interface_name>`. Optionally includes `-p`
       flag for seeing what plugins are in a certain package (-p). For example, to see
       what plugins under a certain interface have been created in a single package,
-      run `geoips list interface <interface_name> -p <pkg_name>`, or you can remove the
+      run `geoips list <interface_name> -p <pkg_name>`, or you can remove the
       `-p` flag to see what's been created in every package.
     output_info:
       - Family
@@ -129,13 +193,32 @@ instructions:
       - Package
       - Plugin Name
       - Relative Path
+  geoips_list_algorithms: *list-single-interface
+  geoips_list_colormappers: *list-single-interface
+  geoips_list_coverage-checkers: *list-single-interface
+  geoips_list_databases: *list-single-interface
+  geoips_list_filename-formatters: *list-single-interface
+  geoips_list_interpolators: *list-single-interface
+  geoips_list_output-checkers: *list-single-interface
+  geoips_list_output-formatters: *list-single-interface
+  geoips_list_procflows: *list-single-interface
+  geoips_list_readers: *list-single-interface
+  geoips_list_sector-adjusters: *list-single-interface
+  geoips_list_sector-metadata-generators: *list-single-interface
+  geoips_list_sector-spec-generators: *list-single-interface
+  geoips_list_title-formatters: *list-single-interface
+  geoips_list_feature-annotators: *list-single-interface
+  geoips_list_gridline-annotators: *list-single-interface
+  geoips_list_product-defaults: *list-single-interface
+  geoips_list_products: *list-single-interface
+  geoips_list_sectors: *list-single-interface
   geoips_list_interfaces:
     help_str: |
       List off every GeoIPS Interface. This is useful for seeing what is
       available throughout GeoIPS, but can also be extended to see what interfaces have
       been implemented in other geoips package, or just a certain package. This
-      information can then be used with `geoips get-interface <interface_name>` to get
-      more information about a certain interface.
+      information can then be used with `geoips describe <interface_name>` to
+      retrieve more information about a certain interface.
     usage_str: |
       To use, type `geoips list interfaces`. Optionally includes `-i` and `-p` flags for
       seeing what has been implemented (-i) in a certain package (-p), or all packages.
@@ -153,8 +236,8 @@ instructions:
   geoips_list_plugins:
     help_str: |
       List off plugins found under all, or a specified GeoIPS package. This information
-      can then be used with `geoips get-plugin <interface_name> <plugin_name>` to get
-      more information about a certain plugin.
+      can then be used with `geoips describe <interface_name> <plugin_name>` to
+      retrieve more information about a certain plugin.
     usage_str: |
       To use, type `geoips list plugins`. Optionally includes `-p` flag for
       seeing what plugins are in a certain package (-p). For example, to see what
@@ -194,6 +277,20 @@ instructions:
     output_info:
       - Package
       - Script Name
+  geoips_list_source-names:
+    help_str: |
+      List off source_names of reader plugins found under all, or a specified GeoIPS
+      package. This information can then be used in creating product plugins which will
+      use the aforementioned source_names for product creation.
+    usage_str: |
+      To use, type `geoips list source-names`. Optionally includes `-p` flag for
+      seeing what source-names are in a certain package (-p). For example, to see what
+      source-names are attributed to a single package, run
+      `geoips list source-names -p <pkg_name>`, or you can remove the `-p` flag to see
+      what's been created in every package.
+    output_info:
+      - Source Name
+      - Reader Names
   geoips_list_test-datasets:
     help_str: |
       List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
@@ -217,7 +314,7 @@ instructions:
     help_str: |
       Run a specified geoips process workflow (procflow) plugin. See
       'geoips run single_source' or 'geoips run data_fusion' for more information of
-      what arguments to providel
+      what arguments to provide.
     usage_str: |
       To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
@@ -279,21 +376,45 @@ instructions:
       To use, type `geoips test script -p <package_name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
+  geoips_test_sector:
+    help_str: |
+      Create a specific sector image from the provided sector plugin name. This is an
+      easy way to test whether or not the sector plugin you've created matches the
+      region of the globe you want to study at the correct resolution. Provided this
+      sector plugin has been added to the plugin registry, this command will work.
+    usage_str: |
+      To use, type `geoips test sector <sector_name> --outdir <output_directory_path>`.
+    output_info:
+      - A path to the image of the sector you've created.
   # geoips_test_unit-test:
   #   help_str: |
   #     Run tests unit-test[s] implemented in a certain GeoIPS package. This command
-  #     expects that the unit tests implemented are pytest-based. Defaults to the 'geoips'
-  #     package.
+  #     expects that the unit tests implemented are pytest-based. Defaults to the
+  #     'geoips' package.
   #   usage_str: |
   #     To use, type
   #     `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
   #   output_info:
   #     - Output of the Unit Test Being Ran
+  geoips_tree:
+    help_str: |
+      Print a tree of all of the available GeoIPS CLI commands. This will display every
+      command in a top-down tree which gives a visual structure of how the CLI can be
+      ran. <--max-depth> must be greater than or equal to 0, where depth denotes the
+      level of the command you'd like to display. Ie. <0> geoips <1> list <2> scripts.
+    usage_str: |
+      To use, type `geoips tree <--max-depth> <int> <--color> <--short-name>`.
+    output_info:
+      - The tree of available GeoIPS CLI commands up to '--max-depth' levels, where
+        depth denotes the level of the command you'd like to display.
+        I.e. <0> geoips <1> list <2> scripts.
+        Can be colored output if wanted and can define whether or not we want the full
+        command string or just the name of the command at the specified depth.
   geoips_validate:
     help_str: |
-      Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood via
-      GeoIPS, this is an easy way to test whether or not the plugin you are developing
-      is valid.
+      Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood
+      via GeoIPS, this is an easy way to test whether or not the plugin you are
+      developing is valid.
     usage_str: |
       To use, type `geoips validate <file_path>`. Do it man. NOW.
     output_info:

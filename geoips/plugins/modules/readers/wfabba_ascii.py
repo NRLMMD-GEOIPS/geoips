@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """WFABBA ascii data reader.
 
@@ -16,9 +7,11 @@ WFABBA is a geostationary fire product produced by SSEC
 """
 
 # Python Standard Libraries
+from datetime import datetime
 import logging
 from os.path import basename
-from datetime import datetime
+
+# Third-Party Libraries
 import numpy as np
 import xarray
 
@@ -27,6 +20,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "wfabba_ascii"
+source_names = ["abi", "ahi", "gvar", "seviri"]
 
 
 def parse_header_line(line):

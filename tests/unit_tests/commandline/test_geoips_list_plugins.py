@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test for GeoIPS CLI `list plugins` command.
 
@@ -32,19 +23,27 @@ class TestGeoipsListPlugins(BaseCliTest):
         This includes failing cases as well.
         """
         if not hasattr(self, "_cmd_list"):
-            base_args = self._list_plugins_args
-            self._cmd_list = [base_args]
-            for pkg_name in self.plugin_package_names:
-                self._cmd_list.append(base_args + ["-p", pkg_name])
+            base_args = ["geoips", "list", "plugins"]
+            alias_args = ["geoips", "ls", "plugins"]
+            self._cmd_list = [base_args, alias_args]
+            for argset in [base_args, alias_args]:
+                for pkg_name in self.plugin_package_names:
+                    self._cmd_list.append(argset + ["-p", pkg_name])
             # Add argument list invoking the --columns flag
             self._cmd_list.append(base_args + ["--columns", "package", "interface"])
             self._cmd_list.append(base_args + ["--columns", "plugin_type", "family"])
             self._cmd_list.append(base_args + ["--columns", "relpath", "source_names"])
             self._cmd_list.append(base_args + ["--columns", "plugin_name", "relpath"])
+            self._cmd_list.append(alias_args + ["--columns", "package", "interface"])
+            self._cmd_list.append(alias_args + ["--columns", "plugin_type", "family"])
+            self._cmd_list.append(alias_args + ["--columns", "relpath", "source_names"])
+            self._cmd_list.append(alias_args + ["--columns", "plugin_name", "relpath"])
             # Add argument list which invokes the help message for this command
             self._cmd_list.append(base_args + ["-h"])
+            self._cmd_list.append(alias_args + ["-h"])
             # Add argument list with a non-existent package name
             self._cmd_list.append(base_args + ["-p", "non_existent_package"])
+            self._cmd_list.append(alias_args + ["-p", "non_existent_package"])
         return self._cmd_list
 
     def check_error(self, args, error):
@@ -58,7 +57,11 @@ class TestGeoipsListPlugins(BaseCliTest):
             - Multiline str representing the error output of the CLI call
         """
         # bad command has been provided, check the contents of the error message
-        assert args != ["geoips", "list", "plugins"]
+        assert args != ["geoips", "list", "plugins"] and args != [
+            "geoips",
+            "ls",
+            "plugins",
+        ]
         assert "usage: To use, type `geoips list plugins`" in error
 
     def check_output(self, args, output):
@@ -73,7 +76,7 @@ class TestGeoipsListPlugins(BaseCliTest):
         """
         if "usage: To use, type" in output:
             # -h has been called, check help message contents for this command
-            assert args == ["geoips", "list", "plugins", "-h"]
+            assert "-h" in args
             assert "To use, type `geoips list plugins`" in output
         else:
             # The args provided are valid, so test that the output is actually correct

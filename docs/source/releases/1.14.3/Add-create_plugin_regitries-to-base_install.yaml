@@ -1,0 +1,14 @@
+bug fix:
+- title: 'Add create_plugin_registries to base_test'
+  description: 'create_plugin_registries needs to be run before tests.
+  It is included in full_test.sh, but not in base_test.sh.
+  This updates base_test.sh to call create_plugin_registries just like full_test.sh'
+  files:
+    modified:
+    - 'tests/integration_tests/base_install.sh'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: "Nov 5 2024"
+    finish: "Nov 11 2024"

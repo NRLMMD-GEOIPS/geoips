@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Matplotlib-based windbarb annotated image output."""
 
@@ -32,7 +23,9 @@ family = "image_overlay"
 name = "imagery_windbarbs"
 
 
-def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
+def plot_barbs(
+    main_ax, mapobj, mpl_colors_info, formatted_data_dict, barb_color_variable="speed"
+):
     """Plot windbarbs on matplotlib figure."""
     # main_ax.extent = area_def.area_extent_ll
     main_ax.set_extent(mapobj.bounds, crs=mapobj)
@@ -56,7 +49,7 @@ def plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict):
         formatted_data_dict["lat"].data,
         formatted_data_dict["u"].data,
         formatted_data_dict["v"].data,
-        formatted_data_dict["speed"].data,
+        formatted_data_dict[barb_color_variable].data,
         transform=crs.PlateCarree(),
         pivot="tip",
         rounding=False,
@@ -80,6 +73,7 @@ def output_clean_windbarbs(
     fig=None,
     main_ax=None,
     mapobj=None,
+    barb_color_variable="speed",
 ):
     """Plot and save "clean" windbarb imagery.
 
@@ -97,7 +91,13 @@ def output_clean_windbarbs(
             area_def.x_size, area_def.y_size, area_def, noborder=True
         )
 
-    plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
+    plot_barbs(
+        main_ax,
+        mapobj,
+        mpl_colors_info,
+        formatted_data_dict,
+        barb_color_variable=barb_color_variable,
+    )
 
     success_outputs = []
 
@@ -123,6 +123,10 @@ def format_windbarb_data(xarray_obj, product_name):
     # u=speed * numpy.sin(direction*3.1415926/180.0)
     # v=speed * numpy.cos(direction*3.1415926/180.0)
 
+    data_cols = xarray_obj[product_name].attrs.get(
+        "windbarb_data_columns", ["speed", "direction", "rain_flag"]
+    )
+
     num_product_arrays = 1
     if len(xarray_obj[product_name].shape) == 3:
         num_product_arrays = xarray_obj[product_name].shape[2]
@@ -140,18 +144,28 @@ def format_windbarb_data(xarray_obj, product_name):
         direction = xarray_obj[product_name].to_masked_array()[:, :, 4:8]
         rain_flag = xarray_obj[product_name].to_masked_array()[:, :, 8:12]
     # This is 1-D, with one vector per variable - no ambiguities.
+    elif xarray_obj[product_name].ndim == 3:
+        speed = xarray_obj[product_name].to_masked_array()[:, :, 0]
+        direction = xarray_obj[product_name].to_masked_array()[:, :, 1]
+        rain_flag = xarray_obj[product_name].to_masked_array()[:, :, 2]
+        if "pressure" in data_cols:
+            pressure = xarray_obj[product_name].to_masked_array()[:, :, 3]
     else:
         speed = xarray_obj[product_name].to_masked_array()[:, 0]
         direction = xarray_obj[product_name].to_masked_array()[:, 1]
         rain_flag = xarray_obj[product_name].to_masked_array()[:, 2]
-
+        if "pressure" in data_cols:
+            pressure = xarray_obj[product_name].to_masked_array()[:, 3]
     # These should probably be specified in the product dictionary.
     # It will vary per-sensor / data type, these basically only currently work with
     # ASCAT 25 km data.
     # This would also avoid having the product names hard coded in the output
     # module code.
 
-    prod_plugin = xarray_obj.attrs.get("product_plugin", {})
+    from geoips.interfaces import products
+
+    source_prod_spec = products.get_plugin(xarray_obj.source_name, product_name)
+    prod_plugin = xarray_obj.attrs.get("product_plugin", source_prod_spec)
 
     try:
         barb_args = prod_plugin["spec"]["windbarb_plotter"]["plugin"]["arguments"]
@@ -196,21 +210,17 @@ def format_windbarb_data(xarray_obj, product_name):
     # lon=utils.wrap_longitudes(lon2)
     # Must be 0-360 for barbs
     lon = numpy.ma.where(lon2 < 0, lon2 + 360, lon2)
+    thin_slice = [slice(0, None, thinning)] * lat.ndim
 
-    if len(lat.shape) == 2:
-        lat2 = lat[::thinning, ::thinning]
-        lon2 = lon[::thinning, ::thinning]
-        u2 = u[::thinning, ::thinning]
-        v2 = v[::thinning, ::thinning]
-        speed2 = speed[::thinning, ::thinning]
-        rain_flag2 = rain_flag[::thinning, ::thinning]
-    elif len(lat.shape) == 1:
-        lat2 = lat[::thinning]
-        lon2 = lon[::thinning]
-        u2 = u[::thinning]
-        v2 = v[::thinning]
-        speed2 = speed[::thinning]
-        rain_flag2 = rain_flag[::thinning]
+    lat2 = lat[tuple(thin_slice)]
+    lon2 = lon[tuple(thin_slice)]
+    u2 = u[tuple(thin_slice)]
+    v2 = v[tuple(thin_slice)]
+    speed2 = speed[tuple(thin_slice)]
+    rain_flag2 = rain_flag[tuple(thin_slice)]
+    if "pressure" in data_cols:
+        pressure2 = pressure[tuple(thin_slice)]
+
     if lat2.min() > 0:
         flip_barb = False
     elif lat2.max() < 0:
@@ -219,7 +229,6 @@ def format_windbarb_data(xarray_obj, product_name):
         flip_barb = numpy.ma.where(lat2 > 0, False, True).data
     good_inds = numpy.ma.where(speed2)
     return_dict = {}
-
     if len(lon2.shape) != len(speed2.shape):
         return_dict["lon"] = lon2[good_inds[0:2]]
     else:
@@ -243,6 +252,8 @@ def format_windbarb_data(xarray_obj, product_name):
     return_dict["line_width"] = linewidth
     return_dict["sizes_dict"] = sizes_dict
     return_dict["rain_size"] = rain_size
+    if "pressure" in data_cols:
+        return_dict["pressure"] = pressure2[good_inds]
 
     return return_dict
 
@@ -275,6 +286,17 @@ def call(
 
     success_outputs = []
 
+    bkgrnd_clr = None
+    frame_clr = None
+    # If a feature_annotator plugin was supplied, attempt to get the image background
+    # color. Otherwise, just keep it as None.
+    if feature_annotator:
+        bkgrnd_clr = feature_annotator.get("spec", {}).get("background")
+    # If a gridline_annotator plugin was supplied, attempt to get the frame background
+    # color. Otherwise, just keep it as None.
+    if gridline_annotator:
+        frame_clr = gridline_annotator.get("spec", {}).get("background")
+
     # Plot windbarbs
 
     formatted_data_dict = format_windbarb_data(xarray_obj, product_name)
@@ -298,6 +320,7 @@ def call(
             area_def,
             existing_mapobj=None,
             noborder=False,
+            frame_clr=frame_clr,
         )
 
         if bg_data is not None:
@@ -309,7 +332,13 @@ def call(
                     create_colorbar=False,
                 )
             # Plot the background data on a map
-            plot_image(main_ax, bg_data, mapobj, mpl_colors_info=bg_mpl_colors_info)
+            plot_image(
+                main_ax,
+                bg_data,
+                mapobj,
+                mpl_colors_info=bg_mpl_colors_info,
+                bkgrnd_clr=bkgrnd_clr,
+            )
 
         plot_barbs(main_ax, mapobj, mpl_colors_info, formatted_data_dict)
 

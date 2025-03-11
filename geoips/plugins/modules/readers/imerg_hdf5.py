@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Read IMERG rainfall data.
 
@@ -42,14 +33,15 @@ Dataset information::
               }
 """
 # Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
 from os.path import basename
 
-# Installed Libraries
+# Third-Party Libraries
 import h5py
-import numpy as np
 import matplotlib
-
+import numpy as np
+import xarray as xr
 
 matplotlib.use("agg")
 
@@ -58,6 +50,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "imerg_hdf5"
+source_names = ["imerg"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -97,9 +90,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from datetime import datetime, timedelta
-    import xarray as xr
-
     fname = fnames[0]
 
     LOG.info("Reading file %s", fname)

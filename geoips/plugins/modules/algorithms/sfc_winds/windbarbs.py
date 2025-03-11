@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Surface Winds plotted as Barbs in Knots.
 
@@ -16,6 +7,9 @@ Data manipulation steps for surface winds products.
 This algorithm expects surface wind speeds in units of kts
 """
 import logging
+
+# install libraries
+import numpy as np
 
 LOG = logging.getLogger(__name__)
 
@@ -90,8 +84,6 @@ def call(
         * direction in degrees
         * rain_flag 0 or 1
     """
-    import numpy
-
     spd = arrays[0]
     if output_data_range is None:
         output_data_range = (spd.min(), spd.max)
@@ -99,7 +91,7 @@ def call(
     if len(arrays) > 2:
         rain_flag = arrays[2]
     else:
-        rain_flag = numpy.zeros(arrays[1].shape)
+        rain_flag = np.zeros(arrays[1].shape)
 
     from geoips.data_manipulations.conversions import unit_conversion
 
@@ -116,4 +108,4 @@ def call(
         norm=norm,
         inverse=inverse,
     )
-    return numpy.ma.dstack((spd, direction, rain_flag)).squeeze()
+    return np.ma.dstack((spd, direction, rain_flag)).squeeze()

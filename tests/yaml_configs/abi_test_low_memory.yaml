@@ -26,7 +26,7 @@ outputs:
         exclude_platforms:
           - goes-17
     minimum_coverage: 25
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated.low_memory
   tc:
     requested_sector_type: tc
     output_formatter: imagery_annotated
@@ -50,4 +50,4 @@ outputs:
       IR-BD: 0
     feature_annotator: tc_pmw
     gridline_annotator: tc_pmw
-    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated.low_memory

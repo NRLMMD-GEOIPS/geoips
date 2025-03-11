@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """SSMIS Binary reader.
 
@@ -27,12 +18,11 @@ Output Fields
      XARRAY onjectives to hold variables
 """
 # Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
 from os.path import basename
 
-# import os
-from datetime import datetime, timedelta
-import os
+# Third-Party Libraries
 import numpy as np
 import pandas as pd
 import xarray as xr
@@ -42,6 +32,7 @@ LOG = logging.getLogger(__name__)
 interface = "readers"
 family = "standard"
 name = "ssmis_binary"
+source_names = ["ssmis"]
 
 # NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused
 # variables are needed in this for moving through the binary file correctly.
@@ -126,13 +117,13 @@ def append_xarray_dicts(xobjs_list):
 
 def read_ssmis_data_file(fname, metadata_only=False):
     """Read a single SSMIS data file."""
-    data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
+    data_name = basename(fname).split("_")[-1].split(".")[-1]
 
     if data_name != "raw":
         LOG.warning("Warning: wrong SSMI SDR data type:  data_type=%s", data_name)
         raise
 
-    if "cfnoc" in os.path.basename(fname) and "sdris" in os.path.basename(fname):
+    if "cfnoc" in basename(fname) and "sdris" in basename(fname):
         LOG.info("found a SSMIS SDR file")
     else:
         LOG.info("not a SSMIS SDR file: skip it")
@@ -251,7 +242,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # on the header information in the binary file
 
             # Grab only the file name
-            bfname = os.path.basename(fname)
+            bfname = basename(fname)
 
             # Standard SSMIS file names are the following format:
             # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>
@@ -284,7 +275,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # on the header information in the binary file
 
             # Grab only the file name
-            bfname = os.path.basename(fname)
+            bfname = basename(fname)
 
             # Standard SSMIS file names are the following format:
             # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>
@@ -317,7 +308,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # on the header information in the binary file
 
             # Grab only the file name
-            bfname = os.path.basename(fname)
+            bfname = basename(fname)
 
             # Standard SSMIS file names are the following format:
             # <FILE_ID>_<SATELLITE>_<DATE>_<START>_<END>_<REV>_<EXTENSION>

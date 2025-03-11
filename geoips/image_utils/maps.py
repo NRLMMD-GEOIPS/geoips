@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """matplotlib geographic map (basemap or cartopy) utilities."""
 
@@ -234,6 +225,11 @@ def check_gridline_annotator(gridline_annotator):
                     key, required_fields
                 )
             )
+        if key in ["xpadding" or "ypadding"]:
+            # We skip here since we don't require 'xpadding' or 'ypadding'. These are
+            # optional attributes that you can apply to the gridline_annotator if
+            # wanted.
+            continue
         for subkey in subkeys:
             if subkey not in gridline_annotator["spec"][key]:
                 LOG.info(gridline_annotator)
@@ -359,6 +355,8 @@ def compute_lat_auto_spacing(area_def):
         lat_spacing = int(lat_extent / 5)
     elif lat_extent > 2.5:
         lat_spacing = 1
+    elif lat_extent == 0:
+        lat_spacing = 2
     else:
         lat_spacing = lat_extent / 5.0
     return lat_spacing
@@ -525,7 +523,10 @@ def draw_features(mapobj, curr_ax, feature_annotator, zorder=None):
 
     for name, feature in feature_annotator["spec"].items():
         feat = deepcopy(feature)
-        if feat.pop("enabled"):
+        # Need to make sure this isn't 'background' as this isn't a feature that can be
+        # added to an axis. This is just the background color of where those features
+        # will or will not be added
+        if name != "background" and feat.pop("enabled"):
             curr_ax.add_feature(getattr(cfeature, name.upper()), **feat, **extra_args)
 
 
@@ -565,6 +566,12 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     LOG.info("    Plotting with cartopy")
 
     spec = gridline_annotator["spec"]
+    labels = spec["labels"]
+
+    if "xpadding" in labels.keys():
+        extra_args["xpadding"] = labels["xpadding"]
+    if "ypadding" in labels.keys():
+        extra_args["ypadding"] = labels["ypadding"]
 
     # Note: linestyle is specified by a tuple: (offset, (pixels_on,
     # pixels_off, pxon, pxoff)), etc
@@ -573,7 +580,6 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr = curr_ax.gridlines(draw_labels=True, **lines, **extra_args)
 
     # Default to False, unless set in argument
-    labels = spec["labels"]
     glnr.top_labels = labels["top"]
     glnr.bottom_labels = labels["bottom"]
     glnr.left_labels = labels["left"]
@@ -592,3 +598,12 @@ def draw_gridlines(mapobj, area_def, curr_ax, gridline_annotator, zorder=None):
     glnr.yformatter = LATITUDE_FORMATTER
     glnr.xlabel_style = {"rotation": 0}
     glnr.ylabel_style = {"rotation": 0}
+
+    for style_arg in gridline_annotators.label_kwargs.keys():
+        # If a (x/y)label_style kwarg is present in the gridline annotator's label
+        # object, than make sure to apply that argument now. Ie. color of the label,
+        # it's offset, etc. See geoips.schema.gridline_annotators.cartopy:labels for
+        # more information.
+        if style_arg in labels.keys():
+            glnr.xlabel_style[style_arg] = labels[style_arg]
+            glnr.ylabel_style[style_arg] = labels[style_arg]

@@ -1,14 +1,5 @@
-# # # Distribution Statement A. Approved for public release. Distribution is unlimited.
-# # #
-# # # Author:
-# # # Naval Research Laboratory, Marine Meteorology Division
-# # #
-# # # This program is free software: you can redistribute it and/or modify it under
-# # # the terms of the NRLMMD License included with this program. This program is
-# # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-# # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-# # # for more details. If you did not receive the license, for more information see:
-# # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+# # # This source code is protected under the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
 """Apply min/max values, normalize, and invert data arrays."""
 # Python Standard Libraries
@@ -520,3 +511,29 @@ def normalize(data, min_val=None, max_val=None, min_bounds="crop", max_bounds="c
         data.soften_mask()
 
     return data
+
+
+def apply_satellite_zenith_cutoff(data_array, satzen_array, satzen_angle_cutoff):
+    """Apply satellite zenith angle cutoff to data_array.
+
+    Mask values in data_array where satzen_array values exceed the cutoff threshold.
+
+    Parameters
+    ----------
+    data_array : numpy.ndarray or numpy.ma.MaskedArray
+        data values to be masked
+    satzen_array : numpy.ndarray or numpy.ma.MaskedArray
+        satellite zenith angles of the same shape as the data array.
+    satzen_angle_cutoff : float
+        Cutoff threshold for satellite zenith angle
+
+    Returns
+    -------
+    numpy.ndarray
+        Return numpy.ndarray or numpy.ma.MaskedArray if original
+        data_array was MaskedArray with each value in the
+        data_array divided by cos(sunzen).
+    """
+    LOG.info("Applying satellite zenith angle cutoff of %sdeg", satzen_angle_cutoff)
+    # zen_mask = satzen_array > satzen_angle_cutoff
+    return numpy.ma.masked_where(satzen_array > satzen_angle_cutoff, data_array)
