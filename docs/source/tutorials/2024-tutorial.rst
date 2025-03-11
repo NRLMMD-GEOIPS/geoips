@@ -64,7 +64,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
       # your package VCS url
       export MY_PKG_URL=<your package’s URL on version control platform(GitLab)>
 
-   .. NOTE::
+   .. note::
       Choose a package name that is all lowercase, begins with a letter, and
       contains only letters, numbers, and underscores.
 
@@ -78,7 +78,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
       cd $GEOIPS_PACKAGES_DIR
       git clone --no-tags --single-branch $GEOIPS_REPO_URL/template_basic_plugin.git
 
-   .. NOTE::
+   .. note::
     If you're not able to move into the directory listed in the above code-block, verify that the environment
     variables are set using the commands shown below. Otherwise, check step three again and seek help if needed.
 
