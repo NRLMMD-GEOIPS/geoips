@@ -19,8 +19,6 @@ registers itself and its plugins with GeoIPS.
 
 Recommended refresher reading on :ref:`plugin-vocabulary` and :ref:`required-attributes` before moving ahead.
 
-.. _plugin-development-setup1:
-
 Product Plugin Development Initial Setup
 ****************************************
 
