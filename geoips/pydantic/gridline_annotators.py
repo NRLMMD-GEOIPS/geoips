@@ -36,12 +36,14 @@ class Labels(PermissiveFrozenModel):
             "opaque)."
         ),
     )
-    backgroundcolor: Optional[str] = Field(
+    backgroundcolor: Optional[ColorType] = Field(
         None,
-        description="Background color of the label frame (matplotlib color or hex).",
+        description=(
+            "Background color of the label frame (named color, hex, or rgb tuple)."
+        ),
     )
-    color: Optional[str] = Field(
-        None, description="Color of the label text (matplotlib color or hex)."
+    color: Optional[ColorType] = Field(
+        None, description="Color of the label text (named color, hex or rgb tuple)."
     )
     fontfamily: Optional[str] = Field(
         None, description="Font family for the label text."
