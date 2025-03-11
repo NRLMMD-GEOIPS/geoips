@@ -106,7 +106,7 @@ Before creating a new product for CLAVR-x Cloud-Top-Height, let's get the initia
       cd $MY_PKG_DIR
       git mv my_package $MY_PKG_NAME
 
-#. Update Pertinent files
+#. Update pertinent files
 
    #. Installing a Python package requires metadata that describes the package and how to install it. GeoIPS uses
       ``pyproject.toml`` to define this information. Open ``pyproject.toml`` in your ``$MY_PKG_DIR`` and replace the
@@ -172,8 +172,7 @@ container for the 'specification' of your yaml plugin. In this case, it contains
 below. As indicated by the ``family: list`` property shown above, this yaml file will contain a list of products,
 which can be of length 1 if you so desire.
 
-Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it. YAML is a
-whitespace-based coding language, similar to Python in that aspect.
+Append the code below at the end of yaml file, under the docstring you wrote, with no tabs behind it.
 
   .. code-block:: yaml
 
