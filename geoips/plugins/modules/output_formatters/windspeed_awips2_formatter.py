@@ -23,6 +23,7 @@ from geoips.xarray_utils.time import (
     get_max_from_xarray_time,
     get_datetime_from_datetime64,
 )
+from geoips.filenames.base_paths import PATHS as geoips_variables
 
 LOG = logging.getLogger(__name__)
 
@@ -38,10 +39,10 @@ def call(
     append=False,
     overwrite=True,
     source_names=None,
-    working_directory=None,
+    working_directory=geoips_variables["GEOIPS_OUTDIRS"],
 ):
     """Write AWIPS2 files"""
-    breakpoint()
+    # breakpoint()
     working_dir = Path(working_directory)
     utc_date_format = "%Y-%m-%d %H:%M:%S UTC"
     if xarray_dict["METADATA"].attrs["source_name"] == "smap-spd":

@@ -19,12 +19,11 @@
 
 # For reference, bdeck file with coverage is: $GEOIPS_PACKAGES_DIR/geoips/tests/sectored/bwp202021.dat
 # Not used for unsectored output, but potentially for other products
-run_procflow $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2024_02_20_NRT_v01.0.nc \
-	--procflow single_source \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_smap/RSS_smap_wind_daily_2024_02_20_NRT_v01.0.nc \
 	--reader_name smap_remss_winds_netcdf \
 	--product_name unsectored \
 	--output_formatter windspeed_awips2_formatter \
-	--output_formatter_kwargs '{"working_directory":"/tmp/"}'
+
 ss_retval=$?
 
 exit $((ss_retval))
