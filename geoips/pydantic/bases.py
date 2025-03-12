@@ -37,6 +37,8 @@ class CoreBaseModel(BaseModel):
     generate a user-friendly, JSON-formatted output with two-space indentation.
     """
 
+    model_config = ConfigDict(str_strip_whitespace=True)
+
     def __str__(self) -> str:
         """Return a pretty-print string representation of a Pydantic model.
 
