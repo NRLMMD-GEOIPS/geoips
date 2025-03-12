@@ -17,7 +17,9 @@ Developing a new plugin for GeoIPS requires developing a new Python package that
 plugin package can contain one or more plugins. It is configured in a special way such that, when it is installed, it
 registers itself and its plugins with GeoIPS.
 
-Recommended refresher reading on :ref:`plugin-vocabulary` and :ref:`required-attributes` before moving ahead.
+It is recommended to review the definitions of the top level attributes such as ``interface``, ``family``, and
+``docstring`` required in any GeoIPS plugin. Click :ref:`plugin-vocabulary` and :ref:`required-attributes` to
+view the related documentation.
 
 Product Plugin Development Initial Setup
 ****************************************
