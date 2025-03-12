@@ -75,7 +75,7 @@ def get_plugin_types() -> set[str]:
 
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
-    """Validate Output Formatter arugments."""
+    """Validate Output Formatter arguments."""
 
     model_config = ConfigDict(extra="allow")
     pass
