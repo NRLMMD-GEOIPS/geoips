@@ -75,16 +75,18 @@ def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
         ascending_nodes, descending_nodes, "time"
     )
 
+    breakpoint()
+
     # create roughly one section per hour
-    sections_count = (maxtime - mintime).seconds // 3600
-    seconds_per_section = (maxtime - mintime).seconds // sections_count
+    sections_count = int( (maxtime - mintime).total_seconds() // 3600 )
+    seconds_per_section = int( (maxtime - mintime).total_seconds() // sections_count )
 
     for section_index in range(sections_count):
         split_start = start_datetime + timedelta(
             seconds=seconds_per_section * section_index
         )
         split_end = split_start + timedelta(seconds=seconds_per_section)
-        base_file = "A2WIND_SMAP_" + split_start.strftime("%Y%m%d_%H%M")
+        base_file = "CIRA_A2WIND_SMAP_" + split_start.strftime("%Y%m%d_%H%M")
         awips2_file = Path(working_dir, f"{base_file}.nc")
         # if awips2_file.exists():
         # LOG.info(f"awips2 file already exists {awips2_file}\n")
