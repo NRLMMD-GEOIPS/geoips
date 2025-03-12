@@ -1,6 +1,6 @@
 interface: workflows
 family: order_based
-name: ob-nasa_dust_rgb
+name: ob_nasa_dust_rgb
 docstring: |
   The nasa_dust_rgb workflow configuration.
 spec:

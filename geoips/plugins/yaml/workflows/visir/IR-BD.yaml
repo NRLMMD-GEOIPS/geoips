@@ -1,8 +1,8 @@
-interface: product_defaults
-family: interpolator_algorithm_colormapper
-name: ob-IR-BD
+interface: workflows
+family: order_based
+name: ob_IR_BD
 docstring: |
-  The IR-BD product_defaults configuration.
+  The IR_BD product_defaults configuration.
 spec:
   steps:
     - interpolator:

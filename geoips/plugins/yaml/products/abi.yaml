@@ -2,13 +2,13 @@ interface: products
 family: list
 name: abi
 docstring: |
-  ABI: Advanced Baseline Imager. 16 different spectral bands, ranging from visible to infrared channels, and resolution ranges for .5 to 2 km. 
-  A full disk is retrieved every ten minutes. 
+  ABI: Advanced Baseline Imager. 16 different spectral bands, ranging from visible to infrared channels, and resolution ranges for .5 to 2 km.
+  A full disk is retrieved every ten minutes.
 
   Used on:
   GOES 16: Geostationary Operational Environmental Satellite. GOES-R series. GOES East (75.2° W). NOAA and NASA. 35,786 km altitude.
 
-  GOES 18: Geostationary Operational Environmental Satellite. GOES-R series. Replacing GOES West (137.2° W). NOAA and NASA. 35,786 km altitude.    
+  GOES 18: Geostationary Operational Environmental Satellite. GOES-R series. Replacing GOES West (137.2° W). NOAA and NASA. 35,786 km altitude.
 
 spec:
   products:
@@ -29,17 +29,17 @@ spec:
     - name: IR-BD
       source_names: [abi]
       docstring: |
-        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and includes a BD curve enhancement, known as the 
-        Dvorak Hurricane Curve for Tropical Cyclone Classification, and can help determine the intensity of storms.  
+        11.2 µm Infrared Dvorak Enhancement Curve.  This product utilizes channel 14 (11.2 µm) and includes a BD curve enhancement, known as the
+        Dvorak Hurricane Curve for Tropical Cyclone Classification, and can help determine the intensity of storms.
       product_defaults: IR-BD
       spec:
         variables: ["B14BT"]
     - name: WV
       source_names: [abi]
       docstring: |
-        6.9 µm Mid-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product 
-        utilizes channel 9 (6.9 µm) and is a mid-level product that can view as low as 500 mb level. Warm colors illustrate cold (higher) effective layers 
-        and cool colors illustrate warm (lower) effective layers. This can show forecasters how much potential a storm has to develop and the locations 
+        6.9 µm Mid-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product
+        utilizes channel 9 (6.9 µm) and is a mid-level product that can view as low as 500 mb level. Warm colors illustrate cold (higher) effective layers
+        and cool colors illustrate warm (lower) effective layers. This can show forecasters how much potential a storm has to develop and the locations
         of dry slots.
       product_defaults: WV
       spec:
@@ -47,8 +47,8 @@ spec:
     - name: WV-Lower
       source_names: [abi]
       docstring: |
-        7.3 µm Low-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor.  This product utilizes 
-        channel 10 (7.3 µm) and is a lower-level product that can view as low as 750mb level. This can show the forecaster how much potential a storm has 
+        7.3 µm Low-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor.  This product utilizes
+        channel 10 (7.3 µm) and is a lower-level product that can view as low as 750mb level. This can show the forecaster how much potential a storm has
         to develop and the locations of dry slots.
       product_defaults: WV-Lower
       spec:
@@ -56,8 +56,8 @@ spec:
     - name: WV-Upper
       source_names: [abi]
       docstring: |
-        6.2 µm Upper-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product utilizes 
-        channel 8 (6.2 µm) and is an upper-level product. This can be used to analyze potential storm development and the locations of dry slots. 
+        6.2 µm Upper-Level Water Vapor. In this product, the effective layer lies in the uppermost region of appreciable water vapor. This product utilizes
+        channel 8 (6.2 µm) and is an upper-level product. This can be used to analyze potential storm development and the locations of dry slots.
       product_defaults: WV-Upper
       spec:
         variables: ["B08BT"] # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
@@ -76,18 +76,6 @@ spec:
             name: matplotlib_linear_norm
             arguments:
               cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
-    - name: VisibleHighRes
-      source_names: [abi]
-      docstring: |
-        The Visible product_defaults configuration for abi product.
-      product_defaults: Visible
-      spec:
-        variables: ["B02Ref", "HIGH:solar_zenith_angle"]
-        colormapper:
-          plugin:
-            name: matplotlib_linear_norm
-            arguments:
-              cbar_label: "Reflectance, ABI B02 Visible Band"
     - name: nasa_dust_rgb
       source_names: [abi]
       docstring: |

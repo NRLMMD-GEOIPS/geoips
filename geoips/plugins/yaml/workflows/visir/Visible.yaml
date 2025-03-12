@@ -1,6 +1,6 @@
 interface: workflows
 family: order_based
-name: ob-Visible
+name: ob_Visible
 docstring: |
   The Visible workflow configuration.
 spec:

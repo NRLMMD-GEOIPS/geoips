@@ -1,8 +1,8 @@
 interface: workflows
 family: order_based
-name: ob-WV-Upper
+name: ob_WV_Upper
 docstring: |
-  The WV-Upper workflow configuration.
+  The WV_Upper workflow configuration.
 spec:
   steps:
     - interpolator:

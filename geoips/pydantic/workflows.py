@@ -16,7 +16,7 @@ from pydantic import ConfigDict, Field, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.bases import PluginModel, StaticBaseModel
+from geoips.pydantic.bases import PluginModel, FrozenModel, PermissiveFrozenModel
 
 LOG = logging.getLogger(__name__)
 
@@ -74,35 +74,42 @@ def get_plugin_types() -> set[str]:
     }
 
 
-class OutputFormatterArgumentsModel(StaticBaseModel):
-    """output_formatters."""
+class OutputFormatterArgumentsModel(PermissiveFrozenModel):
+    """Validate Output Formatter arugments."""
 
     model_config = ConfigDict(extra="allow")
     pass
 
 
-class FilenameFormatterArgumentsModel(StaticBaseModel):
+class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
+    """Validate Coverage Checker arguments."""
+
+    model_config = ConfigDict(extra="allow")
+    pass
+
+
+class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate FilenameFormatter arguments."""
 
     model_config = ConfigDict(extra="allow")
     pass
 
 
-class AlgorithmArgumentsModel(StaticBaseModel):
+class AlgorithmArgumentsModel(PermissiveFrozenModel):
     """Validate Algorithm arguments."""
 
     model_config = ConfigDict(extra="allow")
     pass
 
 
-class InterpolatorArgumentsModel(StaticBaseModel):
+class InterpolatorArgumentsModel(PermissiveFrozenModel):
     """Validate Interpolator arguments."""
 
     model_config = ConfigDict(extra="allow")
     pass
 
 
-class ReaderArgumentsModel(StaticBaseModel):
+class ReaderArgumentsModel(PermissiveFrozenModel):
     """Reader step argument definition.
 
     Pydantic model defining and validating Reader step arguments.
@@ -147,7 +154,7 @@ class ReaderArgumentsModel(StaticBaseModel):
         return values
 
 
-class WorkflowStepDefinitionModel(StaticBaseModel):
+class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
     type: str = Field(
@@ -213,6 +220,7 @@ class WorkflowStepDefinitionModel(StaticBaseModel):
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
+            "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
         }
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name
@@ -227,7 +235,7 @@ class WorkflowStepDefinitionModel(StaticBaseModel):
         return values
 
 
-class WorkflowStepModel(StaticBaseModel):
+class WorkflowStepModel(FrozenModel):
     """Validate and process a sequence of steps with their data."""
 
     definition: WorkflowStepDefinitionModel = Field(
@@ -287,7 +295,7 @@ class WorkflowStepModel(StaticBaseModel):
         return {"definition": step_data}
 
 
-class WorkflowSpecModel(StaticBaseModel):
+class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps

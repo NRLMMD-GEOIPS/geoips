@@ -2,246 +2,154 @@ interface: workflows
 family: order_based
 name: abi_infrared
 docstring: |
-  ABI Infrared Workflow
+  ABI Infrared Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B14BT"]
-    - workflow:
-        name: ob-Infrared
-        spec: {}
 ---
 interface: workflows
 family: order_based
 name: abi_infrared_gray
 docstring: |
-  ABI Infrared Gray Workflow
+  ABI Infrared Gray Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B14BT"]
-    - workflow:
-        name: ob-Infrared-Gray
-        spec: {}
 ---
 interface: workflows
 family: order_based
 name: abi_ir_bd
 docstring: |
-  ABI Infrared Brightness Difference Workflow
+  ABI Infrared Brightness Difference Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B14BT"]
-    - workflow:
-        name: ob-IR-BD
-        spec: {}
 ---
 interface: workflows
 family: order_based
 name: abi_wv
 docstring: |
-  ABI Water Vapor Workflow
+  ABI Water Vapor Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B09BT"]
-    - workflow:
-        name: ob-WV
-        spec: {}
 ---
 interface: workflows
 family: order_based
 name: abi_wv_lower
 docstring: |
-  ABI Water Vapor Lower Workflow
+  ABI Water Vapor Lower Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B10BT"]
-    - workflow:
-        name: ob-WV-Lower
-        spec: {}
 ---
 interface: workflows
 family: order_based
 name: abi_wv_upper
 docstring: |
-  ABI Water Vapor Upper Workflow
+  ABI Water Vapor Upper Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B08BT"]
-    - workflow:
-        name: ob-WV-Upper
-        spec: {}
 ---
 interface: workflows
 family: order_based
 name: abi_visible
 docstring: |
-  ABI Visible Workflow
+  ABI Visible Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B03Ref", "MED:solar_zenith_angle"]
-    - workflow:
-        name: ob-Visible
-        spec:
-          steps:
-            - output_formatter:
-                name: imagery_annotated
-                arguments:
-                  colormapper:
-                    name: matplotlib_linear_norm
-                    arguments:
-                      cbar_label: "Reflectance, ABI B03 0.86um Veggie Band"
 ---
 interface: workflows
 family: order_based
 name: abi_visible_high_res
 docstring: |
-  ABI Visible High Resolution Workflow
+  ABI Visible High Resolution Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B02Ref", "HIGH:solar_zenith_angle"]
-    - workflow:
-        name: ob-Visible
-        spec:
-          steps:
-            - output_formatter:
-                name: imagery_annotated
-                arguments:
-                  colormapper:
-                    name: matplotlib_linear_norm
-                    arguments:
-                      cbar_label: "Reflectance, ABI B02 Visible Band"
 ---
 interface: workflows
 family: order_based
 name: abi_nasa_dust_rgb
 docstring: |
-  ABI NASA Dust RGB Workflow
+  ABI NASA Dust RGB Workflow.
 spec:
   steps:
     - reader:
         name: abi_netcdf
         arguments:
           variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
-    - workflow:
-        name: ob-nasa_dust_rgb
-        spec:
-          steps:
-            - interpolator:
-                name: interp_gauss
-                arguments:
-                  sigmaval: 10000
 ---
 interface: workflows
 family: order_based
 name: abi_dmw_low
 docstring: |
-  ABI DWM Low Workflow
+  ABI DWM Low Workflow.
 spec:
   steps:
     - reader:
         name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-    - workflow:
-        name: ob-windbarbs_dmw_low
-        spec:
-          steps:
-            - algorithm:
-                name: windbarbs_dmw
-                arguments:
-                  var_map:
-                    speed: wind_speed
-                    direction: wind_direction
-                    pressure: pressure
 ---
 interface: workflows
 family: order_based
 name: abi_dmw_mid
 docstring: |
-  ABI DWM Middle Workflow
+  ABI DWM Middle Workflow.
 spec:
   steps:
     - reader:
         name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-    - workflow:
-        name: ob-windbarbs_dmw_mid
-        spec:
-          steps:
-            - algorithm:
-                name: windbarbs_dmw
-                arguments:
-                  var_map:
-                    speed: wind_speed
-                    direction: wind_direction
-                    pressure: pressure
 ---
 interface: workflows
 family: order_based
 name: abi_dmw_high
 docstring: |
-  ABI DWM High Workflow
+  ABI DWM High Workflow.
 spec:
   steps:
     - reader:
         name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-    - workflow:
-        name: ob-windbarbs_dmw_high
-        spec:
-          steps:
-            - algorithm:
-                name: windbarbs_dmw
-                arguments:
-                  var_map:
-                    speed: wind_speed
-                    direction: wind_direction
-                    pressure: pressure
 ---
 interface: workflows
 family: order_based
 name: abi_dmw_low_mid_high
 docstring: |
-  ABI DWM Low-Mid-High Workflow
+  ABI DWM Low-Mid-High Workflow.
 spec:
   steps:
     - reader:
         name: abi_l2_netcdf
         arguments:
           variables: ["wind_speed", "wind_direction", "pressure"]
-    - workflow:
-        name: ob-windbarbs_dmw_multi_level
-        spec:
-          steps:
-            - algorithm:
-                name: windbarbs_dmw
-                arguments:
-                  var_map:
-                    speed: wind_speed
-                    direction: wind_direction
-                    pressure: pressure
