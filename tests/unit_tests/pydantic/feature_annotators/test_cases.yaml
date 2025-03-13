@@ -32,15 +32,7 @@ coastline_missing_field:
     linewidth: 2
   cls: CartopyFeature
   err_str: Field required
-coastline_invalid_arguments_set:
-  key: spec/coastline
-  val:
-    enabled: false
-    edgecolor: red
-    linewidth: 2
-  cls: FeatureAnnotatorSpec
-  err_str: Value error, If 'enabled' is False, 'edgecolor' and 'linewidth' must not be provided.
-coastline_set_missing_edgecolor_linewidth:
+coastline_enabled_missing_edgecolor_linewidth:
   key: spec/coastline
   val:
     enabled: true

@@ -29,6 +29,9 @@ class CartopyFeature(PermissiveFrozenModel):
     linewidth: Optional[float] = Field(
         None, ge=0, description="The width in pixels of the specified feature."
     )
+    # TODO: There are more arguments here for a mpl Line2D artist and cartopy features.
+    # do we want to support all of those? Do we want to fail before or let
+    # matplotlib fail
 
     @model_validator(mode="after")
     def validate_enabled_fields(cls, values):
@@ -45,12 +48,6 @@ class CartopyFeature(PermissiveFrozenModel):
             if edgecolor is None or linewidth is None:
                 raise ValueError(
                     "If 'enabled' is True, both 'edgecolor' and 'linewidth' must be "
-                    "provided."
-                )
-        else:
-            if edgecolor is not None or linewidth is not None:
-                raise ValueError(
-                    "If 'enabled' is False, 'edgecolor' and 'linewidth' must not be "
                     "provided."
                 )
 
@@ -92,3 +89,7 @@ class FeatureAnnotatorPluginModel(PluginModel):
             "Works alongside matplotlib and cartopy to generate these features."
         ),
     )
+
+
+# TODO: load a model, parse the model to look at all its fields, collect all of the
+# arguments for the matplotlib artist, compare arguments to make sure nothing differs

@@ -93,6 +93,8 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
     plugin via <interface>.get_plugin, this sometimes will cause errors due to different
     validation protocols.
 
+    TODO: Turn on a flag that just disables validation in 'get_plugin'
+
     Parameters
     ----------
     inteface_name: str
@@ -156,7 +158,10 @@ def retrieve_model(plugin):
         interface = f"{int_split[0].title()}{int_split[1].title()}"
     else:
         interface = interface.title()
-    model = getattr(module, f"{interface[:-1]}PluginModel")
+    # Remove leading and trailing whitespace and remove the suffix 's' if it exists
+    # So, if we had 'sectors', it would become 'sector'
+    interface = interface.rstrip().removesuffix("s")
+    model = getattr(module, f"{interface}PluginModel")
 
     return model
 

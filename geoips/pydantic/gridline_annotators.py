@@ -102,6 +102,8 @@ class Lines(FrozenModel):
         description="Pattern of dashes and gaps in the line.",
     )
     linewidth: float = Field(..., description="Width of the line.")
+    # TODO: create file called matplotlib or 'artists', which contains all the machinery
+    # that relates with this
 
 
 class GridlineAnnotatorSpec(FrozenModel):
