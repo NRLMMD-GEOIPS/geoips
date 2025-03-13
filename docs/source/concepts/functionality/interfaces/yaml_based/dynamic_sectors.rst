@@ -16,7 +16,15 @@ of the resulting geographic sector, but leave the specific location to be
 calculated at run time based on the data being used.
 
 Dynamic sectors are most commonly used when plotting tropical cyclone imagery,
-as they allow for a sector that can "follow along" with the storm.
+as they allow for a sector that can "follow along" with the storm. Note,
+however, that they can be used for any type of intermittent environmental or
+atmospheric event, such as active volcanoes, atmospheric rivers, or pyrocumulonimbus.
+
+The built-in dynamic sectors in GeoIPS focus on building a sector around a
+center coordinate, but this is not intended to limit the variety of dynamic
+sectors that can be developed. A dynamic sector could also, for example,
+specify resolution or latitude and longitude boundaries rather than the center
+coordinate (this may, however, require additional plugin development).
 
 For examples of dynamic sectors and dynamic sector templates, reference any of
 the built-in dynamic sector templates

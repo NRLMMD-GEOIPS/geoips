@@ -13,6 +13,10 @@ A processing workflow (procflow) is a module-based GeoIPS plugin that
 determines the "steps" that are used for a particular type of processing.
 Essentially, the procflow is the driver of GeoIPS processing that determines
 the order in which to call other plugins, such as algorithms and output formatters.
+Although it is possible to create one's own processing workflow, the built-in
+procflows are designed to cover nearly any use-case, and upcoming development
+will increase the number of cases that are covered. It is extremely unlikely
+that a user will need to develop their own procflow.
 
 Examples of procflow plugins can be found in the list of GeoIPS built-in
 `procflows <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/procflows>`__.
