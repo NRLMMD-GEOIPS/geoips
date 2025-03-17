@@ -85,7 +85,7 @@ def initialize_paths():
     if not os.getenv("GEOIPS_OUTDIRS"):
         LOG.warning(
             "GEOIPS_OUTDIRS is not set in your environment. "
-            "Defaulting to current directory as output dir."
+            "Defaulting to current directory as output dir. "
             "Please set GEOIPS_OUTDIRS if you want to write to a different directory "
             "by default."
         )
