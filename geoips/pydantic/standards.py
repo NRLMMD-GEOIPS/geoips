@@ -18,12 +18,17 @@ logging.basicConfig(level=logging.INFO)
 LOG = logging.getLogger(__name__)
 
 
-class PrettyBaseModel(BaseModel):
+class CoreBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default.
 
     This model overrides the default string representation of Pydantic models to
     generate a user-friendly, JSON-formatted output with two-space indentation.
     """
+    model_config = ConfigDict(str_strip_whitespace=True, loc_by_alias=False)
+    # model_config = ConfigDict(
+    #     extra="allow", populate_by_name=True, str_strip_whitespace=True,
+    #     loc_by_alias=True
+    # )
 
     def __str__(self) -> str:
         """Return a pretty-print string representation of a Pydantic model.
@@ -35,7 +40,8 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        return self.model_dump_json(indent=2)
+        return self.model_dump_json(indent=2, by_alias=False)
+        # return self.model_dump_json(indent=2, by_alias=False)
 
 
 def python_identifier(val: str) -> str:
@@ -81,24 +87,23 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-class StaticBaseModel(PrettyBaseModel):
+class StaticBaseModel(CoreBaseModel):
     """
     Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic ConfigDict to provide
     customized configurations such as forbidding extra fields.
 
     # Attributes
     # ----------
     # model_config : ConfigDict
     #     Configuration for the Pydantic model:
-    #     - `extra="forbid"`: Does not allow any additional fileds in the input data.
+    #     - `extra="forbid"`: Does not allow any additional fields in the input data.
     #     - `populate_by_name=True`: Enables populating fields by their aliases.
     """
 
     model_config = ConfigDict(
-        extra="allow", populate_by_name=True, str_strip_whitespace=True,
-        loc_by_alias=True
+        extra="allow", populate_by_name=True, loc_by_alias=True
     )
 
     # sets the model name as the title
@@ -200,7 +205,7 @@ class Instrument(StaticBaseModel):
 
 
 product = Instrument(
-    sensor="Advanced Baseline Imager", spacecraft="GOES-R  ", status="Active"
+    sensor="Advanced Baseline Imagery", spacecraft="GOES-R  ", status="Active"
 )
 
 print(product.model_title)

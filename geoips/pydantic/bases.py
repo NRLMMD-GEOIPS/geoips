@@ -31,13 +31,15 @@ LOG = logging.getLogger(__name__)
 
 
 class CoreBaseModel(BaseModel):
-    """Make Pydantic models pretty-print by default.  // change this
+    """Enable pretty-printing and define common ConfigDict properties.
 
-    This model overrides the default string representation of Pydantic models to
+    Overrides the default string representation of Pydantic models to
     generate a user-friendly, JSON-formatted output with two-space indentation.
+    Also defines common core `ConfigDict` properties required by GeoIPS models
+    to ensure consistent validation and serialization.
     """
 
-    model_config = ConfigDict(str_strip_whitespace=True)
+    model_config = ConfigDict(str_strip_whitespace=True, loc_by_alias=False)
 
     def __str__(self) -> str:
         """Return a pretty-print string representation of a Pydantic model.
