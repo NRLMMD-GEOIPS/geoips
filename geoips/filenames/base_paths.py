@@ -6,10 +6,11 @@
 This module sets various directory paths required for GeoIPS.
 Setting these variables here keeps geoips code and outputs consolidated.
 Eventually, we aim to supplant this method of setting variables with a config file.
-`GEOIPS_OUTDIRS` serves as the base reference for all other variables.
-It defaults to the values set in environment variables.
-It also provides a function for creating directories.
+`GEOIPS_OUTDIRS` serves as the base reference for all other variables and defaults
+to the current directory.
 
+The module defaults to the values set in environment variables for all other variables.
+It also provides a function for creating directories.
 
 Functions
 ---------
@@ -28,6 +29,8 @@ Environment Variables:
 import logging
 import os
 import socket
+
+LOG = logging.getLogger(__name__)
 
 
 def get_env_var(var_name, default, rstrip_path=True):
@@ -80,11 +83,15 @@ def initialize_paths():
 
     # Output Directories
     if not os.getenv("GEOIPS_OUTDIRS"):
-        raise KeyError(
-            "GEOIPS_OUTDIRS must be set in your environment. "
-            "Please set GEOIPS_OUTDIRS and try again"
+        LOG.warning(
+            "GEOIPS_OUTDIRS is not set in your environment. "
+            "Defaulting to current directory as output dir."
+            "Please set GEOIPS_OUTDIRS if you want to write to a different directory "
+            "by default."
         )
-    paths["GEOIPS_OUTDIRS"] = os.getenv("GEOIPS_OUTDIRS").rstrip("/")
+        paths["GEOIPS_OUTDIRS"] = os.getcwd()
+    else:
+        paths["GEOIPS_OUTDIRS"] = os.getenv("GEOIPS_OUTDIRS").rstrip("/")
     paths["GEOIPS_PACKAGES_DIR"] = os.path.abspath(
         os.path.join(paths["BASE_PATH"], os.pardir, os.pardir)
     )
@@ -220,8 +227,6 @@ def make_dirs(path):
     os.makedirs(path, mode=0o755, exist_ok=True)
     return path
 
-
-LOG = logging.getLogger(__name__)
 
 # Initialize the PATHS dictionary
 PATHS = initialize_paths()
