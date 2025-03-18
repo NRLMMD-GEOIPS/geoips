@@ -94,8 +94,9 @@ def initialize_paths():
         try:
             home_dir = os.environ["HOME"]
         except KeyError:
-            LOG.error("Could not resolve enviorment variable "
-                      "'$HOME', using '/' as default")
+            LOG.error(
+                "Could not resolve enviorment variable " "'$HOME', using '/' as default"
+            )
             home_dir = "/"
         paths["GEOIPS_OUTDIRS"] = os.path.join(home_dir, "GEOIPS_OUTDIRS")
     paths["GEOIPS_PACKAGES_DIR"] = os.path.abspath(
