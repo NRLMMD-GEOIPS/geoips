@@ -1,6 +1,6 @@
 enhancement:
 - title: 'Add default GEOIPS_OUTDIRS so pip installs of geoips do not immediately crash.'
-  description: 'Set GEOIPS_OUTDIRS to current working directory and added warning when using the default.'
+  description: 'Set GEOIPS_OUTDIRS to $HOME/GEOIPS_OUTDIR and added warning when using the default.'
   files:
     modified:
     - 'geoips/filenames/base_paths.py'
