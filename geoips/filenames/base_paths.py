@@ -82,10 +82,12 @@ def initialize_paths():
     )
 
     # Output Directories
-    if not os.getenv("GEOIPS_OUTDIRS"):
+    try:
+        paths["GEOIPS_OUTDIRS"] = os.environ["GEOIPS_OUTDIRS"].rstrip("/")
+    except KeyError:
         LOG.warning(
             "GEOIPS_OUTDIRS is not set in your environment. "
-            "Defaulting to $HOME/GEOIPS_OUTDIR as output dir. "
+            "Defaulting to $HOME/GEOIPS_OUTDIRS as output dir. "
             "Please set GEOIPS_OUTDIRS if you want to write to a different directory "
             "by default."
         )
@@ -94,9 +96,7 @@ def initialize_paths():
         except KeyError:
             LOG.error("Could not resolve enviorment variable '$HOME', using '/' as default")
             home_dir = "/"
-        paths["GEOIPS_OUTDIRS"] = os.path.join(home_dir, "GEOIPS_OUTDIR")
-    else:
-        paths["GEOIPS_OUTDIRS"] = os.getenv("GEOIPS_OUTDIRS").rstrip("/")
+        paths["GEOIPS_OUTDIRS"] = os.path.join(home_dir, "GEOIPS_OUTDIRS")
     paths["GEOIPS_PACKAGES_DIR"] = os.path.abspath(
         os.path.join(paths["BASE_PATH"], os.pardir, os.pardir)
     )
