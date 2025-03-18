@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: se_asia
-docstring: "Southeastern Asia"
+docstring: "Southeastern Asia."
 metadata:
-  region:
-    continent: Asia
-    country: x
-    area: Continental
-    subarea: SouthEast
-    state: x
-    city: x
+  continent: Asia
+  country: x
+  area: Continental
+  subarea: SouthEast
+  state: x
+  city: x
 spec:
   area_id: se_asia
   description: Southeastern Asia
