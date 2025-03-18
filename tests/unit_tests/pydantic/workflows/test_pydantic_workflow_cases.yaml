@@ -1,0 +1,5 @@
+description_multi_line:
+  key: description
+  val: This is a \n a multi-line description.
+  cls: PluginModel
+  err_str: The description must be one line only.
