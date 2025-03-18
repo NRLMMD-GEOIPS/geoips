@@ -234,3 +234,31 @@ def test_bad_plugin_model_set_description(
         f"Expected description: {expected_description},"
         f"but got this: {model.docstring}"
     )
+
+
+@pytest.mark.parametrize(
+    "docstring_input, expected_description",
+    [
+        (
+            {
+                "docstring": "First line. \n Second line.",
+            },
+            "First line.",
+        ),
+    ],
+    ids=[
+        "Description not provided",
+    ],
+)
+def test_bad_plugin_model_set_description_without_input_field(
+    valid_plugin_data, docstring_input, expected_description
+):
+    """Test PluginModel's set_description() method when description field is missing."""
+    data = copy.deepcopy(valid_plugin_data)
+    data.pop("description", None)
+    data.update(docstring_input)
+    model = bases.PluginModel(**data)
+    assert model.description == expected_description, (
+        f"Expected description: {expected_description},"
+        f"but got this: {model.docstring}"
+    )
