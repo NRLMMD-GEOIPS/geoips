@@ -8,9 +8,9 @@ docstring: |
 description: 11.2 µm Infrared.
 relpath: geoips/plugins/yaml/workflows/read_test.yaml
 abspath: home/kumar/geoips/geoips/geoips/plugins/yaml/workflows/read_test.yaml
-spec:
-  steps:
-    - reader:
-        name: abi_netcdf
-        arguments:
-          variables: ['B14BT']
+# spec:
+#   steps:
+#     - reader:
+#         name: abi_netcdf
+#         arguments:
+#           variables: ['B14BT']
