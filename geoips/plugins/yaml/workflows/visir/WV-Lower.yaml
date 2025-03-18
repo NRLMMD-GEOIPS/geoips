@@ -1,0 +1,31 @@
+interface: workflows
+family: order_based
+name: ob_WV_Lower
+docstring: |
+  The WV_Lower workflow configuration.
+spec:
+  steps:
+    - interpolator:
+        name: interp_nearest
+        arguments: {}
+    - algorithm:
+        name: single_channel
+        arguments:
+          output_data_range: [-70.0, 0.0]
+          input_units: Kelvin
+          output_units: celsius
+          min_outbounds: crop
+          max_outbounds: crop
+          norm: null
+          inverse: null
+    - output_formatter:
+        name: imagery_annotated
+        arguments:
+          colormapper:
+            name: WV
+            arguments:
+              data_range: [-70.0, 0.0]
+          filename_formatter:
+            name: geoips_fname
+            arguments:
+              suffix: ".png"
