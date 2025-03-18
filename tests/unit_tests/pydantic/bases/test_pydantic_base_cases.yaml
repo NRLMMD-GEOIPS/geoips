@@ -1,5 +1,7 @@
 description_without_input_field:
   key: description
+  # If val is left empty, YAML interprets it as null
+  # No need to test by leaving val empty
   val: null
   cls: PluginModel
   err_str: expected_description

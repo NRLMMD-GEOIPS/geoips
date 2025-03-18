@@ -234,19 +234,3 @@ def test_bad_plugin_model_set_description(
         f"Expected description: {expected_description},"
         f"but got this: {model.docstring}"
     )
-
-
-@pytest.mark.parametrize(
-    "docstring_input, expected_description",
-    [
-        (
-            {
-                "docstring": "First line. \n Second line.",
-            },
-            "First line.",
-        ),
-    ],
-    ids=[
-        "Description not provided",
-    ],
-)
