@@ -10,6 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
+from typing import Union, Tuple
 
 # Third-Party Libraries
 from pydantic import (
@@ -28,6 +29,11 @@ from typing_extensions import Annotated
 from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
+
+ColorTuple = Union[
+    Tuple[float, float, float], Tuple[int, int, int], Tuple[int, int, int, float]
+]
+ColorType = Union[ColorTuple, str]
 
 
 class PrettyBaseModel(BaseModel):
