@@ -80,7 +80,7 @@ def test_bad_workflow_step_definition_model_validator_invalid_plugin_name(
 
 
 def test_bad_workflow_step_definition_model_additional_field(valid_step_data):
-    """Tests ReaderArgumentsModel with additonal field."""
+    """Tests ReaderArgumentsModel with additional field."""
     invalid_data = copy.deepcopy(valid_step_data)
     invalid_data["unexpected_field"] = "unexpected_value"
 
@@ -90,7 +90,7 @@ def test_bad_workflow_step_definition_model_additional_field(valid_step_data):
     error_info = exec_info.value.errors()
     assert any(
         err["type"] == "extra_forbidden" for err in error_info
-    ), "expected 'extra_frobidden' error type"
+    ), "expected 'extra_forbidden' error type"
     assert "unexpected_field" in str(
         exec_info.value
     ), "Unexpected field should be rejected by the WorkflowStepDefinitionModel"
