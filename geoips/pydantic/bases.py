@@ -39,8 +39,8 @@ ColorType = Union[ColorTuple, str]
 class PrettyBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default.
 
-    This model overrides the default string representation of Pyantic models to generate
-    a user-friendly, JSON-formatted output with two-space indentation.
+    This model overrides the default string representation of Pydantic models to
+    generate a user-friendly, JSON-formatted output with two-space indentation.
     """
 
     def __str__(self) -> str:
@@ -148,7 +148,7 @@ def get_interfaces() -> set[str]:
     """Return a set of distinct interfaces.
 
     This function returns all available plugin interfaces. The results are cached for
-    runtime memory optimizaiton.
+    runtime memory optimization.
 
     Returns
     -------
@@ -210,7 +210,7 @@ class PluginModel(FrozenModel):
         -------
         dict
             Updated dictionary with the `package` field set based on the
-            metadata retrived from ``get_plugin_metadata()``.
+            metadata retrieved from ``get_plugin_metadata()``.
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
@@ -225,7 +225,7 @@ class PluginModel(FrozenModel):
                 f"Must be one of {get_interfaces()}"
             )
         # the above exception handling would be further improved by checking the
-        # existence of plugin registry in the fuutre issue #906
+        # existence of plugin registry in the future issue #906
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
@@ -273,7 +273,7 @@ class PluginModel(FrozenModel):
         cls: type["PluginModel"], values: dict[str, str | int | float | None]
     ):
         """
-        Set ``description`` to first line of ``dosctring`` field if not provided.
+        Set ``description`` to first line of ``docstring`` field if not provided.
 
         Parameters
         ----------
