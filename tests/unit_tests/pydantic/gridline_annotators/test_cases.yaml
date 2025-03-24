@@ -1,0 +1,56 @@
+docstring_missing_period:
+  key: docstring
+  val: The default_palegreen gridline_annotators plugin
+  cls: PluginModel
+  err_str: Description must start with a letter / number and endwith a period.
+docstring_invalid_first_character:
+  key: docstring
+  val: ~he default_palegreen gridline_annotators plugin.
+  cls: PluginModel
+  err_str: Description must start with a letter / number and endwith a period.
+spec_missing_lines:
+  key: spec
+  val:
+    labels:
+      top: true
+      bottom: false
+      left: true
+      right: false
+      xpadding: 50
+      ypadding: 50
+      fontfamily: 'URW Bookman'
+      fontstyle: oblique
+      fontweight: demibold
+      fontsize: 50
+    spacing:
+      latitude: auto
+      longitude: auto
+    background: palegreen
+  cls: GridlineAnnotatorSpec
+  err_str: Field required
+labels_missing_field:
+  key: spec/labels
+  val:
+    # missing top
+    bottom: false
+    left: true
+    right: false
+    xpadding: 50
+    ypadding: 50
+    fontfamily: 'URW Bookman'
+    fontstyle: oblique
+    fontweight: demibold
+    fontsize: 50
+  cls: Labels
+  err_str: Field required
+color_invalid_type:
+  key: spec/background
+  val: 17
+  cls: ColorType
+  err_str: Input should be a valid string
+  # By default we only test the last error raised for multiple errors. All errors raised
+  # include:
+    # Input should be a valid tuple
+    # Input should be a valid tuple
+    # Input should be a valid tuple
+    # Input should be a valid string

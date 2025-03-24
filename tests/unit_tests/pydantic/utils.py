@@ -136,6 +136,31 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
     return yam
 
 
+def retrieve_model(plugin):
+    """Retrieve the associated pydantic plugin model for the plugin provided.
+
+    Parameters
+    ----------
+    plugin: dict
+        - A dictionary representing a GeoIPS yaml plugin.
+
+    Returns
+    -------
+    model: geoips.pydantic.{interface} PluginModel
+        - The associated plugin model used to validate this plugin.
+    """
+    interface = plugin["interface"]
+    module = gpydan._modules[f"geoips.pydantic.{interface}"]
+    if "_" in interface:
+        int_split = interface.split("_")
+        interface = f"{int_split[0].title()}{int_split[1].title()}"
+    else:
+        interface = interface.title()
+    model = getattr(module, f"{interface[:-1]}PluginModel")
+
+    return model
+
+
 def validate_good_plugin(good_plugin, plugin_model):
     """Assert that a well formatted plugin is valid.
 

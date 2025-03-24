@@ -1,0 +1,37 @@
+enhancement:
+- title: 'Pydantic Gridline Annotator Plugin Models'
+  description: |
+    Transformed legacy json schema code for gridline annotators into our newly developed
+    pydantic schema. Currently still support legacy schema validation for operational
+    GeoIPS, however these changes are one of many needed to support the order based
+    procflow.
+
+    Additionally, this PR modified unit testing code for sectors and feature annotators
+    in an attempt to generalize the testing that will be applied to these models. Added
+    a test cases file for gridline annotators models as well, used for unit testing.
+  files:
+    deleted:
+      - tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
+      - tests/unit_tests/pydantic/sectors/test_sectors.py
+    added:
+      - geoips/pydantic/gridline_annotators.py
+      - tests/unit_tests/pydantic/gridline_annotators/test_cases.yaml
+      - tests/unit_tests/pydantic/test_pydantic_models.py
+    modified:
+      - geoips/plugins/yaml/gridline_annotators/default.yaml
+      - geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
+      - geoips/plugins/yaml/gridline_annotators/north_pole.yaml
+      - geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
+      - geoips/plugins/yaml/gridline_annotators/tc_pmw.yaml
+      - geoips/plugins/yaml/gridline_annotators/tc_visir.yaml
+      - geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
+      - geoips/plugins/yaml/gridline_annotators/tc_windspeed.yaml
+      - geoips/pydantic/feature_annotators.py
+      - tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+      - tests/unit_tests/pydantic/utils.py
+  related-issue:
+    number: 896
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 03/11/25
+    finish: null
