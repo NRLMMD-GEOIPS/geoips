@@ -21,6 +21,19 @@ spec:
               max_outbounds: crop
               pressure_key: 'fine_press'
               time_fcst: -1
+    - name: Model-Rain-mixing
+      source_names: [gfs]
+      docstring: |
+        Rain mixing ratio of the gfs model, delinated by pressure levels.
+      product_defaults: model_rain
+      spec:
+	variables: ["rain_mixing_ratio"]
+	algorithm:
+	  plugin:
+	    name: model_ndim
+	    arguments:
+	      pressure_key: 'coarse_press'
+	      interp_vars: ['latitude','longitude','coarse_press']
 
     - name: Model-WaveHeight
       source_names: [gfs]
