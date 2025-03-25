@@ -15,5 +15,6 @@ Functionality
     plugin-registries
     documentation-building
     examples/index
+    interfaces/index
 
 
