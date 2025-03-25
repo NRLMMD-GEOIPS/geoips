@@ -37,7 +37,16 @@ class TestGeoipsValidate(BaseCliTest):
                         plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
                     plugin_paths = sorted(glob(plugin_path_str, recursive=True))
                     for plugin_path in plugin_paths:
-                        if rand() > rand_threshold:
+                        # Not testing the validation of workflow plugins for the time
+                        # being. Since these can be multi-document plugins, we have no
+                        # way at runtime in unit testing to provide the name of the
+                        # plugin in the multi-document plugin without hardcoding or
+                        # searching through the plugin registry to find plugins that
+                        # match the plugin path. Validation of these plugins is
+                        # supported, but required the call to look like this instead
+                        # 'geoips validate <workflow_path> <plugin_name>' if the file
+                        # is indeed a multi-document.
+                        if rand() > rand_threshold and "workflows" not in plugin_path:
                             self._cmd_list.append(base_args + [plugin_path])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
