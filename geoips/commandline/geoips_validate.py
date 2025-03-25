@@ -55,13 +55,17 @@ class GeoipsValidate(GeoipsExecutableCommand):
             # otherwise let them know they're good to go
             print(f"Plugin '{plugin_name}' found at {fpath} is valid.")
 
-    def get_interface_and_plugin(self, fpath):
+    def get_interface_and_plugin(self, fpath, plugin_name=None):
         """Retrieve the interface and plugin associated with the file path given.
 
         Parameters
         ----------
         fpath: str
             - The file path of the plugin requested to be validated.
+        plugin_name: str, default=None
+            - If provided and the filepath is a .yaml file, assume this is a
+              multi-document yaml file (such as a workflow plugin), and attempt to
+              find the plugin matching 'plugin_name' in that document.
 
         Returns
         -------
@@ -79,7 +83,6 @@ class GeoipsValidate(GeoipsExecutableCommand):
         elif fpath.suffix == ".yaml":
             # yaml-based plugin
             interface_type = "yaml_based"
-            plugin = yaml.safe_load(open(fpath, "r"))
         else:
             self.parser.error(
                 "Only '.py' and '.yaml' files are accepted at this time. Try again."
@@ -91,6 +94,23 @@ class GeoipsValidate(GeoipsExecutableCommand):
                 interface_name = plugin.interface
                 plugin_name = plugin.name
             else:
+                # If plugin_name already exists, assume this is a multi-document yaml
+                # file and attempt to find the correct plugin within that file
+                if plugin_name:
+                    docs = yaml.safe_load_all(open(fpath, "r"))
+                    plugin = None
+                    for doc in docs:
+                        if doc["name"] == plugin_name:
+                            plugin = doc
+                            break
+                    # No matching plugin could be found. Raise an error
+                    if not plugin:
+                        self.parser.error(
+                            f"Error: No plugin under name '{plugin_name}' could be "
+                            f"in the multi-document yaml plugin at {fpath}."
+                        )
+                else:
+                    plugin = yaml.safe_load(open(fpath, "r"))
                 interface_name = plugin["interface"]
                 plugin_name = plugin["name"]
         except AttributeError or KeyError:
