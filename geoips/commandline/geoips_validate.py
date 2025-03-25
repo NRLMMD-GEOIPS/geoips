@@ -34,6 +34,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
             "plugin_name",
             type=str,
             default=None,
+            nargs="?",
             help=(
                 "The name of the plugin in the file if applicable. Only useful if your "
                 "file is a multi-document yaml file."
