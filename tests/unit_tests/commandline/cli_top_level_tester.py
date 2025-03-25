@@ -130,34 +130,35 @@ class BaseCliTest(abc.ABC):
         editable: bool
             - The truth value of whether or not all packages were editable.
         """
-        editable = True
-        for pkg_name in self.plugin_package_names:
-            if (
-                ("-p" not in args or "-p" in args and "geoips" in args[1:])
-                and is_editable("geoips")
-                and args[:3] == ["geoips", "test", "script"]
-            ):
-                # If we are specifically using the geoips package for
-                # 'geoips test script', check to see if it's in editable mode or not.
-                # If it's editable, just break and keep editable as True. Otherwise, if
-                # an invalid package is supplied, the last else statement in the
-                # 'if not editable' conditional below should be raised.
+        # Test if a package was specified and is installed in non-editable mode
+        pkg_idx = -1
+        pkg_name = None
+        # Default to last item of args. If no argument is provided after -p, an
+        # error will be raised later anyways.
+        for idx, arg in enumerate(args):
+            if arg == "-p" and len(args) > idx + 1:
+                # That means a package was provided. It might not be valid, but we
+                # don't care. We'll test this in the if statements below.
+                pkg_idx = idx + 1
+                pkg_name = args[pkg_idx]
                 break
-            elif not is_editable(pkg_name):
-                editable = False
-                break
-        if not editable:
-            # One of the installed packages was found to be in non-editable mode
-            pkg_idx = -1
-            # Default to last item of args. If no argument is provided after -p, an
-            # error will be raised anyways.
-            for idx, arg in enumerate(args):
-                if arg == "-p" and len(args) > idx + 1:
-                    # That means a package was provided. It might not be valid, but we
-                    # don't care. We'll test this in the if statements below.
-                    pkg_idx = idx + 1
-                    break
 
+        if pkg_name is not None and pkg_name not in self.plugin_package_names:
+            # If the package provided is not a valid package, check for that error
+            # instead
+            assert f"{args[2]}: error: argument --package_name/-p: invalid" in error
+            return False
+
+        if pkg_name:
+            # Just test if this package is in editable mode
+            editable = is_editable(pkg_name)
+        else:
+            # Otherwise, assume we're working on all installed packages
+            editable = any(
+                [is_editable(pkg_name) for pkg_name in self.plugin_package_names]
+            )
+
+        if not editable:
             if "-p" in args and "--integration" in args and "geoips" not in args[1:]:
                 # This is a specific case for the integration test scripts that
                 # only work for geoips. Make sure an error is raised that says
@@ -169,18 +170,10 @@ class BaseCliTest(abc.ABC):
                     "error: argument --package-name/-p: invalid choice:"
                 )
                 assert integration_error in error or package_name_error in error
-            elif (
-                "-p" in args
-                and args[pkg_idx] in self.plugin_package_names
-                or "-p" not in args
-            ):
+            else:
                 # If the package provided is a valid installed package, assert that
                 # an non-editable error was raised
                 assert "is installed in non-editable mode" in error
-            else:
-                # If the package provided is not a valid package, check for that error
-                # instead
-                assert f"{args[2]}: error: argument --package_name/-p: invalid" in error
         return editable
 
     @property
