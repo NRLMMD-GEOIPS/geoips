@@ -8,7 +8,6 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 
 from glob import glob
 from importlib import resources
-from numpy.random import rand
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -26,7 +25,6 @@ class TestGeoipsValidate(BaseCliTest):
         if not hasattr(self, "_cmd_list"):
             self._cmd_list = []
             base_args = ["geoips", "validate"]
-            rand_threshold = 0.85
             # validate some subset plugins from all installed packages
             for pkg_name in self.plugin_package_names:
                 pkg_path = str(resources.files(pkg_name) / "plugins")
@@ -36,8 +34,27 @@ class TestGeoipsValidate(BaseCliTest):
                     else:
                         plugin_path_str = f"{pkg_path}/{plugin_type}/**/*.yaml"
                     plugin_paths = sorted(glob(plugin_path_str, recursive=True))
-                    for plugin_path in plugin_paths:
-                        if rand() > rand_threshold:
+                    if plugin_type == "modules":
+                        # Filter out '__init__.py' files and any file in a '/utils/' dir
+                        plugin_paths = [
+                            f
+                            for f in plugin_paths
+                            if not f.endswith("__init__.py")
+                            and "/utils/" not in f.replace("\\", "/")
+                        ]
+                    # Just use every fifth plugin so we don't have random tests
+                    for pidx in range(0, len(plugin_paths), 5):
+                        # Not testing the validation of workflow plugins for the time
+                        # being. Since these can be multi-document plugins, we have no
+                        # way at runtime in unit testing to provide the name of the
+                        # plugin in the multi-document plugin without hardcoding or
+                        # searching through the plugin registry to find plugins that
+                        # match the plugin path. Validation of these plugins is
+                        # supported, but required the call to look like this instead
+                        # 'geoips validate <workflow_path> <plugin_name>' if the file
+                        # is indeed a multi-document.
+                        plugin_path = plugin_paths[pidx]
+                        if "workflows" not in plugin_path:
                             self._cmd_list.append(base_args + [plugin_path])
             # Add argument list to retrieve help message
             self._cmd_list.append(base_args + ["-h"])
@@ -70,7 +87,7 @@ class TestGeoipsValidate(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "usage: To use, type `geoips validate <file_path>`" in output
+            assert "usage: To use, type `geoips validate <file_path>" in output
         else:
             # Checking that output from geoips validate command reports valid
             assert "is valid." in output
