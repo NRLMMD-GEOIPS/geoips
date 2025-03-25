@@ -6,12 +6,9 @@
 import subprocess
 import logging
 from os.path import splitext
-import numpy as np
 from shutil import copy
 from os.path import exists, join
 from importlib.resources import files
-from shutil import copy
-from os.path import join
 import os
 
 from geoips.commandline.log_setup import log_with_emphasis
@@ -32,6 +29,7 @@ def write_percent_of_list_elements_to_file_and_return_filepath(
     percent_to_write,
     random_func=predictable_random.random,
 ):
+    """Grabs a random subset of lines in a file and writes them."""
     threshold = float(100 - percent_to_write) / 100
     with open(filename, "w") as f:
         for line in list_with_lines:
@@ -41,7 +39,6 @@ def write_percent_of_list_elements_to_file_and_return_filepath(
 
 def get_test_files(test_data_dir):
     """Return a series of varied text files."""
-
     save_dir = join(test_data_dir, "scratch", "unit_tests", "test_text")
     if not exists(save_dir):
         os.mkdir(save_dir, exists_ok=True)
@@ -118,7 +115,6 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
-
     ret = subprocess.run(
         ["diff", output_product, compare_product],
         stdout=subprocess.PIPE,

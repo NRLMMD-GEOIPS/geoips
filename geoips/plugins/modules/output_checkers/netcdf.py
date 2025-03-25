@@ -18,7 +18,6 @@ name = "netcdf"
 def get_test_files(test_data_dir):
     """Return a Series of Netcdf paths modified from compare."""
     import xarray as xr
-    import numpy as np
     from os import makedirs
     from os.path import exists, join
 

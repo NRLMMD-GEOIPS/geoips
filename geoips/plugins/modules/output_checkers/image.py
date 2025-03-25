@@ -22,7 +22,6 @@ name = "image"
 
 def get_test_files(test_data_dir):
     """Return a series of compare vs output image paths for testing purposes."""
-
     savedir = join(test_data_dir, "scratch", "unit_tests", "test_images/")
     if not exists(savedir):
         makedirs(savedir)
