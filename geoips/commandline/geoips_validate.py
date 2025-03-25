@@ -30,6 +30,15 @@ class GeoipsValidate(GeoipsExecutableCommand):
             type=str,
             help="File path which represents a GeoIPS Plugin that we want to validate.",
         )
+        self.parser.add_argument(
+            "plugin_name",
+            type=str,
+            default=None,
+            help=(
+                "The name of the plugin in the file if applicable. Only useful if your "
+                "file is a multi-document yaml file."
+            ),
+        )
 
     def __call__(self, args):
         """Validate the appropriate Plugin given the provided arguments.
@@ -39,11 +48,14 @@ class GeoipsValidate(GeoipsExecutableCommand):
         associated interface from the plugin to validate at runtime.
         """
         fpath = Path(args.file_path)
+        plugin_name = args.plugin_name
         if not exists(fpath):
             self.parser.error(
                 f"Provided filepath '{fpath}' doesn't exist. Provide a valid path.",
             )
-        interface, plugin, plugin_name = self.get_interface_and_plugin(fpath)
+        interface, plugin, plugin_name = self.get_interface_and_plugin(
+            fpath, plugin_name
+        )
         if interface.name == "products":
             is_valid = self.validate_sub_products(interface, fpath, plugin)
         else:
