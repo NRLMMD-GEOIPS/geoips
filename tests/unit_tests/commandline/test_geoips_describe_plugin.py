@@ -6,7 +6,6 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
-from numpy.random import rand
 import pytest
 
 from geoips import interfaces

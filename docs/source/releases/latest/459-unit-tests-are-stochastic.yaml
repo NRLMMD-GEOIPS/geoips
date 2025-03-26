@@ -13,6 +13,7 @@ bug fix:
     - 'geoips/plugins/modules/output_checkers/image.py'
     - 'geoips/plugins/modules/output_checkers/netcdf.py'
     - 'geoips/plugins/modules/output_checkers/text.py'
+    - 'tests/unit_tests/commandline/test_geoips_describe_plugin.py'
   related-issue:
     number: 459
     repo_url: ''
