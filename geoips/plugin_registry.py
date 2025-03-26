@@ -36,7 +36,12 @@ class PluginRegistry:
     GeoIPS is instantiated.
     """
 
-    def __init__(self, _test_registry_files=[]):
+    def __init__(self, namespace, _test_registry_files=[]):
+        """Initialize the plugin registry for the namespace provided.
+
+        Where namespace is the group of plugin packages used to create the plugin
+        registry.
+        """
         # Use this for unit testing
         if _test_registry_files:
             self.registry_files = _test_registry_files
@@ -45,7 +50,7 @@ class PluginRegistry:
         else:
             self._is_test = False
             self.registry_files = []  # Collect the paths to the registry files here
-            for pkg in metadata.entry_points(group="geoips.plugin_packages"):
+            for pkg in metadata.entry_points(group=namespace):
                 try:
                     self.registry_files.append(
                         str(resources.files(pkg.value) / "registered_plugins.json")
@@ -192,4 +197,4 @@ class PluginRegistry:
         return plugin_type
 
 
-plugin_registry = PluginRegistry()
+# plugin_registry = PluginRegistry()
