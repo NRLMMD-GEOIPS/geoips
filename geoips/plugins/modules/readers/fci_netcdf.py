@@ -272,7 +272,9 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
     fci_files : list
         List of FCI netCDF files on disk
     geoips_chans : list
-        Channels/variables denoted in GeoIPS nomenclature to load into memory. Allows us
+        Channels/variables denoted in GeoIPS nomenclature to load into memory, where
+        'GeoIPS nomenclature' is the common variable mapping used in our geostationary
+        readers. See 'BAND_MAP' variable for an example of these channels. Allows us
         to read in radiances, reflectances, or brightness temperatures even though the
         variable in the dataset itself (such as 'vis_04') does not provide that
         information.
