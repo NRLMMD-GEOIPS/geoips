@@ -6,17 +6,18 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
-from numpy.random import rand
 import pytest
 
 from geoips import interfaces
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+from geoips.geoips_utils import get_numpy_seeded_random_generator
 
 
 class TestGeoipsDescribePlugin(BaseCliTest):
     """Unit Testing Class for Describe Plugin Command."""
 
     rand_threshold = 0.10
+    random_generator = get_numpy_seeded_random_generator()
 
     @property
     def command_combinations(self):
@@ -52,14 +53,18 @@ class TestGeoipsDescribePlugin(BaseCliTest):
                         # timely manner
                         if interface.name == "products":
                             for subplg_name in interface_registry[plugin_name]:
-                                do_describe_plugin = rand() < self.rand_threshold
+                                do_describe_plugin = (
+                                    self.random_generator.random() < self.rand_threshold
+                                )
                                 if do_describe_plugin or idx == 0:
                                     combined_name = f"{plugin_name}.{subplg_name}"
                                     self._cmd_list.append(
                                         base_args + [alias, combined_name],
                                     )
                         else:
-                            do_describe_plugin = rand() < self.rand_threshold
+                            do_describe_plugin = (
+                                self.random_generator.random() < self.rand_threshold
+                            )
                             if do_describe_plugin or idx == 0:
                                 self._cmd_list.append(
                                     base_args + [alias, plugin_name],

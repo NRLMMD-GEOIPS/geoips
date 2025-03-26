@@ -6,6 +6,7 @@
 import logging
 
 from geoips.commandline.log_setup import log_with_emphasis
+from geoips.geoips_utils import get_numpy_seeded_random_generator
 
 LOG = logging.getLogger(__name__)
 
@@ -15,9 +16,8 @@ name = "netcdf"
 
 
 def get_test_files(test_data_dir):
-    """Return a Series of Netcdf paths, randomly modified from compare."""
+    """Return a Series of Netcdf paths modified from compare."""
     import xarray as xr
-    import numpy as np
     from os import makedirs
     from os.path import exists, join
 
@@ -28,7 +28,8 @@ def get_test_files(test_data_dir):
     compare_file = join(savedir, "compare.nc")
 
     # Generate random data for the "compare" file
-    compare_data = np.random.rand(100, 100)
+    predictable_random = get_numpy_seeded_random_generator()
+    compare_data = predictable_random.random((100, 100))
     compare_ds = xr.Dataset(data_vars={"data": (("x", "y"), compare_data)})
     compare_ds.to_netcdf(compare_file)
 
@@ -38,10 +39,10 @@ def get_test_files(test_data_dir):
     bad_mismatch_path = join(savedir, "bad_mismatch.nc")
 
     # Randomly modify the "compare" data for "close_mismatch" and "bad_mismatch"
-    close_mismatch_data = compare_data + np.random.normal(
+    close_mismatch_data = compare_data + predictable_random.normal(
         scale=0.05, size=compare_data.shape
     )
-    bad_mismatch_data = compare_data + np.random.normal(
+    bad_mismatch_data = compare_data + predictable_random.normal(
         scale=0.25, size=compare_data.shape
     )
 
