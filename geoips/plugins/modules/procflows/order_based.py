@@ -17,6 +17,7 @@ name = "order_based"
 
 # def call(fnames, product_name, command_line_args=None):
 
+
 def call(
     fnames: list[str], product_name: str, command_line_args: list[str] | None = None
 ) -> None:
