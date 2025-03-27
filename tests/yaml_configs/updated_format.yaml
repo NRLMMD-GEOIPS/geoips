@@ -9,7 +9,7 @@ family: config_based
 # This is an arbitrary name to identify this particular procflow config
 name: amsr2_all
 
-# docstring to 
+# docstring to
 docstring: |
   All AMSR2 products
 spec:
@@ -17,11 +17,11 @@ spec:
   # This procflow config specifies all products to generate for data files that use the
   # "amsr2_netcdf" reader.
   reader_name: amsr2_netcdf
-  
+
   # This is a special field for "config-based" processing in particular, which tells it to
   # use "Infrared-Gray" product for any background imagery.
   fuse_product: Infrared-Gray
-  
+
   # This is an argument that identifies if this reader reads in only data for the current
   # sector.  Typically the geostationary readers perform "sectored_read"s, and other smaller
   # datasets perform non-sectored reads (just read in the full dataset, and sector after the
@@ -53,13 +53,13 @@ spec:
       self_register_source: amsr2
 
     # This uses the "global" sector to reproject the data.
-    global:
+    global_cylindrical:
       sector_list:
-        - global
+        - global_cylindrical
 
   # This is the full dictionary list of outputs to produce for
   # this data type.  Each element in the dictionary (ie, unprojected,
-  # global_overlay, image_clean) is an arbitrary identifier for a
+  # global_cylindrical_overlay, image_clean) is an arbitrary identifier for a
   # selection of arguments specifying how the output product
   # should be formatted.  The "requested_sector_type" field references
   # the available sectors specified above.
@@ -90,8 +90,8 @@ spec:
       product_names:
         - 89pct
 
-    global_overlay:
-      requested_sector_type: global
+    global_cylindrical_overlay:
+      requested_sector_type: global_cylindrical
       # Can specify minimum coverage for the image to be produced. I think
       # it defaults to like 20% ?
       minimum_coverage: 10
@@ -132,7 +132,7 @@ spec:
       filename_formatters_kwargs:
         all:
           basedir: !ENV ${GEOIPS_OUTDIRS}/scratch
-      # This is a very special case for TC filenames - 
+      # This is a very special case for TC filenames -
       # this likely should end up just being additional
       # kwargs to filename_formatters_kwargs, and not a
       # separate "file_path_modifications" field.
