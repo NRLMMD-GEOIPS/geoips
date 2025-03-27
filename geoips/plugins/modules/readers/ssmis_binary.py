@@ -38,7 +38,7 @@ source_names = ["ssmis"]
 # variables are needed in this for moving through the binary file correctly.
 
 
-def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read SSMIS binary data products.
 
     Parameters
