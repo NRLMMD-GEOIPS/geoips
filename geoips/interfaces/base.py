@@ -303,7 +303,7 @@ class BaseInterface(abc.ABC):
     the GeoIPS algorithm plugins.
     """
 
-    from geoips.plugin_registry import PluginRegistry
+    import geoips.plugin_registry as plugin_registry_module
 
     name = "BaseInterface"
     interface_type = None  # This is set by child classes
@@ -345,8 +345,19 @@ class BaseInterface(abc.ABC):
         setting the namespace to search in.
         """
         if not hasattr(self, "_plugin_registry"):
-            self._plugin_registry = self.PluginRegistry(self.namespace)
+            self._plugin_registry = self.plugin_registry_module.PluginRegistry(
+                self.namespace
+            )
         return self._plugin_registry
+
+    @plugin_registry.setter
+    def plugin_registry(self, new_value):
+        """Reset the value of plugin registry.
+
+        This occurs if the registry needs to be rebuilt (for example, a missing plugin)
+        during runtime.
+        """
+        self._plugin_registry = new_value
 
     @abc.abstractmethod
     def get_plugin(self, name, rebuild_registries=rbr):
@@ -387,7 +398,9 @@ class BaseInterface(abc.ABC):
         # Reload the interface's plugin_registry_module so that the plugin registry is
         # in the most recent state.
         reload(self.plugin_registry_module)
-        self.plugin_registry = self.plugin_registry_module.plugin_registry
+        self.plugin_registry = self.plugin_registry_module.PluginRegistry(
+            self.namespace
+        )
 
     def retry_get_plugin(self, name, rebuild_registries, err_str, err_type=PluginError):
         """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
