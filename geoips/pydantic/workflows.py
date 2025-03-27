@@ -16,18 +16,21 @@ from pydantic import ConfigDict, Field, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
+from geoips.geoips_utils import get_interface_module
 from geoips.pydantic.bases import PluginModel, FrozenModel, PermissiveFrozenModel
 
 LOG = logging.getLogger(__name__)
 
 
-def get_plugin_names(plugin_type: str) -> List[str]:
+def get_plugin_names(plugin_type: str, namespace: str) -> List[str]:
     """Return valid plugin names for passed plugin type.
 
     Parameters
     ----------
     plugin_type : str
         valid plugin interface name
+    namespace : str
+        The namespace which this plugin comes from
 
     Returns
     -------
@@ -48,7 +51,11 @@ def get_plugin_names(plugin_type: str) -> List[str]:
         raise ValueError("'plugin_type' must be at least one character.") from e
 
     try:
-        interface = getattr(interfaces, interface_name)
+        if namespace == "geoips.plugin_packages":
+            interface = getattr(interfaces, interface_name)
+        else:
+            mod = get_interface_module(namespace)
+            interface = getattr(mod, interface_name)
     except AttributeError as e:
         error_message = f"{plugin_type} is not a valid plugin type"
         LOG.critical(error_message, exc_info=True)
@@ -56,22 +63,31 @@ def get_plugin_names(plugin_type: str) -> List[str]:
     return [plugin.name for plugin in interface.get_plugins() or []]
 
 
-def get_plugin_types() -> set[str]:
+def get_plugin_types(namespace: str) -> set[str]:
     """Return plugin types from available interfaces.
+
+    Parameters
+    ----------
+    namespace : str
+        The namespace which these plugins comes from
 
     Returns
     -------
     set of str
         singular names of distinct plugin types
     """
-    return {
-        # set comprehension
-        # the [:-1] slice converts the plugin type from plural to singular
-        # eg. 'Readers' => 'Reader'
-        plugin_types[:-1]
-        for ifs in interfaces.list_available_interfaces().values()
-        for plugin_types in ifs
-    }
+    if namespace == "geoips.plugin_packages":
+        return {
+            # set comprehension
+            # the [:-1] slice converts the plugin type from plural to singular
+            # eg. 'Readers' => 'Reader'
+            plugin_types[:-1]
+            for ifs in interfaces.list_available_interfaces().values()
+            for plugin_types in ifs
+        }
+    else:
+        mod = get_interface_module(namespace)
+        return set([interface[:-1] for interface in mod.__all__])
 
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
