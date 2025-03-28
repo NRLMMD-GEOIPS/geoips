@@ -1,0 +1,14 @@
+enhancement:
+- title: 'Add test_data_geocolor URL'
+  description: |
+    Added test_data_geocolor URL to test-data-urls.yaml and test_data.py
+  files:
+    modified:
+      - setup/test-data-urls.yaml
+      - geoips/commandline/ancillary_info.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
