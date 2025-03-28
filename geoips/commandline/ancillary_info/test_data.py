@@ -12,6 +12,7 @@ interface = None  # denotes that this is not a plugin module
 
 test_dataset_dict = {
     "test_data_fusion": r"https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_fusion.tgz",  # NOQA
+    "test_data_geocolor": r"https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_geocolor.tgz",  # NOQA
     "test_data_noaa_aws": r"https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_noaa_aws.tgz",  # NOQA
     "test_data_amsr2": r"https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_amsr2_1.6.0.tgz",  # NOQA
     "test_data_clavrx": r"https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_clavrx_1.10.0.tgz",  # NOQA
