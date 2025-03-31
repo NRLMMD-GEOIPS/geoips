@@ -76,7 +76,7 @@ def test_bad_workflow_step_definition_model_additional_field(valid_step_data):
 
 
 def test_bad_workflow_step_definition_model_invalid_field_type(
-mocker, valid_reader_arguments_model_data, valid_step_data
+    mocker, valid_reader_arguments_model_data, valid_step_data
 ):
     """Tests WorkflowStepDefinitionModel for invalid field type instantiation."""
 
@@ -86,9 +86,9 @@ mocker, valid_reader_arguments_model_data, valid_step_data
     mocker.patch.object(workflows.WorkflowStepDefinitionModel, "__init__", mock_init)
 
     invalid_test_data_PSDModel = {
-    "type": 123,
-    "name": 123,
-    "arguments": valid_reader_arguments_model_data,
+        "type": 123,
+        "name": 123,
+        "arguments": valid_reader_arguments_model_data,
     }
     model = workflows.WorkflowStepDefinitionModel(**invalid_test_data_PSDModel)
 
