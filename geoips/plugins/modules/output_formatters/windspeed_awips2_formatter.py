@@ -10,12 +10,11 @@
 # # # for more details. If you did not receive the license, for more information see:
 # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
-"""Routines for outputting formatted SMAP netcdf data files in AWIPS2 compatible format."""
-
+"""Routines for writing SMAP or SMOS windspeed data in AWIPS2 compatible format."""
 import logging
 from pathlib import Path
 from typing import List
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 import numpy as np
 import xarray as xr
 from geoips.xarray_utils.time import (
@@ -41,25 +40,28 @@ def call(
     source_names=None,
     working_directory=geoips_variables["GEOIPS_OUTDIRS"],
 ):
-    """Write AWIPS2 files"""
-    # breakpoint()
+    """Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data."""
     working_dir = Path(working_directory)
     utc_date_format = "%Y-%m-%d %H:%M:%S UTC"
+    success_outputs = []
     if xarray_dict["METADATA"].attrs["source_name"] == "smap-spd":
         success_outputs = write_smap_awips2(xarray_dict, working_dir, utc_date_format)
     elif xarray_dict["METADATA"].attrs["source_name"] == "smos-spd":
         success_outputs = write_smos_awips2(xarray_dict, working_dir, utc_date_format)
     else:
         LOG.warning(
-            "Unrecognized source_name, '%s' cannot be converted into AWIPS2-compatible windspeed NetCDF file",
+            (
+                "Unrecognized source_name, '%s' cannot be converted into "
+                + "AWIPS2-compatible windspeed NetCDF file"
+            ),
             xarray_dict["METADATA"].attrs["source_name"],
         )
 
-    # breakpoint()  # Only make one during debugging
     return success_outputs
 
 
 def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
+    """Write AWIPS2 style NetCDF file containing SMAP data to the disk."""
     success_outputs = []
     ascending_nodes = xarray_dict["WINDSPEED_1"]
     descending_nodes = xarray_dict["WINDSPEED_2"]
@@ -75,11 +77,9 @@ def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
         ascending_nodes, descending_nodes, "time"
     )
 
-    breakpoint()
-
     # create roughly one section per hour
-    sections_count = int( (maxtime - mintime).total_seconds() // 3600 )
-    seconds_per_section = int( (maxtime - mintime).total_seconds() // sections_count )
+    sections_count = int((maxtime - mintime).total_seconds() // 3600)
+    seconds_per_section = int((maxtime - mintime).total_seconds() // sections_count)
 
     for section_index in range(sections_count):
         split_start = start_datetime + timedelta(
@@ -88,27 +88,16 @@ def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
         split_end = split_start + timedelta(seconds=seconds_per_section)
         base_file = "CIRA_A2WIND_SMAP_" + split_start.strftime("%Y%m%d_%H%M")
         awips2_file = Path(working_dir, f"{base_file}.nc")
-        # if awips2_file.exists():
-        # LOG.info(f"awips2 file already exists {awips2_file}\n")
-        # continue
+        if awips2_file.exists():
+            LOG.warning("awips2 file already exists! Overwriting: %s", awips2_file)
 
         timestamp_data = np.full(asc_times.shape, -999.0)
         new_smap_data = np.full(asc_times.shape, -999.0)
 
-        valid_asc_mask = (
-            (asc_times >= np.datetime64(split_start))
-            & (asc_times < np.datetime64(split_end))
-            & (np.logical_not(np.isnat(asc_times)))
-        )
-        asc_mask = np.where(valid_asc_mask)
+        asc_mask = make_smap_data_mask(asc_times, split_start, split_end)
         new_smap_data[asc_mask] = asc_speeds[asc_mask]
 
-        valid_des_mask = (
-            (des_times >= np.datetime64(split_start))
-            & (des_times < np.datetime64(split_end))
-            & (np.logical_not(np.isnat(des_times)))
-        )
-        des_mask = np.where(valid_des_mask)
+        des_mask = make_smap_data_mask(des_times, split_start, split_end)
         new_smap_data[des_mask] = des_speeds[des_mask]
 
         for i in range(len(asc_mask[0])):
@@ -139,7 +128,19 @@ def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
     return success_outputs
 
 
+def make_smap_data_mask(times, split_start, split_end):
+    """Create a mask for only the valid times between the defined start and end."""
+    valid_mask = (
+        (times >= np.datetime64(split_start))
+        & (times < np.datetime64(split_end))
+        & (np.logical_not(np.isnat(times)))
+    )
+    mask = np.where(valid_mask)
+    return mask
+
+
 def write_smos_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
+    """Write AWIPS2 style NetCDF file containing SMOS data to the disk."""
     success_outputs = []
     dataset = xarray_dict["WINDSPEED"]
     time_array = xarray_dict["WINDSPEED"]["time"]
@@ -150,8 +151,6 @@ def write_smos_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
     quality_mask = np.where(
         (wind_speed_array >= 0.0) & (np.logical_not(np.isnan(wind_speed_array)))
     )
-
-    # breakpoint()
 
     new_time_data = np.full(latitude.shape, -999.0)
     new_smos_data = np.full(latitude.shape, -999.0)
@@ -164,7 +163,6 @@ def write_smos_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
         timestamp = pd_time.hour + (pd_time.minute / 100)
         new_time_data[j][k] = timestamp
 
-    # breakpoint()  # Only make one during debugging
     new_xarray_dict = make_smos_dataset(
         latitude,
         longitude,
@@ -173,18 +171,15 @@ def write_smos_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
     )
 
     start_time = dataset.attrs["start_datetime"]
-    end_time = dataset.attrs["end_datetime"]
+    # end_time = dataset.attrs["end_datetime"]
     new_xarray_dict.attrs["time_coverage_start"] = dataset.attrs["time_coverage_start"]
     new_xarray_dict.attrs["time_coverage_end"] = dataset.attrs["time_coverage_end"]
-    # new_xarray_dict.attrs["time_coverage_units"] = dataset.attrs["time_coverage_units"]
-    # new_xarray_dict.attrs["time_coverage_duration"] = dataset.attrs["time_coverage_duration"]
     new_xarray_dict.attrs["time_coverage_resolution"] = dataset.attrs[
         "time_coverage_resolution"
     ]
     new_xarray_dict.attrs["answrs:acquistion_time"] = start_time.strftime(
         utc_date_format
     )
-    # new_xarray_dict.attrs["answrs:acquistion_time_julian_seconds"] = dataset.attrs["time_coverage_end"]
 
     base_file = "CIRA_A2WIND_SMOS_" + start_time.strftime("%Y%m%d_%H%M")
     awips2_file = Path(working_dir, f"{base_file}.nc")
@@ -197,6 +192,20 @@ def write_smos_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
 
 
 def make_smos_dataset(lat, lon, smos_data, timestamp_data):
+    """Create an xarray.Dataset with the final SMOS data.
+
+    Parameters
+    ----------
+    lat : xarray.Dataset or xarray.DataArray
+    lon : xarray.Dataset or xarray.DataArray
+    smos_data : np.ndarray with the smos windspeeds
+    timestamp_data : np.ndarray with valid timestamps
+    acquisition_time : str datetime formatted for AWIPS2
+
+    Returns
+    -------
+    new_dataset : xarray.Dataset
+    """
     latitude = xr.DataArray(
         lat,
         dims=("y", "x"),
@@ -279,20 +288,33 @@ def make_smos_dataset(lat, lon, smos_data, timestamp_data):
             "geospatial_resolution": "1",
             "answrs:answrs_product_name": "SMOS-derived wind speed",
             "answrs:platform_name": "SMOS",
-            # :time_coverage_start = "20181031T203956" ;
-            # :time_coverage_end = "20181031T221956" ;
-            # :time_coverage_units = "days" ;
-            # :time_coverage_duration = "P31Y128D" ;
-            # :time_coverage_resolution = "P7D" ;
-            # :answrs\:acquistion_time = "2018-10-31 20:39:52 UTC" ;
-            # :answrs\:acquistion_time_julian_seconds = "585226179" ;
         },
     )
 
     return new_dataset
 
 
-def make_smap_dataset(lat, lon, new_smap_data, timestamp_data, acquisition_time):
+def make_smap_dataset(
+    lat: xr.DataArray,
+    lon: xr.DataArray,
+    new_smap_data: np.ndarray,
+    timestamp_data: np.ndarray,
+    acquisition_time: str,
+):
+    """Create an xarray.Dataset with the final SMAP data.
+
+    Parameters
+    ----------
+    lat : xarray.Dataset or xarray.DataArray
+    lon : xarray.Dataset or xarray.DataArray
+    new_smap_data : np.ndarray with the smap windspeeds
+    timestamp_data : np.ndarray with valid timestamps
+    acquisition_time : str datetime formatted for AWIPS2
+
+    Returns
+    -------
+    new_dataset : xarray.Dataset
+    """
     latitude = xr.DataArray(
         lat,
         dims=("y", "x"),
@@ -357,15 +379,30 @@ def make_smap_dataset(lat, lon, new_smap_data, timestamp_data, acquisition_time)
             "answrs:platform_name": "SMAP",
             "answrs:acquistion_time": acquisition_time,
             "answrs:acq_date_time_begin": acquisition_time,
-            # "approx_local_equatorial_crossing_time": "node_dimension 1 = 18:00h,  node_dimension 2 = 06:00h",
-            # "swath_sector": "node_dimension 1 = ascending,  node_dimension 2 = descending",
         },
     )
 
     return new_dataset
 
 
-def get_min_max_times_from_two_nodes(ascending_nodes, descending_nodes, varname):
+def get_min_max_times_from_two_nodes(
+    ascending_nodes: xr.Dataset | xr.DataArray,
+    descending_nodes: xr.Dataset | xr.DataArray,
+    varname: str,
+):
+    """Find the minimum and maximum time values from two xarray objects.
+
+    Parameters
+    ----------
+    ascending_nodes : xarray.Dataset or xarray.DataArray
+    descending_nodes : xarray.Dataset or xarray.DataArray
+    varname : Timestamp variable name from which to extract the min/max values
+
+    Returns
+    -------
+    mintime : datetime.datetime
+    maxtime : datetime.datetime
+    """
     asc_min = get_min_from_xarray_time(ascending_nodes, varname)
     des_min = get_min_from_xarray_time(descending_nodes, varname)
     asc_max = get_max_from_xarray_time(ascending_nodes, varname)
