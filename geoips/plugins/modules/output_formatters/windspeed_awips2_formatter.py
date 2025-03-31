@@ -35,9 +35,6 @@ def call(
     xarray_dict,
     varlist,
     output_fnames,
-    append=False,
-    overwrite=True,
-    source_names=None,
     working_directory=geoips_variables["GEOIPS_OUTDIRS"],
 ):
     """Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data."""
