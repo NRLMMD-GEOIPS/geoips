@@ -407,13 +407,4 @@ def get_min_max_times_from_two_nodes(
     des_min = get_min_from_xarray_time(descending_nodes, varname)
     asc_max = get_max_from_xarray_time(ascending_nodes, varname)
     des_max = get_max_from_xarray_time(descending_nodes, varname)
-    if asc_min < des_min:
-        mintime = asc_min
-    else:
-        mintime = des_min
-    if asc_max > des_max:
-        maxtime = asc_max
-    else:
-        maxtime = des_max
-
-    return mintime, maxtime
+    return min(asc_min, des_min), max(asc_max, des_max)
