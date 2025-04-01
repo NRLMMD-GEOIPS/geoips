@@ -50,6 +50,30 @@ spec:
       product_defaults: WV-Upper
       spec:
         variables: ["B05BT"] # B08 abi, 6.2um Upper-level WV; B08 ahi 6.2429um Upper-level WV; B05 seviri IR6.2
+    - name: WV-Upper-No-SR
+      source_names: [seviri]
+      docstring: |
+        The WV-Upper No Self Register product_defaults configuration for seviri products.
+      family: unsectored_xarray_dict_to_algorithm_to_output_format
+      spec:
+        variables: ["B05BT"]
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-70.0, 0.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        mtif_type: ir
+        colormapper:
+          plugin:
+            name: WV
+            arguments:
+              data_range: [-70.0, 0.0]
     - name: Visible
       source_names: [seviri]
       docstring: |

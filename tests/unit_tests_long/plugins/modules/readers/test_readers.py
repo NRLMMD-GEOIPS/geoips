@@ -17,7 +17,7 @@ class TestReaders:
     available_readers = [reader_type.name for reader_type in readers.get_plugins()]
 
     def verify_plugin(self, plugin):
-        """Yeild test xarray and parameters."""
+        """Yield test xarray and parameters."""
         test_xr = plugin.module.get_test_files(environ["GEOIPS_TESTDATA_DIR"])
         test_param = plugin.module.get_test_parameters()
         self.verify_xarray(test_xr, test_param)
@@ -55,6 +55,8 @@ class TestReaders:
             pytest.xfail(reader_name + " has no test modules")
         try:
             self.verify_plugin(reader)
+        except FileNotFoundError:
+            pytest.xfail(reader_name + "is missing test data")
         except ValueError as e:
             if "Input files inconsistent." in str(e):
                 pytest.xfail(reader_name + "is missing test data")

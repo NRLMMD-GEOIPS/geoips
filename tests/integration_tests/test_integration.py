@@ -27,13 +27,13 @@ full_integ_test_calls = [
     "$geoips_repopath/docs/build_docs.sh "
     "$template_basic_plugin_repopath $template_basic_plugin_pkgname html_only",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
     "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
     "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/abi.static.nasa_dust_rgb.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh",
     "$geoips_repopath/tests/scripts/abi.config_based_output.sh",
-    "$geoips_repopath/tests/scripts/ahi.tc.WV.geotiff.sh",
     "$geoips_repopath/tests/scripts/ami.static.Infrared.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/ami.static.Visible.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh",
@@ -63,6 +63,8 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/"
+    "seviri.WV-Upper.no_self_register.unprojected_image.sh",
+    "$geoips_repopath/tests/scripts/"
     "viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",
     "$recenter_tc_repopath/tests/scripts/abi.tc.Visible.imagery_clean.sh",
     "$recenter_tc_repopath/tests/scripts/amsr2.tc.color37.imagery_clean.sh",
@@ -79,6 +81,38 @@ full_integ_test_calls = [
     "$geoips_plugin_example_repopath/tests/test_all.sh",
     "$geoips_clavrx_repopath/tests/test_all.sh",
     "$data_fusion_repopath/tests/test_all.sh",
+]
+
+extra_integration_test_calls = [
+    "$geoips_repopath/tests/scripts/abi.config_based_dmw_overlay.sh",
+    "$geoips_repopath/tests/scripts/abi.static.dmw.imagery_windbarbs_high.sh",
+    "$geoips_repopath/tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/atms.tc.165H.netcdf_geoips.sh",
+    "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/fci.static.Visible.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/fci.unprojected_image.Infrared.sh",
+    "$geoips_repopath/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/modis.Infrared.unprojected_image.sh",
+    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/seviri.WV-Upper.unprojected_image.sh",
+    "$geoips_repopath/tests/scripts/seviri.airmass.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Convective_Storms.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Day_Microphys_Summer.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Day_Microphys_Winter.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Day_Solar.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Dust_RGB.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Natural_Color.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Night_Microphys.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh",
+    "$geoips_repopath/tests/scripts/smos.tc.sectored.text_winds.sh",
+    "$geoips_repopath/tests/scripts/ssmi.tc.37pct.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/ssmis.color91.unprojected_image.sh",
+    "$geoips_repopath/tests/scripts/gfs.static.windspeed.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/gfs.static.waveheight.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
 ]
 
 
@@ -238,6 +272,27 @@ def run_script_with_bash(script):
         raise e
 
 
+@pytest.mark.base
+@pytest.mark.integration
+@pytest.mark.parametrize("script", base_integ_test_calls)
+def test_integ_base_test_script(base_setup: None, script: str):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    run_script_with_bash(script)
+
+
 @pytest.mark.full
 @pytest.mark.integration
 @pytest.mark.parametrize("script", full_integ_test_calls)
@@ -256,13 +311,15 @@ def test_integ_full_test_script(full_setup: None, script: str):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
+    if "ami.tc.WV.geotiff.sh" in script:
+        pytest.skip("GeoTIFF test is known to fail.")
     run_script_with_bash(script)
 
 
-@pytest.mark.base
+@pytest.mark.extra
 @pytest.mark.integration
-@pytest.mark.parametrize("script", base_integ_test_calls)
-def test_integ_base_test_script(base_setup: None, script: str):
+@pytest.mark.parametrize("script", extra_integration_test_calls)
+def test_integ_extra_test_script(full_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 

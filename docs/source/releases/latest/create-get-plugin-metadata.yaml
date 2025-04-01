@@ -1,0 +1,21 @@
+enhancement:
+- title: 'Get Plugin Metadata'
+  description: |
+    Added a new method to all interfaces which retrieves the top level metadata for any
+    given plugin. It does not actually load in the plugin, rather it makes use of the
+    registry to gather the plugin's associated metadata.
+
+    This is useful for quick validation of the base information supplied by plugins, and
+    may also be used by the order based procflow.
+  files:
+    modified:
+      - geoips/interfaces/base.py
+      - geoips/interfaces/yaml_based/products.py
+    added:
+      - tests/unit_tests/plugins/test_get_plugin_metadata.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 1/30/25
+    finish: 1/30/25

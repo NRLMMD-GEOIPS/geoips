@@ -60,8 +60,8 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
-netcdf4 = "<1.7.0"    # Base requirement, netcdf 1.7.0 causes seg fault in ABI reader
-numpy = "<2.0"         # Base requirement numpy 1.26.4 still works, 2.0 breaks numexpr
+netcdf4 = "*"    # Base requirement
+numpy = "*"         # Base requirement
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
@@ -73,7 +73,7 @@ ephem = "*"            # Required for overpass predictor
 h5py = "*"             # hdf5 readers (GMI)
 isodate = "*"          # Required for overpass predictor
 jsonschema = ">4.18.0" # Provides validation for YAML plugins
-numexpr = "<2.8.5"     # for efficiency improvements
+numexpr = "*"     # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
