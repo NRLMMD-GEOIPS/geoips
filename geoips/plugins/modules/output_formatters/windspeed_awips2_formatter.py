@@ -27,14 +27,12 @@ from geoips.filenames.base_paths import PATHS as geoips_variables
 LOG = logging.getLogger(__name__)
 
 interface = "output_formatters"
-family = "xrdict_area_product_to_outlist"
+family = "xrdict_to_outlist"
 name = "windspeed_awips2_formatter"
 
 
 def call(
     xarray_dict,
-    varlist,
-    output_fnames,
     working_directory=geoips_variables["GEOIPS_OUTDIRS"],
 ):
     """Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data."""
