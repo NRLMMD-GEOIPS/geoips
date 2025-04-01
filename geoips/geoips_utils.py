@@ -14,12 +14,25 @@ from pathlib import Path
 
 # import yaml
 import logging
-from importlib import metadata, resources
+from importlib import metadata, resources, import_module
 
 from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
+
+
+def get_interface_module(namespace):
+    """Retrieve the interface module from a given namespace.
+
+    Parameters
+    ----------
+    namespace: str
+        - The namespace containg the requested interface module. I.e.
+          'geoips.plugin_packages'.
+    """
+    package_name = namespace.split(".")[0]
+    return import_module(package_name).interfaces
 
 
 def remove_unsupported_kwargs(module, requested_kwargs):

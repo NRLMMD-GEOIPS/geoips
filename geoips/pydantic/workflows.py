@@ -109,6 +109,13 @@ class InterpolatorArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+class WorkflowArgumentsModel(PermissiveFrozenModel):
+    """Validate Workflow arguments."""
+
+    model_config = ConfigDict(extra="allow")
+    pass
+
+
 class ReaderArgumentsModel(PermissiveFrozenModel):
     """Reader step argument definition.
 
@@ -221,6 +228,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+            "WorkflowArgumentsModel": WorkflowArgumentsModel,
         }
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name
