@@ -758,11 +758,12 @@ class BaseYamlInterface(BaseInterface):
                 plugin["abspath"] = abspath
                 plugin["relpath"] = relpath
 
-        validated = self.validator.validate(plugin)
         if "pydantic" in str(type(self.validator)):
+            validated = self.validator(**plugin)
             # just return here; it's already a plugin object
             return validated
-
+        else:
+            validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
         # find its plugins as is the case with ProductsInterface
