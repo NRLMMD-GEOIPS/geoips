@@ -20,7 +20,7 @@ from geoips.pydantic import bases
     [
         "variable",
         "_underscore_prefixed_variable",
-        "variable_aplha_numberic123",
+        "variable_alpha_numeric123",
         "_",
         "valid_variable_with_underscore",
     ],
@@ -48,7 +48,7 @@ def test_good_valid_python_identifier(valid_identifier):
     ],
     ids=[
         "starts with number",
-        "contains invalid specical character",
+        "contains invalid special character",
         "contains space",
         "empty variable name",
         "uses reserved keyword",
@@ -68,14 +68,14 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
 
 # Test PrettyBaseModel
 class MockPrettyBaseModel(bases.PrettyBaseModel):
-    """Test PrettyBaseModel to test __str__method of PrettyBasemodel."""
+    """Test PrettyBaseModel to test __str__method of PrettyBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin")
 
 
 def test_good_pretty_base_model_str():
-    """Test if the PrettyBaseModel returns JSON data with two-sapce indentation."""
+    """Test if the PrettyBaseModel returns JSON data with two-space indentation."""
     test_model = MockPrettyBaseModel(plugin_type="Reader", plugin_name="abi_netcdf")
 
     string_representation_of_model = str(test_model)
@@ -137,7 +137,7 @@ def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
     error_info = exec_info.value.errors()
     assert any(
         err["type"] == "extra_forbidden" for err in error_info
-    ), "expected 'extra_frobidden' error type"
+    ), "expected 'extra_forbidden' error type"
     assert "unexpected_field" in str(
         exec_info.value
     ), "Unexpected field should be mentioned in the error"
@@ -198,7 +198,7 @@ def test_good_plugin_model_docstring(valid_plugin_data, docstring):
     ],
 )
 def test_bad_plugin_model_description(valid_plugin_data, invalid_docstring):
-    """Test PluginModel with invalid docstring usecases."""
+    """Test PluginModel with invalid docstring use cases."""
     data = copy.deepcopy(valid_plugin_data)
     data["description"] = invalid_docstring
 
@@ -225,7 +225,7 @@ def test_bad_plugin_model_description(valid_plugin_data, invalid_docstring):
 def test_bad_plugin_model_set_description(
     valid_plugin_data, docstring_input, expected_description
 ):
-    """Test PluginModel's set_description() method when descritpion is set to None."""
+    """Test PluginModel's set_description() method when description is set to None."""
     data = copy.deepcopy(valid_plugin_data)
     data.update(docstring_input)
     model = bases.PluginModel(**data)
