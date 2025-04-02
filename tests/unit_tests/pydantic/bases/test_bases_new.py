@@ -58,7 +58,7 @@ def test_bad_plugins(good_plugin, test_tup):
     Parameters
     ----------
     good_sector: dict
-        - A dictionary representing a sector plugin that is valid.
+        - A dictionary representing a pydantic base plugin that is valid.
     test_tup:
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
           used to run and validate tests.
