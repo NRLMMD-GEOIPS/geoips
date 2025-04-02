@@ -136,7 +136,7 @@ pinkrst = { version = "*", optional = true }
 # Test group
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
-pytest-mock = { version = ">=3.14.0"}
+pytest-mock = { version = ">=3.14.0", optional = true}
 pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
 xarray-datatree = { version = "*", optional = true }
@@ -175,6 +175,7 @@ lint = [
 test = [
     "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
+    "pytest-mock",     # Required for unit tests
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
     "pytest-xdist",
