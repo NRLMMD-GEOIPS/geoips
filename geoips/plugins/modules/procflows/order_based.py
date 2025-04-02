@@ -15,11 +15,6 @@ family = "standard"
 name = "order_based"
 
 
-# def call(
-#     fnames: list[str], product_name: str, command_line_args: list[str] | None = None
-# ) -> None:
-
-
 def call(fnames, product_name, command_line_args=None):
     """Run the order based procflow (OBP).
 
