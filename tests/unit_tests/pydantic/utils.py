@@ -64,7 +64,13 @@ def load_test_cases(path):
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    test_cases = yaml.safe_load(open(path, "r"))
+    # test_cases = yaml.safe_load(open(path, "r"))
+    with open(path, "r") as f:
+        test_cases = yaml.safe_load(f)
+
+    if test_cases is None:
+        raise ValueError(f"No test cases found in '{path}' - file is empty")
+
     for id, val in test_cases.items():
         for key in list(val.keys()):
             if key not in ("key", "val", "cls", "err_str"):
