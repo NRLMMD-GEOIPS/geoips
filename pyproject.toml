@@ -175,9 +175,11 @@ lint = [
 test = [
     "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
+    "pytest-mock",      # Required for unit tests
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
     "pytest-xdist",
+
 ]
 debug = ["ipython"]
 
