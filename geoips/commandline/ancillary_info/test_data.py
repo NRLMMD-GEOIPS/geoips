@@ -15,7 +15,7 @@ import yaml
 interface = None  # denotes that this is not a plugin module
 
 urls = yaml.safe_load(
-    open(f"{environ['GEOIPS_PACKAGES_DIR']}/setup/test-data-urls.yaml", "r")
+    open(f"{environ['GEOIPS_PACKAGES_DIR']}/geoips/setup/test-data-urls.yaml", "r")
 )
 
 test_dataset_dict = urls["test_data_urls"]
