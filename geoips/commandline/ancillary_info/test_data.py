@@ -1,9 +1,6 @@
-# # # This source code is protected under the license referenced at
-# # # https://github.com/NRLMMD-GEOIPS.
+"""Ancillary module containing test dataset information.
 
-"""Ancillary module containing test dataset information."""
-
-"""Dictionary mapping of GeoIPS Test Datasets.
+Dictionary mapping of GeoIPS Test Datasets.
 
 Mapping goes {"test_dataset_name": "test_dataset_url"}
 """
