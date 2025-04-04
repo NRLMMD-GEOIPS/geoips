@@ -31,7 +31,8 @@ def gen_label(val):
 @pytest.mark.parametrize("plugin", yield_plugins(), ids=gen_label)
 def test_is_plugin_valid(plugin):
     """Test if plugin is valid."""
-    rplugin = yaml.safe_load(open(plugin, "r"))
+    with open(plugin, "r") as fo:
+        rplugin = yaml.safe_load(fo)
     if rplugin["interface"] == "products":
         product_validator.validate(rplugin)
     else:
