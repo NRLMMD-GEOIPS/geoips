@@ -1,6 +1,6 @@
 bug fix:
 - title: 'Fixes file object resource warnings across multiple files'
-  description: 'Pytest runs are raising ``ResourceWarning``s due to unclosed file objects in multiple locations.'
+  description: 'Pytest runs are raising resource warnings due to unclosed file objects in multiple locations.'
   files:
     deleted:
     - ''
