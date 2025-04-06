@@ -46,8 +46,9 @@ def call(fnames, product_name, command_line_args=None):
 
         interface = step_def.type + "s"
 
-        # the if-else ladder will go away after all steps are implemented
-        if interface == "readers":
+        handled_types = ["readers", "workflows"]
+
+        if interface in handled_types:
             plugin_instance = getattr(interfaces, interface, None).get_plugin(
                 step_def.name
             )
@@ -58,14 +59,9 @@ def call(fnames, product_name, command_line_args=None):
                 f"\t {step_def.type} processing details:\n\n\t"
                 f"{plugin_instance(fnames, step_def.arguments)}\n\n"
             )
-        elif interface == "algorithms":
-            pass
-        elif interface == "interpolators":
-            pass
-        elif interface == "output_formatter":
-            pass
         else:
-            pass
+            LOG.interactive(f"[!] Unhandled plugin type '{interface}' encountered")
+
     LOG.interactive(f"The product : '{product_name}' has finished processing.")
 
 
