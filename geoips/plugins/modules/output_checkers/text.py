@@ -6,6 +6,15 @@
 import subprocess
 import logging
 from os.path import splitext
+from shutil import copy
+from os.path import exists, join
+from importlib.resources import files
+import os
+
+from geoips.commandline.log_setup import log_with_emphasis
+from geoips.geoips_utils import get_numpy_seeded_random_generator
+
+predictable_random = get_numpy_seeded_random_generator()
 
 LOG = logging.getLogger(__name__)
 
@@ -14,58 +23,44 @@ family = "standard"
 name = "text"
 
 
-def clear_text(match_path, close_path, bad_path):
-    """Clear output text files so they can be written again."""
-    open(match_path, "w").close()
-    open(close_path, "w").close()
-    open(bad_path, "w").close()
-
-
-def copy_files(text_path, savedir, file_ext):
-    """Copy text file internal in GeoIPS to output directory."""
-    from shutil import copy
-    from os.path import join
-
-    copy(text_path, join(savedir, "compare." + file_ext))
-    copy(text_path, join(savedir, "matched." + file_ext))
-    copy(text_path, join(savedir, "close_mismatch." + file_ext))
-    copy(text_path, join(savedir, "bad_mismatch." + file_ext))
+def write_percent_of_list_elements_to_file_and_return_filepath(
+    list_with_lines,
+    filename,
+    percent_to_write,
+    random_func=predictable_random.random,
+):
+    """Grabs a random subset of lines in a file and writes them."""
+    threshold = float(100 - percent_to_write) / 100
+    with open(filename, "w") as f:
+        for line in list_with_lines:
+            if random_func() > threshold:
+                f.write(line)
 
 
 def get_test_files(test_data_dir):
     """Return a series of varied text files."""
-    import numpy as np
-    from shutil import copy
-    from os import makedirs
-    from os.path import exists, join
-    from importlib.resources import files
+    save_dir = join(test_data_dir, "scratch", "unit_tests", "test_text")
+    if not exists(save_dir):
+        os.mkdir(save_dir, exists_ok=True)
 
-    savedir = join(test_data_dir, "scratch", "unit_tests", "test_text")
-    if not exists(savedir):
-        makedirs(savedir)
     text_path = str(files("geoips") / "plugins/txt/ascii_palettes/tpw_cimss.txt")
-    copy_files(text_path, savedir, "txt")
-    comp_path = join(savedir, "compare.txt")
-    match_path = join(savedir, "matched.txt")
-    close_path = join(savedir, "close_mismatch.txt")
-    bad_path = join(savedir, "bad_mismatch.txt")
-    clear_text(match_path, close_path, bad_path)
-    copy(comp_path, match_path)
+
+    comp_path = join(save_dir, "compare.txt")
+    copy(text_path, comp_path)
     with open(comp_path, mode="r") as comp_txt:
-        close_mismatch = open(close_path, "w")
-        bad_mismatch = open(bad_path, "w")
-        for line in comp_txt.readlines():
-            for version in range(2):
-                rand = np.random.rand()
-                if version == 0:  # Close but mismatched
-                    if rand > 0.05:
-                        close_mismatch.write(line)
-                else:  # Mismatched -- not close
-                    if rand > 0.25:
-                        bad_mismatch.write(line)
-        close_mismatch.close()
-        bad_mismatch.close()
-    return comp_path, [match_path, close_path, bad_path]
+        comp_text_contents = comp_txt.readlines()
+
+    return comp_path, [
+        write_percent_of_list_elements_to_file_and_return_filepath(
+            comp_text_contents, join(save_dir, "matched.txt"), 100
+        ),
+        write_percent_of_list_elements_to_file_and_return_filepath(
+            comp_text_contents, join(save_dir, "slightly_mismatch.txt"), 95
+        ),
+        write_percent_of_list_elements_to_file_and_return_filepath(
+            comp_text_contents, join(save_dir, "bad_mismatch.txt"), 75
+        ),
+    ]
 
 
 def perform_test_comparisons(plugin, compare_file, test_files):
@@ -120,8 +115,6 @@ def outputs_match(plugin, output_product, compare_product):
     bool
         Return True if products match, False if they differ
     """
-    from geoips.commandline.log_setup import log_with_emphasis
-
     ret = subprocess.run(
         ["diff", output_product, compare_product],
         stdout=subprocess.PIPE,
