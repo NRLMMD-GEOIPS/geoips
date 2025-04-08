@@ -1,33 +1,28 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is protected under the license referenced at
- | # # # https://github.com/NRLMMD-GEOIPS.
+ | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
+ | # # #
+ | # # # Author:
+ | # # # Naval Research Laboratory, Marine Meteorology Division
+ | # # #
+ | # # # This program is free software: you can redistribute it and/or modify it under
+ | # # # the terms of the NRLMMD License included with this program. This program is
+ | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
+ | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
+ | # # # for more details. If you did not receive the license, for more information see:
+ | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
 
+###################
 GeoIPS git workflow
 ###################
 
-Follow these steps when making modifications to geoips-based
-packages or plugins
+Follow these steps when making modifications to GeoIPS-based plugin packages.
 
-Contributions generally follow the process of:
-
-1. Submit a GitHub Issue for a bug fix or feature request. :ref:`create_issue`
-2. Branch off a given Issue in order to make the required changes :ref:`create_branch`
-3. Create a github Pull Request in order for your changes to be reviewed
-   prior to being merged to the integration branch :ref:`create_pull`
-4. Ensure all required tests pass prior to PR approval (more info coming soon)
-
-   * Unit tests
-   * Integration tests
-   * Code formatting/style tests
-   * Documentation formatting/style tests
-
-5. Merge your changes into the main code base! :ref:`merge_pr_close`
+***************************************
+GeoIPS GitHub Issue Creation Workflow
+***************************************
 
 .. _create_issue:
-
-GeoIPS GitHub Issue Creation Workflow
-*************************************
 
 FROM WEB: Create an Issue for something that needs to be done
 =============================================================
@@ -37,6 +32,11 @@ FROM WEB: Create an Issue for something that needs to be done
   * Navigate to: https://github.com/NRLMMD-GEOIPS/geoips/issues
 
     * NOTE: you can create Issues on repos besides "geoips" if desired.
+    * Search the issue list to make sure your issue has not already been requested
+      and/or created.
+    * If a similar issue already exists, consider commenting on this issue if more
+      information is needed or you'd like to see additional changes.
+
   * Click green “New Issue” button in top right
   * Click green "Get started" box to the right of the desired template
 * Populate Issue contents appropriately
@@ -54,29 +54,33 @@ FROM WEB: Create an Issue for something that needs to be done
 .. _create_branch:
 
 FROM WEB: MEMBERS: Create Branch from Existing Issue
-====================================================
+===================================================================
 
 **NOTE: Those who are NOT members of the GeoIPS organization will fork,**
-**not branch. If you are unable to branch, skip to NON MEMBERS section**
+**not branch. Skip to NON MEMBERS section** :ref:`non_members`
 
-* Navigate to Issue you would like to resolve
+* Navigate to Issue you would like to resolve (make sure it's not already in progress).
 * Click on Development->Create Branch
 
   * **Branch name** Use auto-populated default branch name
   * **Repository Destination** Select repository to which you would like
     to make changes
 
-    * NOTE you can create branches on repositories outside the repository
-      the Issue resides in
-  * **Change branch source** optional (defaults to default branch)
+    * NOTE: you can create branches on repositories outside the repository
+      the selected issue resides in
+
+  * **Change branch source** optional (defaults to "main")
   * Select **"Checkout locally"**
   * Click **"Create branch"**
   * Copy and paste the resulting "git fetch" and "git checkout" commands
 
+.. _non_members:
+
 FROM WEB: NON-MEMBERS: Create fork of repo
-==========================================
-* **NOTE: GeoIPS organization members will branch following steps above,
-  **skip this section if you are a member and are able to branch**
+===================================================================
+**NOTE: NRLMMD-GEOIPS members will branch following steps above,**
+**skip this section if you are a member**
+
 * Navigate to desired repository
 * Click drop down next to "Fork"
 * Click "+ Create a new fork"
@@ -85,36 +89,38 @@ FROM WEB: NON-MEMBERS: Create fork of repo
 * Uncheck "copy main branch only"
 * Click "create fork"
 
+******************************
 GeoIPS command line workflow
-****************************
+******************************
 
-FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual
-===================================================================
+FROM COMMAND LINE: Switch to new branch, Make changes as usual
+===============================================================
 
 * Navigate to repository of your choice
 
   * Issue only needs to be created on a single repository
-  * You can create branches/forks and make changes on any number of
-    repos, as appropriate.
+  * You can create branches and make changes on any number of repos,
+    as appropriate.
   * Related changes on different repositories will all be linked to
     the same Issue.
 
-* Switch to new branch/fork, and make changes as appropriate
+* Switch to new branch, and make changes as appropriate
 
   * *Ensure you copy and paste git fetch and git checkout commands*
-    *when creating branch/fork above*
-  * Switch to new branch/fork: Paste git fetch / git checkout commands
+    *when creating branch above*
+  * Switch to new branch: Paste git fetch / git checkout commands
     specified when creating branch from Issue
 
     * git fetch origin
     * git checkout <new_branch_name>
+
   * <Make changes to code>
-  * git commit # Frequently commit your changes
+  * git commit **# Frequently commit your changes**
 
 * Use enforced commit message format for all commits
 
-  * Please follow `Commit Message Template
-    <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md>`_
+  * Please follow
+    `Commit Message Template <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md>`_
   * Summary line <= 120 characters
   * Blank line (if commit message is more than one line)
   * OPTIONAL: additional details
@@ -124,8 +130,7 @@ FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual
 
   * Before pushing your final changes to GitHub and creating a pull request,
     you MUST update the release notes with your current changes.
-  * Instructions found in `CHANGELOG.rst
-    <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG.rst>`_
+  * Instructions found in `CHANGELOG.rst <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG.rst>`_
   * If release notes are not updated properly, pull request will not be approved.
 
 * Create test scripts and associated outputs for any new functionality
@@ -134,22 +139,29 @@ FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual
     * Ensure new test scripts are included in:
         * <repo>/tests/test_all.sh
 
+* Optionally (but recommended), create unit-tests for your new / updated functionality:
+    * These tests can be placed in the appropriate folder under:
+       * <repo>/tests/<unit_tests>/<functionality>/test_<test_name>.py
+    * And then can be ran using pytest if installed.
+
 Push changes to github
-======================
+=============================================================
 
 * **From command line**: When you have made all of the changes required
   for the current Issue, push changes to GitHub
 
   * Perform once for each repository with changes related to this Issue
-  * git push
+  * git push <remote_name> <branch_name>
+
 
 .. _create_pull:
 
+*************************************
 GeoIPS GitHub Pull Request workflow
-***********************************
+*************************************
 
-FROM WEB: Create pull request from new ticket branch to default branch
-======================================================================
+FROM WEB: Create pull request from new ticket branch to "dev" branch
+====================================================================
 
 Follow these instructions for each repo that requires changes for a given
 Issue.
@@ -171,8 +183,7 @@ Issue.
   * Click green “Create pull request” button
 * Fill Auto-populated template with appropriate content:
 
-  * Generated from `Global Pull Request Template
-    <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
+  * Generated from `Global Pull Request Template <https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md>`_
   * **Important to follow template title and contents directions**
     **for ease of review**
   * **Pull request will not be approved if template is not followed appropriately**
@@ -189,8 +200,9 @@ Issue.
 
 .. _pr_review:
 
+********************************************************
 GeoIPS GitHub Pull Request Review and Approval workflow
-*******************************************************
+********************************************************
 
 FROM WEB: Wait for PR review and approval
 =========================================
@@ -210,8 +222,9 @@ Reviewers can approve the PR by:
 
 .. _merge_pr_close:
 
+******************************************
 GeoIPS Merge PR and Close Issue workflow
-****************************************
+******************************************
 
 FROM WEB: Merge pull requests
 =============================
@@ -225,7 +238,7 @@ This could include related pull requests from multiple repositories.
   * Click green "Merge branch" from each PR
   * Click "Delete head branch" from each PR
 * This should automatically update the Project so all related PRs and Issues
-  are moved to the "Done" column
+  are moved to the "Done" columnn
 
 FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 ======================================================================
@@ -235,3 +248,4 @@ FROM WEB: Ensure all Issues and Pull Requests were successfully closed
 * Navigate to `GeoIPS Project <https://github.com/orgs/NRLMMD-GEOIPS/projects/1>`_
 * Ensure all related Issue and Pull Request cards were automatically
   moved to the "Done" column
+
