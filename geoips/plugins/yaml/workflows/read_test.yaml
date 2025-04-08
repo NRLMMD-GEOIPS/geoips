@@ -14,3 +14,16 @@ spec:
         name: abi_netcdf
         arguments:
           variables: ['B14BT']
+    - algorithm:
+        name: single_channel
+        arguments:
+          variables: ['B14BT']
+          output_data_range: [-90.0, 30.0]
+          input_units: Kelvin
+          output_units: celsius
+          min_outbounds: crop
+          max_outbounds: crop
+          norm: null
+          inverse: null
+    - workflow:
+        name: read_test
