@@ -2,17 +2,14 @@ enhancement:
 - title: 'Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data'
   description: 'Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
     added:
-    - ''
-    modified:
-    - ''
+    - 'docs/source/releases/latest/cira_smap_awips2_branch.yaml'
+    - 'geoips/plugins/modules/output_formatters/windspeed_awips2_formatter.py'
+    - 'tests/scripts/smap.awips.netcdf.sh'
+    - 'tests/scripts/smos.awips.netcdf.sh'
   related-issue:
     number: null
-    repo_url: ''
+    repo_url: 'https://github.com/coleman-m/geoips'
   date:
-    start: null
-    finish: null
+    start: Sep 23, 2024
+    finish: today
