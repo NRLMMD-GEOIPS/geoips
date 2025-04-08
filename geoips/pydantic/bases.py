@@ -181,7 +181,10 @@ class PluginModel(FrozenModel):
     package: PythonIdentifier = (
         Field(
             None,
-            description="Automatically derived package name for this plugin. Users must not set this field manually.",
+            description=(
+                "Automatically derived package name for this plugin. Users "
+                "must not set this field manually."
+            ),
         ),
     )
     relpath: str = Field(
