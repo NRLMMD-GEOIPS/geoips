@@ -209,16 +209,20 @@ class PluginModel(FrozenModel):
 
         interface_name = values.get("interface")
         try:
-            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            interface = getattr(interfaces, interface_name)
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
                 f"Must be one of {get_interfaces()}"
             )
+
+        try:
+            metadata = interface.get_plugin_metadata(values.get("name"))
+        except KeyError:
+            raise ValueError(f"Plugin not found: '{values.get('name')}'")
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the future issue #906
+
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
