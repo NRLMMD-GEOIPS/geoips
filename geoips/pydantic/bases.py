@@ -179,7 +179,10 @@ class PluginModel(FrozenModel):
         description=("A short description or defaults to first line from docstring."),
     )
     package: PythonIdentifier = (
-        Field(..., description="Package that contains this plugin."),
+        Field(
+            None,
+            description="Automatically derived package name for this plugin. Users must not set this field manually.",
+        ),
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
