@@ -154,6 +154,13 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         return values
 
 
+class WorkflowArgumentsModel(PermissiveFrozenModel):
+    """Validate workflow arguments."""
+
+    model_config = ConfigDict(extra="allow")
+    pass
+
+
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
@@ -215,12 +222,13 @@ class WorkflowStepDefinitionModel(FrozenModel):
         plugin_arguments_model_name = f"{plugin_type_pascal_case}ArgumentsModel"
         # Dictionary listing all plugin arguments models
         plugin_arguments_models = {
-            "ReaderArgumentsModel": ReaderArgumentsModel,
             "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
-            "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
-            "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
-            "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
             "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
+            "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
+            "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
+            "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
+            "ReaderArgumentsModel": ReaderArgumentsModel,
+            "WorkflowArgumentsModel": WorkflowArgumentsModel,
         }
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name
