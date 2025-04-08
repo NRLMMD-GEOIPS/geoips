@@ -175,7 +175,7 @@ class PluginModel(FrozenModel):
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
-        None,
+        ...,
         description=("A short description or defaults to first line from docstring."),
     )
     package: PythonIdentifier = (
