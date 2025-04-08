@@ -1,0 +1,18 @@
+enhancement:
+- title: 'Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data'
+  description: 'Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

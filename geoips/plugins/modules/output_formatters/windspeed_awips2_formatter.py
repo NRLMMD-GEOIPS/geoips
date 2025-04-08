@@ -13,7 +13,6 @@
 """Routines for writing SMAP or SMOS windspeed data in AWIPS2 compatible format."""
 import logging
 from pathlib import Path
-from typing import List
 from datetime import datetime, timedelta
 import numpy as np
 import xarray as xr
@@ -35,7 +34,17 @@ def call(
     xarray_dict,
     working_directory=geoips_variables["GEOIPS_OUTDIRS"],
 ):
-    """Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data."""
+    """Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.
+
+    Parameters
+    ----------
+    xarray_dict : Dict[str, xarray.Dataset]
+    working_directory : str
+
+    Returns
+    -------
+    List[str]
+    """
     working_dir = Path(working_directory)
     utc_date_format = "%Y-%m-%d %H:%M:%S UTC"
     success_outputs = []
@@ -55,8 +64,19 @@ def call(
     return success_outputs
 
 
-def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
-    """Write AWIPS2 style NetCDF file containing SMAP data to the disk."""
+def write_smap_awips2(xarray_dict, working_dir, utc_date_format):
+    """Write AWIPS2 style NetCDF file containing SMAP data to the disk.
+
+    Parameters
+    ----------
+    xarray_dict : dict[str, xarray.Dataset]
+    working_dir : Path
+    utc_date_format : str
+
+    Returns
+    -------
+    List[str]
+    """
     success_outputs = []
     ascending_nodes = xarray_dict["WINDSPEED_1"]
     descending_nodes = xarray_dict["WINDSPEED_2"]
@@ -124,7 +144,18 @@ def write_smap_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
 
 
 def make_smap_data_mask(times, split_start, split_end):
-    """Create a mask for only the valid times between the defined start and end."""
+    """Create a mask for only the valid times between the defined start and end.
+
+    Parameters
+    ----------
+    times : xarray.Dataset
+    split_start : datetime.datetime
+    split_end : datetime.datetime
+
+    Returns
+    -------
+    tuple[NDArray[intp], ...]
+    """
     valid_mask = (
         (times >= np.datetime64(split_start))
         & (times < np.datetime64(split_end))
@@ -134,8 +165,19 @@ def make_smap_data_mask(times, split_start, split_end):
     return mask
 
 
-def write_smos_awips2(xarray_dict, working_dir, utc_date_format) -> List[str]:
-    """Write AWIPS2 style NetCDF file containing SMOS data to the disk."""
+def write_smos_awips2(xarray_dict, working_dir, utc_date_format):
+    """Write AWIPS2 style NetCDF file containing SMOS data to the disk.
+
+    Parameters
+    ----------
+    xarray_dict : dict[str, xarray.Dataset]
+    working_dir : Path
+    utc_date_format : str
+
+    Returns
+    -------
+    List[str]
+    """
     success_outputs = []
     dataset = xarray_dict["WINDSPEED"]
     time_array = xarray_dict["WINDSPEED"]["time"]
