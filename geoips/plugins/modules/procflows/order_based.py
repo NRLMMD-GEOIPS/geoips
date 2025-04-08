@@ -30,7 +30,7 @@ def call(fnames, workflow_name, command_line_args=None):
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
-    LOG.interactive(f"The workflow '{workflow_name}' has begun processing.")
+    LOG.interactive(f"Begin processing '{workflow_name}' workflow.")
     wf_plugin = interfaces.workflows.get_plugin(workflow_name)
     wf = WorkflowPluginModel(**wf_plugin)
 
@@ -48,11 +48,6 @@ def call(fnames, workflow_name, command_line_args=None):
                 interface,
                 step_def.name,
             )
-            LOG.interactive(
-                f"\t type : {step_def.type} \n\t name : {step_def.name}"
-                f"\n\t arguments : {step_def.arguments}"
-            )
-
             continue
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
