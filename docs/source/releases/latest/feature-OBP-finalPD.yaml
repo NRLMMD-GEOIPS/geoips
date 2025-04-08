@@ -1,0 +1,81 @@
+future:
+- description: 'Validation for readers and yaml products for the Order-Based Procflow (OBP)'
+  files:
+    added:
+    - 'geoips/interfaces/yaml_based/workflows.py'
+    - 'geoips/plugins/modules/procflows/order_based.py'
+    - 'geoips/plugins/yaml/workflows/read_test.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/IR-BD.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/Infrared-Gray.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/Infrared.yaml'
+    - 'geoips/plugins/yaml/workflows/abi.yaml'
+    - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml'
+    - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_low.yaml'
+    - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_mid.yaml'
+    - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_multi_level.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/IR-BD.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/Infrared-Gray.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/Infrared.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/Visible.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/WV-Lower.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/WV-Upper.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/WV.yaml'
+    - 'geoips/plugins/yaml/workflows/visir/nasa_dust_rgb.yaml'
+    - 'geoips/pydantic/__init__.py'
+    - 'geoips/pydantic/bases.py'
+    - 'geoips/pydantic/workflows.py'
+    deleted:
+    - ''
+    modified:
+    - 'pyproject.toml'
+    - 'geoips/commandline/ancillary_info/alias_mapping.yaml'
+    - 'geoips/commandline/ancillary_info/cmd_instructions.yaml'
+    - 'geoips/create_plugin_registries.py'
+    - 'geoips/interfaces/__init__.py'
+    - 'geoips/interfaces/base.py'
+    - 'geoips/plugin_registry.py'
+    - 'geoips/plugins/modules/procflows/__init__.py'
+    - 'geoips/plugins/yaml/products/abi.yaml'
+    - 'geoips/plugins/yaml/sectors/static/alaska.yaml'
+    moved:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  title: 'Order-Based Procflow'
+documentation:
+- description: 'Documentation of Order-Based Procflow usage process.'
+  files:
+    added:
+    - 'docs/dev/order_based_procflow.rst'
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  title: 'Order-Based Procflow Documentation'
+testing:
+- description: 'Testing of multiple Order-Based Procflow Pydantic models.'
+  files:
+    added:
+    - 'tests/unit_tests/pydantic/conftest.py'
+    - 'tests/unit_tests/pydantic/bases/test_bases.py'
+    - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py'
+    - 'tests/unit_tests/pydantic/workflows/test_workflow_step_definition_model.py'
+    - 'tests/unit_tests/pydantic/workflows/test_workflow_step_model.py'
+    - 'tests/unit_tests/pydantic/workflows/workflows.py'
+    - 'tests/unit_tests/plugins/test_get_plugin_metadata.py'
+    deleted:
+    - ''
+    modified:
+    - ''
+    moved:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  title: 'Order-Based Procflow Testing'
