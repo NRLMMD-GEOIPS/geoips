@@ -308,15 +308,24 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
         # We might be deriving data from the same variable multiple times
         # I.e. B01Rad and B01Ref. Rename these data queries to the GeoIPS variable name
         # so we don't have conflicts.
-        scn[gchan] = scn[rchan]
+        scn[gchan] = scn[rchan].copy(deep=True)
         # Delete the satpy named variable
         del scn[rchan]
 
+    # Resample all variables in this scene to the finest resolution area definition
+    # found. scn.resample() defaults to scn.finest_area()
+    resampled_scn = scn.resample(resampler="native")
+    LOG.interactive("Resampled scene to finest resolution.")
     if area_def:
-        scn = scn.crop(area=area_def)
+        resampled_scn = resampled_scn.crop(area=area_def)
 
-    xr = scn.to_xarray_dataset()
-    lons, lats = scn.finest_area().get_lonlats()
+    xr = resampled_scn.to_xarray_dataset()
+    lons, lats = resampled_scn.finest_area().get_lonlats()
+    # if area_def:
+    #     scn = scn.crop(area=area_def)
+
+    # xr = scn.to_xarray_dataset()
+    # lons, lats = scn.finest_area().get_lonlats()
     # Mask inf values with -999.9 for compatibility with get_geolocation func
     lons[np.isinf(lons)] = -999.9
     lats[np.isinf(lats)] = -999.9

@@ -41,6 +41,13 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             choices=list(test_dataset_dict.keys()),
             help="GeoIPS Test Dataset to Install.",
         )
+        self.parser.add_argument(
+            "-o",
+            "--outdir",
+            type=str,
+            default=self.geoips_testdata_dir,
+            help="The full path to the directory you want to install this data to.",
+        )
 
     def __call__(self, args):
         """Run the `geoips config install <test_dataset_name>` command.
@@ -51,20 +58,21 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             - The argument namespace to parse through
         """
         test_dataset_name = args.test_dataset_name
+        outdir = args.outdir
         test_dataset_url = test_dataset_dict[test_dataset_name]
-        if any([test_dataset_name in fol for fol in listdir(self.geoips_testdata_dir)]):
+        if any([test_dataset_name in fol for fol in listdir(outdir)]):
             print(
                 f"Test dataset '{test_dataset_name}' already exists under "
-                f"'{join(self.geoips_testdata_dir, test_dataset_name)}*/'. See that "
+                f"'{join(outdir, test_dataset_name)}*/'. See that "
                 "location for the contents of the test dataset."
             )
         else:
             print(
                 f"Installing {test_dataset_name} test dataset. This may take a while..."
             )
-            self.download_extract_test_data(test_dataset_url, self.geoips_testdata_dir)
+            self.download_extract_test_data(test_dataset_url, outdir)
             out_str = f"Test dataset '{test_dataset_name}' has been installed under "
-            out_str += f"{self.geoips_testdata_dir}/{test_dataset_name}/"
+            out_str += f"{outdir}/{test_dataset_name}/"
             print(out_str)
 
     def download_extract_test_data(self, url, download_dir):

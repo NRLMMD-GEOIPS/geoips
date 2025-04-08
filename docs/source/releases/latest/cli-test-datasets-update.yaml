@@ -1,0 +1,28 @@
+enhancement:
+- title: 'CLI Test Dataset Update'
+  description: |
+    Consolidates hardcoded test dataset urls to one location and updates how the CLI
+    accesses this information for the command 'geops list test-datasets'. Additionally,
+    updates the command 'geoips config install' by providing and optional flag
+    (-o, --outdir), which overwrites the default install location if provided.
+
+    Additionally, this PR updated ami_netcdf.py reader. Dynamic calculation of
+    geolocation variables seems inconsistent and caused problems with GeoColor products.
+    The reader now uses hardcoded values for geolocation to make sure products are
+    consistent.
+
+    This PR is related to a GeoColor PR which updates its installation instructions.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/ancillary_info/test_data.py
+      - geoips/commandline/geoips_config.py
+      - geoips/plugins/modules/readers/ami_netcdf.py
+      - setup/test-data-urls.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-04-03
+    finish: null
+

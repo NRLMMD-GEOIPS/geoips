@@ -1049,7 +1049,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
                 )
             # Perform the actual subsampling
             LOG.info("Before zoom")
-            zoom_factor = zoom_factor.astype(np.int)
+            zoom_factor = zoom_factor.astype(int)
 
             # NOTE: Strides are broken for netCDF4 library version < 4.6.2.
             #       At present, the most recent stable release is 4.6.1.
