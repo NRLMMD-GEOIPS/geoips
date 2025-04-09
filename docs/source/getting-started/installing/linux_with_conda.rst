@@ -133,23 +133,6 @@ and run integration tests:
     # Run integration tests
     pytest -m "integration and base" $GEOIPS_PACKAGES_DIR/geoips
 
-
-6. Capture working requirements.txt for base install
-----------------------------------------------------
-
-These can be commited to the repository for reference - only commit if
-base_test.sh returns 0!
-
-.. code:: bash
-
-  if [[ "$GEOIPS_VERS" == "" ]]; then
-      GEOIPS_VERS=`python -c "import geoips; print(geoips.__version__)"
-  fi
-
-  mkdir $GEOIPS_PACKAGES_DIR/geoips/environments
-  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
-  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
-
 7. Test output
 --------------
 
@@ -178,7 +161,7 @@ base_test.sh returns 0!
   This can help you identify environment issues, missing dependencies, or
   other runtime problems.
 
-7. OPTIONAL: Capture working requirements.txt for base install
+8. OPTIONAL: Capture working requirements.txt for base install
 --------------------------------------------------------------
 
 OPTIONAL: These can be commited to the repository for reference - only commit if
