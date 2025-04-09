@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Moving bash tag to the top of base_install.sh'
+  description: 'Moving bash tag to the top of base_install.sh'
+  files:
+    modified:
+    - 'tests/integration_tests/base_install.sh'
+  related-issue:
+    number: 939
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: today
+    finish: today
