@@ -12,7 +12,7 @@ import logging
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, field_validator, model_validator
+from pydantic import ConfigDict, Field, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
@@ -246,7 +246,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         if not isinstance(plugin_arguments_raw, dict):
             raise TypeError(
-                f"The 'arguments' field for {plugin_type} must be a dictionary, got {type(plugin_arguments_raw).__name__}."
+                f"The 'arguments' field for {plugin_type} must be a dictionary, got "
+                f"{type(plugin_arguments_raw).__name__}."
             )
 
         plugin_arguments_model(**plugin_arguments_raw)
