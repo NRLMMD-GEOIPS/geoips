@@ -250,7 +250,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
             )
 
         plugin_arguments_model(**plugin_arguments_raw)
-        # plugin_arguments_model(**values.get("arguments", {}))
 
         return values
 
