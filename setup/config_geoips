@@ -1,18 +1,17 @@
 if [ -L $BASH_SOURCE ]; then
     linkpath=`readlink $BASH_SOURCE`
-    # Used in qsub.py
-    export GEOIPS_RCFILE=$linkpath
-    CURRENT_CONFIGPATH=`dirname $linkpath`
-    export GEOIPS_VERS=`git -C $CURRENT_CONFIGPATH/.. tag | grep -v osr | tail -n 1`
+    export GEOIPS_CONFIG_FILE=$linkpath
+    GEOIPS_CONFIG_PATH=`dirname $linkpath`
 else
-    CURRENT_CONFIGPATH="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)"
-    # Used in qsub.py
-    export GEOIPS_RCFILE=$CURRENT_CONFIGPATH/"$(basename "${BASH_SOURCE[0]}")"
-    # Sort geoips tags by creator date to grab the latest version
-    export GEOIPS_VERS=`git -C $CURRENT_CONFIGPATH/.. tag --sort=-creatordate | grep -v osr | head -n 1`
+    GEOIPS_CONFIG_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}")" && pwd)"
+    export GEOIPS_CONFIG_FILE=$GEOIPS_CONFIG_PATH/"$(basename "${BASH_SOURCE[0]}")"
 fi
 
-export GEOIPS_BASEDIR=`dirname $CURRENT_CONFIGPATH`
+export GEOIPS_VERSION=`cat $GEOIPS_CONFIG_PATH/../.github/versions/tagged_version`
+# Backwards compatibility.
+export GEOIPS_VERS=$GEOIPS_VERSION
+
+export GEOIPS_BASEDIR=`dirname $GEOIPS_CONFIG_PATH`
 export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
 export GEOIPS_BASEDIR=`dirname $GEOIPS_BASEDIR`
 
@@ -28,7 +27,7 @@ export GEOIPS_OUTDIRS=$GEOIPS_BASEDIR/geoips_outdirs
 export GEOIPS_DEPENDENCIES_DIR=$GEOIPS_BASEDIR/geoips_dependencies
 
 # This uses GEOIPS_DEPENDENCIES_DIR variables, inits and activates conda
-. $CURRENT_CONFIGPATH/geoips_conda_init_setup
+. $GEOIPS_CONFIG_PATH/geoips_conda_init_setup
 
 # This directory should ONLY contain geoips packages - it is used in geoips/filenames/base_paths.py
 # to set up the list of available geoips packages / repos.
@@ -37,18 +36,28 @@ export GEOIPS_MODULES_DIR=$GEOIPS_BASEDIR/geoips_packages
 export GEOIPS_PACKAGES_DIR=$GEOIPS_BASEDIR/geoips_packages
 # This is only used for finding test data within the test scripts - not used within python at all
 export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
+
+# External package environment variables - without these environment variables set,
+# these packages will write to $HOME/.cache or $HOME/.local.
 export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
+export SATPY_CACHE_DIR=$GEOIPS_OUTDIRS/scratch/satpy_cache
+export SATPY_TMP_DIR=$GEOIPS_OUTDIRS/scratch/satpy_tmp
+# Tell satpy to write cached files out to SATPY_CACHE_DIR
+export SATPY_CACHE_LONLATS=True
+export SATPY_CACHE_SENSOR_ANGLES=True
 
 # export PYTHONPATH=$GEOIPS_BASEDIR/geoips_packages
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH
 
 ############################################################################
 # Everything after this point are optional convenience functions.  Must set
-# CURRENT_CONFIGPATH before sourcing.
+# GEOIPS_CONFIG_PATH before sourcing.
 ############################################################################
 # Convenience variables
 export GEOIPS=$GEOIPS_PACKAGES_DIR/geoips
 export GEOIPS_SETUP=$GEOIPS/setup
+# Determine if GeoIPS plugin registries should be automatically generated at run-time.
+export GEOIPS_REBUILD_REGISTRIES=True
 source $GEOIPS_SETUP/bash_setup/gitall
 
 # In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required environment variable
@@ -60,3 +69,31 @@ source $GEOIPS_SETUP/bash_setup/gitall
 # is a valid environment variable. We are using the pypi hdf5plugin package, and
 # set HDF5_PLUGIN_PATH to site-packages/hdf5plugin/plugins.
 export HDF5_PLUGIN_PATH=$(realpath $GEOIPS_DEPENDENCIES_DIR/miniconda3/envs/geoips_conda/lib/python3.1?/site-packages/hdf5plugin/plugins)
+
+# Add this temporary helper function that creates a brassy template changelog
+# file, and copies it to the proper location. This will be replaced/removed
+# once `brassy -td` is implemented.
+create_brassy_changelog(){
+    git_branch_name=$(git branch | grep \* | cut -d ' ' -f 2)
+    in_git_clone=$?
+    if [[ $in_git_clone -gt 0 ]]; then
+        echo "Not in a git repo"
+    elif [[ -z "$GEOIPS_PACKAGES_DIR" ]]; then
+        echo "Need source geoips config file"
+    elif [[ "$PWD" == *"$GEOIPS_PACKAGES_DIR"* ]]; then
+        pkg_name=$(cut -d '/' -f1 <<< ${PWD/$GEOIPS_PACKAGES_DIR\//})
+        repo_url=$(git remote get-url origin)
+        docs_dir=$GEOIPS_PACKAGES_DIR/$pkg_name/docs/source/releases/latest
+        brassy_yaml=${git_branch_name}.yaml
+        if [[ ! -f $docs_dir/$brassy_yaml ]]; then
+            mkdir -p $docs_dir
+            brassy -t
+            mv $brassy_yaml $docs_dir
+            echo "Created: $docs_dir/$brassy_yaml"
+        else
+            echo "Changelog already exists: $docs_dir/$brassy_yaml"
+        fi
+    else
+        echo "Not in a geoips git repo!"
+    fi
+}

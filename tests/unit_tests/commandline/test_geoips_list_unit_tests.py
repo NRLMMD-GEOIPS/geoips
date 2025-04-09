@@ -11,8 +11,11 @@ from importlib.resources import files
 from os import listdir
 from os.path import basename
 import pytest
+import logging
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
+
+LOG = logging.getLogger(__name__)
 
 
 class TestGeoipsListUnitTests(BaseCliTest):
@@ -53,6 +56,10 @@ class TestGeoipsListUnitTests(BaseCliTest):
         error: str
             - Multiline str representing the error output of the CLI call
         """
+        # If there is no test directory, xfail.
+        if "unit-tests: error: No unit test directory found under " in error:
+            LOG.warning("No unit test directory found, please add unit tests")
+            pytest.xfail(str(error))
         editable = self.assert_non_editable_error_or_wrong_package(args, error)
         if editable:
             # bad command has been provided, check the contents of the error message
@@ -77,6 +84,10 @@ class TestGeoipsListUnitTests(BaseCliTest):
             # -h has been called, check help message contents for this command
             assert "-h" in args
             assert "usage: To use, type `geoips list unit-tests" in output
+        # If there is no test directory, xfail.
+        elif "unit-tests: error: No unit test directory found under " in output:
+            LOG.warning("No unit test directory found, please add unit tests")
+            pytest.xfail(str(output))
         else:
             # The args provided are valid, so test that the output is actually correct
             # Assert that the correct headers exist in the CLI output

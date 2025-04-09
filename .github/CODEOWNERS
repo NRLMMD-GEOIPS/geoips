@@ -11,4 +11,8 @@
 # the repo. Unless a later match takes precedence,
 # @cira-review and @nrl-review will be requested for
 # review when someone opens a pull request.
+
+# All PRs to default branch require one NRL and one CIRA review
+# CODEOWNERS file can only require a single team, so requiring NRL here,
+# implying the other of the 2 required reviews should be from a CIRA member.
 *       @NRLMMD-GEOIPS/nrl-review

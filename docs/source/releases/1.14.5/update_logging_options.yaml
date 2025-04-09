@@ -1,0 +1,38 @@
+bug fix:
+  - title: "Black and flake8 updates for cogeotiff"
+    description: "Black and flake8 formatting ONLY for cogeotiff.py"
+    files:
+      modified:
+        - "geoips/plugins/modules/output_formatters/cogeotiff.py"
+    date:
+      start: 2025-02-05
+      finish: 2025-02-05
+enhancement:
+  - title: "Allow setting log format strings via base_paths/config"
+    description: |
+      Move GEOIPS_LOGGING_LEVEL to geoips/filenames/base_paths.py (which will
+      eventually be the geoips config), and add GEOIPS_LOGGING_DATFMT_STRING
+      and GEOIPS_LOGGING_FMT_STRING for making the logging output format fully
+      configurable. Maintain the same defaults, and allow passing in an explicit
+      string now rather than using the "verbose" keyword arg (which was a bool,
+      and mapped to one of 2 format strings).
+
+      Now just default to None in args, so the defaults are pulled from gpaths in
+      log_setup.py directly.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - geoips/commandline/log_setup.py
+        - geoips/filenames/base_paths.py
+        - geoips/commandline/args.py
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: 2025-02-04
+      finish: 2025-02-05
