@@ -133,7 +133,7 @@ and run integration tests:
     # Run integration tests
     pytest -m "integration and base" $GEOIPS_PACKAGES_DIR/geoips
 
-7. Test output
+6. Test output
 --------------
 
 - **Successful Run**:
@@ -161,7 +161,7 @@ and run integration tests:
   This can help you identify environment issues, missing dependencies, or
   other runtime problems.
 
-8. OPTIONAL: Capture working requirements.txt for base install
+7. OPTIONAL: Capture working requirements.txt for base install
 --------------------------------------------------------------
 
 OPTIONAL: These can be commited to the repository for reference - only commit if
