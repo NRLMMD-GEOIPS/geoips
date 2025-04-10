@@ -183,7 +183,13 @@ class PluginModel(FrozenModel):
         description=("A short description or defaults to first line from docstring."),
     )
     package: PythonIdentifier = (
-        Field(..., description="Package that contains this plugin."),
+        Field(
+            None,
+            description=(
+                "Automatically derived package name for this plugin. Users "
+                "must not set this field manually."
+            ),
+        ),
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
@@ -213,16 +219,20 @@ class PluginModel(FrozenModel):
 
         interface_name = values.get("interface")
         try:
-            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            interface = getattr(interfaces, interface_name)
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
                 f"Must be one of {get_interfaces()}"
             )
+
+        try:
+            metadata = interface.get_plugin_metadata(values.get("name"))
+        except KeyError:
+            raise ValueError(f"Plugin not found: '{values.get('name')}'")
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the future issue #906
+
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
