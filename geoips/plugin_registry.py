@@ -104,9 +104,11 @@ class PluginRegistry:
                 # This will include all plugins, including schemas, yaml_based,
                 # and module_based plugins.
                 if self._is_test:
-                    pkg_plugins = yaml.safe_load(open(reg_path, "r"))
+                    with open(reg_path, "r") as fo:
+                        pkg_plugins = yaml.safe_load(fo)
                 else:
-                    pkg_plugins = json.load(open(reg_path, "r"))
+                    with open(reg_path, "r") as fo:
+                        pkg_plugins = json.load(fo)
                     # Do not validate ALL plugins at runtime.
                     # self.validate_registry(pkg_plugins, reg_path)
                 try:

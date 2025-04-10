@@ -99,11 +99,10 @@ class TestGeoipsListPlugins(BaseCliTest):
                 # all packages selected, ensure that we found every plugin
                 pkg_names = self.plugin_package_names
             for pkg_name in pkg_names:
-                plugin_registry = json.load(
-                    open(
-                        str(resources.files(pkg_name) / "registered_plugins.json"), "r"
-                    )
-                )
+                with open(
+                    str(resources.files(pkg_name) / "registered_plugins.json"), "r"
+                ) as fo:
+                    plugin_registry = json.load(fo)
                 for interface_type in ["module_based", "yaml_based"]:
                     # check each type of interface
                     if interface_type in plugin_registry:
