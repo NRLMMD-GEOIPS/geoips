@@ -60,6 +60,7 @@ import xarray as xr
 # GeoIPS imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
 from geoips.utils.context_managers import import_optional_dependencies
+from geoips.errors import MissingRequiredXarrayMetadata
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -427,6 +428,14 @@ def call(
             # xarrays[data_type].attrs['platform_name']  = 'jpss-1'
             # Attribute still lists JPSS-1, but operational satellite name is NOAA-20.
             xarrays[data_type].attrs["platform_name"] = "noaa-20"
+        if ncdf_file.platform == "JPSS-2":
+            # xarrays[data_type].attrs['platform_name']  = 'jpss-2'
+            # Attribute still lists JPSS-2, but operational satellite name is NOAA-21.
+            xarrays[data_type].attrs["platform_name"] = "noaa-21"
+        if "platform_name" not in xarrays[data_type].attrs:
+            raise MissingRequiredXarrayMetadata(
+                "Missing platform_name, ensure platform_name set in reader"
+            )
         xarrays[data_type].attrs["data_provider"] = "NASA"
         if os.path.basename(fname) not in xarrays[data_type].attrs["source_file_names"]:
             xarrays[data_type].attrs["source_file_names"] += [os.path.basename(fname)]

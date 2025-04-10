@@ -206,6 +206,5 @@ virtualenv==20.26.3
 wcwidth==0.2.13
 xarray==2024.2.0
 xarray-datatree==0.0.15
-xnrl==2022.9.29
 zarr==2.18.3
 zipp==3.21.0

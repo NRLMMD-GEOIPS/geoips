@@ -67,9 +67,7 @@ gcc=14.2.0=h96c4ede_1
 gcc_impl_linux-64=14.2.0=h6b349bd_1
 geoips=1.14.3b5.post4.dev0=pypi_0
 geoips-clavrx=1.14.2=pypi_0
-geoips-nrl=1.14.1.post10.dev0=pypi_0
 geoips-plugin-example=1.14.0=pypi_0
-geoips-system-nrl=1.14.3.post11.dev0=pypi_0
 gettext=0.22.5=he02047a_3
 gettext-tools=0.22.5=he02047a_3
 gfortran=14.2.0=h96c4ede_1
@@ -247,7 +245,6 @@ wcwidth=0.2.13=pypi_0
 wheel=0.45.1=pyhd8ed1ab_1
 xarray=2024.2.0=pypi_0
 xarray-datatree=0.0.15=pypi_0
-xnrl=2022.9.29=pypi_0
 zarr=2.18.3=pypi_0
 zipp=3.21.0=pypi_0
 zstd=1.5.6=ha6fb4c9_0

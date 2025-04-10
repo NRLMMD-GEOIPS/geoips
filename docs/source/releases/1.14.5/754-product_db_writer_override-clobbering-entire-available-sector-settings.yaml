@@ -1,0 +1,23 @@
+bug fix:
+- title: 'Fix clobbering when passing product_database_writer_kwargs'
+  description: |
+    Fix bug that clobbered the available_sectors settings for a given sector when
+    passing the --product_database_writer_kwargs command line argument to the
+    config_based procflow. Previously when passing --product_database_writer_kwargs, the
+    only information saved under available_sectors -> <SECTOR> would be the information
+    provided by --product_database_writer_kwargs. This fix now overrides any existing
+    settings, rather than offering a bulk replacement.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+  related-issue:
+    number: 754
+  date:
+    start: 2025-02-18
+    finish: 2025-02-19

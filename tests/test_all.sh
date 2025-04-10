@@ -2,6 +2,6 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 echo "WARNING:"
-echo "\tWe are in the process of deprecating shell script based tests. Please switch to calling this test via 'pytest -m \"extra\"'"
+echo "\tWe are in the process of deprecating shell script based tests. Please switch to calling this test via 'pytest -m \"integration and extra\"'"
 
-pytest -m "integration"
+pytest -m "integration and extra"

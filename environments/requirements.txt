@@ -109,7 +109,7 @@ pinkrst==0.0.1.post2
 pipenv==2023.12.1
 pixelmatch==0.3.0
 pkginfo==1.9.6
-platformdirs==3.11.0
+platformdirs==4.3.6
 pluggy==1.5.0
 poetry==1.7.1
 poetry-core==1.8.1

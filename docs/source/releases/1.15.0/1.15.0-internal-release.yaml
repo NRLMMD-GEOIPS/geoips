@@ -1,0 +1,28 @@
+Release Process:
+- title: Add 1.15.0 release note
+  description: |
+    Currently tagged internal version 1.14.5.
+  files:
+    added:
+    - docs/source/releases/latest/1.15.0-internal-release.yaml
+  related-issue:
+    internal: GEOIPS#753 - 1.15.0 updates*
+  date:
+    start: 2025-03-26
+    finish: 2025-03-26
+- title: Update internal and github.com 'upcoming_version' and 'tagged_version'
+  description: |
+    Updated 'update_this_release_note' file in geoips repo for the
+    next internal version-
+    1.15.1
+    next github.com version-
+    1.15.3
+  files:
+    modified:
+    - .github/versions/upcoming_version
+    - .github/versions/tagged_version
+  related-issue:
+    internal: GEOIPS#753 - 1.15.0 updates*
+  date:
+    start: 2025-03-26
+    finish: 2025-03-26

@@ -1,0 +1,15 @@
+bug fix:
+- title: 'Resolve AMI geolocation bugs.'
+  description: |
+    Fixed related bugs to masking data near terminator, and 
+    AMI geolocation bugs. 
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+- title: 'Resolve issues masking near terminator for seviri reader.'
+  description: |
+    Fixed related bugs to masking data near terminator, and 
+    AMI geolocation bugs. 
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'

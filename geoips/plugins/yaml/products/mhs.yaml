@@ -2,13 +2,34 @@ interface: products
 family: list
 name: mhs
 docstring: |
-  The mhs product_inputs configuration, which produces 89V, 157V, 183-1H, 183-3H, and 190V products.
+  The Microwave Humidity Sounder (MHS) is the replacement for AMSU-B, which was retired
+  with NOAA <= 17 in 2005. MHS is available on METOP-B/C and NOAA-18/19.
+  https://en.wikipedia.org/wiki/Microwave_humidity_sounder
+
+  MHS channel information:
+  Chan  AMSU-B  Frequency       AMSU-B         Bandwidth  Sensitivity  Polarization
+  Num   Chan#  (GHz)            Freq(GHz)      (MHz)      NEDT (K)     (at nadir)
+  1     16      89.0            89.0 ± 0.9     2800       0.22         Vertical
+  2     17      157.0           150 ± 0.9      2800       0.34         Vertical
+  3     18      183.311 ± 1.00  183.31 ± 1.00  2 x 500    0.51         Horizontal
+  4     19      183.311 ± 3.00  183.31 ± 3.00  2 x 1000   0.40         Horizontal
+  5     20      190.311         183.31 ± 7.00  2200       0.46         Vertical
+
+  Used on:
+  METOP-B/C: Meteorological operational satellite – B and Meteorological operational
+  satellite – C. METOP-B, launched in September, 2012, has an altitude of 817 km,
+  inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an altitude
+  of 817 km, inclination of 98.7°, orbital period of 101 minutes and was launched
+  November, 2018. Sun-synchronous and orbits daily.
+
+  The mhs/amsu-b product_inputs configuration, which produces 89V, 157V, 183-1H, 183-3H,
+  and 190V products.
 spec:
   products:
     - name: 89V
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 89V product_defaults configuration for mhs products.
+        Vertically polarized channel at 89 GHz, used to look at ice formations
       product_defaults: 89V
       spec:
         variables: ["Chan1_AT"]
@@ -18,16 +39,16 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 89VNearest
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 89VNearest product_defaults configuration for mhs products.
+        The 89VNearest product_defaults for mhs/amsu-b product.
       product_defaults: 89VNearest
       spec:
         variables: ["Chan1_AT"]
     - name: 157V
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 157V product_defaults configuration for mhs products.
+        Vertically polarized channel at 157 GHz, single channel image at high frequency
       product_defaults: 157V
       spec:
         variables: ["Chan2_AT"]
@@ -37,16 +58,16 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 157VNearest
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 157VNearest product_defaults configuration for mhs products.
+        The 157VNearest product_defaults for mhs/amsu-b product.
       product_defaults: 157VNearest
       spec:
         variables: ["Chan2_AT"]
     - name: 183-1H
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 183-1H product_defaults configuration for mhs products.
+        Horizontally polarized channel, single channel image at high frequency. Could display moisture information in the mid-upper atmosphere.
       product_defaults: 183-1H
       spec:
         variables: ["Chan3_AT"]
@@ -56,16 +77,16 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 183-1HNearest
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 183-1HNearest product_defaults configuration for mhs products.
+        The 183-1HNearest product_defaults for mhs/amsu-b product.
       product_defaults: 183-1HNearest
       spec:
         variables: ["Chan3_AT"]
     - name: 183-3H
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 183-3H product_defaults configuration for mhs products.
+        Horizontally polarized channel, single channel image at high frequency. Could display moisture information in the mid-upper atmosphere.
       product_defaults: 183-3H
       spec:
         variables: ["Chan4_AT"]
@@ -75,16 +96,16 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 183-3HNearest
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 183-3HNearest product_defaults configuration for mhs products.
+        The 183-3HNearest product_defaults for mhs/amsu-b product.
       product_defaults: 183-3HNearest
       spec:
         variables: ["Chan4_AT"]
     - name: 190V
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 190V product_defaults configuration for mhs products.
+        Vertically polarized channel at 190 GHz, single channel image at high frequency. Could display moisture information in the mid-upper atmosphere.
       product_defaults: 190V
       spec:
         variables: ["Chan5_AT"]
@@ -94,9 +115,9 @@ spec:
             arguments:
               sigmaval: 10000
     - name: 190VNearest
-      source_names: [mhs]
+      source_names: [amsu-a_mhs, amsu-b, mhs]
       docstring: |
-        The 190VNearest product_defaults configuration for mhs products.
+        The 190VNearest product_defaults for mhs/amsu-b product.
       product_defaults: 190VNearest
       spec:
         variables: ["Chan5_AT"]

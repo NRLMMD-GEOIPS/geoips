@@ -1,0 +1,40 @@
+bug fixes:
+  - title: "Create interactive_test.sh integration test script"
+    description: |
+      Actual integration tests are now called via pytest with specific markers
+      (full and integration for full test, base and integration for base test).
+      Create a single "interactive_test" script that can be called with either a
+      "full_test" or "base_test" argument that will call the pytest command
+      appropriately from the command line, and redirect the output to
+      $GEOIPS_OUTDIRS/logs/pytest/full_test or base_test.  This allows easily
+      running integration tests from the command line, and tracking the output for
+      later perusal.  This may be replaced with pytest arguments in the future for
+      storing the full output, but for now just redirect the full output to a log file.
+      We will likely want to always maintain an "interactive_test.sh" script that
+      calls the pytest-based integration tests appropriately, and tracks the output
+      appropriately.
+    files:
+      deleted:
+        - tests/integration_tests/full_test.sh
+        - tests/integration_tests/base_test.sh
+      added:
+        - tests/integration_tests/interactive_test.sh
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-07
+      finish: 2025-04-07
+  - title: "Default to no automated plugin registry creation."
+    description: |
+      Turn off automated plugin registry creation in the setup/config_geoips
+      environment.
+    files:
+      modified:
+        - setup/config_geoips
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-07
+      finish: 2025-04-07

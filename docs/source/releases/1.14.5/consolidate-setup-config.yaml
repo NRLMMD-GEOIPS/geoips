@@ -1,0 +1,22 @@
+refactor:
+- title: 'Consolidate setup config environment variables'
+  description: |
+    * Add create_brassy_changelog helper function
+    * Use $GEOIPS_CONFIG_PATH and $GEOIPS_CONFIG_FILE env vars for reference
+    * Use $GEOIPS_SYSTEM_VERSION if defined in prompt, else $GEOIPS_VERSION
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+    - 'setup/bash_setup/color_prompt'
+  related-issue:
+    number: 753
+    repo_url: 'GEOIPS/geoips'
+  date:
+    start: 2025-03-19
+    finish: 2025-03-19

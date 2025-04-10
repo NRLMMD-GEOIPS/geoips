@@ -6,6 +6,10 @@
 import logging
 import sys
 from textwrap import wrap
+from os import getenv
+from socket import gethostname
+
+from geoips.filenames.base_paths import PATHS as gpaths
 
 
 logging.captureWarnings(True)
@@ -176,7 +180,7 @@ class LogLevelAdder:
 add_logging_level = LogLevelAdder()
 
 
-def setup_logging(logging_level=None, verbose=True):
+def setup_logging(logging_level=None, fmt_string=None, datefmt_string=None):
     """Get a new logger instance for GeoIPS.
 
     Get a new logger instance for GeoIPS. This will set the logger's logging level, its
@@ -193,27 +197,78 @@ def setup_logging(logging_level=None, verbose=True):
     ----------
     logging_level : str, default=None
         Sets the minimum log level for which log output will be written to stdout.
-        If None, will default to "INTERACTIVE".  This allows using env var
-        GEOIPS_LOGGING_LEVEL to override default (applied in run_procflow).
-    verbose : bool, default=True
-        Determines which log formatter will be used. If `True`, a longer format will be
-        used, providing more information, but also cluttering the screen. If `False`, a
-        shorter format will be used.
+        If None, will default to value set in base_paths.  This allows using
+        GEOIPS_LOGGING_LEVEL to override default.
+    fmt_string: str, default=None
+        Explicitly specify the log formatter format string. If None, default
+        to the value set in geoips/filenames/base_paths (which in the future
+        will be replaced with a GeoIPS config file).
+    datefmt_string: str, default=None
+        Explicitly specify the log formatter datefmt string. If None, default
+        to the value set in geoips/filenames/base_paths (which in the future
+        will be replaced with a GeoIPS config file).
     """
     log = logging.getLogger()
-    # If logging_level was not specified, default to INTERACTIVE here.
+
+    ###########################################################################
+    # Identify the current requested logging level
+
+    # If logging_level was not specified, default to base_path specification here.
     if not logging_level:
-        logging_level = "INTERACTIVE"
-    log.setLevel(getattr(logging, logging_level))
-    fmt = logging.Formatter(
-        "%(asctime)s %(module)12s.py:%(lineno)-4d %(levelname)7s: %(message)s",
-        "%d_%H%M%S",
-    )
-    if not verbose:
-        fmt = logging.Formatter("%(asctime)s: %(message)s", "%d_%H%M%S")
+        logging_level = gpaths["GEOIPS_LOGGING_LEVEL"]
+    log.setLevel(getattr(logging, logging_level.upper()))
+
+    ###########################################################################
+    # Identify the current requested format and date format strings for
+    # log formatter.
+
+    if fmt_string is None:
+        # Note that any format specifications supported directly by the
+        # logging.Formatter fmt keyword argument are specified as %(fmtspec)
+        # Username and hostname were not directly supported by logging.Formatter,
+        # so we added the capability to include them via os.getenv and
+        # socket.gethostname and f-string formatting.
+        fmt_string = gpaths["GEOIPS_LOGGING_FMT_STRING"]
+    if datefmt_string is None:
+        datefmt_string = gpaths["GEOIPS_LOGGING_DATEFMT_STRING"]
+
+    ###########################################################################
+    # Now replace any variables specified as {varname} within the format string.
+
+    username = getenv("USER")
+    hostname = gethostname()
+
+    # These are the variables explicitly supported in the format string, no other
+    # variables specified with {varname} are supported.
+    fmt_vars = {"username": username, "hostname": hostname}
+    # Identify which of the above variables are actually in the format string.
+    fmt_kwargs = {x: y for x, y in fmt_vars.items() if x in fmt_string}
+    # Pass each of the variables specified in the format string as keyword
+    # arguments to the format method of the string.  Ie,
+    # fmt_string.format(username=username, hostname=hostname)
+    fmt_string = fmt_string.format(**fmt_kwargs)
+
+    ###########################################################################
+    # Set the actual log formatter using fmt_string and datefmt_string.
+
+    fmt = logging.Formatter(fmt=fmt_string, datefmt=datefmt_string)
+
+    ###########################################################################
+    # Set the log handlers if they are not already set
+
     if not log.handlers:
         stream_hndlr = logging.StreamHandler(sys.stdout)
         stream_hndlr.setFormatter(fmt)
         stream_hndlr.setLevel(logging.INFO)
         log.addHandler(stream_hndlr)
+
+    ###########################################################################
+    # Print username and host at the info level at the beginning of the log output
+
+    log.info(f"USER: {username}")
+    log.info(f"HOST: {hostname}")
+
+    ###########################################################################
+    # Return the resulting log for use throughout GeoIPS
+
     return log

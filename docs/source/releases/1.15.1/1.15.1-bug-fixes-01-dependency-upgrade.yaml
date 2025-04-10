@@ -1,0 +1,105 @@
+bug fixes:
+  - title: "Replace xarray_datatree with xarray"
+    description: |
+      DataTree class has now been integrated with xarray, no longer require separate
+      xarray_datatree dependency, and now import DataTree from xarray rather than
+      datatree.
+    files:
+      modified:
+        - geoips/xarray_utils/xr_to_dtree.py
+        - pyproject.toml
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03
+  - title: "numpy 2.0/netcdf 1.7 bug fixes for AMI reader, seg faults and dtypes"
+    description: |
+      Upgrade to numpy 2.0 and netcdf 1.7 requires 3 fixes to AMI reader
+
+      1. Ensure all netcdf files are closed to avoid seg fault (open with with)
+      2. Cast lons returned from pyresample.utils.wrap_longitudes back to
+         lats.dtype, to ensure lats and lons array dtypes match when passed
+         to SwathDefinition.
+      3. Cast number of lines and number of samples returned from netcdf datafile
+         to np.int64, rather than the returned np.int32. np.int32 shape when
+         passed to numpy.memmap caused an overflow (required np.int64)
+    files:
+      modified:
+        - geoips/plugins/modules/readers/ami_netcdf.py
+        - geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03
+  - title: "numpy 2.0 un-bug fixes for SMAP reader"
+    description: |
+      Upgrade to numpy 2.0 originally had a bug causing SMAP reader to fail
+      when adding / manipulating masked datetime64 arrays.  We had a hack in
+      place that actually did not work anyway, and as of 2.2.4 the datetime64
+      bug was resolved in numpy 2.x.
+
+      Added a note to pyproject.toml saying numpy 2.x broke masked datetime64
+      arrays, and it was fixed by 2.2.4.
+    files:
+      modified:
+        - geoips/plugins/modules/readers/utils/remss_reader.py
+        - pyproject.toml
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03
+  - title: "xarray > 2024.3.0 bug fix for SCAT NOAA NetCDF reader"
+    description: |
+      We had a fix in place for the SCAT NOAA NetCDF reader to function with
+      xarray < 2022.06 (if xarray has ufuncs, then use it), because xarray
+      removed the "ufuncs" method in 2022.06.  That block of code was untested
+      for a while, then as of 2025.3.1 ufuncs was back! But there was a
+      typo in the fix.  We were only setting xarray["rain_flag"] in the ufuncs
+      option for xarray with ufuncs, and not the "rf" variable.  The "rf"
+      variable is what was being used downstream for setting ambiguities.
+      Set rf = wind_xarray["rain_flag"] in the ufuncs block.
+    files:
+      modified:
+        - geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03
+  - title: "matplotlib 3.10 image updates using interpolation_stage data"
+    description: |
+      Minor imagery changes due to matplotlib 3.10 upgrade, with interpolation_stage
+      set to "data" for backwards compatibility with matplotlib 3.9 for most output
+      images.  Note an additional round of image updates will be required for 3.10
+      update with interpolation set to "none", which is going to be our final
+      configuration since we do our own interpolation prior to plotting, and matplotlib
+      interpolation is unnecessary.
+
+      interpolation_stage="data" made most output images match between 3.9 and 3.10,
+      but there were still a few that had slight differences.
+
+      * windbarb products had very slight differences at the edges of some barbs
+        (maybe 10% of the barbs had differences)
+      * AMI unprojected image had edge of scan changes (bright red difference
+        line around the full edge of scan)
+      * AMI annotated image had very small differences within the image (a few
+        red pixels in the diff image), and significant differences in the title)
+    files:
+      modified:
+        - tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean/20210421_014248_WP022021_ascat_metop-c_windbarbs_120kts_78p20_0p5-clean.png
+        - tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs/20230722_234513_AL052023_ascatuhr_metop-b_windbarbs_65kts_63p79_1p0.png
+        - tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
+        - tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03

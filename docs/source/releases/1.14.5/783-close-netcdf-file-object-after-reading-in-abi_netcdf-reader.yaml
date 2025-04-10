@@ -1,0 +1,34 @@
+bug fix:
+- title: 'Close ABI netcdf file object after reading'
+  description: |
+    ABI netcdf files were opened for reading, but never closed.
+    Ignoring the terrible practice, while this may have worked 
+    with netcdf4<1.7.0, this likely has been causing issues with 
+    config based processing using netcdf4>1.7.0. In certain config
+    based procflows too many netcdf file objects were left open
+    after reading in the requested data, causing Python to crash.
+    This error was very difficult to track down, and this explanation
+    is only a hunch based off this error that only popped up once
+    out of many, many tests -
+    > 19_224022   abi_netcdf.py 720     INFO: Only need metadata from first file, returning
+    > There are 835 HDF5 objects open!
+    > Report: open objects on 72057594037927942
+    > 28322 Segmentation fault      (core dumped)
+    
+    No segfaults have been observed after closing the netcdf file,
+    so thinking this was the source of the error.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+  related-issue:
+    number: 783
+    repo_url: 'GEOIPS/geoips'
+  date:
+    start: 2025-03-19
+    finish: 2025-03-20

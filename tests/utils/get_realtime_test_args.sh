@@ -1,12 +1,13 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-if [[ "$1" != "write_output_file_list" && "$1" != "copy_files" && "$1" != "run_file_list_comparison" ]]; then
+if [[ "$1" != "write_output_file_list" && "$1" != "copy_files" && "$1" != "run_file_list_comparison" && "$1" != "run_current" ]]; then
     echo "Usage: $0 <output_file_arg> [<copy_base_dir>]"
     echo "    Where <output_file_arg> one of:"
     echo "      write_output_file_list"
     echo "      copy_files"
     echo "      run_file_list_comparison"
+    echo "      run_current"
     echo ""
     echo "ie: create a new output file list based on current run:"
     echo "    $0 write_output_file_list"

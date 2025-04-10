@@ -126,8 +126,9 @@ def latlon_from_lincol_geos(Line, Column, metadata):
         CFAC = metadata["CFAC"]
         LOFF = metadata["LOFF"]
         LFAC = metadata["LFAC"]
-
-        sub_lon = metadata["sub_lon"]
+        # doesn't work
+        # sub_lon = metadata["sub_lon"]
+        sub_lon = 128.2
         sub_lon = sub_lon * degtorad
 
         x = np.empty_like(Column)
@@ -168,7 +169,6 @@ def latlon_from_lincol_geos(Line, Column, metadata):
 
         nlat[np.where(np.isnan(nlat))] = -999.9
         nlon[np.where(np.isnan(nlon))] = -999.9
-
         with open(fname, "w") as df:
             nlat.tofile(df)
             nlon.tofile(df)
@@ -367,8 +367,11 @@ def _get_metadata(df, fname):
         metadata["path"] = fname
     metadata["satellite"] = metadata["global"]["general"]["satellite_name"]
     metadata["sensor"] = df.instrument_name
-    metadata["num_lines"] = df.number_of_lines
-    metadata["num_samples"] = df.number_of_columns
+    # These were being returned as np.int32's, causing an overflow when passed
+    # to numpy 2.x memmap call in latlon_from_lincol_geos function below.
+    # Explicitly cast to np.int64 to avoid overflow in memmap
+    metadata["num_lines"] = np.int64(df.number_of_lines)
+    metadata["num_samples"] = np.int64(df.number_of_columns)
     return metadata
 
 
@@ -405,8 +408,11 @@ def _get_geolocation_metadata(metadata):
     # Just getting the nadir resolution in kilometers.  Must extract from a string.
     geomet["res_km"] = float(metadata["general"]["channel_spatial_resolution"])
     geomet["roi_factor"] = 5  # roi = res * roi_factor, was 10
-    geomet["num_lines"] = metadata["data"]["number_of_lines"]
-    geomet["num_samples"] = metadata["data"]["number_of_columns"]
+    # These were being returned as np.int32's, causing an overflow when passed
+    # to numpy 2.x memmap call in latlon_from_lincol_geos function below.
+    # Explicitly cast to np.int64 to avoid overflow in memmap
+    geomet["num_lines"] = np.int64(metadata["data"]["number_of_lines"])
+    geomet["num_samples"] = np.int64(metadata["data"]["number_of_columns"])
     # Dynamically get offsets and scale factors needed for correct geolocation
     # calculation
     geomet["sub_lon"] = metadata["projection"]["sub_longitude"]
@@ -611,7 +617,10 @@ def call_single_time(
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), "r"), fname)
+            # Open using with to avoid seg faults due to not properly closing files.
+            # This did not seg fault prior to netcdf 1.7 / numpy 2.x
+            with ncdf.Dataset(str(fname), "r") as ds:
+                all_metadata[fname] = _get_metadata(ds, fname)
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             continue
@@ -755,9 +764,7 @@ def call_single_time(
         i = np.arange(0, geo_metadata[adname]["num_lines"], dtype="f")
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
         i, j = np.meshgrid(i, j)
-        (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-            Column=j, Line=i, metadata=geo_metadata[adname]
-        )
+        (fldk_lats, fldk_lons) = latlon_from_lincol_geos(j, i, geo_metadata[adname])
 
         gvars[adname] = get_geolocation(
             start_dt, geo_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
@@ -786,7 +793,7 @@ def call_single_time(
                 j = np.arange(0, geo_metadata[res]["num_samples"], dtype="f")
                 i, j = np.meshgrid(i, j)
                 (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-                    Column=j, Line=i, metadata=geo_metadata[res]
+                    j, i, geo_metadata[res]
                 )
 
                 gvars[res] = get_geolocation(
@@ -900,6 +907,11 @@ def call_single_time(
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in geo_metadata.keys():
+            LOG.info(
+                "Trying metadata roi %s %s",
+                geo_metadata[curr_res]["res_km"] * 1000.0,
+                roi,
+            )
             if geo_metadata[curr_res]["res_km"] * 1000.0 > roi:
                 roi = geo_metadata[curr_res]["res_km"] * 1000.0
                 LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)

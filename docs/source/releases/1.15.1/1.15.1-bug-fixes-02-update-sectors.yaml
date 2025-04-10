@@ -1,0 +1,42 @@
+bug fixes:
+  - title: "Update AMI test sector and imagery type"
+    description: |
+      To avoid additional issues with matplotlib updates, update the AMI
+      test scripts to produce non-annotated imagery, and a small subsector.
+    files:
+      modified:
+        - tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh, renamed clean
+        - tests/scripts/ami.static.Infrared.imagery_annotated.sh, renamed clean
+        - tests/scripts/ami.static.Visible.imagery_annotated.sh, renamed clean
+      added:
+        - geoips/plugins/yaml/sectors/test/geostationary/geokompsat_subsector.yaml
+      moved:
+        - tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png -> tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_clean/20241010.000039.GK-2A.ami.absdiff-IR-BD.geokompsat-subsector-27deg.20p50.nmsc.10p0.png
+        - tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png -> tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat_subsector.100p0.nmsc.10p0.png
+        - tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png -> tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsator.100p0.nmsc.10p0.png
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03
+documentation:
+  - title: "Clean up output checker comparison outputs"
+    description: |
+      * Better highlight where the "source" command is (with stars before and after)
+      * Only print basename for COMPARE and PRODUCT (easier to compare to see
+        what the difference is in the old and new filenames).
+      * print correct filename for MISSINGPRODUCT (was printing the same for both
+        COMPARE and PRODUCT previously)
+      * Now print full path to COMPARE in the informative output above (so we
+        have the full path somewhere), so we can shorten the output where the
+        commands/instructions for updating live.
+    files:
+      modified:
+        - geoips/interfaces/module_based/output_checkers.py
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03

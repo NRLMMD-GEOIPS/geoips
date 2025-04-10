@@ -1,0 +1,126 @@
+bug fix:
+  - title: "Correct transparency and transform issues with cogeotiff output format"
+    description: |
+      Fix projection problems so we have full global coverage, and can create geotiffs
+      of sectors that cross the dateline
+
+      * Allowing longlat projection, and ensuring the full -180 to 180 range to
+        get rid of the missing data at the dateline
+      * Allowing longlat projection, and specifying an alternate prime meridian
+        in the area_definitions (geoips YAML sector), so that we do NOT cross
+        the dateline when creating the geotiff projection. GeoTIFF does not
+        like going outside -180 to 180, whatever the center of your projection
+        is. We just made the center of our projection the center of our sector
+      * Use area_def CRS for longlat, and EPSG:4326 for eqc projection.
+      * Just use a direct explicitly defined Affine transformation, instead of
+        trying to use the translate method with 1/2 resolution, etc. I think
+        this also helped the range be more exact. so we didn't lose data at the
+        IDL.
+      * Update filename formatter so degree-based projections use
+        resolution * 111km for the filenames
+
+      Fix masked values over Africa and ensure proper masking off-disk
+
+      * Fixed scaling - off by one errors...
+      * Explicitly set missing value, and added some arguments to make sure the
+        COG writer actually used it.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/output_formatters/cogeotiff.py"
+    related-issue:
+      number: 745
+      internal: "GEOIPS#745 - Bug fix geotiff transparency and transforms"
+    date:
+      start: 2025-01-22
+      finish: 2025-01-24
+bug fix:
+  - title: "ABI netcdf non-resampled read ROI and sat zen cutoff same as resampled"
+    description: |
+      Previously there was no sat zenith cut off for abi non-resampled reads,
+      and ROI was not applied consistently with resampled
+
+      update non-resampled to use ROI factor of 5 to match resampled reads.
+
+      update sat zenith cutoff for non-resampled reads to 75 to match resampled.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/readers/abi_netcdf.py"
+    related-issue:
+      number: 745
+      internal: "GEOIPS#745 - Bug fix geotiff transparency and transforms"
+    date:
+      start: 2025-01-25
+      finish: 2025-01-25
+documentation:
+  - title: "Add more informative error messages for create_plugin_registries"
+    description: |
+      Ensure informative error message when docstring does not exist in plugins.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/create_plugin_registries.py"
+    related-issue:
+      number: 745
+      internal: "GEOIPS#745 - Bug fix geotiff transparency and transforms"
+    date:
+      start: 2025-01-24
+      finish: 2025-01-24
+enhancement:
+  - title: "Allow lat/lon based area_defs to create correct resolution in filenames."
+    description: |
+      I don't think this actually works 100%.  May need to adjust slightly.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/filename_formatters/geoips_fname.py"
+    related-issue:
+      number: 745
+      internal: "GEOIPS#745 - Bug fix geotiff transparency and transforms"
+    date:
+      start: 2025-01-24
+      finish: 2025-01-24
+refactor:
+  - title: "Consolidate geotiff output formatters"
+    description: |
+      Have cogeotiff_rgba and geotiff_standard both call cogeotiff.  Eventually
+      probably delete these, unless we find there is a benefit to having the
+      ability to explicitly request no-cog (geotiff_standard), or explicitly
+      request RGBA (auto-detected in cogeotiff)
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/output_formatters/cogeotiff_rgba.py"
+        - "geoips/plugins/modules/output_formatters/geotiff_standard.py"
+    related-issue:
+      number: 745
+      internal: "GEOIPS#745 - Bug fix geotiff transparency and transforms"
+    date:
+      start: 2025-01-24
+      finish: 2025-01-24

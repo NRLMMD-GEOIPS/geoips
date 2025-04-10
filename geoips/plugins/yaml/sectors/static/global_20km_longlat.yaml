@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: global_20km_longlat
+docstring: "Global 20km sector, EPSG:4326 projection, 1000x2000"
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: global_20km_longlat
+  description: "Global 20km Sector, EPSG:4326 projection, 1000x2000"
+  proj_id: "EPSG:4326"
+  projection:
+    proj: longlat
+    lat_0: 0
+    lon_0: 0
+    datum: "WGS84"
+  shape:
+    height: 1000
+    width: 2000
+  # Units are degrees, so xy in degrees not meters
+  area_extent:
+    lower_left_xy: [-180, -90]
+    upper_right_xy: [180, 90]

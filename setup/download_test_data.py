@@ -182,6 +182,11 @@ def download_and_extract_compressed_tar(url, dest, comp="gz"):
                         os.path.join(dest, item_to_extract.name)
                     ).startswith(dest):
                         raise SystemExit(f"Found unsafe filepath in tar from url {url}")
+                    elif (
+                        os.path.isabs(item_to_extract.name)
+                        or ".." in item_to_extract.name
+                    ):
+                        raise ValueError("Illegal tar archive entry from url {url}")
                     tar.extract(item_to_extract, path=dest)
 
         output_to_console("Success. Files downloaded and extracted.", style="green")

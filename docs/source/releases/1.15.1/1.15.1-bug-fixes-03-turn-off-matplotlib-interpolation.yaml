@@ -1,0 +1,32 @@
+breaking change:
+  - title: "Turn off matplotlib interpolation, and update all test outputs"
+    description: |
+      To avoid additional issues with matplotlib updates, update the AMI
+      test scripts to produce non-annotated imagery, and a small subsector.
+
+      Need to update docs/auxiliary_files, geoips/tests/test_integration.py,
+      and docs/source/concepts/functionality with new test names
+    files:
+      modified:
+        - geoips/__init__.py
+        - docs/auxiliary_files.yaml
+        - docs/source/concepts/functionality/examples/integration-tests.rst
+        - tests/integration_tests/test_integration.py
+        - tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
+        - tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+        - tests/outputs/ami.tc.WV.geotiff/20231208_030032_SH032024_ami_GK-2A_WV_115kts_100p00_1p0.tif
+        - tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+        - tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+        - tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+        - tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+        - tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png
+        - tests/outputs/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image/20220211.131810.npp.viirs.Night-Vis-IR-GeoIPS1.self_register.98p45.NASA.3p0.png
+      moved:
+        - tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png -> tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.goes-east-subsector-27deg.100p00.noaa.10p0.png
+        - tests/outputs/abi.static.Infrared.imagery_annotated.low_memory/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03

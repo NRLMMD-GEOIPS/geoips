@@ -1,0 +1,14 @@
+bug fixes:
+  - title: "Add pip and mamba environment files for 1.15.1 full install env"
+    description: |
+      Environment files after bug fixing on 1.15.1 for successful full install and test.
+    files:
+      added:
+        - environments/mamba_full_package_list_1.15.1_20250407.yml
+        - environments/pip_full_requirements_1.15.1_20250407.txt
+    related-issue:
+      number: 753
+      repo_url: "GEOIPS/geoips"
+    date:
+      start: 2025-04-03
+      finish: 2025-04-03

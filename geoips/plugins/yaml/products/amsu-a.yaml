@@ -1,0 +1,49 @@
+interface: products
+family: list
+name: amsu-a
+docstring: |
+  Product configuration for the Advanced Microwave Sounding Unit - A (AMSU-A).
+  AMSU-A has 15 channels including the 54 GHz band. 2200 km swath width.
+
+  Used on:
+  NOAA-18/19 and METOP-B/C: Meteorological operational satellite – B and Meteorological
+  operational satellite – C. METOP-B, launched in September, 2012, has an altitude of
+  817 km, inclination of 98.7°, and orbital period of 101 minutes, while METOP-C has an
+  altitude of 817 km, inclination of 98.7°, orbital period of 101 minutes and was
+  launched November, 2018. Sun-synchronous and orbits daily.
+
+  More information on the AMSU and MHS instruments may be found here
+  https://en.wikipedia.org/wiki/Advanced_microwave_sounding_unit
+
+  AMSU-A channel information:
+  Chan  Frequency                 Polarization  #Bands  Sensitivity  Primary Function
+  Num   (GHz)                     (at nadir)            NEDT (K)
+  1     23.8                      vertical      1       0.30         Water Vapor Burden
+  2     31.4                      vertical      1       0.30         Water Vapor Burden
+  3     50.3                      vertical      1       0.40         Water Vapor Burden
+  4     52.8                      vertical      1       0.25         Water Vapor Burden
+  5     53.596 ± 0.115            horizontal    2       0.25         Tropospheric Temp
+  6     54.4                      horizontal    1       0.25         Tropospheric Temp
+  7     54.94                     vertical      1       0.25         Tropospheric Temp
+  8     55.5                      horizontal    1       0.25         Tropospheric Temp
+  9     57.290                    horizontal    1       0.25         Stratospheric Temp
+  10    57.290 ± 0.217            horizontal    2       0.40         Stratospheric Temp
+  11    57.290 ± 0.3222 ± 0.048   horizontal    4       0.40         Stratospheric Temp
+  12    57.290 ± 0.3222 ± 0.022   horizontal    4       0.60         Stratospheric Temp
+  13    57.290 ± 0.3222 ± 0.010   horizontal    4       0.80         Stratospheric Temp
+  14    57.290 ± 0.3222 ± 0.0045  horizontal    4       1.20         Stratospheric Temp
+  15    89.0                      vertical      1       0.50         Cloud Top/Snow
+spec:
+  products:
+    - name: 31V
+      source_names: [amsu-a_mhs, amsu-a]
+      docstring: |
+        The 31V product_defaults configuration for AMSU-A products.
+      product_defaults: 37V
+      spec:
+        variables: ["V37"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 25000

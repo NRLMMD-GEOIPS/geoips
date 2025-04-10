@@ -1,0 +1,136 @@
+testing:
+  - title: "Update geotiff test outputs"
+    description: |
+      Ensure correct outputs for geotiff test scripts after all the geotiff
+      updates.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "tests/outputs/ami.tc.WV.geotiff/20231208_030032_SH032024_ami_GK-2A_WV_115kts_100p00_1p0.tif"
+        - "tests/outputs/viirsday.global.Night-Vis-IR.cogeotiff_rgba/20210209.074210.noaa-20.viirs.Night-Vis-IR.global.2p00.NASA.20p0.tif"
+        - "tests/outputs/ahi.tc.WV.geotiff/20200405_000000_SH252020_ahi_himawari-8_WV_100kts_100p00_1p0.tif"
+        - "tests/outputs/amsr2.global_20km_longlat.89H-Physical.cogeotiff/20200518.062048.gcom-w1.amsr2.89H-Physical.global_20km_longlat.18p37.star.20p0.tif"
+    related-issue:
+      number: 749
+      internal: "GEOIPS#749 - Support cogeotiff scale and offset information"
+    date:
+      start: 2025-02-04
+      finish: 2025-02-05
+enhancement:
+  - title: "Support scale and offset information in cogeotiff output formatter"
+    description: |
+      Ensure scale and offset information is appropriately included in GeoTIFF
+      output to support obtaining physical values from the resulting COG.  This
+      will allow creating 8 bit GeoTIFFs, and still retrieving actual reflectances,
+      brightness temperatures, etc from the GeoTIFF.
+
+      Update cogeotiff.py to retrieve the appropriate scaling information from
+      the product YAMLs, and write it to the GeoTIFF.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/output_formatters/cogeotiff.py"
+    related-issue:
+      number: 749
+      internal: "GEOIPS#749 - Support cogeotiff scale and offset information"
+    date:
+      start: 2025-01-25
+      finish: 2025-01-25
+  - title: "Add GEOTIFF_IMAGERY_PATH to base_paths and use in geotiff_fname"
+    description: "Previously geotiffs were going to ANNOTATED_IMAGERY"
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/filenames/base_paths.py"
+        - "geoips/plugins/modules/filename_formatters/geotiff_fname.py"
+    related-issue:
+      number: 749
+      internal: "GEOIPS#749 - Support cogeotiff scale and offset information"
+    date:
+      start: 2025-01-30
+      finish: 2025-01-30
+  - title: "Add imagery paths to geoips_utils replace_geoips_paths"
+    description: "This includes WWW and internal imagery paths specified in base_paths"
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/geoips_utils.py"
+    related-issue:
+      number: 749
+      internal: "geoips#749 - support cogeotiff scale and offset information"
+    date:
+      start: 2025-01-30
+      finish: 2025-01-30
+bug fix:
+  - title: "Roll back xarray, attempt fix knmi scat time conversion xarray bug"
+    description: "This didn't quite work, checking it in for reference, roll back xr."
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "pyproject.toml"
+        - "geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py"
+    related-issue:
+      number: 749
+      internal: "geoips#749 - support cogeotiff scale and offset information"
+    date:
+      start: 2025-01-30
+      finish: 2025-01-30
+documentation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+    date:
+      start: null
+      finish: null
+continuous integration:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+    date:
+      start: null
+      finish: null

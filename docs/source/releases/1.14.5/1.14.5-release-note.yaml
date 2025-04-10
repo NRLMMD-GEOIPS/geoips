@@ -1,0 +1,66 @@
+documentation:
+- title: Add release note for version 1.14.5
+  description: |
+    Release note on release branch to force tag/release, package/publish,
+    and deploy docs.
+
+    Additionally add any updated files from geoips_ci/sync
+  files:
+    added:
+    - docs/source/releases/latest/1.14.5-release-note.yaml
+    modified:
+    - geoips_ci/sync updated files
+  date:
+    start: 2025-03-11
+    finish: 2025-03-21
+  related-issue:
+    number: 753
+    internal: GEOIPS#753 - 1.14.5 updates
+documentation:
+- title: Update upcoming and tagged versions
+  description: |
+
+    * Tagged version: 1.14.5
+    * Upcoming version: 1.15.1
+  files:
+    modified:
+    - .github/versions/tagged_version
+    - .github/versions/upcoming_version
+  date:
+    start: 2025-03-11
+    finish: 2025-03-21
+  related-issue:
+    internal: GEOIPS#753 - 1.14.5 updates
+documentation:
+- title: Add release note for version 1.14.5
+  description: |
+    Release note on release branch to force tag/release, package/publish,
+    and deploy docs.
+
+    Additionally add any updated files from geoips_ci/sync
+  files:
+    added:
+    - docs/source/releases/latest/1.14.5-release-note.yaml
+    modified:
+    - geoips_ci/sync updated files
+  date:
+    start: 2025-03-21
+    finish: 2025-03-21
+  related-issue:
+    internal: GEOIPS#753 - 1.14.5 updates
+documentation:
+- title: Update upcoming and tagged versions
+  description: |
+
+    * Tagged version: 1.14.5
+    * Upcoming version: 1.15.1
+  files:
+    modified:
+    - .github/versions/tagged_version
+    - .github/versions/upcoming_version
+  date:
+    start: 2025-03-21
+    finish: 2025-03-21
+  related-issue:
+    number: 753
+    internal: GEOIPS#753 - 1.14.5 updates
