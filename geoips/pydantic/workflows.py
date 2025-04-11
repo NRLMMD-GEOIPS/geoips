@@ -238,7 +238,19 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 f'The argument class/model "{plugin_arguments_model_name}" for'
                 f'the plugin type "{plugin_type}" is not defined.'
             )
-        plugin_arguments_model(**values.get("arguments", {}))
+
+        plugin_arguments_raw = values.get("arguments")
+
+        if plugin_arguments_raw is None or plugin_arguments_raw == "null":
+            plugin_arguments_raw = {}
+
+        if not isinstance(plugin_arguments_raw, dict):
+            raise TypeError(
+                f"The 'arguments' field for {plugin_type} must be a dictionary, got "
+                f"{type(plugin_arguments_raw).__name__}."
+            )
+
+        plugin_arguments_model(**plugin_arguments_raw)
 
         return values
 
