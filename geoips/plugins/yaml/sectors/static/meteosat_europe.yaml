@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: meteosat_europe
-docstring: "Metoesat-Europe Cocerage"
+docstring: "Metoesat-Europe Cocerage."
 metadata:
-  region:
-    continent: Global
-    country: x
-    area: Meteosat-Europe
-    subarea: x
-    state: x
-    city: x
+  continent: Global
+  country: x
+  area: Meteosat-Europe
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: meteosat_eurpe
   description: Meteosat-Europe Coverage
