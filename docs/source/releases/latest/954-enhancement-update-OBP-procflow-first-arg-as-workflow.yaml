@@ -1,0 +1,126 @@
+bug fix:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+enhancement:
+- title: 'Update OBP Procflow to accept workflow as its first argument'
+  description: 'Reorders arguments in the OBP call function to make workflow the first positional parameter.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/order_based.py'
+  related-issue:
+    number: 936
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 04102025
+    finish: 04102025
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
