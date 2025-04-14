@@ -21,25 +21,34 @@ properties:
         type: integer
   area_extent:
     type: object
-    required:
-      - lower_left_xy
-      - upper_right_xy
     properties:
       lower_left_xy:
         type: array
         minItems: 2
         maxItems: 2
         items:
-          type: integer
+          type: number
       upper_right_xy:
         type: array
         minItems: 2
         maxItems: 2
         items:
-          type: integer
+          type: number
+    required: ["lower_left_xy", "upper_right_xy"]
   resolution:
-    type: array
-    minItems: 2
-    maxItems: 2
-    items:
-      type: integer
+    oneOf:
+      - type: object
+        properties:
+          dx:
+            type: number
+          dy:
+            type: number
+          units:
+            type: string
+        required: ["dx", "dy", "units"]
+
+      - type: array
+        minItems: 2
+        maxItems: 2
+        items:
+          type: integer

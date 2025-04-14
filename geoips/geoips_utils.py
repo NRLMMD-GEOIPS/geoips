@@ -16,10 +16,56 @@ from pathlib import Path
 import logging
 from importlib import metadata, resources
 
+import numpy as np
+
 from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
+
+
+def rgba_to_int(rgba):
+    """Convert an rgba tuple (normalized or values 0 - 255) to a single integer.
+
+    Parameters
+    ----------
+    rgba: tuple(int or float)
+        - The rgba tuple to convert to an integer
+    """
+    if rgba[3] < 0.0001 or any(np.isnan(rgba)):
+        return np.nan
+    # Convert float values in the range [0.0, 1.0] to integers in the range [0, 255]
+    rgba_int = tuple(int(x * 255) if isinstance(x, float) else x for x in rgba)
+    r, g, b, a = rgba_int
+    # Shift using binary to convert multiple integers to a single integer
+    # which will be unpacked to an rgba tuple later on.
+    return (r << 24) + (g << 16) + (b << 8) + a
+
+
+def int_to_rgba(value, normalize=False):
+    """Convert an 8-bit integer to an rgba tuple.
+
+    Parameters
+    ----------
+    value: int
+        - The integer value to convert to an rgba tuple.
+    normalize: bool (default=False)
+        - Whether or not we want the tuple to be normalized. I.e [0.0, 1.0] if True,
+          otherwise [0, 255] values in the rgba tuple.
+    """
+    if np.ma.is_masked(value) or np.isnan(value):
+        return (0, 0, 0, 0)
+    value = int(value)
+    r = (value >> 24) & 0xFF
+    g = (value >> 16) & 0xFF
+    b = (value >> 8) & 0xFF
+    a = value & 0xFF
+
+    if normalize:
+        # Convert back to float in the range [0.0, 1.0]
+        return (r / 255.0, g / 255.0, b / 255.0, a / 255.0)
+    else:
+        return (r, g, b, a)
 
 
 def remove_unsupported_kwargs(module, requested_kwargs):

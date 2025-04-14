@@ -945,6 +945,7 @@ def call(
     chans=None,
     area_def=None,
     self_register=False,
+    mask_sat_zen_greater=None,
     test_arg="AHI Default Test Arg",
 ):
     """
@@ -966,6 +967,10 @@ def call(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    mask_sat_zen_greater : int, default=None
+        * If provided, mask all pixels where satellize zenith angle is greater than
+          'mask_sat_zen_greater'.
+        * If not provided, don't mask by satellize zenith angle.
 
     Returns
     -------
@@ -987,6 +992,7 @@ def call(
         chans,
         area_def,
         self_register,
+        mask_sat_zen_greater,
     )
 
 
@@ -996,6 +1002,7 @@ def call_single_time(
     chans=None,
     area_def=None,
     self_register=False,
+    mask_sat_zen_greater=None,
     test_arg="AHI Default Test Arg",
 ):
     """
@@ -1017,6 +1024,10 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    mask_sat_zen_greater : int, default=None
+        * If provided, mask all pixels where satellize zenith angle is greater than
+          'mask_sat_zen_greater'.
+        * If not provided, don't mask by satellize zenith angle.
 
     Returns
     -------
@@ -1357,12 +1368,16 @@ def call_single_time(
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
             for varname, var in gvars[res].items():
-                gvars[res][varname] = np.ma.array(
-                    var, mask=gvars[res]["satellite_zenith_angle"].mask
-                )
-                gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
-                )
+                if mask_sat_zen_greater:
+                    gvars[res][varname] = np.ma.array(
+                        var, mask=gvars[res]["satellite_zenith_angle"].mask
+                    )
+                    gvars[res][varname] = np.ma.masked_where(
+                        gvars[res]["satellite_zenith_angle"] > mask_sat_zen_greater,
+                        gvars[res][varname],
+                    )
+                else:
+                    gvars[res][varname] = var
         except KeyError:
             pass
     for ds in datavars.keys():
@@ -1372,9 +1387,13 @@ def call_single_time(
             for varname in datavars[ds].keys():
                 set_variable_metadata(xarray_obj.attrs, band_metadata, ds, varname)
                 datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
-                if "satellite_zenith_angle" in gvars[ds].keys():
+                if (
+                    "satellite_zenith_angle" in gvars[ds].keys()
+                    and mask_sat_zen_greater
+                ):
                     datavars[ds][varname] = np.ma.masked_where(
-                        gvars[ds]["satellite_zenith_angle"] > 85, datavars[ds][varname]
+                        gvars[ds]["satellite_zenith_angle"] > mask_sat_zen_greater,
+                        datavars[ds][varname],
                     )
 
     print_mem_usage("MEMUSG", verbose=False)

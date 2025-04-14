@@ -1,0 +1,27 @@
+enhancement:
+- description: |
+    Builds off of 'new-prd-fam-unsectored-xarray-dict-to-algorithm-to-output-format' PR,
+    modifying code mentioned below to have accept dynamic 'satellite-zenith-mask' values
+    so we can adjust what portion of data is displayed via geostationary satellites.
+
+    To use this new functionality, simply add "mask_sat_zen_greater": <int_value> to
+    the 'reader_kwargs' argument dictionary at the command line. Making this masking
+    value dynamic provides users and developers with the ability to shape data specific
+    to their use cases.
+
+    This PR also modifies some of the functionality used to calculate borders for
+    sectors. It uses the area definition's 'get_lonlats' method instead of the
+    precalculated area def's 'area_extent_ll' which can cause problems with sectors that
+    extend from -180, 180 longitude or -90, 90 latitude.
+  files:
+    modified:
+      - geoips/geoips_utils.py
+      - geoips/image_utils/maps.py
+      - geoips/itnerfaces/module_based/readers.py
+      - geoips/plugins/modules/readers/abi_netcdf.py
+      - geoips/plugins/modules/readers/ahi_hsd.py
+      - geoips/plugins/modules/readers/ami_netcdf.py
+      - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/schema/sectors/specs/area_definition.yaml
+      - geoips/xarray_utils/data.py
+  title: 'GeoRing Sector Fixes and Data Fusion Masking'
