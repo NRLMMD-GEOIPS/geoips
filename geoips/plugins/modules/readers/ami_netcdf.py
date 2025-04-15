@@ -112,7 +112,7 @@ Equations and code from GEO-KOMPSAT-2A Level 1B Data User Manual.
 """
 
 
-def latlon_from_lincol_geos(Line, Column, metadata):
+def latlon_from_lincol_geos(resolution, line, column, metadata):
     """Calculate latitude and longitude from array indices.
 
     Uses geostationary projection (likely won't work with extended local area files).
@@ -122,16 +122,33 @@ def latlon_from_lincol_geos(Line, Column, metadata):
     if not os.path.isfile(fname):
         degtorad = 3.14159265358979 / 180.0
 
-        COFF = metadata["COFF"]
-        CFAC = metadata["CFAC"]
-        LOFF = metadata["LOFF"]
-        LFAC = metadata["LFAC"]
+        if resolution == "HIGH":
+            COFF = 11000.5
+            CFAC = 8.170135561335742e7
+            LOFF = 11000.5
+            LFAC = 8.170135561335742e7
+        elif resolution == "MED":
+            COFF = 5500.5
+            CFAC = 4.0850677806678705e7
+            LOFF = 5500.5
+            LFAC = 4.0850677806678705e7
+        else:
+            COFF = 2750.5
+            CFAC = 2.0425338903339352e7
+            LOFF = 2750.5
+            LFAC = 2.0425338903339352e7
+        sub_lon = 128.2
 
-        sub_lon = metadata["sub_lon"]
+        # COFF = metadata["COFF"]
+        # CFAC = metadata["CFAC"]
+        # LOFF = metadata["LOFF"]
+        # LFAC = metadata["LFAC"]
+        # sub_lon = metadata["sub_lon"]
+
         sub_lon = sub_lon * degtorad
 
-        x = np.empty_like(Column)
-        y = np.empty_like(Line)
+        x = np.empty_like(column)
+        y = np.empty_like(line)
         cosx = np.empty_like(x)
         cosy = np.empty_like(x)
         sinx = np.empty_like(x)
@@ -145,8 +162,8 @@ def latlon_from_lincol_geos(Line, Column, metadata):
         S3 = np.empty_like(x)
         Sxy = np.empty_like(x)
 
-        x = degtorad * ((Column - COFF) * 2**16 / CFAC)
-        y = degtorad * ((Line - LOFF) * 2**16 / LFAC)
+        x = degtorad * ((column - COFF) * 2**16 / CFAC)
+        y = degtorad * ((line - LOFF) * 2**16 / LFAC)
         x = x.astype(np.float32)
         y = y.astype(np.float32)
         ne.evaluate("cos(x)", out=cosx)
@@ -756,7 +773,7 @@ def call_single_time(
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
         i, j = np.meshgrid(i, j)
         (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-            Column=j, Line=i, metadata=geo_metadata[adname]
+            resolution=self_register, column=i, line=j, metadata=geo_metadata[adname]
         )
 
         gvars[adname] = get_geolocation(
@@ -786,7 +803,7 @@ def call_single_time(
                 j = np.arange(0, geo_metadata[res]["num_samples"], dtype="f")
                 i, j = np.meshgrid(i, j)
                 (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-                    Column=j, Line=i, metadata=geo_metadata[res]
+                    resolution=res, column=i, line=j, metadata=geo_metadata[res]
                 )
 
                 gvars[res] = get_geolocation(
