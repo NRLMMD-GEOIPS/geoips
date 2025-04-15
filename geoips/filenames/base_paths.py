@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Module for setting paths used throughout GeoIPS.
@@ -133,6 +133,14 @@ def initialize_paths():
         "BOXNAME": socket.gethostname(),
         # Threshold for image-based output checks.  This will be cast to float below.
         "OUTPUT_CHECKER_THRESHOLD_IMAGE": 0.05,
+        # Minimal default
+        # "GEOIPS_LOG_FMT_STRING": "%(asctime)s: %(message)s"
+        # "GEOIPS_LOG_DATEFMT_STRING": "%d_%H%M%S"
+        # More informative default
+        "GEOIPS_LOGGING_FMT_STRING": "%(asctime)s %(module)12s.py:%(lineno)-4d "
+        "%(levelname)7s: %(message)s",
+        "GEOIPS_LOGGING_DATEFMT_STRING": "%d_%H%M%S",
+        "GEOIPS_LOGGING_LEVEL": "interactive",
     }
 
     # Identify the defaults for relative path-based environment variables,
@@ -151,6 +159,7 @@ def initialize_paths():
             "PRECALCULATED_DATA_PATH": "preprocessed/algorithms",
             "CLEAN_IMAGERY_PATH": "preprocessed/clean_imagery",
             "ANNOTATED_IMAGERY_PATH": "preprocessed/annotated_imagery",
+            "GEOTIFF_IMAGERY_PATH": "preprocessed/geotiff_imagery",
             "FINAL_DATA_PATH": "preprocessed/final",
             "PREGENERATED_GEOLOCATION_PATH": "preprocessed/geolocation",
             # Scratch Directories

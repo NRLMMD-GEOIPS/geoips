@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read SEVIRI hrit data.
@@ -354,7 +354,7 @@ def radToRef(rad, sun_zen, platform, band):
     ref[rad > 0] = np.pi * rad[rad > 0] / irrad
     ref[ref < 0] = 0
     ref[ref > 1] = 1
-    ref[sun_zen > 90] = -999.0
+    ref[sun_zen > 95] = -999.0
     ref[sun_zen <= -999] = -999.0
     return ref
 
@@ -508,6 +508,10 @@ def call_single_time(
     gvars = {}
     datavars = {}
     adname = "undefined"
+    # Remove any HRV files from file list
+    # See note 1 at top of module
+
+    fnames = [fname for fname in fnames if not any(val in fname for val in ["HRV"])]
     if not fnames:
         raise NoValidFilesError("No files found in list, skipping")
 
