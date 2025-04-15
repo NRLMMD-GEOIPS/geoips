@@ -98,12 +98,9 @@ def read_remss_data(wind_xarray, data_type):
     )
     # minarr = wind_xarray.minute
     minarr = numpy.flipud(wind_xarray[minute_varname])
-    # This is a hack to get latest version of numpy to work with masked
-    # datetime64 arrays.
-    if hasattr(numpy, "isnat") and numpy.isnat(minarr.max()):
-        minarr = (minarr.astype(numpy.int64) / 1000).astype(numpy.int64)
-        minarr = numpy.ma.where(minarr < 0, numpy.nan, minarr)
-        minarr = minarr.astype("timedelta64[us]")
+    # NOTE there is a version of numpy 2.x that will break for masked datetime64
+    # arrays.  The latest stable version of numpy 2.2.4 works without modification,
+    # but beware that some versions were broken.
     timearr = datetime64(basedt) + minarr
     wind_xarray_1["time"] = xarray.DataArray(timearr[:, :, 0])
     wind_xarray_2["time"] = xarray.DataArray(timearr[:, :, 1])

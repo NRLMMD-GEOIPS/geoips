@@ -10,10 +10,6 @@ echo "expected_outputs: $expected_outputs"
 echo "copy_dir: $copy_dir"
 echo "tmp_outdirs: $tmp_outdirs"
 
-if [[ "$tmp_outdirs" == "" ]]; then
-    tmp_outdirs=$GEOIPS_OUTDIRS
-fi
-
 if [[ ! -f $expected_outputs ]]; then
     echo "Expected outputs file does not exist, please create before running test: $expected_outputs"
     exit 1
@@ -24,7 +20,23 @@ fi
     echo
     exit_state=0
     while read filename; do
-        fname="${filename/'$GEOIPS_OUTDIRS'/$tmp_outdirs}"
+        # Setting this order up to match geoips/geoips_utils replace_geoips_paths
+        if [[ "$tmp_outdirs" == "" ]]; then
+            fname="${filename/'$GEOIPS_OUTDIRS'/$GEOIPS_OUTDIRS}"
+        else
+            fname="${filename/'$GEOIPS_OUTDIRS'/$tmp_outdirs}"
+        fi
+        fname="${fname/'$TCWWW'/$TCWWW}"
+        fname="${fname/'$PRIVATEWWW'/$PRIVATEWWW}"
+        fname="${fname/'$PUBLICWWW'/$PUBLICWWW}"
+        fname="${fname/'$GEOTIFF_IMAGERY_PATH'/$GEOTIFF_IMAGERY_PATH}"
+        fname="${fname/'$ANNOTATED_IMAGERY_PATH'/$ANNOTATED_IMAGERY_PATH}"
+        fname="${fname/'$CLEAN_IMAGERY_PATH'/$CLEAN_IMAGERY_PATH}"
+        fname="${fname/'$GEOIPS_OUTDIRS'/$GEOIPS_OUTDIRDS}"
+        fname="${fname/'$GEOIPS_PACKAGES_DIR'/$GEOIPS_PACKAGES_DIR}"
+        fname="${fname/'$GEOIPS_TESTDATA_DIR'/$GEOIPS_TESTDATA_DIR}"
+        fname="${fname/'$GEOIPS_DEPENDENCIES_DIR'/$GEOIPS_DEPENDENCIES_DIR}"
+        fname="${fname/'$GEOIPS_BASEDIR'/$GEOIPS_BASEDIR}"
         if [[ -f "$fname" ]]; then
             echo "FOUNDPRODUCT $fname"
             if [[ "$copy_dir" != "" && -d $copy_dir ]]; then

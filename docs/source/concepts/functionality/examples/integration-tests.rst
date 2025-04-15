@@ -31,7 +31,7 @@ ABI Config Based Output
 AMSUB MIRS Tropical Cyclone 183-3H Imagery Annotated
 ----------------------------------------------------
 
-.. literalinclude:: ./../../../import/amsub_mirs.tc.183-3H.imagery_annotated.sh
+.. literalinclude:: ./../../../import/amsua_mhs_mirs.tc.rainrate.imagery.sh
 
 MIMIC Coarse Static TPW CIMSS Imagery Annotated
 -----------------------------------------------
@@ -53,10 +53,10 @@ MIMIC Fine Tropical Cyclone TPW PWAT Imagery Annotated
 
 .. literalinclude:: ./../../../import/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh
 
-ABI Static Infrared Imagery Annotated
--------------------------------------
+ABI Static Infrared Imagery Clean
+---------------------------------
 
-.. literalinclude:: ./../../../import/abi.static.Infrared.imagery_annotated.sh
+.. literalinclude:: ./../../../import/abi.static.Infrared.imagery_clean.sh
 
 ASCAT Low KNMI Tropical Cyclone Windbarbs Imagery Windbarbs
 -----------------------------------------------------------
@@ -83,10 +83,10 @@ OSCAT KNMI Tropical Cyclone Windbarbs Imagery Windbarbs
 
 .. literalinclude:: ./../../../import/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
 
-ABI Static Visible Imagery Annotated
-------------------------------------
+ABI Static Visible Imagery Clean
+--------------------------------
 
-.. literalinclude:: ./../../../import/abi.static.Visible.imagery_annotated.sh
+.. literalinclude:: ./../../../import/abi.static.Visible.imagery_clean.sh
 
 ASCAT NOAA 50km Tropical Cyclone Wind-Ambiguities Imagery Windbarbs
 -------------------------------------------------------------------
@@ -128,10 +128,10 @@ SEVIRI WV-Upper Unprojected Image
 
 .. literalinclude:: ./../../../import/seviri.WV-Upper.unprojected_image.sh
 
-AMI Static Infrared Imagery Annotated
--------------------------------------
+AMI Static Infrared Imagery Clean
+---------------------------------
 
-.. literalinclude:: ./../../../import/ami.static.Infrared.imagery_annotated.sh
+.. literalinclude:: ./../../../import/ami.static.Infrared.imagery_clean.sh
 
 ASCAT UHR Tropical Cyclone Windbarbs Imagery Windbarbs
 ------------------------------------------------------
@@ -143,10 +143,10 @@ SMAP Tropical Cyclone Windspeed Imagery Clean
 
 .. literalinclude:: ./../../../import/smap.tc.windspeed.imagery_clean.sh
 
-AMI Static Visible Imagery Annotated
-------------------------------------
+AMI Static Visible Imagery Clean
+--------------------------------
 
-.. literalinclude:: ./../../../import/ami.static.Visible.imagery_annotated.sh
+.. literalinclude:: ./../../../import/ami.static.Visible.imagery_clean.sh
 
 ASCAT UHR Tropical Cyclone Windspeed Imagery Clean
 --------------------------------------------------
@@ -158,10 +158,10 @@ SMAP Unsectored Text Winds
 
 .. literalinclude:: ./../../../import/smap.unsectored.text_winds.sh
 
-AMI Static MST Absdiff-IR-BD Imagery Annotated
-----------------------------------------------
+AMI Static MST Absdiff-IR-BD Imagery Clean
+------------------------------------------
 
-.. literalinclude:: ./../../../import/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh
+.. literalinclude:: ./../../../import/ami.static.mst.absdiff-IR-BD.imagery_clean.sh
 
 ATMS Tropical Cyclone 165H NetCDF GeoIPS
 ----------------------------------------

@@ -253,8 +253,7 @@ def add_args(parser, arglist=None, legacy=False):
             "-l",
             "--logging_level",
             choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
-            # Will default to $GEOIPS_LOGGING_LEVEL if set, else INTERACTIVE
-            default=getenv("GEOIPS_LOGGING_LEVEL"),
+            default=None,
             help="""Specify logging config level for GeoIPS commands.""",
             type=str.upper,
         )

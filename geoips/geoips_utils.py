@@ -395,8 +395,17 @@ def replace_geoips_paths(
     if base_paths is None:
         base_paths = geoips_paths
 
+    # These are the environment vriables that are specified in base_paths.py.
+    # Eventually we will want to pull these directly from the environment config,
+    # for now explicitly list env vars here.
     if replace_paths is None:
         replace_env_vars = [
+            "$TCWWW",
+            "$PRIVATEWWW",
+            "$PUBLICWWW",
+            "$GEOTIFF_IMAGERY_PATH",
+            "$ANNOTATED_IMAGERY_PATH",
+            "$CLEAN_IMAGERY_PATH",
             "$GEOIPS_OUTDIRS",
             "$GEOIPS_PACKAGES_DIR",
             "$GEOIPS_TESTDATA_DIR",

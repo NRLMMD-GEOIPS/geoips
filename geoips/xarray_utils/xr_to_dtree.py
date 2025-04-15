@@ -5,7 +5,7 @@
 
 
 import logging
-from datatree import DataTree
+from xarray import DataTree
 
 LOG = logging.getLogger(__name__)
 
