@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 if [[ "$1" != "write_output_file_list" && "$1" != "copy_files" && "$1" != "run_file_list_comparison" ]]; then
