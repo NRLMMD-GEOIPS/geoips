@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Pytest file for calling integration bash scripts."""
@@ -26,17 +26,17 @@ full_integ_test_calls = [
     "$data_fusion_repopath $data_fusion_pkgname html_only",
     "$geoips_repopath/docs/build_docs.sh "
     "$template_basic_plugin_repopath $template_basic_plugin_pkgname html_only",
-    "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
     "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
-    "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/abi.static.nasa_dust_rgb.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/abi.static.nasa_dust_rgb.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh",
     "$geoips_repopath/tests/scripts/abi.config_based_output.sh",
-    "$geoips_repopath/tests/scripts/ami.static.Infrared.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/ami.static.Visible.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/ami.static.Infrared.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/ami.static.Visible.imagery_clean.sh",
+    "$geoips_repopath/tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ami.tc.WV.geotiff.sh",
     "$geoips_repopath/tests/scripts/ami.WV-Upper.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh",
@@ -311,8 +311,8 @@ def test_integ_full_test_script(full_setup: None, script: str):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    if "ami.tc.WV.geotiff.sh" in script:
-        pytest.skip("GeoTIFF test is known to fail.")
+    # if "ami.tc.WV.geotiff.sh" in script:
+    #     pytest.skip("GeoTIFF test is known to fail.")
     run_script_with_bash(script)
 
 

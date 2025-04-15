@@ -4,7 +4,10 @@
 :set ts=4
 :set nowrap
 :set sw=4
-:colorscheme desert
+" Light
+:colorscheme default
+" Dark
+" :colorscheme desert
 :set paste
 :set expandtab
 :set autoindent

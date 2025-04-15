@@ -1,21 +1,21 @@
-auxiliary files:  # relative to repo root dir
+auxiliary files: # relative to repo root dir
   - CODE_OF_CONDUCT.md
   - tests/scripts/abi.config_based_exclude_goes17.sh
   - tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh
   - tests/scripts/imerg.tc.Rain.imagery_clean.sh
   - tests/scripts/abi.config_based_output.sh
-  - tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+  - tests/scripts/amsua_mhs_mirs.tc.rainrate.imagery.sh
   - tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
   - tests/scripts/abi.config_based_output_low_memory.sh
   - tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh
   - tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh
-  - tests/scripts/abi.static.Infrared.imagery_annotated.sh
+  - tests/scripts/abi.static.Infrared.imagery_clean.sh
   - tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh
   - tests/scripts/modis.Infrared.unprojected_image.sh
   - tests/scripts/abi.static.Infrared.netcdf_geoips.sh
   - tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh
   - tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
-  - tests/scripts/abi.static.Visible.imagery_annotated.sh
+  - tests/scripts/abi.static.Visible.imagery_clean.sh
   - tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh
   - tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
   - tests/scripts/ahi.tc.WV.geotiff.sh
@@ -24,13 +24,13 @@ auxiliary files:  # relative to repo root dir
   - tests/scripts/ami.WV-Upper.unprojected_image.sh
   - tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
   - tests/scripts/seviri.WV-Upper.unprojected_image.sh
-  - tests/scripts/ami.static.Infrared.imagery_annotated.sh
+  - tests/scripts/ami.static.Infrared.imagery_clean.sh
   - tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh
   - tests/scripts/smap.tc.windspeed.imagery_clean.sh
-  - tests/scripts/ami.static.Visible.imagery_annotated.sh
+  - tests/scripts/ami.static.Visible.imagery_clean.sh
   - tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh
   - tests/scripts/smap.unsectored.text_winds.sh
-  - tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh
+  - tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_clean.sh
   - tests/scripts/atms.tc.165H.netcdf_geoips.sh
   - tests/scripts/smos.tc.sectored.text_winds.sh
   - tests/scripts/ami.tc.WV.geotiff.sh
