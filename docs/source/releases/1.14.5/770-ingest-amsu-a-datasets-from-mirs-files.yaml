@@ -1,0 +1,56 @@
+bug fix:
+- title: 'Replace AMSU-B references with MHS, and update MIRS netCDF reader'
+  description: |
+    The amsub_mirs reader was a bit misleading. AMSU-B has not been around since 2005,
+    and has been replaced with the Microwave Humidity Sounder (MHS). The MIRS files
+    read in by the amsub_mirs reader actually contains both AMSU-A and MHS data, but
+    the reader only read in the MHS channels. In addition to updating this reader to
+    ingest the AMSU-A data, we made the decision to replace all references of AMSU-B
+    with MHS. This was also reflected in the product YAMLs, and therefor the test
+    scripts as well.
+
+    The amsub_mirs reader was renamed to amsua_mhs_mirs to better reflect which data
+    are being ingested, and sets the top-level metadata source name to amsu-a_mhs. To
+    make this all the more complicated, in order to have the correct source name listed
+    in the file name and title, the reader will change the source name to either amsu-a
+    or mhs at the dataset level. i.e. The source name in METADATA.attrs will always be
+    amsu-a_mhs, AMSUA.attrs will be amsu-a, and MHS.attrs will be mhs. Due to this
+    switching, we had to add amsu-a_mhs as a source input to all amsu-a and mhs product
+    yamls.
+
+    There was no problem with implementing the varying dataset source name in the single
+    source procflow, but it did cause issues with the config based procflow. The config
+    based procflow relies on checking the top level METADATA to get the product plugin.
+    To solve this problem, we added the ability to loop through all datasets and check
+    each source name. This was only a problem in two locations, and while the solution
+    implemented in this pull request works this funtionality should really be toggled
+    (e.g. if METADATA.source_name == multi)
+
+    An mhs product YAML previously existed, but it was not actually used. This PR
+    renames the amsu-b product YAML as mhs, and replaces all the contents of the old
+    mhs product YAML.
+
+    Also add a new amsu-a product - currently only supports the RainRate product.
+  files:
+    deleted:
+    - 'geoips/plugins/yaml/products/amsu-b.yaml'
+    - 'tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png'
+    moved:
+    - 'geoips/plugins/modules/readers/amsb_mirs.py -> geoips/plugins/modules/readers/amsua_mhs_mirs.py'
+    added:
+    - 'geoips/plugins/yaml/products/amsu-a.yaml'
+    - 'tests/outputs/mhs_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_mhs_metop-a_183-3H_115kts_100p00_1p0.png'
+    - 'tests/outputs/amsua_mirs.tc.RainRate.imagery_annotated/20210419_235400_WP022021_amsu-a_metop-a_RainRate_115kts_32p68_1p0.png'
+    - 'tests/outputs/amsua_mirs.tc.RainRate.imagery_annotated/20210419_235400_WP022021_amsu-a_metop-a_RainRate_115kts_32p68_1p0.png.yaml'
+    - 'tests/scripts/amsua_mirs.tc.rainrate.imagery_annotated.sh'
+    modified:
+    - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
+    - 'geoips/plugins/yaml/products/mhs.yaml'
+    - 'tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_mhs_metop-a_183-3H_115kts_100p00_1p0.png.yaml'
+    - 'tests/scripts/mhs_mirs.tc.183-3H.imagery_annotated.sh'
+  related-issue:
+    number: 770
+    repo_url: 'geoips'
+  date:
+    start: 2025-03-05
+    finish: 2025-03-05

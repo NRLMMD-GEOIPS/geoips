@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Processing workflow for single data source processing."""
@@ -14,7 +14,6 @@ import xarray
 from geoips.errors import PluginError
 from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
-from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import PidLog
@@ -2439,12 +2438,7 @@ def call(fnames, command_line_args=None):
         LOG.info("Writing successful outputs to %s", output_file_list_fname)
         with open(output_file_list_fname, "w", encoding="utf8") as fobj:
             fobj.writelines(
-                "\n".join(
-                    [
-                        fname.replace(gpaths["GEOIPS_OUTDIRS"], "$GEOIPS_OUTDIRS")
-                        for fname in final_products
-                    ]
-                )
+                "\n".join([replace_geoips_paths(fname) for fname in final_products])
             )
             # If we don't write out the last newline, then wc won't return the
             # appropriate number, and we won't get to the last file when attempting to

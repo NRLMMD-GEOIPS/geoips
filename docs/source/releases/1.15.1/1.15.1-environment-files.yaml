@@ -1,0 +1,30 @@
+Release Process:
+- title: 'Add pip and mamba 1.15.0 public and 1.15.1 full test bug fix env files'
+  description: |
+    Add pip and mamba environment files from the incoming public version,
+    and any bug fixes required to get full test to complete successfully with a
+    0 return.
+
+    2 passed, 2696 deselected in 133.79s (0:02:13)
+    geoips     base_test
+    return     0
+    total time 134
+    Wed Apr  2 17:21:55 UTC 2025
+
+    57 passed, 3440 deselected in 4938.81s (1:22:18)
+    geoips     full_test
+    return     0
+    total time 4941
+    Mon Apr  7 21:04:29 UTC 2025
+
+  files:
+    added:
+    - environments/mamba_base_package_list_1.15.0_20250402.yml
+    - environments/pip_base_requirements_1.15.0_20250402.txt
+    - environments/mamba_full_package_list_1.15.1_20250407.yml
+    - environments/pip_full_requirements_1.15.1_20250407.txt
+  date:
+    start: 2025-04-08
+    finish: 2025-04-08
+  related-issue:
+    internal: GEOIPS#753 - 1.15.1 updates
