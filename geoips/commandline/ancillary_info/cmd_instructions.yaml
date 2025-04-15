@@ -86,6 +86,7 @@ instructions:
   geoips_describe_product-defaults: *geoips-describe-artifact
   geoips_describe_products: *geoips-describe-artifact
   geoips_describe_sectors: *geoips-describe-artifact
+  geoips_describe_workflows: *geoips-describe-artifact
   # geoips_describe_family:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Family alongside descriptive information of
@@ -214,6 +215,7 @@ instructions:
   geoips_list_product-defaults: *list-single-interface
   geoips_list_products: *list-single-interface
   geoips_list_sectors: *list-single-interface
+  geoips_list_workflows: *list-single-interface
   geoips_list_interfaces:
     help_str: |
       List off every GeoIPS Interface. This is useful for seeing what is

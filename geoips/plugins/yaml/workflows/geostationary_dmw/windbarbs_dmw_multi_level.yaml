@@ -1,0 +1,40 @@
+interface: workflows
+family: order_based
+name: ob_windbarbs_dmw_multi_level
+docstring: |
+  The windbarbs workflow configuration.
+spec:
+  steps:
+    - algorithm:
+        name: windbarbs_dmw
+        arguments:
+          output_data_range: [0, 200]
+          input_units: m s-1
+          output_units: kts
+          min_outbounds: crop
+          max_outbounds: crop
+          norm: null
+          inverse: null
+    - coverage_checker:
+        name: windbarbs
+        arguments: {}
+    - output_formatter:
+        name: imagery_windbarbs_multi_level
+        arguments:
+          colormapper:
+            name: dmw_wind_levels
+            arguments: {}
+          windbarb_plotter:
+            name: imagery_windbarbs_multi_level
+            arguments:
+              thinning: 1  # skip data points
+              length: 5.0
+              width: 1.5
+              sizes_dict:
+                height: 0.7
+                spacing: 0.3
+              rain_size: 0
+          filename_formatter:
+            name: geoips_fname
+            arguments:
+              suffix: ".png"
