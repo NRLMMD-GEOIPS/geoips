@@ -198,6 +198,5 @@ uvicorn==0.34.0
 wcwidth==0.2.13
 Werkzeug==3.1.3
 xarray==2025.3.1
-xarray-datatree==0.0.15
 zarr==2.18.3
 zipp==3.21.0
