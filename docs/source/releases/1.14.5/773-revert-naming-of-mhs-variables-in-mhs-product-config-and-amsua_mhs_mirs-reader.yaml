@@ -1,0 +1,23 @@
+bug fix:
+- title: 'Revert naming of MHS variables'
+  description: |
+    Revert naming of MHS variables in mhs product config and amsua_mhs_mirs reader.
+    Having the variables named as MHS_Chan<N>_AT instead of Chan<N>_AT was causing
+    issues with other plugins, such as recenter_tc. We should keep the old naming
+    style for now, at least.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
+    - 'geoips/plugins/yaml/products/mhs.yaml'
+  related-issue:
+    number: 773
+    repo_url: 'geoips'
+  date:
+    start: 2025-03-10
+    finish: 2025-03-10

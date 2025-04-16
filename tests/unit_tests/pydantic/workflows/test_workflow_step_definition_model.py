@@ -58,27 +58,6 @@ def test_bad_workflow_step_definition_model_validator_invalid_plugin_name(
     assert "Must be one of " in error_info[0]["msg"]
 
 
-# def test_bad_workflow_step_definition_model_invalid_field_type(
-#     mocker, valid_reader_arguments_model_data, valid_step_data
-# ):
-#     """Tests WorkflowStepDefinitionModel for invalid field type instantiation."""
-
-#     def mock_init(self, **kwargs):
-#         self.__dict__.update(kwargs)
-
-#     mocker.patch.object(workflows.WorkflowStepDefinitionModel, "__init__", mock_init)
-
-#     invalid_test_data_PSDModel = {
-#         "type": 123,
-#         "name": 123,
-#         "arguments": valid_reader_arguments_model_data,
-#     }
-#     model = workflows.WorkflowStepDefinitionModel(**invalid_test_data_PSDModel)
-
-#     assert model.type == 123, "Expected 'type' to retain the invalid value"
-#     assert model.name == 123, "Expected 'name' to retain the invalid value"
-
-
 def test_bad_workflow_step_definition_model_additional_field(valid_step_data):
     """Tests ReaderArgumentsModel with additional field."""
     invalid_data = copy.deepcopy(valid_step_data)
@@ -94,3 +73,24 @@ def test_bad_workflow_step_definition_model_additional_field(valid_step_data):
     assert "unexpected_field" in str(
         exec_info.value
     ), "Unexpected field should be rejected by the WorkflowStepDefinitionModel"
+
+
+def test_bad_workflow_step_definition_model_invalid_field_type(
+    mocker, valid_reader_arguments_model_data, valid_step_data
+):
+    """Tests WorkflowStepDefinitionModel for invalid field type instantiation."""
+
+    def mock_init(self, **kwargs):
+        self.__dict__.update(kwargs)
+
+    mocker.patch.object(workflows.WorkflowStepDefinitionModel, "__init__", mock_init)
+
+    invalid_test_data_PSDModel = {
+        "type": 123,
+        "name": 123,
+        "arguments": valid_reader_arguments_model_data,
+    }
+    model = workflows.WorkflowStepDefinitionModel(**invalid_test_data_PSDModel)
+
+    assert model.type == 123, "Expected 'type' to retain the invalid value"
+    assert model.name == 123, "Expected 'name' to retain the invalid value"
