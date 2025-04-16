@@ -45,6 +45,9 @@ def test_good_sector(good_sector):
         - A dictionary representing a valid sector plugin.
     """
     validate_good_plugin(good_sector, SectorPluginModel)
+    modified_sector = PathDict(deepcopy(good_sector))
+    modified_sector["metadata"] = {"region": modified_sector["metadata"]}
+    validate_good_plugin(modified_sector, SectorPluginModel)
 
 
 @pytest.mark.parametrize("test_tup", test_cases.values(), ids=list(test_cases.keys()))
