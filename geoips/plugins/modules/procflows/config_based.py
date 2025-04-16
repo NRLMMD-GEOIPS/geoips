@@ -1054,11 +1054,7 @@ def call(fnames, command_line_args=None):
         pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
         LOG.interactive("Reading full dataset using reader '%s'...", reader_plugin.name)
         xobjs = reader_plugin(
-            fnames,
-            metadata_only=False,
-            chans=variables,
-            **reader_kwargs
-
+            fnames, metadata_only=False, chans=variables, **reader_kwargs
         )
 
     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
