@@ -1,5 +1,6 @@
 """Testing module for Pydantic SectorPluginModel."""
 
+import os
 from copy import deepcopy
 from importlib.resources import files
 
@@ -15,7 +16,9 @@ from tests.unit_tests.pydantic.utils import (
 )
 
 
-test_cases = load_test_cases("./test_cases.yaml")
+test_cases = load_test_cases(
+    f"{os.path.abspath(os.path.dirname(__file__))}/test_cases.yaml"
+)
 good_yaml = yaml.safe_load(
     open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
 )
