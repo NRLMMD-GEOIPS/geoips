@@ -28,7 +28,7 @@ if [[ ! -z $PS1 ]]; then
         export BRANCHOROPS="G2LOCAL"
         color_branchorops="\[\033[0;32m\]"
     fi
-    export prompt="$CONDA_PROMPT_MODIFIER\n\! $color_branchorops\u@\h:$BRANCHOROPS $GEOIPS_VERS$color_bw \d \t \w \nbash\$ "
+    export prompt="$CONDA_PROMPT_MODIFIER\n\! $color_branchorops\u@\h:$BRANCHOROPS ${GEOIPS_SYSTEM_VERSION:-$GEOIPS_VERSION}$color_bw \d \t \w \nbash\$ "
     PS1=$prompt
     # NOTE sometimes this clobbers screens titles if PROMPT_COMMAND is set
     # Unsetting it here, so at least if we start screen from a GEOIPS env,
