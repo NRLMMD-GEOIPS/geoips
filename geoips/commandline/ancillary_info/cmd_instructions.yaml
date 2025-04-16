@@ -12,9 +12,11 @@ instructions:
     help_str: |
       Install the appropriate test dataset and/or package based on the arguments
       provided. To see a list of available test datasets for install, run
-      `geoips list test-datasets`.
+      `geoips list test-datasets`. If wanting to install data to a location different
+      that $GEOIPS_TESTDATA_DIR, then use the -o (outdir) option and provide a full path
+      to the directory you desire to install data in.
     usage_str: |
-      To use, type `geoips config install <test_dataset_name>`.
+      To use, type `geoips config install <test_dataset_name> -o <full_path>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
@@ -416,8 +418,10 @@ instructions:
     help_str: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood
       via GeoIPS, this is an easy way to test whether or not the plugin you are
-      developing is valid.
+      developing is valid. If the <file_path> you're trying to validate is a
+      multi-document YAML file, you'll also need to provide the name of the plugin
+      within that file for this command to work.
     usage_str: |
-      To use, type `geoips validate <file_path>`. Do it man. NOW.
+      To use, type `geoips validate <file_path> OPT_ARG <plugin_name>`.
     output_info:
       - A message telling you if the plugin is valid or not and why.

@@ -1,6 +1,6 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is protected under the license referenced at
+ | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _linux-installation:
@@ -130,11 +130,8 @@ and run integration tests:
     # Install base GeoIPS package and minimal test datasets.
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
 
-    # Create the GeoIPS plugin registries
-    create_plugin_registries
-
     # Run integration tests
-    pytest -m "integration and base"
+    pytest -m "integration and base" $GEOIPS_PACKAGES_DIR/geoips
 
 6. Test output
 --------------
@@ -173,16 +170,16 @@ base_test.sh returns 0!  Not required.
 .. code:: bash
 
   if [[ "$NEW_GEOIPS_VERSION" != "" ]]; then
-      GEOIPS_VERS=$NEW_GEOIPS_VERSION
+      GEOIPS_VERSION=$NEW_GEOIPS_VERSION
   fi
-  if [[ "$GEOIPS_VERS" == "" ]]; then
-      GEOIPS_VERS=`python -c "import geoips; print(geoips.__version__)"`
+  if [[ "$GEOIPS_VERSION" == "" ]]; then
+      GEOIPS_VERSION=`python -c "import geoips; print(geoips.__version__)"`
   fi
 
   mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
 
   $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
+    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERSION}_`date -u +%Y%m%d`.txt
 
   $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
+    $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERSION}_`date -u +%Y%m%d`.yml
