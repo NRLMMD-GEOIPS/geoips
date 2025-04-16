@@ -49,6 +49,7 @@ from geoips.interfaces.yaml_based.gridline_annotators import (
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
 from geoips.interfaces.yaml_based.products import products
 from geoips.interfaces.yaml_based.sectors import sectors
+from geoips.interfaces.yaml_based.workflows import workflows
 
 # These lists are the "master" lists of the interface names.
 # These are used in validating the plugins (ie, so we will catch a typo
@@ -75,6 +76,7 @@ yaml_based_interfaces = [
     "product_defaults",
     "products",
     "sectors",
+    "workflows",
 ]
 # Note due to the fact that we are including all of the imported packages
 # in __all__ via variables rather than the actual strings, flake8 does
