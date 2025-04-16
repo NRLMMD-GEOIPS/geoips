@@ -1920,7 +1920,7 @@ def call(fnames, command_line_args=None):
     LOG.interactive(
         "Reading metadata from dataset with reader '%s'...", reader_plugin.name
     )
-    xobjs = reader_plugin(fnames, metadata_only=True)
+    xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
     pid_track.print_mem_usg()
 
@@ -1965,6 +1965,7 @@ def call(fnames, command_line_args=None):
             fnames,
             metadata_only=False,
             chans=variables,
+            **reader_kwargs
         )
 
     pid_track.print_mem_usg()

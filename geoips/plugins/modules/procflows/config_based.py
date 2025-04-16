@@ -1010,7 +1010,7 @@ def call(fnames, command_line_args=None):
         LOG.interactive(
             "Reading background datasets using reader '%s'...", bg_reader_plugin.name
         )
-        bg_xobjs = bg_reader_plugin(bg_files, metadata_only=True)
+        bg_xobjs = bg_reader_plugin(bg_files, metadata_only=True, **bg_reader_kwargs)
         prod_plugin = products.get_plugin(
             bg_xobjs["METADATA"].source_name,
             bg_product_name,
@@ -1029,7 +1029,7 @@ def call(fnames, command_line_args=None):
     LOG.interactive(
         "Reading metadata from datasets using reader '%s'...", reader_plugin.name
     )
-    xobjs = reader_plugin(fnames, metadata_only=True)
+    xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
     source_name = xobjs["METADATA"].source_name
 
     if not produce_current_time(config_dict, xobjs["METADATA"], output_dict_keys=None):
@@ -1057,6 +1057,8 @@ def call(fnames, command_line_args=None):
             fnames,
             metadata_only=False,
             chans=variables,
+            **reader_kwargs
+
         )
 
     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
