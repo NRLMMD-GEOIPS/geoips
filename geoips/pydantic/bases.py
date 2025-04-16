@@ -331,7 +331,6 @@ class PluginModel(FrozenModel):
             ),
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
-        LOG.warning("TEST")
         try:
             if "\n" in value:
                 LOG.critical(
