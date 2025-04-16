@@ -1,15 +1,15 @@
 """Testing module for Pydantic SectorPluginModel."""
 
-import os
 from copy import deepcopy
+from importlib.resources import files
 
 import pytest
+import yaml
 
 from geoips.pydantic.sectors import SectorPluginModel
 from tests.unit_tests.pydantic.utils import (
     PathDict,
     load_test_cases,
-    load_geoips_yaml_plugin,
     validate_bad_plugin,
     validate_good_plugin,
 )
@@ -17,15 +17,14 @@ from tests.unit_tests.pydantic.utils import (
 interface = "sectors"
 
 
-test_cases = load_test_cases(
-    f"{os.path.abspath(os.path.dirname(__file__))}/test_cases.yaml"
-)
+test_cases = load_test_cases(interface)
 good_yaml = yaml.safe_load(
     open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
 )
 good_yaml["abspath"] = str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml")
 good_yaml["relpath"] = "plugins/yaml/sectors/static/korea.yaml"
 good_yaml["package"] = "geoips"
+
 
 @pytest.fixture
 def good_sector():
