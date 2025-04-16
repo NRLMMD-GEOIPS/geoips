@@ -363,6 +363,14 @@ class StaticMetadata(FrozenModel):
     city: str = Field(..., description="City which the sector resides in.")
 
 
+class RegionMetadata(FrozenModel):
+    """Metadata format for standard static sectors."""
+
+    region: StaticMetadata = Field(
+        ..., description="Additional field used to specify metadata in a legacy format."
+    )
+
+
 class BoxMetadata(FrozenModel):
     """Metadata format for pyroCb sectors."""
 
@@ -560,6 +568,7 @@ class SectorPluginModel(PluginModel):
     )
     metadata: Union[
         BoxMetadata,
+        RegionMetadata,
         StaticMetadata,
         StitchedMetadata,
         TCMetadata,
