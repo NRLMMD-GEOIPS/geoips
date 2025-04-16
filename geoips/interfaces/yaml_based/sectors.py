@@ -94,7 +94,7 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
-    validator = SectorPluginModel
+    # validator = SectorPluginModel
 
 
 sectors = SectorsInterface()
