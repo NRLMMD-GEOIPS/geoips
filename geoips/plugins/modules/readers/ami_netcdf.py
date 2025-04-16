@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Standard GeoIPS xarray dictionary based GeoKOMPSAT AMI NetCDF data reader."""
@@ -185,7 +185,6 @@ def latlon_from_lincol_geos(resolution, line, column, metadata):
 
         nlat[np.where(np.isnan(nlat))] = -999.9
         nlon[np.where(np.isnan(nlon))] = -999.9
-
         with open(fname, "w") as df:
             nlat.tofile(df)
             nlon.tofile(df)
@@ -384,8 +383,11 @@ def _get_metadata(df, fname):
         metadata["path"] = fname
     metadata["satellite"] = metadata["global"]["general"]["satellite_name"]
     metadata["sensor"] = df.instrument_name
-    metadata["num_lines"] = df.number_of_lines
-    metadata["num_samples"] = df.number_of_columns
+    # These were being returned as np.int32's, causing an overflow when passed
+    # to numpy 2.x memmap call in latlon_from_lincol_geos function below.
+    # Explicitly cast to np.int64 to avoid overflow in memmap
+    metadata["num_lines"] = np.int64(df.number_of_lines)
+    metadata["num_samples"] = np.int64(df.number_of_columns)
     return metadata
 
 
@@ -422,8 +424,11 @@ def _get_geolocation_metadata(metadata):
     # Just getting the nadir resolution in kilometers.  Must extract from a string.
     geomet["res_km"] = float(metadata["general"]["channel_spatial_resolution"])
     geomet["roi_factor"] = 5  # roi = res * roi_factor, was 10
-    geomet["num_lines"] = metadata["data"]["number_of_lines"]
-    geomet["num_samples"] = metadata["data"]["number_of_columns"]
+    # These were being returned as np.int32's, causing an overflow when passed
+    # to numpy 2.x memmap call in latlon_from_lincol_geos function below.
+    # Explicitly cast to np.int64 to avoid overflow in memmap
+    geomet["num_lines"] = np.int64(metadata["data"]["number_of_lines"])
+    geomet["num_samples"] = np.int64(metadata["data"]["number_of_columns"])
     # Dynamically get offsets and scale factors needed for correct geolocation
     # calculation
     geomet["sub_lon"] = metadata["projection"]["sub_longitude"]
@@ -628,7 +633,10 @@ def call_single_time(
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), "r"), fname)
+            # Open using with to avoid seg faults due to not properly closing files.
+            # This did not seg fault prior to netcdf 1.7 / numpy 2.x
+            with ncdf.Dataset(str(fname), "r") as ds:
+                all_metadata[fname] = _get_metadata(ds, fname)
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             continue
@@ -917,6 +925,11 @@ def call_single_time(
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in geo_metadata.keys():
+            LOG.info(
+                "Trying metadata roi %s %s",
+                geo_metadata[curr_res]["res_km"] * 1000.0,
+                roi,
+            )
             if geo_metadata[curr_res]["res_km"] * 1000.0 > roi:
                 roi = geo_metadata[curr_res]["res_km"] * 1000.0
                 LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)

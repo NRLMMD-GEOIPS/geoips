@@ -1,0 +1,138 @@
+bug fix:
+- title: 'Allow command line tests for editable and non-editable installs'
+  description: |
+    Previously non-editable installs would fail the commandline-based unit tests.
+    Ensure editable and non-editable installs both pass.  GitHub Actions workflows
+    should be updated to test both editable and non-editable installs, as appropriate.
+
+    Note LOG.warnings were added to the geoips_list_unit_tests unit test when the
+    unit-test directory does not exist, in addition to the xfail.  Currently we
+    are planning to xfail when unit-test directory does not exist.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/unit_tests/commandline/cli_top_level_tester.py'
+    - 'tests/unit_tests/commandline/test_geoips_list_scripts.py'
+    - 'tests/unit_tests/commandline/test_geoips_list_unit_tests.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-02-25
+    finish: 2025-02-25
+- title: 'Check if unit-tests folder exists when determining if it exists.'
+  description: |
+    Previously this checked if the length of the list of package_names was 1 to
+    determine if the unit-tests folder existed.  I don't think that is correct.
+    Instead, check if os.path.exists on the unit-tests folder, and if it does not
+    exist, raise an error that the unit-tests folder does not exist.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/geoips_list.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-02-25
+    finish: 2025-02-25
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
