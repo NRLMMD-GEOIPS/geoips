@@ -1,7 +1,7 @@
+#!/bin/bash
+
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
-
-#!/bin/bash
 
 test_exit=""
 install_script=""
