@@ -1,5 +1,6 @@
 """Testing module for Pydantic SectorPluginModel."""
 
+import os
 from copy import deepcopy
 
 import pytest
@@ -15,9 +16,16 @@ from tests.unit_tests.pydantic.utils import (
 
 interface = "sectors"
 
-test_cases = load_test_cases(interface)
-good_yaml = load_geoips_yaml_plugin(interface, "korea")
 
+test_cases = load_test_cases(
+    f"{os.path.abspath(os.path.dirname(__file__))}/test_cases.yaml"
+)
+good_yaml = yaml.safe_load(
+    open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
+)
+good_yaml["abspath"] = str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml")
+good_yaml["relpath"] = "plugins/yaml/sectors/static/korea.yaml"
+good_yaml["package"] = "geoips"
 
 @pytest.fixture
 def good_sector():
@@ -40,6 +48,9 @@ def test_good_sector(good_sector):
         - A dictionary representing a valid sector plugin.
     """
     validate_good_plugin(good_sector, SectorPluginModel)
+    modified_sector = PathDict(deepcopy(good_sector))
+    modified_sector["metadata"] = {"region": modified_sector["metadata"]}
+    validate_good_plugin(modified_sector, SectorPluginModel)
 
 
 @pytest.mark.parametrize("test_tup", test_cases.values(), ids=list(test_cases.keys()))
