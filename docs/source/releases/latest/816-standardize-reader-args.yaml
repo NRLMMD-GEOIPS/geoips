@@ -32,8 +32,6 @@ enhancement:
     - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
     - 'geoips/plugins/modules/readers/ssmi_binary.py'
     - 'geoips/plugins/modules/readers/ssmis_binary.py'
-    - 'geoips/plugins/modules/procflows/config_based.py'
-    - 'geoips/plugins/modules/procflows/single_source.py'
   related-issue:
     number: 805
     repo_url: ''
