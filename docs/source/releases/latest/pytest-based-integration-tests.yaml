@@ -1,0 +1,23 @@
+testing:
+- title: 'Add pytest-based integration tests for all packages'
+  description: |
+    * Remove individual package repopaths and pkgnames from geoips test_integration,
+      since integration tests are now called directly from each package.
+    * Allow "integration" marker for interactive_pytest.sh (to run all integration
+      tests)
+    * Remove individual test calls to individual repositories integration tests, since
+      they are now tested directly.
+    * Add "preprocess" marker to pytest.ini
+  files:
+    moved:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/utils/interactive_pytest.sh'
+    - 'pytest.ini'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14
