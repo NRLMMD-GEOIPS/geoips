@@ -44,7 +44,7 @@ def call(workflow, fnames, command_line_args=None):
 
         if interface not in handled_interfaces:
             LOG.interactive(
-                "Skipping unhandled interface %s. Would have called the %s plugin.",
+                "Skipping unhandled interface '%s'. Would have called the '%s' plugin.",
                 interface,
                 step_def.name,
             )
