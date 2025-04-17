@@ -52,7 +52,7 @@ def call(workflow, fnames, command_line_args=None):
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
             LOG.interactive(
-                "Calling %s %s plugin with the following arguments: \n\t%s",
+                "Calling '%s' '%s' plugin with the following arguments: \n\t'%s'",
                 step_def.name,
                 step_def.type,
                 step_def.arguments,
@@ -67,7 +67,7 @@ def call(workflow, fnames, command_line_args=None):
             else:
                 data = plg(data, **step_def.arguments)
             LOG.interactive(
-                "Finished %s %s plugin.",
+                "Finished '%s' '%s' plugin.",
                 step_def.name,
                 step_def.type,
             )
