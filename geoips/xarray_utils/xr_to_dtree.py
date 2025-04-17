@@ -1,11 +1,11 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Takes in a dictionary of xarrays and converts to xarray datatree."""
 
 
 import logging
-from datatree import DataTree
+from xarray import DataTree
 
 LOG = logging.getLogger(__name__)
 
