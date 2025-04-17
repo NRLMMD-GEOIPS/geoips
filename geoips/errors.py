@@ -1,7 +1,18 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS error module."""
+
+
+class MissingRequiredXarrayMetadata(Exception):
+    """Exception to be raised when required metadata missing from a geoips xarray.
+
+    Can be used from reader plugins if required metadata is missing, or from the
+    procflows to validate the xarray output of plugins.  At every stage, all GeoIPS
+    xarrays should contain the required metadata.
+    """
+
+    pass
 
 
 class NoValidFilesError(Exception):
