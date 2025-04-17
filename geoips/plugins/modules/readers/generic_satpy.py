@@ -4,7 +4,7 @@
 
 """Generic Satpy reader.
 
-Provides a GeoIPS wrapper for basi Satpy reader functionality. For more detailed
+Provides a GeoIPS wrapper for basic Satpy reader functionality. For more detailed
 documentation of Satpy, see the documentation here:
 https://satpy.readthedocs.io/en/stable/. This reader creates a Scene object with
 the provided filenames and specified reader, then loads provided channels. The
