@@ -2,7 +2,7 @@
 
 A drop‑in str subclass that normalizes English nouns so that their
 singular and plural forms compare as equal, hash to the same key, and work
-inside Pydantic v2 models. Normalization cached for speed.
+inside Pydantic v2 models. Normalization cached for speed. Ignores capitalization.
 
 Examples
 --------
@@ -27,7 +27,7 @@ from typing import Any, Dict
 
 __all__ = ["Lexeme"]
 
-# Irregular nouns – plural ↔ singular (lower‑case)
+# Irregular nouns – plural ↔ singular
 #   - Each plural maps to its singular
 #   - Singulars map to themselves so that a single lookup works
 _IRREGULAR: Dict[str, str] = {
@@ -46,7 +46,7 @@ _S_TO_P: Dict[str, str] = {
 }
 
 
-@functools.lru_cache(maxsize=1_024)
+# @functools.lru_cache(maxsize=1_024)
 def _normalize(word: str) -> str:
     """Return the canonical singular, lower‑case form of word.
 
@@ -135,7 +135,7 @@ class Lexeme(str):
             return self._key() == _normalize(other)
         if isinstance(other, Lexeme):
             return self._key() == other._key()
-        return NotImplemented(f"Can't compare lexeme with type {type(other)}")
+        return False
 
     def __hash__(self) -> int:
         """Hash lexeme."""
@@ -155,7 +155,7 @@ class Lexeme(str):
         # lazy import so only imported if using pydantic
         from pydantic_core import core_schema
 
-        def _to_lexeme(value: object, _info):
+        def _to_lexeme(value: object, _info=None):
             if isinstance(value, cls):
                 return value
             if isinstance(value, str):
