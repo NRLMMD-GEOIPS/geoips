@@ -1,6 +1,6 @@
 bug fix:
 - title: 'Fixes file object resource warnings across multiple files'
-  description: 'Pytest runs are raising resource warnings due to unclosed file objects in multiple locations.'
+  description: 'Refactored file handling to use the with context manager for automatic file closure.'
   files:
     deleted:
     - ''
@@ -22,7 +22,7 @@ bug fix:
     - 'geoips/tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py'
   related-issue:
     number: 931
-    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+    repo_url: ''
   date:
     start: 04/03/2025
     finish: 04/04/2025
