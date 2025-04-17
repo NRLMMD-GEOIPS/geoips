@@ -704,12 +704,12 @@ class BaseYamlInterface(BaseInterface):
                 return self.retry_get_plugin(
                     name, rebuild_registries, err_str, PluginRegistryError
                 )
-            with open(abspath, "r") as fo:
-                doc_iter = list(yaml.safe_load_all(fo))
+
+            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
             doc_length = sum(1 for _ in doc_iter)
             if doc_length > 1 or self.name == "workflows":
                 plugin_found = False
-                for plugin in doc_iter:
+                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
                     if plugin["name"] == name:
                         plugin_found = True
                         plugin["package"] = package

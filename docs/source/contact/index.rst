@@ -6,4 +6,4 @@
 About Us
 ********
 
-You can contact us at geoips@nrlmry.navy.mil
+You can contact us at geoips@us.navy.mil
