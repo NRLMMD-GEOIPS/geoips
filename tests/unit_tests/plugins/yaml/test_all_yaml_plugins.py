@@ -8,6 +8,7 @@ from importlib import resources, metadata
 
 from geoips.interfaces.base import YamlPluginValidator
 from geoips.interfaces.yaml_based.products import ProductsPluginValidator
+from geoips.pydantic.workflows import WorkflowPluginModel
 
 validator = YamlPluginValidator()
 product_validator = ProductsPluginValidator()
@@ -31,9 +32,14 @@ def gen_label(val):
 @pytest.mark.parametrize("plugin", yield_plugins(), ids=gen_label)
 def test_is_plugin_valid(plugin):
     """Test if plugin is valid."""
+
     with open(plugin, "r") as fo:
-        rplugin = yaml.safe_load(fo)
-    if rplugin["interface"] == "products":
-        product_validator.validate(rplugin)
-    else:
-        validator.validate(rplugin)
+        docs = list(yaml.safe_load_all(fo))
+
+    for rplugin in docs:
+        if rplugin["interface"] == "products":
+            product_validator.validate(rplugin)
+        elif rplugin["interface"] == "workflows":
+            WorkflowPluginModel(**rplugin)
+        else:
+            validator.validate(rplugin)

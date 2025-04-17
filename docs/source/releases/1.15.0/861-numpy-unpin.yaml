@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Version update for numpy 2.0'
+  description: 'Removed pinned numpy versioning, and allowed for dynamic numexpr, netcdf, and numpy versions.'
+  files:
+    modified:
+    - 'pyproject.toml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

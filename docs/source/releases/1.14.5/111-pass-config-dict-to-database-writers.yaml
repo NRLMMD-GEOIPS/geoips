@@ -1,0 +1,113 @@
+enhancement:
+  - title: "Pass config_dict to database writer"
+    description: |
+      To ensure all processing workflow configuration information is available
+      to the database writers, just pass the full config_dict.  When order basd
+      procflow is implemented, I expect to be able to pass the full order based
+      procflow config into the database writers as well, and we will be able to
+      adjust to get the appropriate information out at that time.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - "geoips/plugins/modules/procflows/config_based.py"
+    related-issue:
+      number: 111
+      internal: "GEOIPS#111 - pass config_dict to database writers"
+    date:
+      start: 2025-01-18
+      finish: 2025-01-25
+deprecation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+removal:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+performance:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+documentation:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
+continuous integration:
+  - title: ""
+    description: ""
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - ""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: null
+      finish: null
