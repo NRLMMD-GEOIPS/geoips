@@ -2,7 +2,7 @@
 
 A drop‑in str subclass that normalizes English nouns so that their
 singular and plural forms compare as equal, hash to the same key, and work
-inside Pydantic v2 models. Normalization cached for speed. Ignores capitalization.
+inside Pydantic v2 models. Ignores capitalization.
 
 Examples
 --------
@@ -46,7 +46,6 @@ _S_TO_P: Dict[str, str] = {
 }
 
 
-# @functools.lru_cache(maxsize=1_024)
 def _normalize(word: str) -> str:
     """Return the canonical singular, lower‑case form of word.
 
