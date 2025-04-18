@@ -1,0 +1,19 @@
+enhancement:
+- title: 'Add support for EWS-G3 (GOES-14)'
+  description: |
+    Add hooks for EWS-G3 (GOES-14) to ewsg reader.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
+  related-issue:
+    number: 747
+  date:
+    start: 2025-02-05
+    finish: 2025-02-05
+

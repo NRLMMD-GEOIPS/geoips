@@ -30,9 +30,7 @@ from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
 
-ColorTuple = Union[
-    Tuple[float, float, float], Tuple[int, int, int], Tuple[int, int, int, float]
-]
+ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
 ColorType = Union[ColorTuple, str]
 
 

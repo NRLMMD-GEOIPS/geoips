@@ -1,4 +1,4 @@
-    # # # This source code is protected under the license referenced at
+    # # # This source code is subject to the license referenced at
     # # # https://github.com/NRLMMD-GEOIPS.
 
 GeoIPS Base Package
@@ -11,9 +11,9 @@ plug-and-play capability for user-specified custom functionality.
 Installation
 ------------
 See the
-installation guide ([linux](./docs/source/starter/installation.rst),
-[mac](./docs/source/starter/mac_installation.rst),
-[windows](./docs/source/starter/windows_installation.rst))
+installation guide ([linux](./docs/source/getting-started/installing/linux_with_conda.rst),
+[mac](./docs/source/getting-started/installing/mac_with_conda.rst),
+[windows](./docs/source/getting-started/installing/windows_with_conda.rst))
 within the source code documentation for installation instructions. GeoIPS has a fully supported
 exhaustive installation process, including a full conda environment, as well as a more basic
 pip based installation for "expert" users.
