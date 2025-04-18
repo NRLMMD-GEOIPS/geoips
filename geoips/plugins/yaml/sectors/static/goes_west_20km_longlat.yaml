@@ -1,0 +1,36 @@
+# NOTE this will not currently work, since it crosses the dateline.
+# Need to finalize cogeotiff output formatter.
+interface: sectors
+family: area_definition_static
+name: goes_west_20km_longlat
+docstring: |
+  GOES-West coverage
+  20km resolution, 1000x1000, centered on -137.2
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: GOES-West
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: goes_west_20km_longlat
+  description: |
+    GOES-West coverage
+    20km resolution, 1000x1000, centered on -137.2
+  proj_id: "EPSG:4326"
+  projection:
+    lat_0: 0
+    lon_0: 0
+    pm: -137.2
+    proj: longlat
+    datum: "WGS84"
+  shape:
+    height: 800
+    width: 825
+  # This is wrt -137.2 prime meridian being "0"
+  # Units are degrees, so xy in degrees not meters
+  area_extent:
+    lower_left_xy: [-75, -72]
+    upper_right_xy: [75, 72]

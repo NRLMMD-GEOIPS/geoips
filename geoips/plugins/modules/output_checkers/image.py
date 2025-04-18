@@ -1,10 +1,15 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test script for representative product comparisons."""
 
 import logging
-from os.path import splitext
+from PIL import Image
+import numpy as np
+from os import makedirs
+from os.path import exists, join, splitext
+
+from geoips.geoips_utils import get_numpy_seeded_random_generator
 
 from geoips.filenames.base_paths import PATHS as gpaths
 
@@ -17,11 +22,6 @@ name = "image"
 
 def get_test_files(test_data_dir):
     """Return a series of compare vs output image paths for testing purposes."""
-    from PIL import Image
-    import numpy as np
-    from os import makedirs
-    from os.path import exists, join
-
     savedir = join(test_data_dir, "scratch", "unit_tests", "test_images/")
     if not exists(savedir):
         makedirs(savedir)
@@ -31,15 +31,18 @@ def get_test_files(test_data_dir):
     # Relates to thresholds [0.1, 0.05, 0.0]
     compare_files = []
     test_files = []
+
+    predictable_random = get_numpy_seeded_random_generator()
+
     for threshold in thresholds:
         for i in range(3):
-            comp_arr = np.random.rand(100, 100, 3)
+            comp_arr = predictable_random.rand(100, 100, 3)
             test_arr = np.copy(comp_arr)
             if i == 1:
-                rand = np.random.randint(0, 100)
-                test_arr[rand][:] = np.random.rand(3)
+                rand = predictable_random.randint(0, 100)
+                test_arr[rand][:] = predictable_random.rand(3)
             elif i == 2:
-                test_arr = np.random.rand(100, 100, 3)
+                test_arr = predictable_random.rand(100, 100, 3)
             comp_img = Image.fromarray((comp_arr * 255).astype(np.uint8))
             test_img = Image.fromarray((test_arr * 255).astype(np.uint8))
             comp_file = join(savedir, f"comp_img_{threshold}{str(i)}.png")
@@ -115,8 +118,6 @@ def outputs_match(
         compare_product, output_product, flag="exact_"
     )
     out_diffimg_fname = plugin.get_out_diff_fname(compare_product, output_product)
-    from PIL import Image
-    import numpy as np
 
     try:
         from pixelmatch.contrib.PIL import pixelmatch

@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Generalized geolocation calculations for geostationary satellites."""
@@ -369,7 +369,13 @@ def get_indexes(metadata, lats, lons, area_def):
         LOG.info("    GETGEOINDS Masking longitudes")
         lons = np.ma.masked_less(lons, -999.1)
         LOG.info("    GETGEOINDS Wrapping longitudes, pyresample expects -180 to 180")
-        lons = utils.wrap_longitudes(lons)
+        # NOTE: it appears pyresample wrap_longitudes can sometimes return a
+        # different dtype than passed in. SwathDefinition will fail if dtype
+        # does not match between lats and lons. I believe pyresample
+        # wrap_longitudes began returning different dtype after numpy 2.0
+        # upgrade. It is probably a bug with pyresample, but this will ensure
+        # it does not break our processing.
+        lons = utils.wrap_longitudes(lons).astype(lats.dtype)
         LOG.info(
             "    GETGEOINDS Creating full disk swath definition for {}".format(
                 area_def.area_id

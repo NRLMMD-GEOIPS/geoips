@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Standard geoips filename production."""
@@ -42,6 +42,11 @@ def call(
     start_dt = xarray_obj.start_datetime
 
     resolution = max(area_def.pixel_size_x, area_def.pixel_size_y) / 1000.0
+    # This means area_extent is defined in units of degrees longitude, not meters.
+    if hasattr(area_def, "area_extent"):
+        if area_def.area_extent == area_def.area_extent_ll:
+            # 111km per degree longitude.
+            resolution = max(area_def.resolution[0], area_def.resolution[1]) * 111.0
 
     kwargs = {}
     sector_info = (
