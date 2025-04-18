@@ -1,7 +1,9 @@
 """Pydantic models used to validate GeoIPS gridline annotator plugins."""
 
-from pydantic import Field
+from enum import Enum
 from typing import Union, List, Optional
+
+from pydantic import Field
 
 from geoips.pydantic.bases import (
     FrozenModel,
@@ -11,19 +13,37 @@ from geoips.pydantic.bases import (
 )
 
 
+class LatLonEnum(str, Enum):
+    """Hardcoded 'auto' string that can be used for lat/lon spacing."""
+
+    auto = "auto"
+
+
 class Spacing(FrozenModel):
     """Model used to format the spacing of gridlines in annotated imagery."""
 
-    latitude: Union[float, str] = Field(
-        ..., description="Latitude spacing value, can be a number or a string."
+    latitude: Union[float, LatLonEnum.auto] = Field(
+        ...,
+        description=(
+            "Latitude spacing in degrees, can be a float or a string. If a string, it "
+            "must be 'auto', which represents automatic spacing based on your area_def."
+        ),
     )
-    longitude: Union[float, str] = Field(
-        ..., description="Longitude spacing value, can be a number or a string."
+    longitude: Union[float, LatLonEnum.auto] = Field(
+        ...,
+        description=(
+            "Longitude spacing in degrees, can be a float or a string. If a string, it "
+            "must be 'auto', which represents automatic spacing based on your area_def."
+        ),
     )
 
 
 class Labels(PermissiveFrozenModel):
-    """Model used to format labels in annotated imagery."""
+    """Model used to format labels in annotated imagery.
+
+    For more information, visit https://matplotlib.org/stable/ to see more context in
+    how to specify these fields.
+    """
 
     top: bool = Field(..., description="Whether to display the label at the top.")
     bottom: bool = Field(..., description="Whether to display the label at the bottom.")
@@ -39,11 +59,20 @@ class Labels(PermissiveFrozenModel):
     backgroundcolor: Optional[ColorType] = Field(
         None,
         description=(
-            "Background color of the label frame (named color, hex, or rgb tuple)."
+            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
+            "to apply to the background of your label frame.\n"
+            "For more info, see: "
+            "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
     )
     color: Optional[ColorType] = Field(
-        None, description="Color of the label text (named color, hex or rgb tuple)."
+        None,
+        description=(
+            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
+            "to apply to the label text of your image.\n"
+            "For more info, see: "
+            "https://matplotlib.org/stable/users/explain/colors/colors.html"
+        ),
     )
     fontfamily: Optional[str] = Field(
         None, description="Font family for the label text."
@@ -90,7 +119,11 @@ class Labels(PermissiveFrozenModel):
 
 
 class Lines(FrozenModel):
-    """Model used to format gridlines in annotated imagery."""
+    """Model used to format gridlines in annotated imagery.
+
+    For more information, visit https://matplotlib.org/stable/ to see more context in
+    how to specify these fields.
+    """
 
     color: ColorType = Field(
         ..., description="Color of the line (named color, hex, or rgb tuple)."
@@ -115,8 +148,10 @@ class GridlineAnnotatorSpec(FrozenModel):
     background: Optional[ColorType] = Field(
         None,
         description=(
-            "A rgb tuple, named color, or hexidecimal string to apply to the background"
-            " of your image frame."
+            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
+            "to apply to the background of your image frame.\n"
+            "For more info, see: "
+            "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
     )
 
