@@ -40,7 +40,6 @@ class CartopyFeature(PermissiveFrozenModel):
         """Validate edgecolor and linewidth based on the value of 'enabled'.
 
         If enabled is True, then both edgecolor and linewidth must be provided.
-        If set to False, then make sure that both edgecolor and linewidth are absent.
         """
         enabled = values.enabled
         edgecolor = values.edgecolor
