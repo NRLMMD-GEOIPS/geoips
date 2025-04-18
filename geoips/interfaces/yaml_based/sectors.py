@@ -4,7 +4,8 @@
 """Sector interface module."""
 
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
-from geoips.pydantic.sectors import SectorPluginModel
+
+# from geoips.pydantic.sectors import SectorPluginModel
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop

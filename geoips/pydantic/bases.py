@@ -54,9 +54,8 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        # Check if exclude unset removes all None attributes or just those which weren't
-        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
-        return self.model_dump_json(indent=2, exclude_unset=True)
+        # exclude_none removes all optional fields that were unset and default to None
+        return self.model_dump_json(indent=2, exclude_none=True)
 
 
 class FrozenModel(PrettyBaseModel):
@@ -353,7 +352,9 @@ class PluginModel(FrozenModel):
                     value,
                     exc_info=True,
                 )
-                raise PydanticCustomError("format_error", error_messages["format_error"])
+                raise PydanticCustomError(
+                    "format_error", error_messages["format_error"]
+                )
             if len(value) > 72:
                 excess_length = len(value) - 72
                 err_msg = f"{error_messages['length_error']} {excess_length} characters"
@@ -362,7 +363,9 @@ class PluginModel(FrozenModel):
                 )
                 raise PydanticCustomError("length_error", err_msg)
         except PydanticCustomError as e:
-            LOG.warning(f"Future ValidationError encoutnered. This will become an "
-                        f"error in a future release. {e}")
+            LOG.warning(
+                f"Future ValidationError encoutnered. This will become an "
+                f"error in a future release. {e}"
+            )
 
         return value

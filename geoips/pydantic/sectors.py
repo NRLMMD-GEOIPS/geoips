@@ -364,7 +364,11 @@ class StaticMetadata(FrozenModel):
 
 
 class RegionMetadata(FrozenModel):
-    """Metadata format for standard static sectors."""
+    """Metadata format for standard static sectors.
+
+    This is the same as StaticMetadata, just with an additional 'region' level. This is
+    a convenience model for specifying static sector plugins in a legacy format.
+    """
 
     region: StaticMetadata = Field(
         ..., description="Additional field used to specify metadata in a legacy format."
