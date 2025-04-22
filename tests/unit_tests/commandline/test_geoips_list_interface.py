@@ -125,12 +125,11 @@ class TestGeoipsListInterface(BaseCliTest):
         if "No plugins found under" in output and "-p" in args:
             # No plugins were found under the selected interface, within a
             # certain package; ensure that is correct.
-            plugin_registry = json.load(
-                open(
-                    Path(resources.files(args[-1]).joinpath("registered_plugins.json")),
-                    "r",
-                ),
-            )
+            with open(
+                Path(resources.files(args[-1]).joinpath("registered_plugins.json")), "r"
+            ) as fo:
+                plugin_registry = json.load(fo)
+
             # assert that the provided interface doesn't exist within that package's
             # plugin registry
             assert interface.name not in plugin_registry[interface_type].keys()
