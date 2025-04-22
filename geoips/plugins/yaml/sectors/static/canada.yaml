@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: canada
-docstring: "Canadian Country"
+docstring: "Canadian Country."
 metadata:
   region:
     continent: NorthAmerica

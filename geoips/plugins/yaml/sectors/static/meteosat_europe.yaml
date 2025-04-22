@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: meteosat_europe
-docstring: "Metoesat-Europe Cocerage"
+docstring: "Metoesat-Europe Cocerage."
 metadata:
   region:
     continent: Global

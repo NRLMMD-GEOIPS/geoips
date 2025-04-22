@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: north_pole
-docstring: "North Pole Region"
+docstring: "North Pole Region."
 metadata:
   region:
     continent: x

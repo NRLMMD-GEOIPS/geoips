@@ -73,7 +73,38 @@ Note: while you can leave the metadata untouched, it is very helpful to
 have additional information about the sector being displayed, not only for the backend
 of GeoIPS, but also for people using this sector plugin. The metadata also tells the
 GeoIPS filename formatters where to place the image, via geographic-labeled
-subdirectories, based on the info you provide in the ``region`` object..
+subdirectories, based on the info you provide in the ``region`` object.
+
+Metadata for a static sector can be specified in two formats, legacy or updated. The
+only difference between these two formats is that in legacy, we have a top level
+``region`` object, whereas in the updated format the remove that object and shift it's
+contents one level up. We recommend you use the updated format as legacy will eventually
+be removed.
+
+**Legacy**
+
+.. code-block:: yaml
+
+    metadata:
+      region:
+        continent: NorthAmerica
+        country: UnitedStates
+        area: x
+        subarea: x
+        state: x
+        city: x
+
+**Updated**
+
+.. code-block:: yaml
+
+    metadata:
+      continent: NorthAmerica
+      country: UnitedStates
+      area: x
+      subarea: x
+      state: x
+      city: x
 
 Once you’ve made the appropriate changes, you will be ready to use your custom sector
 plugin with CLAVR-x data.
