@@ -7,6 +7,8 @@ enhancement:
     - 'geoips/plugins/modules/output_formatters/windspeed_awips2_formatter.py'
     - 'tests/scripts/smap.awips.netcdf.sh'
     - 'tests/scripts/smos.awips.netcdf.sh'
+    modified:
+    - 'setup/test-data-urls.yaml'
   related-issue:
     number: null
     repo_url: 'https://github.com/coleman-m/geoips'
