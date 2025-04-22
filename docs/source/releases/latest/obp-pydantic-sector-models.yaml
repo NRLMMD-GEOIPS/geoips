@@ -18,6 +18,7 @@ enhancement:
       - tests/unit_tests/pydantic/sectors/test_sectors.py
       - tests/unit_tests/pydantic/utils.py
     modified:
+      - docs/source/tutorials/extending-with-plugins/static_sector/index.rst
       - geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
       - geoips/plugins/yaml/sectors/static/africa.yaml
       - geoips/plugins/yaml/sectors/static/african_horn.yaml
