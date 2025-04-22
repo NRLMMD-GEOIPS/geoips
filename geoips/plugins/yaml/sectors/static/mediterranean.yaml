@@ -3,12 +3,13 @@ family: area_definition_static
 name: mediterranean
 docstring: "Mediterranean Region."
 metadata:
-  continent: x
-  country: x
-  area: Mediterranean
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: x
+    country: x
+    area: Mediterranean
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: mediterranean
   description: Mediterranean Region

@@ -3,12 +3,13 @@ family: area_definition_static
 name: north_pole
 docstring: "North Pole Region."
 metadata:
-  continent: x
-  country: x
-  area: NorthPole
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: x
+    country: x
+    area: NorthPole
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: north_pole
   description: North Pole Region
