@@ -47,7 +47,8 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        return self.model_dump_json(indent=2)
+        # exclude_none removes all optional fields that were unset and default to None
+        return self.model_dump_json(indent=2, exclude_none=True)
 
 
 class FrozenModel(PrettyBaseModel):
@@ -212,7 +213,6 @@ class PluginModel(FrozenModel):
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
-
         interface_name = values.get("interface")
         try:
             interface = getattr(interfaces, interface_name)
@@ -329,27 +329,36 @@ class PluginModel(FrozenModel):
             ),
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
-        if "\n" in value:
-            LOG.critical(
-                "'error': %s 'input_provided': %r",
-                error_messages["single_line"],
-                value,
-                exc_info=True,
+        try:
+            if "\n" in value:
+                LOG.critical(
+                    "'error': %s 'input_provided': %r",
+                    error_messages["single_line"],
+                    value,
+                    exc_info=True,
+                )
+                raise PydanticCustomError("single_line", error_messages["single_line"])
+            if not (value[0].isalnum() and value.endswith(".")):
+                LOG.critical(
+                    "'error': %s 'input_provided': %r",
+                    error_messages["format_error"],
+                    value,
+                    exc_info=True,
+                )
+                raise PydanticCustomError(
+                    "format_error", error_messages["format_error"]
+                )
+            if len(value) > 72:
+                excess_length = len(value) - 72
+                err_msg = f"{error_messages['length_error']} {excess_length} characters"
+                LOG.critical(
+                    "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
+                )
+                raise PydanticCustomError("length_error", err_msg)
+        except PydanticCustomError as e:
+            LOG.warning(
+                f"Future ValidationError encoutnered. This will become an "
+                f"error in a future release. {e}"
             )
-            raise PydanticCustomError("single_line", error_messages["single_line"])
-        if not (value[0].isalnum() and value.endswith(".")):
-            LOG.critical(
-                "'error': %s 'input_provided': %r",
-                error_messages["format_error"],
-                value,
-                exc_info=True,
-            )
-            raise PydanticCustomError("format_error", error_messages["format_error"])
-        if len(value) > 72:
-            excess_length = len(value) - 72
-            err_msg = f"{error_messages['length_error']} {excess_length} characters"
-            LOG.critical(
-                "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
-            )
-            raise PydanticCustomError("length_error", err_msg)
+
         return value
