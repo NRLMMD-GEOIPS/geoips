@@ -9,6 +9,7 @@ enhancement:
     - 'tests/scripts/smos.awips.netcdf.sh'
     modified:
     - 'setup/test-data-urls.yaml'
+    - 'tests/integration_tests/test_integration.py'
   related-issue:
     number: null
     repo_url: 'https://github.com/coleman-m/geoips'
