@@ -3,12 +3,13 @@ family: area_definition_static
 name: central_america
 docstring: "Central America."
 metadata:
-  continent: NorthAmerica
-  country: x
-  area: CentralAmerica
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: NorthAmerica
+    country: x
+    area: CentralAmerica
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: central_america
   description: Central America

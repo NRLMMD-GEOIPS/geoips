@@ -3,12 +3,13 @@ family: area_definition_static
 name: mexico_city
 docstring: "Mexico City."
 metadata:
-  continent: NorthAmerica
-  country: Mexico
-  area: x
-  subarea: x
-  state: x
-  city: MexicoCity
+  region:
+    continent: NorthAmerica
+    country: Mexico
+    area: x
+    subarea: x
+    state: x
+    city: MexicoCity
 spec:
   area_id: mexico_city
   description: Mexico City

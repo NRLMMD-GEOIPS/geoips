@@ -434,11 +434,10 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         ):
 
             if package_name == "all" or package_name == plugin_package_name:
-                pkg_registry = json.load(
-                    open(
-                        f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
-                    )
-                )
+                with open(
+                    f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
+                ) as fo:
+                    pkg_registry = json.load(fo)
             else:
                 continue
             interface_data = []

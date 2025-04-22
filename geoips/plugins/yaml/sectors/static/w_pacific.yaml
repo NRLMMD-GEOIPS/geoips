@@ -3,12 +3,13 @@ family: area_definition_static
 name: w_pacific
 docstring: "Western Pacific."
 metadata:
-  continent: x
-  country: x
-  area: Western Pacific
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: x
+    country: x
+    area: Western Pacific
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: w_pacific
   description: Western Pacific

@@ -3,12 +3,13 @@ family: area_definition_static
 name: w_atlantic
 docstring: "Western Atlantic."
 metadata:
-  continent: x
-  country: x
-  area: Western Atlantic
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: x
+    country: x
+    area: Western Atlantic
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: w_atlantic
   description: Western Atlantic

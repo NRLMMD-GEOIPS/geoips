@@ -3,12 +3,13 @@ family: area_definition_static
 name: japan
 docstring: "Full disk sector for Himawari-8."
 metadata:
-  continent: Asia
-  country: Japan
-  area: x
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Asia
+    country: Japan
+    area: x
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: japan
   description: Japan

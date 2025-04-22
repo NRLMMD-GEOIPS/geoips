@@ -3,12 +3,13 @@ family: area_definition_static
 name: delhi
 docstring: "City of Delhi."
 metadata:
-  continent: Asia
-  country: India
-  area: x
-  subarea: x
-  state: x
-  city: Delhi
+  region:
+    continent: Asia
+    country: India
+    area: x
+    subarea: x
+    state: x
+    city: Delhi
 spec:
   area_id: delhi
   description: City of Delhi

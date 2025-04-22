@@ -3,12 +3,13 @@ family: area_definition_static
 name: ne_asia
 docstring: "Northeastern Asia."
 metadata:
-  continent: Asia
-  country: x
-  area: Continental
-  subarea: NorthEast
-  state: x
-  city: x
+  region:
+    continent: Asia
+    country: x
+    area: Continental
+    subarea: NorthEast
+    state: x
+    city: x
 spec:
   area_id: ne_asia
   description: Northeastern Asia
