@@ -208,7 +208,7 @@ class PluginModel(FrozenModel):
         -------
         dict
             Updated dictionary with the `package` field set based on the
-            metadata retrived from ``get_plugin_metadata()``.
+            metadata retrieved from ``get_plugin_metadata()``.
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
