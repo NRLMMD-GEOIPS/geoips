@@ -187,11 +187,13 @@ def call_single_time(
         ncdf_file = ncdf.Dataset(str(fname), "r")
         LOG.info("    Trying file %s", fname)
 
-        if ncdf_file.satellite == "goes-13":
+        if ncdf_file.satellite in ["goes-13", "goes-15"]:
             LOG.info("found a NOAA EWS-G data file")
         else:
             LOG.info("not a NOAA EWS-G data file: skip it")
-            raise
+            raise ValueError(
+                f"Found {ncdf_file.satellite}, expected either goes-13 or goes-15"
+            )
 
         # setup attributes
         # use fname to get an initial info of  year, month, day
@@ -272,8 +274,10 @@ def call_single_time(
         xarray_ewsg.attrs["source_name"] = "gvar"
 
         if ncdf_file.satellite == "goes-13":
-            xarray_ewsg.attrs["platform_name"] = "ews-g"
-
+            xarray_ewsg.attrs["platform_name"] = "ews-g1"
+        if ncdf_file.satellite == "goes-15":
+            xarray_ewsg.attrs["platform_name"] = "ews-g2"
+        xarray_ewsg.attrs["legacy_platform_name"] = ncdf_file.satellite
         xarray_ewsg.attrs["data_provider"] = "noaa"
         xarray_ewsg.attrs["source_file_names"] = [
             os.path.basename(fname) for fname in fnames

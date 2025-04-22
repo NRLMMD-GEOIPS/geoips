@@ -1,0 +1,9 @@
+enhancement:
+- description: |
+    Add logic for resampling data upon read to a given sector
+
+    Add option to disable bowtie correction
+  files:
+    modified:
+    - geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+  title: Add resampling capability to viirs_sdr_hdf5 reader

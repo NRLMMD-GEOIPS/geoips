@@ -102,13 +102,24 @@ def main(index_filename, release_note_path):
         lines += ["   latest\n"]
         lines += ["\n"]
 
+    # If upcoming.rst exists, include it in the index.rst
+    if exists(str(release_note_path / "upcoming.rst")):
+        lines += ["Upcoming (version AHEAD OF the cutting edge of git)\n"]
+        lines += ["---------------------------------------------------\n"]
+        lines += ["\n"]
+        lines += [".. toctree::\n"]
+        lines += ["   :maxdepth: 1\n"]
+        lines += ["\n"]
+        lines += ["   upcoming\n"]
+        lines += ["\n"]
+
     # Collect all the major, minor, bugfix, alpha version numbers, in a sortable
     # manner
     versions = {}
     # List all the release notes of format v*.rst - ie, don't include index.rst
     # or latest.rst, but DO include X_Y_ZaN.rst (alpha releases)
     for rst_file in glob(str(release_note_path / "*.rst")):
-        if basename(rst_file) in ["latest.rst", "index.rst"]:
+        if basename(rst_file) in ["latest.rst", "index.rst", "upcoming.rst"]:
             continue
         # print(f"Adding {rst_file}")
         # Just leave X.Y.ZaN or X.Y.Z, as appropriate

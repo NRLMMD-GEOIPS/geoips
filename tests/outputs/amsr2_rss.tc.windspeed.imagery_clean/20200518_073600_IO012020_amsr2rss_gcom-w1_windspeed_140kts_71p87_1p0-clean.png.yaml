@@ -1,0 +1,33 @@
+aid_type: BEST
+bounding_box:
+  image_height: 1400
+  image_width: 1400
+  maxlat: 19.69502596032627
+  maxlon: 92.49502596032627
+  minlat: 7.104974039673729
+  minlon: 79.90497403967373
+  pixel_height_m: 1000.0
+  pixel_width_m: 1000.0
+  proj4_string: +proj=eqc +lat_ts=0 +lat_0=13.4 +lon_0=86.2 +x_0=0 +y_0=0 +R=6371228
+    +units=m +no_defs +type=crs
+clat: 13.4
+clon: 86.2
+deck_line: IO, 01, 2020051806,   , BEST,   0, 134N,  862E, 140,  911, ST,  34, NEQ,  155,  125,  160,  145,  999,  200,   5,   0,  10,   B,   0,    ,   0,   0,     AMPHAN,
+  D,
+final_storm_name: AMPHAN
+invest_number: 91
+parser_name: bdeck_parser
+pressure: 911.0
+product_filename: $GEOIPS_OUTDIRS/preprocessed/tcwww/tc2020/IO/IO012020/png_clean/windspeed/gcom-w1/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png
+sector_type: tc
+source_file_names:
+- RSS_amsr2_TC-wind_daily_2020_05_18_v08.1.nc
+source_filename: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat
+source_sector_file: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat
+storm_basin: IO
+storm_name: AMPHAN
+storm_num: 1
+storm_start_datetime: 2020-05-15 06:00:00
+storm_year: 2020
+synoptic_time: 2020-05-18 06:00:00
+vmax: 140.0

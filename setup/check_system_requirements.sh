@@ -347,7 +347,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
         echo "Installing $test_data_name_string .... "
         echo "  $test_data_dir/ using $test_data_url via $test_data_source_location"
         if [[ "$test_data_source_location" == "github" ]]; then
-            python3 $SCRIPT_DIR/download_test_data.py $test_data_url --output-dir $GEOIPS_TESTDATA_DIR >> $install_log 2>&1
+            python3 $SCRIPT_DIR/download_test_data.py $test_data_url --output-dir $GEOIPS_TESTDATA_DIR/${test_data_name} >> $install_log 2>&1
             retval=$?
             if  [[ "$retval" == "0" ]]; then
                 echo "SUCCESS: Pulled ${test_data_name} from ${test_data_url}"

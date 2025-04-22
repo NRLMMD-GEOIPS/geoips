@@ -92,33 +92,39 @@ def initialize_paths():
         "GEOIPS_BASEDIR",
         os.path.abspath(os.path.join(paths["GEOIPS_PACKAGES_DIR"], os.pardir)),
     )
+    paths["GEOIPS_REBUILD_REGISTRIES"] = get_env_var(
+        "GEOIPS_REBUILD_REGISTRIES",
+        True,
+    )
+    # Convert the string to a bool
+    if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
+        paths["GEOIPS_REBUILD_REGISTRIES"] = False
 
-    geoips_global_variables = {
+    # Identify defaults for global GeoIPS variables.  The actual values for
+    # these variables will be set using get_env_var below.
+    geoips_global_variable_defaults = {
         # GeoIPS Documentation URL
         "GEOIPS_DOCS_URL": r"https://nrlmmd-geoips.github.io/geoips/",
         # Version
-        "GEOIPS_VERS": os.getenv("GEOIPS_VERS", "0.0.0"),
+        "GEOIPS_VERS": "0.0.0",
         # Operational User
-        "GEOIPS_OPERATIONAL_USER": os.getenv("GEOIPS_OPERATIONAL_USER", False),
+        "GEOIPS_OPERATIONAL_USER": False,
         # Copyright Information
-        "GEOIPS_COPYRIGHT": os.getenv("GEOIPS_COPYRIGHT", "NRL-Monterey"),
-        "GEOIPS_COPYRIGHT_ABBREVIATED": os.getenv(
-            "GEOIPS_COPYRIGHT_ABBREVIATED", "NRLMRY"
-        ),
+        "GEOIPS_COPYRIGHT": "NRL-Monterey",
+        "GEOIPS_COPYRIGHT_ABBREVIATED": "NRLMRY",
         # Configuration and Queue
-        "GEOIPS_RCFILE": os.getenv("GEOIPS_RCFILE", ""),
-        "DEFAULT_QUEUE": os.getenv("DEFAULT_QUEUE", None),
+        "GEOIPS_RCFILE": "",
+        "DEFAULT_QUEUE": None,
         # Computer Identifier
         "BOXNAME": socket.gethostname(),
-        "OUTPUT_CHECKER_THRESHOLD_IMAGE": float(
-            os.getenv("OUTPUT_CHECKER_THRESHOLD_IMAGE", 0.05)
-        ),
+        # Threshold for image-based output checks.  This will be cast to float below.
+        "OUTPUT_CHECKER_THRESHOLD_IMAGE": 0.05,
     }
 
-    # these are the defaults for path based environment variables
-    # that default to locations under paths set above
-    # They can are overridden by set environment variables.
-    default_derivative_directory_paths = {
+    # Identify the defaults for relative path-based environment variables,
+    # these paths default to locations under base paths set above.
+    # The actual variables will be set using get_env_var below.
+    default_derivative_directory_path_defaults = {
         paths["GEOIPS_BASEDIR"]: {
             "GEOIPS_TESTDATA_DIR": "test_data",
             "GEOIPS_DEPENDENCIES_DIR": "geoips_dependencies",
@@ -154,18 +160,28 @@ def initialize_paths():
         paths["BASE_PATH"]: {
             "TC_TEMPLATE": "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
         },
+        paths["GEOIPS_REBUILD_REGISTRIES"]: {
+            "GEOIPS_REBUILD_REGISTRIES_TRUE": True,
+            "GEOIPS_REBUILD_REGISTRIES_FALSE": False,
+        },
     }
 
     # looping through all the directory-based paths and global variables set above
     # using "get_env_var" function to set the variables to the environment variable
     # specified option (when defined via the first argument)
     # else defaulting to the passed-in default (second argument)
-    for key, value in geoips_global_variables.items():
+    for key, value in geoips_global_variable_defaults.items():
         paths[key] = get_env_var(key, value)
 
-    for top_directory, sub_directories in default_derivative_directory_paths.items():
+    for (
+        top_directory,
+        sub_directories,
+    ) in default_derivative_directory_path_defaults.items():
         for key, sub_path in sub_directories.items():
-            paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
+            if "GEOIPS_REBUILD_REGISTRIES" in key:
+                paths[key] = get_env_var(key, sub_path, rstrip_path=False)
+            else:
+                paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))
 
     # Handling special cases now: home for linux/windows
     if not os.getenv("HOME"):
@@ -178,6 +194,11 @@ def initialize_paths():
     www_paths = ["TCWWW", "PUBLICWWW", "PRIVATEWWW"]
     for path in www_paths:
         paths[f"{path}_URL"] = get_env_var(f"{path}_URL", paths[path])
+
+    # This needs to be a float
+    paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"] = float(
+        paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"]
+    )
 
     return paths
 

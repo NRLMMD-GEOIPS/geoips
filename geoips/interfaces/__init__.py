@@ -19,6 +19,7 @@ from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
 from geoips.interfaces.module_based.output_checkers import output_checkers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
+from geoips.interfaces.module_based.databases import databases
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
 from geoips.interfaces.module_based.output_formatters import (
@@ -56,6 +57,7 @@ module_based_interfaces = [
     "algorithms",
     "colormappers",
     "coverage_checkers",
+    "databases",
     "filename_formatters",
     "interpolators",
     "output_checkers",

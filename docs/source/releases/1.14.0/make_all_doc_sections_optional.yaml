@@ -15,7 +15,3 @@ documentation:
     - 'docs/source/_templates/index_PKG.html'
     moved:
     - ''
-  related-issue:
-    number: 562
-    repo_url: ''
-

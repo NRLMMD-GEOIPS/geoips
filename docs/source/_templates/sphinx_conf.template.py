@@ -40,6 +40,7 @@ extensions = [
     "sphinxarg.ext",
     "sphinxcontrib.autoprogram",
     "m2r2",
+    "sphinxcontrib.mermaid",
 ]
 
 # Add any paths that contain templates here, relative to this directory.

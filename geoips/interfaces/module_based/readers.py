@@ -10,6 +10,7 @@ from os.path import basename
 import numpy as np
 from xarray import concat, Dataset
 
+from geoips.errors import NoValidFilesError
 from geoips.interfaces.base import BaseModuleInterface
 from geoips.plugins.modules.readers.utils.hrit_reader import HritError
 
@@ -94,6 +95,7 @@ class ReadersInterface(BaseModuleInterface):
         # this method that accepts a function which calculates the start datetime of
         # all files provided.
         all_file_metadata = []
+        updated_fnames = []
         for x in fnames:
             try:
                 all_file_metadata.append(
@@ -101,6 +103,11 @@ class ReadersInterface(BaseModuleInterface):
                         "METADATA"
                     ]
                 )
+                updated_fnames += [x]
+            except NoValidFilesError:
+                # If the current file is not valid, just skip this one.
+                # print(f"{str(e)}: No files found, skipping")
+                continue
             except (ValueError, HritError) as e:
                 # Value error is raised for 'inconsistent' metadata, or in this case
                 # No appropriate file for the channels selected
@@ -130,6 +137,7 @@ class ReadersInterface(BaseModuleInterface):
                 all_file_metadata.append(
                     Dataset(attrs=dict(start_datetime=st, end_datetime=et))
                 )
+                updated_fnames += [x]
         self.start_times = [md.attrs["start_datetime"] for md in all_file_metadata]
         self.end_times = [md.attrs["end_datetime"] for md in all_file_metadata]
 
@@ -152,7 +160,7 @@ class ReadersInterface(BaseModuleInterface):
             # Now get the metadata of all of the files which match that time
             metadata_by_scan_time.append(
                 read_single_time_func(
-                    list(np.array(fnames)[same_scan_time_files]),
+                    list(np.array(updated_fnames)[same_scan_time_files]),
                     metadata_only=True,
                     chans=chans,
                 )["METADATA"]
@@ -162,7 +170,7 @@ class ReadersInterface(BaseModuleInterface):
             return all_metadata
 
         dict_xarrays = self.call_files_and_get_top_level_metadata(
-            fnames,
+            updated_fnames,
             all_metadata,
             read_single_time_func,
             metadata_only,

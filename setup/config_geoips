@@ -43,10 +43,20 @@ export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
 export PATH=$GEOIPS_DEPENDENCIES_DIR/bin:$PATH
 
 ############################################################################
-# Everything after this point are optional convenience functions.  Must set 
+# Everything after this point are optional convenience functions.  Must set
 # CURRENT_CONFIGPATH before sourcing.
 ############################################################################
 # Convenience variables
 export GEOIPS=$GEOIPS_PACKAGES_DIR/geoips
 export GEOIPS_SETUP=$GEOIPS/setup
 source $GEOIPS_SETUP/bash_setup/gitall
+
+# In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required environment variable
+# that points to the directory holding the compiled decompression plugin. The satpy
+# documentation notes that 'import hdf5plugin' should be the only requirement to load
+# the data using their reader, and while that is the case, it appears that you are
+# unable to manipulate the data outside the satpy.scene object and will still encounter
+# a "NetCDF: Filter error: undefined filter encountered" error unless HDF5_PLUGIN_PATH
+# is a valid environment variable. We are using the pypi hdf5plugin package, and
+# set HDF5_PLUGIN_PATH to site-packages/hdf5plugin/plugins.
+export HDF5_PLUGIN_PATH=$(realpath $GEOIPS_DEPENDENCIES_DIR/miniconda3/envs/geoips_conda/lib/python3.1?/site-packages/hdf5plugin/plugins)

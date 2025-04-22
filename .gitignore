@@ -3,18 +3,14 @@
 
 # auto-downloaded test datasets
 tests/data/**
-
-# directory for profiling outputs
-profiling/
-*.pstats
-
-####################################################
-# GeoIPS Environment specific .gitignore options:
-
 # auto-generated command instructions file
 geoips/commandline/ancillary_info/cmd_instructions.json
 # auto-generated alias mapping file for the cli
 geoips/commandline/ancillary_info/alias_mapping.json
+
+####################################################
+# GeoIPS Environment specific .gitignore options:
+
 # auto-generated release note files, all release note information
 # is stored in .yaml format and the rst files auto-generated.
 # index.rst, latest.rst, v*.rst
@@ -34,6 +30,10 @@ _version.py
 *.o
 *.swp
 *.simg
+
+# directory for profiling outputs
+profiling/
+*.pstats
 
 ####################################################
 # Default auto-generated .gitignore options:

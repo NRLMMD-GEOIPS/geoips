@@ -60,8 +60,13 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
+<<<<<<< HEAD
 netcdf4 = "<1.7.0"     # Base requirement, netcdf 1.7.0 causes seg fault in ABI reader
 numpy = "<2.0"         # Base requirement numpy 1.26.4 still works, 2.0 breaks numexpr
+=======
+netcdf4 = "*"    # Base requirement
+numpy = "*"         # Base requirement
+>>>>>>> 64bf962e72614655d18f1f5c8d1bdfdafb5063e4
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
@@ -73,7 +78,7 @@ ephem = "*"            # Required for overpass predictor
 h5py = "*"             # hdf5 readers (GMI)
 isodate = "*"          # Required for overpass predictor
 jsonschema = ">4.18.0" # Provides validation for YAML plugins
-numexpr = "<2.8.5"     # for efficiency improvements
+numexpr = "*"     # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
@@ -85,20 +90,20 @@ referencing = "*"
 satpy = "*"            # efficiency improvements >= 0.33.1
 scikit-image = "*"     # Radius based center coverage checks
 alphashape = ">=1.3.1" # For masking scipy's griddata output
-tabulate = "*"         # Tables for the CLI
-colorama = "*"         # Easy terminal color codes
-pygrib = "*"           # Reading GRIB model data
-hdf5plugin = "*"       # Reading compressed netCDF FCI data. This installs required decomp plugins
-# In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required
-# environment variable that points to the directory holding the compiled
-# decompression plugin. The satpy documentation notes that
-# 'import hdf5plugin' should be the only requirement to load the data
-# using their reader, and while that is the case, it appears that you are
-# unable to manipulate the data outside the satpy.scene object and will
-# still encounter a "NetCDF: Filter error: undefined filter encountered"
-# error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
-# using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
-# site-packages/hdf5plugin/plugins in the config_geoips file.
+tabulate = "*"     # Tables for the CLI
+colorama = "*"     # Easy terminal color codes
+pygrib = "*" # Reading GRIB model data
+hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins
+                 # In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required
+                 # environment variable that points to the directory holding the compiled
+                 # decompression plugin. The satpy documentation notes that
+                 # 'import hdf5plugin' should be the only requirement to load the data
+                 # using their reader, and while that is the case, it appears that you are
+                 # unable to manipulate the data outside the satpy.scene object and will
+                 # still encounter a "NetCDF: Filter error: undefined filter encountered"
+                 # error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
+                 # using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
+                 # site-packages/hdf5plugin/plugins in the config_geoips file.
 
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
@@ -109,8 +114,9 @@ pydata-sphinx-theme = { version = "*", optional = true }
 sphinx = { version = "<7.2", optional = true }
 sphinx-design = { version = "*", optional = true }
 sphinxcontrib-autoprogram = { version = "*", optional = true }
+sphinxcontrib-mermaid = { version = "*", optional = true }
 m2r2 = { version = "*", optional = true }
-brassy = { version = "*", optional = true }
+brassy = { version = ">=0.0.3", optional = true }
 sphinx-argparse = { version = "*", optional = true }
 rich = { version = "*", optional = true }
 rich-argparse = { version = "*", optional = true }
@@ -150,6 +156,7 @@ doc = [
     "sphinx-argparse",           # Required for building documentation for the CLI, which uses autoprogram
     "sphinx-design",             # Required for building documentation
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
+    "sphinxcontrib-mermaid",     # Required for UML rendering
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
     "mistune",                   # Required for rendering markdown into RST-based documentation
@@ -173,8 +180,6 @@ test = [
     "pytest-cov",      # Reports on test coverage
     "pixelmatch",
     "xarray-datatree", # Currently only used in unit tests
-    "pytest-cov",      # Reports on test coverage
-    "pixelmatch",
     "pytest-xdist",
 ]
 debug = ["ipython"]

@@ -1,0 +1,57 @@
+enhancement:
+  - description: |
+      *From GEOIPS#259: 2023-08-11, Update product/product_default schemas to allow for greater plotting configurability*
+      *From GEOIPS#147: 2023-04-05, Add support for label positioning*
+
+      This enhancement updates feature / gridline -annotator yaml plugins and imagery-based
+      module plugins to enhance the plotting configurability we can control as users within
+      GeoIPS. It adds quite a few new attributes which we can use to control our plotting
+      output. This includes:
+
+      - Background color for data over the map-portion of the image (feature_annotator)
+      - Background color for the frame-portion of the image (gridline_annotator)
+      - x label offset (gridline_annotator)
+      - y label offset (gridline_annotator)
+      - font family for labels (gridline_annotator)
+      - font style for labels ('italic', 'bold', etc.) (gridline_annotator)
+      - font weight for labels (a numeric value in range 0-1000, 'ultralight', 'light',
+        'normal', 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi',
+        'bold', 'heavy', 'extra bold', 'black') (gridline_annotator)
+      - font size for labels (float or one of: 'xx-small', 'x-small', 'small', 'medium', 'large',
+        'x-large', 'xx-large'. Defaults to matplotlib.pyplot.rcParams['font.size'])
+        (gridline_annotator)
+
+      To change the background of a frame, all you need to do is add a
+      ``background: <mpl_color_name>`` property within your gridline_annotator plugin. To
+      modify the background color of the mapped portion of the image, you'll add the same
+      section to your feature_annotator.
+
+      To change the offset of the labels for applicable imagery outputs, all you need to do is
+      add an ``xpadding: <pixel_offset_int>`` and/or a ``ypadding: <pixel_offset_int>`` to the
+      ``labels`` portion of your gridline annotator. Using this information, we will adjust
+      the offset of your tick labels to the desired position.
+
+      To modify the font-based aspects of labels, you can do any of the following:
+
+      - ``fontfamily: <font_name>``
+      - ``fontstyle: <style_name>``
+      - ``fontweight: <int_or_weight_name>``
+      - ``fontsize: <float_or_size_name>``
+
+      For examples of these new features, look at ``feature_annotator: default_oldlace`` and
+      ``gridline_annotator: default_palegreen``.
+    files:
+      added:
+        - geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
+        - geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
+        - tests/outputs/abi.static.Infrared.imagery_annotated_enhanced/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+        - tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh
+      modified:
+        - geoips/image_utils/maps.py
+        - geoips/image_utils/mpl_utils.py
+        - geoips/plugins/modules/output_formatters/full_disk_image.py
+        - geoips/plugins/modules/output_formatters/imagery_annotated.py
+        - geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+        - geoips/schema/feature_annotators/cartopy.yaml
+        - geoips/schema/gridline_annotators/cartopy.yaml
+    title: 'Update Plugins to Support Better Plotting Configurability'

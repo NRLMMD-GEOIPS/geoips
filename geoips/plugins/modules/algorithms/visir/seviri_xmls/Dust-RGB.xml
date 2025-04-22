@@ -1,0 +1,50 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE product_file SYSTEM "../productfiles.dtd">
+
+<!--
+    Notes:
+        See ../productfiles.dtd in this directory for full notes.  All DTD information
+        is contained there.
+-->
+<product_file>
+<product method="rgb" name="Dust-RGB">
+    <rgb_args>
+        <source name='seviri'>
+            <var>B10BT</var>
+            <var>B09BT</var>
+            <var>B07BT</var>
+        </source>
+        <red>
+            <equation>B10BT-B09BT</equation>
+            <range>
+                <min_value>-4</min_value>
+                <max_value>2</max_value>
+                <units></units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </red>
+        <grn>
+            <equation>B09BT-B07BT</equation>
+            <range>
+                <min_value>0</min_value>
+                <max_value>15</max_value>
+                <units></units>
+            </range>
+            <gamma1>2.5</gamma1>
+            <gamma2>1.0</gamma2>
+        </grn>
+        <blu>
+            <equation>B09BT</equation>
+            <range>
+                <min_value>261</min_value>
+                <max_value>289</max_value>
+                <units>kelvin</units>
+            </range>
+            <gamma1>1.0</gamma1>
+            <gamma2>1.0</gamma2>
+        </blu>
+        <day_night>both</day_night>
+    </rgb_args>
+</product>
+</product_file>

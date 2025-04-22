@@ -33,9 +33,6 @@ GitHub Actions:
     - ''
     moved:
     - ''
-  related-issue:
-    number: 562
-    repo_url: ''
 - title: 'Add standard synced files to geoips repo'
   description: |
     *From issue GEOIPS#562: 2024-08-15, version update*
@@ -52,6 +49,3 @@ GitHub Actions:
     - 'CHANGELOG.rst'
     moved:
     - ''
-  related-issue:
-    number: 562
-    repo_url: ''
