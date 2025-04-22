@@ -3,12 +3,13 @@ family: area_definition_static
 name: paris
 docstring: "City of Paris."
 metadata:
-  continent: Europe
-  country: France
-  area: x
-  subarea: x
-  state: x
-  city: Paris
+  region:
+    continent: Europe
+    country: France
+    area: x
+    subarea: x
+    state: x
+    city: Paris
 spec:
   area_id: paris
   description: City of Paris

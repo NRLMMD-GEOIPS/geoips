@@ -3,12 +3,13 @@ family: area_definition_static
 name: south_america
 docstring: "South American Continent."
 metadata:
-  continent: SouthAmerica
-  country: SouthAmericanCountries
-  area: Continental
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: SouthAmerica
+    country: SouthAmericanCountries
+    area: Continental
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: south_america
   description: South American Continent

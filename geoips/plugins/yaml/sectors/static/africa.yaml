@@ -3,12 +3,13 @@ family: area_definition_static
 name: africa
 docstring: "African Continent."
 metadata:
-  continent: Africa
-  country: x
-  area: Continental
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Africa
+    country: x
+    area: Continental
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: africa
   description: African Continent

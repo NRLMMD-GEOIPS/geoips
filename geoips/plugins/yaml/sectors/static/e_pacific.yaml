@@ -3,12 +3,13 @@ family: area_definition_static
 name: e_pacific
 docstring: "Eastern Pacific."
 metadata:
-  continent: x
-  country: x
-  area: Eastern Pacific
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: x
+    country: x
+    area: Eastern Pacific
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: e_pacific
   description: Eastern Pacific

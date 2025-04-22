@@ -3,12 +3,13 @@ family: area_definition_static
 name: himawari
 docstring: "Full disk sector for Himawari."
 metadata:
-  continent: Global
-  country: x
-  area: Himawari
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Global
+    country: x
+    area: Himawari
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: himawari
   description: Himawari Coverage

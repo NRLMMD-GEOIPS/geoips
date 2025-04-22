@@ -3,12 +3,13 @@ family: area_definition_static
 name: beijing
 docstring: "City of Beijing."
 metadata:
-  continent: Asia
-  country: China
-  area: x
-  subarea: x
-  state: Beijing
-  city: Beijing
+  region:
+    continent: Asia
+    country: China
+    area: x
+    subarea: x
+    state: Beijing
+    city: Beijing
 spec:
   area_id: beijing
   description: City of Beijing

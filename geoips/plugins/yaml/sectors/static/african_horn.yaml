@@ -3,12 +3,13 @@ family: area_definition_static
 name: african_horn
 docstring: "Horn of Africa."
 metadata:
-  continent: Africa
-  country: x
-  area: Continental
-  subarea: East
-  state: x
-  city: x
+  region:
+    continent: Africa
+    country: x
+    area: Continental
+    subarea: East
+    state: x
+    city: x
 spec:
   area_id: african_horn
   description: Horn of Africa

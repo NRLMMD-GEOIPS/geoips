@@ -3,12 +3,13 @@ family: area_definition_static
 name: asia
 docstring: "Asian Continent."
 metadata:
-  continent: Asia
-  country: x
-  area: Continental
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Asia
+    country: x
+    area: Continental
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: asia
   description: Asian Continent
