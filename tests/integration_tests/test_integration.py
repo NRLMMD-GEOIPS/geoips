@@ -1,6 +1,3 @@
-# # # This source code is subject to the license referenced at
-# # # https://github.com/NRLMMD-GEOIPS.
-
 """Pytest file for calling integration bash scripts."""
 
 import os
@@ -10,26 +7,26 @@ import sys
 
 import pytest
 
+# base, full, extra, and system marker test lists should be disjoint sets.
+# pytest -m "base and full and extra and system"
+# should result in a complete set of tests of the entire GeoIPS ecosystem, with
+# no test duplication.
+
+# Quick test to ensure basic functionality in geoips installation.
+# The base marker should NOT require/test anything in any other plugin package.
 base_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2.config_based_no_compare.sh",
     "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh",
-    # "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
-    # this should be called directly
 ]
 
+# This includes ALL test scripts within the geoips repo itself with available data.
+# The full marker should NOT require/test anything in any other plugin package.
 full_integ_test_calls = [
-    "$geoips_repopath/tests/utils/check_code.sh all $recenter_tc_repopath",
+    "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath",
     "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only",
-    "$geoips_repopath/docs/build_docs.sh "
-    "$recenter_tc_repopath $recenter_tc_pkgname html_only",
-    "$geoips_repopath/docs/build_docs.sh "
-    "$data_fusion_repopath $data_fusion_pkgname html_only",
-    "$geoips_repopath/docs/build_docs.sh "
-    "$template_basic_plugin_repopath $template_basic_plugin_pkgname html_only",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
-    "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
     "$geoips_repopath/tests/scripts/abi.static.Visible.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.static.nasa_dust_rgb.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.config_based_output_low_memory.sh",
@@ -47,8 +44,10 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh",
-    "$geoips_repopath/tests/scripts/"
-    "ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh",
+    (
+        "$geoips_repopath/tests/scripts/"
+        "ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh"
+    ),
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh",
@@ -62,31 +61,32 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh",
     "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
-    "$geoips_repopath/tests/scripts/"
-    "seviri.WV-Upper.no_self_register.unprojected_image.sh",
-    "$geoips_repopath/tests/scripts/"
-    "viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",
-    "$recenter_tc_repopath/tests/scripts/abi.tc.Visible.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/amsr2.tc.color37.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/amsr2.tc.windspeed.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/ascat_uhr.tc.windbarbs.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/metopc_knmi_125.tc.windbarbs.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/oscat.tc.windspeed.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/sar.tc.nrcs.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/smap.tc.windspeed.imagery_clean.sh",
-    "$recenter_tc_repopath/tests/scripts/viirs.tc.Infrared-Gray.imagery_clean.sh",
-    "$template_basic_plugin_repopath/tests/test_all.sh",
-    "$geoips_plugin_example_repopath/tests/test_all.sh",
-    "$geoips_clavrx_repopath/tests/test_all.sh",
-    "$data_fusion_repopath/tests/test_all.sh",
+    (
+        "$geoips_repopath/tests/scripts/"
+        "seviri.WV-Upper.no_self_register.unprojected_image.sh"
+    ),
+    (
+        "$geoips_repopath/tests/scripts/"
+        "viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh",
+    ),
 ]
 
+# Test scripts spanning multiple repositories / geoips plugins.
+# The system marker allows us to test the full GeoIPS open source system implementation.
+# Note system does NOT test the current geoips repo, as we can assume we will test the
+# current repo through the base and/or full test.
+system_integ_test_calls = [
+    # Include this in system test, since it runs across all plugin repos.
+    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
+    # Include this in system test, since it runs across all plugin repos.
+    "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
+]
+
+# Test scripts that require extra datasets.
 extra_integration_test_calls = [
     "$geoips_repopath/tests/scripts/abi.config_based_dmw_overlay.sh",
     "$geoips_repopath/tests/scripts/abi.static.dmw.imagery_windbarbs_high.sh",
-    "$geoips_repopath/tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/amsua_mhs_mirs.tc.183-3H.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/atms.tc.165H.netcdf_geoips.sh",
     "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/fci.static.Visible.imagery_annotated.sh",
@@ -126,7 +126,7 @@ def check_base_install():
     Raises
     ------
     subprocess.CalledProcessError
-        If the full installation check script returns a non-zero exit status.
+        If the installation check script returns a non-zero exit status.
     """
     base_install_check = [
         "bash",
@@ -150,7 +150,7 @@ def check_full_install():
     Raises
     ------
     subprocess.CalledProcessError
-        If the full installation check script returns a non-zero exit status.
+        If the installation check script returns a non-zero exit status.
     """
     full_install_check = [
         "bash",
@@ -162,6 +162,30 @@ def check_full_install():
     ]
     print("Running full install check")
     subprocess.check_output(full_install_check, env=os.environ.copy())
+
+
+def check_system_install():
+    """
+    Run the system installation check script to verify the GeoIPS installation.
+
+    Executes the 'system_install.sh' script located in the GeoIPS tests directory
+    to ensure that all required components are properly installed.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the installation check script returns a non-zero exit status.
+    """
+    system_install_check = [
+        "bash",
+        os.path.join(
+            os.getenv("GEOIPS_PACKAGES_DIR"),
+            "geoips/tests/integration_tests/system_install.sh",
+        ),
+        "exit_on_missing",
+    ]
+    print("Running system install check")
+    subprocess.check_output(system_install_check, env=os.environ.copy())
 
 
 def setup_environment():
@@ -177,16 +201,6 @@ def setup_environment():
     The following environment variables are set:
     - geoips_repopath
     - geoips_pkgname
-    - recenter_tc_repopath
-    - recenter_tc_pkgname
-    - data_fusion_repopath
-    - data_fusion_pkgname
-    - template_basic_plugin_repopath
-    - template_basic_plugin_pkgname
-    - geoips_plugin_example_repopath
-    - geoips_plugin_example_pkgname
-    - geoips_clavrx_repopath
-    - geoips_clavrx_pkgname
     """
     # Base path
     os.environ["geoips_repopath"] = os.path.join(os.path.dirname(__file__), "..", "..")
@@ -197,42 +211,16 @@ def setup_environment():
     if not geoips_packages_dir:
         raise EnvironmentError("GEOIPS_PACKAGES_DIR environment variable not set.")
 
-    # Paths and package names for each plugin
-    os.environ["recenter_tc_repopath"] = os.path.join(
-        geoips_packages_dir, "recenter_tc"
-    )
-    os.environ["recenter_tc_pkgname"] = "recenter_tc"
-
-    os.environ["data_fusion_repopath"] = os.path.join(
-        geoips_packages_dir, "data_fusion"
-    )
-    os.environ["data_fusion_pkgname"] = "data_fusion"
-
-    os.environ["template_basic_plugin_repopath"] = os.path.join(
-        geoips_packages_dir, "template_basic_plugin"
-    )
-    os.environ["template_basic_plugin_pkgname"] = "my_package"
-
-    os.environ["geoips_plugin_example_repopath"] = os.path.join(
-        geoips_packages_dir, "geoips_plugin_example"
-    )
-    os.environ["geoips_plugin_example_pkgname"] = "geoips_plugin_example"
-
-    os.environ["geoips_clavrx_repopath"] = os.path.join(
-        geoips_packages_dir, "geoips_clavrx"
-    )
-    os.environ["geoips_clavrx_pkgname"] = "geoips_clavrx"
-
 
 @pytest.fixture(scope="session")
-def full_setup():
+def system_setup():
     """
-    Set up the full integration tests by checking install and setting env-vars.
+    Set up the system integration tests by checking install and setting env-vars.
 
-    Calls `check_full_install()` to verify the installation and `setup_environment()`
+    Calls `check_system_install()` to verify the installation and `setup_environment()`
     to set up the necessary environment variables before running integration tests.
     """
-    check_full_install()
+    check_system_install()
     setup_environment()
 
 
@@ -245,6 +233,18 @@ def base_setup():
     to set up the necessary environment variables before running integration tests.
     """
     check_base_install()
+    setup_environment()
+
+
+@pytest.fixture(scope="session")
+def full_setup():
+    """
+    Set up the full integration tests by checking install and setting env-vars.
+
+    Calls `check_full_install()` to verify the installation and `setup_environment()`
+    to set up the necessary environment variables before running integration tests.
+    """
+    check_full_install()
     setup_environment()
 
 
@@ -263,8 +263,12 @@ def run_script_with_bash(script):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    expanded_call = shlex.split("bash " + os.path.expandvars(script))
-    print("Running", script)
+    if ".sh" in script:
+        expanded_call = shlex.split("bash " + os.path.expandvars(script))
+    else:
+        expanded_call = shlex.split(os.path.expandvars(script))
+    print("Running: ", script)
+    print("Expanded call: ", expanded_call)
     try:
         subprocess.check_output(expanded_call, env=os.environ.copy())
     except subprocess.CalledProcessError as e:
@@ -276,6 +280,27 @@ def run_script_with_bash(script):
 @pytest.mark.integration
 @pytest.mark.parametrize("script", base_integ_test_calls)
 def test_integ_base_test_script(base_setup: None, script: str):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    run_script_with_bash(script)
+
+
+@pytest.mark.system
+@pytest.mark.integration
+@pytest.mark.parametrize("script", system_integ_test_calls)
+def test_integ_system_test_script(system_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -311,8 +336,6 @@ def test_integ_full_test_script(full_setup: None, script: str):
     subprocess.CalledProcessError
         If the shell command returns a non-zero exit status.
     """
-    # if "ami.tc.WV.geotiff.sh" in script:
-    #     pytest.skip("GeoTIFF test is known to fail.")
     run_script_with_bash(script)
 
 
