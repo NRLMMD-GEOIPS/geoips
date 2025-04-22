@@ -60,7 +60,7 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.10.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
-netcdf4 = "<1.7.0"    # Base requirement, netcdf 1.7.0 causes seg fault in ABI reader
+netcdf4 = "<1.7.0"     # Base requirement, netcdf 1.7.0 causes seg fault in ABI reader
 numpy = "<2.0"         # Base requirement numpy 1.26.4 still works, 2.0 breaks numexpr
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
@@ -82,11 +82,23 @@ pypublicdecompwt = "*" # Required to read SEVIRI data
 rio-cogeo = "*"        # Cloud Optimized GEOTIFF output
 rasterio = "*"         # GEOTIFF output; Pinned to <1.3.10 due to the bug in geotiff_standard
 referencing = "*"
-satpy = "*"        # efficiency improvements >= 0.33.1
-scikit-image = "*" # Radius based center coverage checks
+satpy = "*"            # efficiency improvements >= 0.33.1
+scikit-image = "*"     # Radius based center coverage checks
 alphashape = ">=1.3.1" # For masking scipy's griddata output
-tabulate = "*"     # Tables for the CLI
-colorama = "*"     # Easy terminal color codes
+tabulate = "*"         # Tables for the CLI
+colorama = "*"         # Easy terminal color codes
+pygrib = "*"           # Reading GRIB model data
+hdf5plugin = "*"       # Reading compressed netCDF FCI data. This installs required decomp plugins
+# In order to use the MTG FCI reader, the HDF5_PLUGIN_PATH is a required
+# environment variable that points to the directory holding the compiled
+# decompression plugin. The satpy documentation notes that
+# 'import hdf5plugin' should be the only requirement to load the data
+# using their reader, and while that is the case, it appears that you are
+# unable to manipulate the data outside the satpy.scene object and will
+# still encounter a "NetCDF: Filter error: undefined filter encountered"
+# error unless HDF5_PLUGIN_PATH is a valid environment variable. We are
+# using the pypi hdf5plugin package, and set HDF5_PLUGIN_PATH to
+# site-packages/hdf5plugin/plugins in the config_geoips file.
 
 # Optional dependencies
 # To add a new optional dependency it must be added both here and in one of the "extra"
@@ -140,9 +152,9 @@ doc = [
     "sphinxcontrib-autoprogram", # Required for adding command line options to documentation
     "m2r2",                      # Required for rendering markdown into RST-based documentation
     "brassy",                    # Release Note Generation
-    "mistune", 	# Required for rendering markdown into RST-based documentation
-    "rich", # for building docs; also a dependency of brassy
-    "rich-argparse" # for building docs; also a dependency of brassy
+    "mistune",                   # Required for rendering markdown into RST-based documentation
+    "rich",                      # for building docs; also a dependency of brassy
+    "rich-argparse",             # for building docs; also a dependency of brassy
 ]
 lint = [
     "bandit",                # Syntax/security checking

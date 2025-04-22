@@ -92,7 +92,7 @@ def call(
                 # which handles fname conventions for 3D data. Such as a function which
                 # produces a pre-prended string to the corresponding fname.
                 lvl_km = str(slice_idx * 0.5).split(".")
-                lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0"
+                lvl_str = f"{lvl_km[0].zfill(2)}{lvl_km[1]}0"
                 suffix = f".{basename(fname).split('.')[-1]}"
                 # This is expected from ovcst_fname filename_formatter
                 if "ovcst" in basename(fname):
