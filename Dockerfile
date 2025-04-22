@@ -85,7 +85,6 @@ RUN git config --global --add safe.directory '*'
 
 # Install GeoIPS in editable mode
 RUN python -m pip install --no-cache-dir -e "." \
-    && pip uninstall -y matplotlib && pip install matplotlib==3.9.3 \
     && create_plugin_registries
 
 ###############################################################################
