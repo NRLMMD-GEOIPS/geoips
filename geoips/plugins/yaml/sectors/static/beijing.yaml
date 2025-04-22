@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: beijing
-docstring: "City of Beijing"
+docstring: "City of Beijing."
 metadata:
   region:
     continent: Asia
