@@ -47,7 +47,9 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        return self.model_dump_json(indent=2)
+        # Check if exclude unset removes all None attributes or just those which weren't
+        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
+        return self.model_dump_json(indent=2, exclude_unset=True)
 
 
 class FrozenModel(PrettyBaseModel):
@@ -212,7 +214,6 @@ class PluginModel(FrozenModel):
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
-
         interface_name = values.get("interface")
         try:
             interface = getattr(interfaces, interface_name)

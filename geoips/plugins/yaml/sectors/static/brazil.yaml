@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: brazil
-docstring: "Brazilian Country"
+docstring: "Brazilian Country."
 metadata:
-  region:
-    continent: SouthAmerica
-    country: Brazil
-    area: x
-    subarea: x
-    state: x
-    city: x
+  continent: SouthAmerica
+  country: Brazil
+  area: x
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: brazil
   description: Brazilian Country

@@ -1,0 +1,84 @@
+enhancement:
+- title: 'Order Based Procflow Pydantic Sector Models'
+  description: |
+    Created a whole new modeling schema using pydantic for sector plugins. This is one
+    step of many that are needed to transition to the Order Based Procflow (OBP).
+
+    Updated legacy sector plugins to adhere to new validation protocol, added unit tests
+    ensuring validation is performed correctly, and modified various parts of GeoIPS
+    pydantic code to make this as generalized as possible. Unit testing should be
+    largely similar regardless of the plugin being validated. Builds off of work done
+    by Kumar, specifically with regards to Readers, Workflows, and Bases.
+  files:
+    moved:
+      - geoips/plugins/yaml/sectors/static/global_cylindrical.yaml
+    added:
+      - geoips/pydantic/sectors.py
+      - tests/unit_tests/pydantic/sectors/test_cases.yaml
+      - tests/unit_tests/pydantic/sectors/test_sectors.py
+      - tests/unit_tests/pydantic/utils.py
+    modified:
+      - geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
+      - geoips/plugins/yaml/sectors/static/africa.yaml
+      - geoips/plugins/yaml/sectors/static/african_horn.yaml
+      - geoips/plugins/yaml/sectors/static/alaska.yaml
+      - geoips/plugins/yaml/sectors/static/asia.yaml
+      - geoips/plugins/yaml/sectors/static/australia.yaml
+      - geoips/plugins/yaml/sectors/static/beijing.yaml
+      - geoips/plugins/yaml/sectors/static/brazil.yaml
+      - geoips/plugins/yaml/sectors/static/cairo.yaml
+      - geoips/plugins/yaml/sectors/static/canada.yaml
+      - geoips/plugins/yaml/sectors/static/caribbean.yaml
+      - geoips/plugins/yaml/sectors/static/central_america.yaml
+      - geoips/plugins/yaml/sectors/static/conus.yaml
+      - geoips/plugins/yaml/sectors/static/delhi.yaml
+      - geoips/plugins/yaml/sectors/static/denver.yaml
+      - geoips/plugins/yaml/sectors/static/e_pacific.yaml
+      - geoips/plugins/yaml/sectors/static/europe.yaml
+      - geoips/plugins/yaml/sectors/static/ewsg.yaml
+      - geoips/plugins/yaml/sectors/static/france.yaml
+      - geoips/plugins/yaml/sectors/static/geokompsat.yaml
+      - geoips/plugins/yaml/sectors/static/goes_east.yaml
+      - geoips/plugins/yaml/sectors/static/goes_west.yaml
+      - geoips/plugins/yaml/sectors/static/himawari.yaml
+      - geoips/plugins/yaml/sectors/static/indian_basin.yaml
+      - geoips/plugins/yaml/sectors/static/japan.yaml
+      - geoips/plugins/yaml/sectors/static/korea.yaml
+      - geoips/plugins/yaml/sectors/static/mediterranean.yaml
+      - geoips/plugins/yaml/sectors/static/melbourne.yaml
+      - geoips/plugins/yaml/sectors/static/meteosat_africa.yaml
+      - geoips/plugins/yaml/sectors/static/meteosat_europe.yaml
+      - geoips/plugins/yaml/sectors/static/meteosat_indian_ocean.yaml
+      - geoips/plugins/yaml/sectors/static/mexico_city.yaml
+      - geoips/plugins/yaml/sectors/static/middle_east.yaml
+      - geoips/plugins/yaml/sectors/static/ne_asia.yaml
+      - geoips/pydantic/__init__.py
+      - geoips/pydantic/bases.py
+      - tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh
+      - tests/scripts/documentation_imagery.sh
+      - tests/scripts/fci.static.Visible.imagery_annotated.sh
+      - tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+      - tests/scripts/seviri.Convective_Storms.imagery_clean.sh
+      - tests/scripts/seviri.Day_Microphys_Summer.imagery_clean.sh
+      - tests/scripts/seviri.Day_Microphys_Winter.imagery_clean.sh
+      - tests/scripts/seviri.Day_Solar.imagery_clean.sh
+      - tests/scripts/seviri.Dust-RGB.imagery_clean.sh
+      - tests/scripts/seviri.Dust_RGB.imagery_clean.sh
+      - tests/scripts/seviri.Natural-Color.imagery_clean.sh
+      - tests/scripts/seviri.Natural_Color.imagery_clean.sh
+      - tests/scripts/seviri.Night_Microphys.imagery_clean.sh
+      - tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh
+      - tests/scripts/seviri.airmass.imagery_clean.sh
+      - tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh
+      - tests/unit_tests/plugin_registries/files/good/geoips.yaml
+      - tests/yaml_configs/amsr2_no_compare_full.yaml
+      - tests/yaml_configs/amsr2_test.yaml
+      - tests/yaml_configs/amsr2_test_low_memory.yaml
+      - tests/yaml_configs/amsr2_test_no_compare.yaml
+      - tests/yaml_configs/updated_format.yaml
+  related-issue:
+    number: 893
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 02/15/25
+    finish: null

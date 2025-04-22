@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: africa
-docstring: "African Continent"
+docstring: "African Continent."
 metadata:
-  region:
-    continent: Africa
-    country: x
-    area: Continental
-    subarea: x
-    state: x
-    city: x
+  continent: Africa
+  country: x
+  area: Continental
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: africa
   description: African Continent

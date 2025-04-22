@@ -1,15 +1,14 @@
 interface: sectors
 family: area_definition_static
 name: central_america
-docstring: "Central America"
+docstring: "Central America."
 metadata:
-  region:
-    continent: NorthAmerica
-    country: x
-    area: CentralAmerica
-    subarea: x
-    state: x
-    city: x
+  continent: NorthAmerica
+  country: x
+  area: CentralAmerica
+  subarea: x
+  state: x
+  city: x
 spec:
   area_id: central_america
   description: Central America
