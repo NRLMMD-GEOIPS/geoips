@@ -350,7 +350,7 @@ class AreaDefinitionSpec(FrozenModel):
     )
 
 
-class StaticMetadata(FrozenModel):
+class RegionMetadata(FrozenModel):
     """Metadata format for standard static sectors."""
 
     model_config = ConfigDict(coerce_numbers_to_str=False)
@@ -363,14 +363,14 @@ class StaticMetadata(FrozenModel):
     city: str = Field(..., description="City which the sector resides in.")
 
 
-class RegionMetadata(FrozenModel):
+class StaticMetadata(FrozenModel):
     """Metadata format for standard static sectors.
 
     This is the same as StaticMetadata, just with an additional 'region' level. This is
     a convenience model for specifying static sector plugins in a legacy format.
     """
 
-    region: StaticMetadata = Field(
+    region: RegionMetadata = Field(
         ..., description="Additional field used to specify metadata in a legacy format."
     )
 
@@ -572,7 +572,6 @@ class SectorPluginModel(PluginModel):
     )
     metadata: Union[
         BoxMetadata,
-        RegionMetadata,
         StaticMetadata,
         StitchedMetadata,
         TCMetadata,
@@ -584,6 +583,18 @@ class SectorPluginModel(PluginModel):
             "(mostly used in FilenameFormatters and MetadataFormatters)."
         ),
     )
+
+    @field_validator("metadata", mode="before")
+    @classmethod
+    def coerce_metadata(cls, value):
+        """Coerce metadata to StaticMetadata if possible.
+
+        Doing this as pydantic by default will return the last class that validates
+        correctly, and this applies to other metadata classes.
+        """
+        if isinstance(value, dict) and "region" in value:
+            return StaticMetadata(**value)
+        return value
 
     @field_validator("spec", mode="before")
     @classmethod
