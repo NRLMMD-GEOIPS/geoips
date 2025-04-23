@@ -69,6 +69,8 @@ full_integ_test_calls = [
         "$geoips_repopath/tests/scripts/"
         "viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh"
     ),
+    "$geoips_repopath/tests/scripts/smap.awips.netcdf.sh",
+    "$geoips_repopath/tests/scripts/smos.awips.netcdf.sh",
 ]
 
 # Test scripts spanning multiple repositories / geoips plugins.
