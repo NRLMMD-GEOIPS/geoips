@@ -1,0 +1,131 @@
+enhancement:
+- title: 'Add procflow_config filename to top level of config dict'
+  description: |
+    This allows printing the full path to the procflow config file on error. 
+    Really only required for error messaging.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/procflows/config_based.py'
+  related-issue:
+    number: 19
+  date:
+    start: 2025-02-22
+    finish: 2025-02-22
+enhancement:
+- title: 'Add realtime test option for running current'
+  description: |
+    Allow setting up realtime test scripts to run on current datasets.
+    The run_current option will allow switching between pointing to the canned
+    test datasets and the current datasets.  This would require implementation
+    within individual realtime test scripts.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/get_realtime_test_args.sh'
+  related-issue:
+    number: 19
+  date:
+    start: 2025-02-22
+    finish: 2025-02-22
+enhancement:
+- title: 'Switch default vimrc colorscheme to a light theme, default'
+  description: 'Use light by default, not dark'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/bash_setup/vimrc_ale'
+  related-issue:
+    number: 19
+  date:
+    start: 2025-02-22
+    finish: 2025-02-22
+bug fix:
+- title: 'xfail if unit-test directory does not exist for given package.'
+  description: |
+    Rather than failing the unit tests overall if a single GeoIPS plugin package
+    does not contain a unit-test directory, xfail.  Perhaps in the future we want
+    to 100% require unit-test directories, but for now we should not cause the full
+    code check to fail due to a single package that does not contain unit tests.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/unit_tests/commandline/test_geoips_list_unit_tests.py'
+  related-issue:
+    number: 19
+  date:
+    start: 2025-02-24
+    finish: 2025-02-24
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

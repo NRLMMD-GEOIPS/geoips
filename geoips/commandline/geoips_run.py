@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "run" command.
@@ -13,8 +13,12 @@ from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
 
-with import_optional_dependencies(loglevel="interactive"):
+with import_optional_dependencies(loglevel="info"):
     """Attempt to import data_fusion_args from Data Fusion."""
+    # NOTE: loglevel is set to 'info' here so we don't get the constant output of
+    # 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA
+    # every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to
+    # install it.
     from data_fusion.commandline.args import add_args as data_fusion_add_args
 
     data_fusion_installed = True

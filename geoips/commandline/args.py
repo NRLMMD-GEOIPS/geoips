@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Command line script for kicking off geoips based procflows."""
@@ -253,10 +253,21 @@ def add_args(parser, arglist=None, legacy=False):
             "-l",
             "--logging_level",
             choices=["INTERACTIVE", "INFO", "DEBUG", "WARNING", "ERROR", "CRITICAL"],
-            # Will default to $GEOIPS_LOGGING_LEVEL if set, else INTERACTIVE
-            default=getenv("GEOIPS_LOGGING_LEVEL"),
+            default=None,
             help="""Specify logging config level for GeoIPS commands.""",
             type=str.upper,
+        )
+    if arglist is None or "rebuild_registries" in arglist:
+        parser.add_argument(
+            "--rebuild_registries",
+            type=bool,
+            choices=[True, False],
+            # Will default to $GEOIPS_REBUILD_REGISTRIES if set, else True
+            default=getenv("GEOIPS_REBUILD_REGISTRIES", True),
+            help=(
+                "Whether or not you want to rebuild plugin registries if you encounter "
+                "a failure when retrieving a plugin."
+            ),
         )
 
     sect_group = parser.add_argument_group(

@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Standard GeoIPS GEOTIFF filename formatter."""
@@ -25,7 +25,7 @@ def call(
     product_dir=None,
     product_subdir=None,
     source_dir=None,
-    basedir=gpaths["ANNOTATED_IMAGERY_PATH"],
+    basedir=gpaths["GEOTIFF_IMAGERY_PATH"],
     output_dict=None,
 ):
     """GEOTIFF filename formatter.

@@ -1,6 +1,6 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is protected under the license referenced at
+ | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
 .. _linux-installation:
@@ -119,8 +119,9 @@ and run integration tests:
 - ``base_install.sh`` will clone repositories containing test data.
 - ``create_plugin_registries`` will identify and register all available plugins
   from all geoips plugin packages, for run-time execution.
-- ``base_test.sh`` will run a few integration tests to ensure that your
-  installation is working correctly.
+- ``test_installation.py`` will run a few integration tests to ensure that your
+  installation is working correctly. For more information on running test_installation.py
+  please see https://github.com/NRLMMD-GEOIPS/geoips/blob/942ef8e7d66a163fa7feba9e1f17a95d3ba83b63/docs/dev/integration_tests.rst#L114
 
 .. code:: bash
 
@@ -129,24 +130,36 @@ and run integration tests:
     # Install base GeoIPS package and minimal test datasets.
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
 
-    # Create the GeoIPS plugin registries
-    create_plugin_registries
-
     # Run integration tests
-    $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
+    pytest -m "integration and base" $GEOIPS_PACKAGES_DIR/geoips
 
 6. Test output
 --------------
 
-For reference, the end of the output from the base_test.sh command should
-look something like below, indicating that none of the tests failed:
+- **Successful Run**:
+  If all tests pass, `pytest` will report a summary at the end indicating
+  success (e.g, `== 53 passed in 30.00m ==`).
 
-.. code:: bash
+- **Failures**:
+  If any script fails, `pytest` will display a traceback and the relevant
+  command output. Since these scripts are run via bash, a `CalledProcessError`
+  may be raised if the shell command returns a non-zero exit code. In such
+  cases, review the error output to determine what went wrong, fix the
+  underlying issue (or ask for help), and rerun the tests.
 
-    Package: geoips_base
-    Total run time: 82 seconds
-    Number data types run: 3
-    Number data types failed: 0
+- **Debugging Failed Tests**:
+  Consider running the failed script directly in a terminal to isolate the
+  problem. For example, if a test script
+  `"$geoips_repopath/tests/scripts/abi.config_based_output.sh"` fails, try
+  running it separately:
+
+  .. code-block:: bash
+
+      cd $geoips_repopath
+      bash tests/scripts/abi.config_based_output.sh
+
+  This can help you identify environment issues, missing dependencies, or
+  other runtime problems.
 
 7. OPTIONAL: Capture working requirements.txt for base install
 --------------------------------------------------------------
@@ -157,16 +170,16 @@ base_test.sh returns 0!  Not required.
 .. code:: bash
 
   if [[ "$NEW_GEOIPS_VERSION" != "" ]]; then
-      GEOIPS_VERS=$NEW_GEOIPS_VERSION
+      GEOIPS_VERSION=$NEW_GEOIPS_VERSION
   fi
-  if [[ "$GEOIPS_VERS" == "" ]]; then
-      GEOIPS_VERS=`python -c "import geoips; print(geoips.__version__)"`
+  if [[ "$GEOIPS_VERSION" == "" ]]; then
+      GEOIPS_VERSION=`python -c "import geoips; print(geoips.__version__)"`
   fi
 
   mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
 
   $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERS}_`date -u +%Y%m%d`.txt
+    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERSION}_`date -u +%Y%m%d`.txt
 
   $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERS}_`date -u +%Y%m%d`.yml
+    $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERSION}_`date -u +%Y%m%d`.yml

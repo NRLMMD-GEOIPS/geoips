@@ -1,3 +1,8 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
 .. _integration_tests:
 
 Running Integration Tests
@@ -14,7 +19,7 @@ Overview
 This test suite runs a collection of integration test scripts located in
 the `tests/scripts` directory of the GeoIPS repository and any associated
 plugins. The scripts are executed via `pytest`, which manages test discovery,
-execution, and reporting. The tests are separated into two broad categories:
+execution, and reporting. The tests are separated into three broad categories:
 
 - **Base integration tests**: A minimal set of tests that run quickly, ensuring
   that the basic GeoIPS installation and setup are correct.
@@ -22,6 +27,9 @@ execution, and reporting. The tests are separated into two broad categories:
 - **Full integration tests**: A comprehensive set of tests that include
   building documentation, running plugin-specific tests, and verifying that
   all components function as intended. These may take a longer time to complete.
+
+- **Extra integration tests**: A set of "extra" tests that implement functionality that
+  require proprietary datasets or otherwise isn't ready for users.
 
 Test Requirements
 =================
@@ -54,13 +62,21 @@ and running plugin tests, execute:
 
 .. code-block:: bash
 
-    pytest -m "integration"
+    pytest -m "full and base"
 
 If you want to run only the integration tests in the full set but not the base, run:
 
 .. code-block:: bash
 
     pytest -m "integration and full"
+
+For the "extra" suite of integration tests, which may require proprietary data sets,
+execute:
+
+.. code-block:: bash
+
+    pytest -m "extra"
+
 
 Running Tests in Parallel
 =========================

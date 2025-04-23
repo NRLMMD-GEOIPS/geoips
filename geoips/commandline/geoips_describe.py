@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "describe" command.
@@ -221,7 +221,8 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
                 resources.files("geoips")
                 / f"schema/{interface_name}/{family_name}.yaml"
             )
-            family_args_or_schema = yaml.safe_load(open(family_path, "r"))
+            with open(family_path, "r") as fo:
+                family_args_or_schema = yaml.safe_load(fo)
             if "description" in list(family_args_or_schema.keys()):
                 family_args_or_schema["description"] = format_docstring(
                     family_args_or_schema["description"],
