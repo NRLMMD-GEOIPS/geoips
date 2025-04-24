@@ -153,8 +153,9 @@ def test_repr_roundtrip() -> None:
     Ensures that repr(obj) yields a string that eval can recreate the same object.
     """
     obj = Lexeme("reader")
-    assert repr(obj) == "Lexeme('reader')"
-    assert eval(repr(obj)) == obj
+    string_repr = "Lexeme('reader')"
+    assert repr(obj) == string_repr
+    assert eval(string_repr) == obj
 
 
 def test_equality_with_unrelated_type() -> None:
