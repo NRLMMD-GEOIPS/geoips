@@ -21,8 +21,6 @@ True
 """
 
 from __future__ import annotations
-
-import functools
 from typing import Any, Dict
 
 __all__ = ["Lexeme"]
@@ -146,7 +144,7 @@ class Lexeme(str):
 
     @classmethod
     def __get_pydantic_core_schema__(cls, _source_type, _handler):
-        """Return a core_schema that allows ``Lexeme`` to be used as a field in pydantic.
+        """Return a core_schema that allows ``Lexeme`` for use as a field in pydantic.
 
         Accepts ``str`` or ``Lexeme``; coerces to ``Lexeme``.
         Always serializes output as plain string.
