@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
@@ -96,9 +96,12 @@ def read_noaa_data(wind_xarray):
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
         # ufuncs no longer available as of xarray v2022.06 (at least)
+        # ufuncs appears to be back as of v2025.3.1
         wind_xarray["rain_flag"] = xarray.ufuncs.logical_and(
             wind_xarray["wvc_quality_flag"], (1 << RAIN_FLAG_BIT)
         )
+        # rf variable used downstream for determining ambiguities
+        rf = wind_xarray["rain_flag"]
     else:
         # Can not figure out how to do the logical and in xarray now -
         # so do it in numpy.

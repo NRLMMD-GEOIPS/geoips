@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: meteosat_africa
-docstring: "Meteosat-Africa Converage"
+docstring: "Meteosat-Africa Converage."
 metadata:
   region:
     continent: Africa

@@ -1,0 +1,22 @@
+bug fix:
+- title: 'Add support for adding b-deck files to TC tracks database'
+  description: |
+    The update_tc_tracks_database previously only supported G-Deck files, which are
+    not available outside NRL. This commandline utility/database should support tracking
+    B-Deck files. The files are largely similar, biggest difference relates to the index
+    of the storm name between the two files, and how lat/lon values are stored in the
+    files.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/sector_utils/tc_tracks_database.py'
+  related-issue:
+    number: 759
+  date:
+    start: 2025-02-25
+    finish: 2025-02-26

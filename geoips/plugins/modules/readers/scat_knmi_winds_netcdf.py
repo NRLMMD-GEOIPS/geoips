@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
@@ -163,7 +163,15 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     ingested = []
     for fname in fnames:
         try:
+            # <2024.3
             wind_xarray = xarray.open_dataset(str(fname))
+            # >=2024.3.  This still didn't quite work. Same error.
+            if "scale_factor" in wind_xarray.time.attrs:
+                # Bug introduced in 2024.3. Suggested solution:
+                # https://github.com/pydata/xarray/issues/8957#issuecomment-2103861806
+                wind_xarray.time.attrs.pop("scale_factor")
+                wind_xarray.time.attrs.pop("add_offset")
+                wind_xarray = xarray.decode_cf(wind_xarray)
         except ValueError:
             # <=2023.08 versions of xarray would filter bad dates
             # current versions >=2023.9 raise Value Errors now

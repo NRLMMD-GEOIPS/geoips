@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
@@ -10,6 +10,7 @@ import logging
 from os.path import basename, exists, splitext
 from glob import glob
 from subprocess import call
+from inspect import isclass
 
 from importlib.resources import files
 from importlib import util, reload
@@ -18,6 +19,7 @@ import jsonschema
 import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
+import pydantic
 
 from geoips.errors import PluginError, PluginRegistryError
 from geoips.filenames.base_paths import PATHS
@@ -88,7 +90,8 @@ def get_schemas(path, validator):
     for schema_file in schema_files:
         LOG.debug(f"Adding schema file {schema_file}")
 
-        schema = yaml.safe_load(open(schema_file, "r"))
+        with open(schema_file, "r") as fo:
+            schema = yaml.safe_load(fo)
         schema_id = schema["$id"]
 
         try:
@@ -538,6 +541,9 @@ class BaseYamlInterface(BaseInterface):
     the GeoIPS products plugins.
     """
 
+    # This defaults to the json-schema-based validator but can be overridden
+    # by the interface class to use a different validator. We are making use of this as
+    # we switch to the new pydantic-based validators.
     validator = YamlPluginValidator()
     interface_type = "yaml_based"
     name = "BaseYamlInterface"
@@ -603,6 +609,10 @@ class BaseYamlInterface(BaseInterface):
         ]:
             try:
                 obj_attrs[attr] = yaml_plugin[attr]
+            # This should be removed once we fully switch to pydantic models
+            except TypeError:
+                yaml_plugin = yaml_plugin.dict()
+                obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
         if missing:
@@ -659,6 +669,8 @@ class BaseYamlInterface(BaseInterface):
                 f" value. Encountered this '{rebuild_registries}' instead."
             )
 
+        # This is used for finding products whose plugin names are tuples
+        # of the form ('source_name', 'name')
         if isinstance(name, tuple):
             # These are stored in the yaml as str(name),
             # ie "('viirs', 'Infrared')"
@@ -693,7 +705,8 @@ class BaseYamlInterface(BaseInterface):
                 return self.retry_get_plugin(
                     name, rebuild_registries, err_str, PluginRegistryError
                 )
-            plugin = yaml.safe_load(open(abspath, "r"))
+            with open(abspath, "r") as fo:
+                plugin = yaml.safe_load(fo)
             plugin_found = False
             for product in plugin["spec"]["products"]:
                 if product["name"] == name[1] and name[0] in product["source_names"]:
@@ -707,6 +720,7 @@ class BaseYamlInterface(BaseInterface):
             plugin["package"] = package
             plugin["abspath"] = abspath
             plugin["relpath"] = relpath
+        # This is used for finding all non-product plugins
         else:
             try:
                 relpath = registered_yaml_plugins[self.name][name]["relpath"]
@@ -732,6 +746,7 @@ class BaseYamlInterface(BaseInterface):
                 return self.retry_get_plugin(
                     name, rebuild_registries, err_str, PluginRegistryError
                 )
+
             doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
             doc_length = sum(1 for _ in doc_iter)
             if doc_length > 1 or self.name == "workflows":
@@ -757,11 +772,8 @@ class BaseYamlInterface(BaseInterface):
                 plugin["package"] = package
                 plugin["abspath"] = abspath
                 plugin["relpath"] = relpath
-
-        if "pydantic" in str(type(self.validator)):
+        if isclass(self.validator) and issubclass(pydantic.BaseModel, self.validator):
             validated = self.validator(**plugin)
-            # just return here; it's already a plugin object
-            return validated
         else:
             validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"

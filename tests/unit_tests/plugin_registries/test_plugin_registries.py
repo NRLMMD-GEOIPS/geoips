@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """TestPluginRegistry Class used for Unit Testing the Plugin Registries."""
@@ -242,5 +242,6 @@ class TestPluginRegistry:
     @pytest.mark.parametrize("fpath", pr_validator.registry_files, ids=generate_id)
     def test_all_registries(self, fpath):
         """Test all available yaml registries."""
-        current_registry = yaml.safe_load(open(fpath, "r"))
+        with open(fpath, "r") as fo:
+            current_registry = yaml.safe_load(fo)
         self.pr_validator.validate_registry(current_registry, fpath)

@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: denver
-docstring: "City of Denver"
+docstring: "City of Denver."
 metadata:
   region:
     continent: NorthAmerica

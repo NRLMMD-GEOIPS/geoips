@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/bash
@@ -22,7 +22,7 @@ run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ10
              --filename_formatter geotiff_fname \
              --output_formatter cogeotiff_rgba \
              --minimum_coverage 0 \
-             --sector_list global \
+             --sector_list global_cylindrical \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.global.<product>.cogeotiff_rgba"
 ss_retval=$?
 
