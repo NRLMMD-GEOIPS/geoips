@@ -40,7 +40,7 @@ def call(workflow, fnames, command_line_args=None):
         #  Tab spaces and newline escape sequences will be removed later.
         #  I added them for formatting purposes and the reviewer's convenience.
         #  The severity level will eventually be moved to info.
-        interface = step_def.type + "s"
+        interface = step_def.kind + "s"
 
         if interface not in handled_interfaces:
             LOG.interactive(
@@ -54,7 +54,7 @@ def call(workflow, fnames, command_line_args=None):
             LOG.interactive(
                 "Calling '%s' '%s' plugin with the following arguments: \n\t'%s'",
                 step_def.name,
-                step_def.type,
+                step_def.kind,
                 step_def.arguments,
             )
             if interface == "readers":
@@ -69,7 +69,7 @@ def call(workflow, fnames, command_line_args=None):
             LOG.interactive(
                 "Finished '%s' '%s' plugin.",
                 step_def.name,
-                step_def.type,
+                step_def.kind,
             )
 
     LOG.interactive(f"The workflow '{workflow}' has finished processing.")
