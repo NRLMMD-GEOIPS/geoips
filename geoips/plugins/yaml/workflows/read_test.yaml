@@ -11,10 +11,12 @@ abspath: home/kumar/geoips/geoips/geoips/plugins/yaml/workflows/read_test.yaml
 spec:
   steps:
     - reader:
+        kind: reader
         name: abi_netcdf
         arguments:
           variables: ['B14BT']
     - algorithm:
+        kind: algorithm
         name: single_channel
         arguments:
           variables: ['B14BT']
@@ -25,5 +27,5 @@ spec:
           max_outbounds: crop
           norm: null
           inverse: null
-    - workflow:
-        name: read_test
+    # - workflow:
+    #     name: read_test
