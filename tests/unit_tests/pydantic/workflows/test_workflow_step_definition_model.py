@@ -20,7 +20,7 @@ def test_good_workflow_step_definition_model_valid_step(valid_step_data):
     # creating an instance of PSDModel
     model = workflows.WorkflowStepDefinitionModel(**valid_step_data)
 
-    assert model.type == "reader"
+    assert model.kind == "reader"
     assert model.name == "abi_netcdf"
     assert model.arguments == {
         "area_def": "None",
