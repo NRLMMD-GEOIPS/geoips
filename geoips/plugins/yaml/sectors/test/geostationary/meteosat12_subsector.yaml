@@ -1,0 +1,33 @@
+interface: sectors
+family: area_definition_static
+name: meteosat12_subsector
+docstring: |
+  Selected subsector for Meteosat-12 is used for test cases.
+  300x300 at 10km resolution centered at (37.28N, 9.85E),
+  approximately 27 degree square area.
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: Meteosat12-subsector
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: meteosat12-subsector-27deg
+  description: Meteosat-12 subsector coverage
+  projection:
+    a: 6371228.0
+    lat_0: 37.28
+    lon_0: 9.85
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 300
+    width: 300
+  area_extent:
+    lower_left_xy: [-1500000, -1500000]
+    upper_right_xy: [1500000, 1500000]
