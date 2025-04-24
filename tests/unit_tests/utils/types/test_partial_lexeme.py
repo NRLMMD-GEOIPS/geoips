@@ -155,7 +155,6 @@ def test_repr_roundtrip() -> None:
     obj = Lexeme("reader")
     string_repr = "Lexeme('reader')"
     assert repr(obj) == string_repr
-    #assert eval(string_repr) == obj # Not doing this test for security reasons. 
 
 
 def test_equality_with_unrelated_type() -> None:
