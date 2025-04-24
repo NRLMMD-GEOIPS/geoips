@@ -11,7 +11,7 @@ import pytest
 def valid_step_data():
     """Fixture to provide sample valid plugin data for testing."""
     return {
-        "type": "reader",
+        "kind": "reader",
         "name": "abi_netcdf",
         "arguments": {
             "area_def": "None",
