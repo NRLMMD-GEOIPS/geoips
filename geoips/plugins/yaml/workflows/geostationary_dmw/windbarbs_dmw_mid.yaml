@@ -6,6 +6,7 @@ docstring: |
 spec:
   steps:
     - algorithm:
+        kind: algorithm
         name: windbarbs_dmw
         arguments:
           pressure_level_range: [401, 700]
@@ -17,12 +18,15 @@ spec:
           norm: null
           inverse: null
     - coverage_checker:
+        kind: coverage_checker
         name: windbarbs
         arguments: {}
     - output_formatter:
+        kind: output_formatter
         name: imagery_windbarbs
         arguments:
           colormapper:
+            kind: colormapper
             name: matplotlib_linear_norm
             arguments:
               data_range: [0, 200]
@@ -30,6 +34,7 @@ spec:
               cmap_name: viridis
               cbar_label: "Derived Motion Wind (kts)\nMid Level: 700 - 401 hPa"
           windbarb_plotter:
+            kind: windbarb_plotter
             name: imagery_windbarbs
             arguments:
               thinning: 1  # skip data points
@@ -40,6 +45,7 @@ spec:
                 spacing: 0.3
               rain_size: 0
           filename_formatter:
+            kind: filename_formatter
             name: geoips_fname
             arguments:
               suffix: ".png"

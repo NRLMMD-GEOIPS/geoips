@@ -6,9 +6,11 @@ docstring: |
 spec:
   steps:
     - interpolator:
+        kind: interpolator
         name: interp_nearest
         arguments: {}
     - algorithm:
+        kind: algorithm
         name: single_channel
         arguments:
           output_data_range: [-100.0, 50.0]
@@ -19,15 +21,18 @@ spec:
           norm: null
           inverse: null
     - output_formatter:
+        kind: output_formatter
         name: imagery_annotated
         arguments:
           colormapper:
+            kind: colormapper
             name: matplotlib_linear_norm
             arguments:
               data_range: [-100.0, 50.0]
               cmap_name: Greys
               cbar_label: "Brightness Temperatures (degrees Celsius)"
           filename_formatter:
+            kind: filename_formatter
             name: geoips_fname
             arguments:
               suffix: ".png"

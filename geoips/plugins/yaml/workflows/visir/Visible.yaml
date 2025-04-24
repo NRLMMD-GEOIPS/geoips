@@ -6,9 +6,11 @@ docstring: |
 spec:
   steps:
     - interpolator:
+        kind: interpolator
         name: interp_nearest
         arguments: {}
     - algorithm:
+        kind: algorithm
         name: single_channel
         # This works as-is with defaults for VIIRS and ABI and SEVIRI.
         # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
@@ -26,15 +28,18 @@ spec:
           inverse: null
           norm: null
     - output_formatter:
+        kind: output_formatter
         name: imagery_annotated
         arguments:
           colormapper:
+            kind: colormapper
             name: matplotlib_linear_norm
             arguments:
               data_range: [0.0, 100.0]
               cmap_name: Greys_r
               cbar_label: Reflectance
           filename_formatter:
+            kind: filename_formatter
             name: geoips_fname
             arguments:
               suffix: ".png"

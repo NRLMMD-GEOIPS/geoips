@@ -6,6 +6,7 @@ docstring: |
 spec:
   steps:
     - algorithm:
+        kind: algorithm
         name: windbarbs_dmw
         arguments:
           output_data_range: [0, 200]
@@ -16,15 +17,19 @@ spec:
           norm: null
           inverse: null
     - coverage_checker:
+        kind: coverage_checker
         name: windbarbs
         arguments: {}
     - output_formatter:
+        kind: output_formatter
         name: imagery_windbarbs_multi_level
         arguments:
           colormapper:
+            kind: colormapper
             name: dmw_wind_levels
             arguments: {}
           windbarb_plotter:
+            kind: windbarb_plotter
             name: imagery_windbarbs_multi_level
             arguments:
               thinning: 1  # skip data points
@@ -35,6 +40,7 @@ spec:
                 spacing: 0.3
               rain_size: 0
           filename_formatter:
+            kind: filename_formatter
             name: geoips_fname
             arguments:
               suffix: ".png"
