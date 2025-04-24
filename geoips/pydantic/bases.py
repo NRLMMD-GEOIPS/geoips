@@ -357,7 +357,7 @@ class PluginModel(FrozenModel):
                 raise PydanticCustomError("length_error", err_msg)
         except PydanticCustomError as e:
             LOG.warning(
-                f"Future ValidationError encoutnered. This will become an "
+                f"Future ValidationError encountered. This will become an "
                 f"error in a future release. {e}"
             )
 
