@@ -164,9 +164,7 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
-    kind: str = Field(
-        ..., description="plugin type", exclude=True
-    )
+    kind: str = Field(..., description="plugin type")
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
