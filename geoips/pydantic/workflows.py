@@ -164,8 +164,8 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
-    type: str = Field(
-        ..., description="for internal use only, plugin type", exclude=True
+    kind: str = Field(
+        ..., description="plugin type", exclude=True
     )
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
@@ -174,7 +174,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Validate plugin name."""
         plugin_name = values.name
-        plugin_type = values.type
+        plugin_type = values.kind
 
         valid_plugin_names = get_plugin_names(plugin_type)
         if plugin_name not in valid_plugin_names:
@@ -213,7 +213,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             raise ValueError("Empty : Missing step details")
 
         # Delegate arguments validation to each plugin type argument class
-        plugin_type = values.get("type")
+        plugin_type = values.get("kind")
         if not plugin_type:
             raise ValueError("Plugin name cannot be empty")
         plugin_type_pascal_case = "".join(
@@ -297,19 +297,6 @@ class WorkflowStepModel(FrozenModel):
             raise ValueError(
                 f"invalid step name : {plugin_type}.\n\t"
                 f"Must be one of {valid_types}\n\n"
-            )
-
-        # extract value for type field (if provided) otherwise
-        # add the key value for step name
-        if "type" not in step_data:
-            step_data["type"] = plugin_type
-
-        # ensure 'type' field matches step name
-        if step_data["type"] != plugin_type:
-            raise ValueError(
-                f"step name : '{plugin_type}'"
-                f"and type : '{step_data['type']}' mismatch. "
-                f"Check your workflow definition\n\n"
             )
 
         return {"definition": step_data}
