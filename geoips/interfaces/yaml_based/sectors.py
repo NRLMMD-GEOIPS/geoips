@@ -5,6 +5,7 @@
 
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 
+# Uncomment when ready to switch from JsonSchema to Pydantic
 # from geoips.pydantic.sectors import SectorPluginModel
 
 # Commenting these out for PR #260
@@ -95,6 +96,7 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
+    # Uncomment when ready to switch from JsonSchema to Pydantic
     # validator = SectorPluginModel
 
 

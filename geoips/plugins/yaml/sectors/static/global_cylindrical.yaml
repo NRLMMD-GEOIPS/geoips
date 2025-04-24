@@ -3,12 +3,13 @@ family: area_definition_static
 name: global_cylindrical
 docstring: "Global Cylindrical Sector."
 metadata:
-  continent: Global
-  country: x
-  area: x
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Global
+    country: x
+    area: x
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: global_cylindrical
   description: "Global Cylindrical Sector"

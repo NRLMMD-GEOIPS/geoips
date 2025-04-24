@@ -3,12 +3,13 @@ family: area_definition_static
 name: indian_basin
 docstring: "Indian Basin Area."
 metadata:
-  continent: Asia
-  country: India
-  area: x
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Asia
+    country: India
+    area: x
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: indian_basin
   description: Indian Basin Area

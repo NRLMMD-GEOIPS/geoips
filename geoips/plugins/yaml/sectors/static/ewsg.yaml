@@ -3,12 +3,13 @@ family: area_definition_static
 name: ewsg
 docstring: "Full Disk sector for EWS-G."
 metadata:
-  continent: Global
-  country: x
-  area: EWS-G
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: Global
+    country: x
+    area: EWS-G
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: ewsg
   description: EWS-G Coverage

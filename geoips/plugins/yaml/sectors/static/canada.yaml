@@ -3,12 +3,13 @@ family: area_definition_static
 name: canada
 docstring: "Canadian Country."
 metadata:
-  continent: NorthAmerica
-  country: Canada
-  area: x
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: NorthAmerica
+    country: Canada
+    area: x
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: canada
   description: Canadian Country

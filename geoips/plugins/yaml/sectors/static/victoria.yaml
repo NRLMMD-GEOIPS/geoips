@@ -3,12 +3,13 @@ family: area_definition_static
 name: victoria
 docstring: "Victorian State."
 metadata:
-  continent: Australia
-  country: x
-  area: x
-  subarea: x
-  state: Victoria
-  city: x
+  region:
+    continent: Australia
+    country: x
+    area: x
+    subarea: x
+    state: Victoria
+    city: x
 spec:
   area_id: victoria
   description: Victorian State

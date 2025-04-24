@@ -3,12 +3,13 @@ family: area_definition_static
 name: brazil
 docstring: "Brazilian Country."
 metadata:
-  continent: SouthAmerica
-  country: Brazil
-  area: x
-  subarea: x
-  state: x
-  city: x
+  region:
+    continent: SouthAmerica
+    country: Brazil
+    area: x
+    subarea: x
+    state: x
+    city: x
 spec:
   area_id: brazil
   description: Brazilian Country

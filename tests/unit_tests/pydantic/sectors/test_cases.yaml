@@ -9,19 +9,19 @@ docstring_invalid_first_character:
   cls: PluginModel
   err_str: Description must start with a letter / number and endwith a period.
 continent_invalid_type:
-  key: metadata/continent
+  key: metadata/region/continent
   val: 8912
-  cls: StaticMetadata
+  cls: RegionMetadata
   err_str: Input should be a valid string
 metadata_missing_continent:
-  key: metadata
+  key: metadata/region
   val:
     country: Korea
     area: x
     subarea: x
     state: x
     city: x
-  cls: StaticMetadata
+  cls: RegionMetadata
   err_str: Field required
 spec_missing_projection:
   key: spec
