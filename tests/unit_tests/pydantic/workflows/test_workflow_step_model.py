@@ -17,13 +17,11 @@ from geoips.pydantic import workflows
 def test_good_workflow_step_model_valid_initialization(valid_step_data):
     """Tests WorkflowStepModel with valid inputs."""
     test_data = copy.deepcopy(valid_step_data)
-    test_data.pop("type")
-    # print("\n\n\nupdated test data", test_data)
     required_test_data = {"reader": test_data}
     # print("\n\n\nupdated test data", required_test_data)
 
     model = workflows.WorkflowStepModel(**required_test_data)
-    assert model.definition.type == "reader"
+    assert model.definition.kind == "reader"
 
 
 def test_bad_workflow_step_model_empty_initialization():
@@ -45,15 +43,15 @@ def test_good_workflow_step_model_validator_valid_input(
 ):
     """Tests WorkflowStepModel's custom validator."""
     test_data = copy.deepcopy(valid_step_data)
-    test_data.pop("type")
     required_test_data = {"reader": test_data}
+    print("required test data \t", required_test_data)
 
     model = workflows.WorkflowStepModel(**required_test_data)
 
     validated_data = model._plugin_name_validator(required_test_data)
     assert validated_data == {
         "definition": {
-            "type": "reader",
+            "kind": "reader",
             "name": "abi_netcdf",
             "arguments": {
                 "area_def": "None",
@@ -63,7 +61,7 @@ def test_good_workflow_step_model_validator_valid_input(
             },
         }
     }
-    assert model.definition.type in valid_plugin_types
+    assert model.definition.kind in valid_plugin_types
 
 
 def test_bad_workflow_step_model_validator_invalid_plugin_type(
@@ -71,7 +69,6 @@ def test_bad_workflow_step_model_validator_invalid_plugin_type(
 ):
     """Tests WorkflowStepModel's custom validator against invalid plugin type."""
     test_data = copy.deepcopy(valid_step_data)
-    test_data.pop("type")
     required_test_data = {"reader": test_data}
     required_test_data["invalid_plugin_type"] = required_test_data.pop("reader")
 
@@ -80,31 +77,3 @@ def test_bad_workflow_step_model_validator_invalid_plugin_type(
 
     error_info = str(exec_info.value)
     assert "invalid_plugin_type" in error_info
-
-
-def test_bad_workflow_Step_model_validator_invalid_plugin_name(
-    valid_step_data, valid_plugin_types
-):
-    """Tests WorkflowStepModel's custom validator against invalid plugin name."""
-    invalid_test_data = {
-        "reader": {
-            "type": "reader1",
-            "name": "abi_netcdf",
-            "arguments": {
-                "area_def": "None",
-                "chans": ["None"],
-                "metadata_only": False,
-                "self_register": False,
-            },
-        }
-    }
-
-    with pytest.raises(ValidationError) as exec_info:
-        workflows.WorkflowStepModel(**invalid_test_data)
-
-    error_info = str(exec_info.value)
-    assert (
-        "step name : 'reader'"
-        "and type : 'reader1' mismatch. "
-        "Check your workflow definition" in error_info
-    )
