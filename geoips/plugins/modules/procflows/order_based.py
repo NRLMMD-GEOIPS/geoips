@@ -35,8 +35,8 @@ def call(workflow, fnames, command_line_args=None):
     wf = WorkflowPluginModel(**wf_plugin)
 
     handled_interfaces = ["readers"]
-    for step in wf.spec.steps:
-        step_def = step.definition
+    for step_id, step_def in wf.spec.steps.items():
+        # step_def = step.definition
         #  Tab spaces and newline escape sequences will be removed later.
         #  I added them for formatting purposes and the reviewer's convenience.
         #  The severity level will eventually be moved to info.
