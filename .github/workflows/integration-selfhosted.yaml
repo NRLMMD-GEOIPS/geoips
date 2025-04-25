@@ -1,0 +1,110 @@
+# .github/workflows/ci-tests.yml
+name: CI Tests
+
+on:
+  push:
+  workflow_dispatch:
+    inputs:
+      test:
+        description: 'Which tests to run: all, system, full, base, or any pytest mark'
+        required: true
+        default: 'full'
+
+jobs:
+  test:
+    runs-on: [self-hosted, linux]
+
+    env:
+      OUTPUT_DIR: ${{ github.workspace }}/test-artifacts
+      TEST_DATA_DIR: ${{ github.workspace }}/test-data
+      TEST_TYPE: ${{ github.event.inputs.test || 'all' }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Cache test data
+        uses: actions/cache@v3
+        id: cache-testdata
+        with:
+          path: ${{ env.TEST_DATA_DIR }}
+          key: ${{ runner.os }}-geoips-test-data
+          restore-keys: |
+            ${{ runner.os }}-geoips-test-data
+
+      - name: Populate test data if cache miss
+        if: steps.cache-testdata.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p "${TEST_DATA_DIR}"
+          echo "Cache miss: downloading test data…"
+          # TODO: put your real download command here, e.g.
+          # aws s3 sync s3://your-bucket/geoips-testdata "${TEST_DATA_DIR}"
+
+      - name: Prepare output directory
+        run: |
+          mkdir -p "${OUTPUT_DIR}"
+          chmod -R 0777 "${OUTPUT_DIR}"
+
+      - name: Determine pytest mark & Docker build target
+        shell: bash
+        run: |
+          case "${TEST_TYPE}" in
+            all)    PYTEST_MARK=""                             ; TARGET="test_system" ;;
+            system) PYTEST_MARK="not extra"                   ; TARGET="test_system" ;;
+            full)   PYTEST_MARK="not system and not extra"    ; TARGET="test_full"   ;;
+            base)   PYTEST_MARK="not full and not system and not extra" ; TARGET="test_base" ;;
+            *)      PYTEST_MARK="${TEST_TYPE}"                ; TARGET="test_system" ;;
+          esac
+          echo "PYTEST_MARK=${PYTEST_MARK}" >> $GITHUB_ENV
+          echo "TARGET=${TARGET}"         >> $GITHUB_ENV
+
+      - name: Build Docker image
+        run: |
+          echo "Building docker image (target: ${TARGET})"
+          docker build \
+            --target "${TARGET}" \
+            -t geoips-tester \
+            . >> "${OUTPUT_DIR}/install.log" 2>&1
+
+      - name: Run tests in Docker
+        run: |
+          echo "Running tests under mark '${PYTEST_MARK}' with coverage"
+          docker run --entrypoint="bash" --rm \
+            -v "${OUTPUT_DIR}":/output/test-artifacts \
+            -v "${TEST_DATA_DIR}":/geoips_testdata \
+            geoips-tester \
+            -c "\
+              ls /output/test-artifacts; \
+              pip3 install pytest-html; \
+              coverage run --omit=*test* --source ./.. --module pytest -m \"${PYTEST_MARK}\" \
+                --junit-xml=/output/test-artifacts/pytest.xml \
+                --html=/output/test-artifacts/pytest.html --self-contained-html; \
+              coverage json -o /output/test-artifacts/coverage.json --pretty-print; \
+              coverage lcov -o /output/test-artifacts/coverage.lcov; \
+              coverage html -d /output/test-artifacts/coverage-html; \
+              chmod -R 0777 /output" \
+            >> "${OUTPUT_DIR}/runner.log" 2>&1
+
+      - name: Clean up Docker image
+        run: docker image rm geoips-tester
+
+      - name: Zip HTML coverage report
+        run: |
+          chmod -R 0777 "${OUTPUT_DIR}"
+          zip -r "${OUTPUT_DIR}/coverage-html.zip" "${OUTPUT_DIR}/coverage-html"
+          rm -rf "${OUTPUT_DIR}/coverage-html" "${OUTPUT_DIR}"/*.png
+
+      - name: Upload all test artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: test-artifacts
+          path: |
+            ${OUTPUT_DIR}/install.log
+            ${OUTPUT_DIR}/runner.log
+            ${OUTPUT_DIR}/pytest.xml
+            ${OUTPUT_DIR}/pytest.html
+            ${OUTPUT_DIR}/coverage.json
+            ${OUTPUT_DIR}/coverage.lcov
+            ${OUTPUT_DIR}/coverage-html.zip
