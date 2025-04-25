@@ -39,4 +39,3 @@
 #         f"Unexpected new plugin type(s): {unexpected_types}."
 #         "Update the test or check the function implementation."
 #     )
-
