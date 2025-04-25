@@ -1,8 +1,7 @@
-# .github/workflows/ci-tests.yml
-name: CI Tests
+name: Run Integration Tests
 
 on:
-  push:
+  push: # delete before merge, just for testing
   workflow_dispatch:
     inputs:
       test:
