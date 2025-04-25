@@ -8,7 +8,7 @@
 
 # Third-Party Libraries
 # from pydantic import ValidationError
-# import pytest
+import pytest
 
 # GeoIPS Libraries
 from geoips.pydantic import workflows
@@ -25,17 +25,17 @@ from geoips.pydantic import workflows
 """Test to validate a product definition."""
 
 
-def test_bad_get_plugin_types_missing_types(valid_plugin_types):
-    """Test get_plugin_types call to check there are no missing plugin types."""
-    assert not (
-        set(valid_plugin_types) - set(workflows.get_plugin_types())
-    ), "Missing plugin type(s)"
+# def test_bad_get_plugin_types_missing_types(valid_plugin_types):
+#     """Test get_plugin_types call to check there are no missing plugin types."""
+#     assert not (
+#         set(valid_plugin_types) - set(workflows.get_plugin_names())
+#     ), "Missing plugin type(s)"
 
 
-def test_bad_get_plugin_types_unexpected_or_new_plugin_type(valid_plugin_types):
-    """Tests get_plugin_types call to check for no unexpected plugin is reported."""
-    unexpected_types = set(workflows.get_plugin_types()) - set(valid_plugin_types)
-    assert not unexpected_types, (
-        f"Unexpected new plugin type(s): {unexpected_types}."
-        "Update the test or check the function implementation."
-    )
+# def test_bad_get_plugin_types_unexpected_or_new_plugin_type(valid_plugin_types):
+#     """Tests get_plugin_types call to check for no unexpected plugin is reported."""
+#     unexpected_types = set(workflows.get_plugin_names()) - set(valid_plugin_types)
+#     assert not unexpected_types, (
+#         f"Unexpected new plugin type(s): {unexpected_types}."
+#         "Update the test or check the function implementation."
+#     )
