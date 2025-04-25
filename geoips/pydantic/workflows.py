@@ -40,9 +40,6 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         If the plugin kind is invalid
 
     """
-    if not plugin_kind.strip():
-        raise ValueError("'plugin_kind' must be at least one character.")
-
     interface_name = plugin_kind
 
     if not interface_name[:-1] == "s":
