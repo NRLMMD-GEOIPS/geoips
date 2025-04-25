@@ -21,7 +21,7 @@ enhancement:
   description: "Refactors step definition to use 'kind' instead of 'type', placing it within the step."
   files:
     deleted:
-    - ''
+    - 'tests/unit_tests/pydantic/workflows/test_workflow_step_model.py'
     moved:
     - ''
     added:
