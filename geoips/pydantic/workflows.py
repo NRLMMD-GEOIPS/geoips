@@ -41,7 +41,7 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
 
     """
     if not plugin_kind.strip():
-          raise ValueError("'plugin_kind' must be at least one character.")
+        raise ValueError("'plugin_kind' must be at least one character.")
 
     interface_name = plugin_kind
 
@@ -261,47 +261,47 @@ class WorkflowStepDefinitionModel(FrozenModel):
 #         ..., description="Sequence of workflow steps"
 #     )
 
-    # @model_validator(mode="before")
-    # def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
-    #     """
-    #     Validate user input for the plugin kind.
+# @model_validator(mode="before")
+# def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+#     """
+#     Validate user input for the plugin kind.
 
-    #     Parameters
-    #     ----------
-    #     values : dict
-    #         The step data containing step name (plugin kind) and its content.
+#     Parameters
+#     ----------
+#     values : dict
+#         The step data containing step name (plugin kind) and its content.
 
-    #     Returns
-    #     -------
-    #     dict
-    #         processed step data after step name validation.
-
-
-    #     Raises
-    #     ------
-    #     ValueError
-    #         if the user input step name is not in the valid_kind list
-    #         if the user input step name and kind (if provided) are not same
-    #     """
-    #     if not values:
-    #         raise ValueError("Empty : Step data cannot be empty.")
-    #     else:
-    #         print("step data is \t", values)
+#     Returns
+#     -------
+#     dict
+#         processed step data after step name validation.
 
 
-    #     valid_kind = get_plugin_kinds()
+#     Raises
+#     ------
+#     ValueError
+#         if the user input step name is not in the valid_kind list
+#         if the user input step name and kind (if provided) are not same
+#     """
+#     if not values:
+#         raise ValueError("Empty : Step data cannot be empty.")
+#     else:
+#         print("step data is \t", values)
 
-    #     # extract step name and step data
-    #     plugin_kind, step_data = next(iter(values.items()))
 
-    #     # raise error if the step name (plugin kind) is not valid
-    #     if plugin_kind not in valid_kind:
-    #         raise ValueError(
-    #             f"invalid step name : {plugin_kind}.\n\t"
-    #             f"Must be one of {valid_kind}\n\n"
-    #         )
+#     valid_kind = get_plugin_kinds()
 
-    #     return {"definition": step_data}
+#     # extract step name and step data
+#     plugin_kind, step_data = next(iter(values.items()))
+
+#     # raise error if the step name (plugin kind) is not valid
+#     if plugin_kind not in valid_kind:
+#         raise ValueError(
+#             f"invalid step name : {plugin_kind}.\n\t"
+#             f"Must be one of {valid_kind}\n\n"
+#         )
+
+#     return {"definition": step_data}
 
 
 class WorkflowSpecModel(FrozenModel):
