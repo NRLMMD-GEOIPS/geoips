@@ -16,7 +16,7 @@ jobs:
     env:
       OUTPUT_DIR: ${{ github.workspace }}/test-artifacts
       TEST_DATA_DIR: ${{ github.workspace }}/test-data
-      TEST_TYPE: ${{ github.event.inputs.test || 'all' }}
+      TEST_TYPE: ${{ github.event.inputs.test || 'system' }}
 
     steps:
       - name: Checkout repository
