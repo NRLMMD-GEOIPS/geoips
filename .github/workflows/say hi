@@ -1,0 +1,16 @@
+name: Say hi
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: [self-hosted, linux]
+
+    steps:
+      - name: Say hi
+        run: |
+          echo "Hi :)"
+
