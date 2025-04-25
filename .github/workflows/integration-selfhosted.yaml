@@ -65,7 +65,7 @@ jobs:
           docker build \
             --target "${TARGET}" \
             -t geoips-tester \
-            . >> "${OUTPUT_DIR}/install.log" 2>&1
+            .
 
       - name: Run tests in Docker
         run: |
@@ -100,7 +100,6 @@ jobs:
         with:
           name: test-artifacts
           path: |
-            ${OUTPUT_DIR}/install.log
             ${OUTPUT_DIR}/runner.log
             ${OUTPUT_DIR}/pytest.xml
             ${OUTPUT_DIR}/pytest.html
