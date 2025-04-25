@@ -5,11 +5,11 @@ docstring: |
   ABI Infrared Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B14BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
 ---
 interface: workflows
 family: order_based
@@ -18,11 +18,11 @@ docstring: |
   ABI Infrared Gray Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B14BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
 ---
 interface: workflows
 family: order_based
@@ -31,11 +31,11 @@ docstring: |
   ABI Infrared Brightness Difference Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B14BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
 ---
 interface: workflows
 family: order_based
@@ -44,11 +44,11 @@ docstring: |
   ABI Water Vapor Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B09BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B09BT"]
 ---
 interface: workflows
 family: order_based
@@ -57,11 +57,11 @@ docstring: |
   ABI Water Vapor Lower Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B10BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B10BT"]
 ---
 interface: workflows
 family: order_based
@@ -70,11 +70,11 @@ docstring: |
   ABI Water Vapor Upper Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B08BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B08BT"]
 ---
 interface: workflows
 family: order_based
@@ -83,11 +83,11 @@ docstring: |
   ABI Visible Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B03Ref", "MED:solar_zenith_angle"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B03Ref", "MED:solar_zenith_angle"]
 ---
 interface: workflows
 family: order_based
@@ -96,11 +96,11 @@ docstring: |
   ABI Visible High Resolution Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B02Ref", "HIGH:solar_zenith_angle"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B02Ref", "HIGH:solar_zenith_angle"]
 ---
 interface: workflows
 family: order_based
@@ -109,11 +109,11 @@ docstring: |
   ABI NASA Dust RGB Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_netcdf
-        arguments:
-          variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
 ---
 interface: workflows
 family: order_based
@@ -122,11 +122,11 @@ docstring: |
   ABI DWM Low Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_l2_netcdf
-        arguments:
-          variables: ["wind_speed", "wind_direction", "pressure"]
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
 ---
 interface: workflows
 family: order_based
@@ -135,11 +135,11 @@ docstring: |
   ABI DWM Middle Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_l2_netcdf
-        arguments:
-          variables: ["wind_speed", "wind_direction", "pressure"]
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
 ---
 interface: workflows
 family: order_based
@@ -148,11 +148,11 @@ docstring: |
   ABI DWM High Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_l2_netcdf
-        arguments:
-          variables: ["wind_speed", "wind_direction", "pressure"]
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
 ---
 interface: workflows
 family: order_based
@@ -161,8 +161,8 @@ docstring: |
   ABI DWM Low-Mid-High Workflow.
 spec:
   steps:
-    - reader:
-        kind: reader
-        name: abi_l2_netcdf
-        arguments:
-          variables: ["wind_speed", "wind_direction", "pressure"]
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
