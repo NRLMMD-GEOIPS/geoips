@@ -21,56 +21,56 @@ from geoips.pydantic.bases import PluginModel, FrozenModel, PermissiveFrozenMode
 LOG = logging.getLogger(__name__)
 
 
-def get_plugin_names(plugin_type: str) -> List[str]:
-    """Return valid plugin names for passed plugin type.
+def get_plugin_names(plugin_kind: str) -> List[str]:
+    """Return valid plugin names for passed plugin kind.
 
     Parameters
     ----------
-    plugin_type : str
+    plugin_kind : str
         valid plugin interface name
 
     Returns
     -------
     list
-        A list of plugin names for a valid plugin type
+        A list of plugin names for a valid plugin kind
 
     Raises
     ------
     AttributeError
-        If the plugin type is invalid
+        If the plugin kind is invalid
 
     """
-    interface_name = plugin_type
+    interface_name = plugin_kind
     try:
         if not interface_name[:-1] == "s":
-            interface_name = plugin_type + "s"
+            interface_name = plugin_kind + "s"
     except IndexError as e:
-        raise ValueError("'plugin_type' must be at least one character.") from e
+        raise ValueError("'plugin_kind' must be at least one character.") from e
 
     try:
         interface = getattr(interfaces, interface_name)
     except AttributeError as e:
-        error_message = f"{plugin_type} is not a valid plugin type"
+        error_message = f"{plugin_kind} is not a recognized plugin kind."
         LOG.critical(error_message, exc_info=True)
         raise AttributeError(error_message) from e
     return [plugin.name for plugin in interface.get_plugins() or []]
 
 
-def get_plugin_types() -> set[str]:
-    """Return plugin types from available interfaces.
+def get_plugin_kinds() -> set[str]:
+    """Return plugin kinds from available interfaces.
 
     Returns
     -------
     set of str
-        singular names of distinct plugin types
+        singular names of distinct plugin kinds
     """
     return {
         # set comprehension
-        # the [:-1] slice converts the plugin type from plural to singular
+        # the [:-1] slice converts the plugin kind from plural to singular
         # eg. 'Readers' => 'Reader'
-        plugin_types[:-1]
+        plugin_kinds[:-1]
         for ifs in interfaces.list_available_interfaces().values()
-        for plugin_types in ifs
+        for plugin_kinds in ifs
     }
 
 
@@ -164,7 +164,7 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
-    kind: str = Field(..., description="plugin type")
+    kind: str = Field(..., description="plugin kind")
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
@@ -172,9 +172,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Validate plugin name."""
         plugin_name = values.name
-        plugin_type = values.kind
+        plugin_kind = values.kind
 
-        valid_plugin_names = get_plugin_names(plugin_type)
+        valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
             raise ValueError(
                 f"{plugin_name} is invalid. \n\t"
@@ -191,7 +191,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         Parameters
         ----------
         values : dict
-            A dictionary of plugin data. The key is plugin type, and
+            A dictionary of plugin data. The key is plugin kind, and
             the value consists of plugin name and arguments
 
         Returns
@@ -199,8 +199,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
         values : dict
             A validated and structured dictionary with the following fields:
 
-            - `type` : str
-                The type of the plugin.
+            - `kind` : str
+                The kind of the plugin.
             - `name` : str
                 The name of the plugin.
             - `arguments` : dict
@@ -210,14 +210,14 @@ class WorkflowStepDefinitionModel(FrozenModel):
         if not values:
             raise ValueError("Empty : Missing step details")
 
-        # Delegate arguments validation to each plugin type argument class
-        plugin_type = values.get("kind")
-        if not plugin_type:
+        # Delegate arguments validation to each plugin kind argument class
+        plugin_kind = values.get("kind")
+        if not plugin_kind:
             raise ValueError("Plugin name cannot be empty")
-        plugin_type_pascal_case = "".join(
-            [word.capitalize() for word in plugin_type.split("_")]
+        plugin_kind_pascal_case = "".join(
+            [word.capitalize() for word in plugin_kind.split("_")]
         )
-        plugin_arguments_model_name = f"{plugin_type_pascal_case}ArgumentsModel"
+        plugin_arguments_model_name = f"{plugin_kind_pascal_case}ArgumentsModel"
         # Dictionary listing all plugin arguments models
         plugin_arguments_models = {
             "AlgorithmArgumentsModel": AlgorithmArgumentsModel,
@@ -234,7 +234,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         if plugin_arguments_model is None:
             raise ValueError(
                 f'The argument class/model "{plugin_arguments_model_name}" for'
-                f'the plugin type "{plugin_type}" is not defined.'
+                f'the plugin kind "{plugin_kind}" is not defined.'
             )
 
         plugin_arguments_raw = values.get("arguments")
@@ -244,7 +244,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         if not isinstance(plugin_arguments_raw, dict):
             raise TypeError(
-                f"The 'arguments' field for {plugin_type} must be a dictionary, got "
+                f"The 'arguments' field for {plugin_kind} must be a dictionary, got "
                 f"{type(plugin_arguments_raw).__name__}."
             )
 
@@ -263,12 +263,12 @@ class WorkflowStepModel(FrozenModel):
     @model_validator(mode="before")
     def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Validate user input for the plugin type.
+        Validate user input for the plugin kind.
 
         Parameters
         ----------
         values : dict
-            The step data containing step name (plugin type) and its content.
+            The step data containing step name (plugin kind) and its content.
 
         Returns
         -------
@@ -279,22 +279,22 @@ class WorkflowStepModel(FrozenModel):
         Raises
         ------
         ValueError
-            if the user input step name is not in the valid_types list
-            if the user input step name and type (if provided) are not same
+            if the user input step name is not in the valid_kind list
+            if the user input step name and kind (if provided) are not same
         """
         if not values:
             raise ValueError("Empty : Step data cannot be empty.")
 
-        valid_types = get_plugin_types()
+        valid_kind = get_plugin_kinds()
 
         # extract step name and step data
-        plugin_type, step_data = next(iter(values.items()))
+        plugin_kind, step_data = next(iter(values.items()))
 
-        # raise error if the step name (plugin type) is not valid
-        if plugin_type not in valid_types:
+        # raise error if the step name (plugin kind) is not valid
+        if plugin_kind not in valid_kind:
             raise ValueError(
-                f"invalid step name : {plugin_type}.\n\t"
-                f"Must be one of {valid_types}\n\n"
+                f"invalid step name : {plugin_kind}.\n\t"
+                f"Must be one of {valid_kind}\n\n"
             )
 
         return {"definition": step_data}
