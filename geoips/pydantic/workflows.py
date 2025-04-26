@@ -287,18 +287,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 f'the plugin kind "{plugin_kind}" is not defined.'
             )
 
-        plugin_arguments_raw = model.arguments
-
-        if plugin_arguments_raw is None or plugin_arguments_raw == "null":
-            plugin_arguments_raw = {}
-
-        if not isinstance(plugin_arguments_raw, dict):
-            raise TypeError(
-                f"The 'arguments' field for {plugin_kind} must be a dictionary, got "
-                f"{type(plugin_arguments_raw).__name__}."
-            )
-
-        plugin_arguments_model(**plugin_arguments_raw)
+        plugin_arguments_model(**model.arguments)
 
         return model
 
