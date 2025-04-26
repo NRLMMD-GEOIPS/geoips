@@ -8,10 +8,10 @@
 
 # Third-Party Libraries
 # from pydantic import ValidationError
-# import pytest
+import pytest
 
 # GeoIPS Libraries
-# from geoips.pydantic import workflows
+from geoips.pydantic import workflows
 
 
 # The following tests would be added in the later stage of OBP
@@ -39,3 +39,32 @@
 #         f"Unexpected new plugin type(s): {unexpected_types}."
 #         "Update the test or check the function implementation."
 #     )
+
+
+def test_good_get_plugin_names_valid_kind():
+    """Test get_plugin_names call with a valid plugin kind."""
+    plugin_names = workflows.get_plugin_names("reader")
+
+    assert isinstance(plugin_names, list)
+    for plugin in plugin_names:
+        assert isinstance(plugin, str)
+        # assert plugin
+
+
+def test_bad_get_plugin_names_invalid_kind(caplog):
+    """Test get_plugin_names call with an invalid plugin kind."""
+
+    # with pytest.raises(AttributeError) as exec_info:
+    #     workflows.get_plugin_names("invalid_plugin_kind")
+    # assert "is not a recognized plugin kind." in str(exec_info.value)
+    with caplog.at_level("CRITICAL"):  # capture logging at critical level
+        with pytest.raises(AttributeError) as exc_info:
+            workflows.get_plugin_names("invalid_plugin_kind")
+
+        # Check that error message is raised
+        assert "is not a recognized plugin kind." in str(exc_info.value)
+
+        # Check that critical log was made
+        assert any(
+            "is not a recognized plugin kind." in message for message in caplog.messages
+        )
