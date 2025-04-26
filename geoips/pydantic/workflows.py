@@ -200,7 +200,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
         return value
 
     @model_validator(mode="after")
-    def _validate_plugin_name(cls, model: "WorkflowStepDefinitionModel") -> "WorkflowStepDefinitionModel":
+    def _validate_plugin_name(
+        cls, model: "WorkflowStepDefinitionModel"
+    ) -> "WorkflowStepDefinitionModel":
         """
         Validate that the plugin name is valid for the specified plugin kind.
 
@@ -235,7 +237,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
         return model
 
     @model_validator(mode="after")
-    def _validate_plugin_arguments(cls, model: "WorkflowStepDefinitionModel") -> "WorkflowStepDefinitionModel":
+    def _validate_plugin_arguments(
+        cls, model: "WorkflowStepDefinitionModel"
+    ) -> "WorkflowStepDefinitionModel":
         """
         Validate and organize details for each step.
 
