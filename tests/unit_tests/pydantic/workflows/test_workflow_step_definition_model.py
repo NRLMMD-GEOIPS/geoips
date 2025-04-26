@@ -93,7 +93,9 @@ def test_bad_workflow_step_definition_model_validator_invalid_plugin_name(
     assert "Must be one of " in error_info[0]["msg"]
 
 
-def test_bad_workflow_step_definition_model_validate_kind(valid_step_data,):
+def test_bad_workflow_step_definition_model_validate_kind(
+    valid_step_data,
+):
     """Tests WorkflowStepDefinitionModel validator against invalid plugin kind."""
     invalid_data = copy.deepcopy(valid_step_data)
     invalid_data["kind"] = "invalid_plugin_kind"
