@@ -264,8 +264,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         # Delegate arguments validation to each plugin kind argument class
         plugin_kind = values.get("kind")
-        if not plugin_kind:
-            raise ValueError("Plugin name cannot be empty")
         plugin_kind_pascal_case = "".join(
             [word.capitalize() for word in plugin_kind.split("_")]
         )
