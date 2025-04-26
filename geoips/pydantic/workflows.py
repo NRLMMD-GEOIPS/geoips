@@ -281,11 +281,13 @@ class WorkflowStepDefinitionModel(FrozenModel):
         plugin_arguments_model = plugin_arguments_models.get(
             plugin_arguments_model_name
         )
-        if plugin_arguments_model is None:
-            raise ValueError(
-                f'The argument class/model "{plugin_arguments_model_name}" for'
-                f'the plugin kind "{plugin_kind}" is not defined.'
-            )
+
+        # Discuss with Jeremy
+        # if plugin_arguments_model is None:
+        #     raise ValueError(
+        #         f'The argument class/model "{plugin_arguments_model_name}" for'
+        #         f'the plugin kind "{plugin_kind}" is not defined.'
+        #     )
 
         plugin_arguments_model(**model.arguments)
 
