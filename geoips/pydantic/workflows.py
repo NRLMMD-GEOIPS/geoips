@@ -199,8 +199,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         return value
 
-    @model_validator(mode="before")
-    def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+    @model_validator(mode="after")
+    def _validate_plugin_name(cls, model: "WorkflowStepDefinitionModel") -> "WorkflowStepDefinitionModel":
         """
         Validate that the plugin name is valid for the specified plugin kind.
 
@@ -222,8 +222,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
             If the plugin name is not valid for the specified plugin kind.
 
         """
-        plugin_name = values["name"]
-        plugin_kind = values["kind"]
+        plugin_name = model.name
+        plugin_kind = model.kind
 
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
@@ -232,10 +232,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 f"Must be one of {sorted(valid_plugin_names)}"
             )
 
-        return values
+        return model
 
-    @model_validator(mode="before")
-    def _validate_plugin_arguments(cls, values: Dict[str, Any]) -> Dict[str, Any]:
+    @model_validator(mode="after")
+    def _validate_plugin_arguments(cls, model: "WorkflowStepDefinitionModel") -> "WorkflowStepDefinitionModel":
         """
         Validate and organize details for each step.
 
@@ -258,11 +258,12 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 The arguments associated with the plugin.
 
         """
-        if not values:
+        if not model:
             raise ValueError("Empty : Missing step details")
 
         # Delegate arguments validation to each plugin kind argument class
-        plugin_kind = values.get("kind")
+        # plugin_kind = values.get("kind")
+        plugin_kind = model.kind
         plugin_kind_pascal_case = "".join(
             [word.capitalize() for word in plugin_kind.split("_")]
         )
@@ -286,7 +287,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 f'the plugin kind "{plugin_kind}" is not defined.'
             )
 
-        plugin_arguments_raw = values.get("arguments")
+        plugin_arguments_raw = model.arguments
 
         if plugin_arguments_raw is None or plugin_arguments_raw == "null":
             plugin_arguments_raw = {}
@@ -299,7 +300,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         plugin_arguments_model(**plugin_arguments_raw)
 
-        return values
+        return model
 
 
 class WorkflowSpecModel(FrozenModel):
