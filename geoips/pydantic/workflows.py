@@ -173,7 +173,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ----------
         cls : Type
             WorkflowStepDefinitionModel class.
-        value :
+        value : str
             Value of the 'kind' attribute to validate.
 
         Returns
@@ -194,21 +194,42 @@ class WorkflowStepDefinitionModel(FrozenModel):
         # raise error if the plugin kind is not valid
         if value not in valid_kinds:
             raise ValueError(
-                f"invalid plugin kind: '{value}'.\n\t" f"Must be one of {valid_kinds}\n\n"
+                f"[!] Invalid plugin kind: '{value}'. Must be one of {valid_kinds}\n\n"
             )
 
         return value
 
     @model_validator(mode="before")
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
-        """Validate plugin name."""
+        """
+        Validate that the provided plugin name matches one of the valid plugin names
+        for the specific kind.
+
+        Parameters
+        ----------
+        cls : Type
+            WorkflowStepDefinitionModel class.
+        values : dict
+            Dictionary of input values.
+
+        Returns
+        -------
+        dict
+            Input values post plugin name validation.
+
+        Raises
+        ------
+        ValueError
+            If the plugin name is not valid for the specified plugin kind.
+
+        """
         plugin_name = values["name"]
         plugin_kind = values["kind"]
 
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
             raise ValueError(
-                f"{plugin_name} is invalid. \n\t"
+                f"[!] Invalid plugin name '{plugin_name}'. \n\t"
                 f"Must be one of {sorted(valid_plugin_names)}"
             )
 
