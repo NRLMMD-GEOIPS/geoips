@@ -20,10 +20,14 @@ from geoips.pydantic import workflows
 def test_bad_workflow_step_definition_model_empty_value_kind():
     """Test WorkflowStepDefinitionModel with empty 'kind'."""
     with pytest.raises(ValidationError) as exec_info:
-        workflows.WorkflowStepDefinitionModel(kind="", name="abi_netcdf", arguments={"variables": ['B14BT']})
+        workflows.WorkflowStepDefinitionModel(
+            kind="", name="abi_netcdf", arguments={"variables": ["B14BT"]}
+        )
 
     error_info = exec_info.value.errors()
-    assert any("Invalid input: 'kind' cannot be empty." in err["msg"] for err in error_info)
+    assert any(
+        "Invalid input: 'kind' cannot be empty." in err["msg"] for err in error_info
+    )
 
 
 # This test is retained as it would be used for any PluginArgumentsModel
