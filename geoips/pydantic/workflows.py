@@ -184,20 +184,17 @@ class WorkflowStepDefinitionModel(FrozenModel):
         Raises
         ------
         ValueError
-            If the user provided value for 'kind' is not in the valid_kind list.
+            If the user-provided value for 'kind' is not in the valid_kind list.
         """
-
         if not value:
-            raise ValueError("Empty : Step data cannot be empty.")
-        else:
-            print("step data is \t", value)
+            raise ValueError("Invalid input: 'kind' cannot be empty.")
 
-        valid_kind = get_plugin_kinds()
+        valid_kinds = get_plugin_kinds()
 
         # raise error if the plugin kind is not valid
-        if value not in valid_kind:
+        if value not in valid_kinds:
             raise ValueError(
-                f"invalid plugin kind: {value}.\n\t" f"Must be one of {valid_kind}\n\n"
+                f"invalid plugin kind: '{value}'.\n\t" f"Must be one of {valid_kinds}\n\n"
             )
 
         return value
