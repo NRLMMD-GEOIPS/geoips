@@ -12,7 +12,7 @@ import logging
 from typing import Any, Dict, List
 
 # Third-Party Libraries
-from pydantic import ConfigDict, Field, model_validator
+from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
@@ -113,7 +113,6 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Reader step arguments.
     """
 
-    model_config = ConfigDict(extra="allow")
     area_def: str = Field(None, description="Area definition identifier.")
     variables: List[str] = Field(
         None,
@@ -155,22 +154,59 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 class WorkflowArgumentsModel(PermissiveFrozenModel):
     """Validate workflow arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
-    kind: str = Field(..., description="plugin kind", str_min_length=1)
+    kind: str = Field(..., description="plugin kind")
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
-    @model_validator(mode="after")
+    @field_validator("kind", mode="before")
+    def _validate_kind(cls, value: str) -> str:
+        """
+        Validate user input for the 'kind' field.
+
+        Parameters
+        ----------
+        cls : Type
+            WorkflowStepDefinitionModel class.
+        value :
+            Value of the 'kind' attribute to validate.
+
+        Returns
+        -------
+        str
+            Validated value of 'kind' if it is valid.
+
+        Raises
+        ------
+        ValueError
+            If the user provided value for 'kind' is not in the valid_kind list.
+        """
+
+        if not value:
+            raise ValueError("Empty : Step data cannot be empty.")
+        else:
+            print("step data is \t", value)
+
+        valid_kind = get_plugin_kinds()
+
+        # raise error if the plugin kind is not valid
+        if value not in valid_kind:
+            raise ValueError(
+                f"invalid plugin kind: {value}.\n\t" f"Must be one of {valid_kind}\n\n"
+            )
+
+        return value
+
+    @model_validator(mode="before")
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """Validate plugin name."""
-        plugin_name = values.name
-        plugin_kind = values.kind
+        plugin_name = values["name"]
+        plugin_kind = values["kind"]
 
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
@@ -249,56 +285,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
         plugin_arguments_model(**plugin_arguments_raw)
 
         return values
-
-
-# class WorkflowStepModel(FrozenModel):
-#     """Validate and process a sequence of steps with their data."""
-
-#     definition: WorkflowStepDefinitionModel = Field(
-#         ..., description="Sequence of workflow steps"
-#     )
-
-# @model_validator(mode="before")
-# def _plugin_name_validator(cls, values: Dict[str, Any]) -> Dict[str, Any]:
-#     """
-#     Validate user input for the plugin kind.
-
-#     Parameters
-#     ----------
-#     values : dict
-#         The step data containing step name (plugin kind) and its content.
-
-#     Returns
-#     -------
-#     dict
-#         processed step data after step name validation.
-
-
-#     Raises
-#     ------
-#     ValueError
-#         if the user input step name is not in the valid_kind list
-#         if the user input step name and kind (if provided) are not same
-#     """
-#     if not values:
-#         raise ValueError("Empty : Step data cannot be empty.")
-#     else:
-#         print("step data is \t", values)
-
-
-#     valid_kind = get_plugin_kinds()
-
-#     # extract step name and step data
-#     plugin_kind, step_data = next(iter(values.items()))
-
-#     # raise error if the step name (plugin kind) is not valid
-#     if plugin_kind not in valid_kind:
-#         raise ValueError(
-#             f"invalid step name : {plugin_kind}.\n\t"
-#             f"Must be one of {valid_kind}\n\n"
-#         )
-
-#     return {"definition": step_data}
 
 
 class WorkflowSpecModel(FrozenModel):
