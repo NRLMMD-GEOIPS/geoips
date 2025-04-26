@@ -53,10 +53,6 @@ def test_good_get_plugin_names_valid_kind():
 
 def test_bad_get_plugin_names_invalid_kind(caplog):
     """Test get_plugin_names call with an invalid plugin kind."""
-
-    # with pytest.raises(AttributeError) as exec_info:
-    #     workflows.get_plugin_names("invalid_plugin_kind")
-    # assert "is not a recognized plugin kind." in str(exec_info.value)
     with caplog.at_level("CRITICAL"):  # capture logging at critical level
         with pytest.raises(AttributeError) as exc_info:
             workflows.get_plugin_names("invalid_plugin_kind")
