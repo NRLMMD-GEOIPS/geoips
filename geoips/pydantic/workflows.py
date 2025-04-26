@@ -262,11 +262,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 The arguments associated with the plugin.
 
         """
-        if not model:
-            raise ValueError("Empty : Missing step details")
-
         # Delegate arguments validation to each plugin kind argument class
-        # plugin_kind = values.get("kind")
         plugin_kind = model.kind
         plugin_kind_pascal_case = "".join(
             [word.capitalize() for word in plugin_kind.split("_")]
