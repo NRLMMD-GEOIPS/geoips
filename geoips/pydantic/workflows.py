@@ -202,8 +202,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
     @model_validator(mode="before")
     def _validate_plugin_name(cls, values: Dict[str, Any]) -> Dict[str, Any]:
         """
-        Validate that the provided plugin name matches one of the valid plugin names
-        for the specific kind.
+        Validate that the plugin name is valid for the specified plugin kind.
 
         Parameters
         ----------
