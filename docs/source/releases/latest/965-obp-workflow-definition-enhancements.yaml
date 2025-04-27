@@ -9,7 +9,7 @@ bug fix:
     added:
     - ''
     modified:
-    - ''
+    - 'geoips/geoips/interfaces/base.py'
   related-issue:
     number: 966
     repo_url: ''
