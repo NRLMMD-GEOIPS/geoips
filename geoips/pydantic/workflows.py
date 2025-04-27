@@ -16,7 +16,12 @@ from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.bases import PluginModel, FrozenModel, PermissiveFrozenModel
+from geoips.pydantic.bases import (
+    PythonIdentifier,
+    PluginModel,
+    FrozenModel,
+    PermissiveFrozenModel,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -208,15 +213,13 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
         Parameters
         ----------
-        cls : Type
-            WorkflowStepDefinitionModel class.
-        values : dict
-            Dictionary of input values.
+        model: WorkflowStepDefinitionModel
+            The WorkflowStepDefinitionModel instance to validate.
 
         Returns
         -------
-        dict
-            Input values post plugin name validation.
+        WorkflowStepDefinitionModel
+            The validated instance of WorkflowStepDefinitionModel
 
         Raises
         ------
@@ -243,24 +246,19 @@ class WorkflowStepDefinitionModel(FrozenModel):
         """
         Validate and organize details for each step.
 
+        This validator is called after the model is initialized. It ensures that the
+        `kind`, `name`, and `arguments` attributes are properly validated and
+        structured for each workflow step.
+
         Parameters
         ----------
-        values : dict
-            A dictionary of plugin data. The key is plugin kind, and
-            the value consists of plugin name and arguments
+        model: WorkflowStepDefinitionModel
+            The WorkflowStepDefinitionModel instance to validate.
 
         Returns
         -------
-        values : dict
-            A validated and structured dictionary with the following fields:
-
-            - `kind` : str
-                The kind of the plugin.
-            - `name` : str
-                The name of the plugin.
-            - `arguments` : dict
-                The arguments associated with the plugin.
-
+        WorkflowStepDefinitionModel
+            The validated instance of WorkflowStepDefinitionModel
         """
         # Delegate arguments validation to each plugin kind argument class
         plugin_kind = model.kind
@@ -298,7 +296,7 @@ class WorkflowSpecModel(FrozenModel):
     """The specification for a workflow."""
 
     # list of steps
-    steps: Dict[str, WorkflowStepDefinitionModel] = Field(
+    steps: Dict[PythonIdentifier, WorkflowStepDefinitionModel] = Field(
         ..., description="Steps to produce the workflow."
     )
 
