@@ -266,7 +266,7 @@ class PluginModel(FrozenModel):
         """
         valid_interfaces = get_interfaces()
         if value not in valid_interfaces:
-            err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
+            err_msg = f"Invalid interface:'{value}'.Must be one of {valid_interfaces}"
             LOG.critical(err_msg, exc_info=True)
             raise ValueError(err_msg)
         return value

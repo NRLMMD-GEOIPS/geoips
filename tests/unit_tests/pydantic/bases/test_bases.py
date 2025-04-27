@@ -160,7 +160,7 @@ def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     invalid_data = valid_plugin_data.copy()
     invalid_data["interface"] = invalid_interface
 
-    with pytest.raises(ValueError, match="Invalid interface"):
+    with pytest.raises(ValidationError, match="Invalid interface"):
         bases.PluginModel(**invalid_data)
 
 
