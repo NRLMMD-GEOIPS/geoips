@@ -262,3 +262,41 @@ def test_bad_plugin_model_set_description_without_input_field(
         f"Expected description: {expected_description},"
         f"but got this: {model.docstring}"
     )
+
+
+def test_bad_plugin_model_validate_one_line_description_length(
+    caplog, valid_plugin_data
+):
+    """Test PluginModel's description validator against more than 72 characters."""
+    data = copy.deepcopy(valid_plugin_data)
+    data["description"] = (
+        "This description is intentionally crafted to exceed seventy-two characters."
+    )
+    with caplog.at_level("WARNING"):
+        model = bases.PluginModel(**data)
+
+    warning_messages = [record.message for record in caplog.records]
+    assert any(
+        "Future ValidationError encountered." in message for message in warning_messages
+    )
+    assert any(
+        "Description cannot be more than 72 characters" in message
+        for message in warning_messages
+    )
+    assert model.description
+
+
+def test_bad_plugin_model_validate_one_line_description_multi_line(
+    caplog, valid_plugin_data
+):
+    """Test PluginModel's description validator against multi line input."""
+    data = copy.deepcopy(valid_plugin_data)
+    data["description"] = "This description is a \n multi line one."
+    with caplog.at_level("WARNING"):
+        model = bases.PluginModel(**data)
+
+    warning_messages = [record.message for record in caplog.records]
+    assert any(
+        "Description must be a single line." in message for message in warning_messages
+    )
+    assert model.description
