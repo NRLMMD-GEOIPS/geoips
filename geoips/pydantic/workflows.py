@@ -161,13 +161,6 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
         return values
 
 
-class WorkflowArgumentsModel(PermissiveFrozenModel):
-    """Validate workflow arguments."""
-
-    model_config = ConfigDict(extra="allow")
-    pass
-
-
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : name, arguments."""
 
