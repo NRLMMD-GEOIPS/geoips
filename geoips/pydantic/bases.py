@@ -10,6 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
+from typing import Union, Tuple
 
 # Third-Party Libraries
 from pydantic import (
@@ -29,12 +30,15 @@ from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
 
+ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
+ColorType = Union[ColorTuple, str]
+
 
 class PrettyBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default.
 
-    This model overrides the default string representation of Pydantic models to
-    generate a user-friendly, JSON-formatted output with two-space indentation.
+    This model overrides the default string representation of Pyantic models to generate
+    a user-friendly, JSON-formatted output with two-space indentation.
     """
 
     def __str__(self) -> str:
@@ -47,8 +51,9 @@ class PrettyBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        # exclude_none removes all optional fields that were unset and default to None
-        return self.model_dump_json(indent=2, exclude_none=True)
+        # Check if exclude unset removes all None attributes or just those which weren't
+        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
+        return self.model_dump_json(indent=2, exclude_unset=True)
 
 
 class FrozenModel(PrettyBaseModel):
@@ -141,7 +146,7 @@ def get_interfaces() -> set[str]:
     """Return a set of distinct interfaces.
 
     This function returns all available plugin interfaces. The results are cached for
-    runtime memory optimization.
+    runtime memory optimizaiton.
 
     Returns
     -------
@@ -180,13 +185,7 @@ class PluginModel(FrozenModel):
         description=("A short description or defaults to first line from docstring."),
     )
     package: PythonIdentifier = (
-        Field(
-            None,
-            description=(
-                "Automatically derived package name for this plugin. Users "
-                "must not set this field manually."
-            ),
-        ),
+        Field(..., description="Package that contains this plugin."),
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
@@ -215,20 +214,16 @@ class PluginModel(FrozenModel):
         # No need to raise an error for 'name'.
         interface_name = values.get("interface")
         try:
-            interface = getattr(interfaces, interface_name)
+            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
+                values.get("name")
+            )
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
                 f"Must be one of {get_interfaces()}"
             )
-
-        try:
-            metadata = interface.get_plugin_metadata(values.get("name"))
-        except KeyError:
-            raise ValueError(f"Plugin not found: '{values.get('name')}'")
         # the above exception handling would be further improved by checking the
-        # existence of plugin registry in the future issue #906
-
+        # existence of plugin registry in the fuutre issue #906
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
@@ -276,7 +271,7 @@ class PluginModel(FrozenModel):
         cls: type["PluginModel"], values: dict[str, str | int | float | None]
     ):
         """
-        Set ``description`` to first line of ``docstring`` field if not provided.
+        Set ``description`` to first line of ``dosctring`` field if not provided.
 
         Parameters
         ----------
@@ -329,36 +324,27 @@ class PluginModel(FrozenModel):
             ),
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
-        try:
-            if "\n" in value:
-                LOG.critical(
-                    "'error': %s 'input_provided': %r",
-                    error_messages["single_line"],
-                    value,
-                    exc_info=True,
-                )
-                raise PydanticCustomError("single_line", error_messages["single_line"])
-            if not (value[0].isalnum() and value.endswith(".")):
-                LOG.critical(
-                    "'error': %s 'input_provided': %r",
-                    error_messages["format_error"],
-                    value,
-                    exc_info=True,
-                )
-                raise PydanticCustomError(
-                    "format_error", error_messages["format_error"]
-                )
-            if len(value) > 72:
-                excess_length = len(value) - 72
-                err_msg = f"{error_messages['length_error']} {excess_length} characters"
-                LOG.critical(
-                    "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
-                )
-                raise PydanticCustomError("length_error", err_msg)
-        except PydanticCustomError as e:
-            LOG.warning(
-                f"Future ValidationError encoutnered. This will become an "
-                f"error in a future release. {e}"
+        if "\n" in value:
+            LOG.critical(
+                "'error': %s 'input_provided': %r",
+                error_messages["single_line"],
+                value,
+                exc_info=True,
             )
-
+            raise PydanticCustomError("single_line", error_messages["single_line"])
+        if not (value[0].isalnum() and value.endswith(".")):
+            LOG.critical(
+                "'error': %s 'input_provided': %r",
+                error_messages["format_error"],
+                value,
+                exc_info=True,
+            )
+            raise PydanticCustomError("format_error", error_messages["format_error"])
+        if len(value) > 72:
+            excess_length = len(value) - 72
+            err_msg = f"{error_messages['length_error']} {excess_length} characters"
+            LOG.critical(
+                "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
+            )
+            raise PydanticCustomError("length_error", err_msg)
         return value
