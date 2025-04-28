@@ -1,0 +1,20 @@
+bug fix:
+- title: 'CLI geoips run -h bug fix'
+  description: |
+    There was an oversight in the command
+    geoips.commandline.commandline_interface:support_legacy_procflows which has a set
+    of hardcoded, valid procflows that can be ran. Since this code is hit before the
+    argparser is actually initalized (needs to be for the time being, until OBP) is out,
+    the check against vaild procflows would fail if the command 'geoips run -h' was
+    ran, as '-h' is not a valid procflow. This PR updates that logic to allow for '-h'
+    to be passed in that format, and adds that as a unit test.
+  files:
+    modified:
+      - geoips/commandline/commandline_interface.py
+      - tests/unit_tests/commandline/test_geoips_run.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 4/28/25
+    finish: 4/28/25
