@@ -1,6 +1,6 @@
 bug fix:
-- title: 'Detect and handle duplicate step keys in the Workflow YAML files'
-  description: 'Update YAML parsing to detect and report duplicate keys'
+- title:
+  description:
   files:
     deleted:
     - ''
@@ -9,13 +9,13 @@ bug fix:
     added:
     - ''
     modified:
-    - 'geoips/geoips/interfaces/base.py'
+    -
   related-issue:
-    number: 966
+    number:
     repo_url: ''
   date:
-    start: 04/25/2025
-    finish: 04/28/2025
+    start:
+    finish:
 enhancement:
 - title: 'OBP workflow definition enhancements'
   description: "Refactors step definition to use 'kind' instead of 'type', placing it within the step."
