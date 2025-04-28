@@ -1,0 +1,25 @@
+enhancement:
+- title: 'OBP Pydantic Feature Annotator Models'
+  description: |
+    Implemented pydantic schema for feature annotator plugins. Builds off of the base
+    pydantic PluginModel and implemented unit test for this new functionality as well.
+    Refactored the pydantic unit test utility module so unit tests for other interfaces
+    could be generalized to reduce code duplication.
+  files:
+    added:
+      - geoips/pydantic/feature_annotators.py
+      - tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+      - tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
+    modified:
+      - geoips/plugins/yaml/feature_annotators/default.yaml
+      - geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
+      - geoips/plugins/yaml/feature_annotators/tc_visir.yaml
+      - geoips/pydantic/bases.py
+      - tests/unit_tests/pydantic/sectors/test_sectors.py
+      - tests/unit_tests/pydantic/utils.py
+  related-issue:
+    number: 897
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 03/07/2024
+    finish: null
