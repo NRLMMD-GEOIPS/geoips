@@ -306,9 +306,8 @@ class BaseInterface(abc.ABC):
     the GeoIPS algorithm plugins.
     """
 
-    from geoips import plugin_registry as plugin_registry_module
+    import geoips.plugin_registry as plugin_registry_module
 
-    plugin_registry = plugin_registry_module.plugin_registry
     name = "BaseInterface"
     interface_type = None  # This is set by child classes
     rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
@@ -325,6 +324,43 @@ class BaseInterface(abc.ABC):
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
         return super(BaseInterface, cls).__new__(cls)
+
+    @property
+    def namespace(self):
+        """Default namespace used for the plugin registry associated with this class.
+
+        By default, we use 'geoips.plugin_packages' as the namespace for interface
+        classes. However, if a user has developed interfaces in a separate namespace
+        from geoips, they can override this in their own classes by setting the
+        namespace to search in.
+        """
+        if not hasattr(self, "_namespace"):
+            self._namespace = "geoips.plugin_packages"
+        return self._namespace
+
+    @property
+    def plugin_registry(self):
+        """The plugin registry associated with this interface.
+
+        By default, the plugin registry used comes from the namespace
+        'geoips.plugin_packages'. However, if a user has developed iinterfaces in a
+        separate namespace from geoips, they can override this in their own classes by
+        setting the namespace to search in.
+        """
+        if not hasattr(self, "_plugin_registry"):
+            self._plugin_registry = self.plugin_registry_module.PluginRegistry(
+                self.namespace
+            )
+        return self._plugin_registry
+
+    @plugin_registry.setter
+    def plugin_registry(self, new_value):
+        """Reset the value of plugin registry.
+
+        This occurs if the registry needs to be rebuilt (for example, a missing plugin)
+        during runtime.
+        """
+        self._plugin_registry = new_value
 
     @abc.abstractmethod
     def get_plugin(self, name, rebuild_registries=rbr):
@@ -365,7 +401,9 @@ class BaseInterface(abc.ABC):
         # Reload the interface's plugin_registry_module so that the plugin registry is
         # in the most recent state.
         reload(self.plugin_registry_module)
-        self.plugin_registry = self.plugin_registry_module.plugin_registry
+        self.plugin_registry = self.plugin_registry_module.PluginRegistry(
+            self.namespace
+        )
 
     def retry_get_plugin(self, name, rebuild_registries, err_str, err_type=PluginError):
         """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
