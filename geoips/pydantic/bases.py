@@ -11,6 +11,7 @@ Other models defined here validate field types within child plugin models.
 import keyword
 import logging
 from typing import Union, Tuple
+import warnings
 
 # Third-Party Libraries
 from pydantic import (
@@ -325,31 +326,30 @@ class PluginModel(FrozenModel):
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
         try:
+
+            def _log_and_raise_custom_pydantic_errors(
+                error_type: str, error_message: str, value: str
+            ):
+                warnings.warn(
+                    f"'error': {error_message} 'input_provided': {value}",
+                    FutureWarning,
+                    stacklevel=3,
+                )
+                raise PydanticCustomError(error_type, error_message)
+
             if "\n" in value:
-                LOG.critical(
-                    "'error': %s 'input_provided': %r",
-                    error_messages["single_line"],
-                    value,
-                    exc_info=True,
+                _log_and_raise_custom_pydantic_errors(
+                    "single_line", error_messages["single_line"], value
                 )
-                raise PydanticCustomError("single_line", error_messages["single_line"])
-            if not (value[0].isalnum() and value.endswith(".")):
-                LOG.critical(
-                    "'error': %s 'input_provided': %r",
-                    error_messages["format_error"],
-                    value,
-                    exc_info=True,
+            elif not value or not value[0].isalnum() or not value.endswith("."):
+                _log_and_raise_custom_pydantic_errors(
+                    "format_error", error_messages["format_error"], value
                 )
-                raise PydanticCustomError(
-                    "format_error", error_messages["format_error"]
-                )
-            if len(value) > 72:
+            elif len(value) > 72:
                 excess_length = len(value) - 72
                 err_msg = f"{error_messages['length_error']} {excess_length} characters"
-                LOG.critical(
-                    "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
-                )
-                raise PydanticCustomError("length_error", err_msg)
+                _log_and_raise_custom_pydantic_errors("length_error", err_msg, value)
+
         except PydanticCustomError as e:
             LOG.warning(
                 f"Future ValidationError encountered. This will become an "
