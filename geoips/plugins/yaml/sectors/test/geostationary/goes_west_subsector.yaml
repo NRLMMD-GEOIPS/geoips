@@ -1,0 +1,33 @@
+interface: sectors
+family: area_definition_static
+name: goes_west_subsector
+docstring: |
+  Selected subsector for GOES-West is used for test cases
+  300x300 at 10km resolution centered at (10S, 140W),
+  approximately 27 degree square area
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: GOES-West-subsector
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: goes-west-subsector-27deg
+  description: GOES-West-subsector Coverage
+  projection:
+    a: 6371228.0
+    lat_0: -10
+    lon_0: -140
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 300
+    width: 300
+  area_extent:
+    lower_left_xy: [-1500000, -1500000]
+    upper_right_xy: [1500000, 1500000]
