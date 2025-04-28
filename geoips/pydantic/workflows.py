@@ -163,14 +163,14 @@ class WorkflowArgumentsModel(PermissiveFrozenModel):
 
 
 class WorkflowStepDefinitionModel(FrozenModel):
-    """Validate step definition : name, arguments."""
+    """Validate step definition : kind, name, and arguments."""
 
     kind: str = Field(..., description="plugin kind")
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
     @field_validator("kind", mode="before")
-    def _validate_kind(cls, value: str) -> str:
+    def _validate_plugin_kind(cls, value: str) -> str:
         """
         Validate user input for the 'kind' field.
 
