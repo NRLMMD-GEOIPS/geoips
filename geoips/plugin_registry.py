@@ -42,6 +42,7 @@ class PluginRegistry:
         Where namespace is the group of plugin packages used to create the plugin
         registry.
         """
+        self.namespace = namespace
         # Use this for unit testing
         if _test_registry_files:
             self.registry_files = _test_registry_files
@@ -50,7 +51,7 @@ class PluginRegistry:
         else:
             self._is_test = False
             self.registry_files = []  # Collect the paths to the registry files here
-            for pkg in metadata.entry_points(group=namespace):
+            for pkg in metadata.entry_points(group=self.namespace):
                 try:
                     self.registry_files.append(
                         str(resources.files(pkg.value) / "registered_plugins.json")
@@ -198,7 +199,7 @@ class PluginRegistry:
             )
         return plugin_type
 
-    def delete_registries(packages=None) -> None:
+    def delete_registries(self, packages=None) -> None:
         """Delete one or more plugin registry files.
 
         By default, this command will delete all plugin registry files found in all
@@ -214,15 +215,79 @@ class PluginRegistry:
 
         Raises
         ------
+        TypeError:
+            - Raised if packages is provided and is not a list of strings.
         FileNotFoundError:
             - Raised if a registry file could not be found in one or more
               geoips.plugin_packages.
         PluginRegistryError:
             - Raised if one or more of the packages provided is not a valid
-              geoips.plugin_package.
+              geoips.plugin_package, or if the associated namespace provided is not
+              a valid namespace.
         """
-        if packages is None:
-            packages = metadata.entry_points(group="geoips.plugin_packages")
+        if packages:
+            self._validate_packages_input(packages)
+
+        for pkg in metadata.entry_points(group=self.namespace):
+            # If packages is provided and the current package is in that list, or if
+            # we're using the default value for that argument, delete the associated
+            # registry
+            if (packages and pkg.value in packages) or packages is None:
+                yaml_plug_path = str(
+                    resources.files(pkg.value) / "registered_plugins.yaml"
+                )
+                json_plug_path = str(
+                    resources.files(pkg.value) / "registered_plugins.json"
+                )
+                for regpath in [yaml_plug_path, json_plug_path]:
+                    if os.path.exists(regpath):
+                        os.remove(regpath)
+                    else:
+                        raise FileNotFoundError(
+                            f"Error: deletion of '{pkg.value}'s registry was requested "
+                            f" but {regpath} couldn't be found."
+                        )
+
+    def _validate_packages_input(self, packages):
+        """Validate that packages is a list of strings.
+
+        If not, then raise a TypeError indicating what was formatted incorrectly.
+
+        Parameters
+        ----------
+        packages: list[str], default=None
+            - A list of names corresponding to geoips.plugin_packges whose registries
+              we want to delete.
+
+        Raises
+        ------
+        TypeError:
+            - Raised if packages is provided and is not a list of strings.
+        PluginRegistryError:
+            - Raised if one or more of the packages provided is not a valid
+              geoips.plugin_package, or if the associated namespace provided is not
+              a valid namespace.
+        """
+        if not isinstance(packages, list):
+            raise TypeError(
+                "Error: 'packages' kwarg was provided but it is not a list object."
+            )
+        elif any([not isinstance(pkg, str) for pkg in packages]):
+            raise TypeError(
+                "Error: 'packages' argument was provided but one or more of it's "
+                "items were not a string."
+            )
+        # If any package name in 'packages' could not be associated with an entry point
+        # found in pypi's package registry associated with 'self.namespace', raise a
+        # plugin registry error.
+        found_packages = [
+            pkg.value for pkg in metadata.entry_points(group=self.namespace)
+        ]
+        if any([pkg_name not in found_packages for pkg_name in packages]):
+            raise PluginRegistryError(
+                "Error: either the namespace provided was invalid or one or more of "
+                "the packages whose registry you requested to delete does not exist."
+            )
 
 
 plugin_registry = PluginRegistry("geoips.plugin_packages")
