@@ -20,9 +20,12 @@ in all plugins multiple times.
 from importlib import metadata, resources
 import os
 import logging
-from geoips.errors import PluginRegistryError
+
 import yaml
 import json
+
+from geoips.create_plugin_registries import create_plugin_registries
+from geoips.errors import PluginRegistryError
 
 
 LOG = logging.getLogger(__name__)
@@ -199,13 +202,58 @@ class PluginRegistry:
             )
         return plugin_type
 
+    def create_registries(self, packages=None, save_type="json") -> None:
+        """Create one or more plugin registry files.
+
+        By default, this command will create all plugin registry files found in all
+        installed geoips packages (geoips.plugin_packages entrypoint). If packages is
+        provided via the argument above, create registry files associated with all
+        of those packages.
+
+        Parameters
+        ----------
+        packages: list[str], default=None
+            - A list of names corresponding to geoips.plugin_packges whose registries
+              we want to create.
+        save_type: str, default="json"
+            - Format to write registries to. This will also be the file extension. Valid
+              options are either 'json' or 'yaml'.
+
+        Raises
+        ------
+        ValueError:
+            - Raised if 'save_type' is provided but is not one of ['json', 'yaml']
+        TypeError:
+            - Raised if packages is provided and is not a list of strings.
+        PluginRegistryError:
+            - Raised if one or more of the packages provided is not a valid
+              geoips.plugin_package, or if the associated namespace provided is not
+              a valid namespace.
+        """
+        if save_type not in ["json", "yaml"]:
+            raise ValueError(
+                "Error: 'save_type' kwarg was provided but is not one of "
+                "['json', 'yaml']."
+            )
+        plugin_packages = metadata.entry_points(group=self.namespace)
+        if packages:
+            self._validate_packages_input(packages)
+            filtered_packages = []
+            for pkg in plugin_packages:
+                if pkg.value in packages:
+                    filtered_packages.append(pkg)
+            plugin_packages = filtered_packages
+
+        LOG.debug(plugin_packages)
+        create_plugin_registries(plugin_packages, save_type, self.namespace)
+
     def delete_registries(self, packages=None) -> None:
         """Delete one or more plugin registry files.
 
         By default, this command will delete all plugin registry files found in all
         installed geoips packages (geoips.plugin_packages entrypoint). If packages is
-        provided via the argument above, delete the registry file associated with all
-        of those packages.
+        provided via the argument above, delete the registry file(s) associated with
+        each of those packages.
 
         Parameters
         ----------
@@ -285,7 +333,7 @@ class PluginRegistry:
             )
         elif any([not isinstance(pkg, str) for pkg in packages]):
             raise TypeError(
-                "Error: 'packages' argument was provided but one or more of it's "
+                "Error: 'packages' kwarg was provided but one or more of it's "
                 "items were not a string."
             )
         # If any package name in 'packages' could not be associated with an entry point
