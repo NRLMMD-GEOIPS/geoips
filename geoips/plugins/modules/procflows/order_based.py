@@ -43,7 +43,8 @@ def call(workflow, fnames, command_line_args=None):
 
         if interface not in handled_interfaces:
             LOG.interactive(
-                "Skipping unhandled interface '%s'. Would have called the '%s' plugin.",
+                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
+                "plugin.",
                 interface,
                 step_def.name,
             )
@@ -51,9 +52,11 @@ def call(workflow, fnames, command_line_args=None):
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
             LOG.interactive(
-                "Calling '%s' '%s' plugin with the following arguments: \n\t'%s'",
-                step_def.name,
+                "\nCalling a Plugin with \n\n\t step_id: '%s', \n\t plugin_kind:"
+                "'%s', \n\t plugin_name:'%s' with the arguments: \t'%s'\n\n",
+                step_id,
                 step_def.kind,
+                step_def.name,
                 step_def.arguments,
             )
             if interface == "readers":
@@ -66,12 +69,12 @@ def call(workflow, fnames, command_line_args=None):
             else:
                 data = plg(data, **step_def.arguments)
             LOG.interactive(
-                "Finished '%s' '%s' plugin.",
+                "\n ✅ Finished '%s' '%s' plugin.\n",
                 step_def.name,
                 step_def.kind,
             )
 
-    LOG.interactive(f"The workflow '{workflow}' has finished processing.")
+    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 
 
 if __name__ == "__main__":
