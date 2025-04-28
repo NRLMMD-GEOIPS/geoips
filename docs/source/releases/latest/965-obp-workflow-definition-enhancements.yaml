@@ -27,6 +27,7 @@ enhancement:
     added:
     - ''
     modified:
+    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/modules/procflows/order_based.py'
     - 'geoips/plugins/yaml/workflows/abi.yaml'
     - 'geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml'
@@ -44,9 +45,11 @@ enhancement:
     - 'geoips/plugins/yaml/workflows/visir/nasa_dust_rgb.yaml'
     - 'geoips/pydantic/bases.py'
     - 'geoips/pydantic/workflows.py'
+    - 'tests/unit_tests/pydantic/bases/test_bases.py'
     - 'tests/unit_tests/pydantic/conftest.py'
+    - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py'
     - 'tests/unit_tests/pydantic/workflows/test_workflow_step_definition_model.py'
-    - 'tests/unit_tests/pydantic/workflows/test_workflow_step_model.py'
+    - 'tests/unit_tests/pydantic/workflows/test_workflows.py'
   related-issue:
     number: 937
     repo_url: ''
