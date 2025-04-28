@@ -245,8 +245,6 @@ class PluginModel(FrozenModel):
 
         Parameters
         ----------
-        cls : Type
-            PluginModel class.
         value :
             Value of the 'interface' field to validate.
 

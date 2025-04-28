@@ -172,12 +172,10 @@ class WorkflowStepDefinitionModel(FrozenModel):
     @field_validator("kind", mode="before")
     def _validate_plugin_kind(cls, value: str) -> str:
         """
-        Validate user input for the 'kind' field.
+        Validate that 'kind' is a known plugin kind.
 
         Parameters
         ----------
-        cls : Type
-            WorkflowStepDefinitionModel class.
         value : str
             Value of the 'kind' attribute to validate.
 
