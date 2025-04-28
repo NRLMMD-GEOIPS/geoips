@@ -193,5 +193,31 @@ class PluginRegistry:
             )
         return plugin_type
 
+    def delete_registries(packages=None) -> None:
+        """Delete one or more plugin registry files.
+
+        By default, this command will delete all plugin registry files found in all
+        installed geoips packages (geoips.plugin_packages entrypoint). If packages is
+        provided via the argument above, delete the registry file associated with all
+        of those packages.
+
+        Parameters
+        ----------
+        packages: list[str], default=None
+            - A list of names corresponding to geoips.plugin_packges whose registries
+              we want to delete.
+
+        Raises
+        ------
+        FileNotFoundError:
+            - Raised if a registry file could not be found in one or more
+              geoips.plugin_packages.
+        PluginRegistryError:
+            - Raised if one or more of the packages provided is not a valid
+              geoips.plugin_package.
+        """
+        if packages is None:
+            packages = metadata.entry_points(group="geoips.plugin_packages")
+
 
 plugin_registry = PluginRegistry()
