@@ -23,9 +23,9 @@ def valid_step_data():
 
 
 @pytest.fixture
-def valid_interfaces(valid_plugin_types):
+def valid_interfaces(valid_plugin_kinds):
     """Fixture to provide list of valid GeoIPS interfaces."""
-    return {f"{plugin_type}s" for plugin_type in valid_plugin_types}
+    return {f"{plugin_kind}s" for plugin_kind in valid_plugin_kinds}
 
 
 @pytest.fixture
@@ -41,9 +41,9 @@ def valid_reader_arguments_model_data():
 
 
 @pytest.fixture
-def valid_plugin_types():
-    """Fixture to provide the list of valid plugin types."""
-    VALID_PLUGIN_TYPES = [
+def valid_plugin_kinds():
+    """Fixture to provide the list of valid plugin kinds."""
+    VALID_PLUGIN_KINDS = [
         "algorithm",
         "procflow",
         "database",
@@ -65,7 +65,7 @@ def valid_plugin_types():
         "filename_formatter",
         "workflow",
     ]
-    return VALID_PLUGIN_TYPES
+    return VALID_PLUGIN_KINDS
 
 
 # test_bases.py
