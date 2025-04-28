@@ -129,7 +129,8 @@ def support_legacy_procflows():
         - The truth value as to whether or not a legacy procflow call was used
     """
     defined_procflow = None
-    supported_procflows = ["config_based", "data_fusion", "single_source"]
+    # Including '-h' here as we need to be able to support help messages for this cmd
+    supported_procflows = ["config_based", "data_fusion", "single_source", "-h"]
     if (
         basename(sys.argv[0]) == "geoips"
         and len(sys.argv) > 2
