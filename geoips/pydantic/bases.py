@@ -37,8 +37,8 @@ ColorType = Union[ColorTuple, str]
 class PrettyBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default.
 
-    This model overrides the default string representation of Pydantic models to generate
-    a user-friendly, JSON-formatted output with two-space indentation.
+    This model overrides the default string representation of Pydantic models to
+    generate a user-friendly, JSON-formatted output with two-space indentation.
     """
 
     def __str__(self) -> str:
