@@ -239,14 +239,23 @@ class PluginRegistry:
                 json_plug_path = str(
                     resources.files(pkg.value) / "registered_plugins.json"
                 )
-                for regpath in [yaml_plug_path, json_plug_path]:
-                    if os.path.exists(regpath):
-                        os.remove(regpath)
-                    else:
-                        raise FileNotFoundError(
-                            f"Error: deletion of '{pkg.value}'s registry was requested "
-                            f" but {regpath} couldn't be found."
-                        )
+                # If the .json registry is missing, raise a FileNotFoundError.
+                if os.path.exists(json_plug_path):
+                    os.remove(json_plug_path)
+                else:
+                    raise FileNotFoundError(
+                        f"Error: deletion of '{pkg.value}'s registry was requested "
+                        f" but {json_plug_path} couldn't be found."
+                    )
+                # Don't have the code above in a for loop as we don't require the
+                # .yaml registry file. Just raise a warning if it's missing.
+                if os.path.exists(yaml_plug_path):
+                    os.remove(yaml_plug_path)
+                else:
+                    LOG.warning(
+                        f"Warning: deletion was requested for '{pkg.value}'s plugin "
+                        f"registry files but {yaml_plug_path} couldn't be found."
+                    )
 
     def _validate_packages_input(self, packages):
         """Validate that packages is a list of strings.
