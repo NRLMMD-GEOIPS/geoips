@@ -245,7 +245,8 @@ class PluginRegistry:
                 else:
                     raise FileNotFoundError(
                         f"Error: deletion of '{pkg.value}'s registry was requested "
-                        f" but {json_plug_path} couldn't be found."
+                        f" but {json_plug_path} couldn't be found. Run "
+                        "'create_plugin_registries' to fix this issue."
                     )
                 # Don't have the code above in a for loop as we don't require the
                 # .yaml registry file. Just raise a warning if it's missing.
@@ -254,7 +255,8 @@ class PluginRegistry:
                 else:
                     LOG.warning(
                         f"Warning: deletion was requested for '{pkg.value}'s plugin "
-                        f"registry files but {yaml_plug_path} couldn't be found."
+                        f"registry files but {yaml_plug_path} couldn't be found. "
+                        "Run 'create_plugin_registries -s yaml' to fix this issue."
                     )
 
     def _validate_packages_input(self, packages):
