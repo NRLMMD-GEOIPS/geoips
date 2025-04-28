@@ -209,7 +209,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         cls, model: "WorkflowStepDefinitionModel"
     ) -> "WorkflowStepDefinitionModel":
         """
-        Validate that the plugin name is valid for the specified plugin kind.
+        Validate that a plugin with this name exists for the specified plugin kind.
 
         Parameters
         ----------
