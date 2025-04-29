@@ -275,7 +275,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
             )
         except KeyError:
             raise ValueError(
-
                 f'The argument class/model "{plugin_arguments_model_name}" for'
                 f'the plugin kind "{plugin_kind}" is not defined.'
             )

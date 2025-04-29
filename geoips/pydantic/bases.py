@@ -353,7 +353,7 @@ class PluginModel(FrozenModel):
                 f"Future ValidationError encountered. This current warning will become "
                 f"an error in a future release. {e}",
                 FutureWarning,
-                stacklevel=2
+                stacklevel=2,
             )
 
         return value
