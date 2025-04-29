@@ -350,8 +350,8 @@ class PluginModel(FrozenModel):
 
         except PydanticCustomError as e:
             warnings.warn(
-                f"Future ValidationError encountered. This current warning will become an "
-                f"error in a future release. {e}",
+                f"Future ValidationError encountered. This current warning will become "
+                f"an error in a future release. {e}",
                 FutureWarning,
                 stacklevel=2
             )
