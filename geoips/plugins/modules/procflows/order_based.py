@@ -69,7 +69,9 @@ def call(workflow, fnames, command_line_args=None):
             else:
                 data = plg(data, **step_def.arguments)
             LOG.interactive(
-                "\n ✅ Finished '%s' '%s' plugin.\n",
+                "\n ✅ Processed plugin: step_id: '%s', plugin_kind: '%s' and "
+                "plugin_name: '%s'.\n",
+                step_id,
                 step_def.name,
                 step_def.kind,
             )
