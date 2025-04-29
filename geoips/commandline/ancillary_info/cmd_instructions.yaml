@@ -3,7 +3,8 @@ instructions:
   geoips_config:
     help_str: |
       Various configuration-based commands for setting up your geoips environment.
-      Currently supports `geoips config install <test_dataset_name>` command.
+      Currently supports `geoips config install ...` and
+      `geoips config <create/delete-registries>` commands.
     usage_str: |
       To use, type `geoips config <cmd> <sub-command> ...`
     output_info:
@@ -17,6 +18,34 @@ instructions:
       to the directory you desire to install data in.
     usage_str: |
       To use, type `geoips config install <test_dataset_name> -o <full_path>`.
+    output_info:
+      - Not Applicable
+  geoips_config_create-registries:
+    help_str: |
+      Create plugin registries for one or more plugin packages of a certain namespace.
+      By default, this command uses namespace 'geoips.plugin_packages', but this can
+      be overridden with the -n (--namespace) flag. If you want to create plugin
+      registries for a subset of packages of the specified namespace, you can provide
+      the -p (--packages) flag, which should be a list of one or more package names
+      to create plugin registries for that fall under 'namespace'. Additionally, you
+      can add the -s (--save_type) flag, which is a string that can be either 'json' or
+      'yaml', specifiying the file format of your registry. By default, GeoIPS expects
+      'json' as the file format to use, and that is the default of this flag.
+    usage_str: |
+      To use, type `geoips config create-registries -n <namespace> -s <save_type>
+      -p <packages>`.
+    output_info:
+      - Not Applicable
+  geoips_config_delete-registries:
+    help_str: |
+      Delete plugin registries in one or more plugin packages of a certain namespace.
+      By default, this command uses namespace 'geoips.plugin_packages', but this can
+      be overridden with the -n (--namespace) flag. If you want to delete plugin
+      registries for a subset of packages of the specified namespace, you can provide
+      the -p (--packages) flag, which should be a list of one or more package names
+      to create plugin registries for that fall under 'namespace'.
+    usage_str: |
+      To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
