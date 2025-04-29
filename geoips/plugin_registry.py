@@ -133,7 +133,10 @@ class PluginRegistry:
                         f"Plugin registry {reg_path} did not exist, "
                         "please run 'create_plugin_registries'"
                     )
-                    continue
+                    # Create plugin registries
+                    self.create_registries()
+                    # Force a rebuild of the master registered_plugins dictionary
+                    return self._set_class_properties(force_reset=True)
                 # This will include all plugins, including schemas, yaml_based,
                 # and module_based plugins.
                 if self._is_test:
@@ -172,7 +175,8 @@ class PluginRegistry:
             #         self._registered_plugins,
             #         "all_registered_plugins",
             #     )
-        return self._registered_plugins
+        else:
+            return self._registered_plugins
 
     def get_plugin_metadata(self, interface_obj, plugin_name):
         """Retrieve a plugin's metadata.
@@ -248,7 +252,12 @@ class PluginRegistry:
         """
         from importlib.resources import files
 
-        registered_yaml_plugins = self.registered_plugins["yaml_based"]
+        try:
+            registered_yaml_plugins = self.registered_plugins["yaml_based"]
+        except KeyError:
+            # Very likely could occur if registries haven't been built yet
+            err_str = f"No plugins found for '{interface_obj.name}' interface."
+            self.retry_get_plugin(interface_obj, name, rebuild_registries, err_str)
 
         if rebuild_registries is None:
             rebuild_registries = interface_obj.rbr
@@ -274,7 +283,9 @@ class PluginRegistry:
                 err_str = (
                     f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
                 )
-                return self.retry_get_plugin(name, rebuild_registries, err_str)
+                return self.retry_get_plugin(
+                    interface_obj, name, rebuild_registries, err_str
+                )
             abspath = str(files(package) / relpath)
             # If abspath doesn't exist the registry is out of date with the actual
             # contents of all, or a certain plugin package.
@@ -432,9 +443,12 @@ class PluginRegistry:
         PluginError
           If the specified plugin isn't found within the interface.
         """
-        # Find the plugin module
-        # Convert the module into an object
-        registered_module_plugins = self.registered_plugins["module_based"]
+        try:
+            registered_module_plugins = self.registered_plugins["module_based"]
+        except KeyError:
+            # Very likely could occur if registries haven't been built yet
+            err_str = f"No plugins found for '{interface_obj.name}' interface."
+            self.retry_get_plugin(interface_obj, name, rebuild_registries, err_str)
 
         if rebuild_registries is None:
             rebuild_registries = interface_obj.rbr
