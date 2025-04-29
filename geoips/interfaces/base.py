@@ -370,7 +370,7 @@ class BaseInterface(abc.ABC):
 
     @abc.abstractmethod
     def get_plugins(self):
-        """Abstract function for retrieving all plugin sunder a certain interface."""
+        """Abstract function for retrieving all plugins under a certain interface."""
         pass
 
     def get_plugin_metadata(self, name):
