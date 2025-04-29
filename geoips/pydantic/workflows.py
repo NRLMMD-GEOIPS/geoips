@@ -80,35 +80,30 @@ def get_plugin_kinds() -> set[str]:
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate Output Formatter arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
 class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     """Validate Coverage Checker arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
 class FilenameFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate FilenameFormatter arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
 class AlgorithmArgumentsModel(PermissiveFrozenModel):
     """Validate Algorithm arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
 class InterpolatorArgumentsModel(PermissiveFrozenModel):
     """Validate Interpolator arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
@@ -274,9 +269,15 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "ReaderArgumentsModel": ReaderArgumentsModel,
             "WorkflowArgumentsModel": WorkflowArgumentsModel,
         }
-        plugin_arguments_model = plugin_arguments_models.get(
-            plugin_arguments_model_name
-        )
+        try:
+            plugin_arguments_model = plugin_arguments_models.get(
+                plugin_arguments_model_name
+            )
+        except KeyError:
+            raise ValueError(
+                f'The argument class/model "{plugin_arguments_model_name}" for'
+                        f'the plugin kind "{plugin_kind}" is not defined.'
+            )
 
         # Discuss with Jeremy
         # if plugin_arguments_model is None:
