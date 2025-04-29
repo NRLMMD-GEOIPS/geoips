@@ -7,21 +7,17 @@ import abc
 import yaml
 import inspect
 import logging
-from os.path import basename, exists, splitext
+from os.path import basename
 from glob import glob
-from subprocess import call
-from inspect import isclass
 
 from importlib.resources import files
-from importlib import util, reload
 from pathlib import Path
 import jsonschema
 import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
-import pydantic
 
-from geoips.errors import PluginError, PluginRegistryError
+from geoips.errors import PluginError
 from geoips.filenames.base_paths import PATHS
 
 LOG = logging.getLogger(__name__)
@@ -353,15 +349,6 @@ class BaseInterface(abc.ABC):
             )
         return self._plugin_registry
 
-    @plugin_registry.setter
-    def plugin_registry(self, new_value):
-        """Reset the value of plugin registry.
-
-        This occurs if the registry needs to be rebuilt (for example, a missing plugin)
-        during runtime.
-        """
-        self._plugin_registry = new_value
-
     @abc.abstractmethod
     def get_plugin(self, name, rebuild_registries=rbr):
         """Abstract function for retrieving a plugin under a certain interface.
@@ -381,107 +368,6 @@ class BaseInterface(abc.ABC):
         """
         pass
 
-    def call_create_plugin_registries(self, yaml=False):
-        """Run command 'create_plugin_registries' as a subprocess.
-
-        This should be done whenever a plugin is attempted to be loaded but fails
-        because it isn't an entry in the plugin registry. If the plugin still cannot be
-        found after this function is ran, then report the issue to the user.
-
-        Parameters
-        ----------
-        yaml: bool (default=False)
-            - Truth value as to whether or not we want to create a .yaml registry. If
-              false, then create the default .json registry instead.
-        """
-        args = ["create_plugin_registries"]
-        if yaml:
-            args += ["-s", "yaml"]
-        call(args, shell=False)
-        # Reload the interface's plugin_registry_module so that the plugin registry is
-        # in the most recent state.
-        reload(self.plugin_registry_module)
-        self.plugin_registry = self.plugin_registry_module.PluginRegistry(
-            self.namespace
-        )
-
-    def retry_get_plugin(self, name, rebuild_registries, err_str, err_type=PluginError):
-        """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
-
-        By running 'create_plugin_registries', we automate the registration of plugins
-        in GeoIPS. If the plugin persists not to be found, then we'll raise an
-        appropriate PluginError as denoted by 'err_str'.
-
-        Parameters
-        ----------
-        name: str or tuple(str)
-            - The name of the yaml plugin. Either a single string or a tuple of strings
-              for product plugins.
-        rebuild_registries: bool
-            - Whether or not to rebuild the registries if get_plugin fails. If set to
-              true and get_plugin fails, rebuild the plugin registry, call then call
-              get_plugin once more with rebuild_registries toggled off, so it only gets
-              rebuilt once.
-        err_str: string
-            - The error to be reported.
-        err_type: Exception-based Class
-            - The class of exception to be raised.
-        """
-        if rebuild_registries:
-            LOG.interactive(
-                "Running 'create_plugin_registries' due to a missing plugin located "
-                f"under interface: '{self.name}', plugin_name: '{name}'."
-            )
-            self.call_create_plugin_registries()
-            # This is done as some interface classes override 'get_plugin' with
-            # additional parameters it it's call signature. We only want to call
-            # BaseYamlInterface or BaseModuleInterface 'get_plugin', then return such
-            # information to the child class which overrode 'get_plugin'. Implementing
-            # it this way ensures that will happen.
-            base_interface_class = self.__class__.__base__()
-            base_interface_class.name = self.name
-            return base_interface_class.get_plugin(name, rebuild_registries=False)
-        else:
-            raise err_type(err_str)
-
-    @property
-    def registered_module_based_plugins(self):
-        """Return a dictionary of registered module-based plugins.
-
-        This property provides centeralized error handling for missing plugin
-        registries.
-        """
-        if not hasattr(self, "_registered_module_based_plugins"):
-            try:
-                self._registered_module_based_plugins = (
-                    self.plugin_registry.registered_plugins["module_based"]
-                )
-            except (AttributeError, KeyError):
-                self.call_create_plugin_registries()
-                self._registered_module_based_plugins = (
-                    self.plugin_registry.registered_plugins["module_based"]
-                )
-        return self._registered_module_based_plugins
-
-    @property
-    def registered_yaml_based_plugins(self):
-        """Return a dictionary of registered yaml-based plugins.
-
-        This property provides centeralized error handling for missing plugin
-        registries.
-        """
-        if not hasattr(self, "_registered_yaml_based_plugins"):
-            try:
-                self._registered_yaml_based_plugins = (
-                    self.plugin_registry.registered_plugins["yaml_based"]
-                )
-            except (AttributeError, KeyError):
-                self.call_create_plugin_registries()
-                self._registered_yaml_based_plugins = (
-                    self.plugin_registry.registered_plugins["yaml_based"]
-                )
-        return self._registered_yaml_based_plugins
-
     def get_plugin_metadata(self, name):
         """Retrieve a plugin's metadata.
 
@@ -498,35 +384,7 @@ class BaseInterface(abc.ABC):
         metadata: dict
             - A dictionary of metadata for the requested plugin.
         """
-        interface_registry = self.plugin_registry.registered_plugins.get(
-            self.interface_type, {}
-        ).get(self.name)
-
-        if interface_registry is None:
-            raise KeyError(
-                "Error: There is no interface in the plugin registry of type '"
-                f"{self.interface_type}' called '{self.name}'."
-            )
-
-        if isinstance(name, tuple):
-            # This occurs for product plugins: i.e. ('abi', 'Infrared')
-            metadata = interface_registry.get(name[0], {}).get(name[1])
-        elif isinstance(name, str):
-            metadata = interface_registry.get(name)
-        else:
-            raise KeyError(
-                f"Error: cannot search the plugin registry with the provided name = "
-                f"{name}. Please provide either a string or a tuple of strings."
-            )
-
-        if metadata is None:
-            raise PluginRegistryError(
-                f"Error: There is no associated plugin under interface '{self.name}' "
-                f"called '{name}'. If you're sure this plugin exists, please run "
-                "'create_plugin_registries'."
-            )
-
-        return metadata
+        return self.plugin_registry.get_plugin_metadata(self, name)
 
 
 class BaseYamlInterface(BaseInterface):
@@ -657,134 +515,12 @@ class BaseYamlInterface(BaseInterface):
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
         """
-        from importlib.resources import files
-
-        registered_yaml_plugins = self.registered_yaml_based_plugins
-
-        if rebuild_registries is None:
-            rebuild_registries = self.rbr
-        elif not isinstance(rebuild_registries, bool):
-            raise ValueError(
-                "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
-                f" value. Encountered this '{rebuild_registries}' instead."
-            )
-
-        # This is used for finding products whose plugin names are tuples
-        # of the form ('source_name', 'name')
-        if isinstance(name, tuple):
-            # These are stored in the yaml as str(name),
-            # ie "('viirs', 'Infrared')"
-            try:
-                relpath = registered_yaml_plugins[self.name][name[0]][name[1]][
-                    "relpath"
-                ]
-                package = registered_yaml_plugins[self.name][name[0]][name[1]][
-                    "package"
-                ]
-            except KeyError:
-                err_str = (
-                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
-                )
-                return self.retry_get_plugin(name, rebuild_registries, err_str)
-            abspath = str(files(package) / relpath)
-            # If abspath doesn't exist the registry is out of date with the actual
-            # contents of all, or a certain plugin package.
-            if not exists(abspath):
-                err_str = (
-                    f"Products plugin source: '{name[0]}', plugin: '{name[1]} exists in"
-                    f" the registry but its corresponding file at '{abspath}' cannot be"
-                    " found. Reinstall your package and re-run "
-                    "'create_plugin_registries'."
-                )
-                # This error should never occur, but we're adding error handling here
-                # just in case. The reason it will never occur is that, if the path
-                # to such plugin does not exist, when create_plugin_registries is re-run
-                # that syncs up the path to the associated plugin. It cannot reach this
-                # point if the plugin name is invalid, so this point couldn't be hit
-                # twice
-                return self.retry_get_plugin(
-                    name, rebuild_registries, err_str, PluginRegistryError
-                )
-            with open(abspath, "r") as fo:
-                plugin = yaml.safe_load(fo)
-            plugin_found = False
-            for product in plugin["spec"]["products"]:
-                if product["name"] == name[1] and name[0] in product["source_names"]:
-                    plugin_found = True
-                    plugin = product
-                    break
-            if not plugin_found:
-                err_str = "There is no plugin that has " + name[1] + " included in it."
-                return self.retry_get_plugin(name, rebuild_registries, err_str)
-            plugin["interface"] = "products"
-            plugin["package"] = package
-            plugin["abspath"] = abspath
-            plugin["relpath"] = relpath
-        # This is used for finding all non-product plugins
-        else:
-            try:
-                relpath = registered_yaml_plugins[self.name][name]["relpath"]
-                package = registered_yaml_plugins[self.name][name]["package"]
-            except KeyError:
-                err_str = f"Plugin [{name}] doesn't exist under interface [{self.name}]"
-                return self.retry_get_plugin(name, rebuild_registries, err_str)
-            abspath = str(files(package) / relpath)
-            # If abspath doesn't exist the registry is out of date with the actual
-            # contents of all, or a certain plugin package.
-            if not exists(abspath):
-                err_str = (
-                    f"Plugin '{name}' exists in the registry but its corresponding file"
-                    f" at '{abspath}' cannot be found. Reinstall your package and "
-                    "re-run 'create_plugin_registries'."
-                )
-                # This error should never occur, but we're adding error handling here
-                # just in case. The reason it will never occur is that, if the path
-                # to such plugin does not exist, when create_plugin_registries is re-run
-                # that syncs up the path to the associated plugin. It cannot reach this
-                # point if the plugin name is invalid, so this point couldn't be hit
-                # twice
-                return self.retry_get_plugin(
-                    name, rebuild_registries, err_str, PluginRegistryError
-                )
-
-            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
-            doc_length = sum(1 for _ in doc_iter)
-            if doc_length > 1 or self.name == "workflows":
-                plugin_found = False
-                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
-                    if plugin["name"] == name:
-                        plugin_found = True
-                        plugin["package"] = package
-                        plugin["abspath"] = abspath
-                        plugin["relpath"] = relpath
-                        break
-                if not plugin_found:
-                    raise PluginRegistryError(
-                        f"Error: YAML plugin under name '{name}' could not be found. "
-                        "Please ensure this plugin exists, and if it does, run "
-                        "'create_plugin_registries'."
-                    )
-                # NOTE: Haven't created a validator for this yet so we are just going to
-                # convert this to an object without validating for the time being.
-                return self._plugin_yaml_to_obj(name, plugin)
-            else:
-                plugin = yaml.safe_load(open(abspath, "r"))
-                plugin["package"] = package
-                plugin["abspath"] = abspath
-                plugin["relpath"] = relpath
-        if isclass(self.validator) and issubclass(pydantic.BaseModel, self.validator):
-            validated = self.validator(**plugin)
-        else:
-            validated = self.validator.validate(plugin)
-        # Store "name" as the product's "id"
-        # This is helpful when an interfaces uses something other than just "name" to
-        # find its plugins as is the case with ProductsInterface
-        return self._plugin_yaml_to_obj(name, validated)
+        return self.plugin_registry.get_yaml_plugin(self, name, rebuild_registries)
 
     def get_plugins(self):
         """Retrieve a plugin by name."""
         plugins = []
-        registered_yaml_plugins = self.registered_yaml_based_plugins
+        registered_yaml_plugins = self.plugin_registry.registered_yaml_based_plugins
         for name in registered_yaml_plugins[self.name].keys():
             plugins.append(self.get_plugin(name))
         return plugins
@@ -981,53 +717,7 @@ class BaseModuleInterface(BaseInterface):
         PluginError
           If the specified plugin isn't found within the interface.
         """
-        # Find the plugin module
-        # Convert the module into an object
-        registered_module_plugins = self.registered_module_based_plugins
-
-        if rebuild_registries is None:
-            rebuild_registries = self.rbr
-        elif not isinstance(rebuild_registries, bool):
-            raise ValueError(
-                "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
-                f" value. Encountered this '{rebuild_registries}' instead."
-            )
-
-        if name not in registered_module_plugins[self.name]:
-            err_str = (
-                f"Plugin '{name}', "
-                f"from interface '{self.name}' "
-                f"appears to not exist."
-                f"\nCreate plugin, then call create_plugin_registries."
-            )
-            return self.retry_get_plugin(name, rebuild_registries, err_str)
-
-        package = registered_module_plugins[self.name][name]["package"]
-        relpath = registered_module_plugins[self.name][name]["relpath"]
-        module_path = splitext(relpath.replace("/", "."))[0]
-        module_path = f"{package}.{module_path}"
-        abspath = files(package) / relpath
-        # If abspath doesn't exist the registry is out of date with the actual contents
-        # of all, or a certain plugin package.
-        if not exists(abspath):
-            err_str = (
-                f"Plugin '{name}' exists in the registry but its corresponding file at "
-                f"'{abspath}' cannot be found. Reinstall your package and re-run "
-                "'create_plugin_registries'."
-            )
-            # This error should never occur, but we're adding error handling here
-            # just in case. The reason it will never occur is that, if the path
-            # to such plugin does not exist, when create_plugin_registries is re-run
-            # that syncs up the path to the associated plugin. It cannot reach this
-            # point if the plugin name is invalid, so this point couldn't be hit
-            # twice
-            return self.retry_get_plugin(
-                name, rebuild_registries, err_str, PluginRegistryError
-            )
-        spec = util.spec_from_file_location(module_path, abspath)
-        module = util.module_from_spec(spec)
-        spec.loader.exec_module(module)
-        return self._plugin_module_to_obj(name, module)
+        return self.plugin_registry.get_module_plugin(self, name, rebuild_registries)
 
     def get_plugins(self):
         """Get a list of plugins for this interface."""
@@ -1044,7 +734,7 @@ class BaseModuleInterface(BaseInterface):
         # Check if the current interface (self.name) is found in the
         # registered_plugins dictionary - if it is not, that means there
         # are no plugins for that interface, so return an empty list.
-        registered_module_plugins = self.registered_module_based_plugins
+        registered_module_plugins = self.plugin_registry.registered_module_based_plugins
         if self.name not in registered_module_plugins:
             LOG.debug("No plugins found for '%s' interface.", self.name)
             return plugins
