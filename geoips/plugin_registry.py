@@ -233,7 +233,7 @@ class PluginRegistry:
         Parameters
         ----------
         interface_obj: GeoIPS Interface Object
-            - The object representing the interface class requesting plugin metadata.
+            - The object representing the interface class requesting this yaml plugin.
         name: str or tuple(str)
             - The name of the yaml-based plugin. Either a single string or a tuple of
               strings for product plugins.
@@ -387,13 +387,30 @@ class PluginRegistry:
         # find its plugins as is the case with ProductsInterface
         return interface_obj._plugin_yaml_to_obj(name, validated)
 
+    def get_yaml_plugins(self, interface_obj):
+        """Retrieve all yaml plugin objects for this interface.
+
+        Parameters
+        ----------
+        interface_obj: GeoIPS Interface Object
+            - The object representing the interface class requesting all plugins.
+        """
+        plugins = []
+        registered_yaml_plugins = self.registered_yaml_based_plugins
+        if interface_obj.name not in registered_yaml_plugins:
+            LOG.debug("No plugins found for '%s' interface.", self.name)
+            return plugins
+        for name in registered_yaml_plugins[interface_obj.name].keys():
+            plugins.append(self.get_yaml_plugin(interface_obj, name))
+        return plugins
+
     def get_module_plugin(self, interface_obj, name, rebuild_registries=None):
         """Retrieve a plugin from this interface by name.
 
         Parameters
         ----------
         interface_obj: GeoIPS Interface Object
-            - The object representing the interface class requesting plugin metadata.
+            - The object representing the interface class requesting this module plugin.
         name : str
             - The name the desired plugin.
         rebuild_registries: bool (default=None)
@@ -465,6 +482,43 @@ class PluginRegistry:
         spec.loader.exec_module(module)
         return interface_obj._plugin_module_to_obj(name, module)
 
+    def get_module_plugins(self, interface_obj):
+        """Retrieve all module plugins for this interface.
+
+        Parameters
+        ----------
+        interface_obj: GeoIPS Interface Object
+            - The object representing the interface class requesting all plugins.
+        """
+        plugins = []
+        # All plugin interfaces are explicitly imported in
+        # geoips/interfaces/__init__.py
+        # self.name comes explicitly from one of the interfaces that are
+        # found by default on geoips.interfaces.
+        # If there is a defined interface with no plugins available in the current
+        # geoips installation (in any currently installed plugin package),
+        # then there will NOT be an entry within registered plugins
+        # for that interface, and a KeyError will be raised in the for loop
+        # below.
+        # Check if the current interface (self.name) is found in the
+        # registered_plugins dictionary - if it is not, that means there
+        # are no plugins for that interface, so return an empty list.
+        registered_module_plugins = self.registered_module_based_plugins
+        if interface_obj.name not in registered_module_plugins:
+            LOG.debug("No plugins found for '%s' interface.", interface_obj.name)
+            return plugins
+
+        for plugin_name in registered_module_plugins[interface_obj.name]:
+            try:
+                plugins.append(self.get_module_plugin(interface_obj, plugin_name))
+            except AttributeError as resp:
+                raise PluginError(
+                    f"Plugin '{plugin_name}' is missing the 'name' attribute, "
+                    f"\nfrom package '{plugin_name['package']},' "
+                    f"'{plugin_name['relpath']}' module,"
+                ) from resp
+        return plugins
+
     def retry_get_plugin(
         self, interface_obj, name, rebuild_registries, err_str, err_type=PluginError
     ):
@@ -476,6 +530,8 @@ class PluginRegistry:
 
         Parameters
         ----------
+        interface_obj: GeoIPS Interface Object
+            - The object representing the interface class requesting this plugin.
         name: str or tuple(str)
             - The name of the yaml plugin. Either a single string or a tuple of strings
               for product plugins.
@@ -504,9 +560,7 @@ class PluginRegistry:
             # it this way ensures that will happen.
             base_interface_class = interface_obj.__class__.__base__()
             base_interface_class.name = interface_obj.name
-            return base_interface_class.get_plugin(
-                interface_obj, name, rebuild_registries=False
-            )
+            return base_interface_class.get_plugin(name, rebuild_registries=False)
         else:
             raise err_type(err_str)
 
