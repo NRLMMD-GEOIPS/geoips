@@ -6,7 +6,6 @@
 # Python Standard Libraries
 import copy
 import json
-import warnings
 
 # Third-Party Libraries
 import pytest
