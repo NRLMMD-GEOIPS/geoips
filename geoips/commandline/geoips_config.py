@@ -14,6 +14,64 @@ import tarfile
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.plugin_registry import PluginRegistry
+
+
+class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
+    """Config Command Class for creating plugin registries for plugin packages."""
+
+    name = "create-registries"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the config-subparser for the Config Command."""
+        self.parser.add_argument(
+            "-p",
+            "--packages",
+            default=None,
+            type=list[str],
+            help=(
+                "The plugin packages to create plugin registries for. Defaults to None."
+                "If None, all plugin packages under 'namespace' will have their "
+                "plugin registries created."
+            ),
+        )
+        self.parser.add_argument(
+            "-n",
+            "--namespace",
+            default="geoips.plugin_packages",
+            type=str,
+            help=(
+                "The namespace of plugin packages to create plugin registries for. "
+                "If not specified, this defaults to 'geoips.plugin_packages'."
+            ),
+        )
+        self.parser.add_argument(
+            "-s",
+            "--save_type",
+            default="json",
+            type=str,
+            choices=["json", "yaml"],
+            help=(
+                "The file format to save the registry as. Defaults to 'json', which is "
+                "what's used by GeoIPS under the hood. For human readable output, you "
+                "can provide the optional argument '-s yaml'."
+            ),
+        )
+
+    def __call__(self, args):
+        """Run the `geoips config create-registries <packages> <namespace> <save_type>` command.  # NOQA
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through
+        """
+        packages = args.packages
+        namespace = args.namespace
+        save_type = args.save_type
+        plugin_registry = PluginRegistry(namespace)
+        plugin_registry.create_registries(packages, save_type)
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
