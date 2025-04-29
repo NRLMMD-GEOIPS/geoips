@@ -36,9 +36,6 @@ def call(workflow, fnames, command_line_args=None):
 
     handled_interfaces = ["readers"]
     for step_id, step_def in wf.spec.steps.items():
-        #  Tab spaces and newline escape sequences will be removed later.
-        #  I added them for formatting purposes and the reviewer's convenience.
-        #  The severity level will eventually be moved to info.
         interface = step_def.kind + "s"
 
         if interface not in handled_interfaces:
@@ -52,13 +49,13 @@ def call(workflow, fnames, command_line_args=None):
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
             LOG.interactive(
-                "\nCalling a Plugin with \n\n\t step_id: '%s', \n\t plugin_kind:"
-                "'%s', \n\t plugin_name:'%s' with the arguments: \t'%s'\n\n",
+                "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
                 step_def.kind,
                 step_def.name,
-                step_def.arguments,
             )
+            LOG.info("Arguments: '%s'", step_def.arguments)
+
             if interface == "readers":
                 # TEMPORARY FIX: Remove when all readers are updated to accept
                 # "variables"
@@ -69,8 +66,7 @@ def call(workflow, fnames, command_line_args=None):
             else:
                 data = plg(data, **step_def.arguments)
             LOG.interactive(
-                "\n ✅ Processed plugin: step_id: '%s', plugin_kind: '%s' and "
-                "plugin_name: '%s'.\n",
+                "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
                 step_id,
                 step_def.name,
                 step_def.kind,
