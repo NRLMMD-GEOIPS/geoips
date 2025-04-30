@@ -95,7 +95,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
 
     Parameters
     ----------
-    inteface_name: str
+    interface_name: str
         - The name of the GeoIPS plugin's interface.
     plugin_name: str
         - The name of the plugin of type 'interface_name'.
@@ -203,7 +203,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
                     module = mod
                     break
                 elif hasattr(gpydan._modules[mod], failing_model):
-                    # This behaviour occurs for the 'ColorType' attribute, which is a
+                    # This behavior occurs for the 'ColorType' attribute, which is a
                     # type instance but not actually a pydantic class. Skip the field
                     # assertion below
                     module = "pass"

@@ -1,0 +1,34 @@
+default_values_area_def:
+  key: area_def
+  val: None
+  cls: ReaderArgumentsModel
+  err_str: Default value for area_def is incorrect
+default_values_variables:
+  key: variables
+  val: None
+  cls: ReaderArgumentsModel
+  # err_type: ValidationError
+  err_str: Input should be a valid list
+default_values_metadata_only:
+  key: metadata_only
+  val: [hello]
+    # key: hello
+  cls: ReaderArgumentsModel
+  # err_type: ValidationError
+  err_str: Input should be a valid boolean
+# def test_bad_reader_arguments_model_field_defaults():
+#     """Tests if the default value for a given field is valid or not."""
+#     model = workflows.ReaderArgumentsModel()
+
+#     expected_defaults = {
+#         "area_def": None,
+#         "variables": None,
+#         "metadata_only": False,
+#         "self_register": None,
+#         "fnames": None,
+#     }
+
+#     for field, expected_value in expected_defaults.items():
+#         assert (
+#             getattr(model, field) == expected_value
+#         ), f"Default value for '{field}' is incorrect"
