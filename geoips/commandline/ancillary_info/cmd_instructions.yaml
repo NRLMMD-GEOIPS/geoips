@@ -310,6 +310,19 @@ instructions:
     output_info:
       - Package
       - Script Name
+  geoips_list_registries:
+    help_str: |
+      List one or more plugin package's plugin registries. By default this outputs the
+      path to both the .json registry and the .yaml registry. -n specifies the namespace
+      in which your plugin packages fall under, -r is a flag specifying that the CLI
+      should output relative paths (default=False), and -p can be a filter a single
+      package listing (defaults to all packages).
+    usage_str: |
+      To use, type `geoips list registries -n <namespace> -r <relpath> -p <pkg_name>`.
+    output_info:
+      - GeoIPS Package
+      - JSON Path
+      - YAML Path
   geoips_list_source-names:
     help_str: |
       List off source_names of reader plugins found under all, or a specified GeoIPS
