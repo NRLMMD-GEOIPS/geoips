@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.output_formatters.imagery_windbarbs &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.plugins.modules.output_formatters.imagery_windbarbs &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/output_formatters/imagery_windbarbs';</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.output_formatters.imagery_windbarbs</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.plugins.modules.output_formatters.imagery_windbarbs</span></li>
   </ul>
 </nav>
 </div>
@@ -421,35 +424,26 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.plugins.modules.output_formatters.imagery_windbarbs</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;Matplotlib-based windbarb annotated image output.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">numpy</span>
-<span class="kn">import</span> <span class="nn">cartopy.crs</span> <span class="k">as</span> <span class="nn">crs</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cartopy.crs</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">crs</span>
 
-<span class="kn">from</span> <span class="nn">geoips.image_utils.mpl_utils</span> <span class="kn">import</span> <span class="p">(</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.mpl_utils</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">create_figure_and_main_ax_and_mapobj</span><span class="p">,</span>
     <span class="n">save_image</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">geoips.image_utils.colormap_utils</span> <span class="kn">import</span> <span class="n">set_matplotlib_colors_standard</span>
-<span class="kn">from</span> <span class="nn">geoips.image_utils.mpl_utils</span> <span class="kn">import</span> <span class="n">plot_image</span><span class="p">,</span> <span class="n">plot_overlays</span><span class="p">,</span> <span class="n">create_colorbar</span>
-<span class="kn">from</span> <span class="nn">geoips.image_utils.mpl_utils</span> <span class="kn">import</span> <span class="n">get_title_string_from_objects</span><span class="p">,</span> <span class="n">set_title</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.colormap_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_matplotlib_colors_standard</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.mpl_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">plot_image</span><span class="p">,</span> <span class="n">plot_overlays</span><span class="p">,</span> <span class="n">create_colorbar</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.image_utils.mpl_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_title_string_from_objects</span><span class="p">,</span> <span class="n">set_title</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -458,7 +452,9 @@ document.write(`
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;imagery_windbarbs&quot;</span>
 
 
-<div class="viewcode-block" id="plot_barbs"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.plot_barbs">[docs]</a><span class="k">def</span> <span class="nf">plot_barbs</span><span class="p">(</span><span class="n">main_ax</span><span class="p">,</span> <span class="n">mapobj</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="p">,</span> <span class="n">formatted_data_dict</span><span class="p">):</span>
+<div class="viewcode-block" id="plot_barbs"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.plot_barbs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">plot_barbs</span><span class="p">(</span>
+    <span class="n">main_ax</span><span class="p">,</span> <span class="n">mapobj</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="p">,</span> <span class="n">formatted_data_dict</span><span class="p">,</span> <span class="n">barb_color_variable</span><span class="o">=</span><span class="s2">&quot;speed&quot;</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot windbarbs on matplotlib figure.&quot;&quot;&quot;</span>
     <span class="c1"># main_ax.extent = area_def.area_extent_ll</span>
     <span class="n">main_ax</span><span class="o">.</span><span class="n">set_extent</span><span class="p">(</span><span class="n">mapobj</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="n">mapobj</span><span class="p">)</span>
@@ -482,7 +478,7 @@ document.write(`
         <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;lat&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
         <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;u&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
         <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;v&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-        <span class="n">formatted_data_dict</span><span class="p">[</span><span class="s2">&quot;speed&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">formatted_data_dict</span><span class="p">[</span><span class="n">barb_color_variable</span><span class="p">]</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
         <span class="n">transform</span><span class="o">=</span><span class="n">crs</span><span class="o">.</span><span class="n">PlateCarree</span><span class="p">(),</span>
         <span class="n">pivot</span><span class="o">=</span><span class="s2">&quot;tip&quot;</span><span class="p">,</span>
         <span class="n">rounding</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -497,7 +493,7 @@ document.write(`
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="output_clean_windbarbs"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.output_clean_windbarbs">[docs]</a><span class="k">def</span> <span class="nf">output_clean_windbarbs</span><span class="p">(</span>
+<div class="viewcode-block" id="output_clean_windbarbs"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.output_clean_windbarbs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">output_clean_windbarbs</span><span class="p">(</span>
     <span class="n">area_def</span><span class="p">,</span>
     <span class="n">clean_fnames</span><span class="p">,</span>
     <span class="n">mpl_colors_info</span><span class="p">,</span>
@@ -506,6 +502,7 @@ document.write(`
     <span class="n">fig</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">main_ax</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">mapobj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">barb_color_variable</span><span class="o">=</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Plot and save &quot;clean&quot; windbarb imagery.</span>
 
@@ -523,7 +520,13 @@ document.write(`
             <span class="n">area_def</span><span class="o">.</span><span class="n">x_size</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">y_size</span><span class="p">,</span> <span class="n">area_def</span><span class="p">,</span> <span class="n">noborder</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
 
-    <span class="n">plot_barbs</span><span class="p">(</span><span class="n">main_ax</span><span class="p">,</span> <span class="n">mapobj</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="p">,</span> <span class="n">formatted_data_dict</span><span class="p">)</span>
+    <span class="n">plot_barbs</span><span class="p">(</span>
+        <span class="n">main_ax</span><span class="p">,</span>
+        <span class="n">mapobj</span><span class="p">,</span>
+        <span class="n">mpl_colors_info</span><span class="p">,</span>
+        <span class="n">formatted_data_dict</span><span class="p">,</span>
+        <span class="n">barb_color_variable</span><span class="o">=</span><span class="n">barb_color_variable</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="n">success_outputs</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -536,7 +539,7 @@ document.write(`
     <span class="k">return</span> <span class="n">success_outputs</span></div>
 
 
-<div class="viewcode-block" id="format_windbarb_data"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.format_windbarb_data">[docs]</a><span class="k">def</span> <span class="nf">format_windbarb_data</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_name</span><span class="p">):</span>
+<div class="viewcode-block" id="format_windbarb_data"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.format_windbarb_data">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">format_windbarb_data</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Format windbarb data before plotting.&quot;&quot;&quot;</span>
     <span class="c1"># lat=xarray_obj[&#39;latitude&#39;].to_masked_array()</span>
     <span class="c1"># lon2=xarray_obj[&#39;longitude&#39;].to_masked_array()</span>
@@ -548,6 +551,10 @@ document.write(`
 
     <span class="c1"># u=speed * numpy.sin(direction*3.1415926/180.0)</span>
     <span class="c1"># v=speed * numpy.cos(direction*3.1415926/180.0)</span>
+
+    <span class="n">data_cols</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+        <span class="s2">&quot;windbarb_data_columns&quot;</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;speed&quot;</span><span class="p">,</span> <span class="s2">&quot;direction&quot;</span><span class="p">,</span> <span class="s2">&quot;rain_flag&quot;</span><span class="p">]</span>
+    <span class="p">)</span>
 
     <span class="n">num_product_arrays</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
@@ -566,18 +573,28 @@ document.write(`
         <span class="n">direction</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
         <span class="n">rain_flag</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">8</span><span class="p">:</span><span class="mi">12</span><span class="p">]</span>
     <span class="c1"># This is 1-D, with one vector per variable - no ambiguities.</span>
+    <span class="k">elif</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="n">speed</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+        <span class="n">direction</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">rain_flag</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+            <span class="n">pressure</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">speed</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="n">direction</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">1</span><span class="p">]</span>
         <span class="n">rain_flag</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">2</span><span class="p">]</span>
-
+        <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+            <span class="n">pressure</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="p">[</span><span class="n">product_name</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()[:,</span> <span class="mi">3</span><span class="p">]</span>
     <span class="c1"># These should probably be specified in the product dictionary.</span>
     <span class="c1"># It will vary per-sensor / data type, these basically only currently work with</span>
     <span class="c1"># ASCAT 25 km data.</span>
     <span class="c1"># This would also avoid having the product names hard coded in the output</span>
     <span class="c1"># module code.</span>
 
-    <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_plugin&quot;</span><span class="p">,</span> <span class="p">{})</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">products</span>
+
+    <span class="n">source_prod_spec</span> <span class="o">=</span> <span class="n">products</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span> <span class="n">product_name</span><span class="p">)</span>
+    <span class="n">prod_plugin</span> <span class="o">=</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;product_plugin&quot;</span><span class="p">,</span> <span class="n">source_prod_spec</span><span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">barb_args</span> <span class="o">=</span> <span class="n">prod_plugin</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="s2">&quot;windbarb_plotter&quot;</span><span class="p">][</span><span class="s2">&quot;plugin&quot;</span><span class="p">][</span><span class="s2">&quot;arguments&quot;</span><span class="p">]</span>
@@ -622,21 +639,17 @@ document.write(`
     <span class="c1"># lon=utils.wrap_longitudes(lon2)</span>
     <span class="c1"># Must be 0-360 for barbs</span>
     <span class="n">lon</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lon2</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lon2</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lon2</span><span class="p">)</span>
+    <span class="n">thin_slice</span> <span class="o">=</span> <span class="p">[</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">thinning</span><span class="p">)]</span> <span class="o">*</span> <span class="n">lat</span><span class="o">.</span><span class="n">ndim</span>
 
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-        <span class="n">lat2</span> <span class="o">=</span> <span class="n">lat</span><span class="p">[::</span><span class="n">thinning</span><span class="p">,</span> <span class="p">::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">lon2</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[::</span><span class="n">thinning</span><span class="p">,</span> <span class="p">::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">u2</span> <span class="o">=</span> <span class="n">u</span><span class="p">[::</span><span class="n">thinning</span><span class="p">,</span> <span class="p">::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">v2</span> <span class="o">=</span> <span class="n">v</span><span class="p">[::</span><span class="n">thinning</span><span class="p">,</span> <span class="p">::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">speed2</span> <span class="o">=</span> <span class="n">speed</span><span class="p">[::</span><span class="n">thinning</span><span class="p">,</span> <span class="p">::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">rain_flag2</span> <span class="o">=</span> <span class="n">rain_flag</span><span class="p">[::</span><span class="n">thinning</span><span class="p">,</span> <span class="p">::</span><span class="n">thinning</span><span class="p">]</span>
-    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">lat</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="n">lat2</span> <span class="o">=</span> <span class="n">lat</span><span class="p">[::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">lon2</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">u2</span> <span class="o">=</span> <span class="n">u</span><span class="p">[::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">v2</span> <span class="o">=</span> <span class="n">v</span><span class="p">[::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">speed2</span> <span class="o">=</span> <span class="n">speed</span><span class="p">[::</span><span class="n">thinning</span><span class="p">]</span>
-        <span class="n">rain_flag2</span> <span class="o">=</span> <span class="n">rain_flag</span><span class="p">[::</span><span class="n">thinning</span><span class="p">]</span>
+    <span class="n">lat2</span> <span class="o">=</span> <span class="n">lat</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+    <span class="n">lon2</span> <span class="o">=</span> <span class="n">lon</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+    <span class="n">u2</span> <span class="o">=</span> <span class="n">u</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+    <span class="n">v2</span> <span class="o">=</span> <span class="n">v</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+    <span class="n">speed2</span> <span class="o">=</span> <span class="n">speed</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+    <span class="n">rain_flag2</span> <span class="o">=</span> <span class="n">rain_flag</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+        <span class="n">pressure2</span> <span class="o">=</span> <span class="n">pressure</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">thin_slice</span><span class="p">)]</span>
+
     <span class="k">if</span> <span class="n">lat2</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">flip_barb</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="k">elif</span> <span class="n">lat2</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -645,7 +658,6 @@ document.write(`
         <span class="n">flip_barb</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lat2</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span><span class="o">.</span><span class="n">data</span>
     <span class="n">good_inds</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">speed2</span><span class="p">)</span>
     <span class="n">return_dict</span> <span class="o">=</span> <span class="p">{}</span>
-
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lon2</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">speed2</span><span class="o">.</span><span class="n">shape</span><span class="p">):</span>
         <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;lon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lon2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">2</span><span class="p">]]</span>
     <span class="k">else</span><span class="p">:</span>
@@ -669,11 +681,13 @@ document.write(`
     <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;line_width&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">linewidth</span>
     <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;sizes_dict&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sizes_dict</span>
     <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;rain_size&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">rain_size</span>
+    <span class="k">if</span> <span class="s2">&quot;pressure&quot;</span> <span class="ow">in</span> <span class="n">data_cols</span><span class="p">:</span>
+        <span class="n">return_dict</span><span class="p">[</span><span class="s2">&quot;pressure&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pressure2</span><span class="p">[</span><span class="n">good_inds</span><span class="p">]</span>
 
     <span class="k">return</span> <span class="n">return_dict</span></div>
 
 
-<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span>
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
     <span class="n">area_def</span><span class="p">,</span>
     <span class="n">xarray_obj</span><span class="p">,</span>
     <span class="n">product_name</span><span class="p">,</span>
@@ -701,6 +715,17 @@ document.write(`
 
     <span class="n">success_outputs</span> <span class="o">=</span> <span class="p">[]</span>
 
+    <span class="n">bkgrnd_clr</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">frame_clr</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="c1"># If a feature_annotator plugin was supplied, attempt to get the image background</span>
+    <span class="c1"># color. Otherwise, just keep it as None.</span>
+    <span class="k">if</span> <span class="n">feature_annotator</span><span class="p">:</span>
+        <span class="n">bkgrnd_clr</span> <span class="o">=</span> <span class="n">feature_annotator</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;background&quot;</span><span class="p">)</span>
+    <span class="c1"># If a gridline_annotator plugin was supplied, attempt to get the frame background</span>
+    <span class="c1"># color. Otherwise, just keep it as None.</span>
+    <span class="k">if</span> <span class="n">gridline_annotator</span><span class="p">:</span>
+        <span class="n">frame_clr</span> <span class="o">=</span> <span class="n">gridline_annotator</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;spec&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;background&quot;</span><span class="p">)</span>
+
     <span class="c1"># Plot windbarbs</span>
 
     <span class="n">formatted_data_dict</span> <span class="o">=</span> <span class="n">format_windbarb_data</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">product_name</span><span class="p">)</span>
@@ -724,6 +749,7 @@ document.write(`
             <span class="n">area_def</span><span class="p">,</span>
             <span class="n">existing_mapobj</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
             <span class="n">noborder</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">frame_clr</span><span class="o">=</span><span class="n">frame_clr</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">bg_data</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -735,7 +761,13 @@ document.write(`
                     <span class="n">create_colorbar</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="c1"># Plot the background data on a map</span>
-            <span class="n">plot_image</span><span class="p">(</span><span class="n">main_ax</span><span class="p">,</span> <span class="n">bg_data</span><span class="p">,</span> <span class="n">mapobj</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="o">=</span><span class="n">bg_mpl_colors_info</span><span class="p">)</span>
+            <span class="n">plot_image</span><span class="p">(</span>
+                <span class="n">main_ax</span><span class="p">,</span>
+                <span class="n">bg_data</span><span class="p">,</span>
+                <span class="n">mapobj</span><span class="p">,</span>
+                <span class="n">mpl_colors_info</span><span class="o">=</span><span class="n">bg_mpl_colors_info</span><span class="p">,</span>
+                <span class="n">bkgrnd_clr</span><span class="o">=</span><span class="n">bkgrnd_clr</span><span class="p">,</span>
+            <span class="p">)</span>
 
         <span class="n">plot_barbs</span><span class="p">(</span><span class="n">main_ax</span><span class="p">,</span> <span class="n">mapobj</span><span class="p">,</span> <span class="n">mpl_colors_info</span><span class="p">,</span> <span class="n">formatted_data_dict</span><span class="p">)</span>
 
@@ -782,16 +814,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -809,11 +837,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

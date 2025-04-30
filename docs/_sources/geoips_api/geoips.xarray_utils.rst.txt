@@ -20,6 +20,14 @@ geoips.xarray\_utils.time module
    :undoc-members:
    :show-inheritance:
 
+geoips.xarray\_utils.xr\_to\_dtree module
+-----------------------------------------
+
+.. automodule:: geoips.xarray_utils.xr_to_dtree
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.geoips_utils &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.geoips_utils &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/geoips_utils';</script>
     <link rel="icon" href="../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.geoips_utils</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.geoips_utils</span></li>
   </ul>
 </nav>
 </div>
@@ -421,48 +424,45 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.geoips_utils</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;General high level utilities for geoips processing.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">import</span> <span class="nn">yaml</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
-<span class="kn">from</span> <span class="nn">importlib</span> <span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">copy</span><span class="w"> </span><span class="kn">import</span> <span class="n">deepcopy</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_terminal_size</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span>
 
-<span class="kn">from</span> <span class="nn">geoips.errors</span> <span class="kn">import</span> <span class="n">EntryPointError</span><span class="p">,</span> <span class="n">PluginError</span>
-<span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistryError</span><span class="p">,</span> <span class="n">PluginPackageNotFoundError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">geoips_paths</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="n">NAMESPACE_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;geoips&quot;</span>
+
+<div class="viewcode-block" id="remove_unsupported_kwargs"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.remove_unsupported_kwargs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_unsupported_kwargs</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">requested_kwargs</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove unsupported keyword arguments.&quot;&quot;&quot;</span>
+    <span class="n">module_args</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">module</span><span class="p">)</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">unsupported</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">requested_kwargs</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="n">module_args</span><span class="p">))</span>
+    <span class="k">if</span> <span class="s2">&quot;kwargs&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">module_args</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">unsupported</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;REMOVING UNSUPPORTED </span><span class="si">%s</span><span class="s2"> key </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">module</span><span class="p">,</span> <span class="n">key</span><span class="p">)</span>
+            <span class="n">requested_kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">requested_kwargs</span></div>
 
 
-<div class="viewcode-block" id="get_entry_point_group"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_entry_point_group">[docs]</a><span class="k">def</span> <span class="nf">get_entry_point_group</span><span class="p">(</span><span class="n">group</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get entry point group.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">version_info</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">group</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()[</span><span class="n">group</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="find_ascii_palette"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_ascii_palette">[docs]</a><span class="k">def</span> <span class="nf">find_ascii_palette</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="find_ascii_palette"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_ascii_palette">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_ascii_palette</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find ASCII palette named &quot;name&quot;.</span>
 
 <span class="sd">    Search the plugins/txt/ascii_palettes directory for ASCII palettes to use</span>
@@ -476,14 +476,14 @@ document.write(`
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Non-existent txt plugin: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="find_all_txt_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_all_txt_plugins">[docs]</a><span class="k">def</span> <span class="nf">find_all_txt_plugins</span><span class="p">(</span><span class="n">subdir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="find_all_txt_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_all_txt_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">find_all_txt_plugins</span><span class="p">(</span><span class="n">subdir</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find all txt plugins in registered plugin packages.</span>
 
 <span class="sd">    Search the ``plugins`` directory of each registered plugin package for files ending</span>
 <span class="sd">    in ``.txt``. Return list of files</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Load all entry points for plugin packages</span>
-    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">get_entry_point_group</span><span class="p">(</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
 
     <span class="c1"># Loop over the plugin packages and load all of their yaml plugins</span>
     <span class="n">txt_files</span> <span class="o">=</span> <span class="p">[]</span>
@@ -494,174 +494,45 @@ document.write(`
     <span class="k">return</span> <span class="n">txt_files</span></div>
 
 
-<div class="viewcode-block" id="load_all_yaml_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.load_all_yaml_plugins">[docs]</a><span class="k">def</span> <span class="nf">load_all_yaml_plugins</span><span class="p">():</span>
+<div class="viewcode-block" id="load_all_yaml_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.load_all_yaml_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">load_all_yaml_plugins</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find all YAML plugins in registered plugin packages.</span>
 
 <span class="sd">    Search the ``plugins`` directory of each registered plugin package for files ending</span>
 <span class="sd">    in ``.yaml``. Read each plugin file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Load all entry points for plugin packages</span>
-    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">get_entry_point_group</span><span class="p">(</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 
-    <span class="c1"># Loop over the plugin packages and load all of their yaml plugins</span>
-    <span class="n">plugins</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="n">yaml_plugins</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
-        <span class="n">pkg_plugin_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;plugins&quot;</span>
-        <span class="n">yaml_files</span> <span class="o">=</span> <span class="n">pkg_plugin_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.yaml&quot;</span><span class="p">)</span>
-
-        <span class="c1"># Loop over the yaml files from one package</span>
-        <span class="k">for</span> <span class="n">yaml_file</span> <span class="ow">in</span> <span class="n">yaml_files</span><span class="p">:</span>
-            <span class="c1"># Load</span>
-            <span class="n">yaml_plugin</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
-
-            <span class="c1"># Set some additional information on the YAML plugin</span>
-            <span class="c1"># The name of the package the plugin comes from</span>
-            <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pkg</span><span class="o">.</span><span class="n">value</span>
-            <span class="c1"># The relative path to the plugin within the package</span>
-            <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yaml_file</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">pkg_plugin_path</span><span class="p">))</span>
-            <span class="c1"># Absolute path to the plugin</span>
-            <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;abspath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">yaml_file</span><span class="p">)</span>
-
-            <span class="k">if</span> <span class="s2">&quot;interface&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">yaml_plugin</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;YAML file encountered without &#39;interface&#39; property: </span><span class="si">{</span><span class="n">yaml_file</span><span class="si">}</span><span class="s2">&quot;</span>
-                <span class="p">)</span>
-            <span class="k">if</span> <span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
-                <span class="n">plugins</span><span class="p">[</span><span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[</span><span class="n">yaml_plugin</span><span class="p">]</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">plugins</span><span class="p">[</span><span class="n">yaml_plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">yaml_plugin</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">plugins</span></div>
-
-
-<div class="viewcode-block" id="find_config"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_config">[docs]</a><span class="k">def</span> <span class="nf">find_config</span><span class="p">(</span><span class="n">subpackage_name</span><span class="p">,</span> <span class="n">config_basename</span><span class="p">,</span> <span class="n">txt_suffix</span><span class="o">=</span><span class="s2">&quot;.yaml&quot;</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find matching config file within GEOIPS packages.</span>
-
-<span class="sd">    Given &#39;subpackage_name&#39;, &#39;config_basename&#39;, and txt_suffix, find matching</span>
-<span class="sd">    text file within GEOIPS packages.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    subpackage_name : str</span>
-<span class="sd">        subdirectory under GEOIPS package to look for text file</span>
-<span class="sd">        ie text_fname = geoips/&lt;subpackage_name&gt;/&lt;config_basename&gt;&lt;txt_suffix&gt;</span>
-<span class="sd">    config_basename : str</span>
-<span class="sd">        text basename to look for,</span>
-<span class="sd">        ie text_fname = geoips/&lt;subpackage_name&gt;/&lt;config_basename&gt;&lt;txt_suffix&gt;</span>
-<span class="sd">    txt_suffix : str</span>
-<span class="sd">        suffix to look for on config file, defaults to &quot;.yaml&quot;</span>
-<span class="sd">        ie text_fname = geoips/&lt;subpackage_name&gt;/&lt;config_basename&gt;&lt;txt_suffix&gt;</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    text_fname : str</span>
-<span class="sd">        Full path to text filename</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">text_fname</span> <span class="o">=</span> <span class="kc">None</span>
-
-    <span class="k">for</span> <span class="n">package_name</span> <span class="ow">in</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES&quot;</span><span class="p">]:</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">),</span>
-            <span class="n">package_name</span><span class="p">,</span>
-            <span class="n">subpackage_name</span><span class="p">,</span>
-            <span class="n">config_basename</span> <span class="o">+</span> <span class="n">txt_suffix</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="c1"># LOG.info(&#39;Trying %s&#39;, fname)</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;FOUND </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
-            <span class="n">text_fname</span> <span class="o">=</span> <span class="n">fname</span>
-        <span class="n">fname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">),</span>
-            <span class="n">package_name</span><span class="p">,</span>
-            <span class="n">package_name</span><span class="p">,</span>
-            <span class="n">subpackage_name</span><span class="p">,</span>
-            <span class="n">config_basename</span> <span class="o">+</span> <span class="n">txt_suffix</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="c1"># LOG.info(&#39;Trying %s&#39;, fname)</span>
-        <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;FOUND </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
-            <span class="n">text_fname</span> <span class="o">=</span> <span class="n">fname</span>
-    <span class="k">return</span> <span class="n">text_fname</span></div>
+        <span class="n">pkg_plug_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pkg_plug_path</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Plugin registry </span><span class="si">{</span><span class="n">pkg_plug_path</span><span class="si">}</span><span class="s2"> did not exist, &quot;</span>
+                <span class="s2">&quot;please run &#39;create_plugin_registries&#39;&quot;</span>
+            <span class="p">)</span>
+        <span class="c1"># This will include all plugins, including schemas, yaml_based,</span>
+        <span class="c1"># and module_based plugins.</span>
+        <span class="n">registered_plugins</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">pkg_plug_path</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">))</span>
+        <span class="c1"># Only pull the &quot;yaml_based&quot; plugins here.</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">interface</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">yaml_plugins</span><span class="p">:</span>
+                    <span class="n">yaml_plugins</span><span class="p">[</span><span class="n">interface</span><span class="p">]</span> <span class="o">=</span> <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">][</span>
+                        <span class="n">interface</span>
+                    <span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">merge_nested_dicts</span><span class="p">(</span>
+                        <span class="n">yaml_plugins</span><span class="p">[</span><span class="n">interface</span><span class="p">],</span>
+                        <span class="n">registered_plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">][</span><span class="n">interface</span><span class="p">],</span>
+                    <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed reading </span><span class="si">{</span><span class="n">pkg_plug_path</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">yaml_plugins</span></div>
 
 
-<div class="viewcode-block" id="find_entry_point"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.find_entry_point">[docs]</a><span class="k">def</span> <span class="nf">find_entry_point</span><span class="p">(</span><span class="n">namespace</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find object matching &#39;name&#39; using GEOIPS entry point namespace &#39;namespace&#39;.</span>
-
-<span class="sd">    Automatically add &#39;geoips&#39; prefix to namespace for disambiguation.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    namespace : str</span>
-<span class="sd">        Entry point namespace (e.g. &#39;readers&#39;)</span>
-<span class="sd">    name : str</span>
-<span class="sd">        Entry point name (e.g. &#39;amsr2_netcdf&#39;)</span>
-<span class="sd">    default : entry point, optional</span>
-<span class="sd">        Default value if no match is found.  If this is not set (i.e. None),</span>
-<span class="sd">        then no match will result in an exception</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ep_namespace</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">NAMESPACE_PREFIX</span><span class="p">,</span> <span class="n">namespace</span><span class="p">])</span>
-    <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">get_entry_point_group</span><span class="p">(</span><span class="n">ep_namespace</span><span class="p">):</span>
-        <span class="k">if</span> <span class="n">ep</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">name</span><span class="p">:</span>
-            <span class="n">resolved_ep</span> <span class="o">=</span> <span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
-            <span class="k">break</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">resolved_ep</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">resolved_ep</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">resolved_ep</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">default</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">EntryPointError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Failed to find object matching </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> in namespace </span><span class="si">{</span><span class="n">ep_namespace</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="get_all_entry_points"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_all_entry_points">[docs]</a><span class="k">def</span> <span class="nf">get_all_entry_points</span><span class="p">(</span><span class="n">namespace</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return all entry points in GEOIPS entry point namespace &#39;namespace&#39;.</span>
-
-<span class="sd">    Automatically add &#39;geoips&#39; prefix to namespace for disambiguation.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    namespace :str</span>
-<span class="sd">        Entry point namespace (e.g. &#39;readers&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ep_namespace</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">NAMESPACE_PREFIX</span><span class="p">,</span> <span class="n">namespace</span><span class="p">])</span>
-    <span class="n">retlist</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="c1"># Do not use a list comprehension here so we can raise exceptions</span>
-    <span class="c1"># containing the actual package that errored.</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">get_entry_point_group</span><span class="p">(</span><span class="n">ep_namespace</span><span class="p">):</span>
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">retlist</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ep</span><span class="o">.</span><span class="n">load</span><span class="p">()]</span>
-            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="n">EntryPointError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">:&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">An error occurred while loading entry point &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">=</span><span class="si">{</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39; entry point.&quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Try checking to ensure init file exists in package subdir &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">(ALL directories containing python files MUST have init file)&quot;</span>
-                <span class="p">)</span> <span class="kn">from</span> <span class="nn">resp</span>
-    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-        <span class="n">retlist</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">return</span> <span class="n">retlist</span></div>
-
-
-<div class="viewcode-block" id="list_entry_points"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.list_entry_points">[docs]</a><span class="k">def</span> <span class="nf">list_entry_points</span><span class="p">(</span><span class="n">namespace</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List names of objects in GEOIPS entry point namespace &#39;namespace&#39;.</span>
-
-<span class="sd">    Automatically add &#39;geoips&#39; prefix to namespace for disambiguation.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    namespace :str</span>
-<span class="sd">        Entry point namespace (e.g. &#39;readers&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">ep_namespace</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">NAMESPACE_PREFIX</span><span class="p">,</span> <span class="n">namespace</span><span class="p">])</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">get_entry_point_group</span><span class="p">(</span><span class="n">ep_namespace</span><span class="p">)]</span></div>
-
-
-<div class="viewcode-block" id="copy_standard_metadata"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.copy_standard_metadata">[docs]</a><span class="k">def</span> <span class="nf">copy_standard_metadata</span><span class="p">(</span><span class="n">orig_xarray</span><span class="p">,</span> <span class="n">dest_xarray</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="copy_standard_metadata"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.copy_standard_metadata">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">copy_standard_metadata</span><span class="p">(</span><span class="n">orig_xarray</span><span class="p">,</span> <span class="n">dest_xarray</span><span class="p">,</span> <span class="n">extra_attrs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy standard metadata from orig_xarray to dest_xarray.</span>
 
 <span class="sd">    Parameters</span>
@@ -708,15 +579,15 @@ document.write(`
             <span class="n">dest_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">orig_xarray</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="deprecation"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.deprecation">[docs]</a><span class="k">def</span> <span class="nf">deprecation</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+<div class="viewcode-block" id="deprecation"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.deprecation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">deprecation</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Print a deprecation warning during runtime.&quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">warnings</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="ne">DeprecationWarning</span><span class="p">,</span> <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;DeprecationWarning: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="output_process_times"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.output_process_times">[docs]</a><span class="k">def</span> <span class="nf">output_process_times</span><span class="p">(</span><span class="n">process_datetimes</span><span class="p">,</span> <span class="n">num_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">job_str</span><span class="o">=</span><span class="s2">&quot;GeoIPS 2&quot;</span><span class="p">):</span>
+<div class="viewcode-block" id="output_process_times"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.output_process_times">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">output_process_times</span><span class="p">(</span><span class="n">process_datetimes</span><span class="p">,</span> <span class="n">num_jobs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">job_str</span><span class="o">=</span><span class="s2">&quot;GeoIPS 2&quot;</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate and print the process times from the process_datetimes dictionary.</span>
 
 <span class="sd">    Parameters</span>
@@ -763,74 +634,242 @@ document.write(`
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    MISSING Process Time </span><span class="si">%s</span><span class="s2">: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">job_str</span><span class="p">,</span> <span class="n">process_name</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="replace_geoips_paths"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.replace_geoips_paths">[docs]</a><span class="k">def</span> <span class="nf">replace_geoips_paths</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">replace_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace standard environment variables with their non-expanded equivalents.</span>
+<div class="viewcode-block" id="order_paths_from_least_to_most_specific"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.order_paths_from_least_to_most_specific">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">order_paths_from_least_to_most_specific</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Orders a list of filesystem paths from least to most specific.</span>
 
-<span class="sd">    Ie, replace</span>
-
-<span class="sd">        * ``$HOME/geoproc/geoips_packages with $GEOIPS_PACKAGES_DIR``</span>
-<span class="sd">        * ``$HOME/geoproc/geoips_outdirs with $GEOIPS_OUTDIRS``</span>
-<span class="sd">        * ``$HOME/geoproc with $GEOIPS_BASEDIR``</span>
-
-<span class="sd">    This allows generating output YAML fields / NetCDF attributes that can match</span>
-<span class="sd">    between different instantiations.</span>
+<span class="sd">    This function takes a list of filesystem paths and returns a new list of paths</span>
+<span class="sd">    ordered from the least specific (higher-level directories) to the most specific</span>
+<span class="sd">    (subdirectories and files). It expands environmental variables in paths.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    fname : str</span>
-<span class="sd">        Full path to a filename on disk</span>
-<span class="sd">    replace_paths : list, default=None</span>
-<span class="sd">        * Explicit list of standard variable names you would like replaced.</span>
-<span class="sd">        * If None, replace</span>
-<span class="sd">          ``[&#39;GEOIPS_OUTDIRS&#39;, &#39;GEOIPS_PACKAGES_DIR&#39;, &#39;GEOIPS_TESTDATA_DIR&#39;,</span>
-<span class="sd">          &#39;GEOIPS_DEPENDENCIES_DIR&#39;, &#39;GEOIPS_BASEDIR&#39;]``</span>
-<span class="sd">    base_paths : list, default=None</span>
-<span class="sd">        * List of PATHS dictionaries in which to find the &quot;replace_paths&quot; variables</span>
-<span class="sd">        * If None, use geoips.filenames.base_paths</span>
+<span class="sd">    paths : list of str or pathlib.Path</span>
+<span class="sd">        A list of filesystem paths to be ordered.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    fname : str</span>
-<span class="sd">        Path to file on disk, with explicit path replaced with environment</span>
-<span class="sd">        variable name and/or full URL.</span>
+<span class="sd">    list of pathlib.Path</span>
+<span class="sd">        A list of filesystem paths ordered from least to most specific.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; paths = [</span>
+<span class="sd">    ...     &#39;/home/user/docs/&#39;,</span>
+<span class="sd">    ...     &#39;/home/user/images/&#39;,</span>
+<span class="sd">    ...     &#39;/home/user/&#39;,</span>
+<span class="sd">    ...     &#39;/home/user/images/photo.jpg&#39;</span>
+<span class="sd">    ...     &#39;/home/user/docs/report.txt&#39;,</span>
+<span class="sd">    ... ]</span>
+<span class="sd">    &gt;&gt;&gt; order_paths_from_least_to_most_specific(paths)</span>
+<span class="sd">    [PosixPath(&#39;/home/user/&#39;),</span>
+<span class="sd">     PosixPath(&#39;/home/user/docs/&#39;),</span>
+<span class="sd">     PosixPath(&#39;/home/user/images/&#39;),</span>
+<span class="sd">     PosixPath(&#39;/home/user/docs/report.txt&#39;),</span>
+<span class="sd">     PosixPath(&#39;/home/user/images/photo.jpg&#39;)]</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">paths</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">[]</span>
+    <span class="n">ordered_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">unordered_paths</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">paths</span><span class="p">):</span>
+        <span class="n">other_paths</span> <span class="o">=</span> <span class="n">paths</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">paths</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span> <span class="p">:]</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">([</span><span class="n">path</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">other_path</span><span class="o">.</span><span class="n">parents</span> <span class="k">for</span> <span class="n">other_path</span> <span class="ow">in</span> <span class="n">other_paths</span><span class="p">]):</span>
+            <span class="c1"># path not in other paths, least specific already</span>
+            <span class="n">ordered_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># path in other path, needs more sorting</span>
+            <span class="n">unordered_paths</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ordered_paths</span> <span class="o">+</span> <span class="n">order_paths_from_least_to_most_specific</span><span class="p">(</span><span class="n">unordered_paths</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="replace_geoips_paths_in_list"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.replace_geoips_paths_in_list">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">replace_geoips_paths_in_list</span><span class="p">(</span>
+    <span class="n">replace_list</span><span class="p">,</span> <span class="n">replace_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">curly_braces</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Replace GeoIPS paths with geoips settings in elements of a list.</span>
+
+<span class="sd">    This function iterates over each element in the provided `replace_list`,</span>
+<span class="sd">    attempting to replace GeoIPS paths within each element using the</span>
+<span class="sd">    `replace_geoips_paths` function. If an element raises a `TypeError`</span>
+<span class="sd">    when cast to a pathlib path, it is skipped.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    replace_list : list</span>
+<span class="sd">        A list of elements to process. Elements can be of any type, but only those that</span>
+<span class="sd">        are Path-like will be processed.</span>
+<span class="sd">    replace_paths : dict, optional</span>
+<span class="sd">        Passed to replace_geoips_paths</span>
+<span class="sd">    base_paths : dict, optional</span>
+<span class="sd">        Passed to replace_geoips_paths</span>
+<span class="sd">    curly_braces : bool, optional</span>
+<span class="sd">        Passed to replace_geoips_paths</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        A new list containing the elements with GeoIPS paths replaced where possible.</span>
+<span class="sd">        Elements that could not be processed are included unchanged.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; replace_geoips_paths_in_list([&#39;/home/geoips/data/project&#39;,</span>
+<span class="sd">    ... &#39;no_replacement_here&#39;])</span>
+<span class="sd">    [&#39;$GEOIPS_DATA_DIR/project&#39;, &#39;no_replacement_here&#39;]</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    replace_geoips_paths : Function used to replace GeoIPS paths in individual elements.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">new_list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Go through each element in the list</span>
+    <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">replace_list</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">replace_geoips_paths</span><span class="p">(</span>
+                    <span class="n">val</span><span class="p">,</span>
+                    <span class="n">replace_paths</span><span class="o">=</span><span class="n">replace_paths</span><span class="p">,</span>
+                    <span class="n">base_paths</span><span class="o">=</span><span class="n">base_paths</span><span class="p">,</span>
+                    <span class="n">curly_braces</span><span class="o">=</span><span class="n">curly_braces</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
+            <span class="c1"># Otherwise, just put the current element back</span>
+            <span class="n">new_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">continue</span>
+    <span class="k">return</span> <span class="n">new_list</span></div>
+
+
+<div class="viewcode-block" id="replace_geoips_paths_in_dict"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.replace_geoips_paths_in_dict">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">replace_geoips_paths_in_dict</span><span class="p">(</span>
+    <span class="n">replace_dict</span><span class="p">,</span> <span class="n">replace_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">curly_braces</span><span class="o">=</span><span class="kc">False</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace geoips paths in every path-based element within a dictionary.&quot;&quot;&quot;</span>
+    <span class="n">dump_dict</span> <span class="o">=</span> <span class="n">replace_dict</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="p">:</span>
+        <span class="c1"># If this is a string, and it contains &quot;/&quot;, replace the geoips paths.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;/&quot;</span> <span class="ow">in</span> <span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+            <span class="n">dump_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+        <span class="c1"># If this is a list, go through each element and replace geoips paths if</span>
+        <span class="c1"># applicable.</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">dump_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">replace_geoips_paths_in_list</span><span class="p">(</span>
+                <span class="n">replace_dict</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">replace_paths</span><span class="p">,</span> <span class="n">base_paths</span><span class="p">,</span> <span class="n">curly_braces</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">dump_dict</span></div>
+
+
+<div class="viewcode-block" id="replace_geoips_paths"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.replace_geoips_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">replace_geoips_paths</span><span class="p">(</span>
+    <span class="n">path</span><span class="p">,</span>
+    <span class="n">replace_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">base_paths</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">curly_braces</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Replace specified sub-paths in path with related environment variable names.</span>
+
+<span class="sd">    This function replaces paths in the provided path with their corresponding</span>
+<span class="sd">    environment variable names. This is useful for generating output paths</span>
+<span class="sd">    or metadata that are independent of specific installation directories.</span>
+
+<span class="sd">    For example, it can replace:</span>
+
+<span class="sd">    - ``&#39;/home/user/geoproc/geoips_packages&#39;`` with ``&#39;$GEOIPS_PACKAGES_DIR&#39;``</span>
+<span class="sd">    - ``&#39;/home/user/geoproc/geoips_outdirs&#39;`` with ``&#39;$GEOIPS_OUTDIRS&#39;``</span>
+<span class="sd">    - ``&#39;/home/user/geoproc&#39;`` with ``&#39;$GEOIPS_BASEDIR&#39;``</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str or pathlib.Path</span>
+<span class="sd">        The path in which to replace base paths.</span>
+<span class="sd">    replace_paths : list of str, optional</span>
+<span class="sd">        A list of environment variable names whose corresponding paths should be</span>
+<span class="sd">        replaced in `path`.</span>
+<span class="sd">        If `None`, defaults to:</span>
+
+<span class="sd">        ``[&#39;$GEOIPS_OUTDIRS&#39;, &#39;$GEOIPS_PACKAGES_DIR&#39;, &#39;$GEOIPS_TESTDATA_DIR&#39;,</span>
+<span class="sd">        &#39;$GEOIPS_DEPENDENCIES_DIR&#39;, &#39;$GEOIPS_BASEDIR&#39;]``</span>
+<span class="sd">    base_paths : dict, optional</span>
+<span class="sd">        A dictionary mapping environment variable names to their corresponding base</span>
+<span class="sd">        paths.  If `None`, defaults to `geoips.filenames.base_paths.PATH`.</span>
+<span class="sd">    curly_braces : bool, default=False</span>
+<span class="sd">        If `True`, includes curly braces in the environment variables</span>
+<span class="sd">        (e.g., ``&#39;${GEOIPS_BASEDIR}&#39;``),</span>
+<span class="sd">        otherwise excludes them (e.g., ``&#39;$GEOIPS_BASEDIR&#39;``).</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        The path with specified base paths replaced with environment variable names.</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
-<span class="sd">    Note it replaces ALL standard variables that have a corresponding</span>
-<span class="sd">    ``&lt;key&gt;_URL`` variable.</span>
+<span class="sd">    The function iterates over the provided `replace_paths` in reverse order</span>
+<span class="sd">    (from most specific to least specific) and replaces the first matching base</span>
+<span class="sd">    path in the given `path` with the corresponding environment variable name.</span>
 
-<span class="sd">    Additionally, it replaces variables specified in &quot;replace_paths&quot; list with</span>
-<span class="sd">    the unexpanded environment variable name.</span>
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; path = &#39;/home/user/geoproc/geoips_packages/module/file.py&#39;</span>
+<span class="sd">    &gt;&gt;&gt; base_paths = {</span>
+<span class="sd">    ...     &#39;GEOIPS_PACKAGES_DIR&#39;: &#39;/home/user/geoproc/geoips_packages&#39;,</span>
+<span class="sd">    ...     &#39;GEOIPS_BASEDIR&#39;: &#39;/home/user/geoproc&#39;</span>
+<span class="sd">    ... }</span>
+<span class="sd">    &gt;&gt;&gt; replace_geoips_paths(path, base_paths=base_paths)</span>
+<span class="sd">    &#39;$GEOIPS_PACKAGES_DIR/module/file.py&#39;</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Allow multiple sets of base_path replacements</span>
-    <span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">geoips_gpaths</span>
 
     <span class="k">if</span> <span class="n">base_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">base_paths</span> <span class="o">=</span> <span class="p">[</span><span class="n">geoips_gpaths</span><span class="p">]</span>
+        <span class="n">base_paths</span> <span class="o">=</span> <span class="n">geoips_paths</span>
+
+    <span class="c1"># These are the environment vriables that are specified in base_paths.py.</span>
+    <span class="c1"># Eventually we will want to pull these directly from the environment config,</span>
+    <span class="c1"># for now explicitly list env vars here.</span>
+    <span class="k">if</span> <span class="n">replace_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">replace_env_vars</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;$TCWWW&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$PRIVATEWWW&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$PUBLICWWW&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$GEOTIFF_IMAGERY_PATH&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$ANNOTATED_IMAGERY_PATH&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$CLEAN_IMAGERY_PATH&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$GEOIPS_OUTDIRS&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$GEOIPS_PACKAGES_DIR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$GEOIPS_TESTDATA_DIR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$GEOIPS_DEPENDENCIES_DIR&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;$GEOIPS_BASEDIR&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+    <span class="n">paths_to_be_replaced</span> <span class="o">=</span> <span class="p">[</span><span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">p</span><span class="p">))</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">replace_env_vars</span><span class="p">]</span>
+    <span class="n">ordered_path_envvar_dict</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">replace_env_vars</span><span class="p">[</span><span class="n">paths_to_be_replaced</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">replace_path</span><span class="p">)]:</span> <span class="n">replace_path</span>
+        <span class="k">for</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">order_paths_from_least_to_most_specific</span><span class="p">(</span>
+            <span class="n">paths_to_be_replaced</span>
+        <span class="p">)</span>
+    <span class="p">}</span>
 
     <span class="c1"># Replace with specified file system -&gt; URL mapping</span>
-    <span class="k">for</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">base_paths</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">paths</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="k">if</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_URL&quot;</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
-                <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="n">key</span><span class="p">],</span> <span class="n">paths</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">_URL&quot;</span><span class="p">])</span>
+    <span class="c1"># for paths in base_paths:</span>
+    <span class="c1">#    for key in paths.keys():</span>
+    <span class="c1">#        if f&quot;{key}_URL&quot; in paths:</span>
+    <span class="c1">#            fname = fname.replace(paths[key], paths[f&quot;{key}_URL&quot;])</span>
+
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
 
     <span class="c1"># Replace full paths with environment variables</span>
-    <span class="k">if</span> <span class="n">replace_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">replace_paths</span> <span class="o">=</span> <span class="p">[</span>
-            <span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_TESTDATA_DIR&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_DEPENDENCIES_DIR&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;GEOIPS_BASEDIR&quot;</span><span class="p">,</span>
-        <span class="p">]</span>
-    <span class="k">for</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">replace_paths</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">paths</span> <span class="ow">in</span> <span class="n">base_paths</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
-                <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="n">replace_path</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">replace_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">fname</span></div>
+    <span class="k">for</span> <span class="n">env_var</span><span class="p">,</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">ordered_path_envvar_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">replace_path</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">parents</span><span class="p">:</span>
+            <span class="n">env_var</span> <span class="o">=</span> <span class="n">env_var</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;$&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">replace_path</span><span class="p">),</span>
+                <span class="sa">f</span><span class="s2">&quot;$</span><span class="se">{{</span><span class="si">{</span><span class="n">env_var</span><span class="si">}</span><span class="se">}}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">curly_braces</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;$</span><span class="si">{</span><span class="n">env_var</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_required_geoips_xarray_attrs"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_required_geoips_xarray_attrs">[docs]</a><span class="k">def</span> <span class="nf">get_required_geoips_xarray_attrs</span><span class="p">():</span>
+<div class="viewcode-block" id="get_required_geoips_xarray_attrs"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_required_geoips_xarray_attrs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_required_geoips_xarray_attrs</span><span class="p">():</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface deprecated v2.0.&quot;&quot;&quot;</span>
     <span class="n">required_xarray_attrs</span> <span class="o">=</span> <span class="p">[</span>
         <span class="s2">&quot;source_name&quot;</span><span class="p">,</span>
@@ -842,71 +881,7 @@ document.write(`
     <span class="k">return</span> <span class="n">required_xarray_attrs</span></div>
 
 
-<div class="viewcode-block" id="list_product_specs_dict_yamls"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.list_product_specs_dict_yamls">[docs]</a><span class="k">def</span> <span class="nf">list_product_specs_dict_yamls</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all YAML files containing product params in all geoips packages.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    list</span>
-<span class="sd">        List of all product params dict YAMLs in all geoips packages</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">all_files</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">package_name</span> <span class="ow">in</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES&quot;</span><span class="p">]:</span>
-        <span class="n">all_files</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span>
-            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-            <span class="o">+</span> <span class="n">package_name</span>
-            <span class="o">+</span> <span class="s2">&quot;/*/yaml_configs/product_params/*/*.yaml&quot;</span>
-        <span class="p">)</span>
-        <span class="n">all_files</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span>
-            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-            <span class="o">+</span> <span class="n">package_name</span>
-            <span class="o">+</span> <span class="s2">&quot;/yaml_configs/product_params/*/*.yaml&quot;</span>
-        <span class="p">)</span>
-        <span class="n">all_files</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span>
-            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-            <span class="o">+</span> <span class="n">package_name</span>
-            <span class="o">+</span> <span class="s2">&quot;/*/yaml_configs/product_params/*.yaml&quot;</span>
-        <span class="p">)</span>
-        <span class="n">all_files</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span>
-            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-            <span class="o">+</span> <span class="n">package_name</span>
-            <span class="o">+</span> <span class="s2">&quot;/yaml_configs/product_params/*.yaml&quot;</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">fname</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">all_files</span> <span class="k">if</span> <span class="s2">&quot;__init__&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="list_product_source_dict_yamls"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.list_product_source_dict_yamls">[docs]</a><span class="k">def</span> <span class="nf">list_product_source_dict_yamls</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;List all YAML files containing product source specifications.</span>
-
-<span class="sd">    Search in all geoips packages.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    list</span>
-<span class="sd">        List of all product source dict YAMLs in all geoips packages</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">all_files</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">package_name</span> <span class="ow">in</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES&quot;</span><span class="p">]:</span>
-        <span class="n">all_files</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span>
-            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-            <span class="o">+</span> <span class="n">package_name</span>
-            <span class="o">+</span> <span class="s2">&quot;/*/yaml_configs/product_inputs/*.yaml&quot;</span>
-        <span class="p">)</span>
-        <span class="n">all_files</span> <span class="o">+=</span> <span class="n">glob</span><span class="p">(</span>
-            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">]</span>
-            <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
-            <span class="o">+</span> <span class="n">package_name</span>
-            <span class="o">+</span> <span class="s2">&quot;/yaml_configs/product_inputs/*.yaml&quot;</span>
-        <span class="p">)</span>
-    <span class="k">return</span> <span class="p">[</span><span class="n">fname</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">all_files</span> <span class="k">if</span> <span class="s2">&quot;__init__&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fname</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="merge_nested_dicts"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.merge_nested_dicts">[docs]</a><span class="k">def</span> <span class="nf">merge_nested_dicts</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="merge_nested_dicts"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.merge_nested_dicts">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">merge_nested_dicts</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">src</span><span class="p">,</span> <span class="n">in_place</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Perform an in-place merge of src into dest.</span>
 
 <span class="sd">    Performs an in-place merge of src into dest while preserving any values that already</span>
@@ -916,6 +891,25 @@ document.write(`
         <span class="n">final_dest</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">final_dest</span> <span class="o">=</span> <span class="n">dest</span>
+
+    <span class="c1"># NOTE: this is a top-level field, where if you set</span>
+    <span class="c1"># product_spec_override:</span>
+    <span class="c1">#   replace: true</span>
+    <span class="c1"># It will automatically replace ALL fields found in</span>
+    <span class="c1"># the original product spec and also found in the</span>
+    <span class="c1"># override with what is specified in the override</span>
+    <span class="c1"># in its entirety, without merging.  This is not</span>
+    <span class="c1"># terribly useful overall - we probably want this</span>
+    <span class="c1"># sort of capability in the end, but more flexible</span>
+    <span class="c1"># and able to be applied to only specific fields,</span>
+    <span class="c1"># etc.  This is a brute force method to at least</span>
+    <span class="c1"># allow overriding entire fields.</span>
+    <span class="k">if</span> <span class="n">replace</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">final_dest</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">src</span><span class="p">:</span>
+                <span class="n">final_dest</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">final_dest</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">final_dest</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">src</span> <span class="o">|</span> <span class="n">final_dest</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">):</span>
@@ -930,22 +924,194 @@ document.write(`
         <span class="k">raise</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">in_place</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">final_dest</span></div>
+
+
+<div class="viewcode-block" id="expose_geoips_commands"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.expose_geoips_commands">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">expose_geoips_commands</span><span class="p">(</span><span class="n">pkg_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">_test_log</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Expose a list of commands that operate in the GeoIPS environment.</span>
+
+<span class="sd">    Where, these commands are defined under &#39;pyproject.toml:[tool.poetry.scripts]&#39;,</span>
+<span class="sd">    or &#39;pyproject.toml:[project.entry-points.console_scripts]&#39;</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pkg_name: str (default = None)</span>
+<span class="sd">        - The name of the GeoIPS Plugin Package whose command&#39;s will be exposed.</span>
+<span class="sd">        - If None, assume this was called via the commandline and retrieve package_name</span>
+<span class="sd">          via that manner. Otherwise use the supplied package_name.</span>
+<span class="sd">    _test_log: logging.Logger (default = None)</span>
+<span class="sd">        - If provided, use this logger instead. This is added as an optional argument</span>
+<span class="sd">          so we can check the output of this command for our Unit Tests.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">pkg_name</span><span class="p">,</span> <span class="n">log</span> <span class="o">=</span> <span class="n">_get_pkg_name_and_logger</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">,</span> <span class="n">_test_log</span><span class="p">)</span>
+    <span class="c1"># Get a list of console_script entrypoints specific to the provided package</span>
+    <span class="n">eps</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
+        <span class="nb">filter</span><span class="p">(</span>
+            <span class="k">lambda</span> <span class="n">ep</span><span class="p">:</span> <span class="n">pkg_name</span> <span class="ow">in</span> <span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">()</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;console_scripts&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+    <span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands&quot;</span><span class="p">))</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Available </span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2"> Commands&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">eps</span><span class="p">:</span>
+        <span class="n">table_data</span> <span class="o">=</span> <span class="p">[[</span><span class="n">ep</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">]</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">eps</span><span class="p">]</span>
+        <span class="c1"># Log the commands found in a tabular fashion</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+            <span class="n">tabulate</span><span class="p">(</span>
+                <span class="n">table_data</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;Command Name&quot;</span><span class="p">,</span> <span class="s2">&quot;Command Path&quot;</span><span class="p">],</span>
+                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rounded_grid&quot;</span><span class="p">,</span>
+                <span class="n">maxcolwidths</span><span class="o">=</span><span class="n">get_terminal_size</span><span class="p">()</span><span class="o">.</span><span class="n">columns</span> <span class="o">//</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+        <span class="c1"># Otherwise let the user know that there were not commands found for this</span>
+        <span class="c1"># package.</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No &#39;</span><span class="si">{</span><span class="n">pkg_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="si">}</span><span class="s2">&#39; Commands were found.&quot;</span><span class="p">)</span></div>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_get_pkg_name_and_logger</span><span class="p">(</span><span class="n">pkg_name</span><span class="p">,</span> <span class="n">provided_log</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the corresponding package name and logger for exposing package commands.</span>
+
+<span class="sd">    If pkg_name is None, retrieve pkg_name from the commandline arguments</span>
+<span class="sd">    (either -p &lt;package_name&gt; or default &#39;geoips&#39;). If log is None, set log to the LOG</span>
+<span class="sd">    attribute found in this module.</span>
+
+<span class="sd">    If either variable isn&#39;t None, use what&#39;s provided instead. This is used for</span>
+<span class="sd">    unit testing primarily.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pkg_name: str</span>
+<span class="sd">        - The name of the GeoIPS Plugin Package whose command&#39;s will be exposed.</span>
+<span class="sd">        - If None, assume this was called via the commandline and retrieve package_name</span>
+<span class="sd">          via that manner. Otherwise use the supplied package_name.</span>
+<span class="sd">        - If supplied, pkg_name must be one of pip installed &#39;geoips.plugin_packages&#39;.</span>
+<span class="sd">          ie. &#39;recenter_tc&#39;, &#39;geoips_clavrx&#39;, &#39;data_fusion&#39;, &lt;your_custom_pkg&gt;, ...</span>
+<span class="sd">    provided_log: logging.Logger</span>
+<span class="sd">        - If None, retrieve the LOG attribute from this module, otherwise use the</span>
+<span class="sd">          provided logger so we can check the output of this function for unit tests.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pkg_name, log: str, logging.Logger</span>
+<span class="sd">        - The name of the package to retrieve commands from and the logger used to</span>
+<span class="sd">          output it.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">provided_log</span><span class="p">:</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">provided_log</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">log</span> <span class="o">=</span> <span class="n">LOG</span>
+    <span class="k">if</span> <span class="n">pkg_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># This function was called via the command line or None was passed.</span>
+        <span class="n">argparser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="s2">&quot;expose command&quot;</span><span class="p">)</span>
+        <span class="n">argparser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="n">plugin_packages</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Plugin package to expose.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">ARGS</span> <span class="o">=</span> <span class="n">argparser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+        <span class="n">pkg_name</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">package_name</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># This function was called via python</span>
+        <span class="k">if</span> <span class="n">pkg_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginPackageNotFoundError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;No such package named &#39;</span><span class="si">{</span><span class="n">pkg_name</span><span class="si">}</span><span class="s2">&#39; found. Make sure that package is &quot;</span>
+                <span class="s2">&quot;installed with a package manager such as pip.&quot;</span>
+            <span class="p">)</span>
+    <span class="k">return</span> <span class="n">pkg_name</span><span class="p">,</span> <span class="n">log</span>
+
+
+<div class="viewcode-block" id="is_editable"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.is_editable">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_editable</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return whether or not &#39;package_name&#39; has been installed in editable mode.</span>
+
+<span class="sd">    Where editable mode is a local package installed via &#39;pip install -e &lt;path_to_pkg&gt;</span>
+<span class="sd">    and non-editable mode is a local package installed via &#39;pip install &lt;pact_to_pkg&gt;.</span>
+
+<span class="sd">    If the package under package_name doesn&#39;t exist, raise a ValueError reporting that.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    package_name: str</span>
+<span class="sd">        - The name of the pip installed local package. (ie. &quot;geoips&quot;, &quot;recenter_tc&quot;, ..)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    editable: bool</span>
+<span class="sd">        - The truth value as to whether or not the package was installed in editable</span>
+<span class="sd">          mode.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">plugin_package_names</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">ep</span><span class="o">.</span><span class="n">value</span> <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="p">]</span>
+    <span class="k">if</span> <span class="n">package_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin_package_names</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; is not an installed package. Please install it &quot;</span>
+            <span class="s2">&quot;before running this command; ie via &#39;pip install &lt;path_to_package_name&gt;&#39; &quot;</span>
+            <span class="s2">&quot;optionally with the &#39;-e&#39; flag. You can also use another package manager.&quot;</span>
+        <span class="p">)</span>
+    <span class="n">dist_info</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">distribution</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="s2">&quot;direct_url.json&quot;</span><span class="p">)</span>
+    <span class="c1"># If dist_info is None, package was not installed from source and it was installed</span>
+    <span class="c1"># from a pre-built wheel. Therefore it is not in editable mode.</span>
+    <span class="k">if</span> <span class="n">dist_info</span><span class="p">:</span>
+        <span class="c1"># If dist_info is not None, that means we retrieved metadata about the installed</span>
+        <span class="c1"># package. Check to see if it&#39;s in editable mode or not.</span>
+        <span class="n">json_dist</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">dist_info</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="s2">&quot;dir_info&quot;</span> <span class="ow">in</span> <span class="n">json_dist</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="s2">&quot;editable&quot;</span> <span class="ow">in</span> <span class="n">json_dist</span><span class="p">[</span><span class="s2">&quot;dir_info&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="ow">and</span> <span class="n">json_dist</span><span class="p">[</span><span class="s2">&quot;dir_info&quot;</span><span class="p">][</span><span class="s2">&quot;editable&quot;</span><span class="p">]</span>
+        <span class="p">):</span>
+            <span class="c1"># If the &#39;editable&#39; key exists and is True</span>
+            <span class="k">return</span> <span class="kc">True</span>
+    <span class="c1"># Package is installed in non-editable mode</span>
+    <span class="k">return</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="get_numpy_seeded_random_generator"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_numpy_seeded_random_generator">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_numpy_seeded_random_generator</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get a NumPy random generator seeded with a fixed value.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.random.Generator</span>
+<span class="sd">        A NumPy random generator initialized with a fixed seed value of 42.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This function returns a seeded random generator using NumPy&#39;s `default_rng`</span>
+<span class="sd">    function with a fixed seed of 42. Using a fixed seed ensures that the</span>
+<span class="sd">    random numbers generated by this generator will be reproducible across different</span>
+<span class="sd">    runs. 42 was chosen because it is the answer to the universe and all things;</span>
+<span class="sd">    that is to say: it&#39;s selection is inconsequential and any other number</span>
+<span class="sd">    could have been chosen.</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    &gt;&gt;&gt; predictable_random = get_numpy_seeded_random_generator()</span>
+<span class="sd">    &gt;&gt;&gt; predictable_random.integers(0, 10, size=5)</span>
+<span class="sd">    array([6, 3, 7, 4, 6])  # Example output, will be the same every time</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span></div>
 </pre></div>
 
                 </article>
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -963,11 +1129,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

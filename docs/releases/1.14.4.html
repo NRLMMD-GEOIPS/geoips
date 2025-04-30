@@ -1,0 +1,973 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.14.4 (2025-04-30) &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/1.14.4';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.14.3 (2025-04-30)" href="1.14.3.html" />
+    <link rel="prev" title="Version 1.14.5 (2025-04-30)" href="1.14.5.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2025-04-30)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2025-04-30)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2025-04-30)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.14.4 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0.html">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.14.4 (2025-04-30)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="version-1-14-4-2025-04-30">
+<h1>Version 1.14.4 (2025-04-30)<a class="headerlink" href="#version-1-14-4-2025-04-30" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Documentation</em>: Update upcoming and tagged versions</p></li>
+<li><p><em>Enhancement</em>: Create mtg fci reader</p></li>
+<li><p><em>Enhancement</em>: Viirs l2 netcdf reader</p></li>
+<li><p><em>Bug fix</em>: Changed plaformdirs version in requirements.txt</p></li>
+<li><p><em>Bug fix</em>: Clean up log output for output checkers</p></li>
+<li><p><em>Bug fix</em>: Bug fix atms reader - only crop to valid indices when key exists</p></li>
+<li><p><em>Bug fix</em>: Force brassy version &gt;=0.0.3 in pyproject.toml, required by build_docs.py</p></li>
+<li><p><em>Bug fix</em>: Make code_of_conduct.md optional in build_docs.py</p></li>
+<li><p><em>Bug fix</em>: Resolve string-based output_checker_threshold_image return</p></li>
+<li><p><em>Bug fix</em>: Bug fix abi_l2_netcdf reader</p></li>
+<li><p><em>Bug fix</em>: Allow seviri hrit reader to complete when hrv files present</p></li>
+<li><p><em>Release process</em>: Add 1.14.4 release note</p></li>
+<li><p><em>Installation</em>: Update full install to include all packages available on github.com</p></li>
+<li><p><em>Installation</em>: Update installation instructions to use miniforge installer</p></li>
+<li><p><em>Bug fixes</em>: Clone git test data repositories to the correct location</p></li>
+<li><p><em>Bug fixes</em>: Use autoescape=true for jinja template</p></li>
+</ul>
+</div></blockquote>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="update-upcoming-and-tagged-versions">
+<h3>Update upcoming and tagged versions<a class="headerlink" href="#update-upcoming-and-tagged-versions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Tagged version: 1.14.4</p></li>
+<li><p>Upcoming version: 1.14.5</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enhancement">
+<h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
+<section id="create-mtg-fci-reader">
+<h3>Create mtg fci reader<a class="headerlink" href="#create-mtg-fci-reader" title="Permalink to this heading">#</a></h3>
+<p>Add new reader for Meteosat Third Generation Flexible Combined Imager (MTG FCI).
+This reader is a wrapper around satpy’s FCI reader. MTG FCI data in netCDF format,
+but require a special decompression filter in order to load the data into memory.
+This filter can either be installed using EUMETSAT’s fcidecomp plugin package
+(<a class="reference external" href="https://gitlab.eumetsat.int/open-source/data-tailor-plugins/fcidecomp/-/tree/2.0.1/">https://gitlab.eumetsat.int/open-source/data-tailor-plugins/fcidecomp/-/tree/2.0.1/</a>)
+or with the hdf5plugin package available on pypi (<a class="reference external" href="https://pypi.org/project/hdf5plugin/">https://pypi.org/project/hdf5plugin/</a>)
+In order to use this reader, the HDF5_PLUGIN_PATH is a required environment variable
+that points to the directory holding the compiled decompression plugin. The satpy
+documentation notes that ‘import hdf5plugin’ should be the only requirement to load
+the data using their reader, and while that is the case, it appears that you are
+unable to manipulate the data outside the satpy.scene object and will still encounter
+a “NetCDF: Filter error: undefined filter encountered” error unless HDF5_PLUGIN_PATH
+is a valid environment variable. We are using the pypi hdf5plugin package, and
+set HDF5_PLUGIN_PATH to site-packages/hdf5plugin/plugins.</p>
+<p>Updated the single_channel algorithm to apply a satellite zenith angle cutoff, rather
+than requiring this mask to be applied in a reader. Uses a new function added to the
+data_manipulations.corrections module.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="k">global</span><span class="mf">.26</span><span class="n">p10</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">Infrared</span><span class="o">/</span><span class="mf">20240113.115000</span><span class="o">.</span><span class="n">MTG</span><span class="o">-</span><span class="n">I1</span><span class="o">.</span><span class="n">fci</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.71</span><span class="n">p89</span><span class="o">.</span><span class="n">EUMETSAT</span><span class="mf">.0</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">fci</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">data_manipulations</span><span class="o">/</span><span class="n">corrections</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">algorithms</span><span class="o">/</span><span class="n">single_channel</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">config_geoips</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_all</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Enhancement<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="viirs-l2-netcdf-reader">
+<h3>Viirs l2 netcdf reader<a class="headerlink" href="#viirs-l2-netcdf-reader" title="Permalink to this heading">#</a></h3>
+<p>Add new reader for VIIRS L2 netCDF files.
+(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">viirs_l2_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="changed-plaformdirs-version-in-requirements-txt">
+<h3>Changed plaformdirs version in requirements.txt<a class="headerlink" href="#changed-plaformdirs-version-in-requirements-txt" title="Permalink to this heading">#</a></h3>
+<p>The previous platformdir version caused a circular dependency error, this updates the version number to allow
+installation from requirements.txt.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">requirements</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>Bug fix<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<section id="clean-up-log-output-for-output-checkers">
+<h3>Clean up log output for output checkers<a class="headerlink" href="#clean-up-log-output-for-output-checkers" title="Permalink to this heading">#</a></h3>
+<p>Attempted to fix issue with MISSINGPRODUCTS not being
+properly identified (extra files in test output directories
+did NOT flag a failed MISSINGPRODUCT in the tests), but did
+not fix that.  Just updated log outputs to be easier to follow.</p>
+<p>Also note the missingproduct RM file now writes out the missing
+file regardless of whether basename current output == basename compare file,
+I believe this was to resolve issues of .ext.gz != .ext, and the file
+wasn’t getting written to the rm file, probably we should just write
+out all the files, and not worry about whether they match the compare
+output or not (that should have already been checked).  But this
+effectively does the same thing (with duplicate files getting written
+to the file)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>Bug fix<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<section id="bug-fix-atms-reader-only-crop-to-valid-indices-when-key-exists">
+<h3>Bug fix atms reader - only crop to valid indices when key exists<a class="headerlink" href="#bug-fix-atms-reader-only-crop-to-valid-indices-when-key-exists" title="Permalink to this heading">#</a></h3>
+<p>Only crop ATMS data to valid indices when the “valid_indices” key exists in the
+xarray dataset. This key is only populated when reading in a GEO file. As a result,
+the reader will error when only reading in SDR files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">atms_hdf5</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>Bug fix<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<section id="force-brassy-version-0-0-3-in-pyproject-toml-required-by-build-docs-py">
+<h3>Force brassy version &gt;=0.0.3 in pyproject.toml, required by build_docs.py<a class="headerlink" href="#force-brassy-version-0-0-3-in-pyproject-toml-required-by-build-docs-py" title="Permalink to this heading">#</a></h3>
+<p>Early versions of brassy did not have the brassy.actions method, force
+version &gt;= 0.0.3 to ensure build_docs.py can complete.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Bug fix<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="make-code-of-conduct-md-optional-in-build-docs-py">
+<h3>Make code_of_conduct.md optional in build_docs.py<a class="headerlink" href="#make-code-of-conduct-md-optional-in-build-docs-py" title="Permalink to this heading">#</a></h3>
+<p>Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>Bug fix<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<section id="resolve-string-based-output-checker-threshold-image-return">
+<h3>Resolve string-based output_checker_threshold_image return<a class="headerlink" href="#resolve-string-based-output-checker-threshold-image-return" title="Permalink to this heading">#</a></h3>
+<p>We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
+Set it explicitly, rather than using get_env_var.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>Bug fix<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="bug-fix-abi-l2-netcdf-reader">
+<h3>Bug fix abi_l2_netcdf reader<a class="headerlink" href="#bug-fix-abi-l2-netcdf-reader" title="Permalink to this heading">#</a></h3>
+<p>Fix bug where the start and end datetime was not properly being tracked for each
+file ingested in the main loop. This was causing issues when attempting to
+concatenate multiple scan times with 2D arrays. Concatenation of multiple files
+for a single scan time is currently only supported with 1D xarray datasets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_l2_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>Bug fix<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<section id="allow-seviri-hrit-reader-to-complete-when-hrv-files-present">
+<h3>Allow seviri hrit reader to complete when hrv files present<a class="headerlink" href="#allow-seviri-hrit-reader-to-complete-when-hrv-files-present" title="Permalink to this heading">#</a></h3>
+<p>SEVIRI HRIT reader does not support the High Res Vis (HRV) files currently,
+so skips over <em>HRV</em> files.  When multi-scan-time support was added, files
+were read one at a time, so HRV files were filtered out and the reader
+subsequently failed on the empty list of filenames.  Raise NoValidFilesError
+on empty list, to allow catching from the reader read_data_to_xarray_dict
+method and skipping over missing files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">errors</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">readers</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="release-process">
+<h2>Release process<a class="headerlink" href="#release-process" title="Permalink to this heading">#</a></h2>
+<section id="add-1-14-4-release-note">
+<h3>Add 1.14.4 release note<a class="headerlink" href="#add-1-14-4-release-note" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Upcoming public version 1.15.0.</p></li>
+<li><p>Upcoming internal version 1.14.4.</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">upcoming</span><span class="o">/</span><span class="mf">1.14.4</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<section id="update-full-install-to-include-all-packages-available-on-github-com">
+<h3>Update full install to include all packages available on github.com<a class="headerlink" href="#update-full-install-to-include-all-packages-available-on-github-com" title="Permalink to this heading">#</a></h3>
+<p>Allow passing an argument to full_install.sh that requests installing
+all packages currently available on github.com.  Default full install
+(with no arguments) still includes only actively maintained/tested/vetted
+packages with complete and functional integration tests, but additional
+packages included when “include_reference_repos” is passed to allow
+development on new and planned repositories.</p>
+<p>This also serves to test test_data_github check_system_requirements.sh option,
+since that is currently unused on github.com.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>Installation<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<section id="update-installation-instructions-to-use-miniforge-installer">
+<h3>Update installation instructions to use miniforge installer<a class="headerlink" href="#update-installation-instructions-to-use-miniforge-installer" title="Permalink to this heading">#</a></h3>
+<p>mambaforge deprecated</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">installation</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="clone-git-test-data-repositories-to-the-correct-location">
+<h3>Clone git test data repositories to the correct location<a class="headerlink" href="#clone-git-test-data-repositories-to-the-correct-location" title="Permalink to this heading">#</a></h3>
+<p>Previously git test data repositories would be cloned directly in
+$GEOIPS_TESTDATA_DIR, update download_test_data.py to ensure test data
+repos are cloned to $GEOIPS_TESTDATA_DIR/[test_data_repo_name]</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>Bug fixes<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<section id="use-autoescape-true-for-jinja-template">
+<h3>Use autoescape=true for jinja template<a class="headerlink" href="#use-autoescape-true-for-jinja-template" title="Permalink to this heading">#</a></h3>
+<p>Use autoescape=True for jinja template</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1.14.5.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.14.5 (2025-04-30)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="1.14.3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.14.3 (2025-04-30)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-upcoming-and-tagged-versions">Update upcoming and tagged versions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-mtg-fci-reader">Create mtg fci reader</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#viirs-l2-netcdf-reader">Viirs l2 netcdf reader</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changed-plaformdirs-version-in-requirements-txt">Changed plaformdirs version in requirements.txt</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clean-up-log-output-for-output-checkers">Clean up log output for output checkers</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix-atms-reader-only-crop-to-valid-indices-when-key-exists">Bug fix atms reader - only crop to valid indices when key exists</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#force-brassy-version-0-0-3-in-pyproject-toml-required-by-build-docs-py">Force brassy version &gt;=0.0.3 in pyproject.toml, required by build_docs.py</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#make-code-of-conduct-md-optional-in-build-docs-py">Make code_of_conduct.md optional in build_docs.py</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resolve-string-based-output-checker-threshold-image-return">Resolve string-based output_checker_threshold_image return</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix-abi-l2-netcdf-reader">Bug fix abi_l2_netcdf reader</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#allow-seviri-hrit-reader-to-complete-when-hrv-files-present">Allow seviri hrit reader to complete when hrv files present</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-process">Release process</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-1-14-4-release-note">Add 1.14.4 release note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-full-install-to-include-all-packages-available-on-github-com">Update full install to include all packages available on github.com</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-installation-instructions-to-use-miniforge-installer">Update installation instructions to use miniforge installer</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-git-test-data-repositories-to-the-correct-location">Clone git test data repositories to the correct location</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#use-autoescape-true-for-jinja-template">Use autoescape=true for jinja template</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/releases/1.14.4.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

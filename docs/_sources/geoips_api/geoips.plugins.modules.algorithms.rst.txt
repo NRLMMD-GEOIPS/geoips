@@ -14,6 +14,22 @@ Subpackages
 Submodules
 ----------
 
+geoips.plugins.modules.algorithms.RGB\_Default module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.RGB_Default
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.absdiff\_mst module
+-----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.absdiff_mst
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.algorithms.single\_channel module
 --------------------------------------------------------
 

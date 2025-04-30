@@ -1,0 +1,292 @@
+Version 1.15.1 (2025-04-30)
+***************************
+
+ * *Bug fixes*: Update ami test sector and imagery type
+ * *Bug fixes*: Add pip and mamba environment files for 1.15.1 full install env
+ * *Bug fixes*: Create interactive_test.sh integration test script
+ * *Bug fixes*: Default to no automated plugin registry creation.
+ * *Bug fixes*: Replace xarray_datatree with xarray
+ * *Bug fixes*: Numpy 2.0/netcdf 1.7 bug fixes for ami reader, seg faults and dtypes
+ * *Bug fixes*: Numpy 2.0 un-bug fixes for smap reader
+ * *Bug fixes*: Xarray > 2024.3.0 bug fix for scat noaa netcdf reader
+ * *Bug fixes*: Matplotlib 3.10 image updates using interpolation_stage data
+ * *Documentation*: Clean up output checker comparison outputs
+ * *Breaking change*: Turn off matplotlib interpolation, and update all test outputs
+ * *Release process*: Add pip and mamba 1.15.0 public and 1.15.1 full test bug fix env files
+
+Bug fixes
+=========
+
+Update ami test sector and imagery type
+---------------------------------------
+
+To avoid additional issues with matplotlib updates, update the AMI
+test scripts to produce non-annotated imagery, and a small subsector.
+
+::
+
+     modified: tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh, renamed clean
+     modified: tests/scripts/ami.static.Infrared.imagery_annotated.sh, renamed clean
+     modified: tests/scripts/ami.static.Visible.imagery_annotated.sh, renamed clean
+     added: geoips/plugins/yaml/sectors/test/geostationary/geokompsat_subsector.yaml
+     moved:
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
+     ->
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_clean/20241010.000039.GK-2A.ami.absdiff-IR-BD.geokompsat-subsector-27deg.20p50.nmsc.10p0.png
+     moved:
+     tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png
+     ->
+     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat_subsector.100p0.nmsc.10p0.png
+     moved:
+     tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
+     ->
+     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsator.100p0.nmsc.10p0.png
+
+Bug fixes
+=========
+
+Add pip and mamba environment files for 1.15.1 full install env
+---------------------------------------------------------------
+
+Environment files after bug fixing on 1.15.1 for successful full install and test.
+
+::
+
+     added: environments/mamba_full_package_list_1.15.1_20250407.yml
+     added: environments/pip_full_requirements_1.15.1_20250407.txt
+
+Bug fixes
+=========
+
+Create interactive_test.sh integration test script
+--------------------------------------------------
+
+Actual integration tests are now called via pytest with specific markers
+(full and integration for full test, base and integration for base test).
+Create a single "interactive_test" script that can be called with either a
+"full_test" or "base_test" argument that will call the pytest command
+appropriately from the command line, and redirect the output to
+$GEOIPS_OUTDIRS/logs/pytest/full_test or base_test.  This allows easily
+running integration tests from the command line, and tracking the output for
+later perusal.  This may be replaced with pytest arguments in the future for
+storing the full output, but for now just redirect the full output to a log file.
+We will likely want to always maintain an "interactive_test.sh" script that
+calls the pytest-based integration tests appropriately, and tracks the output
+appropriately.
+
+::
+
+     deleted: tests/integration_tests/full_test.sh
+     deleted: tests/integration_tests/base_test.sh
+     added: tests/integration_tests/interactive_test.sh
+
+Bug fixes
+=========
+
+Default to no automated plugin registry creation.
+-------------------------------------------------
+
+Turn off automated plugin registry creation in the setup/config_geoips
+environment.
+
+::
+
+     modified: setup/config_geoips
+
+Bug fixes
+=========
+
+Replace xarray_datatree with xarray
+-----------------------------------
+
+DataTree class has now been integrated with xarray, no longer require separate
+xarray_datatree dependency, and now import DataTree from xarray rather than
+datatree.
+
+::
+
+     modified: geoips/xarray_utils/xr_to_dtree.py
+     modified: pyproject.toml
+
+Bug fixes
+=========
+
+Numpy 2.0/netcdf 1.7 bug fixes for ami reader, seg faults and dtypes
+--------------------------------------------------------------------
+
+Upgrade to numpy 2.0 and netcdf 1.7 requires 3 fixes to AMI reader
+
+1. Ensure all netcdf files are closed to avoid seg fault (open with with)
+2. Cast lons returned from pyresample.utils.wrap_longitudes back to
+   lats.dtype, to ensure lats and lons array dtypes match when passed
+   to SwathDefinition.
+3. Cast number of lines and number of samples returned from netcdf datafile
+   to np.int64, rather than the returned np.int32. np.int32 shape when
+   passed to numpy.memmap caused an overflow (required np.int64)
+
+::
+
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Bug fixes
+=========
+
+Numpy 2.0 un-bug fixes for smap reader
+--------------------------------------
+
+Upgrade to numpy 2.0 originally had a bug causing SMAP reader to fail
+when adding / manipulating masked datetime64 arrays.  We had a hack in
+place that actually did not work anyway, and as of 2.2.4 the datetime64
+bug was resolved in numpy 2.x.
+
+Added a note to pyproject.toml saying numpy 2.x broke masked datetime64
+arrays, and it was fixed by 2.2.4.
+
+::
+
+     modified: geoips/plugins/modules/readers/utils/remss_reader.py
+     modified: pyproject.toml
+
+Bug fixes
+=========
+
+Xarray > 2024.3.0 bug fix for scat noaa netcdf reader
+-----------------------------------------------------
+
+We had a fix in place for the SCAT NOAA NetCDF reader to function with
+xarray < 2022.06 (if xarray has ufuncs, then use it), because xarray
+removed the "ufuncs" method in 2022.06.  That block of code was untested
+for a while, then as of 2025.3.1 ufuncs was back! But there was a
+typo in the fix.  We were only setting xarray["rain_flag"] in the ufuncs
+option for xarray with ufuncs, and not the "rf" variable.  The "rf"
+variable is what was being used downstream for setting ambiguities.
+Set rf = wind_xarray["rain_flag"] in the ufuncs block.
+
+::
+
+     modified: geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+
+Bug fixes
+=========
+
+Matplotlib 3.10 image updates using interpolation_stage data
+------------------------------------------------------------
+
+Minor imagery changes due to matplotlib 3.10 upgrade, with interpolation_stage
+set to "data" for backwards compatibility with matplotlib 3.9 for most output
+images.  Note an additional round of image updates will be required for 3.10
+update with interpolation set to "none", which is going to be our final
+configuration since we do our own interpolation prior to plotting, and matplotlib
+interpolation is unnecessary.
+
+interpolation_stage="data" made most output images match between 3.9 and 3.10,
+but there were still a few that had slight differences.
+
+* windbarb products had very slight differences at the edges of some barbs
+  (maybe 10% of the barbs had differences)
+* AMI unprojected image had edge of scan changes (bright red difference
+  line around the full edge of scan)
+* AMI annotated image had very small differences within the image (a few
+  red pixels in the diff image), and significant differences in the title)
+
+::
+
+     modified:
+     tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean/20210421_014248_WP022021_ascat_metop-c_windbarbs_120kts_78p20_0p5-clean.png
+     modified:
+     tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs/20230722_234513_AL052023_ascatuhr_metop-b_windbarbs_65kts_63p79_1p0.png
+     modified:
+     tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
+     modified:
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
+
+Documentation
+=============
+
+Clean up output checker comparison outputs
+------------------------------------------
+
+* Better highlight where the "source" command is (with stars before and after)
+* Only print basename for COMPARE and PRODUCT (easier to compare to see
+  what the difference is in the old and new filenames).
+* print correct filename for MISSINGPRODUCT (was printing the same for both
+  COMPARE and PRODUCT previously)
+* Now print full path to COMPARE in the informative output above (so we
+  have the full path somewhere), so we can shorten the output where the
+  commands/instructions for updating live.
+
+::
+
+     modified: geoips/interfaces/module_based/output_checkers.py
+
+Breaking change
+===============
+
+Turn off matplotlib interpolation, and update all test outputs
+--------------------------------------------------------------
+
+To avoid additional issues with matplotlib updates, update the AMI
+test scripts to produce non-annotated imagery, and a small subsector.
+
+Need to update docs/auxiliary_files, geoips/tests/test_integration.py,
+and docs/source/concepts/functionality with new test names
+
+::
+
+     modified: geoips/__init__.py
+     modified: docs/auxiliary_files.yaml
+     modified: docs/source/concepts/functionality/examples/integration-tests.rst
+     modified: tests/integration_tests/test_integration.py
+     modified:
+     tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
+     modified:
+     tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+     modified: tests/outputs/ami.tc.WV.geotiff/20231208_030032_SH032024_ami_GK-2A_WV_115kts_100p00_1p0.tif
+     modified:
+     tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+     modified:
+     tests/outputs/amsr2.global_overlay.37pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.37pct.global.10p06.star.20p0.png
+     modified:
+     tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+     modified:
+     tests/outputs/amsr2.global_overlay.89pct.imagery_annotated_over_Visible/20200518.062048.gcom-w1.amsr2.89pct.global.13p55.star.20p0.png
+     modified:
+     tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png
+     modified:
+     tests/outputs/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image/20220211.131810.npp.viirs.Night-Vis-IR-GeoIPS1.self_register.98p45.NASA.3p0.png
+     moved:
+     tests/outputs/abi.static.Visible.imagery_annotated/20200918.195020.goes-16.abi.Visible.goes_east.41p12.noaa.10p0.png
+     ->
+     tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.goes-east-subsector-27deg.100p00.noaa.10p0.png
+     moved:
+     tests/outputs/abi.static.Infrared.imagery_annotated.low_memory/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+
+Release process
+===============
+
+Add pip and mamba 1.15.0 public and 1.15.1 full test bug fix env files
+----------------------------------------------------------------------
+
+Add pip and mamba environment files from the incoming public version,
+and any bug fixes required to get full test to complete successfully with a
+0 return.
+
+2 passed, 2696 deselected in 133.79s (0:02:13)
+geoips     base_test
+return     0
+total time 134
+Wed Apr  2 17:21:55 UTC 2025
+
+57 passed, 3440 deselected in 4938.81s (1:22:18)
+geoips     full_test
+return     0
+total time 4941
+Mon Apr  7 21:04:29 UTC 2025
+
+::
+
+     added: environments/mamba_base_package_list_1.15.0_20250402.yml
+     added: environments/pip_base_requirements_1.15.0_20250402.txt
+     added: environments/mamba_full_package_list_1.15.1_20250407.yml
+     added: environments/pip_full_requirements_1.15.1_20250407.txt

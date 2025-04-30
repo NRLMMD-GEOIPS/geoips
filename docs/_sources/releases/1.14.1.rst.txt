@@ -1,0 +1,36 @@
+Version 1.14.1 (2025-04-30)
+***************************
+
+ * *Documentation*: Update upcoming and tagged versions
+ * *Release process*: Update tagged_version and upcoming_version
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+*From GEOIPS#562: 2024-09-25, 1.14.1 updates*
+
+* Tagged version: 1.14.1
+* Upcoming version: 1.14.2
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Release process
+===============
+
+Update tagged_version and upcoming_version
+------------------------------------------
+
+*From GEOIPS#562: 2024-08-13, 1.13.2 updates*
+
+Currently tagged version 1.14.0, upcoming version 1.14.1.
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version

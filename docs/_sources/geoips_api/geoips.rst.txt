@@ -14,6 +14,7 @@ Subpackages
    geoips.image_utils
    geoips.interfaces
    geoips.plugins
+   geoips.pydantic
    geoips.sector_utils
    geoips.utils
    geoips.xarray_utils
@@ -29,10 +30,10 @@ geoips.cli module
    :undoc-members:
    :show-inheritance:
 
-geoips.compare\_outputs module
-------------------------------
+geoips.create\_plugin\_registries module
+----------------------------------------
 
-.. automodule:: geoips.compare_outputs
+.. automodule:: geoips.create_plugin_registries
    :members:
    :undoc-members:
    :show-inheritance:
@@ -49,6 +50,14 @@ geoips.geoips\_utils module
 ---------------------------
 
 .. automodule:: geoips.geoips_utils
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugin\_registry module
+------------------------------
+
+.. automodule:: geoips.plugin_registry
    :members:
    :undoc-members:
    :show-inheritance:

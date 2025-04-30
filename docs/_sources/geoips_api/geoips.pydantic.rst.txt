@@ -1,0 +1,45 @@
+geoips.pydantic package
+=======================
+
+Submodules
+----------
+
+geoips.pydantic.bases module
+----------------------------
+
+.. automodule:: geoips.pydantic.bases
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic.feature\_annotators module
+------------------------------------------
+
+.. automodule:: geoips.pydantic.feature_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic.sectors module
+------------------------------
+
+.. automodule:: geoips.pydantic.sectors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic.workflows module
+--------------------------------
+
+.. automodule:: geoips.pydantic.workflows
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.pydantic
+   :members:
+   :undoc-members:
+   :show-inheritance:

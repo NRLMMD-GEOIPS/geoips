@@ -1,0 +1,1442 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.create_plugin_registries &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/create_plugin_registries';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.create_plugin_registries</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.create_plugin_registries</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;Generates all available plugins from all installed GeoIPS packages.</span>
+
+<span class="sd">After all plugins have been generated, they are written to a registered_plugins.json</span>
+<span class="sd">file which contains a dictionary of all the registered GeoIPS plugins across</span>
+<span class="sd">all plugin repositories.</span>
+
+<span class="sd">Call &#39;python create_plugin_registry.py&#39; to produce registered_plugins.json for</span>
+<span class="sd">EVERY currently installed plugin package. A separate registered_plugins.json is</span>
+<span class="sd">created at the top level package directory for each plugin package.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">signature</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">basename</span><span class="p">,</span>
+    <span class="n">dirname</span><span class="p">,</span>
+    <span class="n">split</span><span class="p">,</span>
+    <span class="n">splitext</span><span class="p">,</span>
+    <span class="n">exists</span><span class="p">,</span>
+    <span class="n">join</span> <span class="k">as</span> <span class="n">osjoin</span><span class="p">,</span>
+    <span class="n">relpath</span> <span class="k">as</span> <span class="n">osrelpath</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">remove</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.log_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">geoips.interfaces</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistryError</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">argparse</span><span class="w"> </span><span class="kn">import</span> <span class="n">ArgumentParser</span>
+
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="format_docstring"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.format_docstring">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">format_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">,</span> <span class="n">use_regex</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Format the provided docstring placement in the plugin registry.</span>
+
+<span class="sd">    Found when using the CLI and inspecting the registry, some docstrings are formatted</span>
+<span class="sd">    in a hard to read manner and look pretty bad. This function will format these</span>
+<span class="sd">    docstrings to be easily readable, whether obtained via the CLI or manually inspected</span>
+<span class="sd">    in the plugin registry.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    docstring: str</span>
+<span class="sd">        - The docstring which we are going to format.</span>
+<span class="sd">    use_regex: bool, optional (default=False)</span>
+<span class="sd">        - Whether or not we want to apply regex formatting to the docstring. Usually</span>
+<span class="sd">          recommended as it will replace &#39;newline&#39; chars but not purposeful</span>
+<span class="sd">          &#39;.newline&#39; strings.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">docstring</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">use_regex</span><span class="p">:</span>
+            <span class="c1"># Regex pattern for subbing out &quot;\n&quot; but not &quot;.\n&quot;</span>
+            <span class="n">pattern</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;(?&lt;!\.)\n&quot;</span>
+            <span class="n">docstring</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span>
+                <span class="n">pattern</span><span class="p">,</span>
+                <span class="s2">&quot; &quot;</span><span class="p">,</span>
+                <span class="n">docstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">docstring</span> <span class="o">=</span> <span class="n">docstring</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">docstring</span></div>
+
+
+<div class="viewcode-block" id="remove_registries"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.remove_registries">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove all plugin registries if a PluginRegistryError is raised.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    plugin_packages: list EntryPoints</span>
+<span class="sd">        A list of EntryPoints pointing to each installed</span>
+<span class="sd">        GeoIPS package --&gt; ie.</span>
+<span class="sd">        [EntryPoint(name=&#39;geoips&#39;, value=&#39;geoips&#39;, group=&#39;geoips.plugin_packages&#39;), ...]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Remove registries is called whenever an improperly formatted plugin or</span>
+    <span class="c1"># package is encountered.  This is not called until all errors have been</span>
+    <span class="c1"># collected and reported, to facilitate rapidly identifying and resolving</span>
+    <span class="c1"># errors.</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+        <span class="s2">&quot;</span><span class="se">\n\n\n\n</span><span class="s2">ERROR: Removing registries due to improperly formatted plugins.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;You must fix the error(s) shown below before GeoIPS can operate correctly.</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="s2">&quot;Once fixed, please run &#39;create_plugin_registries&#39; to set up GeoIPS &quot;</span>
+        <span class="s2">&quot;appropriately</span><span class="se">\n\n\n</span><span class="s2">&quot;</span>
+    <span class="p">)</span>
+    <span class="c1"># Remove registered_plugins.yaml and registered_plugins.json if they exist</span>
+    <span class="c1"># for each plugin package.</span>
+    <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
+        <span class="n">yaml_plug_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
+        <span class="n">json_plug_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">yaml_plug_path</span><span class="p">):</span>
+            <span class="n">remove</span><span class="p">(</span><span class="n">yaml_plug_path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">json_plug_path</span><span class="p">):</span>
+            <span class="n">remove</span><span class="p">(</span><span class="n">json_plug_path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="registry_sanity_check"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.registry_sanity_check">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">registry_sanity_check</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check that each plugin package registry has no duplicate lowest depth entries.</span>
+
+<span class="sd">    If it does, raise a `PluginRegistryError` for that specific package, then remove all</span>
+<span class="sd">    plugin registries from each package so the user must fix the error before</span>
+<span class="sd">    continuing. While this doesn&#39;t cause a normal error, duplicate plugins will be</span>
+<span class="sd">    overwritten by same-named plugin found in the last package-entrypoint.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    plugin_packages: list EntryPoints</span>
+<span class="sd">        A list of EntryPoints pointing to each installed</span>
+<span class="sd">        GeoIPS package --&gt; ie.</span>
+<span class="sd">        `[EntryPoint(name=&#39;geoips&#39;, value=&#39;geoips&#39;, group=&#39;geoips.plugin_packages&#39;)]`</span>
+<span class="sd">    save_type: str</span>
+<span class="sd">        The file format to save to `[json, yaml]`</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    No returns</span>
+
+<span class="sd">    Exceptions</span>
+<span class="sd">    ----------</span>
+<span class="sd">    PluginRegistryError</span>
+<span class="sd">        If `error_message` has contents, then raise PluginRegistryError(error_message).</span>
+<span class="sd">        The `error_message` string will collect and report on all errors within</span>
+<span class="sd">        this function prior to raising the `PluginRegistryError` to facilitate rapidly</span>
+<span class="sd">        identifying and resolving errors throughout all plugin packages.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># comp_pkg is the package being compared against. This package is compared</span>
+    <span class="c1"># against every other available GeoIPS package that is installed.</span>
+    <span class="k">for</span> <span class="n">comp_idx</span><span class="p">,</span> <span class="n">comp_pkg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">):</span>
+        <span class="c1"># yaml output is used primarily for testing purposes (since it is more human</span>
+        <span class="c1"># readable than json), and json output is used for processing. Ensure we</span>
+        <span class="c1"># can load either option.</span>
+        <span class="k">if</span> <span class="n">save_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
+            <span class="n">comp_registry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span>
+                <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># json.load is much faster than yaml.safe_load</span>
+            <span class="n">comp_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="p">)</span>
+        <span class="k">for</span> <span class="n">pkg_idx</span><span class="p">,</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">):</span>
+            <span class="c1"># pkg is the package being compared against comp_pkg. For example, if</span>
+            <span class="c1"># comp_pkg was &#39;geoips&#39;, then it would compare against recenter_tc,</span>
+            <span class="c1"># data_fusion, template_basic_plugin, etc.</span>
+
+            <span class="c1"># The if statement below checks the index of pkg_idx and comp_idx.</span>
+            <span class="c1"># If pkg_idk &lt;= comp_idx, that means it&#39;s either the same package as</span>
+            <span class="c1"># comp_pkg, or that the comparison has already been performed.</span>
+            <span class="k">if</span> <span class="n">pkg_idx</span> <span class="o">&lt;=</span> <span class="n">comp_idx</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="c1"># Track sets of plugins by plugin type</span>
+            <span class="c1"># (schemas, yaml_based, and module_based)</span>
+            <span class="k">if</span> <span class="n">save_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
+                <span class="n">pkg_registry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span>
+                    <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pkg_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+                    <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">for</span> <span class="n">plugin_type</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">pkg_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="c1"># check the pkg&#39;s registry for both yaml-based and module-based plugins</span>
+                <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">comp_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">]:</span>
+                    <span class="c1"># check each interface of comp_pkg</span>
+                    <span class="c1"># for each type of plugin (yaml/module)-based</span>
+                    <span class="k">if</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">pkg_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">]:</span>
+                        <span class="c1"># if this interface is also in the pkg_registry, then get the</span>
+                        <span class="c1"># dictionary of comp_plugins for that interface</span>
+                        <span class="n">comp_plugins</span> <span class="o">=</span> <span class="n">comp_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">][</span><span class="n">interface</span><span class="p">]</span>
+                        <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">comp_plugins</span><span class="p">:</span>
+                            <span class="c1"># for each plugin in comp_plugins dict</span>
+                            <span class="k">if</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">pkg_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">][</span><span class="n">interface</span><span class="p">]:</span>
+                                <span class="c1"># if this plugin is also in the pkg_registry&#39;s</span>
+                                <span class="c1"># corresponding interface, then retrieve that plugin</span>
+                                <span class="n">pkg_plugin</span> <span class="o">=</span> <span class="n">pkg_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span>
+                                    <span class="n">plugin</span>
+                                <span class="p">]</span>
+                                <span class="n">comp_plugin</span> <span class="o">=</span> <span class="n">comp_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">][</span><span class="n">interface</span><span class="p">][</span>
+                                    <span class="n">plugin</span>
+                                <span class="p">]</span>
+                                <span class="k">if</span> <span class="s2">&quot;relpath&quot;</span> <span class="ow">in</span> <span class="n">pkg_plugin</span><span class="p">:</span>
+                                    <span class="c1"># If &#39;relpath&#39; is found in the plugin, raise a</span>
+                                    <span class="c1"># PluginRegistryError, and remove the registries.</span>
+                                    <span class="c1"># We do this because &#39;family&#39;  is a top level</span>
+                                    <span class="c1"># attribute on all plugins, and means you&#39;re at</span>
+                                    <span class="c1"># the lowest depth of the Plugin entry, meaning</span>
+                                    <span class="c1"># there are two Plugins with Duplicate Names.</span>
+                                    <span class="n">error_message</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;Error with packages [</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">]:</span>
+<span class="s2">                                        You can&#39;t have two Plugins of the same</span>
+<span class="s2">                                        interface [</span><span class="si">{}</span><span class="s2">] with the same</span>
+<span class="s2">                                        plugin name [</span><span class="si">{}</span><span class="s2">]</span>
+<span class="s2">                                        pkg relpath: </span><span class="si">{}</span>
+<span class="s2">                                        comp relpath: </span><span class="si">{}</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                        <span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                        <span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                        <span class="n">interface</span><span class="p">,</span>
+                                        <span class="n">plugin</span><span class="p">,</span>
+                                        <span class="n">pkg_plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">],</span>
+                                        <span class="n">comp_plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">],</span>
+                                    <span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="c1"># If the statement above is false,</span>
+                                    <span class="c1"># that means the plugin</span>
+                                    <span class="c1"># we are dealing with is &#39;Product&#39;-based.</span>
+                                    <span class="c1"># This means there are subplugins that we</span>
+                                    <span class="c1"># need to check against their defind</span>
+                                    <span class="c1"># source names. Grab the comparsion</span>
+                                    <span class="c1"># Product Plugin.</span>
+                                    <span class="k">for</span> <span class="n">sub_plg</span> <span class="ow">in</span> <span class="n">comp_plugin</span><span class="p">:</span>
+                                        <span class="c1"># Loop through each sub-plugin of the</span>
+                                        <span class="c1"># comparison product plugin.</span>
+                                        <span class="k">if</span> <span class="n">sub_plg</span> <span class="ow">in</span> <span class="n">pkg_plugin</span><span class="p">:</span>
+                                            <span class="c1"># If this sub-plugin is also in</span>
+                                            <span class="c1"># the package Product plugin,</span>
+                                            <span class="c1"># raise a PluginRegistryError</span>
+                                            <span class="c1"># and remove the registries.</span>
+                                            <span class="n">pkg_relpath</span> <span class="o">=</span> <span class="s2">&quot;not defined&quot;</span>
+                                            <span class="k">if</span> <span class="s2">&quot;relpath&quot;</span> <span class="ow">in</span> <span class="n">pkg_plugin</span><span class="p">:</span>
+                                                <span class="n">pkg_relpath</span> <span class="o">=</span> <span class="n">pkg_plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span>
+                                            <span class="n">subplg_relpath</span> <span class="o">=</span> <span class="s2">&quot;not defined&quot;</span>
+                                            <span class="k">if</span> <span class="s2">&quot;relpath&quot;</span> <span class="ow">in</span> <span class="n">sub_plg</span><span class="p">:</span>
+                                                <span class="n">subplg_relpath</span> <span class="o">=</span> <span class="n">sub_plg</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span>
+                                            <span class="n">error_message</span> <span class="o">+=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                                                Error with packages:</span>
+<span class="s2">                                                [</span><span class="si">{}</span><span class="s2">, </span><span class="si">{}</span><span class="s2">]:</span>
+<span class="s2">                                                You can&#39;t have two products of the same</span>
+<span class="s2">                                                interface [</span><span class="si">{}</span><span class="s2">] with the same</span>
+<span class="s2">                                                plugin name [</span><span class="si">{}</span><span class="s2">] found under</span>
+<span class="s2">                                                subplg name [</span><span class="si">{}</span><span class="s2">]</span>
+<span class="s2">                                                relpath: </span><span class="si">{}</span>
+<span class="s2">                                                subplg relpath: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                                                <span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                                <span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
+                                                <span class="n">interface</span><span class="p">,</span>
+                                                <span class="n">sub_plg</span><span class="p">,</span>
+                                                <span class="n">plugin</span><span class="p">,</span>
+                                                <span class="n">pkg_relpath</span><span class="p">,</span>
+                                                <span class="n">subplg_relpath</span><span class="p">,</span>
+                                            <span class="p">)</span>
+    <span class="k">if</span> <span class="n">error_message</span><span class="p">:</span>
+        <span class="n">remove_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_plugin_exists"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.check_plugin_exists">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_plugin_exists</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">,</span> <span class="n">plugin_name</span><span class="p">,</span> <span class="n">relpath</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if plugin already exists. If it does raise a `PluginRegistryError`.</span>
+
+<span class="sd">    Note this only checks for duplicate plugins within a single plugin package.</span>
+<span class="sd">    The `registry_sanity_check` function is used after all plugins have been</span>
+<span class="sd">    loaded to identify duplicate plugins across different plugin packages.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    package: str</span>
+<span class="sd">        The GeoIPS package being tested against</span>
+<span class="sd">    plugins: dict</span>
+<span class="sd">        A dictionary object of all installed GeoIPS plugins in the current</span>
+<span class="sd">        plugin package.</span>
+<span class="sd">    interface_name: str</span>
+<span class="sd">        A string representing the GeoIPS interface being checked against</span>
+<span class="sd">    plugin_name: str</span>
+<span class="sd">        A string representing the name of the plugin within the GeoIPS interface</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    error_message : str</span>
+<span class="sd">        Empty string if no error, appropriate informative error message if</span>
+<span class="sd">        duplicate plugin found in current plugin package.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Check if the passed in plugin_name is already in the current plugin</span>
+    <span class="c1"># package dictionary for this interface.</span>
+    <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">Error in package [</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">]:</span>
+<span class="s2">            You can not have two Plugins of the same</span>
+<span class="s2">            interface [</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">] with the same</span>
+<span class="s2">            name [</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">] found at</span>
+<span class="s2">            relpath [</span><span class="si">{</span><span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">plugin_name</span><span class="p">][</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">] and</span>
+<span class="s2">            relpath [</span><span class="si">{</span><span class="n">relpath</span><span class="si">}</span><span class="s2">]</span>
+<span class="s2">            &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="write_registered_plugins"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.write_registered_plugins">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">write_registered_plugins</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">save_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Write dictionary of all plugins available from installed GeoIPS packages.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pkg_dir: str</span>
+<span class="sd">        Path in which to write registered_plugins</span>
+<span class="sd">    plugins: dict</span>
+<span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+<span class="sd">    save_type: str</span>
+<span class="sd">        The file format to save to [json, yaml]</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    No returns, file written to `pkg_dir`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">save_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
+        <span class="n">reg_plug_abspath</span> <span class="o">=</span> <span class="n">osjoin</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reg_plug_abspath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">plugin_registry</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reg_plug_abspath</span><span class="p">)</span>
+            <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="n">plugin_registry</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">reg_plug_abspath</span> <span class="o">=</span> <span class="n">osjoin</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reg_plug_abspath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">plugin_registry</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reg_plug_abspath</span><span class="p">)</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="n">plugin_registry</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_plugin_registries"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.create_plugin_registries">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_plugin_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all plugin paths associated with every installed GeoIPS packages.</span>
+
+<span class="sd">    These paths include schema plugins, module_based plugins</span>
+<span class="sd">    and normal YAML plugins. After these paths are generated, they are sent</span>
+<span class="sd">    to parse_plugin_paths, which generates and adds the actual plugins to the</span>
+<span class="sd">    plugins dictionary.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    plugin_packages: list EntryPoints</span>
+<span class="sd">        A list of EntryPoints pointing to each installed</span>
+<span class="sd">        GeoIPS package --&gt; ie.</span>
+<span class="sd">        [EntryPoint(name=&#39;geoips&#39;, value=&#39;geoips&#39;, group=&#39;geoips.plugin_packages&#39;), ...]</span>
+<span class="sd">    save_type: str</span>
+<span class="sd">        The file format to save to [json, yaml]</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># It appears when there is *.egg-info directory, it picks that package up</span>
+    <span class="c1"># twice in the list.  If the same package path exists twice, only keep one</span>
+    <span class="c1"># of them.  This appears to be a bug with Python 3.9 entry points.</span>
+    <span class="n">pkg_dirs</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">unique_package_entry_points</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Note we only use ep.value (resources.files finds the actual plugins),</span>
+    <span class="c1"># so we do not need to worry about saving the &quot;wrong&quot; package here.</span>
+    <span class="c1"># We are actually looping through all the files in each package, so</span>
+    <span class="c1"># we do not have an entry point for every plugin, just a single entry</span>
+    <span class="c1"># point for each plugin packge.</span>
+    <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
+        <span class="n">pkg_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">pkg_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pkg_dirs</span><span class="p">:</span>
+            <span class="n">pkg_dirs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">pkg_dir</span><span class="p">]</span>
+            <span class="c1"># Grab the unique package entry points.</span>
+            <span class="n">unique_package_entry_points</span> <span class="o">+=</span> <span class="p">[</span><span class="n">ep</span><span class="p">]</span>
+
+    <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># Loop through only the unique package entry points to avoid duplicate</span>
+    <span class="c1"># plugin errors.</span>
+    <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">unique_package_entry_points</span><span class="p">:</span>
+        <span class="c1"># This is passed by reference and populated with each call to parse</span>
+        <span class="c1"># plugin packages.</span>
+        <span class="n">plugins</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="c1"># &quot;schemas&quot;: {},</span>
+            <span class="s2">&quot;text_based&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;yaml_based&quot;</span><span class="p">:</span> <span class="p">{},</span>
+            <span class="s2">&quot;module_based&quot;</span><span class="p">:</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="c1"># Track sets of plugins by plugin type</span>
+        <span class="c1"># (schemas, yaml_based, and module_based)</span>
+        <span class="n">package</span> <span class="o">=</span> <span class="n">pkg</span><span class="o">.</span><span class="n">value</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;package == &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">package</span><span class="p">))</span>
+        <span class="c1"># We are specifically looping through all files in the ``plugins``</span>
+        <span class="c1"># directory within the plugin package. Potentially we may want</span>
+        <span class="c1"># to update this in the future to actually include package_plugins</span>
+        <span class="c1"># and package_schema entry points, and point the pyproject.toml</span>
+        <span class="c1"># package_plugins entry point directly to the appropriate directory</span>
+        <span class="c1"># that holds all plugins, and the package_schema entry point directly</span>
+        <span class="c1"># to the directory that holds all scheam, so the subdirectories are</span>
+        <span class="c1"># not hard coded here in the create_plugin_registries code.</span>
+        <span class="n">pkg_plugin_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;plugins&quot;</span>
+        <span class="n">pkg_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package</span><span class="p">))</span>
+        <span class="c1"># Grab all YAML, Python, and txt files within the plugins directory.</span>
+        <span class="c1"># YAML schema files may be supported in the future.</span>
+        <span class="n">yaml_files</span> <span class="o">=</span> <span class="n">pkg_plugin_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.yaml&quot;</span><span class="p">)</span>
+        <span class="n">python_files</span> <span class="o">=</span> <span class="n">pkg_plugin_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.py&quot;</span><span class="p">)</span>
+        <span class="n">text_files</span> <span class="o">=</span> <span class="n">pkg_plugin_path</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;*.txt&quot;</span><span class="p">)</span>
+        <span class="c1"># Potentially support installing schema into the geoips name space</span>
+        <span class="c1"># using entry points as well.  Currently unsupported, but this would</span>
+        <span class="c1"># allow specifying different YAML plugin schema in different</span>
+        <span class="c1"># repositories.  Currently all supported YAML plugin formats must be</span>
+        <span class="c1"># specified in the main geoips repo.</span>
+        <span class="c1"># schema_yaml_path = resources.files(package) / &quot;schema&quot;</span>
+        <span class="c1"># schema_yamls = schema_yaml_path.rglob(&quot;*.yaml&quot;)</span>
+        <span class="c1"># plugin_paths dictionary contains lists of files for each plugin</span>
+        <span class="c1"># type (ie, yaml based, text based, and module based plugins, and</span>
+        <span class="c1"># in the future potentially schema)</span>
+        <span class="n">plugin_paths</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;yamls&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">yaml_files</span><span class="p">),</span>
+            <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text_files</span><span class="p">,</span>
+            <span class="c1"># &quot;schemas&quot;: schema_yamls,</span>
+            <span class="s2">&quot;pyfiles&quot;</span><span class="p">:</span> <span class="n">python_files</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># `plugins` is passed by reference and populated with all YAML, text, and</span>
+        <span class="c1"># python plugins found within the current plugin package `package`.</span>
+        <span class="c1"># This dictionary is formatted appropriately to be written out to the</span>
+        <span class="c1"># plugin registry file as either a json or YAML output.</span>
+        <span class="c1"># If any errors are found, append the error message string to the current</span>
+        <span class="c1"># error_message.  Do not raise an exception until all plugins have been</span>
+        <span class="c1"># read in, so we can collect and report on all errors at once.</span>
+        <span class="n">error_message</span> <span class="o">+=</span> <span class="n">parse_plugin_paths</span><span class="p">(</span><span class="n">plugin_paths</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">pkg_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Available Plugin Types:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Available YAML Plugin Interfaces:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+            <span class="s2">&quot;Available Module Plugin Interfaces:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;module_based&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+        <span class="p">)</span>
+        <span class="c1"># Write the current plugin dictionary to the registered plugins file.</span>
+        <span class="n">write_registered_plugins</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">save_type</span><span class="p">)</span>
+    <span class="c1"># If error_message is not the empty string, that means we had some errors,</span>
+    <span class="c1"># so handle appropriately.</span>
+    <span class="k">if</span> <span class="n">error_message</span><span class="p">:</span>
+        <span class="c1"># Remove all registries to prevent running geoips with an incomplete</span>
+        <span class="c1"># or corrupt set of plugins.  Force user to resolve errors before</span>
+        <span class="c1"># proceeding.</span>
+        <span class="n">remove_registries</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">))</span>
+        <span class="c1"># Now raise the error, including the error message with output</span>
+        <span class="c1"># from every failed plugin/file during the attempted registry process.</span>
+        <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
+    <span class="c1"># Above error only occurs for duplicates within a single registry.</span>
+    <span class="c1"># registry_sanity_check will check for duplicates across all</span>
+    <span class="c1"># registries.</span>
+    <span class="n">registry_sanity_check</span><span class="p">(</span><span class="n">unique_package_entry_points</span><span class="p">,</span> <span class="n">save_type</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="parse_plugin_paths"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.parse_plugin_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parse_plugin_paths</span><span class="p">(</span><span class="n">plugin_paths</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the plugin_paths provided from the current installed GeoIPS package.</span>
+
+<span class="sd">    Then, add them to the plugins dictionary based on the path of the plugin.</span>
+<span class="sd">    The path contains information as to whether the plugin is a schema, module_based,</span>
+<span class="sd">    or a normal yaml plugin.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    plugin_paths: dict</span>
+<span class="sd">        A dictionary of filepaths, with keys referring to the type of plugin</span>
+<span class="sd">    package: str</span>
+<span class="sd">        The current GeoIPS package being parsed</span>
+<span class="sd">    package_dir: str</span>
+<span class="sd">        The path to the current GeoIPS package (for determining relative paths)</span>
+<span class="sd">    plugins: dict</span>
+<span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    error_message: str</span>
+<span class="sd">        String containing informative error messages from any plugins that</span>
+<span class="sd">        were improperly formatted.  An exception will be raised at the</span>
+<span class="sd">        very end if error_message is not the empty string - this allows</span>
+<span class="sd">        collecting ALL errors throughout the plugin registry process and</span>
+<span class="sd">        reporting them all at once, to facilitate rapidly identifying and</span>
+<span class="sd">        resolving errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="c1"># Loop through each plugin type, ie, text, yaml, module, and later schema.</span>
+    <span class="k">for</span> <span class="n">plugin_type</span> <span class="ow">in</span> <span class="n">plugin_paths</span><span class="p">:</span>
+        <span class="c1"># Loop through each file of the current plugin type.</span>
+        <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">plugin_paths</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">]:</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
+            <span class="c1"># Path relative to the package directory</span>
+            <span class="n">relpath</span> <span class="o">=</span> <span class="n">osrelpath</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">package_dir</span><span class="p">)</span>
+            <span class="c1"># plugins is passed by reference, so any new plugins found</span>
+            <span class="c1"># are added to the plugins dictionary and retained throughout.</span>
+            <span class="k">if</span> <span class="n">plugin_type</span> <span class="o">==</span> <span class="s2">&quot;yamls&quot;</span><span class="p">:</span>  <span class="c1"># yaml based plugins</span>
+                <span class="n">error_message</span> <span class="o">+=</span> <span class="n">add_yaml_plugin</span><span class="p">(</span>
+                    <span class="n">filepath</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="c1"># Ensure we append any errors to the error_message as we go.</span>
+            <span class="c1"># Exception will not be raised until the very end, when we</span>
+            <span class="c1"># have collected ALL errors.  This makes it easier to fix</span>
+            <span class="c1"># all the errors at once.</span>
+            <span class="k">elif</span> <span class="n">plugin_type</span> <span class="o">==</span> <span class="s2">&quot;text&quot;</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">+=</span> <span class="n">add_text_plugin</span><span class="p">(</span>
+                    <span class="n">package</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;text_based&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="c1"># Potentially support schema in the future.</span>
+            <span class="c1"># elif plugin_type == &quot;schemas&quot;:  # schema based yamls</span>
+            <span class="c1">#     add_schema_plugin(</span>
+            <span class="c1">#         filepath, abspath, relpath, package, plugins[&quot;schemas&quot;]</span>
+            <span class="c1">#     )</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># module based plugins</span>
+                <span class="n">error_message</span> <span class="o">+=</span> <span class="n">add_module_plugin</span><span class="p">(</span>
+                    <span class="n">package</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;module_based&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+    <span class="c1"># Ensure we return a string error_message with ALL errors appended.</span>
+    <span class="c1"># This will be raised at the end if error_message has any contents.</span>
+    <span class="k">return</span> <span class="n">error_message</span></div>
+
+
+<div class="viewcode-block" id="add_yaml_plugin"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.add_yaml_plugin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_yaml_plugin</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add the yaml plugin associated with the filepaths and package to plugins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filepath: str</span>
+<span class="sd">        The path of the plugin derived from resouces.files(package) / plugin</span>
+<span class="sd">    relpath: str</span>
+<span class="sd">        The relative path to the filepath provided</span>
+<span class="sd">    package: str</span>
+<span class="sd">        The current GeoIPS package being parsed</span>
+<span class="sd">    plugins: dict</span>
+<span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    error_message: str</span>
+<span class="sd">        String containing informative error messages from any plugins that</span>
+<span class="sd">        were improperly formatted.  An exception will be raised at the</span>
+<span class="sd">        very end if error_message is not the empty string - this allows</span>
+<span class="sd">        collecting ALL errors throughout the plugin registry process and</span>
+<span class="sd">        reporting them all at once, to facilitate rapidly identifying and</span>
+<span class="sd">        resolving errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">SafeLoader</span><span class="p">):</span>
+        <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">relpath</span>
+        <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">package</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">interface_name</span> <span class="o">=</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;&quot;&quot;No &#39;interface&#39; level in &#39;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&#39;.</span>
+<span class="s2">                    Ensure all required metadata is included.&quot;&quot;&quot;</span>
+            <span class="p">)</span>
+        <span class="n">interface_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">interface_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="c1"># If the current family is &quot;list&quot;, make sure we loop through the list,</span>
+        <span class="c1"># expanding out each individual product found within the list.</span>
+        <span class="k">if</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;list&quot;</span><span class="p">:</span>
+            <span class="c1"># These are not complete plugins at this stage, only the metadata,</span>
+            <span class="c1"># so do not validate the plugins here, they will be validated on open.</span>
+
+            <span class="c1"># plugin_yaml_to_obj returns the actual plugin object, ie, ProductsPlugin,</span>
+            <span class="c1"># or SectorsPlugin, etc.</span>
+            <span class="n">plg_list</span> <span class="o">=</span> <span class="n">interface_module</span><span class="o">.</span><span class="n">_plugin_yaml_to_obj</span><span class="p">(</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">plugin</span><span class="p">)</span>
+
+            <span class="c1"># plg_list is an e.g. ProductsPlugin object of family list,</span>
+            <span class="c1"># so within its e.g. plg_list[&quot;spec&quot;][&quot;products&quot;] key, we will</span>
+            <span class="c1"># find a list of all products contained within this single</span>
+            <span class="c1"># plugin file.</span>
+            <span class="k">for</span> <span class="n">yaml_subplg</span> <span class="ow">in</span> <span class="n">plg_list</span><span class="p">[</span><span class="s2">&quot;spec&quot;</span><span class="p">][</span><span class="n">interface_module</span><span class="o">.</span><span class="n">name</span><span class="p">]:</span>
+                <span class="c1"># _create_registered_plugin_names will return a list of names</span>
+                <span class="c1"># found in this single product specification.  Most interfaces</span>
+                <span class="c1"># this will just return a list of length one, containing</span>
+                <span class="c1"># [plugin.name], but for products it will return a list of</span>
+                <span class="c1"># tuples of (source_name, product_name), allowing specifying</span>
+                <span class="c1"># a list of valid sources within each product spec.</span>
+                <span class="n">subplg_names</span> <span class="o">=</span> <span class="n">interface_module</span><span class="o">.</span><span class="n">_create_registered_plugin_names</span><span class="p">(</span>
+                    <span class="n">yaml_subplg</span>
+                <span class="p">)</span>
+                <span class="c1"># Loop through each of the returned registered plugin names.</span>
+                <span class="c1"># Give each one its own entry in the plugin registry for easy</span>
+                <span class="c1"># access.</span>
+                <span class="k">for</span> <span class="n">subplg_name</span> <span class="ow">in</span> <span class="n">subplg_names</span><span class="p">:</span>
+                    <span class="n">subplg_source</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">subplg_name</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+                    <span class="n">subplg_product</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">subplg_name</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">subplg_source</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">]:</span>
+                        <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">subplg_source</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                    <span class="c1"># since we are dealing with sub-plugins of a product plugin,</span>
+                    <span class="c1"># include a couple other pieces of information, such as</span>
+                    <span class="c1"># product_defaults and source_names.</span>
+                    <span class="n">source_names</span> <span class="o">=</span> <span class="n">yaml_subplg</span><span class="p">[</span><span class="s2">&quot;source_names&quot;</span><span class="p">]</span>
+                    <span class="n">pd</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="s2">&quot;product_defaults&quot;</span> <span class="ow">in</span> <span class="n">yaml_subplg</span><span class="p">:</span>
+                        <span class="n">pd</span> <span class="o">=</span> <span class="n">yaml_subplg</span><span class="p">[</span><span class="s2">&quot;product_defaults&quot;</span><span class="p">]</span>
+                    <span class="n">family</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="s2">&quot;family&quot;</span> <span class="ow">in</span> <span class="n">yaml_subplg</span><span class="p">:</span>
+                        <span class="n">family</span> <span class="o">=</span> <span class="n">yaml_subplg</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">]</span>
+                    <span class="n">docstring</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="s2">&quot;docstring&quot;</span> <span class="ow">in</span> <span class="n">yaml_subplg</span><span class="p">:</span>
+                        <span class="n">docstring</span> <span class="o">=</span> <span class="n">yaml_subplg</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]</span>
+                    <span class="c1"># If docstring or family are not specified, and a</span>
+                    <span class="c1"># product_defaults isn&#39;t specified, raise an error</span>
+                    <span class="c1"># (docstring and family must be defined in a</span>
+                    <span class="c1"># product_defaults if not defined explicitly).</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="n">docstring</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">family</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">pd</span><span class="p">:</span>
+                        <span class="n">error_message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                        Error with package &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;:</span>
+<span class="s2">                            docstring or family not defined in product,</span>
+<span class="s2">                            and product_defaults not specified.</span>
+<span class="s2">                            Must specify docstring and family in either product</span>
+<span class="s2">                            or product_defaults.</span>
+<span class="s2">                            interface &#39;</span><span class="si">{</span><span class="n">interface_module</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                            plugin name &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                            pkg relpath: &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+                        <span class="k">continue</span>
+
+                    <span class="c1"># I think filling in the nulls should be handled at the CLI</span>
+                    <span class="c1"># and/or interface level, so leave family/docstring as None</span>
+                    <span class="c1"># in the registry.</span>
+                    <span class="c1"># There is no way to guarantee the product_defaults are</span>
+                    <span class="c1"># available in the same plugin package as the current plugin,</span>
+                    <span class="c1"># so pulling the family and docstring from the product defaults</span>
+                    <span class="c1"># when creating the registry will not always work.</span>
+                    <span class="c1"># If we are concerned about efficiency with opening product and</span>
+                    <span class="c1"># product_defaults with every plugin access, we could do a</span>
+                    <span class="c1"># second pass in the plugin registry creation to fill in the</span>
+                    <span class="c1"># nulls (but we will not worry about that yet)</span>
+                    <span class="c1"># if not docstring or not family:</span>
+                    <span class="c1">#     # if the yaml_subplg doesn&#39;t include a docstring, grab its</span>
+                    <span class="c1">#     # product_defaults docstring</span>
+                    <span class="c1">#     if (</span>
+                    <span class="c1">#         &quot;product_defaults&quot; not in plugins</span>
+                    <span class="c1">#         or pd not in plugins[&quot;product_defaults&quot;]</span>
+                    <span class="c1">#     ):</span>
+                    <span class="c1">#         LOG.error(</span>
+                    <span class="c1">#             f&quot;&quot;&quot;Product defaults &#39;{pd}&#39; does not exist.</span>
+                    <span class="c1">#                   Using &#39;undefined&#39; docstring.</span>
+                    <span class="c1">#                   Need to figure out how to pull product defaults</span>
+                    <span class="c1">#                   from a different plugin package at some point.&quot;&quot;&quot;  # NOQA</span>
+                    <span class="c1">#         )</span>
+                    <span class="c1">#     else:</span>
+                    <span class="c1">#         if not docstring:</span>
+                    <span class="c1">#             docstring = plugins[&quot;product_defaults&quot;][pd][&quot;docstring&quot;]  # NOQA</span>
+                    <span class="c1">#         if not family:</span>
+                    <span class="c1">#             family = plugins[&quot;product_defaults&quot;][pd][&quot;family&quot;]</span>
+                    <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">subplg_source</span><span class="p">][</span><span class="n">subplg_product</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                        <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">),</span>
+                        <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">family</span><span class="p">,</span>
+                        <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">interface_module</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">],</span>
+                        <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;yaml_based&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;product_defaults&quot;</span><span class="p">:</span> <span class="n">pd</span><span class="p">,</span>
+                        <span class="s2">&quot;source_names&quot;</span><span class="p">:</span> <span class="n">source_names</span><span class="p">,</span>
+                        <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">],</span>
+                    <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">error_message</span> <span class="o">+=</span> <span class="n">check_plugin_exists</span><span class="p">(</span>
+                <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">,</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">relpath</span>
+            <span class="p">)</span>
+
+            <span class="c1"># If this is not of family list, just set a single entry for</span>
+            <span class="c1"># current plugin name.</span>
+            <span class="c1"># Since this is not a product plugin, we can ensure that these top-level</span>
+            <span class="c1"># attributes should exist. Don&#39;t include product_defaults or source_names in</span>
+            <span class="c1"># this info, because it doesn&#39;t apply to this type of plugin.</span>
+            <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]),</span>
+                <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="p">,</span>
+                <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;yaml_based&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">relpath</span><span class="p">,</span>
+            <span class="p">}</span>
+    <span class="k">return</span> <span class="n">error_message</span></div>
+
+
+<div class="viewcode-block" id="add_text_plugin"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.add_text_plugin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_text_plugin</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add all txt plugins into plugin registries.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    package: str</span>
+<span class="sd">        The current GeoIPS package being parsed</span>
+<span class="sd">    relpath: str</span>
+<span class="sd">        The relpath path to the module plugin</span>
+<span class="sd">    plugins: dict</span>
+<span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    error_message: str</span>
+<span class="sd">        String containing informative error messages from any plugins that</span>
+<span class="sd">        were improperly formatted.  An exception will be raised at the</span>
+<span class="sd">        very end if error_message is not the empty string - this allows</span>
+<span class="sd">        collecting ALL errors throughout the plugin registry process and</span>
+<span class="sd">        reporting them all at once, to facilitate rapidly identifying and</span>
+<span class="sd">        resolving errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Eventually, we will add interface, family, and name to the text files</span>
+    <span class="c1"># themselves, in which case we will pull the appropriate information out</span>
+    <span class="c1"># of the attributes included in the comments at the beginning of the text</span>
+    <span class="c1"># file. Note I added these comments to the current ascii_palettes, though</span>
+    <span class="c1"># they are not yet used.</span>
+
+    <span class="c1"># For now, use the basename of the filename as the &quot;name&quot;</span>
+    <span class="n">text_name</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">relpath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="c1"># For now, use the last directory name as the interface name.</span>
+    <span class="n">interface_name</span> <span class="o">=</span> <span class="n">split</span><span class="p">(</span><span class="n">dirname</span><span class="p">(</span><span class="n">relpath</span><span class="p">))[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">interface_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
+        <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">text_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="p">,</span> <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">relpath</span><span class="p">}</span>
+    <span class="c1"># For now we have no error messages for text plugins, it will always be</span>
+    <span class="c1"># an empty string.  But return it anyway.</span>
+    <span class="k">return</span> <span class="n">error_message</span></div>
+
+
+<span class="c1"># def add_schema_plugin(filepath, abspath, relpath, package, plugins):</span>
+<span class="c1">#     &quot;&quot;&quot;Add the schema plugin associated with the filepaths and package to plugins.</span>
+<span class="c1">#</span>
+<span class="c1">#     Parameters</span>
+<span class="c1">#     ----------</span>
+<span class="c1">#     filepath: str</span>
+<span class="c1">#         The path of the plugin derived from resouces.files(package) / schema</span>
+<span class="c1">#     abspath: str</span>
+<span class="c1">#         The absolute path to the filepath provided</span>
+<span class="c1">#     relpath: str</span>
+<span class="c1">#         The relative path to the filepath provided</span>
+<span class="c1">#     package: str</span>
+<span class="c1">#         The current GeoIPS package being parsed</span>
+<span class="c1">#     plugins: dict</span>
+<span class="c1">#         A dictionary object of all installed GeoIPS package plugins</span>
+<span class="c1">#     &quot;&quot;&quot;</span>
+<span class="c1">#     import numpy as np</span>
+<span class="c1">#</span>
+<span class="c1">#     split_path = np.array(filepath.split(&quot;/&quot;))</span>
+<span class="c1">#     interface_idx = np.argmax(split_path == &quot;schema&quot;) + 1</span>
+<span class="c1">#     interface_name = split_path[interface_idx]</span>
+<span class="c1">#     if interface_name not in plugins.keys():</span>
+<span class="c1">#         plugins[interface_name] = {}</span>
+<span class="c1">#     plugin = yaml.safe_load(open(filepath, mode=&quot;r&quot;))</span>
+<span class="c1">#     plugin[&quot;abspath&quot;] = abspath</span>
+<span class="c1">#     plugin[&quot;relpath&quot;] = relpath</span>
+<span class="c1">#     plugin[&quot;package&quot;] = package</span>
+<span class="c1">#     plugins[interface_name][plugin[&quot;$id&quot;]] = plugin</span>
+<span class="c1">#     # plugins[interface_name].append(</span>
+<span class="c1">#     #     {plugin[&quot;$id&quot;]: {&quot;$id&quot;: plugin[&quot;$id&quot;], &quot;abspath&quot;: abspath}}</span>
+<span class="c1">#     # )</span>
+
+
+<div class="viewcode-block" id="add_module_plugin"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.add_module_plugin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_module_plugin</span><span class="p">(</span><span class="n">package</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add the module plugin associated with the filepaths and package to plugins.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    package: str</span>
+<span class="sd">        The current GeoIPS package being parsed</span>
+<span class="sd">    relpath: str</span>
+<span class="sd">        The relpath path to the module plugin</span>
+<span class="sd">    plugins: dict</span>
+<span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    error_message: str</span>
+<span class="sd">        String containing informative error messages from any plugins that</span>
+<span class="sd">        were improperly formatted.  An exception will be raised at the</span>
+<span class="sd">        very end if error_message is not the empty string - this allows</span>
+<span class="sd">        collecting ALL errors throughout the plugin registry process and</span>
+<span class="sd">        reporting them all at once, to facilitate rapidly identifying and</span>
+<span class="sd">        resolving errors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">error_message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+    <span class="k">if</span> <span class="s2">&quot;__init__.py&quot;</span> <span class="ow">in</span> <span class="n">relpath</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">error_message</span>
+    <span class="n">module_name</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">basename</span><span class="p">(</span><span class="n">relpath</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="c1"># We need the full path to the module in order</span>
+    <span class="c1"># for relative imports to work within modules.</span>
+    <span class="n">module_path</span> <span class="o">=</span> <span class="n">splitext</span><span class="p">(</span><span class="n">relpath</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">module_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">module_path</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">abspath</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package</span><span class="p">)</span> <span class="o">/</span> <span class="n">relpath</span>
+
+    <span class="n">spec</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">spec_from_file_location</span><span class="p">(</span><span class="n">module_path</span><span class="p">,</span> <span class="n">abspath</span><span class="p">)</span>
+
+    <span class="n">module</span> <span class="o">=</span> <span class="n">util</span><span class="o">.</span><span class="n">module_from_spec</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
+    <span class="c1"># Attempting importing module, catch ImportError</span>
+    <span class="c1"># We have to fix these to be able to import the module to</span>
+    <span class="c1"># see if &#39;interface&#39; is defined, in order to see if it</span>
+    <span class="c1"># is a properly formatted python module..</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">spec</span><span class="o">.</span><span class="n">loader</span><span class="o">.</span><span class="n">exec_module</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+        <span class="n">error_message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">Error </span><span class="si">{</span><span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span><span class="si">}</span><span class="s2">:</span>
+<span class="s2">                         Failed importing &#39;</span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&#39; in</span>
+<span class="s2">                         package &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                         at relpath &#39;</span><span class="si">{</span><span class="n">relpath</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">error_message</span>
+    <span class="c1"># Try to get &quot;interface&quot; variable from the module.  This is required</span>
+    <span class="c1"># on ALL files within the python module based plugins directory, to</span>
+    <span class="c1"># ensure create_plugin_registries can explicitly tell whether a file</span>
+    <span class="c1"># is properly formatted or not.  Files that are not full plugins must</span>
+    <span class="c1"># be specified with &quot;interface = None&quot; (identifying as a python module</span>
+    <span class="c1"># that should NOT be included in the python registry), and full GeoIPS</span>
+    <span class="c1"># plugins must include interface, family, and name variables at the top</span>
+    <span class="c1"># level.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">interface_name</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">interface</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">Error,</span>
+<span class="s2">            &#39;interface&#39; top level variable missing in</span>
+<span class="s2">            module &#39;</span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&#39; in</span>
+<span class="s2">            package &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">            at relpath &#39;</span><span class="si">{</span><span class="n">relpath</span><span class="si">}</span><span class="s2">&#39;</span>
+
+<span class="s2">            * must specify &#39;interface&#39; variable at the</span>
+<span class="s2">              top level of ALL python modules within the</span>
+<span class="s2">              plugins subdirectory.</span>
+
+<span class="s2">              * FOR VALID GEOIPS PLUGINS:</span>
+<span class="s2">                &#39;interface&#39;, &#39;family&#39;, and &#39;name&#39; must all be specified</span>
+<span class="s2">                as variables at the top level.</span>
+
+<span class="s2">              * FOR HELPER MODULES WITHIN THE plugins SUBDIRECTORY</span>
+<span class="s2">                &#39;interface = None&#39; must be specified at the top level for modules</span>
+<span class="s2">                within the plugins subdirectory that are not intended to be</span>
+<span class="s2">                GeoIPS plugins on their own.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">error_message</span>
+    <span class="c1"># If interface is None, then legitimately skip the module.</span>
+    <span class="c1"># We want to skip this first, before we test anything else.</span>
+    <span class="c1"># If it is not a plugin, we don&#39;t care if there are other</span>
+    <span class="c1"># errors in it at this stage (ie, avoid unnecessary unrelated</span>
+    <span class="c1"># catastrophic failures)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_name</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Skipping module &#39;</span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&#39; from &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;, &quot;</span>
+            <span class="s2">&quot;interface_name is &#39;None&#39;&quot;</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">error_message</span>
+    <span class="c1"># If we get here, it should be a full GeoIPS plugin, so it must include both</span>
+    <span class="c1"># name and family variables/attributes.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">family</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">family</span>
+    <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
+        <span class="n">error_message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span><span class="se">\n</span><span class="s2">Error, &#39;family&#39; or &#39;name&#39; top level variable missing in</span>
+<span class="s2">            module &#39;</span><span class="si">{</span><span class="n">module_name</span><span class="si">}</span><span class="s2">&#39; in package &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">            at relpath &#39;</span><span class="si">{</span><span class="n">relpath</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">            must specify &#39;interface&#39;, &#39;family&#39;, and &#39;name&#39; variables at the</span>
+<span class="s2">            top level of ALL module based plugins.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">error_message</span>
+    <span class="c1"># If the current interface_name is not in the plugins dictionary yet, add it</span>
+    <span class="c1"># as an empty dictionary.</span>
+    <span class="k">if</span> <span class="n">interface_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c1"># Check_plugin_exists will return a text error message if there are any errors</span>
+    <span class="c1"># rather than raising an exception.  This allows collecting all errors as</span>
+    <span class="c1"># we go, and reporting once at the end with an error message including ALL</span>
+    <span class="c1"># errors found across all plugins in all plugin packages.  Append the new</span>
+    <span class="c1"># error message to the error messages that have already been collected.</span>
+    <span class="n">error_message</span> <span class="o">+=</span> <span class="n">check_plugin_exists</span><span class="p">(</span>
+        <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">relpath</span>
+    <span class="p">)</span>
+    <span class="c1"># Add info shown below obtained from the module plugin. Every module plugin</span>
+    <span class="c1"># is required to have these entries in the registry to be considered a valid</span>
+    <span class="c1"># plugin.</span>
+    <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="vm">__doc__</span><span class="p">),</span>
+        <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">family</span><span class="p">,</span>
+        <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">interface_name</span><span class="p">,</span>
+        <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="p">,</span>
+        <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;module_based&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;signature&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">signature</span><span class="p">(</span><span class="n">module</span><span class="o">.</span><span class="n">call</span><span class="p">)),</span>
+        <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">relpath</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">interface_name</span> <span class="o">==</span> <span class="s2">&quot;readers&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">&quot;source_names&quot;</span><span class="p">):</span>
+            <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;source_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">module</span><span class="o">.</span><span class="n">source_names</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Plugin package &#39;</span><span class="si">{</span><span class="n">package</span><span class="si">}</span><span class="s2">&#39;s reader&quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; plugin &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; is using a deprecated source_names &quot;</span>
+                    <span class="s2">&quot;implementation. Please add a module-level &#39;source_names&#39; &quot;</span>
+                    <span class="s2">&quot;attribute to this plugin and re-run &quot;</span>
+                    <span class="s2">&quot;&#39;create_plugin_registries&#39;. This will be fully deprecated &quot;</span>
+                    <span class="s2">&quot;when GeoIPS v2.0.0 is released.&quot;</span>
+                <span class="p">),</span>
+                <span class="ne">DeprecationWarning</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="s2">&quot;source_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Unspecified&quot;</span><span class="p">]</span>
+    <span class="k">del</span> <span class="n">module</span>
+    <span class="c1"># Return the final error message - an exception will be raised at the very</span>
+    <span class="c1"># end after collecting and reporting on all errors if there were any errors</span>
+    <span class="c1"># during plugin registry creation.</span>
+    <span class="k">return</span> <span class="n">error_message</span></div>
+
+
+<div class="viewcode-block" id="get_parser"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.get_parser">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_parser</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create the ArgumentParser for main.&quot;&quot;&quot;</span>
+    <span class="n">description</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="s2">&quot;Creates Plugin Registries for all installed GeoIPS packages. &quot;</span>
+        <span class="s2">&quot;The registries will be written to the root directory of each installed &quot;</span>
+        <span class="s2">&quot;package. The registries will be named either &#39;registered_plugins.json&#39; &quot;</span>
+        <span class="s2">&quot;or &#39;registered_plugins.yaml&#39; depending on which format is chosen. &quot;</span>
+        <span class="s2">&quot;For additional information on GeoIPS plugin registries please refer to &quot;</span>
+        <span class="s2">&quot;the GeoIPS documentation.&quot;</span>
+    <span class="p">)</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">ArgumentParser</span><span class="p">(</span>
+        <span class="n">prog</span><span class="o">=</span><span class="s2">&quot;create_plugin_registries&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-s&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--save_type&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;yaml&quot;</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Format to write registries to. This will also be the file extension.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Package name to create registries for. If not specified, run on all.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">parser</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.main">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all available plugins from all installed GeoIPS packages.</span>
+
+<span class="sd">    After all plugins have been generated, they are written to registered_plugins.yaml</span>
+<span class="sd">    containing a dictionary of all the registered GeoIPS plugins. Keys in this</span>
+<span class="sd">    dictionary are the interface names, following by each plugin name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    args: list</span>
+<span class="sd">        List of strings representing the arguments provided via command line.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
+
+    <span class="n">ARGS</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
+    <span class="n">save_type</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">save_type</span>
+    <span class="n">package_name</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">package_name</span>
+
+    <span class="n">LOG</span> <span class="o">=</span> <span class="n">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s2">&quot;INTERACTIVE&quot;</span><span class="p">)</span>
+    <span class="c1"># Note: Python 3.9 appears to return duplicates when installed with setuptools.</span>
+    <span class="c1"># These are filtered within the create_plugin_registries function.</span>
+    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">package_name</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">plugin_package</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">plugin_package</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">package_name</span><span class="p">:</span>
+                <span class="n">use_plugin_package</span> <span class="o">=</span> <span class="n">plugin_package</span>
+        <span class="n">plugin_packages</span> <span class="o">=</span> <span class="p">[</span><span class="n">use_plugin_package</span><span class="p">]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">)</span>
+    <span class="n">create_plugin_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+    <span class="n">main</span><span class="p">()</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

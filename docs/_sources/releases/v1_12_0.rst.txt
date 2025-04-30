@@ -1,0 +1,589 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.12.0 (2023-12-07)
+***************************
+
+* Bug fixes
+
+  * Ensure create_plugin_registries fails on bad plugins
+  * Update test_dtree to compare attributes rather than full datatree
+  * Fix GEOIPS_VERS in config_geoips setup file
+  * Check for unit_tests directory before running pytest in check_code.sh
+  * Fix build_docs.sh geoips template paths
+  * Call identify_checker and get_plugin separately for output_checkers
+* Testing updates
+
+  * Add extensive YAML procflow config, including many options
+  * Allow gunzipping current output to scratch location during tests
+  * Update compare_outputs to print netcdf attr diffs to logs
+  * Update ATMS test outputs with new platform name
+  * Remove long running unit tests from output checkers
+  * Separate long and short running unit tests in check_code.sh
+  * Use explicit list of valid interfaces for validating plugin_registries.
+* Enhancements
+
+  * Rename JPSS-01/02 platform name to noaa-20/21 in ATMS reader
+  * Add hy-2d platform to scat knmi winds reader
+  * Allow filtering products based on platform name
+  * Allow passing plugin_package name to create_plugin_registries
+* Release updates
+
+  * Update 'update_this_release_note'
+  * Add release note for v1.12.0
+* Actions
+
+  * Add test_interfaces GitHub Actions Workflow
+  * Add pytest GitHub Actions Workflow
+  * Add build_docs GitHub Actions Workflow
+* Refactor
+
+  * Update imports related to geoips database modules
+
+Enhancements
+============
+
+Allow passing plugin_package name to create_plugin_registries
+-------------------------------------------------------------
+
+*From GEOIPS#422: 2023-12-14, 1.12.0 release bug fixes*
+
+Either create all plugin registries (one argument), or a single
+registry (pass package name to create_plugin_registries)
+
+::
+
+  modified: geoips/create_plugin_registries.py
+
+Call identify_checker and get_plugin separately for output_checkers
+-------------------------------------------------------------------
+
+*From GEOIPS#422: 2023-12-14, 1.12.0 release bug fixes*
+
+* Remove EntryPointError
+
+  * EntryPointError no longer needed (not using EntryPoints for individual plugins)
+  * Removed from interfaces/base.py - get_plugin should never raise EntryPointError
+* Remove find_entry_point, list_entry_points, and get_all_entry_points
+
+  * No longer used since entry points are not used for individual plugins.
+  * Plugin registries are now used exclusively for finding plugins, so we do
+    not need individual entry points (only a single entry point for each plugin
+    package).
+* Call identify checker and get_plugin separately from procflows
+
+  * Rather than having a special case in base.py get_plugin and
+    output_checkers get_plugin which allowed passing in full paths
+    to output products and automatically identifying the checker
+    name and opening it, just explicitly call ``identify_checker``
+    and ``get_plugin`` separately from the procflows.
+  * single_source, config_based, and data_fusion procflows all now
+    call ``identify_checker`` on the output product filename, and
+    ``get_plugin`` on the resulting checker plugin name.
+  * This simplified a lot of logic in both ``output_checkers`` and
+    ``interfaces/base.py``. Supporting passing a filename to
+    ``output_checkers.get_plugin()`` was unnecessarily complicated.
+* Added log.interactive when sector has no coverage
+
+::
+
+  M geoips/errors.py
+  M geoips/geoips_utils.py
+  M geoips/interfaces/base.py
+  M geoips/interfaces/module_based/output_checkers.py
+  M geoips/plugins/modules/procflows/single_source.py
+  M geoips/plugins/modules/procflows/config_based.py
+
+
+Allow filtering products based on platform name
+-----------------------------------------------
+
+*From GEOIPS#343: 2023-12-02, filter products by platform*
+
+Allow specifying a list of products to either include or exclude on
+a per-product basis.
+
+In plot_data, if the alg_xarray platform name IS in exclude_platforms,
+or IS NOT in include_platforms if it exists, then DO NOT plot the current
+product.
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+
+If `plot_data` does not return any products, then do not append to
+the final products list and continue.
+
+::
+
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Updated SSMI/S product YAML to exclude 150H (ch8).  This channel has
+been bad since shortly after launch.
+
+::
+
+  modified: geoips/plugins/yaml/products/ssmis.yaml
+
+Added some more informative output to bdeck parser for incorrectly
+formatted files in the process:
+
+::
+
+  modified: geoips/plugins/modules/sector_metadata_generators/bdeck_parser.py
+
+Add ``exclude_platforms`` and ``include_platforms`` options to low memory abi
+procflow config. Currently only the ``exclude_platforms`` option is tested
+through the new test script, but include both for reference.
+
+::
+
+  modified: tests/yaml_configs/abi_test_low_memory.yaml
+  new: tests/scripts/abi.config_based_exclude_goes17.sh
+
+BUG FIX: added a missing found_one variable to missing products check.
+
+::
+
+  modified: geoips/interfaces/module_based/output_checkers.py
+
+Rename JPSS-01/02 platform name to noaa-20/21 in ATMS reader
+------------------------------------------------------------
+
+*From GEOIPS#394: 2023-11-08, atms platform names*
+
+JPSS-01 and JPSS-02 were renamed to noaa-20 and noaa-21.
+
+* Updating platform name in ATMS reader will make naming
+  consistent with VIIRS reader.
+
+::
+
+  modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Add hy-2d platform to scat knmi winds reader
+--------------------------------------------
+
+*From GEOIPS#418: 2023-11-30, add hy2*
+
+Added HY-2D HSCAT platform to supported platforms in scat_knmi_winds_netcdf
+reader. Maps internal attributes to GeoIPS platform and source name.
+
+::
+
+  geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+
+Bug Fixes
+=========
+
+Fix build_docs.sh geoips template paths
+---------------------------------------
+
+Had accidentally broken these when trying to get actions to work
+
+::
+
+  docs/build_docs.sh
+
+Check for unit_tests directory before running pytest in check_code.sh
+---------------------------------------------------------------------
+
+This was failing on repos with no unit tests directories.
+
+::
+
+  modified: tests/utils/check_code.sh
+
+Update test_dtree to compare attributes rather than full datatree
+-----------------------------------------------------------------
+
+Due to xarray datatree package update, must now compare attributes
+on datatree rather than full datatree.  pytests began failing due
+to updated datatree package.
+
+::
+
+  modified: tests/unit_tests/xarray_utils/test_dtree.py
+
+Ensure create_plugin_registries fails on bad plugins
+----------------------------------------------------
+
+*From GEOIPS#415: 2023-11-27, registry fail on bad plugins*
+
+Updated create_plugin_registries to reliably error on improperly formatted
+plugins.  ALL python plugins now MUST include the `interface` variable at
+the top level, and if `interface` != `None`, then `interface`, `family`,
+and `name` must ALL be specified.  This allows us to always fail on an
+explicit error in a python module within the plugins directory, so we
+can ensure no files are silently skipped.  Previously any plugin that
+raised an `ImportError` or did not contain `interface`, `family`, and
+`name` would just be silently skipped (since we were assuming they
+were not intended to be a valid plugin), but this would result in any
+plugin that happened to have a typo in `interface`, `family`, `name`,
+or had a legitimate `ImportError` at the top level to be silently skipped
+with no feedback or indication that there may be a problem.  Now we are
+very explicit about the error catching, and ONLY skip files that explicitly
+have `interface = None` set at the top level. Any other errors will be
+caught, raised, and reported.
+
+Note this may not be the final layout for handling non-plugins, discussion:
+https://github.com/NRLMMD-GEOIPS/geoips/issues/407
+
+Added a number of comments (largely regarding the new `interface = None`
+requirement, as well as clarification on appending string error messages
+to the `error_message` variable to raise once at the end of processing)
+
+::
+
+  modified: geoips/create_plugin_registries.py
+
+Update geoips/interfaces/base.py and geoips/create_plugin_registries.py
+to allow relative imports within modules. Previously the
+spec.loader.exec_module function was passed just the module_name, which
+caused relative imports within modules to fail, because exec_module
+could not resolve the full path since no parent was specified.  This
+resolves the ImportError for the seviri reader.
+
+::
+
+  modified: geoips/interfaces/base.py
+  modified: geoips/create_plugin_registries.py
+
+Remove all individual plugin entry points from pyproject.toml (only require
+a single plugin_package entry point now, since all plugins are discovered
+during the create_plugin_registries phase. Console scripts will also still
+need to be defined if required).
+
+::
+
+  modified: pyproject.toml
+
+Add `interface = None` to all utility helper modules in the ``plugins``
+directory.
+
+::
+
+  modified: geoips/plugins/modules/filename_formatters/utils/tc_file_naming.py
+  modified: geoips/plugins/modules/interpolators/utils/boxdefinitions.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+  modified: geoips/plugins/modules/interpolators/utils/interp_scipy.py
+  modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  modified: geoips/plugins/modules/readers/utils/hrit_reader.py
+  modified: geoips/plugins/modules/readers/utils/remss_reader.py
+
+Fix GEOIPS_VERS in config_geoips setup file
+-------------------------------------------
+
+Sort tags by creation date to identify latest version
+
+::
+
+    modified: setup/config_geoips
+
+Testing Updates
+===============
+
+Add extensive YAML procflow config, including many options
+----------------------------------------------------------
+
+::
+
+  new file: scripts/amsr2.config_based_no_compare_full.sh
+  new file: yaml_configs/amsr2_no_compare_full.yaml
+
+Use explicit list of valid interfaces for validating plugin_registries
+----------------------------------------------------------------------
+
+Explicitly set ``module_based_interfaces`` and ``yaml_based_interfaces`` lists
+in geoips/interfaces/__init__.py (and combine them to set __all__), then use
+those lists to determine the valid plugin interfaces during plugin registry
+validation in ``geoips/plugin_registry.py``.  The same format can be used
+from other repositories to enable plugin interface name validation for
+interfaces defined in other plugin packages.  Additionally, ignore flake8
+error F401 in `*/interfaces/__init__.py`, unused import, since the interface
+names are no longer set directly in __all__ they are not recogzied as used.
+
+::
+
+  modified: geoips/interfaces/__init__.py
+  modified: geoips/plugin_registry.py
+  modified: .config/flake8
+
+Separate long and short running unit tests in check_code.sh
+-----------------------------------------------------------
+
+Previously ran ALL tests in geoips/tests, now have pytest_short
+and pytest_long options to run ``geoips/tests/unit_tests`` and
+``geoips/tests/unit_tests_long``.  pytest is still called directly
+from the workflows, but this ensures check_code.sh works most closely
+to how the GitHub Actions workflows operate (since ``pytest-short`` workflow
+only operates on ``unit_tests`` directory, ensure you can break up pytests
+from ``check_code.sh`` as well.)
+
+::
+
+  modified: tests/utils/check_code.sh
+
+Remove long running unit tests from output checkers
+---------------------------------------------------
+
+Currently all unit tests under `output_checkers` interface are run with
+the "short" running unit tests. The developer should be able to specify
+individual unit tests under a given interface to allow "long" running
+unit tests (so they are not run with the short running tests).
+
+Currently, the standard unit testing function names have been modified
+to include "_long" - and within the output checkers unit testing
+infrastructure any unit testing functions named ``get_test_files_long``
+and ``perform_test_comparison_long`` are explicitly xfailed, with the
+intent to implement long running output comparisons in the future.
+
+Additional discussion / review required before fully implementing
+the long/short running unit tests for each interface, so currently
+just disabling these tests.
+
+Note also the real reason for disabling the geotiff tests is that
+they are using test data found in the "tests/outputs" directory,
+which is not available when pip installing geoips from GitHub
+Actions.  This is another discussion point for review, as we could
+either continue running the `geotiff` output checker as written,
+and just assume tests/outputs will be available for the "long"
+running unit tests.  Or we could disallow using `tests/outputs`
+within unit tests.  But for now, this unit test will just be
+disabled by xfailing on "long" unit tests.
+
+::
+
+  modified: geoips/plugins/modules/output_checkers/geotiff.py
+  modified: tests/unit_tests/plugins/modules/output_checkers/test_output_checkers.py
+
+Allow gunzipping current output to scratch location during tests
+----------------------------------------------------------------
+
+*From GEOIPS#412: 2023-11-27, gunzip in output checkers*
+
+Add clobber gunzip to *get_compare_products* OutputCheckersBasePlugin
+method (first time attempting to access the comparison product), and
+clobber gunzip to OutputCheckersInterface *identify_checker* method
+(ie, first time attempting to access the current output product).
+All subsequent gunzip_product calls use clobber=False (so we only gunzip
+once per run, but we always gunzip the first time through).
+
+Create individual functions for each piece of the output comparison checks
+and reporting. Call these individual functions and methods from
+*compare_outputs* method (all of this stuff used to be directly in
+*compare_outputs*).
+
+* Create the files that are sourced for copying/deleting files to update
+  test repos
+
+  * *write_bad_comparisons_to_file* (cp_BADCOMPARES.txt) - update test outputs that
+    were modified, but not renamed
+  * *write_remove_temp_files_to_file* (rm_TEMPFILES.txt) - remove temporarily
+    uncompressed files from scratch location
+  * *write_missing_products_to_file* (rm_MISSINGPRODUCTS.txt) - remove files
+    from test output location that did NOT existing in the output from the
+    current run
+  * *write_missing_comparisons_to_file* (cp_MISSINGCOMPARE.txt) - copy files
+    from output path of current run to test output directory - files that did
+    NOT exist in the test output path, but were found in the current output.
+  * *write_good_comparisons_to_file* (cp_GOODCOMPARE.txt) - copy files from
+    output of current run that matched test output files exactly to a single
+    directory.  This is just for convenience (so all outputs are in one place),
+    and not helpful for keeping test outputs up to date.
+* Consolidate *log_with_emphasis* function for outputting asterisks before
+  and after list of log output lines.
+* Functions for identifying missing and bad output files
+
+  * *get_missing_products* function, compare list of current outputs to
+    dictionary of comparison test outputs - return list of products that
+    were found in the current run but NOT found in the comparison test output
+    directory.
+
+    * NOTE: this must handle gunzipped test outputs correctly!
+  * *get_compare_products* method - get a dictionary containing all the
+    comparison products in the comparison test output path. This handles
+    gunzipping the comparison products as required, and storing the
+    full paths to the original *stored_comparison* file,
+    the *gunzipped_comparison* file, and the *file_for_comparison*
+    that should actually be used for the image comparisons. Returns
+    the dictionary of comparison products, and a list of temp files
+    that will need to be removed (written to scratch directory).
+  * *perform_comparisons* method - compare the list of *output_products* from
+    the current run to the dictionary of *compare_products* in the test outputs
+    directory. Return all associated good, bad, missing comparison file lists.
+
+* Functions for gunzipping - these were previously methods, move to functions
+  so generally accessible.
+
+  * *is_gz* function - Call from *is_gz* method.
+  * *gunzip_product* function - gunzip to $GEOIPS_OUTDIRS scratch directory,
+    separate sub directories for comparison and output products. "clobber"
+    argument for forcing overwrite of existing file (typically do NOT overwrite).
+    Call from *gunzip_product* method.
+  * Remove *gzip_product* method - no longer required.
+
+Note many of these functions and methods use a ``diffdir`` argument, which
+is used for both writing out the diff images and scripts, as well as
+determining the final path for the updated output comparison files
+(relative to diffdir).  This will later be updated to separate the diffdir
+from the test output comparison path, allowing us to specify the temporary
+output directory for the diff images and scripts separately from the actual
+test output comparison path.
+
+* ``temp_path`` - will be diff images and scripts
+* ``compare_path`` - will be path to the test output comparison files
+
+::
+
+  modified: geoips/interfaces/module_based/output_checkers.py
+
+Update image list to just png, jpg, and jpeg extensions.
+
+::
+
+  modified: geoips/plugins/modules/output_checkers/image.py
+
+Remove all references to gunzipping test outputs in source repos from
+check_system_requirements.sh. NOTE gunzipping will still happen in test
+data repos, but not for test outputs (anything that is gzipped in the
+test output datasets will automatically be gunzipped during the testing
+process.  test data repositories are still gunzipped in advance as needed).
+
+Also remove the uncompress_test_data.sh script from tests/outputs - no
+longer required.
+
+::
+
+  removed: tests/uncompress_test_data.sh
+  modified: setup/check_system_requirements.sh
+
+
+Update compare_outputs to print netcdf attr diffs to logs
+---------------------------------------------------------
+
+*From GEOIPS#394: 2023-11-08, atms platform names*
+
+Ensure netcdf attribute diffs are printed at the interactive level, was
+still printing to info level. Also, move dividing asterisk line to after
+the attr diffs.
+
+::
+
+  geoips/compare_outputs.py
+
+Rename JPSS-01 platform name to noaa-20 in ATMS test output
+-----------------------------------------------------------
+
+*From GEOIPS#394: 2023-11-08, atms platform names*
+*From GEOIPS#394: 2023-11-30, atms platform names*
+
+Replaced "J01" with "noaa-20" in ATMS netCDF test output file name.
+I think this was renamed 8 Nov, then attrs updated 30 Nov.
+
+::
+
+  renamed:    tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc -> tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+  modified: tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+
+GitHub Actions
+==============
+
+Add test_interfaces GitHub Actions Workflow
+-------------------------------------------
+
+*From GEOIPS#342: 2023-12-01, github actions test interfaces*
+
+Sets up python enviroment and pip installs geoips.
+Then runs the check_code.sh interfaces command. Note this command
+operates on all installed plugins, so only needs to be called once
+from `geoips_dev_utils`, and not separately from each plugin repo.
+
+Activate python environment for each step.
+
+::
+
+  .github/workflows/test-interfaces.yaml
+
+Add pytest GitHub Actions Workflow
+----------------------------------
+
+*From GEOIPS#342: 2023-12-01, github actions test interfaces*
+
+Sets up python enviroment and pip installs geoips.
+Then runs the "short" pytest unit tests in tests/unit_tests in both the geoips repo
+and the current plugin repo.  If the current plugin repo is `geoips`, only run
+pytest once.
+
+Activate python environment for each step.
+
+::
+
+  .github/workflows/pytest.yaml
+
+Add build_docs GitHub Actions Workflow
+--------------------------------------
+
+*From GEOIPS#342: 2023-12-01, github actions test interfaces*
+
+Sets up python enviroment and pip installs geoips.
+Initial attempt at running docs/build_docs.sh - not yet fully functional,
+will finalize in a separate PR.
+
+First step in updating build_docs.sh required removing the `GEOIPS_PACKAGES_DIR`
+environment variable (which also involved removing `GEOIPS_PACKAGES_DIR` from
+any required environment variables in base_paths.py)
+
+::
+
+  new: .github/workflows/build_docs_html.yaml
+  modified: docs/build_docs.sh
+  modified: geoips/filenames/base_paths.py
+
+Release Process
+===============
+
+Add release note for v1.12.0
+----------------------------
+
+*From GEOIPS#376: 2023-11-01, release process updates*
+
+*From GEOIPS#408: 2023-11-19, release process updates*
+
+All updates until the next release (v1.12.0) will be included in
+this release note.
+
+::
+
+  modified: docs/source/releases/v1_12_0.rst
+  modified: docs/source/releases/index.rst
+
+Update 'update_this_release_note'
+---------------------------------
+
+*From GEOIPS#376: 2023-11-01, release process updates*
+
+*From GEOIPS#408: 2023-11-19, release process updates*
+
+All updates until the next release (v1.12.0) will be included in
+the release note specified in this file.
+
+::
+
+  modified: update_this_release_note
+
+Refactor
+========
+
+Update imports related to geoips database modules
+-------------------------------------------------
+
+All geoips_db plugins now accessed through class-based geoips_db interface.
+
+::
+
+  modified: geoips/plugins/modules/procflows/single_source.py

@@ -2,44 +2,48 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.interfaces.module_based package &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.interfaces.module_based package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'geoips_api/geoips.interfaces.module_based';</script>
     <link rel="icon" href="../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
@@ -48,6 +52,8 @@
     <link rel="prev" title="geoips.interfaces package" href="geoips.interfaces.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -55,23 +61,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -79,7 +78,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -87,18 +85,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../index.html">
@@ -106,88 +113,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -199,28 +203,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -231,8 +231,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -242,29 +242,32 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary">
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
       <span class="fa-solid fa-outdent"></span>
-    </label>
+    </button>
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -273,73 +276,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -348,17 +341,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -369,8 +359,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -379,23 +369,27 @@ document.write(`
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="geoips.html">geoips package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.commandline.html">geoips.commandline package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.data_manipulations.html">geoips.data_manipulations package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.dev.html">geoips.dev package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.filenames.html">geoips.filenames package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.image_utils.html">geoips.image_utils package</a></li>
-<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-2"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="geoips.interfaces.html">geoips.interfaces package</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l3 current active"><a class="current reference internal" href="#">geoips.interfaces.module_based package</a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.interfaces.yaml_based.html">geoips.interfaces.yaml_based package</a></li>
 </ul>
-</li>
-<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-3"><i class="fa-solid fa-chevron-down"></i></label><ul>
-<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-4"><i class="fa-solid fa-chevron-down"></i></label><ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.plugins.html">geoips.plugins package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="geoips.plugins.modules.html">geoips.plugins.modules package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.algorithms.html">geoips.plugins.modules.algorithms package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.html">geoips.plugins.modules.colormappers package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.coverage_checkers.html">geoips.plugins.modules.coverage_checkers package</a></li>
@@ -408,14 +402,15 @@ document.write(`
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.sector_spec_generators.html">geoips.plugins.modules.sector_spec_generators package</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.title_formatters.html">geoips.plugins.modules.title_formatters package</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
-</li>
+</details></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html">geoips.pydantic package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -423,32 +418,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../index.html" class="nav-link" aria-label="Home">
@@ -456,15 +452,15 @@ document.write(`
       </a>
     </li>
     
-    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API Reference</a></li>
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">API</a></li>
     
     
-    <li class="breadcrumb-item"><i class="fa-solid fa-ellipsis"></i></li>
+    <li class="breadcrumb-item"><a href="geoips.html" class="nav-link">geoips package</a></li>
     
     
     <li class="breadcrumb-item"><a href="geoips.interfaces.html" class="nav-link">geoips.interfaces package</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.interfaces.module_based package</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.interfaces.module_based package</span></li>
   </ul>
 </nav>
 </div>
@@ -479,7 +475,7 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <section id="geoips-interfaces-module-based-package">
 <h1>geoips.interfaces.module_based package<a class="headerlink" href="#geoips-interfaces-module-based-package" title="Permalink to this heading">#</a></h1>
@@ -501,12 +497,12 @@ document.write(`
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.algorithms.AlgorithmsInterface.required_args">
-<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'channel_combination':</span> <span class="pre">['arrays'],</span> <span class="pre">'list_numpy_to_numpy':</span> <span class="pre">['arrays'],</span> <span class="pre">'rgb':</span> <span class="pre">['arrays'],</span> <span class="pre">'scalar_to_scalar':</span> <span class="pre">[],</span> <span class="pre">'single_channel':</span> <span class="pre">['arrays'],</span> <span class="pre">'xarray_dict_area_def_to_numpy':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def'],</span> <span class="pre">'xarray_dict_dict_to_xarray':</span> <span class="pre">['xarray_dict_dict'],</span> <span class="pre">'xarray_dict_to_xarray':</span> <span class="pre">['xarray_dict'],</span> <span class="pre">'xarray_dict_to_xarray_dict':</span> <span class="pre">['xarray_dict'],</span> <span class="pre">'xarray_to_numpy':</span> <span class="pre">['xobj']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.algorithms.AlgorithmsInterface.required_args" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'channel_combination':</span> <span class="pre">['arrays'],</span> <span class="pre">'list_numpy_to_numpy':</span> <span class="pre">['arrays'],</span> <span class="pre">'rgb':</span> <span class="pre">['arrays'],</span> <span class="pre">'scalar_to_scalar':</span> <span class="pre">[],</span> <span class="pre">'single_channel':</span> <span class="pre">['arrays'],</span> <span class="pre">'xarray_dict_area_def_to_numpy':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def'],</span> <span class="pre">'xarray_dict_dict_to_xarray':</span> <span class="pre">['xarray_dict_dict'],</span> <span class="pre">'xarray_dict_to_xarray':</span> <span class="pre">['xarray_dict'],</span> <span class="pre">'xarray_dict_to_xarray_dict':</span> <span class="pre">['xarray_dict'],</span> <span class="pre">'xarray_to_numpy':</span> <span class="pre">['xobj'],</span> <span class="pre">'xarray_to_xarray':</span> <span class="pre">['xobj',</span> <span class="pre">'variables',</span> <span class="pre">'product_name']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.algorithms.AlgorithmsInterface.required_args" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.algorithms.AlgorithmsInterface.required_kwargs">
-<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'channel_combination':</span> <span class="pre">[],</span> <span class="pre">'list_numpy_to_numpy':</span> <span class="pre">[],</span> <span class="pre">'rgb':</span> <span class="pre">[],</span> <span class="pre">'scalar_to_scalar':</span> <span class="pre">['value'],</span> <span class="pre">'single_channel':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_area_def_to_numpy':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_dict_to_xarray':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_to_xarray':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_to_xarray_dict':</span> <span class="pre">[],</span> <span class="pre">'xarray_to_numpy':</span> <span class="pre">[]}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.algorithms.AlgorithmsInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'channel_combination':</span> <span class="pre">[],</span> <span class="pre">'list_numpy_to_numpy':</span> <span class="pre">[],</span> <span class="pre">'rgb':</span> <span class="pre">[],</span> <span class="pre">'scalar_to_scalar':</span> <span class="pre">['value'],</span> <span class="pre">'single_channel':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_area_def_to_numpy':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_dict_to_xarray':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_to_xarray':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_to_xarray_dict':</span> <span class="pre">[],</span> <span class="pre">'xarray_to_numpy':</span> <span class="pre">[],</span> <span class="pre">'xarray_to_xarray':</span> <span class="pre">[]}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.algorithms.AlgorithmsInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -580,6 +576,32 @@ document.write(`
 </dd></dl>
 
 </section>
+<section id="module-geoips.interfaces.module_based.databases">
+<span id="geoips-interfaces-module-based-databases-module"></span><h2>geoips.interfaces.module_based.databases module<a class="headerlink" href="#module-geoips.interfaces.module_based.databases" title="Permalink to this heading">#</a></h2>
+<p>Databases interface module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.databases.DatabasesInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.databases.</span></span><span class="sig-name descname"><span class="pre">DatabasesInterface</span></span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/databases.html#DatabasesInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.databases.DatabasesInterface" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface" title="geoips.interfaces.base.BaseModuleInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModuleInterface</span></code></a></p>
+<p>GeoIPS interface for databases plugins.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.databases.DatabasesInterface.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'databases'</span></em><a class="headerlink" href="#geoips.interfaces.module_based.databases.DatabasesInterface.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.databases.DatabasesInterface.required_args">
+<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'memusg_stats_to_table':</span> <span class="pre">[],</span> <span class="pre">'overpass_dict_to_postgres_table':</span> <span class="pre">['schema_name',</span> <span class="pre">'table_name',</span> <span class="pre">'overpass_dict'],</span> <span class="pre">'overpass_dict_to_sqlite_table':</span> <span class="pre">['overpass_dict',</span> <span class="pre">'dbname'],</span> <span class="pre">'query_overpass_table':</span> <span class="pre">['window_start',</span> <span class="pre">'window_end'],</span> <span class="pre">'query_product_table':</span> <span class="pre">['window_start',</span> <span class="pre">'window_end'],</span> <span class="pre">'schema_table_sector_opasses_to_postgres_table':</span> <span class="pre">['schema_name',</span> <span class="pre">'table_name',</span> <span class="pre">'sector_name',</span> <span class="pre">'sat_overpasses'],</span> <span class="pre">'schema_table_storm_opasses_to_postgres_table':</span> <span class="pre">['schema_name',</span> <span class="pre">'table_name',</span> <span class="pre">'storm_id',</span> <span class="pre">'storm_time',</span> <span class="pre">'satellite_overpasses'],</span> <span class="pre">'storm_opasses_db_to_postgres_table':</span> <span class="pre">['storm_id',</span> <span class="pre">'storm_time',</span> <span class="pre">'satellite_overpasses',</span> <span class="pre">'dbname'],</span> <span class="pre">'xarray_area_def_to_table':</span> <span class="pre">['product_filename',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'area_def'],</span> <span class="pre">'xarray_dict_to_table':</span> <span class="pre">['product_filename',</span> <span class="pre">'xarray_dict']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.databases.DatabasesInterface.required_args" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.databases.DatabasesInterface.required_kwargs">
+<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'memusg_stats_to_table':</span> <span class="pre">[],</span> <span class="pre">'overpass_dict_to_postgres_table':</span> <span class="pre">[],</span> <span class="pre">'overpass_dict_to_sqlite_table':</span> <span class="pre">[],</span> <span class="pre">'query_overpass_table':</span> <span class="pre">[],</span> <span class="pre">'query_product_table':</span> <span class="pre">[],</span> <span class="pre">'schema_table_sector_opasses_to_postgres_table':</span> <span class="pre">[],</span> <span class="pre">'schema_table_storm_opasses_to_postgres_table':</span> <span class="pre">[],</span> <span class="pre">'storm_opasses_db_to_postgres_table':</span> <span class="pre">[],</span> <span class="pre">'xarray_area_def_to_table':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_to_table':</span> <span class="pre">[]}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.databases.DatabasesInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
 <section id="module-geoips.interfaces.module_based.filename_formatters">
 <span id="geoips-interfaces-module-based-filename-formatters-module"></span><h2>geoips.interfaces.module_based.filename_formatters module<a class="headerlink" href="#module-geoips.interfaces.module_based.filename_formatters" title="Permalink to this heading">#</a></h2>
 <p>Filename formatters interface module.</p>
@@ -588,31 +610,19 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.filename_formatters.</span></span><span class="sig-name descname"><span class="pre">FilenameFormattersInterface</span></span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/filename_formatters.html#FilenameFormattersInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface" title="geoips.interfaces.base.BaseModuleInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModuleInterface</span></code></a></p>
 <p>GeoIPS interface for filename_formatters plugins.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.find_duplicates">
-<span class="sig-name descname"><span class="pre">find_duplicates</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/filename_formatters.html#FilenameFormattersInterface.find_duplicates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.find_duplicates" title="Permalink to this definition">#</a></dt>
-<dd><p>Find duplicate files.</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'filename_formatters'</span></em><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
-<dl class="py method">
-<dt class="sig sig-object py" id="geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.remove_duplicates">
-<span class="sig-name descname"><span class="pre">remove_duplicates</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/filename_formatters.html#FilenameFormattersInterface.remove_duplicates"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.remove_duplicates" title="Permalink to this definition">#</a></dt>
-<dd><p>Remove duplicate files.</p>
-</dd></dl>
-
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_args">
-<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'data':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_names'],</span> <span class="pre">'standard':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_name'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_filename'],</span> <span class="pre">'xarray_metadata_to_filename':</span> <span class="pre">['xarray_obj']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_args" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'data':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_names'],</span> <span class="pre">'standard':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_name'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_filename'],</span> <span class="pre">'xarray_area_product_to_filename':</span> <span class="pre">['xarray_obj',</span> <span class="pre">'area_def',</span> <span class="pre">'product_name'],</span> <span class="pre">'xarray_metadata_to_filename':</span> <span class="pre">['xarray_obj']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_args" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_kwargs">
-<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'data':</span> <span class="pre">['coverage',</span> <span class="pre">'output_type',</span> <span class="pre">'output_type_dir',</span> <span class="pre">'product_dir',</span> <span class="pre">'product_subdir',</span> <span class="pre">'source_dir',</span> <span class="pre">'basedir'],</span> <span class="pre">'standard':</span> <span class="pre">['coverage',</span> <span class="pre">'output_type',</span> <span class="pre">'output_type_dir',</span> <span class="pre">'product_dir',</span> <span class="pre">'product_subdir',</span> <span class="pre">'source_dir',</span> <span class="pre">'basedir'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['metadata_dir',</span> <span class="pre">'metadata_type',</span> <span class="pre">'basedir'],</span> <span class="pre">'xarray_metadata_to_filename':</span> <span class="pre">['extension',</span> <span class="pre">'basedir']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'data':</span> <span class="pre">['coverage',</span> <span class="pre">'output_type',</span> <span class="pre">'output_type_dir',</span> <span class="pre">'product_dir',</span> <span class="pre">'product_subdir',</span> <span class="pre">'source_dir',</span> <span class="pre">'basedir'],</span> <span class="pre">'standard':</span> <span class="pre">['coverage',</span> <span class="pre">'output_type',</span> <span class="pre">'output_type_dir',</span> <span class="pre">'product_dir',</span> <span class="pre">'product_subdir',</span> <span class="pre">'source_dir',</span> <span class="pre">'basedir'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['metadata_dir',</span> <span class="pre">'metadata_type',</span> <span class="pre">'basedir'],</span> <span class="pre">'xarray_area_product_to_filename':</span> <span class="pre">['output_type',</span> <span class="pre">'basedir',</span> <span class="pre">'extra_field'],</span> <span class="pre">'xarray_metadata_to_filename':</span> <span class="pre">['extension',</span> <span class="pre">'basedir']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -644,6 +654,593 @@ document.write(`
 </dd></dl>
 
 </section>
+<section id="module-geoips.interfaces.module_based.output_checkers">
+<span id="geoips-interfaces-module-based-output-checkers-module"></span><h2>geoips.interfaces.module_based.output_checkers module<a class="headerlink" href="#module-geoips.interfaces.module_based.output_checkers" title="Permalink to this heading">#</a></h2>
+<p>Output Checkers interface module.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">OutputCheckersBasePlugin</span></span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModulePlugin" title="geoips.interfaces.base.BaseModulePlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModulePlugin</span></code></a></p>
+<p>Output Checkers Base Plugin for comparing data outputs.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.compare_outputs">
+<span class="sig-name descname"><span class="pre">compare_outputs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_path</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_products</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.compare_outputs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.compare_outputs" title="Permalink to this definition">#</a></dt>
+<dd><p>Compare the “correct” imagery found the list of current output_products.</p>
+<p>Compares files produced in the current processing run with the list of
+“correct” files contained in “compare_path”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compare_path</strong> (<em>str</em>) – Path to directory of “correct” products - filenames must match
+output_products</p></li>
+<li><p><strong>output_products</strong> (<em>list</em><em> of </em><em>str</em>) – List of strings of current output products,
+to compare with products in compare_path</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Dictionary containing kwargs for comparing products.
+This gets passed through to the “test_products” method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 if all comparisons were completed successfully.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.get_compare_products">
+<span class="sig-name descname"><span class="pre">get_compare_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_path</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.get_compare_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.get_compare_products" title="Permalink to this definition">#</a></dt>
+<dd><p>Get dictionary of compare products from the compare_path.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>compare_path</strong> (<em>str</em>) – Full path to the comparison directory to populate compare_products
+dictionary.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>compare_products</strong> (<em>dict</em>) – Dictionary of products found in the test comparison directory.
+The key of the compare_products dictionary is the filename that
+is stored in the comparison directory (ie, this may be a gzipped file).</p>
+<ul>
+<li><p>stored_comparison is the actual name stored in the comparison test dir</p></li>
+<li><p>gunzipped comparison is the gunzipped version of the file, or None if
+file was not gzipped</p></li>
+<li><p>file_for_comparison is “compare_product” if the file is not gzipped,
+and “gunzipped_comparison” if file is gzipped.</p></li>
+</ul>
+</li>
+<li><p><strong>remove_temp_files</strong> (<em>list</em>) – List of full paths to files that must be removed after processing
+(gunzipped files in GEOIPS_OUTDIRS scratch directory)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.get_out_diff_fname">
+<span class="sig-name descname"><span class="pre">get_out_diff_fname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ext</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.get_out_diff_fname"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.get_out_diff_fname" title="Permalink to this definition">#</a></dt>
+<dd><p>Obtain the filename for output and comparison product diff.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>compare_product</strong> (<em>str</em>) – Full path to product filename in the comparison directory</p></li>
+<li><p><strong>output_product</strong> (<em>str</em>) – Full path to product filename in the current output directory</p></li>
+<li><p><strong>ext</strong> (<em>str</em><em>, </em><em>default=None</em>) – Extension to use as an alternative to the original file extension</p></li>
+<li><p><strong>flag</strong> (<em>str</em><em>, </em><em>default=None</em>) – Additional identifying string to include in output diff filename</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>out_diff_fname</strong> – Full path to output diff file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.gunzip_product">
+<span class="sig-name descname"><span class="pre">gunzip_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_comparison_product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clobber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.gunzip_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.gunzip_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Gunzip file fname.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – File to gunzip.</p></li>
+<li><p><strong>is_comparison_product</strong> (<em>bool</em><em>, </em><em>default False</em>) – <ul>
+<li><p>If True, set to $GEOIPS_OUTDIRS/gunzipped_products/comparison_products</p></li>
+<li><p>If False, set to $GEOIPS_OUTDIRS/gunzipped_products/output_products</p></li>
+</ul>
+</p></li>
+<li><p><strong>clobber</strong> (<em>bool</em><em>, </em><em>default False</em>) – If True, overwrite existing file, else do nothing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename after gunzipping</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.is_gz">
+<span class="sig-name descname"><span class="pre">is_gz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.is_gz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.is_gz" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if fname is a gzip file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is a gz file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.perform_comparisons">
+<span class="sig-name descname"><span class="pre">perform_comparisons</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_products</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_products</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.perform_comparisons"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.perform_comparisons" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the final output products list from the original list of outputs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_products</strong> (<em>list</em>) – This is the original list of output products, exactly as they are
+produced during processing.  If a product is gzipped during processing,
+the output_products list will include the gzipped file.</p></li>
+<li><p><strong>compare_products</strong> (<em>dict</em>) – <p>This is a dictionary containing all of the comparison products available
+in the test outputs directory.</p>
+<ul>
+<li><p>Keys: basename of actual output product as created during run
+(ie, gzipped if applicable)</p>
+<ul>
+<li><p>key: “file_for_comparison”, value: full path to file that is used
+when comparing against the current output (ie, could be temporary
+gunzip location).</p></li>
+<li><p>key: “gunzipped_comparison”, value: None if original output file was
+not gzipped, full path to gunzipped file if original output file
+was gzipped.</p></li>
+<li><p>key: “stored_comparison”, value: full path to file that is stored in
+the tests outputs location (ie, could be gzipped)</p></li>
+</ul>
+</li>
+</ul>
+</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – keyword arguments to pass directly through to test products function.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>output_products_for_comparison</strong> (<em>list</em>) – List of full paths to files that will be used for comparisons.  Ie,
+if the output product was gzipped, this would be the full path to
+the gunzipped file in the temporary location.</p></li>
+<li><p><strong>missingcomps</strong> (<em>list</em>) – List of full paths to files that were found in the current run, and NOT
+found in the comparison directory.</p></li>
+<li><p><strong>goodcomps</strong> (<em>list</em>) – List of full paths to files that had good comparisons.</p></li>
+<li><p><strong>badcomps</strong> (<em>list</em>) – List of full paths to files that had bad comparisons between the
+current output products and the test comparison outputs.</p></li>
+<li><p><strong>compare_strings</strong> (<em>list</em>) – List of strings included in log output for each type of comparison.</p></li>
+<li><p><strong>remove_temp_files</strong> (<em>list</em>) – List of full paths to files that should be removed from temporary scratch
+directory.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.test_products">
+<span class="sig-name descname"><span class="pre">test_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_product</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">goodcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">badcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_strings</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersBasePlugin.test_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.test_products" title="Permalink to this definition">#</a></dt>
+<dd><p>Test output_product against “good” product stored in “compare_path”.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_product</strong> (<em>str</em>) – <ul>
+<li><p>Full path to current output product</p></li>
+</ul>
+</p></li>
+<li><p><strong>compare_product</strong> (<em>str</em>) – <ul>
+<li><p>Full path to “good” comparison product</p></li>
+</ul>
+</p></li>
+<li><p><strong>goodcomps</strong> (<em>list</em><em> of </em><em>str</em>) – <ul>
+<li><p>List of full paths to all “good” successful comparisons
+(output and compare images match)</p></li>
+<li><p>Each str is prepended with a “compare_string” tag to identify which
+comparison type was performed.</p></li>
+</ul>
+</p></li>
+<li><p><strong>badcomps</strong> (<em>list</em><em> of </em><em>str</em>) – <ul>
+<li><p>List of full paths to all “bad” unsuccessful comparisons
+(output and compare images differ)</p></li>
+<li><p>Each str is prepended with a “compare_string” tag to identify which
+comparison type was performed.</p></li>
+</ul>
+</p></li>
+<li><p><strong>compare_strings</strong> (<em>list</em><em> of </em><em>str</em>) – <ul>
+<li><p>List of all comparison “tags” included in goodcomps and badcomps lists.</p></li>
+<li><p>This list is used to remove the comparison tags from goodcomps and
+badcomps to retrieve only the file path.</p></li>
+</ul>
+</p></li>
+<li><p><strong>kwargs</strong> (<em>dict</em>) – Additional arguments to pass through to “outputs_match” method.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><strong>goodcomps</strong> (<em>list of str</em>) – All current good comparisons appended to the list passed in.</p></li>
+<li><p><strong>badcomps</strong> (<em>list of str</em>) – All current bad comparisons appended to the list passed in.</p></li>
+<li><p><strong>compare_strings</strong> (<em>list of str</em>) – All current comparison “tags” added to the list passed in.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>TypeError</strong> – Raised when current output product does not have an associated
+    comparison test defined.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">OutputCheckersInterface</span></span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface" title="geoips.interfaces.base.BaseModuleInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModuleInterface</span></code></a></p>
+<p>GeoIPS interface for output_checkers plugins.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.get_plugin">
+<span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rebuild_registries</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersInterface.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.get_plugin" title="Permalink to this definition">#</a></dt>
+<dd><p>Return the output checker plugin corresponding to checker_name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<em>str</em>) – <ul>
+<li><p>The name the desired plugin.</p></li>
+</ul>
+</p></li>
+<li><p><strong>rebuild_registries</strong> (<em>bool</em><em> (</em><em>default=None</em><em>)</em>) – <ul>
+<li><p>Whether or not to rebuild the registries if get_plugin fails. If set to
+None, default to what we have set in geoips.filenames.base_paths, which
+defaults to True. If specified, use the input value of rebuild_registries,
+which should be a boolean value. If rebuild registries is true and
+get_plugin fails, rebuild the plugin registry, call then call
+get_plugin once more with rebuild_registries toggled off, so it only gets
+rebuilt once.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.identify_checker">
+<span class="sig-name descname"><span class="pre">identify_checker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersInterface.identify_checker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.identify_checker" title="Permalink to this definition">#</a></dt>
+<dd><p>Identify the correct output checker plugin and return its name.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'output_checkers'</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.plugin_class">
+<span class="sig-name descname"><span class="pre">plugin_class</span></span><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.plugin_class" title="Permalink to this definition">#</a></dt>
+<dd><p>alias of <a class="reference internal" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin" title="geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin"><code class="xref py py-class docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin</span></code></a></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.required_args">
+<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'standard':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.required_args" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.required_kwargs">
+<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'standard':</span> <span class="pre">{}}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.valid_plugin">
+<span class="sig-name descname"><span class="pre">valid_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#OutputCheckersInterface.valid_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.valid_plugin" title="Permalink to this definition">#</a></dt>
+<dd><p>Check the validity of the supplied output_checker plugin.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.get_missing_products">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">get_missing_products</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_products_for_comparison</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_products</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#get_missing_products"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.get_missing_products" title="Permalink to this definition">#</a></dt>
+<dd><p>Get list of missing products from compare_products_dictionary.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_products_for_comparison</strong> (<em>list</em>) – List of output products from the current run.</p></li>
+<li><p><strong>compare_products</strong> (<em>dict</em>) – Dictionary of products found in the test comparison directory.
+Note the key of the compare_products dictionary is the filename that
+is stored in the comparison directory (ie, this may be a gzipped file).
+We must use the “gunzipped_comparison”, “stored_comparison”, and
+“file_for_comparison” keys within that dictionary to ensure we are
+accessing the correct versions of the files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>missingproducts</strong> – List of products that were missing from the current run.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.gunzip_product">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">gunzip_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_comparison_product</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clobber</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#gunzip_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.gunzip_product" title="Permalink to this definition">#</a></dt>
+<dd><p>Gunzip file fname.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – File to gunzip.</p></li>
+<li><p><strong>is_comparison_product</strong> (<em>bool</em><em>, </em><em>default False</em>) – <ul>
+<li><p>If True, set to $GEOIPS_OUTDIRS/gunzipped_products/comparison_products</p></li>
+<li><p>If False, set to $GEOIPS_OUTDIRS/gunzipped_products/output_products</p></li>
+</ul>
+</p></li>
+<li><p><strong>clobber</strong> (<em>bool</em><em>, </em><em>default False</em>) – If True, overwrite existing file, else do nothing.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Filename after gunzipping</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.is_gz">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">is_gz</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#is_gz"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.is_gz" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if fname is a gzip file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>fname</strong> (<em>str</em>) – Name of file to check.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if it is a gz file, False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.write_bad_comparisons_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">write_bad_comparisons_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">badcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_products</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#write_bad_comparisons_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.write_bad_comparisons_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write text file with cp commands to update products with bad comparisons.</p>
+<p>Write a text file that can be sourced to replace test output comparison files
+with the most recent outputs when the output checker returns a bad comparisons.</p>
+<p>When GeoIPS is updated in a way that changes the imagery and those changes
+are expected, the integration test image comparisons will fail. This
+function writes a file named <cite>cp_BADCOMPARES.txt</cite> which can be
+sourced to copy the new comparison files into place, overwriting
+the previous comparison files. This allows easily updating the test
+comparison outputs when code updates make expected changes to the
+output imagery.</p>
+<p>We must ensure we also gzip the comparison product in the test outputs
+directory after copying if the original test comparison output file was
+gzipped.  If applicable, a gzip command will also be added to
+cp_BADCOMPARES.txt.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>badcomps</strong> (<em>list</em>) – List of files that returned a “BAD COMPARISON” from the output checker.
+These are the full paths to the files produced during the most recent
+run.</p></li>
+<li><p><strong>compare_products</strong> (<em>dict</em>) – dictionary of comparison products - including the original comparison
+product file name, the gunzipped product file path if applicable,
+and the path to the file that should be used for comparison against
+“badcomps” files.</p></li>
+<li><p><strong>compare_strings</strong> (<em>list</em><em> of </em><em>str</em>) – <p>List of all comparison “tags” included in goodcomps and badcomps lists.</p>
+<ul>
+<li><p>This list is used to remove the comparison tags from goodcomps and
+badcomps to retrieve only the file path.</p></li>
+</ul>
+</p></li>
+<li><p><strong>diffdir</strong> (<em>str</em>) – Full path to write “cp_BADCOMPARES.txt” file.
+NOTE: diffdir currently also is used to specify the path to the
+output files. Eventually we should pass in 2 separate paths, one
+to specify where to write the diff files, and a separate path
+indicating where to write the updated test output comparison files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 if all comparisons were completed successfully, non-zero
+if there were bad comparisons.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.write_good_comparisons_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">write_good_comparisons_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">goodcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_strings</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#write_good_comparisons_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.write_good_comparisons_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write all good comparisons to a file for easy collection of outputs.</p>
+<p>During integration tests, if the current product output matches the
+test output stored in the test comparison directories, the output
+checkers will return 0 as a GOOD COMPARE.  These outputs do not need
+to be updated in the test comparison directories, since the current
+products and test comparison outputs match within tolerance.</p>
+<p>The developer may desire copying these files to a single location
+convenience, however.</p>
+<p>This function writes a file named <cite>cptest_GOODCOMPARE.txt</cite> which
+can be sourced to copy all products that were identical to the
+current output products to a common location, for convenience.
+This does not impact any files stored in the test comparison
+directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>goodcomps</strong> (<em>list</em>) – List of files that returned a “GOOD COMPARE” from the output checker.
+These are the full paths to the files produced during the most recent
+run.</p></li>
+<li><p><strong>compare_strings</strong> (<em>list</em><em> of </em><em>str</em>) – <p>List of all comparison “tags” included in goodcomps and badcomps lists.</p>
+<ul>
+<li><p>This list is used to remove the comparison tags from goodcomps and
+badcomps to retrieve only the file path when writing the cp commands.</p></li>
+</ul>
+</p></li>
+<li><p><strong>diffdir</strong> (<em>str</em>) – Full path to write “cptest_GOODCOMPARE.txt” file
+NOTE: diffdir currently also is used to specify the path to the
+output files. Eventually we should pass in 2 separate paths, one
+to specify where to write the diff files, and a separate path
+indicating where to write the updated test output comparison files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 for good comparisons</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.write_missing_comparisons_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">write_missing_comparisons_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">missingcomps</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#write_missing_comparisons_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.write_missing_comparisons_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write text file with cp commands to add products to comparison directory.</p>
+<p>Write a text file contatining cp commands that can be sourced to add
+new test output comparison files to the test comparison directories
+that were found in the most recent output and were not previously in
+the test comparison directory.</p>
+<p>When GeoIPS is updated in a way that intentionally causes a new
+output product, it will cause the integration test comparison to fail
+with a MISSING COMPARE error (ie, a file exists in the current output
+product path, but does not exist in the test comparison directory).</p>
+<p>When this is intended behaviour due to recent code updates, we must
+add that new product to the test output comparison directories from
+the current output path.</p>
+<p>This function writes a file named <cite>cp_MISSINGCOMPARE.txt</cite> which
+can be sourced to copy the appropriate files from the current
+output product path into the test comparison directory. This
+allows easily updating the test comparison outputs when code updates
+make expected changes to the output products.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>missingcomps</strong> (<em>list</em>) – List of files that returned a “MISSING COMPARE” from the output checker.
+These are the full paths to the files produced during the most recent
+run.</p></li>
+<li><p><strong>diffdir</strong> (<em>str</em>) – Full path to write “rm_MISSINGCOMPARE.txt” file
+NOTE: diffdir currently also is used to specify the path to the
+output files. Eventually we should pass in 2 separate paths, one
+to specify where to write the diff files, and a separate path
+indicating where to write the updated test output comparison files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 if all comparisons were completed successfully, non-zero
+if there were missing comparisons.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.write_missing_products_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">write_missing_products_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">missingproducts</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">compare_products</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#write_missing_products_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.write_missing_products_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write text file with rm commands to remove products from comparison directory.</p>
+<p>Write a text file contatining rm commands that can be sourced to remove
+existing test output comparison files from the test comparison directories
+that were NOT found in the most recent output.</p>
+<p>When GeoIPS is updated in a way that intentionally causes a previously
+expected output to no longer be produced, it will cause the integration
+test comparison to fail with a MISSING PRODUCT error (ie, a file
+exists in the test comparison directory, but is not a current output
+product).</p>
+<p>When this is intended behaviour due to recent code updates, we must
+remove that product from the test output comparison directories.</p>
+<p>This function writes a file named <cite>rm_MISSINGPRODUCTS.txt</cite> which
+can be sourced to remove the files from the test comparison directory
+that were NOT found in the list of current output products. This
+allows easily updating the test comparison outputs when code updates
+make expected changes to the output products.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>missingproducts</strong> (<em>list</em>) – List of files that returned a “MISSING PRODUCT” from the output checker.
+These are the full paths to the files produced during the most recent
+run.</p></li>
+<li><p><strong>compare_products</strong> (<em>dict</em>) – dictionary of comparison products - including the original comparison
+product file name, the gunzipped product file path if applicable,
+and the path to the file that should be used for comparison against
+“missingproducts” files.</p></li>
+<li><p><strong>diffdir</strong> (<em>str</em>) – Full path to write “rm_MISSINGPRODUCTS.txt” file
+NOTE: diffdir currently also is used to specify the path to the
+output files. Eventually we should pass in 2 separate paths, one
+to specify where to write the diff files, and a separate path
+indicating where to write the updated test output comparison files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 if all comparisons were completed successfully, non-zero
+if there were missing products.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.output_checkers.write_remove_temp_files_to_file">
+<span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.output_checkers.</span></span><span class="sig-name descname"><span class="pre">write_remove_temp_files_to_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">remove_temp_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">diffdir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/output_checkers.html#write_remove_temp_files_to_file"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.output_checkers.write_remove_temp_files_to_file" title="Permalink to this definition">#</a></dt>
+<dd><p>Write text file with rm commands to remove temporary files.</p>
+<p>Write a text file <code class="docutils literal notranslate"><span class="pre">rm_TEMPFILES.txt</span></code> that can be sourced to remove
+temporary files that were created in the <code class="docutils literal notranslate"><span class="pre">$GEOIPS_OUTDIRS</span></code> scratch
+directory during the output comparison checks during integration tests.
+This currently includes temporary gunzipped versions of products
+(ie, if a product was gzipped during processing, then gunzipped to
+a temporary location during the comparison tests, it will get added
+to the <cite>remove_temp_files</cite> list), and may include additional temporary
+files in the future.</p>
+<p>The gunzipped files are not auto-deleted during the comparison process,
+because they must be manually copied to the tets outputs directory after
+processing is complete, so we do not remove the files at runtime.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>remove_temp_files</strong> (<em>list</em>) – List of files that should be written to <code class="docutils literal notranslate"><span class="pre">rm_TEMPFILES.txt</span></code> for deletion.
+This currently includes auto-gunzipped products, and potentially
+additional temporary files in the future.</p></li>
+<li><p><strong>diffdir</strong> (<em>str</em>) – Full path to write <code class="docutils literal notranslate"><span class="pre">rm_TEMPFILES.txt</span></code> file
+NOTE: <cite>diffdir</cite> currently also is used to specify the path to the
+output files. Eventually we should pass in 2 separate paths, one
+to specify where to write the diff files, and a separate path
+indicating where to write the updated test output comparison files.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Binary code: 0 for successfully written <code class="docutils literal notranslate"><span class="pre">rm_TEMPFILES.txt</span></code> file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-geoips.interfaces.module_based.output_formatters">
 <span id="geoips-interfaces-module-based-output-formatters-module"></span><h2>geoips.interfaces.module_based.output_formatters module<a class="headerlink" href="#module-geoips.interfaces.module_based.output_formatters" title="Permalink to this heading">#</a></h2>
 <p>Output formatters interface module.</p>
@@ -659,12 +1256,12 @@ document.write(`
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.output_formatters.OutputFormattersInterface.required_args">
-<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'image':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'image_multi':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_names',</span> <span class="pre">'output_fnames',</span> <span class="pre">'mpl_colors_info'],</span> <span class="pre">'image_overlay':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'metadata_yaml_filename',</span> <span class="pre">'product_filename'],</span> <span class="pre">'unprojected':</span> <span class="pre">['xarray_obj',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'xarray_data':</span> <span class="pre">['xarray_obj',</span> <span class="pre">'product_names',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'xrdict_area_product_outfnames_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'xrdict_area_product_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def',</span> <span class="pre">'product_name'],</span> <span class="pre">'xrdict_area_varlist_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def',</span> <span class="pre">'varlist'],</span> <span class="pre">'xrdict_varlist_outfnames_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'varlist',</span> <span class="pre">'output_fnames']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_formatters.OutputFormattersInterface.required_args" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">required_args</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'image':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'image_multi':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_names',</span> <span class="pre">'output_fnames',</span> <span class="pre">'mpl_colors_info'],</span> <span class="pre">'image_overlay':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['area_def',</span> <span class="pre">'xarray_obj',</span> <span class="pre">'metadata_yaml_filename',</span> <span class="pre">'product_filename'],</span> <span class="pre">'unprojected':</span> <span class="pre">['xarray_obj',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'xarray_data':</span> <span class="pre">['xarray_obj',</span> <span class="pre">'product_names',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'xrdict_area_product_outfnames_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def',</span> <span class="pre">'product_name',</span> <span class="pre">'output_fnames'],</span> <span class="pre">'xrdict_area_product_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def',</span> <span class="pre">'product_name'],</span> <span class="pre">'xrdict_area_varlist_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'area_def',</span> <span class="pre">'varlist'],</span> <span class="pre">'xrdict_to_outlist':</span> <span class="pre">['xarray_dict'],</span> <span class="pre">'xrdict_varlist_outfnames_to_outlist':</span> <span class="pre">['xarray_dict',</span> <span class="pre">'varlist',</span> <span class="pre">'output_fnames']}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_formatters.OutputFormattersInterface.required_args" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.output_formatters.OutputFormattersInterface.required_kwargs">
-<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'image':</span> <span class="pre">['product_name_title',</span> <span class="pre">'mpl_colors_info',</span> <span class="pre">'existing_image'],</span> <span class="pre">'image_multi':</span> <span class="pre">['product_name_titles'],</span> <span class="pre">'image_overlay':</span> <span class="pre">['product_name_title',</span> <span class="pre">'clean_fname',</span> <span class="pre">'mpl_colors_info',</span> <span class="pre">'clean_fname',</span> <span class="pre">'feature_annotator',</span> <span class="pre">'gridline_annotator',</span> <span class="pre">'clean_fname',</span> <span class="pre">'product_datatype_title',</span> <span class="pre">'clean_fname',</span> <span class="pre">'bg_data',</span> <span class="pre">'bg_mpl_colors_info',</span> <span class="pre">'clean_fname',</span> <span class="pre">'bg_xarray',</span> <span class="pre">'bg_product_name_title',</span> <span class="pre">'bg_datatype_title',</span> <span class="pre">'clean_fname',</span> <span class="pre">'remove_duplicate_minrange'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['metadata_dir',</span> <span class="pre">'basedir',</span> <span class="pre">'output_dict'],</span> <span class="pre">'unprojected':</span> <span class="pre">['product_name_title',</span> <span class="pre">'mpl_colors_info'],</span> <span class="pre">'xarray_data':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_data':</span> <span class="pre">['append',</span> <span class="pre">'overwrite'],</span> <span class="pre">'xarray_dict_to_image':</span> <span class="pre">[],</span> <span class="pre">'xrdict_area_product_outfnames_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_area_product_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_area_varlist_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_varlist_outfnames_to_outlist':</span> <span class="pre">[]}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_formatters.OutputFormattersInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">required_kwargs</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'image':</span> <span class="pre">['product_name_title',</span> <span class="pre">'mpl_colors_info',</span> <span class="pre">'existing_image'],</span> <span class="pre">'image_multi':</span> <span class="pre">['product_name_titles'],</span> <span class="pre">'image_overlay':</span> <span class="pre">['product_name_title',</span> <span class="pre">'clean_fname',</span> <span class="pre">'mpl_colors_info',</span> <span class="pre">'clean_fname',</span> <span class="pre">'feature_annotator',</span> <span class="pre">'gridline_annotator',</span> <span class="pre">'clean_fname',</span> <span class="pre">'product_datatype_title',</span> <span class="pre">'clean_fname',</span> <span class="pre">'bg_data',</span> <span class="pre">'bg_mpl_colors_info',</span> <span class="pre">'clean_fname',</span> <span class="pre">'bg_xarray',</span> <span class="pre">'bg_product_name_title',</span> <span class="pre">'bg_datatype_title',</span> <span class="pre">'clean_fname',</span> <span class="pre">'remove_duplicate_minrange'],</span> <span class="pre">'standard_metadata':</span> <span class="pre">['metadata_dir',</span> <span class="pre">'basedir',</span> <span class="pre">'output_dict'],</span> <span class="pre">'unprojected':</span> <span class="pre">['product_name_title',</span> <span class="pre">'mpl_colors_info'],</span> <span class="pre">'xarray_data':</span> <span class="pre">[],</span> <span class="pre">'xarray_dict_data':</span> <span class="pre">['append',</span> <span class="pre">'overwrite'],</span> <span class="pre">'xarray_dict_to_image':</span> <span class="pre">[],</span> <span class="pre">'xrdict_area_product_outfnames_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_area_product_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_area_varlist_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_to_outlist':</span> <span class="pre">[],</span> <span class="pre">'xrdict_varlist_outfnames_to_outlist':</span> <span class="pre">[]}</span></em><a class="headerlink" href="#geoips.interfaces.module_based.output_formatters.OutputFormattersInterface.required_kwargs" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -704,10 +1301,169 @@ document.write(`
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.interfaces.module_based.readers.</span></span><span class="sig-name descname"><span class="pre">ReadersInterface</span></span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/readers.html#ReadersInterface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.readers.ReadersInterface" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseModuleInterface" title="geoips.interfaces.base.BaseModuleInterface"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModuleInterface</span></code></a></p>
 <p>GeoIPS interface for readers plugins.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.readers.ReadersInterface.call_files_and_get_top_level_metadata">
+<span class="sig-name descname"><span class="pre">call_files_and_get_top_level_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">all_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">call_single_file_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/readers.html#ReadersInterface.call_files_and_get_top_level_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.readers.ReadersInterface.call_files_and_get_top_level_metadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Read in data from a list of filenames.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>list</em>) – <ul>
+<li><p>List of strings, full paths to files</p></li>
+</ul>
+</p></li>
+<li><p><strong>all_metadata</strong> (<em>dict</em>) – <ul>
+<li><p>Dictionary of metadata from all files in ‘fnames’</p></li>
+</ul>
+</p></li>
+<li><p><strong>read_single_time_func</strong> (<em>python function</em>) – <ul>
+<li><p>Function which can be used to read a single scan time of files from a
+reader plugin.</p></li>
+<li><p>Most likely named ‘call_single_time’.</p></li>
+</ul>
+</p></li>
+<li><p><strong>metadata_only</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>Return before actually reading data if True</p></li>
+</ul>
+</p></li>
+<li><p><strong>chans</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>List of desired channels (skip unneeded variables as needed).</p></li>
+<li><p>Include all channels if None.</p></li>
+</ul>
+</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>Specify region to read</p></li>
+<li><p>Read all data if None.</p></li>
+</ul>
+</p></li>
+<li><p><strong>self_register</strong> (<em>str</em><em> or </em><em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>register all data to the specified dataset id (as specified in the
+return dictionary keys).</p></li>
+<li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>dictionary of xarray.Dataset objects with required Variables and
+Attributes.</p></li>
+<li><p>Dictionary keys can be any descriptive dataset ids.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict of xarray.Datasets</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../concepts/architecture/xarray-standards.html#xarray-standards"><span class="std std-ref">Xarray and NetCDF Metadata Standards</span></a></dt><dd><p>Additional information regarding required attributes and variables for GeoIPS-formatted xarray Datasets.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.readers.ReadersInterface.concatenate_metadata">
+<span class="sig-name descname"><span class="pre">concatenate_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/readers.html#ReadersInterface.concatenate_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.readers.ReadersInterface.concatenate_metadata" title="Permalink to this definition">#</a></dt>
+<dd><p>Merge together metadata sourced from a list of files into one dictionary.</p>
+<p>Where the structure of the merged metadata is a nested dictionary of metadata.</p>
+<p>Ie. (xarray_obj has no data and is merely just a container for metadata):
+{“METADATA”: xobj.source_file_attributes: {fname: xobj, …, “fnamex”: xobj}}</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>all_metadata</strong> (<em>list</em><em> of </em><em>xarray.Datasets</em>) – <ul class="simple">
+<li><p>The incoming metadata from X number of files</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><p><strong>md</strong> –</p>
+<ul class="simple">
+<li><p>All metadata merged into a dictionary of xarray Datasets</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict of xarray Datasets</p>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.readers.ReadersInterface.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'readers'</span></em><a class="headerlink" href="#geoips.interfaces.module_based.readers.ReadersInterface.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.module_based.readers.ReadersInterface.read_data_to_xarray_dict">
+<span class="sig-name descname"><span class="pre">read_data_to_xarray_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">read_single_time_func</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/module_based/readers.html#ReadersInterface.read_data_to_xarray_dict"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.module_based.readers.ReadersInterface.read_data_to_xarray_dict" title="Permalink to this definition">#</a></dt>
+<dd><p>Read in data potentially from multiple scan times into an xarray dict.</p>
+<p>This function does not require that you provide multiple scan times, but allows
+for that in the case those are provided.</p>
+<p>Call this with information specific to your reader to generate a dictionary of
+xarray datasets created from the data provided in ‘fnames’.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fnames</strong> (<em>list</em>) – <ul>
+<li><p>List of strings, full paths to files</p></li>
+</ul>
+</p></li>
+<li><p><strong>all_metadata</strong> (<em>dict</em>) – <ul>
+<li><p>Dictionary of metadata from all files in ‘fnames’</p></li>
+</ul>
+</p></li>
+<li><p><strong>read_single_time_func</strong> (<em>python function</em>) – <ul>
+<li><p>Function which can be used to read a single scan time of files from a
+reader plugin.</p></li>
+<li><p>Most likely named ‘call_single_time’.</p></li>
+</ul>
+</p></li>
+<li><p><strong>metadata_only</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>Return before actually reading data if True</p></li>
+</ul>
+</p></li>
+<li><p><strong>chans</strong> (<em>list</em><em> of </em><em>str</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>List of desired channels (skip unneeded variables as needed).</p></li>
+<li><p>Include all channels if None.</p></li>
+</ul>
+</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em><em>, </em><em>default=None</em>) – <ul>
+<li><p>Specify region to read</p></li>
+<li><p>Read all data if None.</p></li>
+</ul>
+</p></li>
+<li><p><strong>self_register</strong> (<em>str</em><em> or </em><em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>register all data to the specified dataset id (as specified in the
+return dictionary keys).</p></li>
+<li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p>dictionary of xarray.Dataset objects with required Variables and
+Attributes.</p></li>
+<li><p>Dictionary keys can be any descriptive dataset ids.</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict of xarray.Datasets</p>
+</dd>
+</dl>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../concepts/architecture/xarray-standards.html#xarray-standards"><span class="std std-ref">Xarray and NetCDF Metadata Standards</span></a></dt><dd><p>Additional information regarding required attributes and variables for GeoIPS-formatted xarray Datasets.</p>
+</dd>
+</dl>
+</div>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.module_based.readers.ReadersInterface.required_args">
@@ -837,11 +1593,10 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
        href="geoips.interfaces.html"
@@ -861,23 +1616,24 @@ document.write(`
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
 
   <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
     <i class="fa-solid fa-list"></i> On this page
   </div>
-  <nav class="bd-toc-nav page-toc">
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.module_based.algorithms">geoips.interfaces.module_based.algorithms module</a><ul class="nav section-nav flex-column">
@@ -910,11 +1666,18 @@ document.write(`
 </li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.module_based.databases">geoips.interfaces.module_based.databases module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.databases.DatabasesInterface"><code class="docutils literal notranslate"><span class="pre">DatabasesInterface</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.databases.DatabasesInterface.name"><code class="docutils literal notranslate"><span class="pre">DatabasesInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.databases.DatabasesInterface.required_args"><code class="docutils literal notranslate"><span class="pre">DatabasesInterface.required_args</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.databases.DatabasesInterface.required_kwargs"><code class="docutils literal notranslate"><span class="pre">DatabasesInterface.required_kwargs</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.module_based.filename_formatters">geoips.interfaces.module_based.filename_formatters module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface"><code class="docutils literal notranslate"><span class="pre">FilenameFormattersInterface</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.find_duplicates"><code class="docutils literal notranslate"><span class="pre">FilenameFormattersInterface.find_duplicates()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.name"><code class="docutils literal notranslate"><span class="pre">FilenameFormattersInterface.name</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.remove_duplicates"><code class="docutils literal notranslate"><span class="pre">FilenameFormattersInterface.remove_duplicates()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_args"><code class="docutils literal notranslate"><span class="pre">FilenameFormattersInterface.required_args</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.filename_formatters.FilenameFormattersInterface.required_kwargs"><code class="docutils literal notranslate"><span class="pre">FilenameFormattersInterface.required_kwargs</span></code></a></li>
 </ul>
@@ -928,6 +1691,37 @@ document.write(`
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.interpolators.InterpolatorsInterface.required_kwargs"><code class="docutils literal notranslate"><span class="pre">InterpolatorsInterface.required_kwargs</span></code></a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.module_based.output_checkers">geoips.interfaces.module_based.output_checkers module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.compare_outputs"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.compare_outputs()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.get_compare_products"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.get_compare_products()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.get_out_diff_fname"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.get_out_diff_fname()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.gunzip_product"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.gunzip_product()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.is_gz"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.is_gz()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.perform_comparisons"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.perform_comparisons()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersBasePlugin.test_products"><code class="docutils literal notranslate"><span class="pre">OutputCheckersBasePlugin.test_products()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.get_plugin"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.get_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.identify_checker"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.identify_checker()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.name"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.plugin_class"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.plugin_class</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.required_args"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.required_args</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.required_kwargs"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.required_kwargs</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.OutputCheckersInterface.valid_plugin"><code class="docutils literal notranslate"><span class="pre">OutputCheckersInterface.valid_plugin()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.get_missing_products"><code class="docutils literal notranslate"><span class="pre">get_missing_products()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.gunzip_product"><code class="docutils literal notranslate"><span class="pre">gunzip_product()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.is_gz"><code class="docutils literal notranslate"><span class="pre">is_gz()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.write_bad_comparisons_to_file"><code class="docutils literal notranslate"><span class="pre">write_bad_comparisons_to_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.write_good_comparisons_to_file"><code class="docutils literal notranslate"><span class="pre">write_good_comparisons_to_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.write_missing_comparisons_to_file"><code class="docutils literal notranslate"><span class="pre">write_missing_comparisons_to_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.write_missing_products_to_file"><code class="docutils literal notranslate"><span class="pre">write_missing_products_to_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.output_checkers.write_remove_temp_files_to_file"><code class="docutils literal notranslate"><span class="pre">write_remove_temp_files_to_file()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.module_based.output_formatters">geoips.interfaces.module_based.output_formatters module</a><ul class="nav section-nav flex-column">
@@ -950,7 +1744,10 @@ document.write(`
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.module_based.readers">geoips.interfaces.module_based.readers module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface"><code class="docutils literal notranslate"><span class="pre">ReadersInterface</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface.call_files_and_get_top_level_metadata"><code class="docutils literal notranslate"><span class="pre">ReadersInterface.call_files_and_get_top_level_metadata()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface.concatenate_metadata"><code class="docutils literal notranslate"><span class="pre">ReadersInterface.concatenate_metadata()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface.name"><code class="docutils literal notranslate"><span class="pre">ReadersInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface.read_data_to_xarray_dict"><code class="docutils literal notranslate"><span class="pre">ReadersInterface.read_data_to_xarray_dict()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface.required_args"><code class="docutils literal notranslate"><span class="pre">ReadersInterface.required_args</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.module_based.readers.ReadersInterface.required_kwargs"><code class="docutils literal notranslate"><span class="pre">ReadersInterface.required_kwargs</span></code></a></li>
 </ul>
@@ -998,12 +1795,13 @@ document.write(`
   </nav></div>
 
   <div class="sidebar-secondary-item">
-  <div class="tocsection sourcelink">
-    <a href="../_sources/geoips_api/geoips.interfaces.module_based.rst.txt">
-      <i class="fa-solid fa-file-lines"></i> Show Source
-    </a>
-  </div>
-</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/geoips_api/geoips.interfaces.module_based.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
 
 </div></div>
               
@@ -1018,11 +1816,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

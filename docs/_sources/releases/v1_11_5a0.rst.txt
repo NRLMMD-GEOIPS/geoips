@@ -1,0 +1,108 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.11.5a0 (2023-09-27)
+*****************************
+
+* Add workflow to build sdist and wheel and push to pypi
+* Update "update_this_release_note" to v1_11_5a0.rst
+* Remove flake8_docstring_only option from check_code.sh workflow call
+* Fix Errors from Flake8 Linting
+
+Git Workflow Updates
+====================
+
+Remove flake8_docstring_only option from check_code.sh workflow call
+--------------------------------------------------------------------
+
+flake8 errors now corrected throughout geoips repo - fully enforce flake8
+from the github actions workflow.
+
+::
+
+  .github/workflows/check-code.yaml
+
+GitHub Actions Updates
+======================
+
+Add a workflow that builds sdist and wheel packages for new releases and pushes them to
+Pypi.
+
+::
+
+    .github/workflows/package-and-publish.yaml
+
+Release Updates
+===============
+
+Update "update_this_release_note" to docs/source/releases/v1_11_5a0.rst
+-----------------------------------------------------------------------
+
+::
+
+  modified: update_this_release_note
+
+Code Checks
+===========
+
+Fix Errors from Flake8 Linting
+------------------------------
+
+*From issue GEOIPS#298: 2023-08-26, Fix remaining flake8 errors / turn on full testing*
+
+GeoIPS has been ignoring flake8 errors when running the check_code.sh script. This needs
+to be updated accordingly throughout all GeoIPS files. This section reflects changes to
+files that needed to be updated to adhere to flake8 protocol.
+
+Files Modified:
+
+::
+
+    docs/source/_templates/conf_PKG.py
+    geoips/commandline/args.py
+    geoips/image_utils/maps.py
+    geoips/interfaces/module_based/filename_formatters.py
+    geoips/interfaces/yaml_based/sectors.py
+    geoips/plugins/modules/interpolators/utils/boxdefinitions.py
+    geoips/plugins/modules/output_formatters/full_disk_image.py
+    geoips/plugins/modules/output_formatters/metadata_tc.py
+    geoips/plugins/modules/procflows/config_based.py
+    geoips/plugins/modules/procflows/single_source.py
+    geoips/plugins/modules/readers/abi_netcdf.py
+    geoips/plugins/modules/readers/ahi_hsd.py
+    geoips/plugins/modules/readers/amsr2_netcdf.py
+    geoips/plugins/modules/readers/amsr2_remss_winds_netcdf.py
+    geoips/plugins/modules/readers/amsub_hdf.py
+    geoips/plugins/modules/readers/amsub_mirs.py
+    geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+    geoips/plugins/modules/readers/ewsg_netcdf.py
+    geoips/plugins/modules/readers/gmi_hdf5.py
+    geoips/plugins/modules/readers/imerg_hdf5.py
+    geoips/plugins/modules/readers/modis_hdf4.py
+    geoips/plugins/modules/readers/saphir_hdf5.py
+    geoips/plugins/modules/readers/sar_winds_netcdf.py
+    geoips/plugins/modules/readers/scat_knmi_winds_netcdf.py
+    geoips/plugins/modules/readers/scat_noaa_winds_netcdf.py
+    geoips/plugins/modules/readers/seviri_hrit.py
+    geoips/plugins/modules/readers/smap_remss_winds_netcdf.py
+    geoips/plugins/modules/readers/smos_winds_netcdf.py
+    geoips/plugins/modules/readers/ssmi_binary.py
+    geoips/plugins/modules/readers/ssmis_binary.py
+    geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    geoips/plugins/modules/readers/utils/hrit_reader.py
+    geoips/plugins/modules/readers/viirs_netcdf.py
+    geoips/plugins/modules/readers/windsat_idr37_binary.py
+    geoips/plugins/modules/readers/windsat_remss_winds_netcdf.py
+    geoips/plugins/modules/title_formatters/static_standard.py
+    geoips/plugins/modules/title_formatters/tc_copyright.py
+    geoips/plugins/modules/title_formatters/tc_standard.py
+    geoips/sector_utils/estimate_area_extent.py
+    geoips/sector_utils/overpass_predictor.py
+    geoips/sector_utils/tc_tracks.py
+    geoips/sector_utils/tc_tracks_database.py
+    geoips/sector_utils/utils.py
+    geoips/sector_utils/yaml_utils.py
+    geoips/xarray_utils/data.py
+    tests/test_pytest/test_sectors.py

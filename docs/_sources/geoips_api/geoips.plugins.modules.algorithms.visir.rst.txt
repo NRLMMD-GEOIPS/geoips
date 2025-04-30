@@ -4,6 +4,62 @@ geoips.plugins.modules.algorithms.visir package
 Submodules
 ----------
 
+geoips.plugins.modules.algorithms.visir.Convective\_Storms module
+-----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Convective_Storms
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Day\_Microphys\_Summer module
+---------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Day_Microphys_Summer
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Day\_Microphys\_Winter module
+---------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Day_Microphys_Winter
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Day\_Solar module
+---------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Day_Solar
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Dust\_RGB module
+--------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Dust_RGB
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Natural\_Color module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Natural_Color
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Night\_Microphys module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Night_Microphys
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.algorithms.visir.Night\_Vis module
 ---------------------------------------------------------
 
@@ -32,6 +88,30 @@ geoips.plugins.modules.algorithms.visir.Night\_Vis\_IR\_GeoIPS1 module
 ----------------------------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.algorithms.visir.Night_Vis_IR_GeoIPS1
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.Volcanic\_Ash module
+------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.Volcanic_Ash
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.airmass module
+------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.airmass
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.algorithms.visir.nasa\_dust\_rgb module
+--------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.algorithms.visir.nasa_dust_rgb
    :members:
    :undoc-members:
    :show-inheritance:

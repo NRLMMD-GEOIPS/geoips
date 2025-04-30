@@ -1,0 +1,351 @@
+Version 1.14.2 (2025-04-30)
+***************************
+
+ * *Bug fix*: Bug fixes for 2 dimensional windbarbs
+ * *Bug fix*: Update ews-g reader platform name attribute
+ * *Bug fix*: Fix cogeotiff colormap bug
+ * *Bug fix*: Bug fix atms reader
+ * *Bug fix*: Replace old database interface import
+ * *Bug fix*: Handle cogeotiff error when producing output for a non-eqc projected sector
+ * *Bug fix*: Bug fixes for cli
+ * *Bug fix*: Bug fixes for abi dmw config based test script
+ * *Documentation*: Update upcoming and tagged versions
+ * *Documentation*: Add algorithm interface documentation
+ * *Enhancement*: Add support for amsr2 rss products
+ * *Enhancement*: Override product database schema/tables when searching for composite inputs
+ * *Enhancement*: Add support for abi derived motion winds (dmw) products
+ * *Enhancement*: Add resampling capability to viirs_sdr_hdf5 reader
+ * *Enchancement*: Reader functionality and product fixes
+ * *Enhancements*: Add databases interface
+
+Bug fix
+=======
+
+Bug fixes for 2 dimensional windbarbs
+-------------------------------------
+
+Updated windbarb algorithms to handle 2d windbarbs.
+
+::
+
+     modified: geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py
+     modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+
+Bug fix
+=======
+
+Update ews-g reader platform name attribute
+-------------------------------------------
+
+Add support for handling legacy GOES-15 ews-g file, and update mapping of
+platform_name: GOES-13 => EWS-G1, GOES-15 => EWS-G2
+
+Add new `legacy_platform_name` attribute, which holds the satellite name used in the
+source file
+
+::
+
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+
+Bug fix
+=======
+
+Fix cogeotiff colormap bug
+--------------------------
+
+PhotometricInterpretation error
+https://gis.stackexchange.com/questions/352813/gdal-creating-color-ramp-gives-error-1-tiffsetfieldimages-out-tif-cannot-mod
+Moved the mem.write cogeotiff.py#L153
+line after the mem.write_colormap line below it.
+
+Also added the cogeotiff and cogeotiff_rgba tests scripts to
+both test_all.sh and full_test.sh
+
+::
+
+     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
+     modified: tests/integration_tests/full_test.sh
+     modified: tests/test_all.sh
+
+Bug fix
+=======
+
+Bug fix atms reader
+-------------------
+
+Mask data with bad lat/lons. This will not only break downstream interpolation
+but also results in bad start datetimes in the metadata
+
+Also update how metadata_only impacts the reader behavior. Previously reader would
+read in all data if metadata_only was True, and also did not properly set the
+xarray attributes if metadata_only was False.
+
+::
+
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Bug fix
+=======
+
+Replace old database interface import
+-------------------------------------
+
+Update any remaining database interface imports that still referenced geoips_db
+
+::
+
+     modified: geoips/utils/composite.pygeoips/utils/composite.py
+
+Bug fix
+=======
+
+Handle cogeotiff error when producing output for a non-eqc projected sector
+---------------------------------------------------------------------------
+
+Replace TypeError and ValueError with custom GeoIPS errors in cogeotiff output
+formatters. Replace TypeError with OutputFormatterInvalidProjectionError, which is
+raised when the sector projection is not eqc. Replace ValueError with
+OutputFormatterDatelineError, which is raised when a sector crosses the dateline.
+
+Handle OutputFormatterInvalidProjectionError and OutputFormatterDatelineError raised
+by output formatters. Not handling these errors can cause issues with config_based
+processing, where multiple sectors may be passed to the procflow and they might not
+all be the same projection or cross the dateline. For this type of scenario, rather
+than raising an error and stopping all processing, log a warning of the issue.
+
+::
+
+     modified: geoips/errors.py
+     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
+     modified: geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Bug fix
+=======
+
+Bug fixes for cli
+-----------------
+
+Ensure we use str(docstring) when constructing package info for tabulate,
+since tabulate will fail if any field is None. Perhaps we want to get
+people to fix the missing docstring, but I expect at this point in the
+code we should not fail catastrophically if a None has made it through.
+
+::
+
+     modified: geoips/commandline/geoips_list.py
+
+Bug fix
+=======
+
+Bug fixes for abi dmw config based test script
+----------------------------------------------
+
+Ensure file inputs use $GEOIPS_TESTDATA_DIR.
+
+::
+
+     modified: tests/scripts/abi.config_based_dmw_overlay.sh
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+*From GEOIPS#715: 2024-11-16, 1.14.2 updates*
+
+* Tagged version: 1.14.2
+* Upcoming version: 1.14.4
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Documentation
+=============
+
+Add algorithm interface documentation
+-------------------------------------
+
+Create documentation for the algorithm interface.
+
+::
+
+     added: docs/source/new-docs/concepts/functionality/interfaces/module_based/algorithm.rst
+     added: docs/source/releases/latest/508-document-algorithm-interface.yaml
+
+Enhancement
+===========
+
+Add support for amsr2 rss products
+----------------------------------
+
+Add new product yaml for AMSR2 RSS source inputs. This YAML is more or less a carbon
+copy of the amsr2_winds product YAML, but with the sensor name set as amsr2rss
+
+Also add new test script and comparison outputs for AMSR2 RSS. Add test script call
+to both test_all.sh and integration_tests/full_test.sh
+
+::
+
+     added: geoips/plugins/yaml/products/amsr2_rss.yaml
+     added:
+     tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png
+     added:
+     tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png.yaml
+     added: tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh
+     modified: tests/integration_tests/full_test.sh
+     modified: tests/test_all.sh
+
+Enhancement
+===========
+
+Override product database schema/tables when searching for composite inputs
+---------------------------------------------------------------------------
+
+Increase flexibility when querying the product database for finding inputs to create
+a composited product. User is now able to specify if the expected composite inputs
+are located in a different product database schema/table than the current configuration.
+
+::
+
+     modified: geoips/plugins/modules/procflows/config_based.py
+
+Enhancement
+===========
+
+Add support for abi derived motion winds (dmw) products
+-------------------------------------------------------
+
+*From issue GEOIPS#571: 2024-08-29, Add derived motion wind products*
+
+Update ABI L2 netCDF reader to work with 1D datasets, such as DMW files. Some of the
+L2 files (such as DMW) are not supported the backend satpy abi_l2_nc reader, so fall
+back on xarray.load_dataset() if that is the case. If multiple files holding 1D
+datasets are passed in for a single scan time and they all share the same dimension,
+they are concatenated into one dataset.
+
+Add "m s-1" to "kts" unit conversion support
+
+Add new windbarbs_dmw algorithm that is capable of filtering wind retrievals to
+specified pressure level ranges.
+
+Also add new colormap and output formatterfor displaying multiple assigned height
+levels on a single image. The new output formatter also imports from the existing
+imagery_windbarbs output formatter, where minor updates were made to that formatter
+to handle the formatting and plotting of ingested DMW data (such as thinning
+pressure if that variable exists, and being able to control which variable is
+used for coloring the windbarbs).
+
+Add support to interp_pyresample for handling abi datasets of 1-dimension
+
+Add new product YAMLs for displaying DMWs at Low, Mid, or High levels, or displaying
+all levels on a single image. Add to ABI source YAML.
+
+Add new test scripts and example output for DMW products.
+
+::
+
+     added: geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level.py
+     added: geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_high.yaml
+     added: geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_low.yaml
+     added: geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_mid.yaml
+     added: geoips/plugins/yaml/product_defaults/geostationary_dmw/windbarbs_dmw_multi_level.yaml
+     added:
+     tests/outputs/abi.static.DMW-High.imagery_windbarbs/20210929.000020.goes-16.abi.DMW-High.goes_east.3p32.noaa.10p0.png
+     added:
+     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
+     added: tests/scripts/abi.config_based_dmw_overlay.sh
+     added: tests/scripts/abi.static.dmw.imagery_windbarbs_high.sh
+     added: tests/yaml_configs/abi_dmw_overlay.yaml
+     modified: geoips/data_manipulations/conversions.py
+     modified: geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py
+     modified: geoips/plugins/modules/colormappers/winds/dmw_wind_levels.py
+     modified: geoips/plugins/modules/interpolators/utils/interp_pyresample.py
+     modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     modified: geoips/plugins/yaml/products/abi.yaml
+     modified: tests/test_all.sh
+
+Enhancement
+===========
+
+Add resampling capability to viirs_sdr_hdf5 reader
+--------------------------------------------------
+
+Add logic for resampling data upon read to a given sector
+
+Add option to disable bowtie correction
+
+::
+
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+
+Enchancement
+============
+
+Reader functionality and product fixes
+--------------------------------------
+
+Fixed a viirs_sdr_hdf5 bowtie bug, and reflectance channel differences
+between viirs_netcdf data. Created a GFS GRIB reader and algorithm
+to modify, and slice model data. Fixed several bugs, plotting polar
+data, and sectoring N-dimensional data variables.
+
+::
+
+     added: docs/source/new-docs/concepts/functionality/data_units.rst
+     added: geoips/plugins/modules/algorithms/model_channel.py
+     added: geoips/plugins/modules/readers/gfs_grib.py
+     added: geoips/plugins/yaml/product_defaults/model/model_waves.yaml
+     added: geoips/plugins/yaml/product_defaults/model/model_windspeed.yaml
+     added: geoips/plugins/yaml/products/gfs_model.yaml
+     added: geoips/plugins/yaml/product_defaults/model/model_waves.yaml
+     added: geoips/plugins/modules/algorithms/model/model_windbarbs.py
+     added: geoips/plugins/yaml/product_defaults/model/model_windbarbs.yaml
+     modified: geoips/plugins/yaml/products/viirs.yaml
+     modified: geoips/plugins/modules/readers/viirs_netcdf.py
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+     modified: geoips/image_utils/maps.py
+     modified: geoips/plugins/modules/algorithms/sfc_winds/windbarbs.py
+     modified: pyproject.toml
+     modified: geoips/xarray_utils/data.py
+     modified: geoips/xarray_utils/data.py
+
+Enhancements
+============
+
+Add databases interface
+-----------------------
+
+Add databases interface
+
+* geoips/interfaces/module_based/databases.py
+* geoips/interfaces/__init__.py
+
+Add databases interface to alias mapping, cmd instructions
+
+* geoips/commandline/ancillary_info/alias_mapping.yaml
+* geoips/commandline/ancillary_info/cmd_instructions.yaml
+
+Update databases interface import in single_source procflow to geoips
+not geoips_db.
+
+* geoips/interfaces/module_based/databases.py
+
+Ensure correct families are used from the single source procflow for database
+writes.  Ensure all families are set up correctly in the databases interface,
+with the correct arguments and kwargs so they are called correctly from the
+procflow.
+
+* geoips/plugins/modules/procflows/single_source.py
+
+::
+
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/interfaces/__init__.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+     added: geoips/interfaces/module_based/databases.py

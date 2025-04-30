@@ -1,0 +1,2652 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Integration Tests &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'concepts/functionality/examples/integration-tests';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Interfaces" href="../interfaces/index.html" />
+    <link rel="prev" title="Examples" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Functionality</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../command-line/index.html">Command Line Interface</a></li>
+
+<li class="toctree-l2"><a class="reference internal" href="../plugin-registries.html">Using Plugin Registries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../documentation-building.html">Documentation Building</a></li>
+<li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l3 current active"><a class="current reference internal" href="#">Integration Tests</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../interfaces/index.html">Interfaces</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/algorithm.html">Algorithms in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/colormapper.html">Colormaps in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/filename_formats.html">Filename Formatters in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/interpolators.html">Interpolators in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/output_formats.html">Output Formatters in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/procflows.html">Processing Workflows (Procflows) in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/readers.html">Readers in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/module_based/title_formats.html">Title Formatters in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/yaml_based/dynamic_sectors.html">Dynamic Sectors in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/yaml_based/feature_annotators.html">Feature Annotators Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/yaml_based/gridline_annotators.html">Gridline Annotators Interface</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/yaml_based/product_defaults.html">Product Templates (Defaults) in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/yaml_based/products.html">Products in GeoIPS</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../interfaces/yaml_based/static_sectors.html">Static Sectors in GeoIPS</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../architecture/index.html">Architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/extend-with-plugins.html">Extend GeoIPS with Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/plugin-registries.html">Understanding Plugin Registries</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/structure-of-geoips/index.html">The Structure of GeoIPS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/xarray-standards.html">Xarray and NetCDF Metadata Standards</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/geoips-specification.html">Software Requirements Specification</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../architecture/tests/index.html">Testing Suite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/tests/unit-tests.html">Unit Testing</a></li>
+</ul>
+</details></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="../../architecture/documentation/index.html">Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/documentation/documentation-builder.html">Documentation Builder</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/documentation/where-to-put.html">Where to Put Documentation</a></li>
+</ul>
+</details></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Concepts</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Functionality</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Examples</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Integration Tests</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="integration-tests">
+<h1>Integration Tests<a class="headerlink" href="#integration-tests" title="Permalink to this heading">#</a></h1>
+<p>These examples are generated from the scripts we use to test GeoIPS.</p>
+<section id="abi-config-based-exclude-goes17">
+<h2>ABI Config Based Exclude GOES17<a class="headerlink" href="#abi-config-based-exclude-goes17" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based \
+  $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b*.nc \
+  --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test_low_memory.yaml
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsr2-ocean-tropical-cyclone-windspeed-imagery-clean">
+<h2>AMSR2 Ocean Tropical Cyclone Windspeed Imagery Clean<a class="headerlink" href="#amsr2-ocean-tropical-cyclone-windspeed-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-OCEAN_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+          --reader_name amsr2_netcdf \
+          --product_name windspeed \
+          --filename_formatter tc_clean_fname \
+          --output_formatter imagery_clean \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat \
+          --compare_path &quot;${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="imerg-tropical-cyclone-rain-imagery-clean">
+<h2>IMERG Tropical Cyclone Rain Imagery Clean<a class="headerlink" href="#imerg-tropical-cyclone-rain-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/3B-HHR-L.MS.MRG.3IMERG.20200917-S170000-E172959.1020.V06B.RT-H5 \
+          --reader_name imerg_hdf5 \
+          --product_name Rain \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_clean \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/imerg.tc.Rain.imagery_clean&quot;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="abi-config-based-output">
+<h2>ABI Config Based Output<a class="headerlink" href="#abi-config-based-output" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based \
+             --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test.yaml
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsub-mirs-tropical-cyclone-183-3h-imagery-annotated">
+<h2>AMSUB MIRS Tropical Cyclone 183-3H Imagery Annotated<a class="headerlink" href="#amsub-mirs-tropical-cyclone-183-3h-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsub/data/NPR-MIRS-IMG_v11r4_ma2_s202104192335000_e202104190118000_c202104200206490.nc \
+          --reader_name amsua_mhs_mirs \
+          --product_name RainRate \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_annotated \
+          --feature_annotator tc_pmw \
+          --gridline_annotator tc_pmw \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsua_mhs_mirs.tc.&lt;product&gt;.imagery_annotated&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="mimic-coarse-static-tpw-cimss-imagery-annotated">
+<h2>MIMIC Coarse Static TPW CIMSS Imagery Annotated<a class="headerlink" href="#mimic-coarse-static-tpw-cimss-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp20210723.000000.nc \
+          --reader_name mimic_netcdf \
+          --product_name TPW-CIMSS \
+          --filename_formatter geoips_fname \
+          --output_formatter imagery_annotated \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated&quot; \
+          --sector_list global_cylindrical
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="abi-config-based-output-low-memory">
+<h2>ABI Config Based Output Low Memory<a class="headerlink" href="#abi-config-based-output-low-memory" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based \
+             --output_config $GEOIPS_PACKAGES_DIR/geoips/tests/yaml_configs/abi_test_low_memory.yaml
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="ascat-knmi-tropical-cyclone-windbarbs-imagery-windbarbs-clean">
+<h2>ASCAT KNMI Tropical Cyclone Windbarbs Imagery Windbarbs Clean<a class="headerlink" href="#ascat-knmi-tropical-cyclone-windbarbs-imagery-windbarbs-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_125/ascat_20210421_010000_metopc_12730_eps_o_coa_3203_ovw.l2.nc \
+          --reader_name scat_knmi_winds_netcdf \
+          --product_name windbarbs \
+          --filename_formatter tc_clean_fname \
+          --output_formatter imagery_windbarbs_clean \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --tc_spec_template tc_web_ascat_high_barbs \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="mimic-fine-tropical-cyclone-tpw-pwat-imagery-annotated">
+<h2>MIMIC Fine Tropical Cyclone TPW PWAT Imagery Annotated<a class="headerlink" href="#mimic-fine-tropical-cyclone-tpw-pwat-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_tpw/data/fine/comp20210419.230000.nc \
+          --reader_name mimic_netcdf \
+          --product_name TPW-PWAT \
+          --filename_formatter tc_fname \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --output_formatter imagery_annotated \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated&quot; \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="abi-static-infrared-imagery-clean">
+<h2>ABI Static Infrared Imagery Clean<a class="headerlink" href="#abi-static-infrared-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+             --reader_name abi_netcdf \
+             --product_name Infrared \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean&quot; \
+             --output_formatter imagery_clean \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --logging_level info \
+             --sector_list goes_east_subsector
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-low-knmi-tropical-cyclone-windbarbs-imagery-windbarbs">
+<h2>ASCAT Low KNMI Tropical Cyclone Windbarbs Imagery Windbarbs<a class="headerlink" href="#ascat-low-knmi-tropical-cyclone-windbarbs-imagery-windbarbs" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/metopc_knmi_250/ascat_20210421_010000_metopc_12730_eps_o_250_3203_ovw.l2.nc \
+          --reader_name scat_knmi_winds_netcdf \
+          --product_name windbarbs \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_windbarbs \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="modis-infrared-unprojected-image">
+<h2>MODIS Infrared Unprojected Image<a class="headerlink" href="#modis-infrared-unprojected-image" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD021KM.A2021004.2005.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD03.A2021004.2005.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201000/MYD021KM.A2021004.2010.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201000/MYD03.A2021004.2010.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201500/MYD021KM.A2021004.2015.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201500/MYD03.A2021004.2015.061.NRT.hdf \
+             --reader_name modis_hdf4 \
+             --product_name Infrared \
+             --output_formatter unprojected_image \
+             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;250&quot;}&#39; \
+             --filename_formatter geoips_fname \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/modis.&lt;product&gt;.unprojected_image&quot; \
+             --self_register_dataset &#39;1KM&#39; \
+             --self_register_source modis
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="abi-static-infrared-netcdf-geoips">
+<h2>ABI Static Infrared NetCDF GeoIPS<a class="headerlink" href="#abi-static-infrared-netcdf-geoips" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+             --procflow single_source \
+             --reader_name abi_netcdf \
+             --product_name Infrared \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.netcdf_geoips&quot; \
+             --output_formatter netcdf_geoips \
+             --filename_formatter geoips_netcdf_fname \
+             --resampled_read \
+             --logging_level info \
+             --sector_list denver
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-noaa-25km-tropical-cyclone-windbarbs-imagery-windbarbs">
+<h2>ASCAT NOAA 25km Tropical Cyclone Windbarbs Imagery Windbarbs<a class="headerlink" href="#ascat-noaa-25km-tropical-cyclone-windbarbs-imagery-windbarbs" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW25kmASCAT_v1r1_m03_*.nc \
+          --reader_name scat_noaa_winds_netcdf \
+          --product_name windbarbs \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_windbarbs \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022023.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs&quot; \
+          --tc_spec_template tc_web_ascat_low_barbs \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="oscat-knmi-tropical-cyclone-windbarbs-imagery-windbarbs">
+<h2>OSCAT KNMI Tropical Cyclone Windbarbs Imagery Windbarbs<a class="headerlink" href="#oscat-knmi-tropical-cyclone-windbarbs-imagery-windbarbs" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source \
+    $GEOIPS_TESTDATA_DIR/test_data_scat/data/oscat_250/oscat_20210209_022459_scasa1_23155_o_250_2202_ovw_l2.nc \
+    --reader_name scat_knmi_winds_netcdf \
+    --product_name windbarbs \
+    --filename_formatter tc_fname \
+    --output_formatter imagery_windbarbs \
+    --metadata_filename_formatter metadata_default_fname \
+    --metadata_output_formatter metadata_default \
+    --tc_spec_template tc_web \
+    --trackfile_parser bdeck_parser \
+    --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
+    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs&quot; \
+    --product_spec_override &#39;{}&#39; \
+    --output_formatter_kwargs &#39;{}&#39; \
+    --filename_formatter_kwargs &#39;{}&#39; \
+    --metadata_output_formatter_kwargs &#39;{}&#39; \
+    --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="abi-static-visible-imagery-clean">
+<h2>ABI Static Visible Imagery Clean<a class="headerlink" href="#abi-static-visible-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+             --reader_name abi_netcdf \
+             --product_name Visible \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.&lt;product&gt;.imagery_clean&quot; \
+             --output_formatter imagery_clean \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list goes_east_subsector
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-noaa-50km-tropical-cyclone-wind-ambiguities-imagery-windbarbs">
+<h2>ASCAT NOAA 50km Tropical Cyclone Wind-Ambiguities Imagery Windbarbs<a class="headerlink" href="#ascat-noaa-50km-tropical-cyclone-wind-ambiguities-imagery-windbarbs" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230524_metopc_noaa_class_tc2023wp02mawar/L2OVW50kmASCAT_v1r1_m03_*.nc \
+          --reader_name scat_noaa_winds_netcdf \
+          --product_name wind-ambiguities \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_windbarbs \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022023.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs&quot; \
+          --tc_spec_template tc_web_ascat_50km_barbs \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="saphir-tropical-cyclone-183-3hnearest-imagery-annotated">
+<h2>SAPHIR Tropical Cyclone 183-3HNearest Imagery Annotated<a class="headerlink" href="#saphir-tropical-cyclone-183-3hnearest-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_saphir/data/MT1SAPSL1A__1.09_000_1_19_I_2021_02_09_00_30_03_2021_02_09_01_11_16_48144_48144_497_33_33_KUX_00.h5 \
+          --reader_name saphir_hdf5 \
+          --product_name 183-3HNearest \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_annotated \
+          --feature_annotator tc_pmw \
+          --gridline_annotator tc_pmw \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/saphir.tc.183-3HNearest.imagery_annotated&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="ahi-tropical-cyclone-wv-geotiff">
+<h2>AHI Tropical Cyclone WV GeoTIFF<a class="headerlink" href="#ahi-tropical-cyclone-wv-geotiff" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/himawari8/20200405/0000/* \
+          --reader_name ahi_hsd \
+          --product_name WV \
+          --filename_formatter geotiff_fname \
+          --output_formatter geotiff_standard \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ahi.tc.&lt;product&gt;.geotiff&quot; \
+          --logging_level debug \
+          --resampled_read
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-uhr-tropical-cyclone-nrcs-imagery-clean">
+<h2>ASCAT UHR Tropical Cyclone NRCS Imagery Clean<a class="headerlink" href="#ascat-uhr-tropical-cyclone-nrcs-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20220911_metopb_byu_uhr_tc2022wp14muifa/MUIFA_20220911_51797_B_A-product.nc \
+          --reader_name ascat_uhr_netcdf \
+          --product_name nrcs \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_clean \
+          --tc_spec_template tc_web \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp142022.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.nrcs.imagery_clean&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="sar-tropical-cyclone-nrcs-imagery-annotated">
+<h2>SAR Tropical Cyclone NRCS Imagery Annotated<a class="headerlink" href="#sar-tropical-cyclone-nrcs-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_sar/data/STAR_SAR_20181025203206_WP312018_31W_FIX_3km.nc \
+          --reader_name sar_winds_netcdf \
+          --product_name nrcs \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_annotated \
+          --feature_annotator default \
+          --gridline_annotator default \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp312018.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/sar.tc.nrcs.imagery_annotated&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="ami-wv-upper-unprojected-image">
+<h2>AMI WV-Upper Unprojected Image<a class="headerlink" href="#ami-wv-upper-unprojected-image" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
+             --procflow single_source \
+             --reader_name ami_netcdf \
+             --reader_kwargs &#39;{&quot;self_register&quot;: &quot;LOW&quot;}&#39; \
+             --product_name WV-Upper \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.WV-Upper.unprojected_image&quot; \
+             --output_formatter unprojected_image \
+             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;1000&quot;, &quot;y_size&quot;: &quot;1000&quot;}&#39; \
+             --filename_formatter geoips_fname \
+             --logging_level info \
+             --self_register_dataset &#39;Full-Disk&#39; \
+             --self_register_source ami
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-uhr-tropical-cyclone-wind-ambiguities-imagery-windbarbs">
+<h2>ASCAT UHR Tropical Cyclone Wind-Ambiguities Imagery Windbarbs<a class="headerlink" href="#ascat-uhr-tropical-cyclone-wind-ambiguities-imagery-windbarbs" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20210421_metopc_byu_uhr_tc2021wp02surigae/210421_0142_12730_SURIGAE_210421_0000.WRave3.nc \
+          --reader_name ascat_uhr_netcdf \
+          --product_name wind-ambiguities \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_windbarbs \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --tc_spec_template tc_web_ascatuhr_barbs \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp022021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="seviri-wv-upper-unprojected-image">
+<h2>SEVIRI WV-Upper Unprojected Image<a class="headerlink" href="#seviri-wv-upper-unprojected-image" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-_________-EPI______-202312110800-__ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-_________-PRO______-202312110800-__ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000001___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000002___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000003___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000004___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000005___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000006___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000007___-202312110800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000008___-202312110800-C_ \
+             --reader_name seviri_hrit \
+             --product_name WV-Upper \
+             --output_formatter unprojected_image \
+             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;1000&quot;, &quot;y_size&quot;: &quot;1000&quot;}&#39; \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.WV-Upper.unprojected_image&quot; \
+             --filename_formatter geoips_fname \
+             --self_register_dataset &#39;FULL_DISK&#39; \
+             --self_register_source seviri
+retval=$?
+
+exit $retval
+
+
+</pre></div>
+</div>
+</section>
+<section id="ami-static-infrared-imagery-clean">
+<h2>AMI Static Infrared Imagery Clean<a class="headerlink" href="#ami-static-infrared-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
+             --procflow single_source \
+             --reader_name ami_netcdf \
+             --product_name Infrared \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.&lt;product&gt;.imagery_clean&quot; \
+             --output_formatter imagery_clean \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --logging_level info \
+             --sector_list geokompsat_subsector
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-uhr-tropical-cyclone-windbarbs-imagery-windbarbs">
+<h2>ASCAT UHR Tropical Cyclone Windbarbs Imagery Windbarbs<a class="headerlink" href="#ascat-uhr-tropical-cyclone-windbarbs-imagery-windbarbs" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230722_metopb_byu_uhr_tc2023al05don/DON_20230722_56263_B_A-product.nc \
+          --reader_name ascat_uhr_netcdf \
+          --product_name windbarbs \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_windbarbs \
+          --tc_spec_template tc_web \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal052023.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="smap-tropical-cyclone-windspeed-imagery-clean">
+<h2>SMAP Tropical Cyclone Windspeed Imagery Clean<a class="headerlink" href="#smap-tropical-cyclone-windspeed-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Note this includes test of --window_start_time and --window_end_time
+
+geoips run single_source \
+    $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
+    --reader_name smap_remss_winds_netcdf \
+    --product_name windspeed \
+    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.tc.windspeed.imagery_clean&quot; \
+    --output_formatter imagery_clean \
+    --filename_formatter tc_clean_fname \
+    --window_start_time &quot;20210926T2000Z&quot; \
+    --window_end_time &quot;20210926T2200Z&quot; \
+    --trackfile_parser bdeck_parser \
+    --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp202021.dat
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="ami-static-visible-imagery-clean">
+<h2>AMI Static Visible Imagery Clean<a class="headerlink" href="#ami-static-visible-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
+             --procflow single_source \
+             --reader_name ami_netcdf \
+             --product_name Visible \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.&lt;product&gt;.imagery_clean&quot; \
+             --output_formatter imagery_clean \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list geokompsat_subsector
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="ascat-uhr-tropical-cyclone-windspeed-imagery-clean">
+<h2>ASCAT UHR Tropical Cyclone Windspeed Imagery Clean<a class="headerlink" href="#ascat-uhr-tropical-cyclone-windspeed-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+# https://www.nrlmry.navy.mil/tcdat/tc2021/WP/WP022021/txt/SCT_winds_knmi_metop-c_WP02_202104210141
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_scat/data/20230912_metopc_byu_uhr_tc2023al13lee/LEE_20230912_25146_C_A-cmod5h-scaled_v2.nc \
+          --reader_name ascat_uhr_netcdf \
+          --product_name windspeed \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_clean \
+          --tc_spec_template tc_web \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal132023.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ascat_uhr.tc.windspeed.imagery_clean&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="smap-unsectored-text-winds">
+<h2>SMAP Unsectored Text Winds<a class="headerlink" href="#smap-unsectored-text-winds" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+
+# For reference, bdeck file with coverage is: $GEOIPS_PACKAGES_DIR/geoips/tests/sectored/bwp202021.dat
+# Not used for unsectored output, but potentially for other products
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_smap/data/RSS_smap_wind_daily_2021_09_26_NRT_v01.0.nc \
+             --reader_name smap_remss_winds_netcdf \
+             --product_name unsectored \
+             --filename_formatter text_winds_full_fname \
+             --output_formatter text_winds \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.unsectored.text_winds&quot;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="ami-static-mst-absdiff-ir-bd-imagery-clean">
+<h2>AMI Static MST Absdiff-IR-BD Imagery Clean<a class="headerlink" href="#ami-static-mst-absdiff-ir-bd-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_multi_scan_times/data/geokompsat-ami/LA/*ir112*.nc \
+    --reader_name ami_netcdf \
+    --product_name absdiff-IR-BD \
+    --output_formatter imagery_clean \
+    --filename_formatter geoips_fname \
+    --logging_level info \
+    --minimum_coverage 0 \
+    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.static.mst.&lt;product&gt;.imagery_clean&quot; \
+    --sector_list geokompsat_subsector
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="atms-tropical-cyclone-165h-netcdf-geoips">
+<h2>ATMS Tropical Cyclone 165H NetCDF GeoIPS<a class="headerlink" href="#atms-tropical-cyclone-165h-netcdf-geoips" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0838266_e0838583_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0838586_e0839303_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0839306_e0840023_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0840026_e0840343_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0840346_e0841063_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0841066_e0841383_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0841386_e0842103_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0838266_e0838583_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0838586_e0839303_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0839306_e0840023_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0840026_e0840343_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0840346_e0841063_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0841066_e0841383_b19295_fnmoc_ops.h5 \
+          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0841386_e0842103_b19295_fnmoc_ops.h5 \
+          --reader_name atms_hdf5 \
+          --product_name 165H \
+          --filename_formatter geoips_netcdf_fname \
+          --output_formatter netcdf_geoips \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bep112021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/atms.tc.&lt;product&gt;.netcdf_geoips&quot; \
+          --tc_spec_template tc_4km_256x256 \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{&quot;clobber&quot;: &quot;True&quot;}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="smos-tropical-cyclone-sectored-text-winds">
+<h2>SMOS Tropical Cyclone Sectored Text Winds<a class="headerlink" href="#smos-tropical-cyclone-sectored-text-winds" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_smos/data/SM_OPER_MIR_SCNFSW_20200216T120839_20200216T135041_110_001_7.nc \
+             --reader_name smos_winds_netcdf \
+             --product_name sectored \
+             --filename_formatter text_winds_tc_fname \
+             --output_formatter text_winds \
+             --trackfile_parser bdeck_parser \
+             --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh162020.dat \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smos.tc.sectored.text_winds&quot;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="ami-tropical-cyclone-wv-geotiff">
+<h2>AMI Tropical Cyclone WV GeoTIFF<a class="headerlink" href="#ami-tropical-cyclone-wv-geotiff" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/bash
+
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc \
+          --procflow single_source \
+          --reader_name ami_netcdf \
+          --product_name WV \
+          --filename_formatter geotiff_fname \
+          --output_formatter geotiff_standard \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh032024.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ami.tc.&lt;product&gt;.geotiff&quot; \
+          --resampled_read
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="cli-dummy-script">
+<h2>CLI Dummy Script<a class="headerlink" href="#cli-dummy-script" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="c1">#!/bin/bash</span>
+
+<span class="c1"># This test is needed for Unit Testing the &#39;geoips test script&#39; command.</span>
+<span class="c1"># Since we don&#39;t actually need to run a full test script, we have created a dummy</span>
+<span class="c1"># script that we only care if it&#39;s exectuted or not.</span>
+
+<span class="n">echo</span> <span class="s2">&quot;I ran a dummy test script.&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="ssmi-tropical-cyclone-37pct-imagery-clean">
+<h2>SSMI Tropical Cyclone 37pct Imagery Clean<a class="headerlink" href="#ssmi-tropical-cyclone-37pct-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source \
+          $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
+          $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def \
+          --reader_name ssmi_binary \
+          --product_name 37pct \
+          --filename_formatter tc_clean_fname \
+          --output_formatter imagery_clean \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmi.tc.37pct.imagery_clean&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsr2-config-based-no-compare">
+<h2>AMSR2 Config Based No Compare<a class="headerlink" href="#amsr2-config-based-no-compare" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+  --output_config ${GEOIPS_PACKAGES_DIR}/geoips/tests/yaml_configs/amsr2_test_no_compare.yaml \
+  --reader_kwargs \
+    &#39;{&quot;test_arg&quot;: &quot;Command line config-based amsr2 test arg&quot;}&#39; \
+  --fuse_files ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/* \
+  --fuse_reader ahi_hsd \
+  --fuse_reader_kwargs \
+    &#39;{&quot;test_arg&quot;: &quot;Command line config-based ahi test arg&quot;}&#39; \
+  --fuse_product Infrared-Gray \
+  --fuse_resampled_read True
+
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="console-script-create-sector-image">
+<h2>Console Script Create Sector Image<a class="headerlink" href="#console-script-create-sector-image" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/sh
+
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+geoips test sector conus
+retval_conus=$?
+
+geoips test sector global; geoips test sector goes_east
+retval_all=$?
+
+echo &quot;CONUS retval: $retval_conus&quot;
+echo &quot;All retval: $retval_all&quot;
+exit $((retval_conus+retval_all))
+</pre></div>
+</div>
+</section>
+<section id="ssmis-color91-unprojected-image">
+<h2>SSMIS Color91 Unprojected Image<a class="headerlink" href="#ssmis-color91-unprojected-image" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ssmis/data/US058SORB-RAWspp.sdris_f16_d20200519_s084400_e102900_r85579_cfnoc.raw \
+          --reader_name ssmis_binary \
+          --product_name color91 \
+          --output_formatter unprojected_image \
+          --filename_formatter geoips_fname \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmis.color91.unprojected_image&quot; \
+          --self_register_dataset &#39;IMAGER&#39; \
+          --self_register_source ssmis
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="amsr2-config-based-no-compare-full">
+<h2>AMSR2 Config Based No Compare Full<a class="headerlink" href="#amsr2-config-based-no-compare-full" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+  --output_config ${GEOIPS_PACKAGES_DIR}/geoips/tests/yaml_configs/amsr2_no_compare_full.yaml \
+  --trackfile_parser bdeck_parser \
+  --trackfiles ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bio012020.dat \
+  --reader_kwargs \
+    &#39;{&quot;test_arg&quot;: &quot;Command line config-based amsr2 test arg&quot;}&#39; \
+  --fuse_files ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/* \
+  --fuse_reader ahi_hsd \
+  --fuse_reader_kwargs \
+    &#39;{&quot;test_arg&quot;: &quot;Command line config-based ahi test arg&quot;}&#39; \
+  --fuse_product Infrared-Gray \
+  --fuse_resampled_read True
+
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="console-script-list-available-plugins">
+<h2>Console Script List Available Plugins<a class="headerlink" href="#console-script-list-available-plugins" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>#!/bin/sh
+
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+list_available_plugins readers -l info
+retval_readers=$?
+
+list_available_plugins
+retval_all=$?
+
+echo &quot;Readers retval: $retval_readers&quot;
+echo &quot;All retval: $retval_all&quot;
+exit $((retval_readers+retval_all))
+</pre></div>
+</div>
+</section>
+<section id="viirsclearnight-night-vis-ir-geoips1-imagery-annotated">
+<h2>VIIRSClearnight Night-Vis-IR-GeoIPS1 Imagery Annotated<a class="headerlink" href="#viirsclearnight-night-vis-ir-geoips1-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP02DNB.A2024017.1724.002.2024018012054.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP02IMG.A2024017.1724.002.2024018012054.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP02MOD.A2024017.1724.002.2024018012054.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP03DNB.A2024017.1724.002.2024018003923.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP03IMG.A2024017.1724.002.2024018003923.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20240117/172400/VNP03MOD.A2024017.1724.002.2024018003923.nc \
+             --procflow single_source \
+             --reader_name viirs_netcdf \
+             --product_name Night-Vis-IR-GeoIPS1 \
+             --output_formatter imagery_annotated \
+             --filename_formatter geoips_fname \
+             --sector_list north_pole \
+             --gridline_annotator north_pole \
+             --minimum_coverage 0 \
+             --logging_level info
+
+ss_retval=$?
+
+exit $((ss_retval))
+
+            #  --self_register_dataset &#39;DNB&#39; \
+#  --self_register_source viirs \
+</pre></div>
+</div>
+</section>
+<section id="amsr2-config-based-overlay-output">
+<h2>AMSR2 Config Based Overlay Output<a class="headerlink" href="#amsr2-config-based-overlay-output" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+  --output_config ${GEOIPS_PACKAGES_DIR}/geoips/tests/yaml_configs/amsr2_test.yaml \
+  --fuse_files ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/* \
+  --fuse_reader ahi_hsd \
+  --fuse_product Visible \
+  --fuse_resampled_read True
+
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="cygnss-tropical-cyclone-windspeed-imagery-clean">
+<h2>CYGNSS Tropical Cyclone Windspeed Imagery Clean<a class="headerlink" href="#cygnss-tropical-cyclone-windspeed-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+geoips run single_source \
+    $GEOIPS_TESTDATA_DIR/test_data_cygnss/data/cyg.ddmi.s20240125-000001-e20240125-235959.l2.wind_trackgridsize25km_NOAAv1.2_L1a21.d21.nc \
+    --reader_name cygnss_netcdf \
+    --product_name windspeed \
+    --output_formatter imagery_clean \
+    --filename_formatter tc_clean_fname \
+    --window_start_time &quot;20240125T0600Z&quot; \
+    --window_end_time &quot;20240125T0615Z&quot; \
+    --minimum_coverage 0 \
+    --trackfile_parser bdeck_parser \
+    --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh062024.dat \
+    --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/cygnss.tc.windspeed.imagery_clean&quot; \
+
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="viirsclearnight-night-vis-ir-geoips1-unprojected-image">
+<h2>VIIRSClearnight Night-Vis-IR-GeoIPS1 Unprojected Image<a class="headerlink" href="#viirsclearnight-night-vis-ir-geoips1-unprojected-image" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02DNB.A2022042.1312.001.2022042183606.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02IMG.A2022042.1312.001.2022042183606.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP02MOD.A2022042.1312.001.2022042183606.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP03DNB.A2022042.1312.001.2022042182240.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP03IMG.A2022042.1312.001.2022042182240.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131200/VNP03MOD.A2022042.1312.001.2022042182240.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131800/VNP02DNB.A2022042.1318.001.2022042183444.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131800/VNP02IMG.A2022042.1318.001.2022042183444.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131800/VNP02MOD.A2022042.1318.001.2022042183444.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131800/VNP03DNB.A2022042.1318.001.2022042182210.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131800/VNP03IMG.A2022042.1318.001.2022042182210.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20220211/131800/VNP03MOD.A2022042.1318.001.2022042182210.nc \
+             --reader_name viirs_netcdf \
+             --product_name Night-Vis-IR-GeoIPS1 \
+             --output_formatter unprojected_image \
+             --output_formatter_kwargs &#39;{&quot;x_size&quot;: &quot;500&quot;}&#39; \
+             --filename_formatter geoips_fname \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsclearnight.&lt;product&gt;.unprojected_image&quot; \
+             --self_register_dataset &#39;DNB&#39; \
+             --self_register_source viirs
+
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsr2-config-based-overlay-output-low-memory">
+<h2>AMSR2 Config Based Overlay Output Low Memory<a class="headerlink" href="#amsr2-config-based-overlay-output-low-memory" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+geoips run config_based ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+  --output_config ${GEOIPS_PACKAGES_DIR}/geoips/tests/yaml_configs/amsr2_test_low_memory.yaml \
+  --fuse_files ${GEOIPS_TESTDATA_DIR}/test_data_amsr2/bg_data/ahi_20200518_0740/* \
+  --fuse_reader ahi_hsd \
+  --fuse_product Infrared-Gray \
+  --fuse_resampled_read True
+
+config_retval=$?
+
+# Produce an overall return value, sum of all 3
+exit $((config_retval))
+</pre></div>
+</div>
+</section>
+<section id="documentation-imagery">
+<h2>Documentation Imagery<a class="headerlink" href="#documentation-imagery" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+#######################################################################################################################
+### Exact calls for producing all imagery contained in &quot;available_functionality.rst&quot; documentation
+### This script:
+###     * runs the commands,
+###     * copies the resulting imagery into the available_functionality image directory
+###     * Checks that the return from both the geoips run single_source and cp commands were 0
+###         * exit entire script with return code 1 upon any non-zero return code
+#######################################################################################################################
+
+
+retval=0
+avfunc=$GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality
+globdir=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/Global-x-x/x-x-x
+
+check_returns() {
+    echo &quot;AFTER COPY $2&quot;
+    echo &quot;retval: $1&quot;
+    if [[ &quot;$1&quot; != &quot;0&quot; ]]; then
+        echo &quot;FAILED non-zero return value, quitting.&quot;
+        exit 1
+    fi
+}
+
+####################################################################
+# 1.4.2 unprojected_imagery
+####################################################################
+
+$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/seviri.WV-Upper.unprojected_image.sh
+curr_retval=$?
+echo &quot;&quot;
+output_image=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/x-x-x/x-x-x/WV-Upper/seviri/20200404.080000.msg-1.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $avfunc/*seviri*
+check_returns $retval $output_image
+
+####################################################################
+# 1.4.2 unprojected_imagery
+####################################################################
+
+$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/modis.Infrared.unprojected_image.sh
+curr_retval=$?
+echo &quot;&quot;
+output_image=$GEOIPS_OUTDIRS/preprocessed/annotated_imagery/x-x-x/x-x-x/Infrared/modis/20210104.201500.aqua.modis.Infrared.self_register.100p00.nasa.3p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*modis*
+check_returns $retval $output_image
+
+####################################################################
+# 1.3.3 sectored text winds
+####################################################################
+
+$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smos.sectored.text_winds.sh
+curr_retval=$?
+retval=$((curr_retval+retval))
+echo $retval
+check_returns $retval $output_image
+
+####################################################################
+# 1.3.3 unsectored text winds
+####################################################################
+
+$GEOIPS_PACKAGES_DIR/geoips/tests/scripts/smap.unsectored.text_winds.sh
+curr_retval=$?
+retval=$((curr_retval+retval))
+echo $retval
+check_returns $retval $output_image
+
+####################################################################
+# 1.3.1 HY-2 Reader, hy2b
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b__15571_o_250_2204_ovw_l2.nc \
+             --reader_name scat_knmi_winds_netcdf \
+             --product_name windspeed \
+             --minimum_coverage 0 \
+             --output_formatter imagery_annotated \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/windspeed/hscat/20211202.080644.hy-2b.hscat.windspeed.global.6p83.knmi.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*hy*
+check_returns $retval $output_image
+
+####################################################################
+# NOTE Currently no sample test case for Level 2 ABI reader
+####################################################################
+
+####################################################################
+# ABI Reader - GOES-17
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi_day/data/goes17_20210718_0150/OR_ABI-L1b-RadF-M6C14_G17_s20211990150319_e20211990159386_c20211990159442.nc \
+             --reader_name abi_netcdf \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/abi/20210718.015031.goes-17.abi.Infrared-Gray.global.22p79.noaa.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*goes-17*
+check_returns $retval $output_image
+
+####################################################################
+# ABI Reader - GOES-16
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/OR_ABI-L1b-RadF-M6C14_G16_s20202621950205_e20202621959513_c20202622000009.nc \
+             --reader_name abi_netcdf \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/abi/20200918.195020.goes-16.abi.Infrared-Gray.global.22p84.noaa.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*goes-16*
+check_returns $retval $output_image
+
+####################################################################
+# AHI Reader
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0110.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0210.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0310.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0410.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0510.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0610.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0710.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0810.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S0910.DAT \
+             $GEOIPS_TESTDATA_DIR/test_data_ahi_day/data/20200405_0000/HS_H08_20200405_0000_B13_FLDK_R20_S1010.DAT \
+             --reader_name ahi_hsd \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/ahi/20200405.000000.himawari-8.ahi.Infrared-Gray.global.29p98.jma.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*ahi*
+check_returns $retval $output_image
+
+####################################################################
+# EWS-G Reader
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
+             --reader_name ewsg_netcdf \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/gvar/20201211.230905.ews-g.gvar.Infrared-Gray.global.33p25.noaa.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*ews*
+check_returns $retval $output_image
+
+####################################################################
+# SEVIRI HRIT Reader - MSG-1
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-_________-EPI______-202004040800-__ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-_________-PRO______-202004040800-__ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000001___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000002___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000003___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000004___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000005___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000006___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000007___-202004040800-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/H-000-MSG1__-MSG1_IODC___-IR_108___-000008___-202004040800-C_ \
+             --reader_name seviri_hrit\
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/seviri/20200404.080000.msg-1.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $avfunc/*msg-1*
+check_returns $retval $output_image
+
+####################################################################
+# SEVIRI HRIT Reader - MSG-4
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-_________-EPI______-202202092200-__ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000001___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000002___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000003___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000004___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000005___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000006___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000007___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-IR_108___-000008___-202202092200-C_ \
+             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20220209.2200_meteoEU/H-000-MSG4__-MSG4________-_________-PRO______-202202092200-__ \
+             --reader_name seviri_hrit\
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/seviri/20220209.220000.msg-4.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $avfunc/*msg-4*
+check_returns $retval $output_image
+
+#######################################################################
+# NOTE Currently no sample test case for WFABBA ASCII ABI Fire Product
+#######################################################################
+
+####################################################################
+# MODIS Reader - Aqua
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD021KM.A2021004.2005.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/200500/MYD03.A2021004.2005.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201000/MYD021KM.A2021004.2010.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201000/MYD03.A2021004.2010.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201500/MYD021KM.A2021004.2015.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/aqua/20210104/201500/MYD03.A2021004.2015.061.NRT.hdf \
+             --reader_name modis_hdf4 \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/modis/20210104.201500.aqua.modis.Infrared-Gray.global.2p08.nasa.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $avfunc/*aqua*
+check_returns $retval $output_image
+
+####################################################################
+# MODIS Reader - Terra
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD021KM.A2021004.1705.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD03.A2021004.1705.061.NRT.hdf \
+             $GEOIPS_TESTDATA_DIR/test_data_modis/data/terra/170500/MOD14.A2021004.1705.006.NRT.hdf \
+             --reader_name modis_hdf4 \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/modis/20210104.170500.terra.modis.Infrared-Gray.global.0p63.nasa.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $avfunc/*terra*
+check_returns $retval $output_image
+
+####################################################################
+# VIIRS Reader - JPSS
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102IMG.A2021040.0736.002.2021040145245.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ103IMG.A2021040.0736.002.2021040142228.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ102IMG.A2021040.0742.002.2021040143010.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ103IMG.A2021040.0742.002.2021040140938.nc \
+             --reader_name viirs_netcdf \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/viirs/20210209.074210.jpss-1.viirs.Infrared-Gray.global.2p00.NASA.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*jpss*
+check_returns $retval $output_image
+
+####################################################################
+# VIIRS Reader - NPP
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02DNB.A2021036.0806.001.2021036140558.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02IMG.A2021036.0806.001.2021036140558.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP02MOD.A2021036.0806.001.2021036140558.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP03DNB.A2021036.0806.001.2021036135524.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP03IMG.A2021036.0806.001.2021036135524.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/npp/20210205/080600/VNP03MOD.A2021036.0806.001.2021036135524.nc \
+             --reader_name viirs_netcdf \
+             --product_name Infrared-Gray \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --resampled_read \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/Infrared-Gray/viirs/20210205.080611.npp.viirs.Infrared-Gray.global.0p97.NASA.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*npp*
+check_returns $retval $output_image
+
+#######################################################################
+# NOTE Currently no sample test case for AMSR2 Reader
+#######################################################################
+
+#######################################################################
+# NOTE Currently no sample test case for AMSR2 REMSS Winds Reader
+#######################################################################
+
+#######################################################################
+# NOTE Currently no sample test case for AMSU-A/AMSU-B/MHS HDF Reader
+#######################################################################
+
+#######################################################################
+# NOTE Currently no sample test case for AMSU-A/AMSU-B/MHS MIRS Reader
+#######################################################################
+
+####################################################################
+# GMI Reader
+####################################################################
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5 \
+             $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5 \
+             $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172519-E173017.V05A.RT-H5 \
+             --reader_name gmi_hdf5 \
+             --product_name 89H \
+             --output_formatter imagery_annotated \
+             --minimum_coverage 0 \
+             --filename_formatter geoips_fname \
+             --sector_list global_cylindrical
+curr_retval=$?
+echo &quot;&quot;
+output_image=$globdir/89H/gmi/20200917.171519.GPM.gmi.89H.global.0p84.NASA.20p0.png
+cp -v $output_image $avfunc
+cp_retval=$?
+retval=$((curr_retval+cp_retval+retval))
+ls -lh $GEOIPS_PACKAGES_DIR/geoips/docs/images/available_functionality/*gmi*
+check_returns $retval $output_image
+
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="viirsday-global-night-vis-ir-cogeotiff-rgba">
+<h2>VIIRSday Global Night-Vis-IR CogeoTIFF RGBA<a class="headerlink" href="#viirsday-global-night-vis-ir-cogeotiff-rgba" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102DNB.A2021040.0736.002.2021040145245.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102MOD.A2021040.0736.002.2021040145245.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ103DNB.A2021040.0736.002.2021040142228.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ103MOD.A2021040.0736.002.2021040142228.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ102DNB.A2021040.0742.002.2021040143010.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ102MOD.A2021040.0742.002.2021040143010.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ103DNB.A2021040.0742.002.2021040140938.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ103MOD.A2021040.0742.002.2021040140938.nc \
+             --procflow single_source \
+             --reader_name viirs_netcdf \
+             --product_name Night-Vis-IR \
+             --filename_formatter geotiff_fname \
+             --output_formatter cogeotiff_rgba \
+             --minimum_coverage 0 \
+             --sector_list global_cylindrical \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.global.&lt;product&gt;.cogeotiff_rgba&quot;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsr2-global-89h-physical-cogeotiff">
+<h2>AMSR2 Global 89H-Physical CogeoTIFF<a class="headerlink" href="#amsr2-global-89h-physical-cogeotiff" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+          --procflow single_source \
+          --reader_name amsr2_netcdf \
+          --product_name 89H-Physical \
+          --filename_formatter geotiff_fname \
+          --output_formatter cogeotiff \
+          --sector_list global_20km_longlat \
+          --minimum_coverage 0 \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.global_20km_longlat.&lt;product&gt;.cogeotiff&quot;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="ewsg-static-infrared-imagery-clean">
+<h2>EWSG Static Infrared Imagery Clean<a class="headerlink" href="#ewsg-static-infrared-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_ewsg/data/2020.1211.2312.goes-13.gvar.nc \
+          --reader_name ewsg_netcdf \
+          --product_name Infrared \
+          --filename_formatter geoips_fname \
+          --output_formatter imagery_clean \
+          --sector_list ewsg \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ewsg.static.&lt;product&gt;.imagery_clean&quot;
+retval=$?
+
+exit $retval
+</pre></div>
+</div>
+</section>
+<section id="viirsday-tropical-cyclone-night-vis-ir-imagery-annotated">
+<h2>VIIRSday Tropical Cyclone Night-Vis-IR Imagery Annotated<a class="headerlink" href="#viirsday-tropical-cyclone-night-vis-ir-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102DNB.A2021040.0736.002.2021040145245.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ102MOD.A2021040.0736.002.2021040145245.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ103DNB.A2021040.0736.002.2021040142228.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/073600/VJ103MOD.A2021040.0736.002.2021040142228.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ102DNB.A2021040.0742.002.2021040143010.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ102MOD.A2021040.0742.002.2021040143010.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ103DNB.A2021040.0742.002.2021040140938.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210209/074200/VJ103MOD.A2021040.0742.002.2021040140938.nc \
+             --reader_name viirs_netcdf \
+             --product_name Night-Vis-IR \
+             --filename_formatter tc_fname \
+             --output_formatter imagery_annotated \
+             --feature_annotator tc_visir \
+             --gridline_annotator tc_visir \
+             --metadata_filename_formatter metadata_default_fname \
+             --metadata_output_formatter metadata_default \
+             --trackfile_parser bdeck_parser \
+             --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh192021.dat \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsday.tc.&lt;product&gt;.imagery_annotated&quot; \
+             --product_spec_override &#39;{}&#39; \
+             --output_formatter_kwargs &#39;{}&#39; \
+             --filename_formatter_kwargs &#39;{}&#39; \
+             --metadata_output_formatter_kwargs &#39;{}&#39; \
+             --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsr2-tropical-cyclone-89h-physical-histogram-netcdf">
+<h2>AMSR2 Tropical Cyclone 89H-Physical Histogram NetCDF<a class="headerlink" href="#amsr2-tropical-cyclone-89h-physical-histogram-netcdf" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+run_procflow $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+          --procflow single_source \
+          --reader_name amsr2_netcdf \
+          --reader_kwargs \
+            &#39;{&quot;test_arg&quot;: &quot;AMSR2 single source command line reader test_arg&quot;}&#39; \
+          --product_name 89H-Physical \
+          --filename_formatter tc_fname \
+          --output_formatter histogram_json \
+          --feature_annotator tc_pmw \
+          --gridline_annotator tc_pmw \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.&lt;product&gt;.imagery_annotated&quot; \
+          --product_spec_override &#39;{&quot;89H-Physical&quot;: {&quot;coverage_checker&quot;: {&quot;plugin&quot;: {&quot;name&quot;: &quot;center_radius&quot;, &quot;arguments&quot;: {&quot;radius_km&quot;: 300}}}}}&#39; \
+          --output_formatter_kwargs &#39;{&quot;min_val&quot;: 100, &quot;max_val&quot;: 350, &quot;num_bins&quot;: 501}&#39; \
+          --filename_formatter_kwargs &#39;{&quot;output_type&quot;: &quot;histogram.nc&quot;}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="gmi-tropical-cyclone-89pct-imagery-clean">
+<h2>GMI Tropical Cyclone 89pct Imagery Clean<a class="headerlink" href="#gmi-tropical-cyclone-89pct-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S171519-E172017.V05A.RT-H5 \
+             $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172019-E172517.V05A.RT-H5 \
+             $GEOIPS_TESTDATA_DIR/test_data_gpm/data/1B.GPM.GMI.TB2016.20200917-S172519-E173017.V05A.RT-H5 \
+             --reader_name gmi_hdf5 \
+             --product_name 89pct \
+             --filename_formatter tc_clean_fname \
+             --output_formatter imagery_clean \
+             --metadata_filename_formatter metadata_default_fname \
+             --metadata_output_formatter metadata_default \
+             --no_presectoring \
+             --trackfile_parser bdeck_parser \
+             --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bal202020.dat \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/gmi.tc.&lt;product&gt;.imagery_clean&quot; \
+             --product_spec_override &#39;{&quot;89pct&quot;: {&quot;coverage_checker&quot;: {&quot;plugin&quot;: {&quot;name&quot;: &quot;center_radius&quot;, &quot;arguments&quot;: {&quot;radius_km&quot;: 300}}}}}&#39; \
+             --output_formatter_kwargs &#39;{}&#39; \
+             --filename_formatter_kwargs &#39;{}&#39; \
+             --metadata_output_formatter_kwargs &#39;{}&#39; \
+             --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="viirsmoon-tropical-cyclone-night-vis-geoips1-imagery-clean">
+<h2>VIIRSmoon Tropical Cyclone Night-Vis-GeoIPS1 Imagery Clean<a class="headerlink" href="#viirsmoon-tropical-cyclone-night-vis-geoips1-imagery-clean" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ102DNB.A2021145.1912.002.2021146004551.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ102IMG.A2021145.1912.002.2021146004551.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ102MOD.A2021145.1912.002.2021146004551.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ103DNB.A2021145.1912.002.2021146002749.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ103IMG.A2021145.1912.002.2021146002749.nc \
+             $GEOIPS_TESTDATA_DIR/test_data_viirs/data/jpss/20210525/191200/VJ103MOD.A2021145.1912.002.2021146002749.nc \
+             --reader_name viirs_netcdf \
+             --product_name Night-Vis-GeoIPS1 \
+             --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/viirsmoon.tc.&lt;product&gt;.imagery_clean&quot; \
+             --output_formatter imagery_clean \
+             --filename_formatter tc_clean_fname \
+             --trackfile_parser bdeck_parser \
+             --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio022021.dat
+
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="amsr2-tropical-cyclone-89h-physical-imagery-annotated">
+<h2>AMSR2 Tropical Cyclone 89H-Physical Imagery Annotated<a class="headerlink" href="#amsr2-tropical-cyclone-89h-physical-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_amsr2/data/AMSR2-MBT_v2r2_GW1_s202005180620480_e202005180759470_c202005180937100.nc \
+          --reader_name amsr2_netcdf \
+          --reader_kwargs \
+            &#39;{&quot;test_arg&quot;: &quot;AMSR2 single source command line reader test_arg&quot;}&#39; \
+          --product_name 89H-Physical \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_annotated \
+          --feature_annotator tc_pmw \
+          --gridline_annotator tc_pmw \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/amsr2.tc.&lt;product&gt;.imagery_annotated&quot; \
+          --product_spec_override \
+            &#39;{&quot;89H-Physical&quot;:
+              {&quot;coverage_checker&quot;:
+                {&quot;plugin&quot;:
+                  {&quot;name&quot;: &quot;center_radius&quot;, &quot;arguments&quot;: {&quot;radius_km&quot;: 300}}},
+               &quot;interpolator&quot;:
+                 {&quot;plugin&quot;:
+                   {&quot;name&quot;: &quot;interp_gauss&quot;, &quot;arguments&quot;: {&quot;nproc&quot;: 4}}}
+             }}&#39; \
+          --output_formatter_kwargs &#39;{}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+<section id="hy2-tropical-cyclone-windspeed-imagery-annotated">
+<h2>HY2 Tropical Cyclone Windspeed Imagery Annotated<a class="headerlink" href="#hy2-tropical-cyclone-windspeed-imagery-annotated" title="Permalink to this heading">#</a></h2>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span># # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+#!/bin/bash
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
+# set of arguments.
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_hy2/data/hscat_20211202_080644_hy_2b__15571_o_250_2204_ovw_l2.nc \
+          --reader_name scat_knmi_winds_netcdf \
+          --product_name windspeed \
+          --filename_formatter tc_fname \
+          --output_formatter imagery_annotated \
+          --feature_annotator default \
+          --gridline_annotator default \
+          --metadata_filename_formatter metadata_default_fname \
+          --metadata_output_formatter metadata_default \
+          --trackfile_parser bdeck_parser \
+          --trackfiles $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bwp272021.dat \
+          --compare_path &quot;$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/hy2.tc.&lt;product&gt;.imagery_annotated&quot; \
+          --product_spec_override &#39;{}&#39; \
+          --output_formatter_kwargs &#39;{&quot;title_formatter&quot;: &quot;tc_copyright&quot;, &quot;title_copyright&quot;: &quot;Data copyright 2021 EUMETSAT, Imagery NRL-MRY&quot;}&#39; \
+          --filename_formatter_kwargs &#39;{}&#39; \
+          --metadata_output_formatter_kwargs &#39;{}&#39; \
+          --metadata_filename_formatter_kwargs &#39;{}&#39;
+ss_retval=$?
+
+exit $((ss_retval))
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Examples</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../interfaces/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Interfaces</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-config-based-exclude-goes17">ABI Config Based Exclude GOES17</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-ocean-tropical-cyclone-windspeed-imagery-clean">AMSR2 Ocean Tropical Cyclone Windspeed Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#imerg-tropical-cyclone-rain-imagery-clean">IMERG Tropical Cyclone Rain Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-config-based-output">ABI Config Based Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsub-mirs-tropical-cyclone-183-3h-imagery-annotated">AMSUB MIRS Tropical Cyclone 183-3H Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mimic-coarse-static-tpw-cimss-imagery-annotated">MIMIC Coarse Static TPW CIMSS Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-config-based-output-low-memory">ABI Config Based Output Low Memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-knmi-tropical-cyclone-windbarbs-imagery-windbarbs-clean">ASCAT KNMI Tropical Cyclone Windbarbs Imagery Windbarbs Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mimic-fine-tropical-cyclone-tpw-pwat-imagery-annotated">MIMIC Fine Tropical Cyclone TPW PWAT Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-static-infrared-imagery-clean">ABI Static Infrared Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-low-knmi-tropical-cyclone-windbarbs-imagery-windbarbs">ASCAT Low KNMI Tropical Cyclone Windbarbs Imagery Windbarbs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#modis-infrared-unprojected-image">MODIS Infrared Unprojected Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-static-infrared-netcdf-geoips">ABI Static Infrared NetCDF GeoIPS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-noaa-25km-tropical-cyclone-windbarbs-imagery-windbarbs">ASCAT NOAA 25km Tropical Cyclone Windbarbs Imagery Windbarbs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#oscat-knmi-tropical-cyclone-windbarbs-imagery-windbarbs">OSCAT KNMI Tropical Cyclone Windbarbs Imagery Windbarbs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#abi-static-visible-imagery-clean">ABI Static Visible Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-noaa-50km-tropical-cyclone-wind-ambiguities-imagery-windbarbs">ASCAT NOAA 50km Tropical Cyclone Wind-Ambiguities Imagery Windbarbs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saphir-tropical-cyclone-183-3hnearest-imagery-annotated">SAPHIR Tropical Cyclone 183-3HNearest Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ahi-tropical-cyclone-wv-geotiff">AHI Tropical Cyclone WV GeoTIFF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-uhr-tropical-cyclone-nrcs-imagery-clean">ASCAT UHR Tropical Cyclone NRCS Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#sar-tropical-cyclone-nrcs-imagery-annotated">SAR Tropical Cyclone NRCS Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-wv-upper-unprojected-image">AMI WV-Upper Unprojected Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-uhr-tropical-cyclone-wind-ambiguities-imagery-windbarbs">ASCAT UHR Tropical Cyclone Wind-Ambiguities Imagery Windbarbs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#seviri-wv-upper-unprojected-image">SEVIRI WV-Upper Unprojected Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-static-infrared-imagery-clean">AMI Static Infrared Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-uhr-tropical-cyclone-windbarbs-imagery-windbarbs">ASCAT UHR Tropical Cyclone Windbarbs Imagery Windbarbs</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smap-tropical-cyclone-windspeed-imagery-clean">SMAP Tropical Cyclone Windspeed Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-static-visible-imagery-clean">AMI Static Visible Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ascat-uhr-tropical-cyclone-windspeed-imagery-clean">ASCAT UHR Tropical Cyclone Windspeed Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smap-unsectored-text-winds">SMAP Unsectored Text Winds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-static-mst-absdiff-ir-bd-imagery-clean">AMI Static MST Absdiff-IR-BD Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#atms-tropical-cyclone-165h-netcdf-geoips">ATMS Tropical Cyclone 165H NetCDF GeoIPS</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#smos-tropical-cyclone-sectored-text-winds">SMOS Tropical Cyclone Sectored Text Winds</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ami-tropical-cyclone-wv-geotiff">AMI Tropical Cyclone WV GeoTIFF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cli-dummy-script">CLI Dummy Script</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ssmi-tropical-cyclone-37pct-imagery-clean">SSMI Tropical Cyclone 37pct Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-config-based-no-compare">AMSR2 Config Based No Compare</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#console-script-create-sector-image">Console Script Create Sector Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ssmis-color91-unprojected-image">SSMIS Color91 Unprojected Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-config-based-no-compare-full">AMSR2 Config Based No Compare Full</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#console-script-list-available-plugins">Console Script List Available Plugins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirsclearnight-night-vis-ir-geoips1-imagery-annotated">VIIRSClearnight Night-Vis-IR-GeoIPS1 Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-config-based-overlay-output">AMSR2 Config Based Overlay Output</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cygnss-tropical-cyclone-windspeed-imagery-clean">CYGNSS Tropical Cyclone Windspeed Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirsclearnight-night-vis-ir-geoips1-unprojected-image">VIIRSClearnight Night-Vis-IR-GeoIPS1 Unprojected Image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-config-based-overlay-output-low-memory">AMSR2 Config Based Overlay Output Low Memory</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-imagery">Documentation Imagery</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirsday-global-night-vis-ir-cogeotiff-rgba">VIIRSday Global Night-Vis-IR CogeoTIFF RGBA</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-global-89h-physical-cogeotiff">AMSR2 Global 89H-Physical CogeoTIFF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ewsg-static-infrared-imagery-clean">EWSG Static Infrared Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirsday-tropical-cyclone-night-vis-ir-imagery-annotated">VIIRSday Tropical Cyclone Night-Vis-IR Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-tropical-cyclone-89h-physical-histogram-netcdf">AMSR2 Tropical Cyclone 89H-Physical Histogram NetCDF</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gmi-tropical-cyclone-89pct-imagery-clean">GMI Tropical Cyclone 89pct Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#viirsmoon-tropical-cyclone-night-vis-geoips1-imagery-clean">VIIRSmoon Tropical Cyclone Night-Vis-GeoIPS1 Imagery Clean</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#amsr2-tropical-cyclone-89h-physical-imagery-annotated">AMSR2 Tropical Cyclone 89H-Physical Imagery Annotated</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hy2-tropical-cyclone-windspeed-imagery-annotated">HY2 Tropical Cyclone Windspeed Imagery Annotated</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/concepts/functionality/examples/integration-tests.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

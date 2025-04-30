@@ -1,0 +1,917 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.13.0 (2024-06-08) &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_13_0';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.13.0a0 (2024-04-24)" href="v1_13_0a0.html" />
+    <link rel="prev" title="Version 1.13.1 (2024-07-07)" href="v1_13_1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2025-04-30)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2025-04-30)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.13.0 (2024-06-08)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="version-1-13-0-2024-06-08">
+<h1>Version 1.13.0 (2024-06-08)<a class="headerlink" href="#version-1-13-0-2024-06-08" title="Permalink to this heading">#</a></h1>
+<ul class="simple">
+<li><p>Update internal ‘update_this_release_note’ to v1_13_1.rst</p></li>
+<li><p>Update github.com ‘update_this_release_note’ to v1_14_0a0.rst</p></li>
+<li><p>Bug fixes</p>
+<ul>
+<li><p>Add create_plugin_registries call to full_install.sh</p></li>
+<li><p>Remove additional references to get_entry_point_group</p></li>
+<li><p>Add himawari9 to test data downloads</p></li>
+<li><p>Update geokompsat unit test to use test_data_noaa_aws</p></li>
+</ul>
+</li>
+<li><p>Documentation Updates</p>
+<ul>
+<li><p>Ensure :orphan: tags are on the first line of rst files</p></li>
+</ul>
+</li>
+<li><p>Testing Updates</p>
+<ul>
+<li><p>Add ami and cli test scripts to full_test and test_all</p></li>
+<li><p>Update AMI TC test script to use $GEOIPS test bdeck file</p></li>
+<li><p>Update test outputs for cartopy 0.23.0 and matplotlib 3.9</p></li>
+<li><p>Remove all references to geokompsat_netcdf reader (replaced with ami_netcdf)</p></li>
+<li><p>Replace check-old-docs-frozen.py with git-based Actions check</p></li>
+</ul>
+</li>
+<li><p>Installation Updates</p>
+<ul>
+<li><p>Update CIRA NEXCLOUD amsr2 test dataset</p></li>
+<li><p>Only include latest SCAT test dataset in check_system_requirements</p></li>
+<li><p>Add create_plugin_registries to full_install.sh</p></li>
+</ul>
+</li>
+</ul>
+<section id="bug-fixes">
+<h2>Bug Fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="remove-all-references-to-geokompsat-netcdf-reader-replaced-with-ami-netcdf">
+<h3>Remove all references to geokompsat_netcdf reader (replaced with ami_netcdf)<a class="headerlink" href="#remove-all-references-to-geokompsat-netcdf-reader-replaced-with-ami-netcdf" title="Permalink to this heading">#</a></h3>
+<p>I believe this was a bad merge - geokompsat readers and test scripts were
+re-instated.  Had been replaced with ami_netcdf on github.com.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">geokompsat_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">geokompsat</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">geokompsat</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">geokompsat</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">geokompsat</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">WV</span><span class="o">.</span><span class="n">geotiff</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_all</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="update-geokompsat-unit-test-to-use-test-data-noaa-aws">
+<h3>Update geokompsat unit test to use test_data_noaa_aws<a class="headerlink" href="#update-geokompsat-unit-test-to-use-test-data-noaa-aws" title="Permalink to this heading">#</a></h3>
+<p>Use the noaa aws test datasets.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">geokompsat_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-himawari9-to-test-data-downloads">
+<h3>Add himawari9 to test data downloads<a class="headerlink" href="#add-himawari9-to-test-data-downloads" title="Permalink to this heading">#</a></h3>
+<p>Allow downloading himawari9 in noaa aws download script.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-typo-in-test-data-download-section-in-check-system-requirements">
+<h3>Fix typo in test data download section in check system requirements<a class="headerlink" href="#fix-typo-in-test-data-download-section-in-check-system-requirements" title="Permalink to this heading">#</a></h3>
+<p>This may have been a bad merge - there was a double tar -xzv for the
+CIRA NEXCLOUD downloads, which caused it to hang interminably.  Took out the
+duplicate code and it worked.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="add-create-plugin-registries-call-to-full-install-sh">
+<h3>Add create_plugin_registries call to full_install.sh<a class="headerlink" href="#add-create-plugin-registries-call-to-full-install-sh" title="Permalink to this heading">#</a></h3>
+<p>This actually makes it a full install.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-additional-references-to-get-entry-point-group">
+<h3>Remove additional references to get_entry_point_group<a class="headerlink" href="#remove-additional-references-to-get-entry-point-group" title="Permalink to this heading">#</a></h3>
+<p>A few of these were missed in the initial updates</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">plugin_registries</span><span class="o">/</span><span class="n">test_plugin_registries</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">test_all_yaml_plugins</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation-updates">
+<h2>Documentation Updates<a class="headerlink" href="#documentation-updates" title="Permalink to this heading">#</a></h2>
+<section id="ensure-orphan-tags-are-on-the-first-line-of-rst-files">
+<h3>Ensure :orphan: tags are on the first line of rst files<a class="headerlink" href="#ensure-orphan-tags-are-on-the-first-line-of-rst-files" title="Permalink to this heading">#</a></h3>
+<p>While creating the “new docs”, sections that are not yet fully fleshed out are
+tagged with an <code class="docutils literal notranslate"><span class="pre">:orphan:</span></code> tag.  This tag MUST be on the first line or sphinx
+will still issue a warning that the RST file is not referenced in any toctree.
+Ensure when distribution statements are added/updated, the :orphan: tag stays
+on the first line.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/**/*.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-updates">
+<h2>Testing Updates<a class="headerlink" href="#testing-updates" title="Permalink to this heading">#</a></h2>
+<section id="replace-check-old-docs-frozen-py-with-git-based-actions-check">
+<h3>Replace check-old-docs-frozen.py with git-based Actions check<a class="headerlink" href="#replace-check-old-docs-frozen-py-with-git-based-actions-check" title="Permalink to this heading">#</a></h3>
+<p>This will avoid the need to update the hashes every time a file changes
+if we do need to update any files in the old docs directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">check</span><span class="o">-</span><span class="n">old</span><span class="o">-</span><span class="n">docs</span><span class="o">-</span><span class="n">frozen</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">deleted</span><span class="p">:</span>    <span class="n">docs</span><span class="o">/</span><span class="n">check</span><span class="o">-</span><span class="n">old</span><span class="o">-</span><span class="n">docs</span><span class="o">-</span><span class="n">frozen</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-test-outputs-for-cartopy-0-23-0-and-matplotlib-3-9">
+<h3>Update test outputs for cartopy 0.23.0 and matplotlib 3.9<a class="headerlink" href="#update-test-outputs-for-cartopy-0-23-0-and-matplotlib-3-9" title="Permalink to this heading">#</a></h3>
+<p>matplotlib 3.9 and cartopy 0.23 caused minor changes to output imagery.  Update
+all to correspond to the latest version of cartopy and matplotlib.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">goes_east</span><span class="mf">.45</span><span class="n">p56</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">goes_east</span><span class="mf">.41</span><span class="n">p12</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ami</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20231208.030032</span><span class="o">.</span><span class="n">GK</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span><span class="o">.</span><span class="n">ami</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">geokompsat</span><span class="mf">.45</span><span class="n">p56</span><span class="o">.</span><span class="n">nmsc</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">ami</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mf">20231208.030032</span><span class="o">.</span><span class="n">GK</span><span class="o">-</span><span class="mi">2</span><span class="n">A</span><span class="o">.</span><span class="n">ami</span><span class="o">.</span><span class="n">Visible</span><span class="o">.</span><span class="n">geokompsat</span><span class="mf">.45</span><span class="n">p56</span><span class="o">.</span><span class="n">nmsc</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">global_overlay</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">/</span><span class="mf">20200518.062048</span><span class="o">.</span><span class="n">gcom</span><span class="o">-</span><span class="n">w1</span><span class="o">.</span><span class="n">amsr2</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="k">global</span><span class="mf">.10</span><span class="n">p06</span><span class="o">.</span><span class="n">star</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">global_overlay</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Visible</span><span class="o">/</span><span class="mf">20200518.062048</span><span class="o">.</span><span class="n">gcom</span><span class="o">-</span><span class="n">w1</span><span class="o">.</span><span class="n">amsr2</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="k">global</span><span class="mf">.10</span><span class="n">p06</span><span class="o">.</span><span class="n">star</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">global_overlay</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">/</span><span class="mf">20200518.062048</span><span class="o">.</span><span class="n">gcom</span><span class="o">-</span><span class="n">w1</span><span class="o">.</span><span class="n">amsr2</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="k">global</span><span class="mf">.13</span><span class="n">p55</span><span class="o">.</span><span class="n">star</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">global_overlay</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Visible</span><span class="o">/</span><span class="mf">20200518.062048</span><span class="o">.</span><span class="n">gcom</span><span class="o">-</span><span class="n">w1</span><span class="o">.</span><span class="n">amsr2</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="k">global</span><span class="mf">.13</span><span class="n">p55</span><span class="o">.</span><span class="n">star</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc</span><span class="mf">.89</span><span class="n">H</span><span class="o">-</span><span class="n">Physical</span><span class="o">.</span><span class="n">imagery_annotated</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89H</span><span class="o">-</span><span class="n">Physical_140kts_100p00_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_37pct_140kts_95p89_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgInfrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.37</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Visible</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_37pct_140kts_95p89_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgVisible</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89pct_140kts_98p32_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgInfrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="n">png</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">amsr2</span><span class="o">.</span><span class="n">tc_overlay</span><span class="mf">.89</span><span class="n">pct</span><span class="o">.</span><span class="n">imagery_annotated_over_Visible</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89pct_140kts_98p32_res1p0</span><span class="o">-</span><span class="n">cr100</span><span class="o">-</span><span class="n">bgVisible</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</section>
+<section id="update-ami-tc-test-script-to-use-geoips-test-bdeck-file">
+<h3>Update AMI TC test script to use $GEOIPS test bdeck file<a class="headerlink" href="#update-ami-tc-test-script-to-use-geoips-test-bdeck-file" title="Permalink to this heading">#</a></h3>
+<p>Update bdeck file in AMI TC test script to point to $GEOIPS/tests/sectors.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">ami</span><span class="o">.</span><span class="n">tc</span><span class="o">.</span><span class="n">WV</span><span class="o">.</span><span class="n">geotiff</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">sectors</span><span class="o">/</span><span class="n">tc_bdecks</span><span class="o">/</span><span class="n">bsh032024</span><span class="o">.</span><span class="n">dat</span>
+</pre></div>
+</div>
+</section>
+<section id="add-ami-and-cli-test-scripts-to-full-test-and-test-all">
+<h3>Add ami and cli test scripts to full_test and test_all<a class="headerlink" href="#add-ami-and-cli-test-scripts-to-full-test-and-test-all" title="Permalink to this heading">#</a></h3>
+<p>Ensure all new scripts are added to full_test and test_all.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_test</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span>   <span class="n">tests</span><span class="o">/</span><span class="n">test_all</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installation-updates">
+<h2>Installation Updates<a class="headerlink" href="#installation-updates" title="Permalink to this heading">#</a></h2>
+<section id="update-cira-nexcloud-amsr2-test-dataset">
+<h3>Update CIRA NEXCLOUD amsr2 test dataset<a class="headerlink" href="#update-cira-nexcloud-amsr2-test-dataset" title="Permalink to this heading">#</a></h3>
+<p>The filenames used in the unit tests and integration tests for AMSR2 test datasets
+did not match those contained in the NEXCLOUD datasets.  Updated CIRA NEXCLOUD
+dataset.  Note this did not require any changes to the source code repositories,
+but included in release note for reference.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NONE</span>
+</pre></div>
+</div>
+</section>
+<section id="only-include-latest-scat-test-dataset-in-check-system-requirements">
+<h3>Only include latest SCAT test dataset in check_system_requirements<a class="headerlink" href="#only-include-latest-scat-test-dataset-in-check-system-requirements" title="Permalink to this heading">#</a></h3>
+<p>Rather than pulling both 1.11.2 and 1.11.3 test_data_scat repositories from
+CIRA NEXCLOUD, only include the latest version in check_system_requirements
+and commandline/ancillary_info/test_data.py.</p>
+<p>This should remove the need to specifying the version in the integration tests,
+and for general use we should only support the latest version of the test datasets.</p>
+<p>If a user requires a specific test dataset version, they will have to manage that
+themselves.</p>
+<p>Eventually we will want to consolidate the test dataset listing to one place,
+right now it is fully specified both in check_system_requie</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_test</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">test_data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-create-plugin-registries-to-full-install-sh">
+<h3>Add create_plugin_registries to full_install.sh<a class="headerlink" href="#add-create-plugin-registries-to-full-install-sh" title="Permalink to this heading">#</a></h3>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="release-updates">
+<h2>Release Updates<a class="headerlink" href="#release-updates" title="Permalink to this heading">#</a></h2>
+<section id="add-mamba-env-and-pip-requirements-files-for-base-and-full-install">
+<h3>Add mamba env and pip requirements files for base and full install<a class="headerlink" href="#add-mamba-env-and-pip-requirements-files-for-base-and-full-install" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#513: 2024-06-08, version update</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_full_package_list_1</span><span class="mf">.13.0_20240612</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_full_requirements_1</span><span class="mf">.13.0_20240612</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.13.0_20240609</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.13.0_20240609</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+<section id="add-1-13-0-release-note">
+<h3>Add 1.13.0 release note<a class="headerlink" href="#add-1-13-0-release-note" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#513: 2024-06-08, version update</em></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">CHANGELOG</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">new</span> <span class="n">file</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">v1_13_0</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="update-internal-and-github-com-update-this-release-note">
+<h3>Update internal and github.com ‘update_this_release_note’<a class="headerlink" href="#update-internal-and-github-com-update-this-release-note" title="Permalink to this heading">#</a></h3>
+<p><em>From issue GEOIPS#513: 2024-06-08, update ‘update_this_release_note’</em></p>
+<p>Updated ‘update_this_release_note’ file in geoips repo for the
+next internal version:
+docs/source/releases/v1_13_1.rst
+next github.com version:
+docs/source/releases/v1_14_0a0.rst</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">update_this_release_note</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="v1_13_1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.13.1 (2024-07-07)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_13_0a0.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.13.0a0 (2024-04-24)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug Fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-all-references-to-geokompsat-netcdf-reader-replaced-with-ami-netcdf">Remove all references to geokompsat_netcdf reader (replaced with ami_netcdf)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-geokompsat-unit-test-to-use-test-data-noaa-aws">Update geokompsat unit test to use test_data_noaa_aws</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-himawari9-to-test-data-downloads">Add himawari9 to test data downloads</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-typo-in-test-data-download-section-in-check-system-requirements">Fix typo in test data download section in check system requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-create-plugin-registries-call-to-full-install-sh">Add create_plugin_registries call to full_install.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-additional-references-to-get-entry-point-group">Remove additional references to get_entry_point_group</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-updates">Documentation Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-orphan-tags-are-on-the-first-line-of-rst-files">Ensure :orphan: tags are on the first line of rst files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-updates">Testing Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-check-old-docs-frozen-py-with-git-based-actions-check">Replace check-old-docs-frozen.py with git-based Actions check</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-test-outputs-for-cartopy-0-23-0-and-matplotlib-3-9">Update test outputs for cartopy 0.23.0 and matplotlib 3.9</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-ami-tc-test-script-to-use-geoips-test-bdeck-file">Update AMI TC test script to use $GEOIPS test bdeck file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-ami-and-cli-test-scripts-to-full-test-and-test-all">Add ami and cli test scripts to full_test and test_all</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation-updates">Installation Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-cira-nexcloud-amsr2-test-dataset">Update CIRA NEXCLOUD amsr2 test dataset</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#only-include-latest-scat-test-dataset-in-check-system-requirements">Only include latest SCAT test dataset in check_system_requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-create-plugin-registries-to-full-install-sh">Add create_plugin_registries to full_install.sh</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-updates">Release Updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-mamba-env-and-pip-requirements-files-for-base-and-full-install">Add mamba env and pip requirements files for base and full install</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-1-13-0-release-note">Add 1.13.0 release note</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-internal-and-github-com-update-this-release-note">Update internal and github.com ‘update_this_release_note’</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/releases/v1_13_0.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

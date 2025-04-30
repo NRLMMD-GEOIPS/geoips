@@ -1,0 +1,902 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Get to know the GeoIPS Readers &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/reader';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Near Real-Time Processing" href="../nrtp-examples/index.html" />
+    <link rel="prev" title="Extend GeoIPS with a new Static Sector" href="static_sector/index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../setting-up-for-plugin-development.html">Setting up for Plugin Development</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Extending GeoIPS with New Plugins</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="algorithm.html">Extend GeoIPS with a new Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="colormapper/index.html">Extend GeoIPS with a new Colormapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="feature_annotator/index.html">Extend GeoIPS with a New Feature Annotator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="gridline_annotator.html">Extend GeoIPS with a New Gridline Annotator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="output_formatter.html">Extend GeoIPS with a New Output Formatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product_default.html">Extend GeoIPS with new Product Defaults</a></li>
+<li class="toctree-l2"><a class="reference internal" href="product/index.html">Extend GeoIPS with new Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="static_sector/index.html">Extend GeoIPS with a new Static Sector</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Get to know the GeoIPS Readers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../nrtp-examples/index.html">Near Real-Time Processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.html">Using <code class="docutils literal notranslate"><span class="pre">inotifywait</span></code> for Near Real-Time Processing</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_setup.html">Setting up for development on core GeoIPS</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Tutorials</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Extending GeoIPS with New Plugins</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Get to know the GeoIPS Readers</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="get-to-know-the-geoips-readers">
+<span id="describe-readers"></span><h1>Get to know the GeoIPS Readers<a class="headerlink" href="#get-to-know-the-geoips-readers" title="Permalink to this heading">#</a></h1>
+<p>GeoIPS readers are module-based plugins that create a method of reading in many types of
+satellite derived data. This doesn’t mean you cannot create other types of data readers
+too, such as .csv, .xls, etc. GeoIPS is primarly used as a package for Geo-informational
+data, however if you purpose in a plugin that reads different types of data, the world
+is your oyster.</p>
+<p>GeoIPS readers return a dictionary of xarrays minimally containing the following
+variables.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="minimum-contents">
+<thead>
+<tr class="row-odd"><th class="head"><p>Common Names(s)</p></th>
+<th class="head"><p>Required Name in Xarray</p></th>
+<th class="head"><p>Data Format</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Latitude, Longitude</p></td>
+<td><p>latitude, longitude</p></td>
+<td><p>float/int</p></td>
+</tr>
+<tr class="row-odd"><td><p>Variables of Interest</p></td>
+<td><p>&lt;customizable&gt; but should match names used by products</p></td>
+<td><p>float/int</p></td>
+</tr>
+<tr class="row-even"><td><p>Time of Observation</p></td>
+<td><p>time</p></td>
+<td><p>datetime object</p></td>
+</tr>
+<tr class="row-odd"><td><p>Metadata attr: Data Source</p></td>
+<td><p>source_name</p></td>
+<td><p>string</p></td>
+</tr>
+<tr class="row-even"><td><p>Metadata attr: Time of First Observation</p></td>
+<td><p>start_datetime</p></td>
+<td><p>datetime object</p></td>
+</tr>
+<tr class="row-odd"><td><p>Metadata attr: Time of Final Observation</p></td>
+<td><p>end_datetime</p></td>
+<td><p>datetime object</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">source_name</span></code> set it your reader correlates to the <code class="docutils literal notranslate"><span class="pre">source_names</span></code> property in
+your products plugin. As an example, <code class="docutils literal notranslate"><span class="pre">my_clavrx_products.yaml</span></code> data is read in by the
+<a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/modules/readers/clavrx_hdf4.py">clavrx_hdf4 reader</a>,
+which sets it source name as <code class="docutils literal notranslate"><span class="pre">clavrx</span></code>. See line 125 of that file for proof! In every
+product of <code class="docutils literal notranslate"><span class="pre">my_clavrx_products.yaml</span></code>, we set the source name as <code class="docutils literal notranslate"><span class="pre">clavrx</span></code> since that
+is the reader we want to use to load in our data. See <code class="docutils literal notranslate"><span class="pre">My-Cloud-Top-Height</span></code> below for
+an example of that.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">products</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>The variables defined in the product above directly correlate to the variables contained
+in the Xarray after being processed by the reader. If you changed those variables name
+in your product, it wouldn’t work!</p>
+<p>As with any GeoIPS plugin, a reader is required to define the top level attributes
+<code class="docutils literal notranslate"><span class="pre">interface</span></code>, <code class="docutils literal notranslate"><span class="pre">family</span></code>, and <code class="docutils literal notranslate"><span class="pre">docstring</span></code>.</p>
+<p>Please see documentation for
+<a class="reference internal" href="../../concepts/architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on GeoIPS required attributes</span></a>,</p>
+<section id="reader-structure-overview">
+<h2>Reader Structure Overview<a class="headerlink" href="#reader-structure-overview" title="Permalink to this heading">#</a></h2>
+<p>A GeoIPS reader is module-based, and therefore must have a <code class="docutils literal notranslate"><span class="pre">call</span></code> function, as do all
+other module-based plugins. Readers generallly also have one or several <code class="docutils literal notranslate"><span class="pre">read</span> <span class="pre">functions</span></code>,
+that exist outside of the call function. Optionally, a reader can also include <code class="docutils literal notranslate"><span class="pre">utility</span>
+<span class="pre">functions</span></code> that perform some kind of operation on inputs. We will discuss each of each
+of these in further detail now.</p>
+<ul class="simple">
+<li><dl class="simple">
+<dt>The <code class="docutils literal notranslate"><span class="pre">call</span></code> function.</dt><dd><ul>
+<li><p>The call function is the main driver of a GeoIPS reader. It accepts the keyword
+arguments (kwargs) that contain the list of files to be read, and a handful of
+instructions that adust how the reader functions.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Reader functions</dt><dd><ul>
+<li><p>Populate Xarrays with data from the files themselves. They technically are
+optional if you include all of this in the call function, but it is best practice
+to create them.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Utility functions</dt><dd><ul>
+<li><p>Perform operations on the inputs, typically to convert them to a format
+understandable by GeoIPS. This could be using <code class="docutils literal notranslate"><span class="pre">np.meshgrid(lats,</span> <span class="pre">lons)</span></code> to
+create a 2D array of latitude and longitude, or whatever else you envision.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Unit tests</dt><dd><ul>
+<li><p>Unit testing to help test conformity and validity of the reader and test data.
+For more details see <a class="reference internal" href="../../concepts/architecture/tests/unit-tests.html#unit-tests"><span class="std std-ref">Unit Testing</span></a>.</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<p>See below for an example of all three functions signatures in action.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">convert_epoch_to_datetime64</span><span class="p">(</span><span class="n">time_array</span><span class="p">,</span> <span class="n">use_shape</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># Utility Function</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">read_atms_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">xarray_atms</span><span class="p">):</span>  <span class="c1"># Read Function</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>  <span class="c1"># Call Function, with</span>
+<span class="n">important</span> <span class="n">kwargs</span>
+</pre></div>
+</div>
+<p>There are a few keypoints of the call function that should be talked about. First off,
+is the metadata required by GeoIPS that is associated with your data. Mainly, there are
+three key-pieces to the metadata that <em>must be defined</em>: <code class="docutils literal notranslate"><span class="pre">start_datetime</span></code>, <code class="docutils literal notranslate"><span class="pre">end_datetime</span></code>,
+and <code class="docutils literal notranslate"><span class="pre">source_name</span></code>. As we discussed earlier, this is how your product can find the correct
+reader at runtime to load in your data.</p>
+<p>Another important piece of the reader is the <code class="docutils literal notranslate"><span class="pre">metadata_only</span></code> section. While it’s not
+required, it gives users the option to only load in the metadata if that’s all they need.
+This allows GeoIPS to not load in very large files multiple times.</p>
+<p>See below for an example of both of those keypoints.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_date</span>
+<span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_date</span>
+<span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;viirs&quot;</span>
+
+<span class="k">if</span> <span class="n">metadata_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="s2">&quot;metadata_only is True, reading only first file for metadata information and returning&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">xarrays</span><span class="p">[</span><span class="n">data_type</span><span class="p">]}</span>
+</pre></div>
+</div>
+<p>The last keypoint of a GeoIPS reader is the <em>read</em> function. Again, while not required,
+it is best practice to separate your read function from the call function, for clarity
+and ease of use in the future. See below for an example of invoking a read function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">xarray_objs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+    <span class="n">xarray_objs</span><span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)]</span> <span class="o">=</span> <span class="n">read_xarray_netcdf</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>  <span class="c1"># The read function is invoked here</span>
+
+<span class="n">xarray_objs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">xarray_objs</span><span class="o">.</span><span class="n">vallues</span><span class="p">())[</span><span class="mi">0</span><span class="p">][[]]</span>
+<span class="sd">&quot;&quot;&quot;Different approach to the above code section that reads data and then sets the metadata afterward&quot;&quot;&quot;</span>
+
+<span class="k">return</span> <span class="n">xarray_objs</span>
+</pre></div>
+</div>
+</section>
+<section id="a-typical-read-function">
+<h2>A Typical Read Function<a class="headerlink" href="#a-typical-read-function" title="Permalink to this heading">#</a></h2>
+<p>When creating a read function in a GeoIPS Reader, it is largely the dealers choice (ie.
+yourself). The read function needs to open the file and read the contents (<a class="reference internal" href="#minimum-contents"><span class="std std-ref">Remember the
+Minimum Contents Table</span></a>) into a dictionary of xarrays to be passed
+along to GeoIPS. However, as with any piece of code, there are some challenges that you
+should be aware of.</p>
+<p>The first challenge are 1-Dimensional (1D) Variables. It’s ok if your variables are 1D,
+so long as <em>all of them</em> are 1D. You may need to do some array manipulatoin to get
+everthing even! This is a common issue particularly with time arrays.</p>
+<p>Another issue is time formatting. For example <code class="docutils literal notranslate"><span class="pre">TAI93</span></code>, <code class="docutils literal notranslate"><span class="pre">UTC</span></code>, <code class="docutils literal notranslate"><span class="pre">binary</span> <span class="pre">string</span></code>,
+<code class="docutils literal notranslate"><span class="pre">seconds</span> <span class="pre">since</span> <span class="pre">epoch</span></code>… there are a lot of ways time is reported in data formats.
+Consult the users guide for your data to figure out how to convert time variables to the
+required datetime object format.</p>
+<p>The last challenge that should be noted is reading in the necessary <code class="docutils literal notranslate"><span class="pre">channels</span></code> for your
+product. GeoIPS cannot intelligently read required channels unless you code your reader
+to do just that. Remember that your <code class="docutils literal notranslate"><span class="pre">call</span></code> script is invoked with the <code class="docutils literal notranslate"><span class="pre">chans</span></code>
+parameter. Use that information to save you and your customer’s time!</p>
+</section>
+<section id="example-read-function-from-gmi">
+<h2>Example Read Function from GMI<a class="headerlink" href="#example-read-function-from-gmi" title="Permalink to this heading">#</a></h2>
+<p>Shown below is the read function for GMI HDF5 based data. As mentioned previously, time
+can be a challenge for readers, and in this case, GMI stores each element of time
+separately, as it only comes as a 1D variable. It needs to be converted to 2D to mesh
+with the 2D latitude, longitude, and tb data.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">read_gmi_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">xarray_gmi</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a single GMI file fname.&quot;&quot;&quot;</span>
+    <span class="n">fileobj</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+    <span class="c1"># get the variables ( tbt/lon(nscan,npix), tb(nscan,npix,nChan),....., time(ns))</span>
+
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;Longitude&quot;</span><span class="p">][()]</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;Latitude&quot;</span><span class="p">][()]</span>
+    <span class="n">tb</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;Tb&quot;</span><span class="p">][()]</span>
+    <span class="n">tb_hi</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S2&quot;</span><span class="p">][</span><span class="s2">&quot;Tb&quot;</span><span class="p">][()]</span>  <span class="c1"># for 166 and 183-7 GHz</span>
+
+    <span class="c1"># time info for each scan</span>
+    <span class="n">yy</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Year&quot;</span><span class="p">][()]</span>
+    <span class="n">mo</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Month&quot;</span><span class="p">][()]</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;DayOfMonth&quot;</span><span class="p">][()]</span>
+    <span class="n">hh</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Hour&quot;</span><span class="p">][()]</span>
+    <span class="n">mm</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Minute&quot;</span><span class="p">][()]</span>
+    <span class="n">ss</span> <span class="o">=</span> <span class="n">fileobj</span><span class="p">[</span><span class="s2">&quot;S1&quot;</span><span class="p">][</span><span class="s2">&quot;ScanTime&quot;</span><span class="p">][</span><span class="s2">&quot;Second&quot;</span><span class="p">][()]</span>
+
+    <span class="c1"># setup time in datetime64 format required by geoips</span>
+
+    <span class="n">nscan</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">npix</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># 221 pixels per scan</span>
+    <span class="n">time_scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">nscan</span><span class="p">,</span> <span class="n">npix</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nscan</span><span class="p">):</span>
+        <span class="n">time_scan</span><span class="p">[</span><span class="n">i</span><span class="p">:]</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%02d%02d%02d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span>
+            <span class="n">yy</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">mo</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">dd</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">hh</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">mm</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+            <span class="n">ss</span><span class="p">[</span><span class="n">i</span><span class="p">],</span>
+        <span class="p">)</span>
+
+    <span class="c1"># assignment of TB at each channel</span>
+    <span class="n">V10</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">H10</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">V19</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">H19</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+    <span class="n">V23</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">4</span><span class="p">]</span>
+    <span class="n">V37</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">5</span><span class="p">]</span>
+    <span class="n">H37</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">6</span><span class="p">]</span>
+    <span class="n">V89</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">7</span><span class="p">]</span>
+    <span class="n">H89</span> <span class="o">=</span> <span class="n">tb</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">8</span><span class="p">]</span>
+
+    <span class="n">V166</span> <span class="o">=</span> <span class="n">tb_hi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">H166</span> <span class="o">=</span> <span class="n">tb_hi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">V183_3</span> <span class="o">=</span> <span class="n">tb_hi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">2</span><span class="p">]</span>
+    <span class="n">V183_7</span> <span class="o">=</span> <span class="n">tb_hi</span><span class="p">[:,</span> <span class="p">:,</span> <span class="mi">3</span><span class="p">]</span>
+
+    <span class="c1"># close the h5 object</span>
+    <span class="n">fileobj</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+
+    <span class="c1">#          ------  setup xarray variables   ------</span>
+
+    <span class="c1"># namelist_gmi  = [&#39;latitude&#39;, &#39;longitude&#39;, &#39;V10&#39;, &#39;H10&#39;, &#39;V19&#39;,&#39;H19&#39;,&#39;V23&#39;, &#39;V37&#39;, &#39;H37&#39;, &#39;V89&#39; ,&#39;H89&#39;,</span>
+    <span class="c1">#                   &#39;V166&#39;, &#39;H166&#39;, &#39;V183-3&#39;,&#39;V183-7&#39;, &#39;time&#39;]</span>
+
+    <span class="n">final_xarray</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
+    <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">xarray_gmi</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="c1"># setup GMI xarray</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">lon</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V10</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H10</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V19</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H19</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V23&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V23</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V37</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H37</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V89</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H89</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V166</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">H166</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V183_3</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">V183_7</span><span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">lat</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">lon</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V10&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V10</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H10&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H10&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H10</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V19&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V19</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H19&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H19</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V23&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V23&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V23</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V37&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V37</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H37&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H37</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V89&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V89</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H89&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H89&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H89</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V166&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V166</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;H166&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;H166&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">H166</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-3&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V183-3&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V183_3</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;V183-7&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;V183-7&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span> <span class="n">V183_7</span><span class="p">])</span>
+        <span class="p">)</span>
+        <span class="n">new_time</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">time_scan</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H%M%S&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">final_xarray</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+            <span class="n">numpy</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">xarray_gmi</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+                    <span class="n">new_time</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+                <span class="p">]</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+    <span class="k">return</span> <span class="n">final_xarray</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="static_sector/index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Extend GeoIPS with a new Static Sector</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../nrtp-examples/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Near Real-Time Processing</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reader-structure-overview">Reader Structure Overview</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#a-typical-read-function">A Typical Read Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-read-function-from-gmi">Example Read Function from GMI</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/tutorials/extending-with-plugins/reader.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

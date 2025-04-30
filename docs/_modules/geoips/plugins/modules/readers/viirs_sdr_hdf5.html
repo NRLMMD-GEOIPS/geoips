@@ -1,0 +1,846 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.readers.viirs_sdr_hdf5 &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/viirs_sdr_hdf5';</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.plugins.modules.readers.viirs_sdr_hdf5</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.plugins.modules.readers.viirs_sdr_hdf5</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;VIIRS SDR Satpy reader.</span>
+
+<span class="sd">This VIIRS reader is designed for reading the NPP/JPSS SDR HDF5 files.</span>
+<span class="sd">The input files are produced by CSPP Polar (CSPP RDR pipeline),</span>
+<span class="sd">and the read by satpy.</span>
+
+<span class="sd">V1.1.0:  NRL-Monterey, Aug. 2024</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Python Standard Libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="c1"># Third-Party Libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">h5py</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="kn">import</span> <span class="n">DataFrame</span><span class="p">,</span> <span class="n">date_range</span><span class="p">,</span> <span class="n">to_datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.interpolate</span><span class="w"> </span><span class="kn">import</span> <span class="n">NearestNDInterpolator</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="c1"># GeoIPS Libraries</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.readers.utils.geostationary_geolocation</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_indexes</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.context_managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_optional_dependencies</span>
+
+<span class="c1"># If this reader is not installed on the system, don&#39;t fail altogether, just skip this</span>
+<span class="c1"># import. This reader will not work if the import fails, and the package will have to be</span>
+<span class="c1"># installed to process data of this type.</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;viirs_sdr_hdf5&quot;</span>
+<span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;viirs&quot;</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempt to import a package and print to LOG.info if the import fails.&quot;&quot;&quot;</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">satpy</span>
+
+<span class="n">VARLIST</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;DNB&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;DNB&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;IMG&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;I04&quot;</span><span class="p">,</span> <span class="s2">&quot;I05&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;IMG-Vis&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;I01&quot;</span><span class="p">,</span> <span class="s2">&quot;I02&quot;</span><span class="p">,</span> <span class="s2">&quot;I03&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;MOD&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;M07&quot;</span><span class="p">,</span> <span class="s2">&quot;M08&quot;</span><span class="p">,</span> <span class="s2">&quot;M10&quot;</span><span class="p">,</span> <span class="s2">&quot;M11&quot;</span><span class="p">,</span> <span class="s2">&quot;M12&quot;</span><span class="p">,</span> <span class="s2">&quot;M13&quot;</span><span class="p">,</span> <span class="s2">&quot;M14&quot;</span><span class="p">,</span> <span class="s2">&quot;M15&quot;</span><span class="p">,</span> <span class="s2">&quot;M16&quot;</span><span class="p">],</span>
+    <span class="s2">&quot;MOD-Vis&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;M01&quot;</span><span class="p">,</span> <span class="s2">&quot;M02&quot;</span><span class="p">,</span> <span class="s2">&quot;M03&quot;</span><span class="p">,</span> <span class="s2">&quot;M04&quot;</span><span class="p">,</span> <span class="s2">&quot;M05&quot;</span><span class="p">,</span> <span class="s2">&quot;M06&quot;</span><span class="p">,</span> <span class="s2">&quot;M09&quot;</span><span class="p">],</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="bowtie_correction"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_sdr_hdf5.bowtie_correction">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">bowtie_correction</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Correct input data for the instrument bowtie effect.</span>
+
+<span class="sd">    Correction derived from: Remote Sens. 2016, 8, 79.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Unfold</span>
+    <span class="n">ord_lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">unfold_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">lat</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="n">rad_fold</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">take_along_axis</span><span class="p">(</span><span class="n">band</span><span class="p">,</span> <span class="n">unfold_idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">sort_lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">take_along_axis</span><span class="p">(</span><span class="n">lon</span><span class="p">,</span> <span class="n">unfold_idx</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">rad_fold</span><span class="p">)):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;All nan band, no bowtie correction&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rad_fold</span><span class="p">,</span> <span class="n">ord_lat</span><span class="p">,</span> <span class="n">sort_lon</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">all</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">rad_fold</span><span class="p">)):</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;All NaNs, no bowtie correction&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rad_fold</span><span class="p">,</span> <span class="n">ord_lat</span><span class="p">,</span> <span class="n">sort_lon</span>
+
+    <span class="n">res_band</span> <span class="o">=</span> <span class="n">rad_fold</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="c1"># mask and indicies of bad data</span>
+    <span class="n">rad_nan_flag</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">rad_fold</span><span class="p">)</span>
+    <span class="n">nan_mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="o">~</span><span class="n">rad_nan_flag</span><span class="p">)</span>
+
+    <span class="n">interp</span> <span class="o">=</span> <span class="n">NearestNDInterpolator</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="n">nan_mask</span><span class="p">),</span> <span class="n">rad_fold</span><span class="p">[</span><span class="n">nan_mask</span><span class="p">])</span>
+    <span class="n">interp_nans</span> <span class="o">=</span> <span class="n">interp</span><span class="p">(</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">indices</span><span class="p">(</span><span class="n">rad_fold</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:,</span> <span class="n">rad_nan_flag</span><span class="p">],</span> <span class="o">**</span><span class="p">{</span><span class="s2">&quot;workers&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">})</span>
+    <span class="n">res_band</span><span class="p">[</span><span class="n">rad_nan_flag</span><span class="p">]</span> <span class="o">=</span> <span class="n">interp_nans</span>
+
+    <span class="k">return</span> <span class="n">res_band</span><span class="p">,</span> <span class="n">ord_lat</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">),</span> <span class="n">sort_lon</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.viirs_sdr_hdf5.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
+    <span class="n">fnames</span><span class="p">,</span>
+    <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">resample</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">bowtie</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read VIIRS SDR hdf5 data products.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    fnames : list</span>
+<span class="sd">        * List of strings, full paths to files</span>
+<span class="sd">    metadata_only : bool, default=False</span>
+<span class="sd">        * Return before actually reading data if True</span>
+<span class="sd">    chans : list of str, default=None</span>
+<span class="sd">        * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">        * Include all channels if None.</span>
+<span class="sd">    area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * Specify region to read</span>
+<span class="sd">        * Read all data if None.</span>
+<span class="sd">    self_register : str or bool, default=False</span>
+<span class="sd">        * NOT YET IMPLEMENTED</span>
+<span class="sd">        * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">          return dictionary keys).</span>
+<span class="sd">        * Read multiple resolutions of data if False.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict of xarray.Datasets</span>
+<span class="sd">        * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">          Attributes.</span>
+<span class="sd">        * Dictionary keys can be any descriptive dataset ids.</span>
+<span class="sd">        * Conforms to geoips xarray standards, see more in geoips documentation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># print(&quot;Reading&quot;)</span>
+    <span class="n">tmp_scn</span> <span class="o">=</span> <span class="n">satpy</span><span class="o">.</span><span class="n">Scene</span><span class="p">(</span><span class="n">reader</span><span class="o">=</span><span class="s2">&quot;viirs_sdr&quot;</span><span class="p">,</span> <span class="n">filenames</span><span class="o">=</span><span class="n">fnames</span><span class="p">)</span>
+    <span class="n">scn_start</span><span class="p">,</span> <span class="n">scn_end</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="o">.</span><span class="n">start_time</span><span class="p">,</span> <span class="n">tmp_scn</span><span class="o">.</span><span class="n">end_time</span>
+    <span class="n">base_fnames</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">,</span> <span class="n">fnames</span><span class="p">))</span>
+
+    <span class="n">full_xr</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
+        <span class="c1"># average resolution</span>
+        <span class="c1"># sensor, plat name</span>
+        <span class="n">tmp_scn</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="n">tmp_scn</span><span class="o">.</span><span class="n">available_dataset_names</span><span class="p">()[</span><span class="mi">0</span><span class="p">]])</span>
+        <span class="n">tmp_attrs</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">tmp_scn</span><span class="o">.</span><span class="n">available_dataset_names</span><span class="p">()[</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span>
+        <span class="n">tmp_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+            <span class="n">attrs</span><span class="o">=</span><span class="p">{</span>
+                <span class="s2">&quot;source_file_name&quot;</span><span class="p">:</span> <span class="n">base_fnames</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">scn_start</span><span class="p">,</span>
+                <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">scn_end</span><span class="p">,</span>
+                <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="n">tmp_attrs</span><span class="p">[</span><span class="s2">&quot;sensor&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="n">tmp_attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">],</span>
+                <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;NOAA&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+                <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>  <span class="c1"># guess!</span>
+            <span class="p">}</span>
+        <span class="p">)</span>
+        <span class="n">tmp_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
+        <span class="k">return</span> <span class="n">tmp_dict</span>
+
+    <span class="c1"># trim VARLIST based on channels requested</span>
+    <span class="k">if</span> <span class="n">chans</span><span class="p">:</span>
+        <span class="n">tmp_vl</span> <span class="o">=</span> <span class="n">VARLIST</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">tmp_vl</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">km</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span> <span class="ow">in</span> <span class="n">val</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chans</span><span class="p">]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">km</span><span class="p">):</span>
+                <span class="n">VARLIST</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">val</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chans</span> <span class="k">if</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">c</span><span class="p">]</span>
+                <span class="n">VARLIST</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">matches</span>
+
+    <span class="c1"># could opimize more</span>
+    <span class="n">tmp_coor</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">VARLIST</span><span class="p">:</span>
+        <span class="n">tmp_dask</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">dataset_ids</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">idx</span>
+            <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="n">tmp_scn</span><span class="o">.</span><span class="n">available_dataset_ids</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">idx</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">VARLIST</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+        <span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">dataset_ids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;No variables found in data for viirs_sdr reader.&quot;</span><span class="p">)</span>
+            <span class="k">continue</span>
+
+        <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="n">dataset_ids</span><span class="p">:</span>
+            <span class="n">tmp_scn</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="n">d</span><span class="p">])</span>
+            <span class="n">full_key</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">&quot;calibration&quot;</span>
+            <span class="p">]</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;Bri&quot;</span><span class="p">,</span> <span class="s2">&quot;BT&quot;</span><span class="p">)</span>
+
+            <span class="n">tmp_ma</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="c1"># load band</span>
+            <span class="n">tmp_scn</span><span class="o">.</span><span class="n">load</span><span class="p">([</span><span class="n">d</span><span class="p">])</span>
+
+            <span class="n">lat</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">lats</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+            <span class="n">lon</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">d</span><span class="p">]</span><span class="o">.</span><span class="n">area</span><span class="o">.</span><span class="n">lons</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">()</span><span class="o">.</span><span class="n">data</span>
+
+            <span class="c1"># bowtie correction</span>
+            <span class="k">if</span> <span class="n">bowtie</span><span class="p">:</span>
+                <span class="n">band_data</span><span class="p">,</span> <span class="n">band_lat</span><span class="p">,</span> <span class="n">band_lon</span> <span class="o">=</span> <span class="n">bowtie_correction</span><span class="p">(</span><span class="n">tmp_ma</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">band_data</span><span class="p">,</span> <span class="n">band_lat</span><span class="p">,</span> <span class="n">band_lon</span> <span class="o">=</span> <span class="n">tmp_ma</span><span class="p">,</span> <span class="n">lat</span><span class="p">,</span> <span class="n">lon</span>
+
+            <span class="k">if</span> <span class="s2">&quot;Ref&quot;</span> <span class="ow">in</span> <span class="n">full_key</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_gamma</span>
+
+                <span class="c1"># gamma expects data 0-1 range</span>
+                <span class="c1"># Gamma factor derived from log rule</span>
+                <span class="c1"># log(mean)/log(0.5) for mean rng 0 to 1</span>
+                <span class="n">band_data</span> <span class="o">=</span> <span class="n">apply_gamma</span><span class="p">(</span><span class="n">band_data</span> <span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mf">1.65</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+
+            <span class="n">tmp_dask</span> <span class="o">|=</span> <span class="p">{</span><span class="n">full_key</span><span class="p">:</span> <span class="p">((</span><span class="s2">&quot;dim_0&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">),</span> <span class="n">band_data</span><span class="p">)}</span>
+
+        <span class="c1"># coordinates</span>
+        <span class="n">tmp_coor</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;dim_0&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">),</span>
+            <span class="n">band_lat</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">tmp_coor</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;dim_0&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">),</span>
+            <span class="n">band_lon</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="c1"># sample time to the proper shape (N*48), while lat/lon are ()</span>
+        <span class="n">time_range</span> <span class="o">=</span> <span class="n">date_range</span><span class="p">(</span>
+            <span class="n">start</span><span class="o">=</span><span class="n">scn_start</span><span class="p">,</span>
+            <span class="n">end</span><span class="o">=</span><span class="n">scn_end</span><span class="p">,</span>
+            <span class="n">periods</span><span class="o">=</span><span class="n">tmp_coor</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="p">)</span><span class="o">.</span><span class="n">values</span>
+        <span class="n">interp_time</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">time_range</span><span class="p">,</span> <span class="p">(</span><span class="n">tmp_coor</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">T</span>
+        <span class="n">tmp_coor</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;dim_0&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">),</span> <span class="n">interp_time</span><span class="p">)</span>
+
+        <span class="n">tmp_attrs</span> <span class="o">=</span> <span class="n">tmp_scn</span><span class="p">[</span><span class="n">VARLIST</span><span class="p">[</span><span class="n">var</span><span class="p">][</span><span class="mi">0</span><span class="p">]]</span><span class="o">.</span><span class="n">attrs</span>
+
+        <span class="n">cal_params</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;satellite_azimuth_angle&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;satellite_zenith_angle&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+
+        <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">&quot;DNB&quot;</span><span class="p">:</span>
+            <span class="n">cal_params</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="s2">&quot;dnb_lunar_azimuth_angle&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dnb_lunar_zenith_angle&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dnb_satellite_azimuth_angle&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dnb_satellite_zenith_angle&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dnb_solar_azimuth_angle&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;dnb_solar_zenith_angle&quot;</span><span class="p">,</span>
+            <span class="p">]</span>
+
+        <span class="n">tmp_scn</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">cal_params</span><span class="p">)</span>
+        <span class="n">tmp_cal_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">i</span><span class="o">.</span><span class="n">removeprefix</span><span class="p">(</span><span class="s2">&quot;dnb_&quot;</span><span class="p">):</span> <span class="p">(</span>
+                <span class="p">(</span><span class="s2">&quot;dim_0&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">),</span>
+                <span class="n">tmp_scn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">to_masked_array</span><span class="p">(),</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">cal_params</span>
+        <span class="p">}</span>
+
+        <span class="k">if</span> <span class="n">var</span> <span class="o">==</span> <span class="s2">&quot;DNB&quot;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">lunarref.lib.liblunarref</span><span class="w"> </span><span class="kn">import</span> <span class="n">lunarref</span>
+
+                <span class="c1"># this results in the wrong value..</span>
+                <span class="c1"># np.arccos((tmp_scn[&quot;dnb_moon_illumination_fraction&quot;].data/50)-1)</span>
+
+                <span class="n">dnb_geofile</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">fnames</span> <span class="k">if</span> <span class="s2">&quot;GDNBO&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">i</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">h5_dnb</span> <span class="o">=</span> <span class="n">h5py</span><span class="o">.</span><span class="n">File</span><span class="p">(</span><span class="n">dnb_geofile</span><span class="p">)</span>
+                <span class="n">phase_ang</span> <span class="o">=</span> <span class="n">h5_dnb</span><span class="p">[</span><span class="s2">&quot;All_Data/VIIRS-DNB-GEO_All/MoonPhaseAngle&quot;</span><span class="p">][</span><span class="o">...</span><span class="p">]</span>
+
+                <span class="n">lunarref_data</span> <span class="o">=</span> <span class="n">lunarref</span><span class="p">(</span>
+                    <span class="n">tmp_dask</span><span class="p">[</span><span class="s2">&quot;DNBRad&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">tmp_cal_params</span><span class="p">[</span><span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">tmp_cal_params</span><span class="p">[</span><span class="s2">&quot;lunar_zenith_angle&quot;</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span>
+                    <span class="n">scn_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">),</span>
+                    <span class="n">scn_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%M&quot;</span><span class="p">),</span>
+                    <span class="n">phase_ang</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">lunarref_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">lunarref_data</span><span class="p">,</span> <span class="o">-</span><span class="mi">999</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">tmp_dask</span> <span class="o">|=</span> <span class="p">{</span><span class="s2">&quot;DNBRef&quot;</span><span class="p">:</span> <span class="p">((</span><span class="s2">&quot;dim_0&quot;</span><span class="p">,</span> <span class="s2">&quot;dim_1&quot;</span><span class="p">),</span> <span class="n">lunarref_data</span><span class="p">)}</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Failed lunarref in viirs reader.  If you need it, build it&quot;</span><span class="p">)</span>
+
+        <span class="c1"># problem with sat_za/az values being too high, need to downsample</span>
+        <span class="c1"># print(&quot;Building xarray&quot;)</span>
+        <span class="n">obs_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="n">tmp_dask</span><span class="p">)</span>
+        <span class="n">coor_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="n">tmp_coor</span><span class="p">)</span>
+        <span class="n">cal_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">data_vars</span><span class="o">=</span><span class="n">tmp_cal_params</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">cal_xr</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;dim_0&quot;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="n">coor_xr</span><span class="o">.</span><span class="n">sizes</span><span class="p">[</span><span class="s2">&quot;dim_0&quot;</span><span class="p">]:</span>
+            <span class="n">cal_xr</span> <span class="o">=</span> <span class="n">cal_xr</span><span class="o">.</span><span class="n">coarsen</span><span class="p">(</span><span class="n">dim_0</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim_1</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+        <span class="n">tmp_xr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">obs_xr</span><span class="p">,</span> <span class="n">coor_xr</span><span class="p">,</span> <span class="n">cal_xr</span><span class="p">])</span>
+
+        <span class="n">tmp_xr</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;source_file_name&quot;</span><span class="p">:</span> <span class="n">base_fnames</span><span class="p">,</span>
+            <span class="s2">&quot;start_datetime&quot;</span><span class="p">:</span> <span class="n">tmp_scn</span><span class="o">.</span><span class="n">start_time</span><span class="p">,</span>
+            <span class="s2">&quot;end_datetime&quot;</span><span class="p">:</span> <span class="n">tmp_scn</span><span class="o">.</span><span class="n">end_time</span><span class="p">,</span>
+            <span class="s2">&quot;source_name&quot;</span><span class="p">:</span> <span class="n">tmp_attrs</span><span class="p">[</span><span class="s2">&quot;sensor&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;platform_name&quot;</span><span class="p">:</span> <span class="n">tmp_attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;data_provider&quot;</span><span class="p">:</span> <span class="s2">&quot;NOAA&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">:</span> <span class="n">tmp_attrs</span><span class="p">[</span><span class="s2">&quot;resolution&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">,</span>
+            <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">:</span> <span class="mi">1000</span><span class="p">,</span>
+        <span class="p">}</span>
+
+        <span class="n">full_xr</span> <span class="o">|=</span> <span class="p">{</span><span class="n">var</span><span class="p">:</span> <span class="n">tmp_xr</span><span class="p">}</span>
+    <span class="n">full_xr</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="n">tmp_xr</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
+
+    <span class="c1"># Geolocation resampling</span>
+    <span class="k">if</span> <span class="n">resample</span> <span class="ow">and</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="n">adname</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+        <span class="n">new_shape</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Getting geolocation information for </span><span class="si">{}</span><span class="s2">.&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adname</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">dtype</span> <span class="ow">in</span> <span class="n">full_xr</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="k">if</span> <span class="s2">&quot;latitude&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;No data read for dataset </span><span class="si">%s</span><span class="s2">, removing from xarray list&quot;</span><span class="p">,</span> <span class="n">dtype</span>
+                <span class="p">)</span>
+                <span class="k">continue</span>
+            <span class="n">fldk_lats</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span>
+            <span class="n">fldk_lons</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
+            <span class="c1"># Get just the metadata we need</span>
+            <span class="n">geo_metadata</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">geo_metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lats</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">geo_metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;stitched_granules&quot;</span>
+            <span class="n">geo_metadata</span><span class="p">[</span><span class="s2">&quot;fnames&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo_metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;source_file_name&quot;</span><span class="p">)</span>
+            <span class="n">geo_metadata</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span>
+            <span class="n">lines</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">get_indexes</span><span class="p">(</span><span class="n">geo_metadata</span><span class="p">,</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+
+            <span class="n">index_mask</span> <span class="o">=</span> <span class="n">lines</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">999</span>
+
+            <span class="n">new_dim0</span> <span class="o">=</span> <span class="s2">&quot;dim_</span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">new_dim1</span> <span class="o">=</span> <span class="s2">&quot;dim_</span><span class="si">{:d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">new_shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+
+            <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">new_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">new_shape</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">)</span>
+                <span class="n">new_var</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[</span>
+                    <span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span>
+                <span class="p">]</span>
+                <span class="c1"># out_var = new_var</span>
+                <span class="k">if</span> <span class="n">varname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cal_params</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">,</span> <span class="s2">&quot;longitude&quot;</span><span class="p">]:</span>
+                    <span class="c1"># Set values &lt;= -999.9 to NaN so they also get interpolated.</span>
+                    <span class="n">new_var</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">new_var</span> <span class="o">&lt;=</span> <span class="o">-</span><span class="mf">999.9</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+                    <span class="c1"># Interpolate missing data.</span>
+                    <span class="n">out_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">new_var</span><span class="p">)</span><span class="o">.</span><span class="n">interpolate</span><span class="p">())</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">out_var</span> <span class="o">=</span> <span class="n">new_var</span>
+                <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+                    <span class="n">out_var</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="n">new_dim0</span><span class="p">,</span> <span class="n">new_dim1</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="s2">&quot;time&quot;</span> <span class="ow">in</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+                <span class="n">time_data</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span>
+                <span class="n">time_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">time_data</span><span class="o">.</span><span class="n">ravel</span><span class="p">()))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span>
+                    <span class="n">time_data</span><span class="o">.</span><span class="n">shape</span>
+                <span class="p">)</span>
+                <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">time_data</span>
+
+            <span class="n">ll_mask</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">data</span> <span class="o">&gt;=</span> <span class="o">-</span><span class="mi">90</span>
+            <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">full_xr</span><span class="p">[</span><span class="n">dtype</span><span class="p">][</span><span class="n">varname</span><span class="p">]</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">ll_mask</span><span class="p">)</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Done with geolocation for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">adname</span><span class="p">))</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">full_xr</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

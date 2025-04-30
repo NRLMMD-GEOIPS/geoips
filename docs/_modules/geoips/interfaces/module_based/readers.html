@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.module_based.readers &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.interfaces.module_based.readers &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../../../" id="documentation_options" src="../../../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/interfaces/module_based/readers';</script>
     <link rel="icon" href="../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.interfaces.module_based.readers</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.interfaces.module_based.readers</span></li>
   </ul>
 </nav>
 </div>
@@ -421,27 +424,27 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.interfaces.module_based.readers</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;Readers interface module.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">geoips.interfaces.base</span> <span class="kn">import</span> <span class="n">BaseModuleInterface</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">collections</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="kn">import</span> <span class="n">concat</span><span class="p">,</span> <span class="n">Dataset</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">NoValidFilesError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseModuleInterface</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.readers.utils.hrit_reader</span><span class="w"> </span><span class="kn">import</span> <span class="n">HritError</span>
 
 
-<div class="viewcode-block" id="ReadersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.module_based.html#geoips.interfaces.module_based.readers.ReadersInterface">[docs]</a><span class="k">class</span> <span class="nc">ReadersInterface</span><span class="p">(</span><span class="n">BaseModuleInterface</span><span class="p">):</span>
+<div class="viewcode-block" id="ReadersInterface"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.module_based.html#geoips.interfaces.module_based.readers.ReadersInterface">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ReadersInterface</span><span class="p">(</span><span class="n">BaseModuleInterface</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Interface for ingesting a specific data type.</span>
 
 <span class="sd">    Provides specification for ingensting a specific data type, and storing in</span>
@@ -452,7 +455,303 @@ document.write(`
     <span class="n">required_args</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;fnames&quot;</span><span class="p">]}</span>
     <span class="n">required_kwargs</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s2">&quot;standard&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;metadata_only&quot;</span><span class="p">,</span> <span class="s2">&quot;chans&quot;</span><span class="p">,</span> <span class="s2">&quot;area_def&quot;</span><span class="p">,</span> <span class="s2">&quot;self_register&quot;</span><span class="p">]</span>
-    <span class="p">}</span></div>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="ReadersInterface.read_data_to_xarray_dict"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.module_based.html#geoips.interfaces.module_based.readers.ReadersInterface.read_data_to_xarray_dict">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">read_data_to_xarray_dict</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fnames</span><span class="p">,</span>
+        <span class="n">read_single_time_func</span><span class="p">,</span>
+        <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read in data potentially from multiple scan times into an xarray dict.</span>
+
+<span class="sd">        This function does not require that you provide multiple scan times, but allows</span>
+<span class="sd">        for that in the case those are provided.</span>
+
+<span class="sd">        Call this with information specific to your reader to generate a dictionary of</span>
+<span class="sd">        xarray datasets created from the data provided in &#39;fnames&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fnames : list</span>
+<span class="sd">            * List of strings, full paths to files</span>
+<span class="sd">        all_metadata : dict</span>
+<span class="sd">            * Dictionary of metadata from all files in &#39;fnames&#39;</span>
+<span class="sd">        read_single_time_func : python function</span>
+<span class="sd">            * Function which can be used to read a single scan time of files from a</span>
+<span class="sd">              reader plugin.</span>
+<span class="sd">            * Most likely named &#39;call_single_time&#39;.</span>
+<span class="sd">        metadata_only : bool, default=False</span>
+<span class="sd">            * Return before actually reading data if True</span>
+<span class="sd">        chans : list of str, default=None</span>
+<span class="sd">            * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">            * Include all channels if None.</span>
+<span class="sd">        area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">            * Specify region to read</span>
+<span class="sd">            * Read all data if None.</span>
+<span class="sd">        self_register : str or bool, default=False</span>
+<span class="sd">            * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">              return dictionary keys).</span>
+<span class="sd">            * Read multiple resolutions of data if False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict of xarray.Datasets</span>
+<span class="sd">            * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">              Attributes.</span>
+<span class="sd">            * Dictionary keys can be any descriptive dataset ids.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :ref:`xarray_standards`</span>
+<span class="sd">            Additional information regarding required attributes and variables</span>
+<span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Sort fnames. This should sort them by time and channel more often than not.</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+        <span class="c1"># We really only need to get the start time from all of these files. I wish</span>
+        <span class="c1"># there were an easier and more efficient route, but this should work for the</span>
+        <span class="c1"># time being. Personally, I think it&#39;d be a good idea to add a new argument to</span>
+        <span class="c1"># this method that accepts a function which calculates the start datetime of</span>
+        <span class="c1"># all files provided.</span>
+        <span class="n">all_file_metadata</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">updated_fnames</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">all_file_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">read_single_time_func</span><span class="p">([</span><span class="n">x</span><span class="p">],</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="n">chans</span><span class="p">)[</span>
+                        <span class="s2">&quot;METADATA&quot;</span>
+                    <span class="p">]</span>
+                <span class="p">)</span>
+                <span class="n">updated_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+            <span class="k">except</span> <span class="n">NoValidFilesError</span><span class="p">:</span>
+                <span class="c1"># If the current file is not valid, just skip this one.</span>
+                <span class="c1"># print(f&quot;{str(e)}: No files found, skipping&quot;)</span>
+                <span class="k">continue</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="n">HritError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="c1"># Value error is raised for &#39;inconsistent&#39; metadata, or in this case</span>
+                <span class="c1"># No appropriate file for the channels selected</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">e</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">et</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+<span class="w">                    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                    This occurs from the seviri_hrit reader in &#39;get_top_level_metadata&#39;</span>
+<span class="sd">                    Parse out the start and end datetimes, as this file still could be</span>
+<span class="sd">                    Relevant, but is missing &#39;block_2&#39;. If the set of files all are</span>
+<span class="sd">                    missing block_2, or the projection of block_2 is not GEOS, it will</span>
+<span class="sd">                    cause an HritError in the for loop before, which doesn&#39;t have a try</span>
+<span class="sd">                    except statement.</span>
+
+<span class="sd">                    Error Format:</span>
+<span class="sd">                    f&quot;Unknown projection encountered: {projection}.\n&quot;</span>
+<span class="sd">                    f&quot;start_datetime={st.isoformat()}\n&quot;</span>
+<span class="sd">                    f&quot;end_datetime={et.isoformat()}&quot;</span>
+<span class="sd">                    &quot;&quot;&quot;</span>
+                    <span class="n">emsg</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">e</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="c1"># Recreate the datetime objects from the isoformat strings provided</span>
+                    <span class="n">st</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">emsg</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                    <span class="n">et</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">fromisoformat</span><span class="p">(</span><span class="n">emsg</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+                <span class="c1"># Add st, et as datetimes for the file, nonetheless if they are None</span>
+                <span class="c1"># or a valid datetime</span>
+                <span class="n">all_file_metadata</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">Dataset</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">start_datetime</span><span class="o">=</span><span class="n">st</span><span class="p">,</span> <span class="n">end_datetime</span><span class="o">=</span><span class="n">et</span><span class="p">))</span>
+                <span class="p">)</span>
+                <span class="n">updated_fnames</span> <span class="o">+=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_file_metadata</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">end_times</span> <span class="o">=</span> <span class="p">[</span><span class="n">md</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="k">for</span> <span class="n">md</span> <span class="ow">in</span> <span class="n">all_file_metadata</span><span class="p">]</span>
+
+        <span class="c1"># Get unique start times and end times. We do this by initally creating a set</span>
+        <span class="c1"># from all found start and end times. Keep in mind, some of these times could</span>
+        <span class="c1"># be &#39;None&#39; if a value error is raised from the reader call function. This</span>
+        <span class="c1"># occurs when none of the selected channels were found in the file provided.</span>
+        <span class="c1"># Meaning, we don&#39;t need that file..</span>
+        <span class="c1"># Now, remove &#39;None&#39; from the set (the files the don&#39;t need). This leaves a list</span>
+        <span class="c1"># of unique file times that have been found in datasets that contain the correct</span>
+        <span class="c1"># channels.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="kc">None</span><span class="p">])))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">end_times</span><span class="p">)</span><span class="o">.</span><span class="n">difference</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="kc">None</span><span class="p">])))</span>
+        <span class="c1"># Set these values to this class so they can be used downstream for reading</span>
+        <span class="c1"># data from the correct time steps</span>
+        <span class="n">metadata_by_scan_time</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">stime</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">:</span>
+            <span class="c1"># Get the indices of all files which match the current start time</span>
+            <span class="n">same_scan_time_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span> <span class="o">==</span> <span class="n">stime</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">]</span>
+            <span class="c1"># Now get the metadata of all of the files which match that time</span>
+            <span class="n">metadata_by_scan_time</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="n">read_single_time_func</span><span class="p">(</span>
+                    <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">updated_fnames</span><span class="p">)[</span><span class="n">same_scan_time_files</span><span class="p">]),</span>
+                    <span class="n">metadata_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">chans</span><span class="o">=</span><span class="n">chans</span><span class="p">,</span>
+                <span class="p">)[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span>
+            <span class="p">)</span>
+        <span class="n">all_metadata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">concatenate_metadata</span><span class="p">(</span><span class="n">metadata_by_scan_time</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">all_metadata</span>
+
+        <span class="n">dict_xarrays</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">call_files_and_get_top_level_metadata</span><span class="p">(</span>
+            <span class="n">updated_fnames</span><span class="p">,</span>
+            <span class="n">all_metadata</span><span class="p">,</span>
+            <span class="n">read_single_time_func</span><span class="p">,</span>
+            <span class="n">metadata_only</span><span class="p">,</span>
+            <span class="n">chans</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="p">,</span>
+            <span class="n">self_register</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">dict_xarrays</span></div>
+
+<div class="viewcode-block" id="ReadersInterface.concatenate_metadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.module_based.html#geoips.interfaces.module_based.readers.ReadersInterface.concatenate_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">concatenate_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">all_metadata</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge together metadata sourced from a list of files into one dictionary.</span>
+
+<span class="sd">        Where the structure of the merged metadata is a nested dictionary of metadata.</span>
+
+<span class="sd">        Ie. (xarray_obj has no data and is merely just a container for metadata):</span>
+<span class="sd">        {&quot;METADATA&quot;: xobj.source_file_attributes: {fname: xobj, ..., &quot;fnamex&quot;: xobj}}</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        all_metadata: list of xarray.Datasets</span>
+<span class="sd">            - The incoming metadata from X number of files</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        md: dict of xarray Datasets</span>
+<span class="sd">            - All metadata merged into a dictionary of xarray Datasets</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">md</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;METADATA&quot;</span><span class="p">:</span> <span class="n">Dataset</span><span class="p">()}</span>
+
+        <span class="k">for</span> <span class="n">md_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">all_metadata</span><span class="p">)):</span>
+            <span class="c1"># Set required attributes of the top-level metadata when this loop is</span>
+            <span class="c1"># started</span>
+            <span class="k">if</span> <span class="n">md_idx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span>
+
+            <span class="c1"># Add to optional attributes of the top-level metadata for each xobj</span>
+            <span class="c1"># provided</span>
+            <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">+=</span> <span class="p">[</span>
+                <span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span>
+            <span class="p">]</span>
+            <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">[</span>
+                    <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span><span class="p">,</span>
+                    <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span><span class="p">,</span>
+                <span class="p">],</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]:</span>
+                <span class="n">md</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">][</span><span class="n">basename</span><span class="p">(</span><span class="n">x</span><span class="p">)]</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="n">all_metadata</span><span class="p">[</span><span class="n">md_idx</span><span class="p">]</span>
+                <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">md</span></div>
+
+<div class="viewcode-block" id="ReadersInterface.call_files_and_get_top_level_metadata"><a class="viewcode-back" href="../../../../geoips_api/geoips.interfaces.module_based.html#geoips.interfaces.module_based.readers.ReadersInterface.call_files_and_get_top_level_metadata">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">call_files_and_get_top_level_metadata</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">fnames</span><span class="p">,</span>
+        <span class="n">all_metadata</span><span class="p">,</span>
+        <span class="n">call_single_file_func</span><span class="p">,</span>
+        <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Read in data from a list of filenames.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        fnames : list</span>
+<span class="sd">            * List of strings, full paths to files</span>
+<span class="sd">        all_metadata : dict</span>
+<span class="sd">            * Dictionary of metadata from all files in &#39;fnames&#39;</span>
+<span class="sd">        read_single_time_func : python function</span>
+<span class="sd">            * Function which can be used to read a single scan time of files from a</span>
+<span class="sd">              reader plugin.</span>
+<span class="sd">            * Most likely named &#39;call_single_time&#39;.</span>
+<span class="sd">        metadata_only : bool, default=False</span>
+<span class="sd">            * Return before actually reading data if True</span>
+<span class="sd">        chans : list of str, default=None</span>
+<span class="sd">            * List of desired channels (skip unneeded variables as needed).</span>
+<span class="sd">            * Include all channels if None.</span>
+<span class="sd">        area_def : pyresample.AreaDefinition, default=None</span>
+<span class="sd">            * Specify region to read</span>
+<span class="sd">            * Read all data if None.</span>
+<span class="sd">        self_register : str or bool, default=False</span>
+<span class="sd">            * register all data to the specified dataset id (as specified in the</span>
+<span class="sd">              return dictionary keys).</span>
+<span class="sd">            * Read multiple resolutions of data if False.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict of xarray.Datasets</span>
+<span class="sd">            * dictionary of xarray.Dataset objects with required Variables and</span>
+<span class="sd">              Attributes.</span>
+<span class="sd">            * Dictionary keys can be any descriptive dataset ids.</span>
+
+<span class="sd">        See Also</span>
+<span class="sd">        --------</span>
+<span class="sd">        :ref:`xarray_standards`</span>
+<span class="sd">            Additional information regarding required attributes and variables</span>
+<span class="sd">            for GeoIPS-formatted xarray Datasets.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ingested_xarrays</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">time</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">:</span>
+            <span class="n">scan_time_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">dt</span> <span class="o">==</span> <span class="n">time</span> <span class="k">for</span> <span class="n">dt</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_times</span><span class="p">]</span>
+            <span class="c1"># Call the associated reader for a series of files associated with the same</span>
+            <span class="c1"># scan time</span>
+            <span class="n">data_dict</span> <span class="o">=</span> <span class="n">call_single_file_func</span><span class="p">(</span>
+                <span class="nb">list</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">fnames</span><span class="p">)[</span><span class="n">scan_time_files</span><span class="p">]),</span>
+                <span class="n">metadata_only</span><span class="o">=</span><span class="n">metadata_only</span><span class="p">,</span>
+                <span class="n">chans</span><span class="o">=</span><span class="n">chans</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+                <span class="n">self_register</span><span class="o">=</span><span class="n">self_register</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="p">(</span>
+                <span class="n">dname</span><span class="p">,</span>
+                <span class="n">dset</span><span class="p">,</span>
+            <span class="p">)</span> <span class="ow">in</span> <span class="n">data_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">ingested_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># No need to stack if we are only reading in one scan time</span>
+            <span class="c1"># This is likely temporary to maintain backwards compatibility</span>
+
+            <span class="c1"># This is not hit if we are provided multiple scan times.</span>
+            <span class="k">return</span> <span class="n">data_dict</span>
+
+        <span class="c1"># Now that we&#39;ve ingested all scan times, stack along time dimension</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">all_metadata</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span>
+        <span class="n">dict_xarrays</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">dname</span><span class="p">,</span> <span class="n">list_xarrays</span> <span class="ow">in</span> <span class="n">ingested_xarrays</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">dname</span> <span class="o">==</span> <span class="s2">&quot;METADATA&quot;</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">merged_dset</span> <span class="o">=</span> <span class="n">concat</span><span class="p">(</span><span class="n">list_xarrays</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
+            <span class="n">merged_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span>
+            <span class="n">merged_dset</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span><span class="p">)</span>
+            <span class="n">merged_dset</span> <span class="o">=</span> <span class="n">merged_dset</span><span class="o">.</span><span class="n">assign_coords</span><span class="p">({</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">})</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged_dset</span>
+            <span class="c1"># Override source_file_* attributes with what&#39;s set in all_metadata.</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_names&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">&quot;source_file_names&quot;</span>
+            <span class="p">]</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_attributes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">&quot;source_file_attributes&quot;</span>
+            <span class="p">]</span>
+            <span class="n">dict_xarrays</span><span class="p">[</span><span class="n">dname</span><span class="p">]</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_file_datetimes&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span>
+                <span class="s2">&quot;source_file_datetimes&quot;</span>
+            <span class="p">]</span>
+
+        <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_stimes</span><span class="p">)</span>
+        <span class="n">metadata</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">unique_etimes</span><span class="p">)</span>
+        <span class="n">dict_xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span>
+
+        <span class="k">return</span> <span class="n">dict_xarrays</span></div></div>
 
 
 <span class="n">readers</span> <span class="o">=</span> <span class="n">ReadersInterface</span><span class="p">()</span>
@@ -462,16 +761,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -489,11 +784,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

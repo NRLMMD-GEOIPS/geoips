@@ -1,0 +1,38 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.11.3 (2023-09-21)
+***************************
+
+* Add 1.11.3 release note
+* Remove flake8_docstring_only flag from test_all.sh and full_test.sh
+
+Bug Fixes
+=========
+
+Remove flake8_docstring_only flag from test_all.sh and full_test.sh
+-------------------------------------------------------------------
+
+Initially did not remove this flag from the integration tests - ensure full
+flake8 tests are now applied across the repository.
+
+::
+
+  modified: tests/test_all.sh
+  modified: tests/integration_test/full_test.sh
+
+Release Updates
+===============
+
+Add 1.11.3 release note
+-----------------------
+
+*From issue GEOIPS#363: 2023-09-21, version update*
+
+::
+
+    modified: CHANGELOG.rst
+    new file: docs/source/releases/v1_11_3.rst
+    modified: docs/source/releases/index.rst

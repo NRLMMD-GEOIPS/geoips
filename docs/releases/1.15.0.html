@@ -1,0 +1,1378 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.15.0 (2025-04-30) &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/1.15.0';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.14.5 (2025-04-30)" href="1.14.5.html" />
+    <link rel="prev" title="Version 1.15.1 (2025-04-30)" href="1.15.1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2025-04-30)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2025-04-30)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.15.0 (2025-04-30)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0.html">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.15.0 (2025-04-30)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="version-1-15-0-2025-04-30">
+<h1>Version 1.15.0 (2025-04-30)<a class="headerlink" href="#version-1-15-0-2025-04-30" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Bug fix</em>: Remove duplicate lines</p></li>
+<li><p><em>Bug fix</em>: Seviri_hrit bug fix</p></li>
+<li><p><em>Bug fix</em>: Fix exception handling for correct xfailing on missing data for cygnss netcdf reader</p></li>
+<li><p><em>Bug fix</em>: Update pytest ini file to add geoips repo root to pythonpath on pytest run</p></li>
+<li><p><em>Bug fix</em>: Version update for numpy 2.0</p></li>
+<li><p><em>Bug fix</em>: –test-data-available without argument now errors</p></li>
+<li><p><em>Bug fix</em>: Non-editable unit test fix</p></li>
+<li><p><em>Bug fix</em>: Commandline fix for multi-document yaml files</p></li>
+<li><p><em>Documentation</em>: Fixing installation issues</p></li>
+<li><p><em>Documentation</em>: Add integration tests as examples.</p></li>
+<li><p><em>Documentation</em>: Change docs structure to new docs</p></li>
+<li><p><em>Documentation</em>: Add basic nrtp tutorial</p></li>
+<li><p><em>Documentation</em>: Add conceptual interface documentation</p></li>
+<li><p><em>Refactor</em>: Update variable name amsr to amsr2</p></li>
+<li><p><em>Git</em>: Merge release into dev branch</p></li>
+<li><p><em>Continuous integration</em>: Build stable image on tag.</p></li>
+<li><p><em>Continuous integration</em>: Add code owners files.</p></li>
+<li><p><em>Continuous integration</em>: Skip ami.tc.wv.geotiff.sh integration test</p></li>
+<li><p><em>Refactoring updates</em>: Automate <code class="docutils literal notranslate"><span class="pre">create_plugin_registries</span></code></p></li>
+<li><p><em>Enhancement</em>: Update plugins to support better plotting configurability</p></li>
+<li><p><em>Enhancement</em>: Get plugin metadata</p></li>
+<li><p><em>Enhancement</em>: Tar files are now filtered</p></li>
+<li><p><em>Enhancement</em>: Add default geoips_outdirs so pip installs of geoips do not immediately crash.</p></li>
+<li><p><em>Enhancement</em>: Fci reader geocolor update</p></li>
+<li><p><em>Enhancement</em>: Migrate integration tests to pytest</p></li>
+<li><p><em>Release process</em>: Add 1.15.0 release note</p></li>
+<li><p><em>Release process</em>: Update internal and github.com ‘upcoming_version’ and ‘tagged_version’</p></li>
+<li><p><em>Performance</em>: New product family unsectored_xarray_dict_to_algorithm_to_output_format</p></li>
+<li><p><em>Testing</em>: Integrate test all into pytest tests</p></li>
+</ul>
+</div></blockquote>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="remove-duplicate-lines">
+<h3>Remove duplicate lines<a class="headerlink" href="#remove-duplicate-lines" title="Permalink to this heading">#</a></h3>
+<p>Removed duplicate lines from pyproject.toml</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Bug fix<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="seviri-hrit-bug-fix">
+<h3>Seviri_hrit bug fix<a class="headerlink" href="#seviri-hrit-bug-fix" title="Permalink to this heading">#</a></h3>
+<p>The seviri_hrit reader had a bug caused by meteosat second generation High
+Resolution Visible (HRV) files. With our new reader updates which allow
+geostationary readers to handle multiple scan times, we broke the method in which
+this reader filtered out HRV files. The functionality was the same, but when
+seviri_hrit:call_single_time was fed a singular file, and that file was HRV, an
+error would occur in ‘get_top_level_metadata’. This is due to the fact that we feed
+in files to ‘call_single_time’ individually the first time around to get a list of
+start datetimes, so we know which files to group together. We need to do the
+filtering before we call ‘call_single_time’, and things will work as expected.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">seviri_hrit</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>Bug fix<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<section id="fix-exception-handling-for-correct-xfailing-on-missing-data-for-cygnss-netcdf-reader">
+<h3>Fix exception handling for correct xfailing on missing data for cygnss netcdf reader<a class="headerlink" href="#fix-exception-handling-for-correct-xfailing-on-missing-data-for-cygnss-netcdf-reader" title="Permalink to this heading">#</a></h3>
+<p>Updated docstring for <code class="docutils literal notranslate"><span class="pre">get_test_files</span></code>, replaced the <code class="docutils literal notranslate"><span class="pre">FileNotFoundError</span></code> with <code class="docutils literal notranslate"><span class="pre">NameError</span></code> to clearly indicate
+missing test data in <code class="docutils literal notranslate"><span class="pre">cygnss_netcdf.py</span></code> unit tests, and removed the corresponding <code class="docutils literal notranslate"><span class="pre">except</span> <span class="pre">FileNotFoundError</span></code> block
+in <code class="docutils literal notranslate"><span class="pre">test_readers.py</span></code> to allow the error to be raised properly.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">cygnss_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">test_readers</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id3">
+<h2>Bug fix<a class="headerlink" href="#id3" title="Permalink to this heading">#</a></h2>
+<section id="update-pytest-ini-file-to-add-geoips-repo-root-to-pythonpath-on-pytest-run">
+<h3>Update pytest ini file to add geoips repo root to pythonpath on pytest run<a class="headerlink" href="#update-pytest-ini-file-to-add-geoips-repo-root-to-pythonpath-on-pytest-run" title="Permalink to this heading">#</a></h3>
+<p>Fixes failing unit tests that should be passing that started raising import errors by adding the root repo dir to the
+python path. This was previously automatically done by installing GeoIPS in editable mode.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id4">
+<h2>Bug fix<a class="headerlink" href="#id4" title="Permalink to this heading">#</a></h2>
+<section id="version-update-for-numpy-2-0">
+<h3>Version update for numpy 2.0<a class="headerlink" href="#version-update-for-numpy-2-0" title="Permalink to this heading">#</a></h3>
+<p>Removed pinned numpy versioning, and allowed for dynamic numexpr, netcdf, and numpy versions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id5">
+<h2>Bug fix<a class="headerlink" href="#id5" title="Permalink to this heading">#</a></h2>
+<section id="test-data-available-without-argument-now-errors">
+<h3>–test-data-available without argument now errors<a class="headerlink" href="#test-data-available-without-argument-now-errors" title="Permalink to this heading">#</a></h3>
+<p>–test-data-available requires an argument. It now errors if none is provided instead of saying “None is NOT available
+for direct download.”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id6">
+<h2>Bug fix<a class="headerlink" href="#id6" title="Permalink to this heading">#</a></h2>
+<section id="non-editable-unit-test-fix">
+<h3>Non-editable unit test fix<a class="headerlink" href="#non-editable-unit-test-fix" title="Permalink to this heading">#</a></h3>
+<p>&#64;mindyls pointed out that the ‘geoips list unit-tests’ unit-test module was failing
+when one or more package was installed in non-editable mode. This wasn’t caught by
+our github actions as we install packages in editable mode for testing. We should
+probably change this to test in both modes for the future.</p>
+<p>This PR updated some of the commandline unit test code, specifically for
+non-editable mode cases, to fix these failing tests. All commandline unit tests on
+my end are now passing.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_scripts</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id7">
+<h2>Bug fix<a class="headerlink" href="#id7" title="Permalink to this heading">#</a></h2>
+<section id="commandline-fix-for-multi-document-yaml-files">
+<h3>Commandline fix for multi-document yaml files<a class="headerlink" href="#commandline-fix-for-multi-document-yaml-files" title="Permalink to this heading">#</a></h3>
+<p>In the upcoming order-based-procflow PRs, we’ve introduced a new plugin type called
+‘workflows’ which can be structured as a multi-document yaml file if wanted.
+workflows.get_plugin(&lt;plugin_name&gt;) works just fine, but when attempting to validate
+a file via ‘geoips validate &lt;yaml_fpath&gt;’, it would fail if the file was structured
+as a multi-document as it was not coded to handle that. This PR fixes this bug
+by adding logic to handle multi-document files if an extra argument is provided.
+Now a user can validate a workflow plugin in a multi-document yaml file by
+running this modified command ‘geoips validate &lt;fpath&gt; &lt;plugin_name&gt;’. Unit tests
+will skip validating these plugins.</p>
+<p>See tests/unit_tests/commandline/test_geoips_validate.py for more information.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_validate</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_validate</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="fixing-installation-issues">
+<h3>Fixing installation issues<a class="headerlink" href="#fixing-installation-issues" title="Permalink to this heading">#</a></h3>
+<p>Fixing the links to the installation instructions
+in the readme and changing the base_test.sh to running
+integration_test.py with pytest to test the installation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">README</span><span class="o">.</span><span class="n">md</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">linux_with_conda</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id8">
+<h2>Documentation<a class="headerlink" href="#id8" title="Permalink to this heading">#</a></h2>
+<section id="add-integration-tests-as-examples">
+<h3>Add integration tests as examples.<a class="headerlink" href="#add-integration-tests-as-examples" title="Permalink to this heading">#</a></h3>
+<p>Added a documentation page that renders the integration tests as examples. Descriptions of each should be added in the
+future.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">auxiliary_files</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">examples</span><span class="o">/</span><span class="n">integration</span><span class="o">-</span><span class="n">tests</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id9">
+<h2>Documentation<a class="headerlink" href="#id9" title="Permalink to this heading">#</a></h2>
+<section id="change-docs-structure-to-new-docs">
+<h3>Change docs structure to new docs<a class="headerlink" href="#change-docs-structure-to-new-docs" title="Permalink to this heading">#</a></h3>
+<p>Update docs and docs builder to a new structure. Added new index files. All old docs that were previously being used are
+in the new docs. Old docs that were not included in documentation builds were moved to docs/archive. Images have been
+moved to a folder that includes the RST file that uses them.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">fancyhf</span><span class="o">.</span><span class="n">sty</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20181025_203206</span><span class="n">_WP312018_sar</span><span class="o">-</span><span class="n">spd_sentinel</span><span class="o">-</span><span class="mi">1</span><span class="n">_nrcs_130kts_58p51_res1p0</span><span class="o">-</span><span class="n">cr300</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20200216_124211</span><span class="n">_SH162020_smos</span><span class="o">-</span><span class="n">spd_smos_windspeed_75kts_38p84_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20200404.080000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">1.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20200404.080000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">1.</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.69</span><span class="n">p07</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20200405.000000</span><span class="o">.</span><span class="n">himawari</span><span class="o">-</span><span class="mf">8.</span><span class="n">ahi</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.29</span><span class="n">p98</span><span class="o">.</span><span class="n">jma</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20200513_215200</span><span class="n">_WP012020_amsu</span><span class="o">-</span><span class="n">b_noaa</span><span class="o">-</span><span class="mi">19_89</span><span class="n">V_95kts_89p18_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20200518_073601</span><span class="n">_IO012020_amsr2_gcom</span><span class="o">-</span><span class="n">w1_89pct_140kts_28p31_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20200917.171519</span><span class="o">.</span><span class="n">GPM</span><span class="o">.</span><span class="n">gmi</span><span class="mf">.89</span><span class="n">H</span><span class="o">.</span><span class="k">global</span><span class="mf">.0</span><span class="n">p84</span><span class="o">.</span><span class="n">NASA</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20201211.230905</span><span class="o">.</span><span class="n">ews</span><span class="o">-</span><span class="n">g</span><span class="o">.</span><span class="n">gvar</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.33</span><span class="n">p25</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20210104.170500</span><span class="o">.</span><span class="n">terra</span><span class="o">.</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.0</span><span class="n">p63</span><span class="o">.</span><span class="n">nasa</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20210104.201500</span><span class="o">.</span><span class="n">aqua</span><span class="o">.</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.2</span><span class="n">p08</span><span class="o">.</span><span class="n">nasa</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20210104.201500</span><span class="o">.</span><span class="n">aqua</span><span class="o">.</span><span class="n">modis</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">self_register</span><span class="mf">.100</span><span class="n">p00</span><span class="o">.</span><span class="n">nasa</span><span class="mf">.3</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20210205.080611</span><span class="o">.</span><span class="n">npp</span><span class="o">.</span><span class="n">viirs</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.0</span><span class="n">p97</span><span class="o">.</span><span class="n">NASA</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20210209.074210</span><span class="o">.</span><span class="n">noaa</span><span class="o">-</span><span class="mf">20.</span><span class="n">viirs</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.2</span><span class="n">p00</span><span class="o">.</span><span class="n">NASA</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20210209_074210</span><span class="n">_SH192021_viirs_jpss</span><span class="o">-</span><span class="mi">1</span><span class="n">_Night</span><span class="o">-</span><span class="n">Vis</span><span class="o">-</span><span class="n">IR_130kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20210419_235400</span><span class="n">_WP022021_amsu</span><span class="o">-</span><span class="n">b_metop</span><span class="o">-</span><span class="n">a_183</span><span class="o">-</span><span class="mi">1</span><span class="n">H_115kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20210419_235400</span><span class="n">_WP022021_amsu</span><span class="o">-</span><span class="n">b_metop</span><span class="o">-</span><span class="n">a_183</span><span class="o">-</span><span class="mi">3</span><span class="n">H_115kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20210718.015031</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">17.</span><span class="n">abi</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.22</span><span class="n">p79</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20210926_210400</span><span class="n">_WP202021_smap</span><span class="o">-</span><span class="n">spd_smap_windspeed_100kts_74p87_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20211202.080644</span><span class="o">.</span><span class="n">hy</span><span class="o">-</span><span class="mi">2</span><span class="n">b</span><span class="o">.</span><span class="n">hscat</span><span class="o">.</span><span class="n">windspeed</span><span class="o">.</span><span class="k">global</span><span class="mf">.6</span><span class="n">p83</span><span class="o">.</span><span class="n">knmi</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mi">20211202_084039</span><span class="n">_WP272021_hscat_hy</span><span class="o">-</span><span class="mi">2</span><span class="n">b_windbarbs_95kts_97p06_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span>
+<span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">available_functionality</span><span class="o">/</span><span class="mf">20220209.220000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">4.</span><span class="n">seviri</span><span class="o">.</span><span class="n">Infrared</span><span class="o">-</span><span class="n">Gray</span><span class="o">.</span><span class="k">global</span><span class="mf">.22</span><span class="n">p84</span><span class="o">.</span><span class="n">nesdisstar</span><span class="mf">.20</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">command_line_examples</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">goes16</span><span class="mf">.45</span><span class="n">p56</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">command_line_examples</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_IR</span><span class="o">-</span><span class="n">BD_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">command_line_examples</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_WV_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">geoips_overview</span><span class="o">/</span><span class="n">Example_89pct_Overlay_Processing_Workflow</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">Visible_latitude_longitude</span><span class="o">.</span><span class="n">tc2020al20teddy</span><span class="o">.</span><span class="n">nc</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_IR</span><span class="o">-</span><span class="n">BD_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="mi">20200918_195020</span><span class="n">_AL202020_abi_goes</span><span class="o">-</span><span class="mi">16</span><span class="n">_WV_110kts_100p00_1p0</span><span class="o">.</span><span class="n">png</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">archive</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">abi_test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">geoips</span><span class="o">-</span><span class="n">specification</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">structure</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">geoips</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">unit</span><span class="o">-</span><span class="n">tests</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">xarray</span><span class="o">-</span><span class="n">standards</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">scope</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">contact</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">system</span><span class="o">-</span><span class="n">requirements</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">what</span><span class="o">-</span><span class="ow">is</span><span class="o">-</span><span class="n">geoips</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">CODE_OF_CONDUCT</span><span class="o">.</span><span class="n">md</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">geoips_api</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">docs</span><span class="o">-</span><span class="n">sections</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">extend</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">plugins</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">plugin</span><span class="o">-</span><span class="n">registries</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">architecture</span><span class="o">/</span><span class="n">tests</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id10">
+<h2>Documentation<a class="headerlink" href="#id10" title="Permalink to this heading">#</a></h2>
+<section id="add-basic-nrtp-tutorial">
+<h3>Add basic nrtp tutorial<a class="headerlink" href="#add-basic-nrtp-tutorial" title="Permalink to this heading">#</a></h3>
+<p>This adds a very basic example of running a near-real time process of GeoIPS by watching a dir with inotifywait. This
+moved a lot of files around to add sub-sections to the rendering of the tutorials.rst file, but few edits were made.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mi">766</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">basic</span><span class="o">-</span><span class="n">nrtp</span><span class="o">-</span><span class="n">example</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">docs</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">extending</span><span class="o">-</span><span class="k">with</span><span class="o">-</span><span class="n">plugins</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">nrtp</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">nrtp</span><span class="o">-</span><span class="n">examples</span><span class="o">/</span><span class="n">using</span><span class="o">-</span><span class="n">inotifywait</span><span class="o">-</span><span class="k">for</span><span class="o">-</span><span class="n">basic</span><span class="o">-</span><span class="n">near</span><span class="o">-</span><span class="n">real</span><span class="o">-</span><span class="n">time</span><span class="o">-</span><span class="n">processing</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">algorithm</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">colormapper</span><span class="o">/</span><span class="n">colorful_cloud_height</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">colormapper</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">feature_annotator</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">feature_annotator</span><span class="o">/</span><span class="n">my_feature_gridline</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">gridline_annotator</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">output_formatter</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">product</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">product</span><span class="o">/</span><span class="n">my_cloud_depth</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">product</span><span class="o">/</span><span class="n">my_cloud_top_height</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">product_default</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">reader</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">static_sector</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">static_sector</span><span class="o">/</span><span class="n">my_conus_sector</span><span class="o">.</span><span class="n">png</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">tutorials</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">static_sector</span><span class="o">/</span><span class="n">my_conus_sector_cth</span><span class="o">.</span><span class="n">png</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id11">
+<h2>Documentation<a class="headerlink" href="#id11" title="Permalink to this heading">#</a></h2>
+<section id="add-conceptual-interface-documentation">
+<h3>Add conceptual interface documentation<a class="headerlink" href="#add-conceptual-interface-documentation" title="Permalink to this heading">#</a></h3>
+<p>Add documentation describing, conceptually, what the different types of GeoIPS plugins are.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">algorithm</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">feature_annotators</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">gridline_annotators</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">colormapper</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">filename_formats</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">interpolators</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">output_formats</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">procflows</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">readers</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">title_formats</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">dynamic_sectors</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">products</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">static_sectors</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mi">915</span><span class="o">-</span><span class="n">add</span><span class="o">-</span><span class="n">conceptual</span><span class="o">-</span><span class="n">interface</span><span class="o">-</span><span class="n">documentation</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="refactor">
+<h2>Refactor<a class="headerlink" href="#refactor" title="Permalink to this heading">#</a></h2>
+<section id="update-variable-name-amsr-to-amsr2">
+<h3>Update variable name amsr to amsr2<a class="headerlink" href="#update-variable-name-amsr-to-amsr2" title="Permalink to this heading">#</a></h3>
+<p>Updates non-operational instrument name (Advanced Microwave Scanning Radiometer)
+to refelect the current instrument in use (Advanced Microwave Scanning Radiometer 2)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">amsr2_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="git">
+<h2>Git<a class="headerlink" href="#git" title="Permalink to this heading">#</a></h2>
+<section id="merge-release-into-dev-branch">
+<h3>Merge release into dev branch<a class="headerlink" href="#merge-release-into-dev-branch" title="Permalink to this heading">#</a></h3>
+<p>Merges the main branch after 1.14.4 into dev-staging for merging to main</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">moved</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">upcoming</span><span class="o">/</span><span class="mf">1.14.4</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">template</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">documentation</span><span class="o">-</span><span class="n">building</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">scope</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="continuous-integration">
+<h2>Continuous integration<a class="headerlink" href="#continuous-integration" title="Permalink to this heading">#</a></h2>
+<section id="build-stable-image-on-tag">
+<h3>Build stable image on tag.<a class="headerlink" href="#build-stable-image-on-tag" title="Permalink to this heading">#</a></h3>
+<p>Ensure stable geoips docker image is built on tag/release.  This ensures
+the latest stable image is available for plugin packages to use in PR
+status checks.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">build</span><span class="o">-</span><span class="n">stable</span><span class="o">-</span><span class="n">image</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id12">
+<h2>Continuous integration<a class="headerlink" href="#id12" title="Permalink to this heading">#</a></h2>
+<section id="add-code-owners-files">
+<h3>Add code owners files.<a class="headerlink" href="#add-code-owners-files" title="Permalink to this heading">#</a></h3>
+<p>Code owners are automatically requested for review when someone opens a pull request that modifies code that they own.
+Code owners are not automatically requested to review draft pull requests.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">CODEOWNERS</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id13">
+<h2>Continuous integration<a class="headerlink" href="#id13" title="Permalink to this heading">#</a></h2>
+<section id="skip-ami-tc-wv-geotiff-sh-integration-test">
+<h3>Skip ami.tc.wv.geotiff.sh integration test<a class="headerlink" href="#skip-ami-tc-wv-geotiff-sh-integration-test" title="Permalink to this heading">#</a></h3>
+<p>This test has been failing for a while (multiple releases). There is a fix in the works for the next release. The plan
+is to xfail until the fix is released, because this test is expected to fail.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="refactoring-updates">
+<h2>Refactoring updates<a class="headerlink" href="#refactoring-updates" title="Permalink to this heading">#</a></h2>
+<section id="automate-create-plugin-registries">
+<h3>Automate <code class="docutils literal notranslate"><span class="pre">create_plugin_registries</span></code><a class="headerlink" href="#automate-create-plugin-registries" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#647: 2024-06-19, Automating ``create_plugin_registries``</em></p>
+<p>The command ‘create_plugin_registries’ has greatly improved the time it takes to
+operate GeoIPS under the hood. This is because all plugins are no longer loaded into
+memory, as we can now traverse a plugin registry to load the exact plugins we need
+to, when we need them. Unfortuneately, this requires the user to run
+‘create_plugin_registries’ anytime a new plugin has been added to one or more plugin
+packages. We’ve been thinking for a long time of how to automate this process, and
+this update does just that.</p>
+<p>‘create_plugin_registries’ can now either be ran manually, or will attempt to be
+done automatically by GeoIPS when a plugin is requested. It will be done
+automatically if a user calls ‘get_plugin’ using the ‘rebuild_registries=True’
+keyword argument. If a user has no registries in any of their plugin packages, then
+this is ran the first time get_plugin is called when certain attributes of the
+associated interface are being initialized.</p>
+<p>If the registries already exist, but a plugin is missing or seemingly out of sync,
+then ‘create_plugin_registries’ will be ran, and get_plugin will be called again. If
+the failure persists, then it is likely a problem on the user’s end that they need
+to fix before running GeoIPS. Now, users no longer have to run
+‘create_plugin_registries’, unless they choose to do so manually.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">test_get_plugin</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">plugin</span><span class="o">-</span><span class="n">registries</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">args</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_run</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_test</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">module_based</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">products</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enhancement">
+<h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
+<section id="update-plugins-to-support-better-plotting-configurability">
+<h3>Update plugins to support better plotting configurability<a class="headerlink" href="#update-plugins-to-support-better-plotting-configurability" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#259: 2023-08-11, Update product/product_default schemas to allow for greater plotting configurability</em>
+<em>From GEOIPS#147: 2023-04-05, Add support for label positioning</em></p>
+<p>This enhancement updates feature / gridline -annotator yaml plugins and imagery-based
+module plugins to enhance the plotting configurability we can control as users within
+GeoIPS. It adds quite a few new attributes which we can use to control our plotting
+output. This includes:</p>
+<ul class="simple">
+<li><p>Background color for data over the map-portion of the image (feature_annotator)</p></li>
+<li><p>Background color for the frame-portion of the image (gridline_annotator)</p></li>
+<li><p>x label offset (gridline_annotator)</p></li>
+<li><p>y label offset (gridline_annotator)</p></li>
+<li><p>font family for labels (gridline_annotator)</p></li>
+<li><p>font style for labels (‘italic’, ‘bold’, etc.) (gridline_annotator)</p></li>
+<li><p>font weight for labels (a numeric value in range 0-1000, ‘ultralight’, ‘light’,
+‘normal’, ‘regular’, ‘book’, ‘medium’, ‘roman’, ‘semibold’, ‘demibold’, ‘demi’,
+‘bold’, ‘heavy’, ‘extra bold’, ‘black’) (gridline_annotator)</p></li>
+<li><p>font size for labels (float or one of: ‘xx-small’, ‘x-small’, ‘small’, ‘medium’, ‘large’,
+‘x-large’, ‘xx-large’. Defaults to matplotlib.pyplot.rcParams[‘font.size’])
+(gridline_annotator)</p></li>
+</ul>
+<p>To change the background of a frame, all you need to do is add a
+<code class="docutils literal notranslate"><span class="pre">background:</span> <span class="pre">&lt;mpl_color_name&gt;</span></code> property within your gridline_annotator plugin. To
+modify the background color of the mapped portion of the image, you’ll add the same
+section to your feature_annotator.</p>
+<p>To change the offset of the labels for applicable imagery outputs, all you need to do is
+add an <code class="docutils literal notranslate"><span class="pre">xpadding:</span> <span class="pre">&lt;pixel_offset_int&gt;</span></code> and/or a <code class="docutils literal notranslate"><span class="pre">ypadding:</span> <span class="pre">&lt;pixel_offset_int&gt;</span></code> to the
+<code class="docutils literal notranslate"><span class="pre">labels</span></code> portion of your gridline annotator. Using this information, we will adjust
+the offset of your tick labels to the desired position.</p>
+<p>To modify the font-based aspects of labels, you can do any of the following:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">fontfamily:</span> <span class="pre">&lt;font_name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fontstyle:</span> <span class="pre">&lt;style_name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fontweight:</span> <span class="pre">&lt;int_or_weight_name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">fontsize:</span> <span class="pre">&lt;float_or_size_name&gt;</span></code></p></li>
+</ul>
+<p>For examples of these new features, look at <code class="docutils literal notranslate"><span class="pre">feature_annotator:</span> <span class="pre">default_oldlace</span></code> and
+<code class="docutils literal notranslate"><span class="pre">gridline_annotator:</span> <span class="pre">default_palegreen</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">feature_annotators</span><span class="o">/</span><span class="n">default_oldlace</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">gridline_annotators</span><span class="o">/</span><span class="n">default_palegreen</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated_enhanced</span><span class="o">/</span><span class="mf">20200918.195020</span><span class="o">.</span><span class="n">goes</span><span class="o">-</span><span class="mf">16.</span><span class="n">abi</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">goes_east</span><span class="mf">.45</span><span class="n">p56</span><span class="o">.</span><span class="n">noaa</span><span class="mf">.10</span><span class="n">p0</span><span class="o">.</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">static</span><span class="o">.</span><span class="n">Infrared</span><span class="o">.</span><span class="n">imagery_annotated_enhanced</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">maps</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">image_utils</span><span class="o">/</span><span class="n">mpl_utils</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">full_disk_image</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_annotated</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_formatters</span><span class="o">/</span><span class="n">imagery_windbarbs</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">feature_annotators</span><span class="o">/</span><span class="n">cartopy</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">gridline_annotators</span><span class="o">/</span><span class="n">cartopy</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id14">
+<h2>Enhancement<a class="headerlink" href="#id14" title="Permalink to this heading">#</a></h2>
+<section id="get-plugin-metadata">
+<h3>Get plugin metadata<a class="headerlink" href="#get-plugin-metadata" title="Permalink to this heading">#</a></h3>
+<p>Added a new method to all interfaces which retrieves the top level metadata for any
+given plugin. It does not actually load in the plugin, rather it makes use of the
+registry to gather the plugin’s associated metadata.</p>
+<p>This is useful for quick validation of the base information supplied by plugins, and
+may also be used by the order based procflow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">base</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">interfaces</span><span class="o">/</span><span class="n">yaml_based</span><span class="o">/</span><span class="n">products</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">test_get_plugin_metadata</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id15">
+<h2>Enhancement<a class="headerlink" href="#id15" title="Permalink to this heading">#</a></h2>
+<section id="tar-files-are-now-filtered">
+<h3>Tar files are now filtered<a class="headerlink" href="#tar-files-are-now-filtered" title="Permalink to this heading">#</a></h3>
+<p>Tar files are now filtered to make sure they are extracted into the target directory and are not doing any insecure
+absolute path extractions.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">download_test_data</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id16">
+<h2>Enhancement<a class="headerlink" href="#id16" title="Permalink to this heading">#</a></h2>
+<section id="add-default-geoips-outdirs-so-pip-installs-of-geoips-do-not-immediately-crash">
+<h3>Add default geoips_outdirs so pip installs of geoips do not immediately crash.<a class="headerlink" href="#add-default-geoips-outdirs-so-pip-installs-of-geoips-do-not-immediately-crash" title="Permalink to this heading">#</a></h3>
+<p>Set GEOIPS_OUTDIRS to $HOME/GEOIPS_OUTDIRS and added warning when using the default.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id17">
+<h2>Enhancement<a class="headerlink" href="#id17" title="Permalink to this heading">#</a></h2>
+<section id="fci-reader-geocolor-update">
+<h3>Fci reader geocolor update<a class="headerlink" href="#fci-reader-geocolor-update" title="Permalink to this heading">#</a></h3>
+<p>The fci_netcdf reader originally could not read in raw radiances from incoming data
+files. It only could read reflectances and/or brightness temperatures. This update
+refactors the fci_netcdf reader so that it can read raw radiance values as well.</p>
+<p>This update is useful for the FCI GeoColor product, which needs radiances and
+brightness temperatures to accurately produce a GeoColor outputs. This might be of
+use to other algorithms / products as well.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">fci_netcdf</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id18">
+<h2>Enhancement<a class="headerlink" href="#id18" title="Permalink to this heading">#</a></h2>
+<section id="migrate-integration-tests-to-pytest">
+<h3>Migrate integration tests to pytest<a class="headerlink" href="#migrate-integration-tests-to-pytest" title="Permalink to this heading">#</a></h3>
+<p>This migrates the tests from shell scripts to pytest scripts. It also adds related documentation and deprecates existing
+geoips shell scripts.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">integrate</span><span class="o">-</span><span class="n">test</span><span class="o">-</span><span class="nb">all</span><span class="o">-</span><span class="n">into</span><span class="o">-</span><span class="n">pytest</span><span class="o">-</span><span class="n">tests</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_all</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="release-process">
+<h2>Release process<a class="headerlink" href="#release-process" title="Permalink to this heading">#</a></h2>
+<section id="add-1-15-0-release-note">
+<h3>Add 1.15.0 release note<a class="headerlink" href="#add-1-15-0-release-note" title="Permalink to this heading">#</a></h3>
+<p>Currently tagged internal version 1.14.5.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mf">1.15.0</span><span class="o">-</span><span class="n">internal</span><span class="o">-</span><span class="n">release</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id19">
+<h2>Release process<a class="headerlink" href="#id19" title="Permalink to this heading">#</a></h2>
+<section id="update-internal-and-github-com-upcoming-version-and-tagged-version">
+<h3>Update internal and github.com ‘upcoming_version’ and ‘tagged_version’<a class="headerlink" href="#update-internal-and-github-com-upcoming-version-and-tagged-version" title="Permalink to this heading">#</a></h3>
+<p>Updated ‘update_this_release_note’ file in geoips repo for the
+next internal version-
+1.15.1
+next github.com version-
+1.15.3</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="performance">
+<h2>Performance<a class="headerlink" href="#performance" title="Permalink to this heading">#</a></h2>
+<section id="new-product-family-unsectored-xarray-dict-to-algorithm-to-output-format">
+<h3>New product family unsectored_xarray_dict_to_algorithm_to_output_format<a class="headerlink" href="#new-product-family-unsectored-xarray-dict-to-algorithm-to-output-format" title="Permalink to this heading">#</a></h3>
+<p>Added support for a new a new product/product_defaults family called
+unsectored_xarray_dict_to_algorithm_to_output_format. Additionally, modified output
+formatter plugin ‘unprojected_image’ for 3D data. If 3D data is specified, then this
+output formatter will produce a series of 2D slices for each level of the 3D data.</p>
+<p>While family ‘unsectored_xarray_dict_to_algorithm_to_output_format’ was referenced
+in single_source.py, there was no actual schema that supported this family.
+Therefore, we’ve created that new schema, and updated parts of single_source to
+support using the ‘unprojected_image’ output formatter for this new family. All in
+all, by making use of these changes, we can avoid using the procflow arguments
+‘self_register_dataset’ and ‘self_register_source’, which would reproject geospatial
+datasets onto themselves. This was inefficent, and depending on the size of the
+dataset, could add close to another minute of processing to your workflow.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">schema</span><span class="o">/</span><span class="n">product_defaults</span><span class="o">/</span><span class="n">unsectored_xarray_dict_to_algorithm_to_output_format</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">added</span><span class="p">:</span>
+<span class="n">tests</span><span class="o">/</span><span class="n">outputs</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">no_self_register</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">/</span><span class="mf">20231211.080000</span><span class="o">.</span><span class="n">msg</span><span class="o">-</span><span class="mf">2.</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">-</span><span class="n">No</span><span class="o">-</span><span class="n">SR</span><span class="o">.</span><span class="n">unk</span><span class="o">.</span><span class="n">nesdisstar</span><span class="o">..</span><span class="n">png</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">WV</span><span class="o">-</span><span class="n">Upper</span><span class="o">.</span><span class="n">no_self_register</span><span class="o">.</span><span class="n">unprojected_image</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">test_data</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">yaml</span><span class="o">/</span><span class="n">products</span><span class="o">/</span><span class="n">seviri</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">test</span><span class="o">-</span><span class="n">data</span><span class="o">-</span><span class="n">urls</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_test</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="integrate-test-all-into-pytest-tests">
+<h3>Integrate test all into pytest tests<a class="headerlink" href="#integrate-test-all-into-pytest-tests" title="Permalink to this heading">#</a></h3>
+<p>Integration tests for the “full” and “base” suites were integrated into a pytest caller previously. This adapts the
+test_all.sh file into a similar format to enable testing via pytest instead of shell scripts. Adds “extra” as a pytest
+mark for the added set of tests.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">test_all</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_post</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_pre</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">test_all_run</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pytest</span><span class="o">.</span><span class="n">ini</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1.15.1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.15.1 (2025-04-30)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="1.14.5.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.14.5 (2025-04-30)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-duplicate-lines">Remove duplicate lines</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#seviri-hrit-bug-fix">Seviri_hrit bug fix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-exception-handling-for-correct-xfailing-on-missing-data-for-cygnss-netcdf-reader">Fix exception handling for correct xfailing on missing data for cygnss netcdf reader</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id3">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-pytest-ini-file-to-add-geoips-repo-root-to-pythonpath-on-pytest-run">Update pytest ini file to add geoips repo root to pythonpath on pytest run</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id4">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#version-update-for-numpy-2-0">Version update for numpy 2.0</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id5">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data-available-without-argument-now-errors">–test-data-available without argument now errors</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id6">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#non-editable-unit-test-fix">Non-editable unit test fix</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id7">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#commandline-fix-for-multi-document-yaml-files">Commandline fix for multi-document yaml files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fixing-installation-issues">Fixing installation issues</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id8">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-integration-tests-as-examples">Add integration tests as examples.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id9">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-docs-structure-to-new-docs">Change docs structure to new docs</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id10">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-basic-nrtp-tutorial">Add basic nrtp tutorial</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id11">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-conceptual-interface-documentation">Add conceptual interface documentation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactor">Refactor</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-variable-name-amsr-to-amsr2">Update variable name amsr to amsr2</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#git">Git</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merge-release-into-dev-branch">Merge release into dev branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#build-stable-image-on-tag">Build stable image on tag.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id12">Continuous integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-code-owners-files">Add code owners files.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id13">Continuous integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#skip-ami-tc-wv-geotiff-sh-integration-test">Skip ami.tc.wv.geotiff.sh integration test</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactoring-updates">Refactoring updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#automate-create-plugin-registries">Automate <code class="docutils literal notranslate"><span class="pre">create_plugin_registries</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-plugins-to-support-better-plotting-configurability">Update plugins to support better plotting configurability</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id14">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#get-plugin-metadata">Get plugin metadata</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id15">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#tar-files-are-now-filtered">Tar files are now filtered</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id16">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-default-geoips-outdirs-so-pip-installs-of-geoips-do-not-immediately-crash">Add default geoips_outdirs so pip installs of geoips do not immediately crash.</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id17">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fci-reader-geocolor-update">Fci reader geocolor update</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id18">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#migrate-integration-tests-to-pytest">Migrate integration tests to pytest</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#release-process">Release process</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-1-15-0-release-note">Add 1.15.0 release note</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id19">Release process</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-internal-and-github-com-upcoming-version-and-tagged-version">Update internal and github.com ‘upcoming_version’ and ‘tagged_version’</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#performance">Performance</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-product-family-unsectored-xarray-dict-to-algorithm-to-output-format">New product family unsectored_xarray_dict_to_algorithm_to_output_format</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrate-test-all-into-pytest-tests">Integrate test all into pytest tests</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/releases/1.15.0.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

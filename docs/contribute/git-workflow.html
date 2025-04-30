@@ -1,0 +1,846 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GeoIPS git workflow &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/git-workflow';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="API" href="../geoips_api/index.html" />
+    <link rel="prev" title="🖍️ Coding Standards Reference Doc" href="coding-standards.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="code-of-conduct.html">Contributor Covenant Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-standards.html">🖍️ Coding Standards Reference Doc</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GeoIPS git workflow</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Contribute</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GeoIPS git workflow</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="geoips-git-workflow">
+<h1>GeoIPS git workflow<a class="headerlink" href="#geoips-git-workflow" title="Permalink to this heading">#</a></h1>
+<p>Follow these steps when making modifications to geoips-based
+packages or plugins</p>
+<p>Contributions generally follow the process of:</p>
+<ol class="arabic simple">
+<li><p>Submit a GitHub Issue for a bug fix or feature request. <a class="reference internal" href="#create-issue"><span class="std std-ref">GeoIPS GitHub Issue Creation Workflow</span></a></p></li>
+<li><p>Branch off a given Issue in order to make the required changes <a class="reference internal" href="#create-branch"><span class="std std-ref">FROM WEB: MEMBERS: Create Branch from Existing Issue</span></a></p></li>
+<li><p>Create a github Pull Request in order for your changes to be reviewed
+prior to being merged to the integration branch <a class="reference internal" href="#create-pull"><span class="std std-ref">GeoIPS GitHub Pull Request workflow</span></a></p></li>
+<li><p>Ensure all required tests pass prior to PR approval (more info coming soon)</p>
+<ul class="simple">
+<li><p>Unit tests</p></li>
+<li><p>Integration tests</p></li>
+<li><p>Code formatting/style tests</p></li>
+<li><p>Documentation formatting/style tests</p></li>
+</ul>
+</li>
+<li><p>Merge your changes into the main code base! <a class="reference internal" href="#merge-pr-close"><span class="std std-ref">GeoIPS Merge PR and Close Issue workflow</span></a></p></li>
+</ol>
+<section id="geoips-github-issue-creation-workflow">
+<span id="create-issue"></span><h2>GeoIPS GitHub Issue Creation Workflow<a class="headerlink" href="#geoips-github-issue-creation-workflow" title="Permalink to this heading">#</a></h2>
+<section id="from-web-create-an-issue-for-something-that-needs-to-be-done">
+<h3>FROM WEB: Create an Issue for something that needs to be done<a class="headerlink" href="#from-web-create-an-issue-for-something-that-needs-to-be-done" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Select an appropriate Issue template</p>
+<ul>
+<li><p>Navigate to: <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/issues">NRLMMD-GEOIPS/geoips#issues</a></p>
+<ul>
+<li><p>NOTE: you can create Issues on repos besides “geoips” if desired.</p></li>
+</ul>
+</li>
+<li><p>Click green “New Issue” button in top right</p></li>
+<li><p>Click green “Get started” box to the right of the desired template</p></li>
+</ul>
+</li>
+<li><p>Populate Issue contents appropriately</p>
+<ul>
+<li><p><strong>Title</strong>: Short descriptive name for the Issue
+(example: “Update GEOIPS_REPO_URL to GitHub”)</p></li>
+<li><p><strong>Write</strong>: Follow template within “Write” tab to populate
+with appropriate content</p></li>
+<li><p><strong>Assignees</strong>: Add Assignees as appropriate</p></li>
+<li><p><strong>Labels</strong>: Add descriptive labels as appropriate</p></li>
+<li><p><strong>Projects</strong>: Link to “GeoIPS - All Repos and all Functionality”,
+other Projects as appropriate</p></li>
+</ul>
+</li>
+<li><p>Click “Submit new issue”</p></li>
+</ul>
+</section>
+<section id="from-web-members-create-branch-from-existing-issue">
+<span id="create-branch"></span><h3>FROM WEB: MEMBERS: Create Branch from Existing Issue<a class="headerlink" href="#from-web-members-create-branch-from-existing-issue" title="Permalink to this heading">#</a></h3>
+<p><strong>NOTE: Those who are NOT members of the GeoIPS organization will fork,</strong>
+<strong>not branch. If you are unable to branch, skip to NON MEMBERS section</strong></p>
+<ul class="simple">
+<li><p>Navigate to Issue you would like to resolve</p></li>
+<li><p>Click on Development-&gt;Create Branch</p>
+<ul>
+<li><p><strong>Branch name</strong> Use auto-populated default branch name</p></li>
+<li><p><strong>Repository Destination</strong> Select repository to which you would like
+to make changes</p>
+<ul>
+<li><p>NOTE you can create branches on repositories outside the repository
+the Issue resides in</p></li>
+</ul>
+</li>
+<li><p><strong>Change branch source</strong> optional (defaults to default branch)</p></li>
+<li><p>Select <strong>“Checkout locally”</strong></p></li>
+<li><p>Click <strong>“Create branch”</strong></p></li>
+<li><p>Copy and paste the resulting “git fetch” and “git checkout” commands</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="from-web-non-members-create-fork-of-repo">
+<h3>FROM WEB: NON-MEMBERS: Create fork of repo<a class="headerlink" href="#from-web-non-members-create-fork-of-repo" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>NOTE: GeoIPS organization members will branch following steps above,
+**skip this section if you are a member and are able to branch</strong></p></li>
+<li><p>Navigate to desired repository</p></li>
+<li><p>Click drop down next to “Fork”</p></li>
+<li><p>Click “+ Create a new fork”</p></li>
+<li><p>Select appropriate owner/organization to own the fork
+(could be your individual github username)</p></li>
+<li><p>Uncheck “copy main branch only”</p></li>
+<li><p>Click “create fork”</p></li>
+</ul>
+</section>
+</section>
+<section id="geoips-command-line-workflow">
+<h2>GeoIPS command line workflow<a class="headerlink" href="#geoips-command-line-workflow" title="Permalink to this heading">#</a></h2>
+<section id="from-command-line-switch-to-new-branch-fork-make-changes-as-usual">
+<h3>FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual<a class="headerlink" href="#from-command-line-switch-to-new-branch-fork-make-changes-as-usual" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Navigate to repository of your choice</p>
+<ul>
+<li><p>Issue only needs to be created on a single repository</p></li>
+<li><p>You can create branches/forks and make changes on any number of
+repos, as appropriate.</p></li>
+<li><p>Related changes on different repositories will all be linked to
+the same Issue.</p></li>
+</ul>
+</li>
+<li><p>Switch to new branch/fork, and make changes as appropriate</p>
+<ul>
+<li><p><em>Ensure you copy and paste git fetch and git checkout commands</em>
+<em>when creating branch/fork above</em></p></li>
+<li><p>Switch to new branch/fork: Paste git fetch / git checkout commands
+specified when creating branch from Issue</p>
+<ul>
+<li><p>git fetch origin</p></li>
+<li><p>git checkout &lt;new_branch_name&gt;</p></li>
+</ul>
+</li>
+<li><p>&lt;Make changes to code&gt;</p></li>
+<li><p>git commit # Frequently commit your changes</p></li>
+</ul>
+</li>
+<li><p>Use enforced commit message format for all commits</p>
+<ul>
+<li><p>Please follow <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/blob/main/COMMIT_MESSAGE_TEMPLATE.md">Commit Message Template</a></p></li>
+<li><p>Summary line &lt;= 120 characters</p></li>
+<li><p>Blank line (if commit message is more than one line)</p></li>
+<li><p>OPTIONAL: additional details</p></li>
+<li><p>Issue ID</p></li>
+</ul>
+</li>
+<li><p>Update release notes in each repository with changes related to this Issue</p>
+<ul>
+<li><p>Before pushing your final changes to GitHub and creating a pull request,
+you MUST update the release notes with your current changes.</p></li>
+<li><p>Instructions found in <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/blob/main/CHANGELOG.rst">CHANGELOG.rst</a></p></li>
+<li><p>If release notes are not updated properly, pull request will not be approved.</p></li>
+</ul>
+</li>
+<li><dl class="simple">
+<dt>Create test scripts and associated outputs for any new functionality</dt><dd><ul>
+<li><dl class="simple">
+<dt>Ensure any new functionality is tested in:</dt><dd><ul>
+<li><p>&lt;repo&gt;/tests/scripts/&lt;test_name&gt;.sh</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="simple">
+<dt>Ensure new test scripts are included in:</dt><dd><ul>
+<li><p>&lt;repo&gt;/tests/test_all.sh</p></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+</section>
+<section id="push-changes-to-github">
+<h3>Push changes to github<a class="headerlink" href="#push-changes-to-github" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p><strong>From command line</strong>: When you have made all of the changes required
+for the current Issue, push changes to GitHub</p>
+<ul>
+<li><p>Perform once for each repository with changes related to this Issue</p></li>
+<li><p>git push</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="geoips-github-pull-request-workflow">
+<span id="create-pull"></span><h2>GeoIPS GitHub Pull Request workflow<a class="headerlink" href="#geoips-github-pull-request-workflow" title="Permalink to this heading">#</a></h2>
+<section id="from-web-create-pull-request-from-new-ticket-branch-to-default-branch">
+<h3>FROM WEB: Create pull request from new ticket branch to default branch<a class="headerlink" href="#from-web-create-pull-request-from-new-ticket-branch-to-default-branch" title="Permalink to this heading">#</a></h3>
+<p>Follow these instructions for each repo that requires changes for a given
+Issue.</p>
+<ul class="simple">
+<li><p>IF NEEDED: Navigate to Issue URL via web browser, and finalize with any
+last minute notes or resolutions</p>
+<ul>
+<li><p>IF APPROPRIATE: Summary of overall changes</p></li>
+<li><p>IF APPROPRIATE: Complete testing instructions
+(if multiple repostiories involved)</p></li>
+<li><p>IF APPROPRIATE: Complete test output (if multiple repositories involved)</p></li>
+</ul>
+</li>
+<li><p>Create a Pull Request on each repo with changes associated with the
+current Issue ID</p>
+<ul>
+<li><p>Click on “Pull requests” tab within current repo</p></li>
+<li><p>Click green “New pull request” button</p></li>
+<li><p><strong>Source</strong>: &lt;new_branch_name&gt;</p></li>
+<li><p><strong>Destination</strong>: main</p></li>
+<li><p>Click green “Create pull request” button</p></li>
+</ul>
+</li>
+<li><p>Fill Auto-populated template with appropriate content:</p>
+<ul>
+<li><p>Generated from <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/.github/blob/main/.github/pull_request_template.md">Global Pull Request Template</a></p></li>
+<li><p><strong>Important to follow template title and contents directions</strong>
+<strong>for ease of review</strong></p></li>
+<li><p><strong>Pull request will not be approved if template is not followed appropriately</strong></p></li>
+</ul>
+</li>
+<li><p>Ensure appropriate tags and attributes are set on the pull request</p>
+<ul>
+<li><p><strong>Reviewers</strong>: <em>Identify at least two Reviewers</em></p></li>
+<li><p><strong>Labels</strong>: As appropriate</p></li>
+<li><p><strong>Projects</strong>: <strong>VERY IMPORTANT</strong>: <em>Select “GeoIPS - *
+*All Repos and All Functionality</em>, additional Projects if desired.</p></li>
+</ul>
+</li>
+<li><p>Click “Create”</p>
+<ul>
+<li><p>Now wait for the automated emails from GitHub saying your changes have been
+approved and merged.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="geoips-github-pull-request-review-and-approval-workflow">
+<span id="pr-review"></span><h2>GeoIPS GitHub Pull Request Review and Approval workflow<a class="headerlink" href="#geoips-github-pull-request-review-and-approval-workflow" title="Permalink to this heading">#</a></h2>
+<section id="from-web-wait-for-pr-review-and-approval">
+<h3>FROM WEB: Wait for PR review and approval<a class="headerlink" href="#from-web-wait-for-pr-review-and-approval" title="Permalink to this heading">#</a></h3>
+<p>Once the PR is finalized, it will require review and approval by a GeoIPS organization
+member with write privileges on the repository who is tagged as a reviewer on your PR.
+Ensure you address/resolve any conversations or change requests made by the reviewers
+during the review process.</p>
+<p>Once all requests/conversations have been addressed, the PR will be approved and merged.</p>
+<p>Reviewers can approve the PR by:</p>
+<ul class="simple">
+<li><p>clicking on the green “Review changes” button under the “Files changed” tab,</p></li>
+<li><p>selecting “Approve”, then</p></li>
+<li><p>clicking the green “Submit review” button.</p></li>
+</ul>
+</section>
+</section>
+<section id="geoips-merge-pr-and-close-issue-workflow">
+<span id="merge-pr-close"></span><h2>GeoIPS Merge PR and Close Issue workflow<a class="headerlink" href="#geoips-merge-pr-and-close-issue-workflow" title="Permalink to this heading">#</a></h2>
+<section id="from-web-merge-pull-requests">
+<h3>FROM WEB: Merge pull requests<a class="headerlink" href="#from-web-merge-pull-requests" title="Permalink to this heading">#</a></h3>
+<p>This could include related pull requests from multiple repositories.</p>
+<ul class="simple">
+<li><p>Navigate to <a class="reference external" href="https://github.com/orgs/NRLMMD-GEOIPS/projects/1">GeoIPS Project</a></p></li>
+<li><p>Find current Issue card - Issue will have all associated PRs linked</p></li>
+<li><p>CTRL-Click on each linked pull request</p>
+<ul>
+<li><p>Click green “Merge branch” from each PR</p></li>
+<li><p>Click “Delete head branch” from each PR</p></li>
+</ul>
+</li>
+<li><p>This should automatically update the Project so all related PRs and Issues
+are moved to the “Done” columnn</p></li>
+</ul>
+</section>
+<section id="from-web-ensure-all-issues-and-pull-requests-were-successfully-closed">
+<h3>FROM WEB: Ensure all Issues and Pull Requests were successfully closed<a class="headerlink" href="#from-web-ensure-all-issues-and-pull-requests-were-successfully-closed" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Could require approvals / merges from multiple pull requests in
+multiple repos before closing Issue</p></li>
+<li><p>Navigate to <a class="reference external" href="https://github.com/orgs/NRLMMD-GEOIPS/projects/1">GeoIPS Project</a></p></li>
+<li><p>Ensure all related Issue and Pull Request cards were automatically
+moved to the “Done” column</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="coding-standards.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">🖍️ Coding Standards Reference Doc</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../geoips_api/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-github-issue-creation-workflow">GeoIPS GitHub Issue Creation Workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-create-an-issue-for-something-that-needs-to-be-done">FROM WEB: Create an Issue for something that needs to be done</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-members-create-branch-from-existing-issue">FROM WEB: MEMBERS: Create Branch from Existing Issue</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-non-members-create-fork-of-repo">FROM WEB: NON-MEMBERS: Create fork of repo</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-command-line-workflow">GeoIPS command line workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-command-line-switch-to-new-branch-fork-make-changes-as-usual">FROM COMMAND LINE: Switch to new branch/fork, Make changes as usual</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#push-changes-to-github">Push changes to github</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-github-pull-request-workflow">GeoIPS GitHub Pull Request workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-create-pull-request-from-new-ticket-branch-to-default-branch">FROM WEB: Create pull request from new ticket branch to default branch</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-github-pull-request-review-and-approval-workflow">GeoIPS GitHub Pull Request Review and Approval workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-wait-for-pr-review-and-approval">FROM WEB: Wait for PR review and approval</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-merge-pr-and-close-issue-workflow">GeoIPS Merge PR and Close Issue workflow</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-merge-pull-requests">FROM WEB: Merge pull requests</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#from-web-ensure-all-issues-and-pull-requests-were-successfully-closed">FROM WEB: Ensure all Issues and Pull Requests were successfully closed</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/contribute/git-workflow.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

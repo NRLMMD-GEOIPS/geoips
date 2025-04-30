@@ -1,0 +1,853 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Extend GeoIPS with new Products &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tutorials/extending-with-plugins/product/index';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Extend GeoIPS with a new Static Sector" href="../static_sector/index.html" />
+    <link rel="prev" title="Extend GeoIPS with new Product Defaults" href="../product_default.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../setting-up-for-plugin-development.html">Setting up for Plugin Development</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Extending GeoIPS with New Plugins</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../algorithm.html">Extend GeoIPS with a new Algorithm</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../colormapper/index.html">Extend GeoIPS with a new Colormapper</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../feature_annotator/index.html">Extend GeoIPS with a New Feature Annotator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../gridline_annotator.html">Extend GeoIPS with a New Gridline Annotator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../output_formatter.html">Extend GeoIPS with a New Output Formatter</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../product_default.html">Extend GeoIPS with new Product Defaults</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Extend GeoIPS with new Products</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../static_sector/index.html">Extend GeoIPS with a new Static Sector</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../reader.html">Get to know the GeoIPS Readers</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../../nrtp-examples/index.html">Near Real-Time Processing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../../nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.html">Using <code class="docutils literal notranslate"><span class="pre">inotifywait</span></code> for Near Real-Time Processing</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev_setup.html">Setting up for development on core GeoIPS</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Tutorials</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Extending GeoIPS with New Plugins</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Extend GeoIPS with new Products</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="extend-geoips-with-new-products">
+<span id="create-a-product"></span><h1>Extend GeoIPS with new Products<a class="headerlink" href="#extend-geoips-with-new-products" title="Permalink to this heading">#</a></h1>
+<p>This section discusses how to create multiple products for CLAVR-x data, specifically
+Cloud-Top-Height, Cloud-Base-Height, and Cloud-Depth. Products are the cornerstone
+plugin for GeoIPS, as they define how to produce a specific product as a combination of
+other plugins. Products use other plugins, such as an algorithm, colormapper,
+interpolater, etc. to generate the correct result.</p>
+<p>We will now go hands on in creating a product for CLAVR-x Cloud-Top-Height.</p>
+<ol class="arabic">
+<li><p>First off, change directories to your product plugins directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+</pre></div>
+</div>
+</li>
+<li><p>Now, create a file called <code class="docutils literal notranslate"><span class="pre">my_clavrx_products.yaml</span></code>, which we’ll fill in soon.
+Before we add any code let’s discuss some of the top level attributes that are
+required in any GeoIPS plugin:
+<code class="docutils literal notranslate"><span class="pre">interface</span></code>, <code class="docutils literal notranslate"><span class="pre">family</span></code>, and <code class="docutils literal notranslate"><span class="pre">docstring</span></code>.</p></li>
+</ol>
+<p>Please see documentation for
+<a class="reference internal" href="../../../concepts/architecture/extend-with-plugins.html#required-attributes"><span class="std std-ref">additional info on these GeoIPS required attributes</span></a></p>
+<section id="creating-a-geoips-product-plugin">
+<h2>Creating a GeoIPS Product Plugin<a class="headerlink" href="#creating-a-geoips-product-plugin" title="Permalink to this heading">#</a></h2>
+<p>The code snippet shown below shows properties required in every GeoIPS plugin, YAML or
+Module-based. These properties help GeoIPS define what type of plugin you are developing
+and also defines what schema your plugin will be validated against.</p>
+<p>Copy and paste the code shown below into my_clavrx_products.yaml.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">products</span>
+<span class="nt">family</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_clavrx_products</span>
+<span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">CLAVR-x imagery products</span>
+</pre></div>
+</div>
+<p>Now we’ll update the <code class="docutils literal notranslate"><span class="pre">spec</span></code> portion of the yaml file to support our new product plugin.
+<code class="docutils literal notranslate"><span class="pre">spec</span></code> is a container for the ‘specification’ of your yaml plugin. In this case, it
+contains a list of <code class="docutils literal notranslate"><span class="pre">products</span></code>, as shown below. Denoted by the <code class="docutils literal notranslate"><span class="pre">family:</span> <span class="pre">list</span></code>
+property shown above, this yaml file will contain a list of products, which can be of
+length 1 if you so desire.</p>
+<p>Copy and paste the code block below under your to the end of your file. spec should be
+right under the docstring you wrote, with no tabs behind it. YAML is a whitespace-based
+coding language, similar to Python in that aspect. Feel free to remove the comments, as
+they just describe what each property does.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">products</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span><span class="w"> </span><span class="c1"># The name of the product you&#39;re defining (can be anything)</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span><span class="w"> </span><span class="c1"># Defined as metadata in the corresponding reader</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span><span class="w"> </span><span class="c1"># Pipe says to YAML this will be a multiline comment, can be anything</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span><span class="w"> </span><span class="c1"># See the Product Defaults section for more info</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span><span class="w"> </span><span class="c1"># Variables are the neccessary variables which are needed to produce your product</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>To use your product that you just created, you’ll need to create a bash script that
+implements <code class="docutils literal notranslate"><span class="pre">run_procflow</span></code> (run-process-workflow). This is a script which defines the
+<em>process-workflow</em> needed to generate your product. We’ll keep this short for now, but you
+are able to strictly define how you want your product to be created, as well as what
+format you’d like it outputted as. You can also define the sector you’d like your data
+to be plotted on, as well as compare the output product to a validated product if wanted.</p>
+<p>GeoIPS is called via a command line interface (CLI). The main command that you will use is
+run_procflow which will run your data through the selected procflow using the specified
+plugins. It’s easiest to do this via a script, and scripts are stored in your plugin
+package’s <code class="docutils literal notranslate"><span class="pre">tests/</span></code> directory because they can be used later to regression test your
+package.</p>
+</section>
+<section id="creating-a-script-to-visualize-your-product">
+<h2>Creating a Script to Visualize Your Product<a class="headerlink" href="#creating-a-script-to-visualize-your-product" title="Permalink to this heading">#</a></h2>
+<p>We’ll now create a test script to generate an image for the product you just created.</p>
+<ol class="arabic">
+<li><p>Change directories into your scripts directory.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/tests/scripts
+</pre></div>
+</div>
+</li>
+<li><p>Create a bash file called clavrx.conus_annotated.my-cloud-top-height.sh and edit it
+to include the codeblock below.</p></li>
+</ol>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_procflow<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--procflow<span class="w"> </span>single_source<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--reader_name<span class="w"> </span>clavrx_hdf4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--product_name<span class="w"> </span>My-Cloud-Top-Height<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--minimum_coverage<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sector_list<span class="w"> </span>conus
+<span class="nv">ss_retval</span><span class="o">=</span><span class="nv">$?</span>
+</pre></div>
+</div>
+<p>As shown above, we define which procflow we want to use, which reader,
+what product will be displayed, how to output it, which filename formatter will be used,
+the minimum coverage needed to create an output (% based), as well as the sector used to
+plot the data. Many more items can be added if wanted. If you’d like some examples of
+that, feel free to peruse the <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/tree/main/tests/scripts">GeoIPS Scripts Directory</a>.</p>
+<p>Once these changes have been created, we can run our test script to produce Cloud Top
+Height Imagery. To do so, run your script using the line shown below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-top-height.sh
+</pre></div>
+</div>
+<p>This will write some log output. If your script succeeded it will end with INTERACTIVE:
+Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+the PNG file, it should look like the image below.</p>
+<a class="reference internal image-reference" href="../../../_images/my_cloud_top_height.png"><img alt="../../../_images/my_cloud_top_height.png" src="../../../_images/my_cloud_top_height.png" style="width: 800px;" /></a>
+<p>Okay! We’ve developed a plugin which produces CLAVR-x Cloud Top Height. This is nice,
+but what if we want to extend our plugin to produce Cloud Base Height? What about Cloud
+Depth? Using the method shown above, we’re going to extend our my_clavrx_products.yaml
+to produce just that.</p>
+<p>Using your definition of My-Cloud-Top-Height as an example, create a product definition
+for My-Cloud-Base-Height.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Now, edit my_clavrx_products.yaml. Here are some helpful hints:</dt><dd><ul class="simple">
+<li><p>The relevant variable in the CLAVR-x output file (and the equivalent GeoIPS reader) is called “cld_height_base”</p></li>
+<li><p>The Cloud-Height product_default can be used to simplify this product definition (or you can DIY or override if
+you’d like!)</p></li>
+</ul>
+</dd>
+</dl>
+<p>The correct products implementation for ‘my_clavrx_products.yaml’ is shown below.
+Hopefully, you didn’t have to make any changes after seeing this! Developing products,
+and other types of plugins should be somewhat intuitive after completing this tutorial.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">products</span>
+<span class="nt">family</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_clavrx_products</span>
+<span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">CLAVR-x imagery products</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">products</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Base-Height</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Base Height</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>Now that we have products for both Cloud Top Height and Cloud Base Height, we can
+develop a product that produces Cloud Depth. To do so, use your definitions of
+My-Cloud-Top-Height and My-Cloud-Base-Height as examples, create a product definition
+for My-Cloud-Depth.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/$MY_PKG_NAME/plugins/yaml/products
+</pre></div>
+</div>
+<dl class="simple">
+<dt>Edit my_clavrx_products.yaml. Here is a helful hint to get you started:</dt><dd><ul class="simple">
+<li><p>We will define Cloud Depth for this tutorial as the difference between CTH and CBH</p></li>
+</ul>
+</dd>
+</dl>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">products</span>
+<span class="nt">family</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_clavrx_products</span>
+<span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">  </span><span class="no">CLAVR-x imagery products</span>
+<span class="nt">spec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">products</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Top Height</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Base-Height</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Base Height</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Depth</span>
+<span class="w">      </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">        </span><span class="no">CLAVR-x Cloud Depth</span>
+<span class="w">      </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">      </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+</pre></div>
+</div>
+<p>We now have two variables, but if we examine the <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips_clavrx/blob/main/geoips_clavrx/plugins/yaml/product_defaults/Cloud-Height.yaml">Cloud-Height Product Defaults</a>
+we see that it uses the <code class="docutils literal notranslate"><span class="pre">single_channel</span></code> algorithm. This doesn’t work for our use case,
+since the <code class="docutils literal notranslate"><span class="pre">single_channel</span></code> algorithm just manipulates a single data variable and
+plots it. Therefore, we need a new algorithm! See the
+<a class="reference internal" href="../algorithm.html#add-an-algorithm"><span class="std std-ref">Algorithms Section</span></a> to keep moving forward with this turorial.</p>
+</section>
+<section id="using-your-cloud-depth-product">
+<span id="cloud-depth-product"></span><h2>Using Your Cloud Depth Product<a class="headerlink" href="#using-your-cloud-depth-product" title="Permalink to this heading">#</a></h2>
+<p>Note: Before moving forward in this section, make sure you’ve completed
+<a class="reference internal" href="../algorithm.html#add-an-algorithm"><span class="std std-ref">creating a new algorithm</span></a>. We are going to modify our Cloud
+Depth product to use the algorithm we just created.</p>
+<p>Now that we’ve created our cloud depth algorithm, we need to implement it in our cloud
+depth product. As shown in the <a class="reference internal" href="../product_default.html#create-product-defaults"><span class="std std-ref">Product Defaults Section</span></a>,
+we can override the product defaults specified to our own specification. To do so,
+modify <code class="docutils literal notranslate"><span class="pre">My-Cloud-Depth</span></code> product in my_clavrx_products.yaml to the code block shown
+below.</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">interface</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">products</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">family</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">list</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_clavrx_products</span>
+<span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">docstring</span><span class="p p-Indicator">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">    </span><span class="no">CLAVR-x imagery products</span>
+<span class="w">  </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">products</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Top-Height</span>
+<span class="w">        </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">CLAVR-x Cloud Top Height</span>
+<span class="w">        </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Base-Height</span>
+<span class="w">        </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">CLAVR-x Cloud Base Height</span>
+<span class="w">        </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">My-Cloud-Depth</span>
+<span class="w">        </span><span class="nt">source_names</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">clavrx</span><span class="p p-Indicator">]</span>
+<span class="w">        </span><span class="nt">docstring</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|</span>
+<span class="w">          </span><span class="no">CLAVR-x Cloud Depth</span>
+<span class="w">        </span><span class="nt">product_defaults</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Cloud-Height</span>
+<span class="w">        </span><span class="nt">spec</span><span class="p">:</span>
+<span class="w">          </span><span class="nt">variables</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;cld_height_acha&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;cld_height_base&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;latitude&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;longitude&quot;</span><span class="p p-Indicator">]</span>
+<span class="w">          </span><span class="nt">algorithm</span><span class="p">:</span>
+<span class="w">            </span><span class="nt">plugin</span><span class="p">:</span>
+<span class="w">              </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my_cloud_depth</span>
+<span class="w">              </span><span class="nt">arguments</span><span class="p">:</span>
+<span class="w">                </span><span class="nt">output_data_range</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">0</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="nv">20</span><span class="p p-Indicator">]</span>
+<span class="w">                </span><span class="nt">scale_factor</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.001</span>
+</pre></div>
+</div>
+<p>The changes shown above modify My-Cloud-Depth to use our <code class="docutils literal notranslate"><span class="pre">my_cloud_depth</span></code> algorithm
+that we created. If we left this portion unchanged, My-Cloud-Depth would use the
+<code class="docutils literal notranslate"><span class="pre">single_channel</span></code> algorithm, which is unfit for our purposes. We also added two other
+arguments, <code class="docutils literal notranslate"><span class="pre">output_data_range</span></code> ands <code class="docutils literal notranslate"><span class="pre">scale_factor</span></code>, which override the Cloud-Height
+product defaults arguments for those two variables. Output data range of [0, 20] states
+that our data will be in the range of zero to twenty, and the scale factor says that we
+are scaling our data to be in kilometers.</p>
+<p>To use this modified My-Cloud-Depth product, follow the series of commands. We will be
+creating a new test script which implements our new changes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $MY_PKG_DIR/tests/scripts
+cp clavrx.conus_annotated.my-cloud-top-height.sh clavrx.conus_annotated.my-cloud-depth.sh
+</pre></div>
+</div>
+<p>Now we need to edit <code class="docutils literal notranslate"><span class="pre">clavrx.conus_annotated.my-cloud-depth.sh</span></code> to implement
+<code class="docutils literal notranslate"><span class="pre">My-Cloud-Depth</span></code> rather than <code class="docutils literal notranslate"><span class="pre">My-Cloud-Top-Height</span></code>. Your new test script should look
+like the code shown below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>run_procflow<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--procflow<span class="w"> </span>single_source<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--reader_name<span class="w"> </span>clavrx_hdf4<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--product_name<span class="w"> </span>My-Cloud-Depth<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--filename_formatter<span class="w"> </span>geoips_fname<span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--minimum_coverage<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">    </span>--sector_list<span class="w"> </span>conus
+<span class="nv">ss_retval</span><span class="o">=</span><span class="nv">$?</span>
+</pre></div>
+</div>
+<p>Nice! Now all we need to do is run our script. This will display Cloud Depth over the
+CONUS sector. To do so, run the command below.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$MY_PKG_DIR/tests/scripts/clavrx.conus_annotated.my-cloud-depth.sh
+</pre></div>
+</div>
+<p>This will output a bunch of log output. If your script succeeded it will end with INFO:
+Return Value 0. To view your output, look for a line that says SINGLESOURCESUCCESS. Open
+the PNG file to view your Cloud Depth Image! It should look like the image shown below.</p>
+<a class="reference internal image-reference" href="../../../_images/my_cloud_depth.png"><img alt="../../../_images/my_cloud_depth.png" src="../../../_images/my_cloud_depth.png" style="width: 800px;" /></a>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../product_default.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Extend GeoIPS with new Product Defaults</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../static_sector/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Extend GeoIPS with a new Static Sector</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-geoips-product-plugin">Creating a GeoIPS Product Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-script-to-visualize-your-product">Creating a Script to Visualize Your Product</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-your-cloud-depth-product">Using Your Cloud Depth Product</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../../_sources/tutorials/extending-with-plugins/product/index.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

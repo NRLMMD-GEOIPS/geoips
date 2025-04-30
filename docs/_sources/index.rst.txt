@@ -1,6 +1,9 @@
-:notoc:
+.. dropdown:: Distribution Statement
 
-.. GEOIPS geoips documentation master file, created by
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+:notoc:
 
 .. module:: geoips
    :noindex:
@@ -11,31 +14,22 @@ GeoIPS |reg| geoips Documentation
 
 **Date**: |today| **Version**: |release|
 
-**Download PDF documentation**: :download:`GeoIPS_geoips.pdf`
-
 **Previous versions**: Documentation of previous geoips versions are available at
 `github.com/NRLMMD-GEOIPS <https://github.com/NRLMMD-GEOIPS/>`__.
 
 **Useful links**:
 `Source Repository <https://github.com/NRLMMD-GEOIPS/geoips>`__ |
 `GeoIPS License <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/LICENSE>`__ |
-`NRLMMD <https://www.nrlmry.navy.mil>`__ |
+`NRLMMD <https://www.nrlmry.navy.mil/>`__ |
 
-:mod:`geoips` is a free software program, United States Governmnet NRLMMD licensed.
+:mod:`geoips` is a free software program, using the NRL Open License Agreement.
 
 ::
 
-    Distribution Statement A. Approved for public release. Distribution unlimited.
+    Distribution Statement A. Approved for public release. Distribution is unlimited.
 
-    Author:
-    Naval Research Laboratory, Marine Meteorology Division
-
-    This program is free software: you can redistribute it and/or modify it under
-    the terms of the NRLMMD License included with this program. This program is
-    distributed WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
-    for more details. If you did not receive the license, for more information see:
-    https://github.com/U-S-NRL-Marine-Meteorology-Division/
+    This source code is protected under the license referenced at
+    https://github.com/NRLMMD-GEOIPS.
 
 .. automodule:: geoips
    :noindex:
@@ -43,23 +37,23 @@ GeoIPS |reg| geoips Documentation
 .. grid:: 1 2 2 2
     :gutter: 2
 
-    .. grid-item-card:: User Guide
+    .. grid-item-card:: Getting Started
 
         .. image:: _static/index_user_guide.png
-           :alt: user guide
+           :alt: getting-started
            :scale: 25%
            :align: center
 
-        The user guide provides in-depth information on the key concepts of
-        geoips with useful background information and explanation.
+        The getting started guide can help you get started with using
+        geoips.
 
-        .. button-link:: userguide/index.html
+        .. button-link:: getting-started/index.html
             :ref-type: ref
             :color: secondary
             :expand:
             :click-parent:
 
-            User Guide
+            Getting Started
 
     .. grid-item-card:: The API reference guide
 
@@ -72,7 +66,7 @@ GeoIPS |reg| geoips Documentation
         The reference describes how the methods work and which parameters can
         be used. It assumes that you have an understanding of the key concepts.
 
-        .. button-link:: geoips_api/index.html
+        .. button-link:: api/index.html
             :ref-type: ref
             :color: secondary
             :expand:
@@ -97,20 +91,23 @@ GeoIPS |reg| geoips Documentation
 
             Release Notes
 
-
 .. toctree::
     :maxdepth: 3
     :hidden:
     :titlesonly:
 
-
-    introduction/index
-    starter/index
-    userguide/index
-    devguide/index
+    getting-started/index
+    
+    
+    tutorials/index
+    
+    concepts/index
+    
+    
+    
+    contribute/index
     geoips_api/index
     releases/index
     contact/index
-
 
 .. |reg|    unicode:: U+000AE .. REGISTERED SIGN

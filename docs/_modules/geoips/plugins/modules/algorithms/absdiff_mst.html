@@ -1,0 +1,656 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.plugins.modules.algorithms.absdiff_mst &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/algorithms/absdiff_mst';</script>
+    <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.plugins.modules.algorithms.absdiff_mst</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.plugins.modules.algorithms.absdiff_mst</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;Data manipulation steps for standard absolute difference algorithm.</span>
+
+<span class="sd">Generalized algorithm to calculate the difference between 1 or 2 variables taken from</span>
+<span class="sd">multiple scan times over the same sector.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.corrections</span><span class="w"> </span><span class="kn">import</span> <span class="n">apply_data_range</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginError</span>
+
+<span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;algorithms&quot;</span>
+<span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;xarray_to_xarray&quot;</span>
+<span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;absdiff_mst&quot;</span>
+
+
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.algorithms.html#geoips.plugins.modules.algorithms.absdiff_mst.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
+    <span class="n">xobj</span><span class="p">,</span>
+    <span class="n">variables</span><span class="p">,</span>
+    <span class="n">product_name</span><span class="p">,</span>
+    <span class="n">output_data_range</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">input_units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">output_units</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">min_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+    <span class="n">max_outbounds</span><span class="o">=</span><span class="s2">&quot;crop&quot;</span><span class="p">,</span>
+    <span class="n">norm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">inverse</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">sun_zen_correction</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">mask_night</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_day_zen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">mask_day</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">min_night_zen</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">gamma_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">scale_factor</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply data range and requested corrections to an absdiff product.</span>
+
+<span class="sd">    Data manipulation steps for applying a data range and requested corrections</span>
+<span class="sd">    to a single channel productn absdiff product.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    xobj : xarray.Dataset</span>
+<span class="sd">        * input xarray.Dataset used for data manipulation.</span>
+<span class="sd">    variables : list of str</span>
+<span class="sd">        * list of strings representing the variables used to produce &#39;product_name&#39;</span>
+<span class="sd">    product_name : str</span>
+<span class="sd">        * String representing the product produced by this algorithm, using variables</span>
+<span class="sd">          from &#39;xobj&#39;</span>
+<span class="sd">    output_data_range : list of float, default=None</span>
+<span class="sd">        * list of min and max value for output data product.</span>
+<span class="sd">        * This is applied LAST after all other corrections/adjustments</span>
+<span class="sd">        * If None, use data min and max.</span>
+<span class="sd">    input_units : str, default=None</span>
+<span class="sd">        * Units of input data, for applying necessary conversions</span>
+<span class="sd">        * If None, no conversion</span>
+<span class="sd">    output_units : str, default=None</span>
+<span class="sd">        * Units of output data, for applying necessary conversions</span>
+<span class="sd">        * If None, no conversion</span>
+<span class="sd">    min_outbounds : str, default=&#39;crop&#39;</span>
+<span class="sd">        * Method to use when applying bounds.  Valid values are:</span>
+
+<span class="sd">            * retain: keep all pixels as is</span>
+<span class="sd">            * mask: mask all pixels that are out of range</span>
+<span class="sd">            * crop: set all out of range values to either min_val or max_val</span>
+<span class="sd">              as appropriate</span>
+<span class="sd">    max_outbounds : str, default=&#39;crop&#39;</span>
+<span class="sd">        * Method to use when applying bounds.  Valid values are:</span>
+
+<span class="sd">            * retain: keep all pixels as is</span>
+<span class="sd">            * mask: mask all pixels that are out of range</span>
+<span class="sd">            * crop: set all out of range values to either min_val or max_val</span>
+<span class="sd">              as appropriate</span>
+<span class="sd">    norm : bool, default=False</span>
+<span class="sd">        * Boolean flag indicating whether to normalize (True) or not (False)</span>
+
+<span class="sd">            * If True, returned data will be in the range from 0 to 1</span>
+<span class="sd">            * If False, returned data will be in the range from min_val to max_val</span>
+<span class="sd">    inverse : bool, default=False</span>
+<span class="sd">        * Boolean flag indicating whether to inverse (True) or not (False)</span>
+
+<span class="sd">            * If True, returned data will be inverted</span>
+<span class="sd">            * If False, returned data will not be inverted</span>
+<span class="sd">    sun_zenith_correction : bool, default=False</span>
+<span class="sd">        * Boolean flag indicating whether to apply solar zenith correction</span>
+<span class="sd">          (True) or not (False)</span>
+
+<span class="sd">            * If True, returned data will have solar zenith correction applied</span>
+<span class="sd">              (see data_manipulations.corrections.apply_solar_zenith_correction)</span>
+<span class="sd">            * If False, returned data will not be modified based on solar zenith</span>
+<span class="sd">              angle</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Order of operations, based on the passed arguments, is:</span>
+
+<span class="sd">    1. Mask night</span>
+<span class="sd">    2. Mask day</span>
+<span class="sd">    3. Apply solar zenith correction</span>
+<span class="sd">    4. Apply gamma values</span>
+<span class="sd">    5. Apply scale factor</span>
+<span class="sd">    6. Convert units</span>
+<span class="sd">    7. Apply data range.</span>
+
+<span class="sd">    NOTE: If &quot;norm=True&quot; is specified, the &quot;output_data_range&quot; will NOT</span>
+<span class="sd">    match the actual range of the returned data, since the normalized data</span>
+<span class="sd">    will be returned between 0 and 1.</span>
+
+<span class="sd">    If you require a different order of operations than that specified within</span>
+<span class="sd">    &quot;single_channel&quot; algorithm, please create a new algorithm for your desired</span>
+<span class="sd">    order of operations.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    numpy.ndarray</span>
+<span class="sd">        numpy.ndarray or numpy.MaskedArray of appropriately scaled channel data,</span>
+<span class="sd">        in units &quot;output_units&quot;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Take the first lon / lat values as they should be the same for all time steps</span>
+    <span class="n">lon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">longitude</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Take the first longitude value</span>
+    <span class="n">lat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xobj</span><span class="o">.</span><span class="n">latitude</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>  <span class="c1"># Take the first latitude value</span>
+
+    <span class="c1"># Get the input variable from timestep 1 and 2</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="c1"># Otherwise get variable 1 from timestep 1 and variable 2 from timestep 2</span>
+    <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">variables</span><span class="p">)</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">data1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">0</span><span class="p">]][</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">data2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">xobj</span><span class="p">[</span><span class="n">variables</span><span class="p">[</span><span class="mi">1</span><span class="p">]][</span><span class="mi">1</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">PluginError</span><span class="p">(</span>
+            <span class="s2">&quot;Error: more than 2 variables were provided to absdiff_mst algorithm plugin&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;.</span><span class="se">\n</span><span class="s2"> Variables = </span><span class="si">{</span><span class="n">variables</span><span class="si">}</span><span class="s2">. Cannot take the absolute difference between &quot;</span>
+            <span class="s2">&quot;more than two variables from two different time steps. Please provide only&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; 1-2 variable names for product: </span><span class="si">{</span><span class="n">product_name</span><span class="si">}</span><span class="s2">.&quot;</span>
+        <span class="p">)</span>
+    <span class="c1"># Take the absolute difference between these variables, such as cth - cbh</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">data2</span> <span class="o">-</span> <span class="n">data1</span><span class="p">)</span>
+
+    <span class="n">data</span> <span class="o">=</span> <span class="n">apply_data_range</span><span class="p">(</span>
+        <span class="n">data</span><span class="p">,</span>
+        <span class="n">min_val</span><span class="o">=</span><span class="n">output_data_range</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="n">max_val</span><span class="o">=</span><span class="n">output_data_range</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
+        <span class="n">min_outbounds</span><span class="o">=</span><span class="n">min_outbounds</span><span class="p">,</span>
+        <span class="n">max_outbounds</span><span class="o">=</span><span class="n">max_outbounds</span><span class="p">,</span>
+        <span class="n">norm</span><span class="o">=</span><span class="n">norm</span><span class="p">,</span>
+        <span class="n">inverse</span><span class="o">=</span><span class="n">inverse</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">final_xobj</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span>
+        <span class="n">data_vars</span><span class="o">=</span><span class="p">{</span><span class="n">product_name</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">data</span><span class="p">)},</span>
+        <span class="n">coords</span><span class="o">=</span><span class="p">{</span>
+            <span class="s2">&quot;longitude&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">lon</span><span class="p">),</span>
+            <span class="s2">&quot;latitude&quot;</span><span class="p">:</span> <span class="p">([</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">],</span> <span class="n">lat</span><span class="p">),</span>
+        <span class="p">},</span>
+        <span class="n">attrs</span><span class="o">=</span><span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">final_xobj</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

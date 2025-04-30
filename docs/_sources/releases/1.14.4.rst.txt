@@ -1,0 +1,282 @@
+Version 1.14.4 (2025-04-30)
+***************************
+
+ * *Documentation*: Update upcoming and tagged versions
+ * *Enhancement*: Create mtg fci reader
+ * *Enhancement*: Viirs l2 netcdf reader
+ * *Bug fix*: Changed plaformdirs version in requirements.txt
+ * *Bug fix*: Clean up log output for output checkers
+ * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
+ * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+ * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
+ * *Bug fix*: Resolve string-based output_checker_threshold_image return
+ * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
+ * *Release process*: Add 1.14.4 release note
+ * *Installation*: Update full install to include all packages available on github.com
+ * *Installation*: Update installation instructions to use miniforge installer
+ * *Bug fixes*: Clone git test data repositories to the correct location
+ * *Bug fixes*: Use autoescape=true for jinja template
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.14.4
+* Upcoming version: 1.14.5
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Enhancement
+===========
+
+Create mtg fci reader
+---------------------
+
+Add new reader for Meteosat Third Generation Flexible Combined Imager (MTG FCI).
+This reader is a wrapper around satpy's FCI reader. MTG FCI data in netCDF format,
+but require a special decompression filter in order to load the data into memory.
+This filter can either be installed using EUMETSAT's fcidecomp plugin package
+(https://gitlab.eumetsat.int/open-source/data-tailor-plugins/fcidecomp/-/tree/2.0.1/)
+or with the hdf5plugin package available on pypi (https://pypi.org/project/hdf5plugin/)
+In order to use this reader, the HDF5_PLUGIN_PATH is a required environment variable
+that points to the directory holding the compiled decompression plugin. The satpy
+documentation notes that 'import hdf5plugin' should be the only requirement to load
+the data using their reader, and while that is the case, it appears that you are
+unable to manipulate the data outside the satpy.scene object and will still encounter
+a "NetCDF: Filter error: undefined filter encountered" error unless HDF5_PLUGIN_PATH
+is a valid environment variable. We are using the pypi hdf5plugin package, and
+set HDF5_PLUGIN_PATH to site-packages/hdf5plugin/plugins.
+
+Updated the single_channel algorithm to apply a satellite zenith angle cutoff, rather
+than requiring this mask to be applied in a reader. Uses a new function added to the
+data_manipulations.corrections module.
+
+::
+
+     added: geoips/plugins/modules/readers/fci_netcdf.py
+     added: geoips/plugins/yaml/products/fci.yaml
+     added:
+     tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p10.EUMETSAT.20p0.png
+     added:
+     tests/outputs/fci.unprojected_image.Infrared/20240113.115000.MTG-I1.fci.Infrared.self_register.71p89.EUMETSAT.0p0.png
+     added: tests/scripts/fci.static.Visible.imagery_annotated.sh
+     added: tests/scripts/fci.unprojected_image.Infrared.sh
+     modified: geoips/data_manipulations/corrections.py
+     modified: geoips/plugins/modules/algorithms/single_channel.py
+     modified: pyproject.toml
+     modified: setup/config_geoips
+     modified: tests/test_all.sh
+
+Enhancement
+===========
+
+Viirs l2 netcdf reader
+----------------------
+
+Add new reader for VIIRS L2 netCDF files.
+(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
+
+::
+
+     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
+
+Bug fix
+=======
+
+Changed plaformdirs version in requirements.txt
+-----------------------------------------------
+
+The previous platformdir version caused a circular dependency error, this updates the version number to allow
+installation from requirements.txt.
+
+::
+
+     modified: environments/requirements.txt
+
+Bug fix
+=======
+
+Clean up log output for output checkers
+---------------------------------------
+
+Attempted to fix issue with MISSINGPRODUCTS not being
+properly identified (extra files in test output directories
+did NOT flag a failed MISSINGPRODUCT in the tests), but did
+not fix that.  Just updated log outputs to be easier to follow.
+
+Also note the missingproduct RM file now writes out the missing
+file regardless of whether basename current output == basename compare file,
+I believe this was to resolve issues of .ext.gz != .ext, and the file
+wasn't getting written to the rm file, probably we should just write
+out all the files, and not worry about whether they match the compare
+output or not (that should have already been checked).  But this
+effectively does the same thing (with duplicate files getting written
+to the file)
+
+::
+
+     modified: geoips/interfaces/module_based/output_checkers.py
+
+Bug fix
+=======
+
+Bug fix atms reader - only crop to valid indices when key exists
+----------------------------------------------------------------
+
+Only crop ATMS data to valid indices when the "valid_indices" key exists in the
+xarray dataset. This key is only populated when reading in a GEO file. As a result,
+the reader will error when only reading in SDR files.
+
+::
+
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Bug fix
+=======
+
+Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+-------------------------------------------------------------------------
+
+Early versions of brassy did not have the brassy.actions method, force
+version >= 0.0.3 to ensure build_docs.py can complete.
+
+::
+
+     modified: pyproject.toml
+
+Bug fix
+=======
+
+Make code_of_conduct.md optional in build_docs.py
+-------------------------------------------------
+
+Allow documentation to build successfully if CODE_OF_CONDUCT does not exist.
+
+::
+
+     modified: docs/build_docs.py
+
+Bug fix
+=======
+
+Resolve string-based output_checker_threshold_image return
+----------------------------------------------------------
+
+We must ensure OUTPUT_CHECKER_THRESHOLD_IMAGE is stored as a float, not a string.
+Set it explicitly, rather than using get_env_var.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+
+Bug fix
+=======
+
+Bug fix abi_l2_netcdf reader
+----------------------------
+
+Fix bug where the start and end datetime was not properly being tracked for each
+file ingested in the main loop. This was causing issues when attempting to
+concatenate multiple scan times with 2D arrays. Concatenation of multiple files
+for a single scan time is currently only supported with 1D xarray datasets.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+
+Bug fix
+=======
+
+Allow seviri hrit reader to complete when hrv files present
+-----------------------------------------------------------
+
+SEVIRI HRIT reader does not support the High Res Vis (HRV) files currently,
+so skips over *HRV* files.  When multi-scan-time support was added, files
+were read one at a time, so HRV files were filtered out and the reader
+subsequently failed on the empty list of filenames.  Raise NoValidFilesError
+on empty list, to allow catching from the reader read_data_to_xarray_dict
+method and skipping over missing files.
+
+::
+
+     modified: geoips/errors.py
+     modified: geoips/interfaces/module_based/readers.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+
+Release process
+===============
+
+Add 1.14.4 release note
+-----------------------
+
+* Upcoming public version 1.15.0.
+* Upcoming internal version 1.14.4.
+
+::
+
+     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
+
+Installation
+============
+
+Update full install to include all packages available on github.com
+-------------------------------------------------------------------
+
+Allow passing an argument to full_install.sh that requests installing
+all packages currently available on github.com.  Default full install
+(with no arguments) still includes only actively maintained/tested/vetted
+packages with complete and functional integration tests, but additional
+packages included when "include_reference_repos" is passed to allow
+development on new and planned repositories.
+
+This also serves to test test_data_github check_system_requirements.sh option,
+since that is currently unused on github.com.
+
+::
+
+     modified: tests/integration_tests/full_install.sh
+
+Installation
+============
+
+Update installation instructions to use miniforge installer
+-----------------------------------------------------------
+
+mambaforge deprecated
+
+::
+
+     modified: docs/source/starter/installation.rst
+
+Bug fixes
+=========
+
+Clone git test data repositories to the correct location
+--------------------------------------------------------
+
+Previously git test data repositories would be cloned directly in
+$GEOIPS_TESTDATA_DIR, update download_test_data.py to ensure test data
+repos are cloned to $GEOIPS_TESTDATA_DIR/[test_data_repo_name]
+
+::
+
+     modified: setup/check_system_requirements.sh
+     modified: setup/download_test_data.py
+
+Bug fixes
+=========
+
+Use autoescape=true for jinja template
+--------------------------------------
+
+Use autoescape=True for jinja template
+
+::
+
+     modified: docs/build_docs.py

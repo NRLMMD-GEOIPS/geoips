@@ -28,6 +28,14 @@ geoips.interfaces.module\_based.coverage\_checkers module
    :undoc-members:
    :show-inheritance:
 
+geoips.interfaces.module\_based.databases module
+------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.databases
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.interfaces.module\_based.filename\_formatters module
 -----------------------------------------------------------
 
@@ -40,6 +48,14 @@ geoips.interfaces.module\_based.interpolators module
 ----------------------------------------------------
 
 .. automodule:: geoips.interfaces.module_based.interpolators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.interfaces.module\_based.output\_checkers module
+-------------------------------------------------------
+
+.. automodule:: geoips.interfaces.module_based.output_checkers
    :members:
    :undoc-members:
    :show-inheritance:

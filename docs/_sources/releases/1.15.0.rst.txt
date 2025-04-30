@@ -1,0 +1,673 @@
+Version 1.15.0 (2025-04-30)
+***************************
+
+ * *Bug fix*: Remove duplicate lines
+ * *Bug fix*: Seviri_hrit bug fix
+ * *Bug fix*: Fix exception handling for correct xfailing on missing data for cygnss netcdf reader
+ * *Bug fix*: Update pytest ini file to add geoips repo root to pythonpath on pytest run
+ * *Bug fix*: Version update for numpy 2.0
+ * *Bug fix*: --test-data-available without argument now errors
+ * *Bug fix*: Non-editable unit test fix
+ * *Bug fix*: Commandline fix for multi-document yaml files
+ * *Documentation*: Fixing installation issues
+ * *Documentation*: Add integration tests as examples.
+ * *Documentation*: Change docs structure to new docs
+ * *Documentation*: Add basic nrtp tutorial
+ * *Documentation*: Add conceptual interface documentation
+ * *Refactor*: Update variable name amsr to amsr2
+ * *Git*: Merge release into dev branch
+ * *Continuous integration*: Build stable image on tag.
+ * *Continuous integration*: Add code owners files.
+ * *Continuous integration*: Skip ami.tc.wv.geotiff.sh integration test
+ * *Refactoring updates*: Automate ``create_plugin_registries``
+ * *Enhancement*: Update plugins to support better plotting configurability
+ * *Enhancement*: Get plugin metadata
+ * *Enhancement*: Tar files are now filtered
+ * *Enhancement*: Add default geoips_outdirs so pip installs of geoips do not immediately crash.
+ * *Enhancement*: Fci reader geocolor update
+ * *Enhancement*: Migrate integration tests to pytest
+ * *Release process*: Add 1.15.0 release note
+ * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
+ * *Performance*: New product family unsectored_xarray_dict_to_algorithm_to_output_format
+ * *Testing*: Integrate test all into pytest tests
+
+Bug fix
+=======
+
+Remove duplicate lines
+----------------------
+
+Removed duplicate lines from pyproject.toml
+
+::
+
+     modified: pyproject.toml
+
+Bug fix
+=======
+
+Seviri_hrit bug fix
+-------------------
+
+The seviri_hrit reader had a bug caused by meteosat second generation High
+Resolution Visible (HRV) files. With our new reader updates which allow
+geostationary readers to handle multiple scan times, we broke the method in which
+this reader filtered out HRV files. The functionality was the same, but when
+seviri_hrit:call_single_time was fed a singular file, and that file was HRV, an
+error would occur in 'get_top_level_metadata'. This is due to the fact that we feed
+in files to 'call_single_time' individually the first time around to get a list of
+start datetimes, so we know which files to group together. We need to do the
+filtering before we call 'call_single_time', and things will work as expected.
+
+::
+
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+
+Bug fix
+=======
+
+Fix exception handling for correct xfailing on missing data for cygnss netcdf reader
+------------------------------------------------------------------------------------
+
+Updated docstring for ``get_test_files``, replaced the ``FileNotFoundError`` with ``NameError`` to clearly indicate
+missing test data in ``cygnss_netcdf.py`` unit tests, and removed the corresponding ``except FileNotFoundError`` block
+in ``test_readers.py`` to allow the error to be raised properly.
+
+::
+
+     modified: geoips/plugins/modules/readers/cygnss_netcdf.py
+     modified: tests/unit_tests_long/plugins/modules/readers/test_readers.py
+
+Bug fix
+=======
+
+Update pytest ini file to add geoips repo root to pythonpath on pytest run
+--------------------------------------------------------------------------
+
+Fixes failing unit tests that should be passing that started raising import errors by adding the root repo dir to the
+python path. This was previously automatically done by installing GeoIPS in editable mode.
+
+::
+
+     modified: pytest.ini
+
+Bug fix
+=======
+
+Version update for numpy 2.0
+----------------------------
+
+Removed pinned numpy versioning, and allowed for dynamic numexpr, netcdf, and numpy versions.
+
+::
+
+     modified: pyproject.toml
+
+Bug fix
+=======
+
+--test-data-available without argument now errors
+-------------------------------------------------
+
+--test-data-available requires an argument. It now errors if none is provided instead of saying "None is NOT available
+for direct download."
+
+::
+
+     modified: setup/download_test_data.py
+
+Bug fix
+=======
+
+Non-editable unit test fix
+--------------------------
+
+@mindyls pointed out that the 'geoips list unit-tests' unit-test module was failing
+when one or more package was installed in non-editable mode. This wasn't caught by
+our github actions as we install packages in editable mode for testing. We should
+probably change this to test in both modes for the future.
+
+This PR updated some of the commandline unit test code, specifically for
+non-editable mode cases, to fix these failing tests. All commandline unit tests on
+my end are now passing.
+
+::
+
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+     modified: tests/unit_tests/commandline/test_geoips_list_scripts.py
+
+Bug fix
+=======
+
+Commandline fix for multi-document yaml files
+---------------------------------------------
+
+In the upcoming order-based-procflow PRs, we've introduced a new plugin type called
+'workflows' which can be structured as a multi-document yaml file if wanted.
+workflows.get_plugin(<plugin_name>) works just fine, but when attempting to validate
+a file via 'geoips validate <yaml_fpath>', it would fail if the file was structured
+as a multi-document as it was not coded to handle that. This PR fixes this bug
+by adding logic to handle multi-document files if an extra argument is provided.
+Now a user can validate a workflow plugin in a multi-document yaml file by
+running this modified command 'geoips validate <fpath> <plugin_name>'. Unit tests
+will skip validating these plugins.
+
+See tests/unit_tests/commandline/test_geoips_validate.py for more information.
+
+::
+
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_validate.py
+     modified: tests/unit_tests/commandline/test_geoips_validate.py
+
+Documentation
+=============
+
+Fixing installation issues
+--------------------------
+
+Fixing the links to the installation instructions
+in the readme and changing the base_test.sh to running
+integration_test.py with pytest to test the installation.
+
+::
+
+     modified: README.md
+     modified: linux_with_conda.rst
+
+Documentation
+=============
+
+Add integration tests as examples.
+----------------------------------
+
+Added a documentation page that renders the integration tests as examples. Descriptions of each should be added in the
+future.
+
+::
+
+     added: docs/auxiliary_files.yaml
+     added: docs/source/concepts/functionality/examples/index.rst
+     added: docs/source/concepts/functionality/index.rst
+     added: docs/source/concepts/functionality/examples/integration-tests.rst
+     modified: docs/build_docs.py
+
+Documentation
+=============
+
+Change docs structure to new docs
+---------------------------------
+
+Update docs and docs builder to a new structure. Added new index files. All old docs that were previously being used are
+in the new docs. Old docs that were not included in documentation builds were moved to docs/archive. Images have been
+moved to a folder that includes the RST file that uses them.
+
+::
+
+     moved: docs/archive/fancyhf.sty
+     moved:
+     docs/archive/images/available_functionality/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png
+     moved:
+     docs/archive/images/available_functionality/20200216_124211_SH162020_smos-spd_smos_windspeed_75kts_38p84_1p0.png
+     moved:
+     docs/archive/images/available_functionality/20200404.080000.msg-1.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20200404.080000.msg-1.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
+     moved:
+     docs/archive/images/available_functionality/20200405.000000.himawari-8.ahi.Infrared-Gray.global.29p98.jma.20p0.png
+     moved: docs/archive/images/available_functionality/20200513_215200_WP012020_amsu-b_noaa-19_89V_95kts_89p18_1p0.png
+     moved:
+     docs/archive/images/available_functionality/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_28p31_1p0.png
+     moved: docs/archive/images/available_functionality/20200917.171519.GPM.gmi.89H.global.0p84.NASA.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20200918.195020.goes-16.abi.Infrared-Gray.global.22p84.noaa.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20201211.230905.ews-g.gvar.Infrared-Gray.global.33p25.noaa.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20210104.170500.terra.modis.Infrared-Gray.global.0p63.nasa.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20210104.201500.aqua.modis.Infrared-Gray.global.2p08.nasa.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20210104.201500.aqua.modis.Infrared.self_register.100p00.nasa.3p0.png
+     moved:
+     docs/archive/images/available_functionality/20210205.080611.npp.viirs.Infrared-Gray.global.0p97.NASA.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20210209.074210.noaa-20.viirs.Infrared-Gray.global.2p00.NASA.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20210209_074210_SH192021_viirs_jpss-1_Night-Vis-IR_130kts_100p00_1p0.png
+     moved:
+     docs/archive/images/available_functionality/20210419_235400_WP022021_amsu-b_metop-a_183-1H_115kts_100p00_1p0.png
+     moved:
+     docs/archive/images/available_functionality/20210419_235400_WP022021_amsu-b_metop-a_183-3H_115kts_100p00_1p0.png
+     moved:
+     docs/archive/images/available_functionality/20210718.015031.goes-17.abi.Infrared-Gray.global.22p79.noaa.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20210926_210400_WP202021_smap-spd_smap_windspeed_100kts_74p87_1p0.png
+     moved: docs/archive/images/available_functionality/20211202.080644.hy-2b.hscat.windspeed.global.6p83.knmi.20p0.png
+     moved:
+     docs/archive/images/available_functionality/20211202_084039_WP272021_hscat_hy-2b_windbarbs_95kts_97p06_1p0.png
+     moved:
+     docs/archive/images/available_functionality/20220209.220000.msg-4.seviri.Infrared-Gray.global.22p84.nesdisstar.20p0.png
+     moved: docs/archive/images/command_line_examples/20200918.195020.goes-16.abi.Infrared.goes16.45p56.noaa.10p0.png
+     moved: docs/archive/images/command_line_examples/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png
+     moved: docs/archive/images/command_line_examples/20200918_195020_AL202020_abi_goes-16_WV_110kts_100p00_1p0.png
+     moved: docs/archive/images/geoips_overview/Example_89pct_Overlay_Processing_Workflow.png
+     moved: docs/archive/yaml/20200918.195020.goes-16.Visible_latitude_longitude.tc2020al20teddy.nc.yaml
+     moved: docs/archive/yaml/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+     moved: docs/archive/yaml/20200918_195020_AL202020_abi_goes-16_WV_110kts_100p00_1p0.png.yaml
+     moved: docs/archive/yaml/abi_test.yaml
+     moved: docs/source/concepts/architecture/geoips-specification.rst
+     moved: docs/source/concepts/architecture/structure-of-geoips/index.rst
+     moved: docs/source/concepts/architecture/tests/unit-tests.rst
+     moved: docs/source/concepts/architecture/xarray-standards.rst
+     moved: docs/source/concepts/scope/index.rst
+     moved: docs/source/contact.rst
+     moved: docs/source/getting-started/system-requirements.rst
+     moved: docs/source/getting-started/what-is-geoips/index.rst
+     modified: CODE_OF_CONDUCT.md
+     modified: docs/build_docs.py
+     modified: docs/source/_templates/index.template.rst
+     modified: docs/source/geoips_api/index.rst
+     added: docs/source/getting-started/index.rst
+     added: docs/source/tutorials/index.rst
+     added: docs/docs-sections.yaml
+     added: docs/source/concepts/architecture/extend-with-plugins.rst
+     added: docs/source/concepts/architecture/index.rst
+     added: docs/source/concepts/architecture/plugin-registries.rst
+     added: docs/source/concepts/architecture/tests/index.rst
+     added: docs/source/concepts/functionality/index.rst
+     added: docs/source/contribute/index.rst
+
+Documentation
+=============
+
+Add basic nrtp tutorial
+-----------------------
+
+This adds a very basic example of running a near-real time process of GeoIPS by watching a dir with inotifywait. This
+moved a lot of files around to add sub-sections to the rendering of the tutorials.rst file, but few edits were made.
+
+::
+
+     added: docs/source/releases/latest/766-add-basic-nrtp-example-to-docs.yaml
+     added: docs/source/tutorials/extending-with-plugins/index.rst
+     added: docs/source/tutorials/nrtp-examples/index.rst
+     added: docs/source/tutorials/nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.rst
+     modified: docs/source/tutorials/index.rst
+     modified: tests/integration_tests/test_integration.py
+     moved: docs/source/tutorials/plugin_development/algorithm.rst
+     moved: docs/source/tutorials/plugin_development/colormapper/colorful_cloud_height.png
+     moved: docs/source/tutorials/plugin_development/colormapper/index.rst
+     moved: docs/source/tutorials/plugin_development/feature_annotator/index.rst
+     moved: docs/source/tutorials/plugin_development/feature_annotator/my_feature_gridline.png
+     moved: docs/source/tutorials/plugin_development/gridline_annotator.rst
+     moved: docs/source/tutorials/plugin_development/output_formatter.rst
+     moved: docs/source/tutorials/plugin_development/product/index.rst
+     moved: docs/source/tutorials/plugin_development/product/my_cloud_depth.png
+     moved: docs/source/tutorials/plugin_development/product/my_cloud_top_height.png
+     moved: docs/source/tutorials/plugin_development/product_default.rst
+     moved: docs/source/tutorials/plugin_development/reader.rst
+     moved: docs/source/tutorials/plugin_development/static_sector/index.rst
+     moved: docs/source/tutorials/plugin_development/static_sector/my_conus_sector.png
+     moved: docs/source/tutorials/plugin_development/static_sector/my_conus_sector_cth.png
+
+Documentation
+=============
+
+Add conceptual interface documentation
+--------------------------------------
+
+Add documentation describing, conceptually, what the different types of GeoIPS plugins are.
+
+::
+
+     moved: docs/source/concepts/functionality/interfaces/module_based/algorithm.rst
+     moved: docs/source/concepts/functionality/interfaces/yaml_based/feature_annotators.rst
+     moved: docs/source/concepts/functionality/interfaces/yaml_based/gridline_annotators.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/colormapper.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/filename_formats.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/interpolators.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/output_formats.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/procflows.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/readers.rst
+     added: docs/source/concepts/functionality/interfaces/module_based/title_formats.rst
+     added: docs/source/concepts/functionality/interfaces/yaml_based/dynamic_sectors.rst
+     added: docs/source/concepts/functionality/interfaces/yaml_based/product_defaults.rst
+     added: docs/source/concepts/functionality/interfaces/yaml_based/products.rst
+     added: docs/source/concepts/functionality/interfaces/yaml_based/static_sectors.rst
+     added: docs/source/releases/latest/915-add-conceptual-interface-documentation.yaml
+
+Refactor
+========
+
+Update variable name amsr to amsr2
+----------------------------------
+
+Updates non-operational instrument name (Advanced Microwave Scanning Radiometer)
+to refelect the current instrument in use (Advanced Microwave Scanning Radiometer 2)
+
+::
+
+     modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+
+Git
+===
+
+Merge release into dev branch
+-----------------------------
+
+Merges the main branch after 1.14.4 into dev-staging for merging to main
+
+::
+
+     moved: docs/source/releases/upcoming/1.14.4-internal-release.yaml
+     modified: docs/build_docs.py
+     modified: docs/source/_templates/index.template.rst
+     modified: docs/source/concepts/functionality/documentation-building.rst
+     modified: docs/source/concepts/scope/index.rst
+     modified: pytest.ini
+     modified: tests/integration_tests/test_integration.py
+
+Continuous integration
+======================
+
+Build stable image on tag.
+--------------------------
+
+Ensure stable geoips docker image is built on tag/release.  This ensures
+the latest stable image is available for plugin packages to use in PR
+status checks.
+
+::
+
+     added: .github/workflows/build-stable-image.yaml
+
+Continuous integration
+======================
+
+Add code owners files.
+----------------------
+
+Code owners are automatically requested for review when someone opens a pull request that modifies code that they own.
+Code owners are not automatically requested to review draft pull requests.
+
+::
+
+     added: .github/CODEOWNERS
+
+Continuous integration
+======================
+
+Skip ami.tc.wv.geotiff.sh integration test
+------------------------------------------
+
+This test has been failing for a while (multiple releases). There is a fix in the works for the next release. The plan
+is to xfail until the fix is released, because this test is expected to fail.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Refactoring updates
+===================
+
+Automate ``create_plugin_registries``
+-------------------------------------
+
+*From GEOIPS#647: 2024-06-19, Automating ``create_plugin_registries``*
+
+The command 'create_plugin_registries' has greatly improved the time it takes to
+operate GeoIPS under the hood. This is because all plugins are no longer loaded into
+memory, as we can now traverse a plugin registry to load the exact plugins we need
+to, when we need them. Unfortuneately, this requires the user to run
+'create_plugin_registries' anytime a new plugin has been added to one or more plugin
+packages. We've been thinking for a long time of how to automate this process, and
+this update does just that.
+
+'create_plugin_registries' can now either be ran manually, or will attempt to be
+done automatically by GeoIPS when a plugin is requested. It will be done
+automatically if a user calls 'get_plugin' using the 'rebuild_registries=True'
+keyword argument. If a user has no registries in any of their plugin packages, then
+this is ran the first time get_plugin is called when certain attributes of the
+associated interface are being initialized.
+
+If the registries already exist, but a plugin is missing or seemingly out of sync,
+then 'create_plugin_registries' will be ran, and get_plugin will be called again. If
+the failure persists, then it is likely a problem on the user's end that they need
+to fix before running GeoIPS. Now, users no longer have to run
+'create_plugin_registries', unless they choose to do so manually.
+
+::
+
+     added: tests/unit_tests/plugins/test_get_plugin.py
+     modified: docs/source/concepts/functionality/plugin-registries.rst
+     modified: geoips/commandline/args.py
+     modified: geoips/commandline/geoips_run.py
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/interfaces/module_based/output_checkers.py
+     modified: geoips/interfaces/yaml_based/products.py
+
+Enhancement
+===========
+
+Update plugins to support better plotting configurability
+---------------------------------------------------------
+
+*From GEOIPS#259: 2023-08-11, Update product/product_default schemas to allow for greater plotting configurability*
+*From GEOIPS#147: 2023-04-05, Add support for label positioning*
+
+This enhancement updates feature / gridline -annotator yaml plugins and imagery-based
+module plugins to enhance the plotting configurability we can control as users within
+GeoIPS. It adds quite a few new attributes which we can use to control our plotting
+output. This includes:
+
+- Background color for data over the map-portion of the image (feature_annotator)
+- Background color for the frame-portion of the image (gridline_annotator)
+- x label offset (gridline_annotator)
+- y label offset (gridline_annotator)
+- font family for labels (gridline_annotator)
+- font style for labels ('italic', 'bold', etc.) (gridline_annotator)
+- font weight for labels (a numeric value in range 0-1000, 'ultralight', 'light',
+  'normal', 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi',
+  'bold', 'heavy', 'extra bold', 'black') (gridline_annotator)
+- font size for labels (float or one of: 'xx-small', 'x-small', 'small', 'medium', 'large',
+  'x-large', 'xx-large'. Defaults to matplotlib.pyplot.rcParams['font.size'])
+  (gridline_annotator)
+
+To change the background of a frame, all you need to do is add a
+``background: <mpl_color_name>`` property within your gridline_annotator plugin. To
+modify the background color of the mapped portion of the image, you'll add the same
+section to your feature_annotator.
+
+To change the offset of the labels for applicable imagery outputs, all you need to do is
+add an ``xpadding: <pixel_offset_int>`` and/or a ``ypadding: <pixel_offset_int>`` to the
+``labels`` portion of your gridline annotator. Using this information, we will adjust
+the offset of your tick labels to the desired position.
+
+To modify the font-based aspects of labels, you can do any of the following:
+
+- ``fontfamily: <font_name>``
+- ``fontstyle: <style_name>``
+- ``fontweight: <int_or_weight_name>``
+- ``fontsize: <float_or_size_name>``
+
+For examples of these new features, look at ``feature_annotator: default_oldlace`` and
+``gridline_annotator: default_palegreen``.
+
+::
+
+     added: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
+     added: geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
+     added:
+     tests/outputs/abi.static.Infrared.imagery_annotated_enhanced/20200918.195020.goes-16.abi.Infrared.goes_east.45p56.noaa.10p0.png
+     added: tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh
+     modified: geoips/image_utils/maps.py
+     modified: geoips/image_utils/mpl_utils.py
+     modified: geoips/plugins/modules/output_formatters/full_disk_image.py
+     modified: geoips/plugins/modules/output_formatters/imagery_annotated.py
+     modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+     modified: geoips/schema/feature_annotators/cartopy.yaml
+     modified: geoips/schema/gridline_annotators/cartopy.yaml
+
+Enhancement
+===========
+
+Get plugin metadata
+-------------------
+
+Added a new method to all interfaces which retrieves the top level metadata for any
+given plugin. It does not actually load in the plugin, rather it makes use of the
+registry to gather the plugin's associated metadata.
+
+This is useful for quick validation of the base information supplied by plugins, and
+may also be used by the order based procflow.
+
+::
+
+     modified: geoips/interfaces/base.py
+     modified: geoips/interfaces/yaml_based/products.py
+     added: tests/unit_tests/plugins/test_get_plugin_metadata.py
+
+Enhancement
+===========
+
+Tar files are now filtered
+--------------------------
+
+Tar files are now filtered to make sure they are extracted into the target directory and are not doing any insecure
+absolute path extractions.
+
+::
+
+     modified: setup/download_test_data.py
+
+Enhancement
+===========
+
+Add default geoips_outdirs so pip installs of geoips do not immediately crash.
+------------------------------------------------------------------------------
+
+Set GEOIPS_OUTDIRS to $HOME/GEOIPS_OUTDIRS and added warning when using the default.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+
+Enhancement
+===========
+
+Fci reader geocolor update
+--------------------------
+
+The fci_netcdf reader originally could not read in raw radiances from incoming data
+files. It only could read reflectances and/or brightness temperatures. This update
+refactors the fci_netcdf reader so that it can read raw radiance values as well.
+
+This update is useful for the FCI GeoColor product, which needs radiances and
+brightness temperatures to accurately produce a GeoColor outputs. This might be of
+use to other algorithms / products as well.
+
+::
+
+     added: geoips/plugins/modules/readers/fci_netcdf.py
+
+Enhancement
+===========
+
+Migrate integration tests to pytest
+-----------------------------------
+
+This migrates the tests from shell scripts to pytest scripts. It also adds related documentation and deprecates existing
+geoips shell scripts.
+
+::
+
+     added: docs/source/releases/latest/integrate-test-all-into-pytest-tests.yaml
+     modified: docs/dev/integration_tests.rst
+     modified: pytest.ini
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/test_all.sh
+
+Release process
+===============
+
+Add 1.15.0 release note
+-----------------------
+
+Currently tagged internal version 1.14.5.
+
+::
+
+     added: docs/source/releases/latest/1.15.0-internal-release.yaml
+
+Release process
+===============
+
+Update internal and github.com 'upcoming_version' and 'tagged_version'
+----------------------------------------------------------------------
+
+Updated 'update_this_release_note' file in geoips repo for the
+next internal version-
+1.15.1
+next github.com version-
+1.15.3
+
+::
+
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version
+
+Performance
+===========
+
+New product family unsectored_xarray_dict_to_algorithm_to_output_format
+-----------------------------------------------------------------------
+
+Added support for a new a new product/product_defaults family called
+unsectored_xarray_dict_to_algorithm_to_output_format. Additionally, modified output
+formatter plugin 'unprojected_image' for 3D data. If 3D data is specified, then this
+output formatter will produce a series of 2D slices for each level of the 3D data.
+
+While family 'unsectored_xarray_dict_to_algorithm_to_output_format' was referenced
+in single_source.py, there was no actual schema that supported this family.
+Therefore, we've created that new schema, and updated parts of single_source to
+support using the 'unprojected_image' output formatter for this new family. All in
+all, by making use of these changes, we can avoid using the procflow arguments
+'self_register_dataset' and 'self_register_source', which would reproject geospatial
+datasets onto themselves. This was inefficent, and depending on the size of the
+dataset, could add close to another minute of processing to your workflow.
+
+::
+
+     added: geoips/schema/product_defaults/unsectored_xarray_dict_to_algorithm_to_output_format.yaml
+     added:
+     tests/outputs/seviri.WV-Upper.no_self_register.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper-No-SR.unk.nesdisstar..png
+     added: tests/scripts/seviri.WV-Upper.no_self_register.unprojected_image.sh
+     modified: geoips/commandline/ancillary_info/test_data.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: geoips/plugins/yaml/products/seviri.yaml
+     modified: setup/check_system_requirements.sh
+     modified: setup/test-data-urls.yaml
+     modified: tests/integration_tests/full_install.sh
+     modified: tests/integration_tests/full_test.sh
+
+Testing
+=======
+
+Integrate test all into pytest tests
+------------------------------------
+
+Integration tests for the "full" and "base" suites were integrated into a pytest caller previously. This adapts the
+test_all.sh file into a similar format to enable testing via pytest instead of shell scripts. Adds "extra" as a pytest
+mark for the added set of tests.
+
+::
+
+     deleted: tests/test_all.sh
+     deleted: tests/utils/test_all_post.sh
+     deleted: tests/utils/test_all_pre.sh
+     deleted: tests/utils/test_all_run.sh
+     modified: pytest.ini
+     modified: tests/integration_tests/test_integration.py

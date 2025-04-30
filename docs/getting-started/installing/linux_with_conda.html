@@ -1,0 +1,733 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Conda-based Installation for Linux &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/installing/linux_with_conda';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Conda-based Installation for Mac" href="mac_with_conda.html" />
+    <link rel="prev" title="Installing GeoIPS" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../what-is-geoips/index.html">What is GeoIPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system-requirements.html">System Requirements</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installing GeoIPS</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Conda-based Installation for Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="mac_with_conda.html">Conda-based Installation for Mac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="windows_with_conda.html">Linux-based Installation for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="expert.html">Expert User Installation (with administrative privileges)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../best-practices/research-and-ops.html">GeoIPS Generalized Best Practices</a></li>
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting Started</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Installing GeoIPS</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Conda-based Installation for Linux</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="conda-based-installation-for-linux">
+<span id="linux-installation"></span><h1>Conda-based Installation for Linux<a class="headerlink" href="#conda-based-installation-for-linux" title="Permalink to this heading">#</a></h1>
+<p>Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
+get geoips up and running.</p>
+<section id="complete-local-conda-based-geoips-installation">
+<h2>Complete Local conda-based GeoIPS Installation<a class="headerlink" href="#complete-local-conda-based-geoips-installation" title="Permalink to this heading">#</a></h2>
+<p>The following instructions will guide you through installing GeoIPS using
+Anaconda Python. This installation method allows users to install GeoIPS without
+requiring administrative privileges by using Conda to install all of the
+“Required” system dependencies, then installing geoips into
+that conda environment.</p>
+<section id="set-geoips-environment-variables">
+<h3>1. Set GeoIPS Environment Variables<a class="headerlink" href="#set-geoips-environment-variables" title="Permalink to this heading">#</a></h3>
+<p>In order to support GeoIPS’ testing infrastructure, there are a few required
+environment variables.
+You can change your installation location by changing the value of
+<code class="docutils literal notranslate"><span class="pre">$GEOIPS_PACKAGES_DIR</span></code> below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># GeoIPS Default Locations</span>
+<span class="c1"># Point to base URL for git clone commands</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_REPO_URL</span><span class="o">=</span>https://github.com/NRLMMD-GeoIPS
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/test_data
+<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/outdirs
+<span class="c1"># Clone the GeoIPS git repository, for installation and testing setup</span>
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>
+git<span class="w"> </span>clone<span class="w"> </span><span class="si">${</span><span class="nv">GEOIPS_REPO_URL</span><span class="si">}</span>/geoips.git<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
+</pre></div>
+</div>
+<p>If desired, the GeoIPS environment variables can be added to your
+<code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> by running the following commands:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_REPO_URL=</span><span class="nv">$GEOIPS_REPO_URL</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_PACKAGES_DIR=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_TESTDATA_DIR=</span><span class="nv">$GEOIPS_TESTDATA_DIR</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_OUTDIRS=</span><span class="nv">$GEOIPS_OUTDIRS</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
+</pre></div>
+</div>
+</section>
+<section id="install-anaconda-or-miniconda">
+<h3>2. Install Anaconda or Miniconda<a class="headerlink" href="#install-anaconda-or-miniconda" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p>Download the appropriate version of <a class="reference external" href="https://www.anaconda.com/download#downloads">Conda</a>,  <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>, or
+<a class="reference external" href="https://github.com/conda-forge/miniforge#download">Miniforge/Mambaforge</a>.</p>
+<p>For example, for Linux with Intel chips, one of the following:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># wget https://repo.anaconda.com/archive/Anaconda3-2023.03-1-Linux-x86_64.sh</span>
+<span class="c1"># wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh</span>
+wget<span class="w"> </span>https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
+</pre></div>
+</div>
+</li>
+<li><p>Make the install script executable and run the installer,
+following the prompts (particularly the bit about
+conda init / restarting terminal!):</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>u+x<span class="w"> </span>./Miniforge3-Linux-x86_64.sh
+<span class="c1"># After installing, follow instructions regarding conda init / restarting your terminal !</span>
+<span class="c1"># Make sure you set env vars again if you restart your terminal !</span>
+./Miniforge3-Linux-x86_64.sh
+</pre></div>
+</div>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean up after yourself</span>
+rm<span class="w"> </span>-f<span class="w"> </span>./Miniforge3-Linux-x86_64.sh
+</pre></div>
+</div>
+</li>
+</ul>
+</section>
+<section id="create-and-activate-a-conda-environment-with-some-dependencies">
+<h3>3. Create and activate a conda environment with some dependencies<a class="headerlink" href="#create-and-activate-a-conda-environment-with-some-dependencies" title="Permalink to this heading">#</a></h3>
+<p>Next we’ll create a conda environment named <code class="docutils literal notranslate"><span class="pre">geoips</span></code> that contains all system
+requirements for GeoIPS. Many of these may already be installed on your system,
+but this command will ensure that for everyone.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Note geos no longer required for cartopy &gt;= 0.22</span>
+<span class="c1"># openblas / gcc required for recenter_tc / akima build.</span>
+<span class="c1"># git required for -C commands</span>
+mamba<span class="w"> </span>create<span class="w"> </span>-y<span class="w"> </span>-n<span class="w"> </span>geoips<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.10<span class="w"> </span>gcc<span class="w"> </span>gxx<span class="w"> </span>openblas<span class="w"> </span>git
+conda<span class="w"> </span>activate<span class="w"> </span>geoips<span class="w">  </span><span class="c1"># RUN EVERY TIME YOU WANT TO USE GEOIPS!</span>
+</pre></div>
+</div>
+<p><strong>Note:</strong> You will need to run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">geoips</span></code>
+every time you want to run or work on GeoIPS.</p>
+</section>
+<section id="install-the-geoips-git-repository">
+<h3>4. Install the GeoIPS git repository<a class="headerlink" href="#install-the-geoips-git-repository" title="Permalink to this heading">#</a></h3>
+<p>This command installs all GeoIPS Python dependencies, and GeoIPS itself.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure geoips python environment enabled before installing geoips</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips[doc,lint,test,debug]&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="test-your-installation">
+<h3>5. Test your installation<a class="headerlink" href="#test-your-installation" title="Permalink to this heading">#</a></h3>
+<p>To test your installation you will need to download test data,
+and run integration tests:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">base_install.sh</span></code> will clone repositories containing test data.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_plugin_registries</span></code> will identify and register all available plugins
+from all geoips plugin packages, for run-time execution.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">test_installation.py</span></code> will run a few integration tests to ensure that your
+installation is working correctly. For more information on running test_installation.py
+please see <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/blob/942ef8e7d66a163fa7feba9e1f17a95d3ba83b63/docs/dev/integration_tests.rst#L114">NRLMMD-GEOIPS/geoips</a></p></li>
+</ul>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure geoips python environment enabled</span>
+
+<span class="c1"># Install base GeoIPS package and minimal test datasets.</span>
+<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_install.sh
+
+<span class="c1"># Run integration tests</span>
+pytest<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;integration and base&quot;</span><span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
+</pre></div>
+</div>
+</section>
+<section id="test-output">
+<h3>6. Test output<a class="headerlink" href="#test-output" title="Permalink to this heading">#</a></h3>
+<ul>
+<li><p><strong>Successful Run</strong>:
+If all tests pass, <cite>pytest</cite> will report a summary at the end indicating
+success (e.g, <cite>== 53 passed in 30.00m ==</cite>).</p></li>
+<li><p><strong>Failures</strong>:
+If any script fails, <cite>pytest</cite> will display a traceback and the relevant
+command output. Since these scripts are run via bash, a <cite>CalledProcessError</cite>
+may be raised if the shell command returns a non-zero exit code. In such
+cases, review the error output to determine what went wrong, fix the
+underlying issue (or ask for help), and rerun the tests.</p></li>
+<li><p><strong>Debugging Failed Tests</strong>:
+Consider running the failed script directly in a terminal to isolate the
+problem. For example, if a test script
+<cite>“$geoips_repopath/tests/scripts/abi.config_based_output.sh”</cite> fails, try
+running it separately:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">cd</span><span class="w"> </span><span class="nv">$geoips_repopath</span>
+bash<span class="w"> </span>tests/scripts/abi.config_based_output.sh
+</pre></div>
+</div>
+<p>This can help you identify environment issues, missing dependencies, or
+other runtime problems.</p>
+</li>
+</ul>
+</section>
+<section id="optional-capture-working-requirements-txt-for-base-install">
+<h3>7. OPTIONAL: Capture working requirements.txt for base install<a class="headerlink" href="#optional-capture-working-requirements-txt-for-base-install" title="Permalink to this heading">#</a></h3>
+<p>OPTIONAL: These can be commited to the repository for reference - only commit if
+base_test.sh returns 0!  Not required.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$NEW_GEOIPS_VERSION</span><span class="s2">&quot;</span><span class="w"> </span>!<span class="o">=</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">GEOIPS_VERSION</span><span class="o">=</span><span class="nv">$NEW_GEOIPS_VERSION</span>
+<span class="k">fi</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_VERSION</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">GEOIPS_VERSION</span><span class="o">=</span><span class="sb">`</span>python<span class="w"> </span>-c<span class="w"> </span><span class="s2">&quot;import geoips; print(geoips.__version__)&quot;</span><span class="sb">`</span>
+<span class="k">fi</span>
+
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/environments
+
+<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/setup/check_system_requirements.sh<span class="w"> </span>dump_pip_environment<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/environments/pip_base_requirements_<span class="si">${</span><span class="nv">GEOIPS_VERSION</span><span class="si">}</span>_<span class="sb">`</span>date<span class="w"> </span>-u<span class="w"> </span>+%Y%m%d<span class="sb">`</span>.txt
+
+<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/setup/check_system_requirements.sh<span class="w"> </span>dump_mamba_environment<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/environments/mamba_base_package_list_<span class="si">${</span><span class="nv">GEOIPS_VERSION</span><span class="si">}</span>_<span class="sb">`</span>date<span class="w"> </span>-u<span class="w"> </span>+%Y%m%d<span class="sb">`</span>.yml
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Installing GeoIPS</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="mac_with_conda.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Conda-based Installation for Mac</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-local-conda-based-geoips-installation">Complete Local conda-based GeoIPS Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-geoips-environment-variables">1. Set GeoIPS Environment Variables</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-anaconda-or-miniconda">2. Install Anaconda or Miniconda</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-and-activate-a-conda-environment-with-some-dependencies">3. Create and activate a conda environment with some dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-geoips-git-repository">4. Install the GeoIPS git repository</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-your-installation">5. Test your installation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-output">6. Test output</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-capture-working-requirements-txt-for-base-install">7. OPTIONAL: Capture working requirements.txt for base install</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/getting-started/installing/linux_with_conda.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

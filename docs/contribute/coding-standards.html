@@ -1,0 +1,1082 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>🖍️ Coding Standards Reference Doc &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/coding-standards';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GeoIPS git workflow" href="git-workflow.html" />
+    <link rel="prev" title="Contributor Covenant Code of Conduct" href="code-of-conduct.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="code-of-conduct.html">Contributor Covenant Code of Conduct</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">🖍️ Coding Standards Reference Doc</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="git-workflow.html">GeoIPS git workflow</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Contribute</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">🖍️ Coding Standards Reference Doc</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="coding-standards-reference-doc">
+<h1><a class="toc-backref" href="#id16" role="doc-backlink">🖍️ Coding Standards Reference Doc</a><a class="headerlink" href="#coding-standards-reference-doc" title="Permalink to this heading">#</a></h1>
+<p><em>“Although that way may not be obvious at first unless you’re Dutch.”</em>
+- the Zen of Python</p>
+<nav class="contents" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#coding-standards-reference-doc" id="id16">🖍️ Coding Standards Reference Doc</a></p>
+<ul>
+<li><p><a class="reference internal" href="#summary" id="id17">Summary</a></p></li>
+<li><p><a class="reference internal" href="#external-style-standards" id="id18">External Style Standards</a></p>
+<ul>
+<li><p><a class="reference internal" href="#numpy-docstrings" id="id19">Numpy Docstrings</a></p>
+<ul>
+<li><p><a class="reference internal" href="#common-mishaps" id="id20">Common mishaps:</a></p></li>
+<li><p><a class="reference internal" href="#classes" id="id21">Classes</a></p></li>
+<li><p><a class="reference internal" href="#methods" id="id22">Methods</a></p></li>
+<li><p><a class="reference internal" href="#modules" id="id23">Modules</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#pep-8" id="id24">PEP 8</a></p>
+<ul>
+<li><p><a class="reference internal" href="#function-names" id="id25">Function Names</a></p></li>
+<li><p><a class="reference internal" href="#class-names" id="id26">Class Names</a></p></li>
+<li><p><a class="reference internal" href="#exception-names" id="id27">Exception Names</a></p></li>
+<li><p><a class="reference internal" href="#module-names" id="id28">Module Names</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#imports" id="id29">Imports</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#internal-style-standards" id="id30">Internal Style Standards</a></p>
+<ul>
+<li><p><a class="reference internal" href="#bring-code-to-standard-in-a-dedicated-pr" id="id31">Bring code to standard in a dedicated PR</a></p></li>
+<li><p><a class="reference internal" href="#if-you-touch-code-it-should-meet-standards" id="id32">If you touch code, it should meet standards</a></p></li>
+<li><p><a class="reference internal" href="#imports-shouldn-t-be-buried-without-a-reason" id="id33">Imports shouldn’t be buried without a reason</a></p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#linting-formatting" id="id34">Linting/Formatting</a></p>
+<ul>
+<li><p><a class="reference internal" href="#black" id="id35">Black</a></p></li>
+<li><p><a class="reference internal" href="#flake8" id="id36">Flake8</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="summary">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Summary</a><a class="headerlink" href="#summary" title="Permalink to this heading">#</a></h2>
+<p>The goal is consistency. In style, we’re in the right even if we’re all wrong together.
+GeoIPS code is meant to be re-used by many, and we expect that the code will be read
+much more than it is written. The goal of this document is to help us spend less time
+on conventions and more time making GeoIPS better.</p>
+<p>We use - in order of supremacy - a few Internal Standards, followed by the numpy
+docstring standards and the python style guide laid out in PEP 8.</p>
+<p>bandit, flake8, and black are used to enforce appropriate style, security,
+and syntax usage.  flake8-rst and flake8-rst-docstring plugins are used to
+enforce numpy docstring formatting.  Sphinx is used to validate the
+formatting and syntax within RST files themselves.</p>
+<p>Corresponding configuration files for both black and flake8 can be found
+in the geoips directory <code class="docutils literal notranslate"><span class="pre">.config/</span></code>.</p>
+<p>All branches must pass the <code class="docutils literal notranslate"><span class="pre">geoips/tests/utils/check_code.sh</span></code> script
+prior to any Pull Requests being approved and merged.  Please ensure this
+script has a successful 0 return as you develop code within the GeoIPS
+Ecosystem to expedite the review and approval process.</p>
+<p>This document will detail internal standard conventions and include some of the external
+standards for easy reference. For external standards, the primary source is always
+right in the case of a conflict with this document.</p>
+</section>
+<section id="external-style-standards">
+<h2><a class="toc-backref" href="#id18" role="doc-backlink">External Style Standards</a><a class="headerlink" href="#external-style-standards" title="Permalink to this heading">#</a></h2>
+<section id="numpy-docstrings">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Numpy Docstrings</a><a class="headerlink" href="#numpy-docstrings" title="Permalink to this heading">#</a></h3>
+<p>Full information here: <a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#docstring-standard">Docstring Standard</a></p>
+<section id="common-mishaps">
+<h4><a class="toc-backref" href="#id20" role="doc-backlink">Common mishaps:</a><a class="headerlink" href="#common-mishaps" title="Permalink to this heading">#</a></h4>
+<p>The first docstring line should be a “one-line summary that <strong>does not use variable
+names or the function name</strong>”</p>
+</section>
+<section id="classes">
+<h4><a class="toc-backref" href="#id21" role="doc-backlink">Classes</a><a class="headerlink" href="#classes" title="Permalink to this heading">#</a></h4>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span><span class="w"> </span><span class="nc">Calculator</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;A simple calculator class for performing basic arithmetic operations.</span>
+
+<span class="sd">    This class provides methods to add, subtract, multiply, and divide</span>
+<span class="sd">    two numeric values. It also includes a `safe_divide` method to handle</span>
+<span class="sd">    division by zero more gracefully.</span>
+
+<span class="sd">    .. deprecated:: 1.1.0</span>
+<span class="sd">      The `divide` method will be removed in version 2.0.0.</span>
+<span class="sd">      Use `safe_divide` instead, which handles division by zero.</span>
+
+<span class="sd">    Extended Summary</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    The `Calculator` class is designed for basic arithmetic operations</span>
+<span class="sd">    such as addition, subtraction, multiplication, and division. It is</span>
+<span class="sd">    useful for simple computational tasks and educational purposes.</span>
+
+<span class="sd">    The `safe_divide` method is a safer version of `divide` that returns</span>
+<span class="sd">    `inf` when dividing by zero, rather than raising an error.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    log_operations : bool, optional</span>
+<span class="sd">        If True, all operations will be logged to a file (default is False).</span>
+
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    log_operations : bool</span>
+<span class="sd">        Indicates whether operations will be logged to a file.</span>
+
+<span class="sd">    Other Parameters</span>
+<span class="sd">    ----------------</span>
+<span class="sd">    output_format : str, optional</span>
+<span class="sd">        Format for the output of arithmetic operations. It must be one of</span>
+<span class="sd">        `{&#39;decimal&#39;, &#39;fraction&#39;}`. Default is &#39;decimal&#39;.</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ZeroDivisionError</span>
+<span class="sd">        If `divide` is used with the second operand as zero.</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    numpy.add : Element-wise addition for numpy arrays.</span>
+<span class="sd">    numpy.subtract : Element-wise subtraction for numpy arrays.</span>
+<span class="sd">    numpy.multiply : Element-wise multiplication for numpy arrays.</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    This class is intended for scalar arithmetic operations. If you are</span>
+<span class="sd">    working with arrays, you should consider using `numpy` for vectorized</span>
+<span class="sd">    operations, which will be more efficient.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] Python Documentation: https://docs.python.org/3/library/operator.html</span>
+<span class="sd">    .. [2] NumPy Documentation: https://numpy.org/doc/stable/reference/routines.math.html</span>
+
+<span class="sd">    Examples</span>
+<span class="sd">    --------</span>
+<span class="sd">    Create a `Calculator` object and perform arithmetic operations:</span>
+
+<span class="sd">    &gt;&gt;&gt; calc = Calculator()</span>
+<span class="sd">    &gt;&gt;&gt; calc.add(10, 5)</span>
+<span class="sd">    15</span>
+<span class="sd">    &gt;&gt;&gt; calc.subtract(10, 5)</span>
+<span class="sd">    5</span>
+<span class="sd">    &gt;&gt;&gt; calc.multiply(10, 5)</span>
+<span class="sd">    50</span>
+<span class="sd">    &gt;&gt;&gt; calc.divide(10, 5)</span>
+<span class="sd">    2.0</span>
+<span class="sd">    &gt;&gt;&gt; calc.safe_divide(10, 0)</span>
+<span class="sd">    inf</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><p>Sections:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#short-summary">Short summary</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#deprecation-warning">Deprecation warning (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary">Extended Summary</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#parameters">Parameters (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#other-parameters">Other Parameters (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#raises">Raises (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#see-also">See Also (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#notes">Notes (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#references">References (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#examples">Examples</a></p></li>
+</ol>
+</section>
+<section id="methods">
+<h4><a class="toc-backref" href="#id22" role="doc-backlink">Methods</a><a class="headerlink" href="#methods" title="Permalink to this heading">#</a></h4>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">matrix_multiply</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">  </span><span class="sd">&quot;&quot;&quot;Multiply two matrices.</span>
+
+<span class="sd">  Computes the matrix product of two arrays `a` and `b`. If an output array</span>
+<span class="sd">  is provided, the result is stored in `out`. This function follows the</span>
+<span class="sd">  standard rules for matrix multiplication in linear algebra.</span>
+
+<span class="sd">  .. deprecated:: 1.5.0</span>
+<span class="sd">    This function will be removed in NumPy 2.0.0.</span>
+<span class="sd">    Use `numpy.matmul` or `numpy.dot` instead.</span>
+
+<span class="sd">  Parameters</span>
+<span class="sd">  ----------</span>
+<span class="sd">  a : array_like</span>
+<span class="sd">      The first matrix to be multiplied.</span>
+<span class="sd">  b : array_like</span>
+<span class="sd">      The second matrix to be multiplied.</span>
+<span class="sd">  out : ndarray, optional</span>
+<span class="sd">      If provided, the result will be stored in this array. It must have</span>
+<span class="sd">      the correct shape to store the result.</span>
+
+<span class="sd">  Other Parameters</span>
+<span class="sd">  ----------------</span>
+<span class="sd">  dtype : data-type, optional</span>
+<span class="sd">      If specified, forces the operation to cast the inputs to the given</span>
+<span class="sd">      type before performing the operation.</span>
+
+<span class="sd">  Returns</span>
+<span class="sd">  -------</span>
+<span class="sd">  output : ndarray</span>
+<span class="sd">      The matrix product of `a` and `b`. If `out` is provided, this array</span>
+<span class="sd">      is returned.</span>
+
+<span class="sd">  Raises</span>
+<span class="sd">  ------</span>
+<span class="sd">  ValueError</span>
+<span class="sd">      If the shapes of `a` and `b` are not aligned for matrix multiplication.</span>
+
+<span class="sd">  See Also</span>
+<span class="sd">  --------</span>
+<span class="sd">  numpy.matmul : Matrix product of two arrays.</span>
+<span class="sd">  numpy.dot : Dot product of two arrays.</span>
+<span class="sd">  numpy.einsum : Einstein summation convention.</span>
+
+<span class="sd">  Notes</span>
+<span class="sd">  -----</span>
+<span class="sd">  This function implements the matrix product as described in linear algebra.</span>
+<span class="sd">  It is different from element-wise multiplication of arrays.</span>
+
+<span class="sd">  If either of the inputs is a scalar, it will be broadcast according to</span>
+<span class="sd">  standard broadcasting rules.</span>
+
+<span class="sd">  References</span>
+<span class="sd">  ----------</span>
+<span class="sd">  .. [1] Strang, G., &quot;Introduction to Linear Algebra, 5th Edition,&quot; Wellesley-Cambridge Press, 2016.</span>
+
+<span class="sd">  Examples</span>
+<span class="sd">  --------</span>
+<span class="sd">  Multiply two 2x2 matrices:</span>
+
+<span class="sd">  &gt;&gt;&gt; import numpy as np</span>
+<span class="sd">  &gt;&gt;&gt; a = np.array([[1, 2], [3, 4]])</span>
+<span class="sd">  &gt;&gt;&gt; b = np.array([[5, 6], [7, 8]])</span>
+<span class="sd">  &gt;&gt;&gt; matrix_multiply(a, b)</span>
+<span class="sd">  array([[19, 22],</span>
+<span class="sd">        [43, 50]])</span>
+
+<span class="sd">  Store result in a pre-allocated output array:</span>
+
+<span class="sd">  &gt;&gt;&gt; out = np.empty((2, 2))</span>
+<span class="sd">  &gt;&gt;&gt; matrix_multiply(a, b, out=out)</span>
+<span class="sd">  array([[19, 22],</span>
+<span class="sd">        [43, 50]])</span>
+<span class="sd">  &gt;&gt;&gt; out</span>
+<span class="sd">  array([[19., 22.],</span>
+<span class="sd">        [43., 50.]])</span>
+
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+  <span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+
+  <span class="k">if</span> <span class="n">out</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+      <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">out</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">out</span>
+</pre></div>
+</div>
+</div>
+</details><p>Sections:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#short-summary">Short summary</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#deprecation-warning">Deprecation warning (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary">Extended Summary</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#parameters">Parameters (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#other-parameters">Other Parameters (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#raises">Raises (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#see-also">See Also (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#notes">Notes (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#references">References (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#examples">Examples</a></p></li>
+</ol>
+<p>More sections necessary for generators/etc. please see the original numpy standards 😄</p>
+</section>
+<section id="modules">
+<h4><a class="toc-backref" href="#id23" role="doc-backlink">Modules</a><a class="headerlink" href="#modules" title="Permalink to this heading">#</a></h4>
+<details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Example</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;A simple mathematics module for common operations.</span>
+
+<span class="sd">This module provides basic mathematical operations such as addition, subtraction,</span>
+<span class="sd">multiplication, and division. It is designed to serve as a utility for quick calculations</span>
+<span class="sd">without external dependencies.</span>
+
+<span class="sd">Extended Summary</span>
+<span class="sd">----------------</span>
+<span class="sd">The `mymathlib` module is created for educational purposes and provides a minimalistic</span>
+<span class="sd">implementation of basic arithmetic operations. Each function performs a specific mathematical</span>
+<span class="sd">task and can handle a wide range of input types, including integers and floats. This module</span>
+<span class="sd">is intentionally simple to demonstrate NumPy-style documentation and function listings.</span>
+
+<span class="sd">Routine Listings</span>
+<span class="sd">----------------</span>
+<span class="sd">add(a, b)</span>
+<span class="sd">    Return the sum of `a` and `b`.</span>
+
+<span class="sd">subtract(a, b)</span>
+<span class="sd">    Return the result of `a` minus `b`.</span>
+
+<span class="sd">multiply(a, b)</span>
+<span class="sd">    Return the product of `a` and `b`.</span>
+
+<span class="sd">divide(a, b)</span>
+<span class="sd">    Return the result of `a` divided by `b`.</span>
+
+<span class="sd">See Also</span>
+<span class="sd">--------</span>
+<span class="sd">numpy.add : Adds two arrays element-wise.</span>
+<span class="sd">numpy.subtract : Subtracts one array from another element-wise.</span>
+<span class="sd">numpy.multiply : Multiplies two arrays element-wise.</span>
+<span class="sd">numpy.divide : Divides two arrays element-wise.</span>
+
+<span class="sd">Notes</span>
+<span class="sd">-----</span>
+<span class="sd">This module does not handle complex numbers or provide error handling for division</span>
+<span class="sd">by zero. It assumes valid inputs (integers or floats) for all functions.</span>
+
+<span class="sd">References</span>
+<span class="sd">----------</span>
+<span class="sd">.. [1] NumPy documentation, https://numpy.org/doc/stable/reference/routines.math.html</span>
+<span class="sd">.. [2] Python official documentation, https://docs.python.org/3/library/math.html</span>
+
+<span class="sd">Examples</span>
+<span class="sd">--------</span>
+<span class="sd">&gt;&gt;&gt; from mymathlib import add, subtract, multiply, divide</span>
+<span class="sd">&gt;&gt;&gt; add(2, 3)</span>
+<span class="sd">5</span>
+<span class="sd">&gt;&gt;&gt; subtract(10, 5)</span>
+<span class="sd">5</span>
+<span class="sd">&gt;&gt;&gt; multiply(4, 3)</span>
+<span class="sd">12</span>
+<span class="sd">&gt;&gt;&gt; divide(9, 3)</span>
+<span class="sd">3.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+</pre></div>
+</div>
+</div>
+</details><p>Sections:</p>
+<ol class="arabic simple">
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#short-summary">Short summary</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#extended-summary">Extended summary (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#routine-listings">Routine listings (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#see-also">See also (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#notes">Notes (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#references">References (optional)</a></p></li>
+<li><p><a class="reference external" href="https://numpydoc.readthedocs.io/en/latest/format.html#examples">Examples</a></p></li>
+</ol>
+</section>
+</section>
+<section id="pep-8">
+<h3><a class="reference external" href="https://peps.python.org/pep-0008/">PEP 8</a><a class="headerlink" href="#pep-8" title="Permalink to this heading">#</a></h3>
+<p>A nice version of PEP8 can be found at: <cite>PEP8.org &lt;https://pep8.org/&gt;</cite></p>
+<p>Some highlights below for reference.</p>
+<section id="function-names">
+<h4><a class="toc-backref" href="#id25" role="doc-backlink">Function Names</a><a class="headerlink" href="#function-names" title="Permalink to this heading">#</a></h4>
+<p>Function names should be lowercase, with words separated by
+underscores as necessary to improve readability.</p>
+<p><a class="reference external" href="https://pep8.org/#naming-conventions">PEP8 Names Standards</a></p>
+</section>
+<section id="class-names">
+<h4><a class="toc-backref" href="#id26" role="doc-backlink">Class Names</a><a class="headerlink" href="#class-names" title="Permalink to this heading">#</a></h4>
+<p>Class names should normally use the CapWords convention.</p>
+<p><a class="reference external" href="https://pep8.org/#naming-conventions">PEP8 Names Standards</a></p>
+</section>
+<section id="exception-names">
+<h4><a class="toc-backref" href="#id27" role="doc-backlink">Exception Names</a><a class="headerlink" href="#exception-names" title="Permalink to this heading">#</a></h4>
+<p>Because exceptions should be classes, the class naming convention applies here.
+However, you should use the suffix “Error” on your exception names
+(if the exception actually is an error).</p>
+<p><a class="reference external" href="https://pep8.org/#naming-conventions">PEP8 Names Standards</a></p>
+</section>
+<section id="module-names">
+<h4><a class="toc-backref" href="#id28" role="doc-backlink">Module Names</a><a class="headerlink" href="#module-names" title="Permalink to this heading">#</a></h4>
+<p>Modules should have <strong>short</strong>, <strong>all-lowercase names</strong>.
+Underscores can be used in the module name if it improves readability.
+<a class="reference external" href="https://pep8.org/#naming-conventions">PEP8 Names Standards</a></p>
+</section>
+</section>
+<section id="imports">
+<h3><a class="toc-backref" href="#id29" role="doc-backlink">Imports</a><a class="headerlink" href="#imports" title="Permalink to this heading">#</a></h3>
+<p>Imports should usually be on separate lines, e.g.:</p>
+<p>Yes:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+</pre></div>
+</div>
+<p>No:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span><span class="o">,</span><span class="w"> </span><span class="nn">sys</span>
+</pre></div>
+</div>
+<p>It’s okay to say this though:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">subprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">Popen</span><span class="p">,</span> <span class="n">PIPE</span>
+</pre></div>
+</div>
+<p>Imports are always put at the top of the file, just after any module comments and
+docstrings, and before module globals and constants.</p>
+<p><a class="reference external" href="https://pep8.org/#imports">PEP8 Imports Standards</a></p>
+</section>
+</section>
+<section id="internal-style-standards">
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">Internal Style Standards</a><a class="headerlink" href="#internal-style-standards" title="Permalink to this heading">#</a></h2>
+<section id="bring-code-to-standard-in-a-dedicated-pr">
+<h3><a class="toc-backref" href="#id31" role="doc-backlink">Bring code to standard in a dedicated PR</a><a class="headerlink" href="#bring-code-to-standard-in-a-dedicated-pr" title="Permalink to this heading">#</a></h3>
+<p>We want to separate formatting/standardizing and functional changes to the code so
+reviewing code is less painful. Please, if you’re improving the functionality of code
+and need to bring it to standard:</p>
+<ol class="arabic simple">
+<li><p>Make a new branch (branch1)</p></li>
+<li><p>Bring the code to standard</p></li>
+<li><p>Open a PR and make a new branch from branch1 (branch2)</p></li>
+<li><p>Make improvements to the functionality of the code on branch 2</p></li>
+<li><p>Open a second PR for branch 2</p></li>
+</ol>
+<p>If easier, you can make the improvement before bringing the code to standard.</p>
+</section>
+<section id="if-you-touch-code-it-should-meet-standards">
+<h3><a class="toc-backref" href="#id32" role="doc-backlink">If you touch code, it should meet standards</a><a class="headerlink" href="#if-you-touch-code-it-should-meet-standards" title="Permalink to this heading">#</a></h3>
+<p>We strongly recommend you update any functions you work on
+if they do not meet the standard. At CIRA, this is a requirement for
+PRs to be merged. For others, it’s just a strong recommendation -
+however, we don’t want the burden of updating code to prevent you from contributing.
+Please don’t spend hours updating a 100,000 line module because you fixed a typo.
+use discretion on when updates are needed.</p>
+<p>A good rule of thumb is that if you edit something and it doesn’t have a docstring,
+add it. If you edit more than 20% of a function/class/module, please edit the rest.</p>
+</section>
+<section id="imports-shouldn-t-be-buried-without-a-reason">
+<h3><a class="toc-backref" href="#id33" role="doc-backlink">Imports shouldn’t be buried without a reason</a><a class="headerlink" href="#imports-shouldn-t-be-buried-without-a-reason" title="Permalink to this heading">#</a></h3>
+<p>If an import needs to be buried for efficiency reasons or namespace conflicts,
+this should be documented in the docstrings.</p>
+</section>
+</section>
+</section>
+<section id="linting-formatting">
+<h1><a class="toc-backref" href="#id34" role="doc-backlink">Linting/Formatting</a><a class="headerlink" href="#linting-formatting" title="Permalink to this heading">#</a></h1>
+<p>The GeoIPS project makes use of several linting tools to help maintain code quality. The
+full suite of linters can be installed by installing the “test” dependencies via pip.
+For example, if you installed GeoIPS using <cite>pip install .</cite> the linters can be installed
+using <cite>pip install .[test]</cite> the following tools to ensure code quality:</p>
+<section id="black">
+<h2><a class="toc-backref" href="#id35" role="doc-backlink">Black</a><a class="headerlink" href="#black" title="Permalink to this heading">#</a></h2>
+<p>We use the <a class="reference external" href="https://github.com/psf/black">Black formatter</a> with its default
+settings. As stated in the Black documentation, it is an uncompromising code
+formatter, but it has resulted in significantly more readable code. Applying it
+automatically while writing code has also reduced development time since
+developers don’t need to think about formatting.</p>
+</section>
+<section id="flake8">
+<h2><a class="toc-backref" href="#id36" role="doc-backlink">Flake8</a><a class="headerlink" href="#flake8" title="Permalink to this heading">#</a></h2>
+<p>We use the <a class="reference external" href="https://flake8.pycqa.org/en/latest/">Flake8 linter</a> to enforce
+PEP8 code standards. We also add several plugins to Flake8 to enforce additional
+standards for GeoIPS code. Plugins used include:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/pycqa/flake8-docstrings">flake8-docstrings</a> is used to enforce
+the numpy docstring standard.</p></li>
+<li><p><a class="reference external" href="https://github.com/peterjc/flake8-rst-docstrings">flake8-rst-docstrings</a> is
+used to ensure that docstrings are valid reStructuredText.</p></li>
+<li><p><cite>flake8-rst &lt;https://github.com/flake8-docs/flake8-rst&gt;</cite> runs flake8 on code
+snippets in reStructuredText files to ensure proper formatting in
+documentation.</p></li>
+</ul>
+<p>We modify the default behavior of flake8 slightly to make it work well with Black,
+ignore specific errors, and configure plugins. GeoIPS specific settings for
+flake8 include the following:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">flake8</span><span class="p">]</span>
+<span class="nb">max</span><span class="o">-</span><span class="n">line</span><span class="o">-</span><span class="n">length</span><span class="o">=</span><span class="mi">88</span>
+<span class="n">count</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">ignore</span><span class="o">=</span><span class="n">E203</span><span class="p">,</span><span class="n">W503</span><span class="p">,</span><span class="n">E712</span>
+<span class="n">extend</span><span class="o">-</span><span class="n">exclude</span><span class="o">=</span><span class="n">_version</span><span class="o">.</span><span class="n">py</span><span class="p">,</span><span class="n">lib</span><span class="p">,</span><span class="o">*</span><span class="n">_docs</span><span class="p">,</span><span class="n">geoips_dev_utils</span>
+<span class="n">docstring</span><span class="o">-</span><span class="n">convention</span><span class="o">=</span><span class="n">numpy</span>
+<span class="n">rst</span><span class="o">-</span><span class="n">roles</span><span class="o">=</span><span class="n">class</span><span class="p">,</span><span class="n">func</span><span class="p">,</span><span class="n">ref</span>
+<span class="n">rst</span><span class="o">-</span><span class="n">directives</span><span class="o">=</span><span class="n">envvar</span><span class="p">,</span><span class="n">exception</span>
+<span class="n">rst</span><span class="o">-</span><span class="n">substitutions</span><span class="o">=</span><span class="n">version</span>
+<span class="n">statistics</span><span class="o">=</span><span class="kc">True</span>
+<span class="n">per</span><span class="o">-</span><span class="n">file</span><span class="o">-</span><span class="n">ignores</span> <span class="o">=</span>
+  <span class="o">/*/</span><span class="n">interfaces</span><span class="o">/</span><span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="n">F401</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="code-of-conduct.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Contributor Covenant Code of Conduct</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="git-workflow.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">GeoIPS git workflow</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">🖍️ Coding Standards Reference Doc</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#summary">Summary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#external-style-standards">External Style Standards</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-docstrings">Numpy Docstrings</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#common-mishaps">Common mishaps:</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#classes">Classes</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#methods">Methods</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#modules">Modules</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#pep-8">PEP 8</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#function-names">Function Names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#class-names">Class Names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#exception-names">Exception Names</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#module-names">Module Names</a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imports">Imports</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-style-standards">Internal Style Standards</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bring-code-to-standard-in-a-dedicated-pr">Bring code to standard in a dedicated PR</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#if-you-touch-code-it-should-meet-standards">If you touch code, it should meet standards</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imports-shouldn-t-be-buried-without-a-reason">Imports shouldn’t be buried without a reason</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#linting-formatting">Linting/Formatting</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#black">Black</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#flake8">Flake8</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/contribute/coding-standards.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

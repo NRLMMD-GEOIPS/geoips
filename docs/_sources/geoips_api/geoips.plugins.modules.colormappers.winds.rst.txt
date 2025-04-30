@@ -4,10 +4,26 @@ geoips.plugins.modules.colormappers.winds package
 Submodules
 ----------
 
+geoips.plugins.modules.colormappers.winds.dmw\_wind\_levels module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.winds.dmw_wind_levels
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.colormappers.winds.wind\_radii\_transitions module
 -------------------------------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.colormappers.winds.wind_radii_transitions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.colormappers.winds.wind\_radii\_transitions\_legacy module
+---------------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.winds.wind_radii_transitions_legacy
    :members:
    :undoc-members:
    :show-inheritance:

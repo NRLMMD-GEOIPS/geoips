@@ -44,6 +44,14 @@ geoips.interfaces.yaml\_based.sectors module
    :undoc-members:
    :show-inheritance:
 
+geoips.interfaces.yaml\_based.workflows module
+----------------------------------------------
+
+.. automodule:: geoips.interfaces.yaml_based.workflows
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 Module contents
 ---------------
 

@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.utils &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.sector_utils.utils &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/utils';</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.sector_utils.utils</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.sector_utils.utils</span></li>
   </ul>
 </nav>
 </div>
@@ -421,30 +424,21 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.sector_utils.utils</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;Utilities for working with dynamic sector specifications.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">from</span> <span class="nn">pyresample</span> <span class="kn">import</span> <span class="n">load_area</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyresample</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_area</span>
 
-<span class="kn">from</span> <span class="nn">geoips.sector_utils.tc_tracks</span> <span class="kn">import</span> <span class="n">set_tc_area_def</span>
-<span class="kn">from</span> <span class="nn">geoips.interfaces</span> <span class="kn">import</span> <span class="n">sectors</span>
-<span class="kn">from</span> <span class="nn">geoips.errors</span> <span class="kn">import</span> <span class="n">PluginError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks</span><span class="w"> </span><span class="kn">import</span> <span class="n">set_tc_area_def</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">sectors</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginError</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -487,7 +481,7 @@ document.write(`
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="set_text_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.set_text_area_def">[docs]</a><span class="k">def</span> <span class="nf">set_text_area_def</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<div class="viewcode-block" id="set_text_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.set_text_area_def">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_text_area_def</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the area definition for text files.</span>
 
 <span class="sd">    This uses raw sectored data, not interpolated.</span>
@@ -525,7 +519,7 @@ document.write(`
     <span class="k">return</span> <span class="n">text_area_def</span></div>
 
 
-<div class="viewcode-block" id="check_center_coverage"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.check_center_coverage">[docs]</a><span class="k">def</span> <span class="nf">check_center_coverage</span><span class="p">(</span>
+<div class="viewcode-block" id="check_center_coverage"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.check_center_coverage">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_center_coverage</span><span class="p">(</span>
     <span class="n">xarray_obj</span><span class="p">,</span>
     <span class="n">area_def</span><span class="p">,</span>
     <span class="n">varlist</span><span class="p">,</span>
@@ -547,7 +541,7 @@ document.write(`
         <span class="n">area_def</span><span class="p">,</span> <span class="n">width_degrees</span><span class="o">=</span><span class="n">width_degrees</span><span class="p">,</span> <span class="n">height_degrees</span><span class="o">=</span><span class="n">height_degrees</span>
     <span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">geoips.xarray_utils.data</span> <span class="kn">import</span> <span class="n">sector_xarray_dataset</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.xarray_utils.data</span><span class="w"> </span><span class="kn">import</span> <span class="n">sector_xarray_dataset</span>
 
     <span class="n">covg_xarray</span> <span class="o">=</span> <span class="n">sector_xarray_dataset</span><span class="p">(</span>
         <span class="n">xarray_obj</span><span class="p">,</span>
@@ -559,7 +553,7 @@ document.write(`
         <span class="n">hours_after_sector_time</span><span class="o">=</span><span class="n">hours_after_sector_time</span><span class="p">,</span>
     <span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">geoips.data_manipulations.info</span> <span class="kn">import</span> <span class="n">percent_unmasked</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.data_manipulations.info</span><span class="w"> </span><span class="kn">import</span> <span class="n">percent_unmasked</span>
 
     <span class="c1"># If no covg_xarray returned, return False</span>
     <span class="k">if</span> <span class="n">covg_xarray</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -581,7 +575,7 @@ document.write(`
     <span class="k">return</span> <span class="kc">True</span><span class="p">,</span> <span class="n">covg_xarray</span></div>
 
 
-<div class="viewcode-block" id="copy_sector_info"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.copy_sector_info">[docs]</a><span class="k">def</span> <span class="nf">copy_sector_info</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="n">dest_area_def</span><span class="p">):</span>
+<div class="viewcode-block" id="copy_sector_info"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.copy_sector_info">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">copy_sector_info</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="n">dest_area_def</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Copy sector info from src_area_def to dest_area_def.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">src_area_def</span><span class="p">,</span> <span class="s2">&quot;sector_info&quot;</span><span class="p">):</span>
         <span class="n">dest_area_def</span><span class="o">.</span><span class="n">sector_info</span> <span class="o">=</span> <span class="n">src_area_def</span><span class="o">.</span><span class="n">sector_info</span>
@@ -594,7 +588,7 @@ document.write(`
     <span class="k">return</span> <span class="n">dest_area_def</span></div>
 
 
-<div class="viewcode-block" id="set_tc_coverage_check_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.set_tc_coverage_check_area_def">[docs]</a><span class="k">def</span> <span class="nf">set_tc_coverage_check_area_def</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">width_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">height_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
+<div class="viewcode-block" id="set_tc_coverage_check_area_def"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.set_tc_coverage_check_area_def">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">set_tc_coverage_check_area_def</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">width_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">height_degrees</span><span class="o">=</span><span class="mi">8</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the area definition for checking coverage for TC overpasses.</span>
 
 <span class="sd">    Take a small box around the center of the storm to evaluate coverage,</span>
@@ -618,7 +612,7 @@ document.write(`
     <span class="n">height_km</span> <span class="o">=</span> <span class="n">DEG_TO_KM</span> <span class="o">*</span> <span class="n">height_degrees</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Changing area definition for checking TC coverage&quot;</span><span class="p">)</span>
 
-    <span class="kn">from</span> <span class="nn">geoips.plugins.modules.sector_spec_generators</span> <span class="kn">import</span> <span class="n">center_coordinates</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.sector_spec_generators</span><span class="w"> </span><span class="kn">import</span> <span class="n">center_coordinates</span>
 
     <span class="n">covg_area_def</span> <span class="o">=</span> <span class="n">center_coordinates</span><span class="o">.</span><span class="n">call</span><span class="p">(</span>
         <span class="n">area_id</span><span class="o">=</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
@@ -643,7 +637,7 @@ document.write(`
     <span class="k">return</span> <span class="n">covg_area_def</span></div>
 
 
-<div class="viewcode-block" id="get_max_lat"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lat">[docs]</a><span class="k">def</span> <span class="nf">get_max_lat</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
+<div class="viewcode-block" id="get_max_lat"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lat">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_max_lat</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get maximum latitude from array of latitudes.</span>
 
 <span class="sd">    Parameters</span>
@@ -659,7 +653,7 @@ document.write(`
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">max</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="get_min_lat"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lat">[docs]</a><span class="k">def</span> <span class="nf">get_min_lat</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
+<div class="viewcode-block" id="get_min_lat"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lat">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_min_lat</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get minimum latitude from array of latitudes.</span>
 
 <span class="sd">    Parameters</span>
@@ -675,7 +669,7 @@ document.write(`
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">())</span></div>
 
 
-<div class="viewcode-block" id="get_min_lon"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lon">[docs]</a><span class="k">def</span> <span class="nf">get_min_lon</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
+<div class="viewcode-block" id="get_min_lon"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_min_lon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_min_lon</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get minimum longitude from array of longitudes, handling date line.</span>
 
 <span class="sd">    Parameters</span>
@@ -689,7 +683,7 @@ document.write(`
 <span class="sd">        Minimum longitude, between -180 and 180</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">179.5</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">numpy</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
         <span class="n">lons</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lons</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lons</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
     <span class="n">minlon</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
@@ -698,7 +692,7 @@ document.write(`
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">minlon</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_max_lon"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lon">[docs]</a><span class="k">def</span> <span class="nf">get_max_lon</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
+<div class="viewcode-block" id="get_max_lon"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_max_lon">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_max_lon</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get maximum longitude from array of longitudes, handling date line.</span>
 
 <span class="sd">    Parameters</span>
@@ -712,7 +706,7 @@ document.write(`
 <span class="sd">        Maximum longitude, between -180 and 180</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">179.5</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">:</span>
-        <span class="kn">import</span> <span class="nn">numpy</span>
+        <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
         <span class="n">lons</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lons</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lons</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
     <span class="n">maxlon</span> <span class="o">=</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
@@ -721,15 +715,15 @@ document.write(`
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">maxlon</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_lat_center"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_lat_center">[docs]</a><span class="k">def</span> <span class="nf">get_lat_center</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
+<div class="viewcode-block" id="get_lat_center"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_lat_center">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_lat_center</span><span class="p">(</span><span class="n">lats</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the center longitude point from lats array.&quot;&quot;&quot;</span>
     <span class="n">center_lat</span> <span class="o">=</span> <span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">lats</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">lats</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="mf">2.0</span>
     <span class="k">return</span> <span class="n">center_lat</span></div>
 
 
-<div class="viewcode-block" id="get_lon_center"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_lon_center">[docs]</a><span class="k">def</span> <span class="nf">get_lon_center</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
+<div class="viewcode-block" id="get_lon_center"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_lon_center">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_lon_center</span><span class="p">(</span><span class="n">lons</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the center longitude point from lons array.&quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">numpy</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
 
     <span class="k">if</span> <span class="n">lons</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">179.5</span> <span class="ow">and</span> <span class="n">lons</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">&lt;</span> <span class="o">-</span><span class="mf">179.5</span><span class="p">:</span>
         <span class="n">lons</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">lons</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">lons</span> <span class="o">+</span> <span class="mi">360</span><span class="p">,</span> <span class="n">lons</span><span class="p">)</span>
@@ -742,7 +736,7 @@ document.write(`
     <span class="k">return</span> <span class="n">center_lon</span></div>
 
 
-<div class="viewcode-block" id="get_trackfile_area_defs"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_trackfile_area_defs">[docs]</a><span class="k">def</span> <span class="nf">get_trackfile_area_defs</span><span class="p">(</span>
+<div class="viewcode-block" id="get_trackfile_area_defs"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_trackfile_area_defs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_trackfile_area_defs</span><span class="p">(</span>
     <span class="n">trackfiles</span><span class="p">,</span>
     <span class="n">trackfile_parser</span><span class="p">,</span>
     <span class="n">trackfile_sectorlist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -773,8 +767,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">final_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
-    <span class="kn">from</span> <span class="nn">geoips.sector_utils.tc_tracks</span> <span class="kn">import</span> <span class="n">trackfile_to_area_defs</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks</span><span class="w"> </span><span class="kn">import</span> <span class="n">trackfile_to_area_defs</span>
 
     <span class="k">for</span> <span class="n">trackfile</span> <span class="ow">in</span> <span class="n">trackfiles</span><span class="p">:</span>
         <span class="n">area_defs</span> <span class="o">+=</span> <span class="n">trackfile_to_area_defs</span><span class="p">(</span>
@@ -811,7 +804,7 @@ document.write(`
     <span class="k">return</span> <span class="n">ret_area_defs</span></div>
 
 
-<div class="viewcode-block" id="get_static_area_defs_for_xarray"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_static_area_defs_for_xarray">[docs]</a><span class="k">def</span> <span class="nf">get_static_area_defs_for_xarray</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">sectorlist</span><span class="p">):</span>
+<div class="viewcode-block" id="get_static_area_defs_for_xarray"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_static_area_defs_for_xarray">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_static_area_defs_for_xarray</span><span class="p">(</span><span class="n">xarray_obj</span><span class="p">,</span> <span class="n">sectorlist</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get all STATIC area definitions for the current xarray object.</span>
 
 <span class="sd">    Filter based on requested sectors.</span>
@@ -836,13 +829,15 @@ document.write(`
     <span class="p">):</span>
         <span class="k">if</span> <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_id</span> <span class="ow">in</span> <span class="n">sectorlist</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> area_id in sectorlist and in xarray_obj.area_definition, adding area_def&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> area_id in sectorlist and in xarray_obj.area_definition, adding &quot;</span>
+                <span class="s2">&quot;area_def&quot;</span><span class="p">,</span>
                 <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> area_id NOT in sectorlist and set on xarray_obj.area_definition, SKIPPING area_def&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> area_id NOT in sectorlist and set on xarray_obj.area_definition, &quot;</span>
+                <span class="s2">&quot;SKIPPING area_def&quot;</span><span class="p">,</span>
                 <span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">area_id</span><span class="p">,</span>
             <span class="p">)</span>
     <span class="k">elif</span> <span class="n">sectorlist</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -859,7 +854,7 @@ document.write(`
     <span class="k">return</span> <span class="n">ret_area_defs</span></div>
 
 
-<div class="viewcode-block" id="get_tc_area_defs_for_xarray"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_tc_area_defs_for_xarray">[docs]</a><span class="k">def</span> <span class="nf">get_tc_area_defs_for_xarray</span><span class="p">(</span>
+<div class="viewcode-block" id="get_tc_area_defs_for_xarray"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_tc_area_defs_for_xarray">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_tc_area_defs_for_xarray</span><span class="p">(</span>
     <span class="n">xarray_obj</span><span class="p">,</span>
     <span class="n">tcdb_sector_list</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
     <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -900,8 +895,8 @@ document.write(`
         <span class="k">return</span> <span class="p">[</span><span class="n">xarray_obj</span><span class="o">.</span><span class="n">area_definition</span><span class="p">]</span>
 
     <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
-    <span class="kn">from</span> <span class="nn">geoips.sector_utils.tc_tracks_database</span> <span class="kn">import</span> <span class="n">get_all_storms_from_db</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">timedelta</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks_database</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_all_storms_from_db</span>
 
     <span class="n">curr_area_defs</span> <span class="o">=</span> <span class="n">get_all_storms_from_db</span><span class="p">(</span>
         <span class="n">xarray_obj</span><span class="o">.</span><span class="n">start_datetime</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">hours_before_sector_time</span><span class="p">),</span>
@@ -927,7 +922,7 @@ document.write(`
     <span class="k">return</span> <span class="n">ret_area_defs</span></div>
 
 
-<div class="viewcode-block" id="is_requested_aid_type"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_requested_aid_type">[docs]</a><span class="k">def</span> <span class="nf">is_requested_aid_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="is_requested_aid_type"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_requested_aid_type">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_requested_aid_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if passed area_def is of requested aid_type.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="p">(</span>
         <span class="n">aid_type</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -938,7 +933,7 @@ document.write(`
     <span class="k">return</span> <span class="kc">True</span></div>
 
 
-<div class="viewcode-block" id="storm_locations_match"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.storm_locations_match">[docs]</a><span class="k">def</span> <span class="nf">storm_locations_match</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">other_area_def</span><span class="p">):</span>
+<div class="viewcode-block" id="storm_locations_match"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.storm_locations_match">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">storm_locations_match</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">other_area_def</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if passed pyresample AreaDefinitions are the same location.</span>
 
 <span class="sd">    Match if center lat, center lon, storm year, storm basin, and synoptic time</span>
@@ -958,7 +953,7 @@ document.write(`
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="remove_duplicate_storm_positions"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.remove_duplicate_storm_positions">[docs]</a><span class="k">def</span> <span class="nf">remove_duplicate_storm_positions</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="remove_duplicate_storm_positions"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.remove_duplicate_storm_positions">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_duplicate_storm_positions</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">aid_type</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove duplicate storm positions from passed list of area_defs.</span>
 
 <span class="sd">    Uses &quot;is_requested_aid_type&quot; and &quot;storm_locations_match&quot; utilities.</span>
@@ -999,7 +994,8 @@ document.write(`
                 <span class="p">):</span>
                     <span class="n">kept_one</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                        <span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list, NOT including </span><span class="si">%s</span><span class="s2">, invest_storm_id defined&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list, NOT including </span><span class="si">%s</span><span class="s2">, &quot;</span>
+                        <span class="s2">&quot;invest_storm_id defined&quot;</span><span class="p">,</span>
                         <span class="n">other_area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                         <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                     <span class="p">)</span>
@@ -1019,7 +1015,7 @@ document.write(`
     <span class="k">return</span> <span class="n">ret_area_defs</span></div>
 
 
-<div class="viewcode-block" id="filter_area_defs_actual_time"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.filter_area_defs_actual_time">[docs]</a><span class="k">def</span> <span class="nf">filter_area_defs_actual_time</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">actual_datetime</span><span class="p">):</span>
+<div class="viewcode-block" id="filter_area_defs_actual_time"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.filter_area_defs_actual_time">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">filter_area_defs_actual_time</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">actual_datetime</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Filter list of area_defs to only include the passed actual_datetime.&quot;&quot;&quot;</span>
     <span class="n">ret_area_def_ids</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
@@ -1069,7 +1065,8 @@ document.write(`
 <span class="c1">#                                    area_def,</span>
 <span class="c1">#                                    varlist=[var_for_coverage],</span>
 <span class="c1">#                                    verbose=False)</span>
-<span class="c1">#             if sects and abs(sects[0].start_datetime - area_def.sector_start_datetime) &lt; abs(old_sect.start_datetime - old_area_def.sector_start_datetime):</span>
+<span class="c1">#             if sects and abs(sects[0].start_datetime - area_def.sector_start_datetime)</span>
+<span class="c1">#                   &lt; abs(old_sect.start_datetime - old_area_def.sector_start_datetime):</span>
 <span class="c1">#</span>
 <span class="c1">#                 LOG.info(&#39;AREA_DEF LIST REPLACING %s with area_def %s&#39;,</span>
 <span class="c1">#                          ret_area_def_ids[area_def.area_id].name,</span>
@@ -1078,13 +1075,14 @@ document.write(`
 <span class="c1">#                 ret_area_def_sects[area_def.area_id] = sects[0]</span>
 <span class="c1">#</span>
 <span class="c1">#         else:</span>
-<span class="c1">#             LOG.warning(&#39;AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s&#39;, area_def.name)</span>
+<span class="c1">#             LOG.warning(&#39;AREA_DEF LIST REPLACING Multiple identical sectors - using</span>
+<span class="c1">#                         latest %s&#39;, area_def.name)</span>
 <span class="c1">#             ret_area_def_ids[area_def.area_id] = area_def</span>
 <span class="c1">#</span>
 <span class="c1">#     return ret_area_def_ids.values()</span>
 
 
-<div class="viewcode-block" id="get_sectors_from_yamls"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_sectors_from_yamls">[docs]</a><span class="k">def</span> <span class="nf">get_sectors_from_yamls</span><span class="p">(</span><span class="n">sector_list</span><span class="p">):</span>
+<div class="viewcode-block" id="get_sectors_from_yamls"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.get_sectors_from_yamls">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_sectors_from_yamls</span><span class="p">(</span><span class="n">sector_list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get AreaDefinition objects with custom &quot;sector_info&quot; dictionary.</span>
 
 <span class="sd">    Based on YAML area definition contained in &quot;sectorfnames&quot; files.</span>
@@ -1101,6 +1099,8 @@ document.write(`
 <span class="sd">        entries added as attributes to each area def (this is to allow specifying</span>
 <span class="sd">        &quot;sector_info&quot; metadata dictionary within the YAML file)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">importlib.resources</span><span class="w"> </span><span class="kn">import</span> <span class="n">files</span>
+
     <span class="n">area_defs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">sector_name</span> <span class="ow">in</span> <span class="n">sector_list</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
@@ -1112,14 +1112,15 @@ document.write(`
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Check plugin directories for sector plugin named &quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2">&quot;</span>
             <span class="p">)</span>
-        <span class="n">area_def</span> <span class="o">=</span> <span class="n">load_area</span><span class="p">(</span><span class="n">sector_plugin</span><span class="o">.</span><span class="n">abspath</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">)</span>
+        <span class="n">abspath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">files</span><span class="p">(</span><span class="n">sector_plugin</span><span class="o">.</span><span class="n">package</span><span class="p">)</span> <span class="o">/</span> <span class="n">sector_plugin</span><span class="o">.</span><span class="n">relpath</span><span class="p">)</span>
+        <span class="n">area_def</span> <span class="o">=</span> <span class="n">load_area</span><span class="p">(</span><span class="n">abspath</span><span class="p">,</span> <span class="s2">&quot;spec&quot;</span><span class="p">)</span>
         <span class="n">area_def</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s2">&quot;sector_info&quot;</span><span class="p">,</span> <span class="n">sector_plugin</span><span class="p">[</span><span class="s2">&quot;metadata&quot;</span><span class="p">])</span>
         <span class="n">area_def</span><span class="o">.</span><span class="fm">__setattr__</span><span class="p">(</span><span class="s2">&quot;sector_type&quot;</span><span class="p">,</span> <span class="n">sector_plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">])</span>
         <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">area_defs</span></div>
 
 
-<div class="viewcode-block" id="create_areadefinition_from_yaml"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.create_areadefinition_from_yaml">[docs]</a><span class="k">def</span> <span class="nf">create_areadefinition_from_yaml</span><span class="p">(</span><span class="n">yamlfile</span><span class="p">,</span> <span class="n">sector</span><span class="p">):</span>
+<div class="viewcode-block" id="create_areadefinition_from_yaml"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.create_areadefinition_from_yaml">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_areadefinition_from_yaml</span><span class="p">(</span><span class="n">yamlfile</span><span class="p">,</span> <span class="n">sector</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Take a YAML with misc metadata and create a pyresample areadefinition.</span>
 
 <span class="sd">    Misc. metadata will be parsed from the YAML file and manually added to the</span>
@@ -1137,8 +1138,8 @@ document.write(`
 <span class="sd">    pyresample.AreaDefinition</span>
 <span class="sd">        pyresample AreaDefinition based on YAML specification.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">pyresample</span>
-    <span class="kn">import</span> <span class="nn">yaml</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">pyresample</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 
     <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">yamlfile</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
         <span class="n">sectorfile_yaml</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
@@ -1168,7 +1169,7 @@ document.write(`
     <span class="k">return</span> <span class="n">area_def</span></div>
 
 
-<div class="viewcode-block" id="is_sector_type"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_sector_type">[docs]</a><span class="k">def</span> <span class="nf">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">sector_type_str</span><span class="p">):</span>
+<div class="viewcode-block" id="is_sector_type"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_sector_type">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">sector_type_str</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine if the type of area_def sector is as specified in passed sector_type.</span>
 
 <span class="sd">    Parameters</span>
@@ -1196,13 +1197,14 @@ document.write(`
         <span class="c1"># Need to decide if this is necessary.</span>
         <span class="c1"># for attr in SECTOR_INFO_ATTRS[sector_type_str]:</span>
         <span class="c1">#     if attr not in area_def.sector_info.keys():</span>
-        <span class="c1">#         LOG.warning(&#39;attr %s not in area_def.sector_info.keys(), not of type %s&#39;, attr, sector_type_str)</span>
+        <span class="c1">#         LOG.warning(&#39;attr %s not in area_def.sector_info.keys(), not of type</span>
+        <span class="c1">#                     %s&#39;, attr, sector_type_str)</span>
         <span class="c1">#         return False</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">return</span> <span class="kc">False</span></div>
 
 
-<div class="viewcode-block" id="is_dynamic_sector"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_dynamic_sector">[docs]</a><span class="k">def</span> <span class="nf">is_dynamic_sector</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
+<div class="viewcode-block" id="is_dynamic_sector"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.utils.is_dynamic_sector">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">is_dynamic_sector</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Determine if the AreaDefinition object is a dynamic region of interest.</span>
 
 <span class="sd">    Parameters</span>
@@ -1231,16 +1233,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1258,11 +1256,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

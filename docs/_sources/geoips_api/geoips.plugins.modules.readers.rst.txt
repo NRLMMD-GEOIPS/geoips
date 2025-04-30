@@ -36,6 +36,14 @@ geoips.plugins.modules.readers.ahi\_hsd module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.readers.ami\_netcdf module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.ami_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.readers.amsr2\_netcdf module
 ---------------------------------------------------
 
@@ -52,18 +60,18 @@ geoips.plugins.modules.readers.amsr2\_remss\_winds\_netcdf module
    :undoc-members:
    :show-inheritance:
 
-geoips.plugins.modules.readers.amsub\_hdf module
-------------------------------------------------
+geoips.plugins.modules.readers.amsua\_mhs\_mirs module
+------------------------------------------------------
 
-.. automodule:: geoips.plugins.modules.readers.amsub_hdf
+.. automodule:: geoips.plugins.modules.readers.amsua_mhs_mirs
    :members:
    :undoc-members:
    :show-inheritance:
 
-geoips.plugins.modules.readers.amsub\_mirs module
--------------------------------------------------
+geoips.plugins.modules.readers.amsub\_hdf module
+------------------------------------------------
 
-.. automodule:: geoips.plugins.modules.readers.amsub_mirs
+.. automodule:: geoips.plugins.modules.readers.amsub_hdf
    :members:
    :undoc-members:
    :show-inheritance:
@@ -84,6 +92,14 @@ geoips.plugins.modules.readers.atms\_hdf5 module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.readers.cygnss\_netcdf module
+----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.cygnss_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.readers.ewsg\_netcdf module
 --------------------------------------------------
 
@@ -92,10 +108,26 @@ geoips.plugins.modules.readers.ewsg\_netcdf module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.readers.fci\_netcdf module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.fci_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.readers.geoips\_netcdf module
 ----------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.readers.geoips_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.gfs\_grib module
+-----------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.gfs_grib
    :members:
    :undoc-members:
    :show-inheritance:
@@ -212,10 +244,26 @@ geoips.plugins.modules.readers.ssmis\_binary module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.readers.viirs\_l2\_netcdf module
+-------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.viirs_l2_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.readers.viirs\_netcdf module
 ---------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.readers.viirs_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.readers.viirs\_sdr\_hdf5 module
+------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.viirs_sdr_hdf5
    :members:
    :undoc-members:
    :show-inheritance:

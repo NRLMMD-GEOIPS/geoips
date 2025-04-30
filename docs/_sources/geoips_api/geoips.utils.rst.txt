@@ -4,6 +4,22 @@ geoips.utils package
 Submodules
 ----------
 
+geoips.utils.composite module
+-----------------------------
+
+.. automodule:: geoips.utils.composite
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.utils.context\_managers module
+-------------------------------------
+
+.. automodule:: geoips.utils.context_managers
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.utils.decorators module
 ------------------------------
 

@@ -1,0 +1,822 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.commandline.geoips_test &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/commandline/geoips_test';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.commandline.geoips_test</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.commandline.geoips_test</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;GeoIPS CLI &quot;test&quot; command.</span>
+
+<span class="sd">Runs the appropriate tests based on the arguments provided.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">resources</span>
+
+<span class="c1"># from os import listdir</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span><span class="p">,</span> <span class="n">makedirs</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span><span class="p">,</span> <span class="n">exists</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+
+<span class="c1"># from pytest import main as invoke_pytest</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">subprocess</span><span class="w"> </span><span class="kn">import</span> <span class="n">call</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.geoips_command</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeoipsCommand</span><span class="p">,</span> <span class="n">GeoipsExecutableCommand</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_editable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">sectors</span>
+
+
+<span class="c1"># class GeoipsTestUnitTest(GeoipsExecutableCommand):</span>
+<span class="c1">#     &quot;&quot;&quot;Test Command for running GeoIPS Unit Tests.&quot;&quot;&quot;</span>
+
+<span class="c1">#     name = &quot;unit-test&quot;</span>
+<span class="c1">#     command_classes = []</span>
+
+<span class="c1">#     def add_arguments(self):</span>
+<span class="c1">#         &quot;&quot;&quot;Instantiate the arguments that are supported for the test unit-test command. # NOQA</span>
+
+<span class="c1">#         Currently the &quot;geoips test unit-test&quot; command supports this format:</span>
+<span class="c1">#             - geoips test unit-test dir_name &lt;-p&gt; &lt;package_name&gt; &lt;-n&gt; &lt;test_name&gt;</span>
+<span class="c1">#         Where:</span>
+<span class="c1">#             - dir_name is the name of the folder containing the unit-test[s] you want to # NOQA</span>
+<span class="c1">#               run</span>
+<span class="c1">#             - &lt;package_name&gt; is any GeoIPS package that is installed and recognized by</span>
+<span class="c1">#               the GeoIPS Library</span>
+<span class="c1">#             - &lt;test_name&gt; is the name of the unit test being ran</span>
+<span class="c1">#         &quot;&quot;&quot;</span>
+<span class="c1">#         self.parser.add_argument(</span>
+<span class="c1">#             &quot;directory_name&quot;,</span>
+<span class="c1">#             type=str,</span>
+<span class="c1">#             help=&quot;GeoIPS Packages Unit Test Directory Name where unit tests are held.&quot;, # NOQA</span>
+<span class="c1">#         )</span>
+<span class="c1">#         self.parser.add_argument(</span>
+<span class="c1">#             &quot;--package_name&quot;,</span>
+<span class="c1">#             &quot;-p&quot;,</span>
+<span class="c1">#             type=str,</span>
+<span class="c1">#             default=&quot;geoips&quot;,</span>
+<span class="c1">#             choices=self.plugin_package_names,</span>
+<span class="c1">#             help=&quot;GeoIPS Package containing the unit-tests to be ran.&quot;,</span>
+<span class="c1">#         )</span>
+<span class="c1">#         self.parser.add_argument(</span>
+<span class="c1">#             &quot;--name_of_test&quot;,</span>
+<span class="c1">#             &quot;-n&quot;,</span>
+<span class="c1">#             type=str,</span>
+<span class="c1">#             default=None,</span>
+<span class="c1">#             help=&quot;Specific Unit Test to be ran out of directory_name.&quot;,</span>
+<span class="c1">#         )</span>
+
+<span class="c1">#     def __call__(self, args):</span>
+<span class="c1">#         &quot;&quot;&quot;Run the provided unit tests based on the arguments provided.&quot;&quot;&quot;</span>
+<span class="c1">#         dir_name = args.directory_name</span>
+<span class="c1">#         package_name = args.package_name</span>
+<span class="c1">#         test_name = args.name_of_test</span>
+<span class="c1">#         unit_test_dir = str(resources.files(package_name) / &quot;../tests/unit_tests&quot;)</span>
+
+<span class="c1">#         try:</span>
+<span class="c1">#             # Try listing the expected unit test directory. If it fails, raise an</span>
+<span class="c1">#             # argparse error which states such package doesn&#39;t have a unit tests</span>
+<span class="c1">#             # directory</span>
+<span class="c1">#             listdir(unit_test_dir)</span>
+<span class="c1">#         except FileNotFoundError:</span>
+<span class="c1">#             err_str = f&quot;No unit tests directory found for package &#39;{package_name}&#39;.&quot;</span>
+<span class="c1">#             self.parser.error(err_str)</span>
+
+<span class="c1">#         if dir_name not in listdir(unit_test_dir):</span>
+<span class="c1">#             # The specified unit test directory does not exist at the specified location # NOQA</span>
+<span class="c1">#             # raise an error specifying that</span>
+<span class="c1">#             err_str = f&quot;Directory &#39;{dir_name}&#39; not found under {package_name}&#39;s unit &quot;</span>
+<span class="c1">#             err_str += f&quot;tests directory &#39;{unit_test_dir}&#39;. Please select one of the &quot;</span>
+<span class="c1">#             err_str += f&quot;following unit test directories:\n {listdir(unit_test_dir)}&quot;</span>
+<span class="c1">#             self.parser.error(err_str)</span>
+<span class="c1">#         elif test_name is not None:</span>
+<span class="c1">#             # We&#39;ve specified a specific Unit Test to run out of</span>
+<span class="c1">#             # &lt;package_name&gt;/tests/unit_tests/&lt;dir_name&gt;/&lt;script_name&gt;, ensure that</span>
+<span class="c1">#             # file actually exists</span>
+<span class="c1">#             fnames = [</span>
+<span class="c1">#                 basename(fpath)</span>
+<span class="c1">#                 for fpath in glob(f&quot;{unit_test_dir}/{dir_name}/test_*.py&quot;)</span>
+<span class="c1">#             ]</span>
+<span class="c1">#             if test_name not in fnames:</span>
+<span class="c1">#                 err_str = f&quot;Unit Test &#39;{test_name}&#39; not found under the directory &quot;</span>
+<span class="c1">#                 err_str += f&quot;&#39;{unit_test_dir}&#39;, please select one of the options shown &quot; # NOQA</span>
+<span class="c1">#                 err_str += f&quot;below.\ns {fnames}&quot;</span>
+<span class="c1">#                 self.parser.error(err_str)</span>
+<span class="c1">#         else:</span>
+<span class="c1">#             # script name wasn&#39;t specified, run all unit tests found under</span>
+<span class="c1">#             # &lt;package_name&gt;/tests/unit_tests/&lt;dir_name&gt;</span>
+<span class="c1">#             test_name = &quot;.&quot;</span>
+
+<span class="c1">#         test_path = str(f&quot;{unit_test_dir}/{dir_name}/{test_name}&quot;)</span>
+<span class="c1">#         invoke_pytest([&quot;-v&quot;, test_path])</span>
+
+
+<div class="viewcode-block" id="GeoipsTestSector"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestSector">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTestSector</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test Command for creating a sector image based on the provided sector name.</span>
+
+<span class="sd">    This used to be ran via &#39;create_sector_image&#39;, however we are trying to consolidate</span>
+<span class="sd">    all independent console scripts to be used via the CLI. When this command is called</span>
+<span class="sd">    an image of the provided sector will be created so we can view whether or not it</span>
+<span class="sd">    matches the region of the globe we&#39;d like to study.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sector&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsTestSector.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestSector.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Instantiate the arguments that are supported for the test sector command.</span>
+
+<span class="sd">        Currently the &quot;geoips test sector&quot; command supports this format:</span>
+<span class="sd">            - geoips test sector &lt;sector_name&gt; --outdir &lt;output_directory_path&gt;</span>
+<span class="sd">        Where:</span>
+<span class="sd">            - &lt;sector_name&gt; is the name of any GeoIPS Sector Plugin that has an entry in</span>
+<span class="sd">              any package&#39;s plugin registry.</span>
+<span class="sd">            - --outdir is the full path to the directory in which you&#39;d like to create</span>
+<span class="sd">              the sector image.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;sector_name&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Name of the sector plugin to create an image from.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--outdir&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GEOIPS_OUTDIRS&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The output directory to create your sector image in.&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create the provided sector image based off the arguments provided.</span>
+
+<span class="sd">        This will retrieve the selected sector plugin from any GeoIPS Plugin package,</span>
+<span class="sd">        then create an image of that sector. This is a good way to quickly test whether</span>
+<span class="sd">        or not your sector plugin covers the area you expected with the correct</span>
+<span class="sd">        resolution.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: Argparse Namespace()</span>
+<span class="sd">            - The list argument namespace to parse through</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sector_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">sector_name</span>
+        <span class="n">outdir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outdir</span>
+        <span class="c1"># If the path to outdir doesn&#39;t already exist, make that path</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
+            <span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
+        <span class="c1"># Create an image for the requested sector, including just the map and white</span>
+        <span class="c1"># background.</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s2">&quot;non_existent&quot;</span> <span class="ow">in</span> <span class="n">sector_name</span><span class="p">:</span>
+                <span class="c1"># This occurs for a unit test that we are just checking the error output</span>
+                <span class="c1"># for. No need to rebuild the plugin registry, which can be specified by</span>
+                <span class="c1"># using rebuild_registries=False</span>
+                <span class="n">rebuild_registries</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Otherwise, assume this is a new sector that is being developed, and</span>
+                <span class="c1"># automate plugin registry creation if it does not already exist as an</span>
+                <span class="c1"># entry in the registry.</span>
+                <span class="n">rebuild_registries</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">sect</span> <span class="o">=</span> <span class="n">sectors</span><span class="o">.</span><span class="n">get_plugin</span><span class="p">(</span>
+                <span class="n">sector_name</span><span class="p">,</span> <span class="n">rebuild_registries</span><span class="o">=</span><span class="n">rebuild_registries</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="n">PluginError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Sector &#39;</span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2">&#39; is not a valid plugin.</span><span class="se">\n</span><span class="s2">Please use a plugin &quot;</span>
+                <span class="s2">&quot;found under &#39;geoips list interface sectors&#39; or create a new plugin &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;named &#39;</span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2">&#39; and run &#39;create_plugin_registries&#39;.&quot;</span>
+            <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="n">sect</span><span class="o">.</span><span class="n">create_test_plot</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GeoipsTestScript"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestScript">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTestScript</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test Command for running GeoIPS Test Scripts.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;script&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsTestScript.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestScript.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Instantiate the arguments that are supported for the test script command.</span>
+
+<span class="sd">        Currently the &quot;geoips test script&quot; command supports this format:</span>
+<span class="sd">            - geoips test script &lt;-p&gt; &lt;package_name&gt; &lt;script_name&gt; &lt;--integration&gt;</span>
+<span class="sd">        Where:</span>
+<span class="sd">            - &lt;package_name&gt; is any GeoIPS package that is installed and recognized by</span>
+<span class="sd">              the GeoIPS Library</span>
+<span class="sd">            - &lt;script_name&gt; is the name of the bash script being tested</span>
+<span class="sd">            - &#39;--integration&#39; represents whether or not this is an &#39;integration&#39; test</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;script_name&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Script to be tested&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_package_names</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Package containing the script to be tested&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--integration&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Whether or not the script is an integration test.&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the provided test script based off the arguments provided.</span>
+
+<span class="sd">        This will run the provided test script, locating such script based on whether</span>
+<span class="sd">        or not this was an integration-based test. If it wasn&#39;t, we&#39;ll look through the</span>
+<span class="sd">        corresponding &lt;package_name&gt;/tests/scripts/ directory for the correct test</span>
+<span class="sd">        script.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: Argparse Namespace()</span>
+<span class="sd">            - The list argument namespace to parse through</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">package_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">package_name</span>
+        <span class="n">script_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">script_name</span>
+        <span class="n">is_integration_test</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">integration</span>
+
+        <span class="k">if</span> <span class="n">is_integration_test</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">package_name</span> <span class="o">!=</span> <span class="s2">&quot;geoips&quot;</span><span class="p">:</span>
+                <span class="c1"># Raise an argparse error which states only geoips supports integration</span>
+                <span class="c1"># testing</span>
+                <span class="n">err_str</span> <span class="o">=</span> <span class="s2">&quot;Only package &#39;geoips&#39; has integration tests. Package &quot;</span>
+                <span class="n">err_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; doesn&#39;t have those tests. Try again.&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+            <span class="n">dir_name</span> <span class="o">=</span> <span class="s2">&quot;integration_tests&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">dir_name</span> <span class="o">=</span> <span class="s2">&quot;scripts&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_editable</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+            <span class="c1"># Package is installed in non-editable mode and we will not be able to</span>
+            <span class="c1"># access unit tests. Raise a runtime error reporting this.</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: Package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; is installed in non-editable mode and&quot;</span>
+                <span class="s2">&quot; we are not able to access it&#39;s unit tests. For this command to &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;work, please install &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; in editable mode via: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;pip install -e &lt;path_to_</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&gt;&#39;&quot;</span><span class="p">,</span>
+                <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># We use a print to sys.stderr so monkeypatch unit tests can catch this</span>
+            <span class="c1"># output</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; isn&#39;t installed in editable mode.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">test_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;../tests/</span><span class="si">{</span><span class="n">dir_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">basename</span><span class="p">(</span><span class="n">fpath</span><span class="p">)</span> <span class="k">for</span> <span class="n">fpath</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_dir</span><span class="si">}</span><span class="s2">/*.sh&quot;</span><span class="p">)]</span>
+
+        <span class="k">if</span> <span class="n">script_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">fnames</span><span class="p">:</span>
+            <span class="c1"># Raise an argparse error which states that file doesn&#39;t exist within the</span>
+            <span class="c1"># specified directory</span>
+            <span class="n">str_fnames</span> <span class="o">=</span> <span class="s2">&quot;,</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+            <span class="n">err_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Script &#39;</span><span class="si">{</span><span class="n">script_name</span><span class="si">}</span><span class="s2">&#39; doesn&#39;t exist within &#39;</span><span class="si">{</span><span class="n">test_dir</span><span class="si">}</span><span class="s2">/&#39;. &quot;</span>
+            <span class="n">err_str</span> <span class="o">+=</span> <span class="s2">&quot;Please select a valid script from this directory listing:</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="n">err_str</span> <span class="o">+=</span> <span class="n">str_fnames</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+
+        <span class="n">script_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">test_dir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">script_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="c1"># Run the corresponding test</span>
+        <span class="n">call</span><span class="p">([</span><span class="s2">&quot;bash&quot;</span><span class="p">,</span> <span class="n">script_path</span><span class="p">],</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GeoipsTestLinting"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestLinting">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTestLinting</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test Command for running GeoIPS Linting Services.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;linting&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsTestLinting.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestLinting.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the test-subparser for the Test Linting Command.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_package_names</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Package that we want to run linting tests on.&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run all GeoIPS Linting Tests on the provided package.&quot;&quot;&quot;</span>
+        <span class="n">package_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">package_name</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">is_editable</span><span class="p">(</span><span class="n">package_name</span><span class="p">):</span>
+            <span class="c1"># Package is installed in non-editable mode and we will not be able to</span>
+            <span class="c1"># access unit tests. Raise a runtime error reporting this.</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: Package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; is installed in non-editable mode and&quot;</span>
+                <span class="s2">&quot; we are not able to access it&#39;s unit tests. For this command to &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;work, please install &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; in editable mode via: &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;&#39;pip install -e &lt;path_to_</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&gt;&#39;&quot;</span><span class="p">,</span>
+                <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="c1"># We use a print to sys.stderr so monkeypatch unit tests can catch this</span>
+            <span class="c1"># output</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; isn&#39;t installed in editable mode.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">lint_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;../tests/utils/check_code.sh&quot;</span><span class="p">)</span>
+        <span class="n">package_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;../.&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">linter</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;bandit&quot;</span><span class="p">,</span> <span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="s2">&quot;flake8&quot;</span><span class="p">]:</span>
+            <span class="n">call</span><span class="p">([</span><span class="s2">&quot;bash&quot;</span><span class="p">,</span> <span class="n">lint_path</span><span class="p">,</span> <span class="n">linter</span><span class="p">,</span> <span class="n">package_path</span><span class="p">],</span> <span class="n">shell</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GeoipsTest"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTest">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTest</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-Level Test Command for testing GeoIPS and its corresponding Packages.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">GeoipsTestLinting</span><span class="p">,</span> <span class="n">GeoipsTestScript</span><span class="p">,</span> <span class="n">GeoipsTestSector</span><span class="p">]</span></div>
+    <span class="c1"># command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestUnitTest]</span>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

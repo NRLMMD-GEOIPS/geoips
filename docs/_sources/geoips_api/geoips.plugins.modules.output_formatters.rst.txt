@@ -4,6 +4,22 @@ geoips.plugins.modules.output\_formatters package
 Submodules
 ----------
 
+geoips.plugins.modules.output\_formatters.cogeotiff module
+----------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.cogeotiff
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.cogeotiff\_rgba module
+----------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.cogeotiff_rgba
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.output\_formatters.full\_disk\_image module
 ------------------------------------------------------------------
 
@@ -16,6 +32,22 @@ geoips.plugins.modules.output\_formatters.geotiff\_standard module
 ------------------------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.output_formatters.geotiff_standard
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.histogram\_csv module
+---------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.histogram_csv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.histogram\_netcdf module
+------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.histogram_netcdf
    :members:
    :undoc-members:
    :show-inheritance:
@@ -52,6 +84,14 @@ geoips.plugins.modules.output\_formatters.imagery\_windbarbs\_clean module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.output\_formatters.imagery\_windbarbs\_multi\_level module
+---------------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.output\_formatters.metadata\_default module
 ------------------------------------------------------------------
 
@@ -64,6 +104,14 @@ geoips.plugins.modules.output\_formatters.metadata\_tc module
 -------------------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.output_formatters.metadata_tc
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.netcdf\_full module
+-------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.netcdf_full
    :members:
    :undoc-members:
    :show-inheritance:
@@ -96,6 +144,14 @@ geoips.plugins.modules.output\_formatters.unprojected\_image module
 -------------------------------------------------------------------
 
 .. automodule:: geoips.plugins.modules.output_formatters.unprojected_image
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.plugins.modules.output\_formatters.windspeed\_awips2\_formatter module
+-----------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.windspeed_awips2_formatter
    :members:
    :undoc-members:
    :show-inheritance:

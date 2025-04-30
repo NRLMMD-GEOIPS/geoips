@@ -1,0 +1,340 @@
+Version latest (2025-04-30)
+***************************
+
+ * *Bug fix*: Moved bash tag to the top of base_install.sh
+ * *Bug fix*: Fixes file object resource warnings across multiple files
+ * *Bug fix*: Updated unit tests to no longer be stochastic
+ * *Bug fix*: Cli geoips run -h bug fix
+ * *Enhancement*: Cli test dataset update
+ * *Enhancement*: Update obp procflow to accept workflow as its first argument
+ * *Enhancement*: Order based procflow pydantic sector models
+ * *Enhancement*: Obp pydantic feature annotator models
+ * *Enhancement*: Write awips2 compatible netcdf files from smap or smos windspeed data
+ * *Future*: Order-based procflow
+ * *Documentation*: Order-based procflow documentation
+ * *Testing*: Order-based procflow testing
+ * *Testing*: Add pytest-based integration tests for all packages
+
+Bug fix
+=======
+
+Moved bash tag to the top of base_install.sh
+--------------------------------------------
+
+base_install.sh does not play nicely with some other non-bash shells. This fixes potential issues by moving the bash tag
+to the top of the file to instruct systems to use bash to execute the file.
+
+::
+
+     modified: tests/integration_tests/base_install.sh
+
+Bug fix
+=======
+
+Fixes file object resource warnings across multiple files
+---------------------------------------------------------
+
+Refactored file handling to use the with context manager for automatic file closure.
+
+::
+
+     modified: geoips/commandline/cmd_instructions.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_describe.py
+     modified: geoips/commandline/geoips_list.py
+     modified: geoips/commandline/geoips_validate.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/tests/unit_tests/commandline/test_geoips_list_interface.py
+     modified: geoips/tests/unit_tests/commandline/test_geoips_list_plugins.py
+     modified: geoips/tests/unit_tests/plugin_registries/test_plugin_registries.py
+     modified: geoips/tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
+
+Bug fix
+=======
+
+Updated unit tests to no longer be stochastic
+---------------------------------------------
+
+Unit tests used to randomly select a subset of things to test. They no longer do that. This changes it to use a preset
+seed so that the same behavior is replicated across unit test runs.
+
+::
+
+     modified: geoips/geoips_utils.py
+     modified: geoips/plugins/modules/output_checkers/image.py
+     modified: geoips/plugins/modules/output_checkers/netcdf.py
+     modified: geoips/plugins/modules/output_checkers/text.py
+     modified: tests/unit_tests/commandline/test_geoips_describe_plugin.py
+
+Bug fix
+=======
+
+Cli geoips run -h bug fix
+-------------------------
+
+There was an oversight in the command
+geoips.commandline.commandline_interface:support_legacy_procflows which has a set
+of hardcoded, valid procflows that can be ran. Since this code is hit before the
+argparser is actually initalized (needs to be for the time being, until OBP is out),
+the check against vaild procflows would fail if the command 'geoips run -h' was
+ran, as '-h' is not a valid procflow. This PR updates that logic to allow for '-h'
+to be passed in that format, and adds that as a unit test.
+
+::
+
+     modified: geoips/commandline/commandline_interface.py
+     modified: tests/unit_tests/commandline/test_geoips_run.py
+
+Enhancement
+===========
+
+Cli test dataset update
+-----------------------
+
+Consolidates hardcoded test dataset urls to one location and updates how the CLI
+accesses this information for the command 'geops list test-datasets'. Additionally,
+updates the command 'geoips config install' by providing and optional flag
+(-o, --outdir), which overwrites the default install location if provided.
+
+Additionally, this PR updated ami_netcdf.py reader. Dynamic calculation of
+geolocation variables seems inconsistent and caused problems with GeoColor products.
+The reader now uses hardcoded values for geolocation to make sure products are
+consistent.
+
+This PR is related to a GeoColor PR which updates its installation instructions.
+
+::
+
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/ancillary_info/test_data.py
+     modified: geoips/commandline/geoips_config.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: setup/test-data-urls.yaml
+
+Enhancement
+===========
+
+Update obp procflow to accept workflow as its first argument
+------------------------------------------------------------
+
+Reorders arguments in the OBP call function to make workflow the first positional parameter.
+
+::
+
+     modified: geoips/plugins/modules/procflows/order_based.py
+
+Enhancement
+===========
+
+Order based procflow pydantic sector models
+-------------------------------------------
+
+Created a whole new modeling schema using pydantic for sector plugins. This is one
+step of many that are needed to transition to the Order Based Procflow (OBP).
+
+Updated legacy sector plugins to adhere to new validation protocol, added unit tests
+ensuring validation is performed correctly, and modified various parts of GeoIPS
+pydantic code to make this as generalized as possible. Unit testing should be
+largely similar regardless of the plugin being validated. Builds off of work done
+by Kumar, specifically with regards to Readers, Workflows, and Bases.
+
+::
+
+     moved: geoips/plugins/yaml/sectors/static/global_cylindrical.yaml
+     added: geoips/pydantic/sectors.py
+     added: tests/unit_tests/pydantic/sectors/test_cases.yaml
+     added: tests/unit_tests/pydantic/sectors/test_sectors.py
+     added: tests/unit_tests/pydantic/utils.py
+     modified: docs/source/tutorials/extending-with-plugins/static_sector/index.rst
+     modified: geoips/plugins/yaml/sectors/static/abu_dhabi.yaml
+     modified: geoips/plugins/yaml/sectors/static/africa.yaml
+     modified: geoips/plugins/yaml/sectors/static/african_horn.yaml
+     modified: geoips/plugins/yaml/sectors/static/alaska.yaml
+     modified: geoips/plugins/yaml/sectors/static/asia.yaml
+     modified: geoips/plugins/yaml/sectors/static/australia.yaml
+     modified: geoips/plugins/yaml/sectors/static/beijing.yaml
+     modified: geoips/plugins/yaml/sectors/static/brazil.yaml
+     modified: geoips/plugins/yaml/sectors/static/cairo.yaml
+     modified: geoips/plugins/yaml/sectors/static/canada.yaml
+     modified: geoips/plugins/yaml/sectors/static/caribbean.yaml
+     modified: geoips/plugins/yaml/sectors/static/central_america.yaml
+     modified: geoips/plugins/yaml/sectors/static/conus.yaml
+     modified: geoips/plugins/yaml/sectors/static/delhi.yaml
+     modified: geoips/plugins/yaml/sectors/static/denver.yaml
+     modified: geoips/plugins/yaml/sectors/static/e_pacific.yaml
+     modified: geoips/plugins/yaml/sectors/static/europe.yaml
+     modified: geoips/plugins/yaml/sectors/static/ewsg.yaml
+     modified: geoips/plugins/yaml/sectors/static/france.yaml
+     modified: geoips/plugins/yaml/sectors/static/geokompsat.yaml
+     modified: geoips/plugins/yaml/sectors/static/goes_east.yaml
+     modified: geoips/plugins/yaml/sectors/static/goes_west.yaml
+     modified: geoips/plugins/yaml/sectors/static/himawari.yaml
+     modified: geoips/plugins/yaml/sectors/static/indian_basin.yaml
+     modified: geoips/plugins/yaml/sectors/static/japan.yaml
+     modified: geoips/plugins/yaml/sectors/static/korea.yaml
+     modified: geoips/plugins/yaml/sectors/static/mediterranean.yaml
+     modified: geoips/plugins/yaml/sectors/static/melbourne.yaml
+     modified: geoips/plugins/yaml/sectors/static/meteosat_africa.yaml
+     modified: geoips/plugins/yaml/sectors/static/meteosat_europe.yaml
+     modified: geoips/plugins/yaml/sectors/static/meteosat_indian_ocean.yaml
+     modified: geoips/plugins/yaml/sectors/static/mexico_city.yaml
+     modified: geoips/plugins/yaml/sectors/static/middle_east.yaml
+     modified: geoips/plugins/yaml/sectors/static/ne_asia.yaml
+     modified: geoips/pydantic/__init__.py
+     modified: geoips/pydantic/bases.py
+     modified: tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh
+     modified: tests/scripts/documentation_imagery.sh
+     modified: tests/scripts/fci.static.Visible.imagery_annotated.sh
+     modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+     modified: tests/scripts/seviri.Convective_Storms.imagery_clean.sh
+     modified: tests/scripts/seviri.Day_Microphys_Summer.imagery_clean.sh
+     modified: tests/scripts/seviri.Day_Microphys_Winter.imagery_clean.sh
+     modified: tests/scripts/seviri.Day_Solar.imagery_clean.sh
+     modified: tests/scripts/seviri.Dust-RGB.imagery_clean.sh
+     modified: tests/scripts/seviri.Dust_RGB.imagery_clean.sh
+     modified: tests/scripts/seviri.Natural-Color.imagery_clean.sh
+     modified: tests/scripts/seviri.Natural_Color.imagery_clean.sh
+     modified: tests/scripts/seviri.Night_Microphys.imagery_clean.sh
+     modified: tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh
+     modified: tests/scripts/seviri.airmass.imagery_clean.sh
+     modified: tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh
+     modified: tests/unit_tests/plugin_registries/files/good/geoips.yaml
+     modified: tests/yaml_configs/amsr2_no_compare_full.yaml
+     modified: tests/yaml_configs/amsr2_test.yaml
+     modified: tests/yaml_configs/amsr2_test_low_memory.yaml
+     modified: tests/yaml_configs/amsr2_test_no_compare.yaml
+     modified: tests/yaml_configs/updated_format.yaml
+
+Enhancement
+===========
+
+Obp pydantic feature annotator models
+-------------------------------------
+
+Implemented pydantic schema for feature annotator plugins. Builds off of the base
+pydantic PluginModel and implemented unit test for this new functionality as well.
+Refactored the pydantic unit test utility module so unit tests for other interfaces
+could be generalized to reduce code duplication.
+
+::
+
+     added: geoips/pydantic/feature_annotators.py
+     added: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+     added: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
+     modified: geoips/plugins/yaml/feature_annotators/default.yaml
+     modified: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
+     modified: geoips/plugins/yaml/feature_annotators/tc_visir.yaml
+     modified: geoips/pydantic/bases.py
+     modified: tests/unit_tests/pydantic/sectors/test_sectors.py
+     modified: tests/unit_tests/pydantic/utils.py
+
+Enhancement
+===========
+
+Write awips2 compatible netcdf files from smap or smos windspeed data
+---------------------------------------------------------------------
+
+Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.
+
+::
+
+     added: docs/source/releases/latest/cira_smap_awips2_branch.yaml
+     added: geoips/plugins/modules/output_formatters/windspeed_awips2_formatter.py
+     added: tests/scripts/smap.awips.netcdf.sh
+     added: tests/scripts/smos.awips.netcdf.sh
+     modified: setup/test-data-urls.yaml
+     modified: tests/integration_tests/test_integration.py
+
+Future
+======
+
+Order-based procflow
+--------------------
+
+Validation for readers and yaml products for the Order-Based Procflow (OBP)
+
+::
+
+     added: geoips/interfaces/yaml_based/workflows.py
+     added: geoips/plugins/modules/procflows/order_based.py
+     added: geoips/plugins/yaml/workflows/read_test.yaml
+     added: geoips/plugins/yaml/workflows/visir/IR-BD.yaml
+     added: geoips/plugins/yaml/workflows/visir/Infrared-Gray.yaml
+     added: geoips/plugins/yaml/workflows/visir/Infrared.yaml
+     added: geoips/plugins/yaml/workflows/abi.yaml
+     added: geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_high.yaml
+     added: geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_low.yaml
+     added: geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_mid.yaml
+     added: geoips/plugins/yaml/workflows/geostationary_dmw/windbarbs_dmw_multi_level.yaml
+     added: geoips/plugins/yaml/workflows/visir/IR-BD.yaml
+     added: geoips/plugins/yaml/workflows/visir/Infrared-Gray.yaml
+     added: geoips/plugins/yaml/workflows/visir/Infrared.yaml
+     added: geoips/plugins/yaml/workflows/visir/Visible.yaml
+     added: geoips/plugins/yaml/workflows/visir/WV-Lower.yaml
+     added: geoips/plugins/yaml/workflows/visir/WV-Upper.yaml
+     added: geoips/plugins/yaml/workflows/visir/WV.yaml
+     added: geoips/plugins/yaml/workflows/visir/nasa_dust_rgb.yaml
+     added: geoips/pydantic/__init__.py
+     added: geoips/pydantic/bases.py
+     added: geoips/pydantic/workflows.py
+     modified: pyproject.toml
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/create_plugin_registries.py
+     modified: geoips/interfaces/__init__.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/modules/procflows/__init__.py
+     modified: geoips/plugins/yaml/products/abi.yaml
+     modified: geoips/plugins/yaml/sectors/static/alaska.yaml
+
+Documentation
+=============
+
+Order-based procflow documentation
+----------------------------------
+
+Documentation of Order-Based Procflow usage process.
+
+::
+
+     added: docs/dev/order_based_procflow.rst
+
+Testing
+=======
+
+Order-based procflow testing
+----------------------------
+
+Testing of multiple Order-Based Procflow Pydantic models.
+
+::
+
+     added: tests/unit_tests/pydantic/conftest.py
+     added: tests/unit_tests/pydantic/bases/test_bases.py
+     added: tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py
+     added: tests/unit_tests/pydantic/workflows/test_workflow_step_definition_model.py
+     added: tests/unit_tests/pydantic/workflows/test_workflow_step_model.py
+     added: tests/unit_tests/pydantic/workflows/workflows.py
+     added: tests/unit_tests/plugins/test_get_plugin_metadata.py
+
+Testing
+=======
+
+Add pytest-based integration tests for all packages
+---------------------------------------------------
+
+* Remove individual package repopaths and pkgnames from geoips test_integration,
+  since integration tests are now called directly from each package.
+* Allow "integration" marker for interactive_pytest.sh (to run all integration
+  tests)
+* Remove individual test calls to individual repositories integration tests, since
+  they are now tested directly.
+* Add "preprocess" marker to pytest.ini
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/utils/interactive_pytest.sh
+     modified: pytest.ini

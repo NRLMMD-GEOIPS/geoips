@@ -12,6 +12,14 @@ geoips.plugins.modules.procflows.config\_based module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.procflows.order\_based module
+----------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.procflows.order_based
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.procflows.single\_source module
 ------------------------------------------------------
 

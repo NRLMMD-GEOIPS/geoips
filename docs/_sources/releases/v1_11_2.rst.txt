@@ -1,0 +1,271 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.11.2 (2023-09-06)
+***************************
+
+* Bug Fix: Improve end time estimate in SSMIS metadata
+* Bug Fix: Rename "time" coordinate to "time_dim" in abi_l2_netcdf reader
+* Bug Fix: Fix ASCAT-UHR start and end times
+* New: github action for release note PR validation
+* New: github action for code linting PR validation
+* New: Add ability to filter based on time window from command line
+* Git: Add "update_this_release_note" file to geoips repo.
+* Docs: Add informative error messages for missing data
+* Bug fix: Initialize window_start/end_time variables in config_based procflow
+* Test: Update ATMS NetCDF output with correct attribute name
+* Bug fix: Remove mkdir $GEOIPS_TESTDATA_DIR from repo_clone_update_install.sh
+
+Enhancements
+============
+
+Add informative error messages for missing data
+-----------------------------------------------
+
+When starting config_based or single_source procflows,
+note if no files were found, or if any individual files
+did not exist on disk.
+
+::
+
+  modified: geoips/plugins/modules/procflows/config_based.py
+  modified: geoips/plugins/modules/procflows/single_source.py
+
+Add ability to filter based on time window from command line
+------------------------------------------------------------
+
+*From GEOIPS#341: 2023-09-07, time-based filtering at command line*
+
+Add window_start_time and window_end_time to available command line arguments,
+and pass through to all sectoring utilities to enable command line specified
+temporal sectoring.
+
+NOTE: Currently dynamic sectors are automatically temporally sectored to
+a time range around the dynamic sector, passing window start and end time
+OVERRIDES the default dynamic sector-based temporal sectoring - whatever time
+window you select at the command line will be used over the default range.
+
+SMAP test script added to only produce the afternoon overpass.  recenter_tc
+version of the same test script includes both morning and afternoon images.
+
+::
+
+  modified:   geoips/commandline/args.py
+  modified:   geoips/plugins/modules/procflows/config_based.py
+  modified:   geoips/plugins/modules/procflows/single_source.py
+  modified:   geoips/xarray_utils/data.py
+  modified:   tests/scripts/smap.tc.windspeed.imagery_clean.sh
+
+Bug Fixes
+=========
+
+Initialize window_start/end_time variables in config_based procflow
+-------------------------------------------------------------------
+
+When implementing window start/end time, missed initializing in config_based
+procflow.  Always failed if you didn't specify...
+
+::
+
+    geoips/plugins/modules/procflows/config_based.py
+
+Update time coordinate name when stacking xarray datasets in abi_l2_netcdf reader
+---------------------------------------------------------------------------------
+
+*From GEOIPS#335: 2023-08-24, Update time coordinate in abi_l2_netcdf reader*
+
+Rename dimension/coordinate from "time" to "time_dim" in abi_l2_reader
+
+ * Only applicable when stacking multiple xarray objects
+
+Update single_source procflow to check for "time_dim" dimension rather than "time"
+
+::
+
+    modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+    modified: geoips/plugins/modules/procflows/single_source.py
+
+Improve end time estimate for SSMIS files
+-----------------------------------------
+
+*From GEOIPS#329: 2023-08-22, Improve end time estimate in SSMIS metadata*
+
+Improve SSMIS file end time in reader metadata
+
+ * SSMIS file end time was previously determined by applying
+   a 100minute offset to the start time extracted from the file header.
+ * This would lead to end times up to ~10mins off compared to the time
+   listed in the file name.
+ * Start and end times now determined by parsing the file name. If that fails,
+   the start time listed in the header is used, and the end time
+   is determined by applying an offset based off the number
+   of sensor data records in the SSMIS file.
+
+   * Each sensor data record is roughly equivalent to 45.5 seconds.
+   * When parsing time from file, checks if end time is less than start time.
+     If this is the case, add a day to the end time.
+
+::
+
+  modified: geoips/plugins/modules/readers/ssmis_binary.py
+
+Fix ASCAT-UHR start and end times
+---------------------------------
+
+*From GEOIPS#332: 2023-08-23, Fix ASCAT-UHR start and end times*
+
+Check if offset appied to time array creates times more than
+one day ahead of the expected day
+
+ * Expected day is parsed from the file name, and offset is determined
+   by taking the difference between the expected time and time array in file.
+ * If the start time in the final time array is more than one day ahead of the
+   expected time, one day is subtracted from the applied offset.
+
+::
+
+    modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+
+
+Update ASCAT-UHR reader to determine time array needs an offset
+---------------------------------------------------------------
+
+*From GEOIPS#351: 2023-09-12, Update ASCAT-UHR reader*
+
+Check if offset needs to be appied to time array.
+
+ * Recent updates to ASCAT-UHR files now have correct scan time stamps.
+ * Compare time stamp to expected date, no offset required if difference
+   is less than 86400 seconds.
+
+Update handling of parsing storm name from file name
+
+ * The "scaled" files have slightly different naming format, which
+   results in a ValueError instead of an IndexError. (ValueError comes
+   from attempting to use datetime.strftime on a non-date string)
+
+Add new test script that tests reader with updated ASCAT-UHR files.
+
+ * Add sector file, output comparison, and add to full_test.sh
+
+::
+
+    modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+    modified: tests/integration_tests/full_test.sh
+    new file: tests/outputs/ascat_uhr.tc.windspeed.imagery_clean/20230912_011802_AL132023_ascatuhr_metop-c_windspeed_100kts_51p44_1p0.png
+    new file: tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh
+    new file: tests/sectors/tc_bdecks/bal132023.dat
+
+Additional bug fix for ASCAT-UHR start and end times
+----------------------------------------------------
+
+*From GEOIPS#332: 2023-09-15, Fix ASCAT-UHR start and end times*
+
+Check if absolute difference between data start time and expected date
+is greater than 86400.
+
+Add dedicated test scripts that check all versions of ASCAT-UHR files
+that require applied time offsets.
+
+ * Add to full test script.
+
+::
+
+    modified: geoips/plugins/modules/readers/ascat_uhr_netcdf.py
+    modified: tests/integration_tests/full_test.sh
+    new file: tests/outputs/ascat_uhr.tc.nrcs.imagery_clean/20220911_132830_WP142022_ascatuhr_metop-b_nrcs_105kts_71p22_res1p0-cr300.png
+    new file: tests/outputs/ascat_uhr.tc.windbarbs.imagery_windbarbs/20230722_234513_AL052023_ascatuhr_metop-b_windbarbs_65kts_63p79_1p0.png
+    new file: tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh
+    new file: tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh
+    new file: tests/sectors/tc_bdecks/bal052023.dat
+
+Git Workflow
+============
+
+Add "update_this_release_note" file to geoips repo
+--------------------------------------------------
+
+*From GEOIPS#345: 2023-09-13, add update_this_release_note file*
+
+Track the current version we are working towards with an explicit file that
+indicates which release note should be updated.
+
+Oooh, this could also allow us to actually use this file during the PR validation
+(make sure that specific release note is added or modified, NOT just any random
+v*.rst file. AND we could make sure it is in the index.rst!)
+
+Add a reference to it in CHANGELOG.rst.  This is going to cause the validations
+to fail!
+
+This will be updated during the release process - so we have to think about what
+version we'll be working towards next while we're completing the current release.
+
+NOTE: Also updated CHANGELOG.rst in template_basic_plugin, template_fusion_plugin,
+and geoips_plugin_example.  At least keep those up to date - others can be
+updated on a case by case basis as needed.
+
+::
+
+  update_this_release_note
+  CHANGELOG.rst
+  CHANGELOG_TEMPLATE.rst
+
+github action for code linting PR validation
+--------------------------------------------
+
+*From GEOIPS#331 action to run check_code.sh linters*
+*From GEOIPS#347 expand check_code.sh to run on all repos*
+
+Added a workflow file to executue the following linting checks,
+bandit, black and flake8. The checks enforce the requirements
+for a Pull Request.
+
+This workflow is functional for any plugin repository
+within the GeoIPS organization (by cloning both the "current"
+repository as well as the geoips repository to allow using
+the geoips check_code.sh utility).
+
+Checks out "dev" branch of geoips repo to geoips_dev_utils,
+and current PR branch of plugin repo to repo directory name.
+
+Uses "GEOIPS_TOKEN" for authentication.
+
+::
+
+    added: geoips/.github/workflows/check-code.yaml
+    modified: geoips/.github/workflows/validate-pull-request.yaml
+    modified: geoips/cli.py
+    modified: plugins/modules/readers/ssmis_binary.py
+    modified: check_code.sh
+
+github action for release note PR validation
+--------------------------------------------
+
+*From GEOIPS#310 action for pull request validation*
+
+Added a workflow file to test for basic policy violations
+for the addition of a change log to the release documentation.
+
+* CHANGELOG.rst, CHANGELOG_TEMPLATE.rst, and COMMIT_MESSAGE_TEMPLATE.md
+  should NOT be changed
+* docs/source/releases/v*.rst SHOULD have modifications
+  (new file, or modification to existing file)
+
+::
+
+    added: geoips/.github/workflows/validate-pull-request.yaml
+
+Test Repo Updates
+=================
+
+Update ATMS NetCDF output with correct attribute name
+-----------------------------------------------------
+
+original_source_file_names -> source_file_names.  No change to data or
+attribute contents, only that single attribute name change
+
+::
+
+  modified: tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.J01.165H_latitude_longitude.tc2021ep11kevin.nc

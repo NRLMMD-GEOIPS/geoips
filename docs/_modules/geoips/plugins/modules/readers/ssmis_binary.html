@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.readers.ssmis_binary &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.plugins.modules.readers.ssmis_binary &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/plugins/modules/readers/ssmis_binary';</script>
     <link rel="icon" href="../../../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../../../genindex.html" />
     <link rel="search" title="Search" href="../../../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.plugins.modules.readers.ssmis_binary</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.plugins.modules.readers.ssmis_binary</span></li>
   </ul>
 </nav>
 </div>
@@ -421,20 +424,11 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.plugins.modules.readers.ssmis_binary</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;SSMIS Binary reader.</span>
 
@@ -453,24 +447,27 @@ document.write(`
 <span class="sd">     XARRAY onjectives to hold variables</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="c1"># Python Standard Libraries</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span>
 
-<span class="c1"># import os</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-<span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
+<span class="c1"># Third-Party Libraries</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">xr</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">interface</span> <span class="o">=</span> <span class="s2">&quot;readers&quot;</span>
 <span class="n">family</span> <span class="o">=</span> <span class="s2">&quot;standard&quot;</span>
 <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;ssmis_binary&quot;</span>
+<span class="n">source_names</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;ssmis&quot;</span><span class="p">]</span>
+
+<span class="c1"># NOTE: Anytime you see a # NOQA comment, this is for flake8 formatting. Unused</span>
+<span class="c1"># variables are needed in this for moving through the binary file correctly.</span>
 
 
-<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ssmis_binary.call">[docs]</a><span class="k">def</span> <span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ssmis_binary.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read SSMIS binary data products.</span>
 
 <span class="sd">    Parameters</span>
@@ -520,7 +517,7 @@ document.write(`
     <span class="k">return</span> <span class="n">final_xobjs</span></div>
 
 
-<div class="viewcode-block" id="append_xarray_dicts"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ssmis_binary.append_xarray_dicts">[docs]</a><span class="k">def</span> <span class="nf">append_xarray_dicts</span><span class="p">(</span><span class="n">xobjs_list</span><span class="p">):</span>
+<div class="viewcode-block" id="append_xarray_dicts"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ssmis_binary.append_xarray_dicts">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">append_xarray_dicts</span><span class="p">(</span><span class="n">xobjs_list</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Append two dictionaries of xarray objects.&quot;&quot;&quot;</span>
     <span class="n">final_xobjs</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="c1"># Loop through all the datasets in the first</span>
@@ -547,15 +544,15 @@ document.write(`
     <span class="k">return</span> <span class="n">final_xobjs</span></div>
 
 
-<div class="viewcode-block" id="read_ssmis_data_file"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ssmis_binary.read_ssmis_data_file">[docs]</a><span class="k">def</span> <span class="nf">read_ssmis_data_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read_ssmis_data_file"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ssmis_binary.read_ssmis_data_file">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">read_ssmis_data_file</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Read a single SSMIS data file.&quot;&quot;&quot;</span>
-    <span class="n">data_name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">data_name</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">data_name</span> <span class="o">!=</span> <span class="s2">&quot;raw&quot;</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Warning: wrong SSMI SDR data type:  data_type=</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">data_name</span><span class="p">)</span>
         <span class="k">raise</span>
 
-    <span class="k">if</span> <span class="s2">&quot;cfnoc&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;sdris&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="k">if</span> <span class="s2">&quot;cfnoc&quot;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span> <span class="ow">and</span> <span class="s2">&quot;sdris&quot;</span> <span class="ow">in</span> <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;found a SSMIS SDR file&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;not a SSMIS SDR file: skip it&quot;</span><span class="p">)</span>
@@ -566,30 +563,37 @@ document.write(`
     <span class="n">f1</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span>
 
     <span class="c1"># READ HEARDER</span>
-    <span class="n">sw_rev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">endian</span><span class="p">,</span> <span class="n">fileid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
+    <span class="n">sw_rev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># NOQA</span>
+    <span class="n">endian</span><span class="p">,</span> <span class="n">fileid</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
+        <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
     <span class="n">rev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
     <span class="n">year</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
     <span class="n">jday</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
     <span class="n">hour</span><span class="p">,</span> <span class="n">minu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
     <span class="n">satid</span><span class="p">,</span> <span class="n">nsdr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
-    <span class="n">spare1</span><span class="p">,</span> <span class="n">spare2</span><span class="p">,</span> <span class="n">spare3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
+    <span class="n">spare1</span><span class="p">,</span> <span class="n">spare2</span><span class="p">,</span> <span class="n">spare3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>  <span class="c1"># NOQA</span>
         <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
     <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
-    <span class="n">proc_stat_flags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
-    <span class="n">spare4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
+    <span class="n">proc_stat_flags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>  <span class="c1"># NOQA</span>
+        <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
+    <span class="n">spare4</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
     <span class="c1"># Need to set up time to be read in by the metadata (year and jday are arrays)</span>
-    <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">jday</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hour</span><span class="p">,</span> <span class="n">minu</span><span class="p">)</span>
+    <span class="n">time</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">%04d%03d%02d%02d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">year</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">jday</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hour</span><span class="p">,</span> <span class="n">minu</span><span class="p">)</span>  <span class="c1"># NOQA</span>
     <span class="n">nbytes</span> <span class="o">=</span> <span class="mi">28</span>  <span class="c1"># bytes that have been read in</span>
     <span class="c1"># Read scan records at 512-byte boundaries</span>
     <span class="n">nfiller</span> <span class="o">=</span> <span class="mi">512</span> <span class="o">-</span> <span class="p">(</span>
         <span class="n">nbytes</span> <span class="o">%</span> <span class="mi">512</span>
-    <span class="p">)</span>  <span class="c1"># skip nfiller bytes so that the scan header will start at the 513th byte of the data records,</span>
-    <span class="n">filler_bytes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nfiller</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
+    <span class="p">)</span>  <span class="c1"># skip nfiller bytes so that the scan header will start at the 513th byte of</span>
+    <span class="c1"># the data records,</span>
+    <span class="n">filler_bytes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
+        <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nfiller</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
 
-    <span class="c1"># Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100 (it was 10 before this change)</span>
-    <span class="c1"># effective with orbit rev 12216 for F-16 and thereafter for all future</span>
-    <span class="c1"># satellites</span>
+    <span class="c1"># Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100</span>
+    <span class="c1"># (it was 10 before this change) effective with orbit rev 12216 for F-16 and</span>
+    <span class="c1"># thereafter for all future satellites</span>
     <span class="n">rev6a</span> <span class="o">=</span> <span class="mi">1</span>
     <span class="c1"># When revs wrapped back to 0, the rev[0] &lt; 12216 was no longer valid.</span>
     <span class="c1"># Check that rev &lt; 12216, AND year &lt; 2023 (revs wrapped on 7 March 2023)</span>
@@ -609,19 +613,19 @@ document.write(`
     <span class="n">sensor_scan_angle</span> <span class="o">=</span> <span class="mf">45.0</span>
     <span class="n">satellite_altitude</span> <span class="o">=</span> <span class="mi">859</span>
 
-    <span class="n">bad_value</span> <span class="o">=</span> <span class="o">-</span><span class="mi">999</span>
+    <span class="c1"># bad_value = -999</span>
 
     <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">nsdr</span><span class="p">):</span>  <span class="c1"># loop number of sdr data records</span>
         <span class="n">nbytes</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># SCAN HEADER</span>
-        <span class="n">syncword</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
+        <span class="n">syncword</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
         <span class="n">scan_year</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
         <span class="n">scan_jday</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
         <span class="n">scan_hour</span><span class="p">,</span> <span class="n">scan_minu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
             <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
-        <span class="n">scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
+        <span class="n">scan</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
         <span class="n">nscan_imager</span><span class="p">,</span> <span class="n">nscan_enviro</span><span class="p">,</span> <span class="n">nscan_las</span><span class="p">,</span> <span class="n">nscan_uas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
             <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
@@ -645,9 +649,9 @@ document.write(`
             <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">16</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
         <span class="n">scenecounts_uas</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;uint8&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
-        <span class="n">spare</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
+        <span class="n">spare</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">20</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>  <span class="c1"># NOQA</span>
         <span class="n">nbytes</span> <span class="o">+=</span> <span class="mi">360</span>  <span class="c1"># total bytes of the scan header</span>
-        <span class="n">nscan0</span> <span class="o">=</span> <span class="n">scan</span> <span class="o">-</span> <span class="mi">1</span>  <span class="c1"># number of scans</span>
+        <span class="c1"># nscan0 = scan - 1  # number of scans</span>
 
         <span class="c1"># not use geoips functions for time variables</span>
         <span class="n">yyyyjjjhhmn</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="si">{0:4d}{1:03d}{2:02d}{3:02d}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
@@ -658,18 +662,112 @@ document.write(`
 
         <span class="k">if</span> <span class="n">nn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">start_time</span> <span class="o">=</span> <span class="n">yyyyjjjhhmn</span>
-        <span class="k">if</span> <span class="n">nn</span> <span class="o">==</span> <span class="n">nsdr</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">end_time</span> <span class="o">=</span> <span class="n">yyyyjjjhhmn</span>
+        <span class="c1"># if nn == nsdr - 1:</span>
+        <span class="c1">#     end_time = yyyyjjjhhmn</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># The start end time in the standard file name seems to be a bit more</span>
+            <span class="c1"># reliable, so try parsing the file name first before falling back</span>
+            <span class="c1"># on the header information in the binary file</span>
+
+            <span class="c1"># Grab only the file name</span>
+            <span class="n">bfname</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+            <span class="c1"># Standard SSMIS file names are the following format:</span>
+            <span class="c1"># &lt;FILE_ID&gt;_&lt;SATELLITE&gt;_&lt;DATE&gt;_&lt;START&gt;_&lt;END&gt;_&lt;REV&gt;_&lt;EXTENSION&gt;</span>
+            <span class="n">split_fname</span> <span class="o">=</span> <span class="n">bfname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">start</span><span class="p">,</span> <span class="s2">&quot;d%Y%m</span><span class="si">%d</span><span class="s2">s%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;d%Y%m</span><span class="si">%d</span><span class="s2">e%H%M%S&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">end_datetime</span> <span class="o">&lt;</span> <span class="n">start_datetime</span><span class="p">:</span>
+                <span class="c1"># Rolled over to new day</span>
+                <span class="n">end_datetime</span> <span class="o">+=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># Could not parse the start/end time from the file name</span>
+            <span class="c1"># Fall back on using info in header</span>
+            <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Estimate end time just for metadata purposes</span>
+            <span class="c1"># To my knowledge, the file end time is not included in the binary header</span>
+            <span class="c1"># The following offset was determined by taking the start/end time</span>
+            <span class="c1"># listed in the file name, then dividing the total number of seconds by the</span>
+            <span class="c1"># number of sensor data records, which came out to 45.5 seconds</span>
+            <span class="n">estimated_seconds_per_sensor_data_record</span> <span class="o">=</span> <span class="mf">45.5</span>
+            <span class="n">seconds_offset</span> <span class="o">=</span> <span class="n">estimated_seconds_per_sensor_data_record</span> <span class="o">*</span> <span class="n">nsdr</span>
+            <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">start_datetime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds_offset</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># The start end time in the standard file name seems to be a bit more</span>
+            <span class="c1"># reliable, so try parsing the file name first before falling back</span>
+            <span class="c1"># on the header information in the binary file</span>
+
+            <span class="c1"># Grab only the file name</span>
+            <span class="n">bfname</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+            <span class="c1"># Standard SSMIS file names are the following format:</span>
+            <span class="c1"># &lt;FILE_ID&gt;_&lt;SATELLITE&gt;_&lt;DATE&gt;_&lt;START&gt;_&lt;END&gt;_&lt;REV&gt;_&lt;EXTENSION&gt;</span>
+            <span class="n">split_fname</span> <span class="o">=</span> <span class="n">bfname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">start</span><span class="p">,</span> <span class="s2">&quot;d%Y%m</span><span class="si">%d</span><span class="s2">s%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;d%Y%m</span><span class="si">%d</span><span class="s2">e%H%M%S&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">end_datetime</span> <span class="o">&lt;</span> <span class="n">start_datetime</span><span class="p">:</span>
+                <span class="c1"># Rolled over to new day</span>
+                <span class="n">end_datetime</span> <span class="o">+=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># Could not parse the start/end time from the file name</span>
+            <span class="c1"># Fall back on using info in header</span>
+            <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Estimate end time just for metadata purposes</span>
+            <span class="c1"># To my knowledge, the file end time is not included in the binary header</span>
+            <span class="c1"># The following offset was determined by taking the start/end time</span>
+            <span class="c1"># listed in the file name, then dividing the total number of seconds by the</span>
+            <span class="c1"># number of sensor data records, which came out to 45.5 seconds</span>
+            <span class="n">estimated_seconds_per_sensor_data_record</span> <span class="o">=</span> <span class="mf">45.5</span>
+            <span class="n">seconds_offset</span> <span class="o">=</span> <span class="n">estimated_seconds_per_sensor_data_record</span> <span class="o">*</span> <span class="n">nsdr</span>
+            <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">start_datetime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds_offset</span><span class="p">)</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># The start end time in the standard file name seems to be a bit more</span>
+            <span class="c1"># reliable, so try parsing the file name first before falling back</span>
+            <span class="c1"># on the header information in the binary file</span>
+
+            <span class="c1"># Grab only the file name</span>
+            <span class="n">bfname</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+            <span class="c1"># Standard SSMIS file names are the following format:</span>
+            <span class="c1"># &lt;FILE_ID&gt;_&lt;SATELLITE&gt;_&lt;DATE&gt;_&lt;START&gt;_&lt;END&gt;_&lt;REV&gt;_&lt;EXTENSION&gt;</span>
+            <span class="n">split_fname</span> <span class="o">=</span> <span class="n">bfname</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)</span>
+            <span class="n">date</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+            <span class="n">start</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+            <span class="n">end</span> <span class="o">=</span> <span class="n">split_fname</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+            <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">start</span><span class="p">,</span> <span class="s2">&quot;d%Y%m</span><span class="si">%d</span><span class="s2">s%H%M%S&quot;</span><span class="p">)</span>
+            <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">end</span><span class="p">,</span> <span class="s2">&quot;d%Y%m</span><span class="si">%d</span><span class="s2">e%H%M%S&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">end_datetime</span> <span class="o">&lt;</span> <span class="n">start_datetime</span><span class="p">:</span>
+                <span class="c1"># Rolled over to new day</span>
+                <span class="n">end_datetime</span> <span class="o">+=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="c1"># Could not parse the start/end time from the file name</span>
+            <span class="c1"># Fall back on using info in header</span>
+            <span class="n">start_datetime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Estimate end time just for metadata purposes</span>
+            <span class="c1"># To my knowledge, the file end time is not included in the binary header</span>
+            <span class="c1"># The following offset was determined by taking the start/end time</span>
+            <span class="c1"># listed in the file name, then dividing the total number of seconds by the</span>
+            <span class="c1"># number of sensor data records, which came out to 45.5 seconds</span>
+            <span class="n">estimated_seconds_per_sensor_data_record</span> <span class="o">=</span> <span class="mf">45.5</span>
+            <span class="n">seconds_offset</span> <span class="o">=</span> <span class="n">estimated_seconds_per_sensor_data_record</span> <span class="o">*</span> <span class="n">nsdr</span>
+            <span class="n">end_datetime</span> <span class="o">=</span> <span class="n">start_datetime</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds_offset</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">metadata_only</span><span class="p">:</span>
             <span class="n">xarray_imager</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
-            <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span>
-            <span class="p">)</span>
-            <span class="c1"># Estimate end time just for metadata purposes</span>
-            <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-                <span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span>
-            <span class="p">)</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">minutes</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+            <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
+            <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
             <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmis&quot;</span>
             <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
             <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
@@ -726,7 +824,7 @@ document.write(`
                     <span class="n">imager_ch18</span><span class="p">,</span>
                 <span class="p">)</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span><span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">12</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;short&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
                 <span class="n">nbytes</span> <span class="o">+=</span> <span class="mi">20</span>
-                <span class="n">k</span> <span class="o">=</span> <span class="mi">180</span> <span class="o">*</span> <span class="p">(</span><span class="n">nscan0</span> <span class="o">+</span> <span class="n">ii</span><span class="p">)</span> <span class="o">+</span> <span class="n">jj</span>
+                <span class="c1"># k = 180 * (nscan0 + ii) + jj</span>
                 <span class="n">lat</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">imager_lat</span>
                 <span class="n">lon</span> <span class="o">=</span> <span class="mf">0.01</span> <span class="o">*</span> <span class="n">imager_lon</span>
                 <span class="k">try</span><span class="p">:</span>
@@ -740,12 +838,13 @@ document.write(`
                     <span class="n">ch18</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">imager_ch18</span>  <span class="c1"># 91H</span>
                     <span class="n">surf</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">imager_surf</span>
                     <span class="n">rain</span><span class="p">[</span><span class="n">ii</span><span class="p">][</span><span class="n">jj</span><span class="p">]</span> <span class="o">=</span> <span class="n">imager_rain</span>
-                <span class="k">except</span><span class="p">:</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Failed setting arrays in scan_imager&quot;</span><span class="p">)</span>
 
         <span class="n">time_imager</span><span class="p">[:][</span>
             <span class="p">:</span>
-        <span class="p">]</span> <span class="o">=</span> <span class="n">yyyyjjjhhmn</span>  <span class="c1"># set same time for this data record and must use the datetime64 format</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="n">yyyyjjjhhmn</span>  <span class="c1"># set same time for this data record and must use the</span>
+        <span class="c1"># datetime64 format</span>
 
         <span class="c1"># catenation of data records</span>
         <span class="k">if</span> <span class="n">nn</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -839,7 +938,7 @@ document.write(`
                     <span class="n">enviroodd_rain1</span><span class="p">,</span> <span class="n">enviroodd_rain2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
                         <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
                     <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
-                    <span class="n">edr_bitflags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
+                    <span class="n">edr_bitflags</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>  <span class="c1"># NOQA</span>
                         <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int32&quot;</span><span class="p">)</span>
                     <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()</span>
                     <span class="n">nbytes</span> <span class="o">+=</span> <span class="mi">36</span>
@@ -874,7 +973,8 @@ document.write(`
 
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">ii</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span>
-            <span class="p">):</span>  <span class="c1"># for even scan numbers (ch15_5x5, ch16_5x5, ch17_5x5, ch18_5x5, ch17_5x4, ch18_5x4 ??? need a review)</span>
+            <span class="p">):</span>  <span class="c1"># for even scan numbers (ch15_5x5, ch16_5x5, ch17_5x5, ch18_5x5,</span>
+                <span class="c1"># ch17_5x4, ch18_5x4 ??? need a review)</span>
                 <span class="k">if</span> <span class="n">start_scantime_enviro</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">999</span><span class="p">:</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;value of enviro even scan is </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ii</span><span class="p">)</span>
                     <span class="k">continue</span>
@@ -1209,9 +1309,10 @@ document.write(`
         <span class="c1">#       fill up space</span>
         <span class="n">nfiller</span> <span class="o">=</span> <span class="mi">512</span> <span class="o">-</span> <span class="p">(</span>
             <span class="n">nbytes</span> <span class="o">%</span> <span class="mi">512</span>
-        <span class="p">)</span>  <span class="c1"># nfiller bytes to be skipped so that the next scan header will start at the 513th byte.</span>
+        <span class="p">)</span>  <span class="c1"># nfiller bytes to be skipped so that the next scan header will start at</span>
+        <span class="c1"># the 513th byte.</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">filler_bytes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>
+            <span class="n">filler_bytes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromstring</span><span class="p">(</span>  <span class="c1"># NOQA</span>
                 <span class="n">f1</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">nfiller</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">(</span><span class="s2">&quot;int8&quot;</span><span class="p">)</span>
             <span class="p">)</span><span class="o">.</span><span class="n">byteswap</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
@@ -1220,13 +1321,13 @@ document.write(`
 
     <span class="n">f1</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;start_time, end_time= </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">start_time</span><span class="p">,</span> <span class="n">end_time</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;start_time, end_time= </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">start_datetime</span><span class="p">,</span> <span class="n">end_datetime</span><span class="p">)</span>
 
     <span class="c1"># --------------------- Xarray Objects for Processing Datasets------------</span>
     <span class="c1">#   conversion of TBs to K</span>
     <span class="c1">#             TBs/100 + 273.15   (K)</span>
     <span class="c1">#             setup xarray objects</span>
-    <span class="n">namelist_imager</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">namelist_imager</span> <span class="o">=</span> <span class="p">[</span>  <span class="c1"># NOQA</span>
         <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
         <span class="s2">&quot;H150&quot;</span><span class="p">,</span>
@@ -1239,55 +1340,55 @@ document.write(`
         <span class="s2">&quot;rain&quot;</span><span class="p">,</span>
         <span class="s2">&quot;time&quot;</span><span class="p">,</span>
     <span class="p">]</span>
-    <span class="n">namelist_enviro</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;H19&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;V19&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;V22&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;H37&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;V37&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch15_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch16_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch17_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch18_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch17_5x4&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch18_5x4&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-    <span class="p">]</span>
-    <span class="n">namelist_las</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch01_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch02_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch03_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch04_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch05_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch06_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch07_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch08_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch09_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch10_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch11_5x5&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch18_5x5_las&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch24_3x3&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;height_1000mb&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;surf_las&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-    <span class="p">]</span>
-    <span class="n">namelist_uas</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="s2">&quot;latitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;longitude&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch19_6x6&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch20_6x6&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch21_6x6&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch22_6x6&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch23_6x6&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;ch24_6x6&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;scene&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;tqflag&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;time&quot;</span><span class="p">,</span>
-    <span class="p">]</span>
+    <span class="c1"># namelist_enviro = [</span>
+    <span class="c1">#     &quot;latitude&quot;,</span>
+    <span class="c1">#     &quot;longitude&quot;,</span>
+    <span class="c1">#     &quot;H19&quot;,</span>
+    <span class="c1">#     &quot;V19&quot;,</span>
+    <span class="c1">#     &quot;V22&quot;,</span>
+    <span class="c1">#     &quot;H37&quot;,</span>
+    <span class="c1">#     &quot;V37&quot;,</span>
+    <span class="c1">#     &quot;ch15_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch16_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch17_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch18_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch17_5x4&quot;,</span>
+    <span class="c1">#     &quot;ch18_5x4&quot;,</span>
+    <span class="c1">#     &quot;time&quot;,</span>
+    <span class="c1"># ]</span>
+    <span class="c1"># namelist_las = [</span>
+    <span class="c1">#     &quot;latitude&quot;,</span>
+    <span class="c1">#     &quot;longitude&quot;,</span>
+    <span class="c1">#     &quot;ch01_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch02_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch03_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch04_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch05_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch06_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch07_3x3&quot;,</span>
+    <span class="c1">#     &quot;ch08_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch09_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch10_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch11_5x5&quot;,</span>
+    <span class="c1">#     &quot;ch18_5x5_las&quot;,</span>
+    <span class="c1">#     &quot;ch24_3x3&quot;,</span>
+    <span class="c1">#     &quot;height_1000mb&quot;,</span>
+    <span class="c1">#     &quot;surf_las&quot;,</span>
+    <span class="c1">#     &quot;time&quot;,</span>
+    <span class="c1"># ]</span>
+    <span class="c1"># namelist_uas = [</span>
+    <span class="c1">#     &quot;latitude&quot;,</span>
+    <span class="c1">#     &quot;longitude&quot;,</span>
+    <span class="c1">#     &quot;ch19_6x6&quot;,</span>
+    <span class="c1">#     &quot;ch20_6x6&quot;,</span>
+    <span class="c1">#     &quot;ch21_6x6&quot;,</span>
+    <span class="c1">#     &quot;ch22_6x6&quot;,</span>
+    <span class="c1">#     &quot;ch23_6x6&quot;,</span>
+    <span class="c1">#     &quot;ch24_6x6&quot;,</span>
+    <span class="c1">#     &quot;scene&quot;,</span>
+    <span class="c1">#     &quot;tqflag&quot;,</span>
+    <span class="c1">#     &quot;time&quot;,</span>
+    <span class="c1"># ]</span>
 
     <span class="c1"># set xarray object for imager variables</span>
     <span class="n">xarray_imager</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">()</span>
@@ -1406,8 +1507,8 @@ document.write(`
     <span class="c1"># Setup attributes</span>
 
     <span class="c1"># for Imager</span>
-    <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-    <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+    <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
+    <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
     <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmis&quot;</span>
     <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
     <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
@@ -1421,8 +1522,8 @@ document.write(`
     <span class="n">xarray_imager</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">15000</span>
 
     <span class="c1"># for Enviro</span>
-    <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-    <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+    <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
+    <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
     <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmis&quot;</span>
     <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
     <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
@@ -1436,8 +1537,8 @@ document.write(`
     <span class="n">xarray_enviro</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50000</span>
 
     <span class="c1"># for LAS</span>
-    <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-    <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+    <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
+    <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
     <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmis&quot;</span>
     <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
     <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
@@ -1451,8 +1552,8 @@ document.write(`
     <span class="n">xarray_las</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mi">50000</span>
 
     <span class="c1"># for UAS</span>
-    <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
-    <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">end_time</span><span class="p">,</span> <span class="s2">&quot;%Y%j%H%M&quot;</span><span class="p">)</span>
+    <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;start_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">start_datetime</span>
+    <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;end_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">end_datetime</span>
     <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ssmis&quot;</span>
     <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">satid</span>
     <span class="n">xarray_uas</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;data_provider&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;DMSP&quot;</span>
@@ -1478,16 +1579,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -1505,11 +1602,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

@@ -1,0 +1,1177 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoips.commandline.geoips_command &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/commandline/geoips_command';</script>
+    <link rel="icon" href="../../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.commandline.geoips_command</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Source code for geoips.commandline.geoips_command</h1><div class="highlight"><pre>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;Code to implement GeoipsCommand Abstract Base Class for the CLI.</span>
+
+<span class="sd">Will implement a plethora of commands, but for the meantime, we&#39;ll work on</span>
+<span class="sd">&#39;geoips config&#39;,&#39;geoips describe&#39;, &#39;geoips list&#39;, &#39;geoips run&#39;, &#39;geoips test&#39;, and</span>
+<span class="sd">&#39;geoips validate&#39;.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">argparse</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirname</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">shutil</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_terminal_size</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">colorama</span><span class="w"> </span><span class="kn">import</span> <span class="n">Fore</span><span class="p">,</span> <span class="n">Style</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.cmd_instructions</span><span class="w"> </span><span class="kn">import</span> <span class="n">cmd_instructions</span><span class="p">,</span> <span class="n">alias_mapping</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.log_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_logging</span>
+
+
+<div class="viewcode-block" id="PluginPackages"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.PluginPackages">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">PluginPackages</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class to hold the plugin packages and their paths.</span>
+
+<span class="sd">    This class is used to hold the plugin packages and their paths, which are used</span>
+<span class="sd">    throughout the CLI to determine which plugins are available to the user. This</span>
+<span class="sd">    class is used in the GeoipsCLI class to determine which plugins are available to</span>
+<span class="sd">    the user.</span>
+
+<span class="sd">    Moving this to a class reduced GeoIPS CLI startup time by about 30%.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the PluginPackages class.</span>
+
+<span class="sd">        Initialize the plugin packages and their paths. This is done by using the</span>
+<span class="sd">        get_plugin_packages() and get_plugin_package_paths() functions.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">entrypoints</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">ep</span><span class="o">.</span><span class="n">value</span>
+            <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">paths</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">dirname</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">))</span>
+        <span class="p">]</span></div>
+
+
+<span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">PluginPackages</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="ParentParsers"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.ParentParsers">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">ParentParsers</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object containing shared arguments for commands in a hierarchical order.</span>
+
+<span class="sd">    The name of the parsers in this class directly link to the name of the top-level</span>
+<span class="sd">    command which will share its arguments. For example, since our top-level command is</span>
+<span class="sd">    &#39;geoips&#39; (see GeoipsCLI), then the arguments created by &#39;geoips_parser&#39; will be</span>
+<span class="sd">    shared amongst all of its child commands. As such, every argument created by</span>
+<span class="sd">    &#39;list_parser&#39; will be shared by &#39;list&#39; commands, and so on. So long as the name of</span>
+<span class="sd">    the class matches the structure &lt;class_name&gt;_parser, then the arguments will be</span>
+<span class="sd">    shared correctly.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">geoips_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">()</span>
+    <span class="n">geoips_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-log&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--log-level&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;interactive&quot;</span><span class="p">,</span>
+        <span class="c1"># Specified in order of what will be shown. First is lowest level (10).</span>
+        <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="s2">&quot;interactive&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;critical&quot;</span><span class="p">],</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Log level to output when using the CLI.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="n">list_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">list_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
+        <span class="n">choices</span><span class="o">=</span><span class="n">plugin_packages</span><span class="o">.</span><span class="n">entrypoints</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The GeoIPS package to list from.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mutex_group</span> <span class="o">=</span> <span class="n">list_parser</span><span class="o">.</span><span class="n">add_mutually_exclusive_group</span><span class="p">()</span>
+    <span class="n">mutex_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--long&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-l&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Flag representing the &#39;long&#39; listing of a certain command.&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">mutex_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;--columns&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;-c&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specific Headers of Data you&#39;d like to see listed.</span>
+<span class="s2">                For more in formation on headers available, run</span>
+<span class="s2">                &#39;geoips list &lt;cmd&gt; &lt;positional_args&gt; --columns help&#39;.</span>
+<span class="s2">                &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="GeoipsCommand"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsCommand">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsCommand</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract Base Class for top-level GeoIPS Command Classes, such as run or list.</span>
+
+<span class="sd">    This class is a blueprint of what each top-level GeoIPS Command Classes should</span>
+<span class="sd">    implement. Includes shared attributes and an ``add_suparsers`` function which is</span>
+<span class="sd">    used for initializing command classes of a certain GeoIPS Command.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LOG</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GeoipsCommand with a subparser and default to the command func.</span>
+
+<span class="sd">        Do this for each GeoipsCLI.geoips_command_classes. This will instantiate</span>
+<span class="sd">        each subcommand class with a parser and point towards the correct default</span>
+<span class="sd">        function to call if that subcommand has been called.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        LOG: optional - Logger Object</span>
+<span class="sd">            - Logging utility which can be used by any command class. Defaults to</span>
+<span class="sd">              LOG.interactive, however, can be changed to one of the values in</span>
+<span class="sd">              [&quot;debug&quot;, &quot;error&quot;, &quot;info&quot;, &quot;interactive&quot;, &quot;warning&quot;] if</span>
+<span class="sd">              &#39;--log_level/--log &lt;log_level_name&gt;&#39; is specified at the command line.</span>
+<span class="sd">        parent: optional - GeoipsCommand Class</span>
+<span class="sd">            - The parent command class that possibly is initializing it&#39;s child.</span>
+<span class="sd">              Ex. GeoipsList would invoke this init function for each of its subcommand</span>
+<span class="sd">              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this</span>
+<span class="sd">              init, it supplies &#39;self&#39; as an argument to follow the correct logic below.</span>
+<span class="sd">        legacy: optional - bool</span>
+<span class="sd">            - Whether or not the command supplied was called in legacy mode. This only</span>
+<span class="sd">              occurs for &#39;geoips run&#39; commands, where instead of typing &#39;geoips run&#39;,</span>
+<span class="sd">              the user called &#39;run_procflow&#39; or &#39;data_fusion_procflow&#39;. This is used for</span>
+<span class="sd">              suppressing or displaying help information for &#39;--procflow&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">legacy</span> <span class="o">=</span> <span class="n">legacy</span>
+        <span class="c1"># This is the Logger Object, not the actual logger call function of &#39;log_level&#39;.</span>
+        <span class="c1"># So, a command class would use the logger via:</span>
+        <span class="c1"># self.LOG.&lt;log_level&gt;(log_statement)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">LOG</span> <span class="o">=</span> <span class="n">LOG</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">github_org_url</span> <span class="o">=</span> <span class="s2">&quot;https://github.com/NRLMMD-GEOIPS/&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parent</span> <span class="o">=</span> <span class="n">parent</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span> <span class="o">=</span> <span class="n">alias_mapping</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">:</span>
+            <span class="c1"># Set the combined name of the provided object. For example, if this was the</span>
+            <span class="c1"># parent &#39;list&#39; command, it would be &#39;geoips_list&#39;. If it was a child of</span>
+            <span class="c1"># list, for example &#39;scripts&#39;, combined name would be &#39;geoips_list_scripts&#39;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">parent</span><span class="o">.</span><span class="n">combined_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+
+            <span class="c1"># The logic below traverses up from the current command class through all</span>
+            <span class="c1"># of its parents. For example, if this was GeoipsListPackages, the parent</span>
+            <span class="c1"># traversal would look like GeoipsList -&gt; GeoipsCLI, which would result in</span>
+            <span class="c1"># parent_parsers looking like [geoips_parser, list_parser]. All of the</span>
+            <span class="c1"># arguments created by those parent parsers would be inherited by</span>
+            <span class="c1"># GeoipsListPackages</span>
+            <span class="n">curr_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parent_parsers</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">while</span> <span class="n">curr_parent</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">ParentParsers</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_parser&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parent_parsers</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span>
+                    <span class="mi">0</span><span class="p">,</span>
+                    <span class="nb">getattr</span><span class="p">(</span><span class="n">ParentParsers</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">curr_parent</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_parser&quot;</span><span class="p">),</span>
+                <span class="p">)</span>
+                <span class="n">curr_parent</span> <span class="o">=</span> <span class="n">curr_parent</span><span class="o">.</span><span class="n">parent</span>
+
+            <span class="k">if</span> <span class="n">parent</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">:</span>
+                <span class="c1"># this is used for testing purposes to ensure failure for invalid</span>
+                <span class="c1"># help information. If the parent already has cmd_instructions set,</span>
+                <span class="c1"># use these instructions so we can test proper functionality of the CLI.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">cmd_instructions</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Otherwise use the default cmd_instructions which are used for normal</span>
+                <span class="c1"># invocation of the CLI.</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span> <span class="o">=</span> <span class="n">cmd_instructions</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># If the command&#39;s name exists w/in the alias mapping, then</span>
+                <span class="c1"># add thoss aliases to the parser, otherwise just set it as an empty</span>
+                <span class="c1"># list.</span>
+                <span class="n">aliases</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alias_mapping</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">),</span> <span class="p">[])</span>
+                <span class="c1"># Attempt to create a sepate sub-parser for the specific command</span>
+                <span class="c1"># class being initialized so we can separate the commands arguments</span>
+                <span class="c1"># in a tree-like structure</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">subparsers</span><span class="o">.</span><span class="n">add_parser</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">&quot;instructions&quot;</span><span class="p">][</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span>
+                    <span class="p">][</span><span class="s2">&quot;help_str&quot;</span><span class="p">],</span>
+                    <span class="n">help</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">&quot;instructions&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="p">][</span>
+                        <span class="s2">&quot;help_str&quot;</span>
+                    <span class="p">],</span>
+                    <span class="n">usage</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">cmd_instructions</span><span class="p">[</span><span class="s2">&quot;instructions&quot;</span><span class="p">][</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="p">][</span>
+                        <span class="s2">&quot;usage_str&quot;</span>
+                    <span class="p">],</span>
+                    <span class="n">parents</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent_parsers</span><span class="p">,</span>
+                    <span class="n">conflict_handler</span><span class="o">=</span><span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
+                    <span class="n">aliases</span><span class="o">=</span><span class="n">aliases</span><span class="p">,</span>
+                    <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span>
+                    <span class="s2">&quot;Error, the supplied command line instructions are improperly &quot;</span>
+                    <span class="s2">&quot;formatted. You need an &#39;instructions&#39; entry that contains a &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="si">}</span><span class="s2">&#39; key.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Otherwise initialize a top-level parser for this command.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">conflict_handler</span><span class="o">=</span><span class="s2">&quot;resolve&quot;</span><span class="p">,</span>
+                <span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">ParentParsers</span><span class="o">.</span><span class="n">geoips_parser</span><span class="p">],</span>
+                <span class="n">formatter_class</span><span class="o">=</span><span class="n">argparse</span><span class="o">.</span><span class="n">RawTextHelpFormatter</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">LOG</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_cli_logger</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+            <span class="n">command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">combined_name</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">),</span>
+            <span class="n">command_parser</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_cli_logger</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set up and retrieve the logger object for use in the CLI.</span>
+
+<span class="sd">        If either flag [&#39;--log-level&#39;, &#39;--log&#39;] was provided with a valid log level</span>
+<span class="sd">        after that flag, then set up the logger using the provided log level as the</span>
+<span class="sd">        filter for what will be logged.</span>
+
+<span class="sd">        Log Levels</span>
+<span class="sd">        ----------</span>
+<span class="sd">        The log level filters what is logged when the CLI is ran. Filtering order shown</span>
+<span class="sd">        below. Log levels omit all levels that are below it:</span>
+<span class="sd">        - interactive</span>
+<span class="sd">        - debug</span>
+<span class="sd">        - info</span>
+<span class="sd">        - warning</span>
+<span class="sd">        - error</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># An independent parser is needed as this overrides the help messages of the CLI</span>
+        <span class="c1"># by providing ``add_help=False``, we keep the custom help messages for the CLI</span>
+        <span class="c1"># and by providing a parent class to the top level CLI parser, then it will be</span>
+        <span class="c1"># shown in the help messages as well.</span>
+        <span class="n">independent_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">add_help</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">independent_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-log&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--log-level&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;interactive&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;interactive&quot;</span><span class="p">,</span> <span class="s2">&quot;debug&quot;</span><span class="p">,</span> <span class="s2">&quot;info&quot;</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="c1"># Parse now, as we&#39;ll use logging among all of the child command classes</span>
+        <span class="n">known_args</span><span class="p">,</span> <span class="n">remaining_args</span> <span class="o">=</span> <span class="n">independent_parser</span><span class="o">.</span><span class="n">parse_known_args</span><span class="p">()</span>  <span class="c1"># NOQA</span>
+        <span class="n">log_level</span> <span class="o">=</span> <span class="n">known_args</span><span class="o">.</span><span class="n">log_level</span>
+        <span class="c1"># Set up logging based on the log level provided or defaulted to</span>
+        <span class="n">LOG</span> <span class="o">=</span> <span class="n">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="n">log_level</span><span class="o">.</span><span class="n">upper</span><span class="p">())</span>
+        <span class="k">return</span> <span class="n">LOG</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Name of the command class.&quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="nd">@property</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">command_classes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of command_classes related to the top level command.</span>
+
+<span class="sd">        For example, if the class provided was GeoipsList, command_classes would</span>
+<span class="sd">        be the list of available command_classes that &quot;geoips list&quot; implements.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="GeoipsCommand.add_subparsers"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsCommand.add_subparsers">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_subparsers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add subparsers for each command class.</span>
+
+<span class="sd">        This is done so we can limit the scope of what arguments are accepted for each</span>
+<span class="sd">        geoips &lt;cmd&gt; command. This is only done for the top-level command, such as</span>
+<span class="sd">        &quot;list&quot;, &quot;run&quot;, &quot;describe&quot;, etc.</span>
+
+<span class="sd">        For example, if this were the GeoipsList Command Class, we would create a</span>
+<span class="sd">        self.list_subparsers attribute, which we then add individual parsers for each</span>
+<span class="sd">        command, as in interfaces, plugins, packages, scripts, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">command_classes</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">subparsers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_subparsers</span><span class="p">(</span>
+                <span class="n">help</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2"> instructions.&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">for</span> <span class="n">subcmd_cls</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">command_classes</span><span class="p">:</span>
+                <span class="n">subcmd_cls</span><span class="p">(</span><span class="n">LOG</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">LOG</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">legacy</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plugin_package_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of names of all installed Geoips Plugin Packages.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">plugin_packages</span><span class="o">.</span><span class="n">entrypoints</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plugin_package_paths</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List of paths to all installed Geoips Plugin Packages.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">plugin_packages</span><span class="o">.</span><span class="n">paths</span></div>
+
+
+<div class="viewcode-block" id="GeoipsExecutableCommand"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsExecutableCommand">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsExecutableCommand</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract Base Class for executable CLI commands, inheriting from GeoipsCommand.</span>
+
+<span class="sd">    This class is a blueprint of what each executable GeoIPS Command Classes</span>
+<span class="sd">    can implement.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">LOG</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize GeoipsExecutableCommand.</span>
+
+<span class="sd">        This is a child of GeoipsCommand and will invoke the functionaly of</span>
+<span class="sd">        GeoipsCommand __init__ func alongside additional logic needed to set up</span>
+<span class="sd">        executable-based commands. This will instantiate each subcommand class with a</span>
+<span class="sd">        parser and point towards the correct default function to call if that subcommand</span>
+<span class="sd">        has been called.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        LOG: Logger Object</span>
+<span class="sd">            - Logging utility which can be used by any command class. Defaults to</span>
+<span class="sd">              LOG.interactive, however, can be changed to one of the values in</span>
+<span class="sd">              [&quot;debug&quot;, &quot;error&quot;, &quot;info&quot;, &quot;interactive&quot;, &quot;warning&quot;] if</span>
+<span class="sd">              &#39;--log_level/--log &lt;log_level_name&gt;&#39; is specified at the command line.</span>
+<span class="sd">        parent: optional - GeoipsCommand Class</span>
+<span class="sd">            - The parent command class that possibly is initializing it&#39;s child.</span>
+<span class="sd">              Ex. GeoipsList would invoke this init function for each of its subcommand</span>
+<span class="sd">              classes (GeoipsListPackages, GeoipsListScripts, ...). When it invokes this</span>
+<span class="sd">              init, it supplies &#39;self&#39; as an argument to follow the correct logic below.</span>
+<span class="sd">        legacy: optional - bool</span>
+<span class="sd">            - Whether or not the command supplied was called in legacy mode. This only</span>
+<span class="sd">              occurs for &#39;geoips run&#39; commands, where instead of typing &#39;geoips run&#39;,</span>
+<span class="sd">              the user called &#39;run_procflow&#39; or &#39;data_fusion_procflow&#39;. This is used for</span>
+<span class="sd">              suppressing or displaying help information for &#39;--procflow&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">LOG</span><span class="o">=</span><span class="n">LOG</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span> <span class="n">legacy</span><span class="o">=</span><span class="n">legacy</span><span class="p">)</span>
+        <span class="c1"># Since this class is exectuable (ie. not the cli, top-level list...),</span>
+        <span class="c1"># add available arguments for that command and set that function to</span>
+        <span class="c1"># the command&#39;s executable function (__call__) if that command is called.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">set_defaults</span><span class="p">(</span>
+            <span class="n">exe_command</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="fm">__call__</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">terminal_width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;The Width in ANSI-Characters of the User&#39;s Terminal.</span>
+
+<span class="sd">        Generate this every time as the screen width may change during usage.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">get_terminal_size</span><span class="p">()</span><span class="o">.</span><span class="n">columns</span> <span class="o">-</span> <span class="mi">1</span>
+
+<div class="viewcode-block" id="GeoipsExecutableCommand.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.GeoipsExecutableCommand.add_arguments">[docs]</a>    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments related to the command class.</span>
+
+<span class="sd">        This is an abstract method because we don&#39;t know which arguments need to be</span>
+<span class="sd">        added for each class at this moment.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Functionality to execute the command being called.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: argparse Namespace()</span>
+<span class="sd">            - The namespace of the arguments of a specific CLI Command.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_output_dictionary_highlighted</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dict_entry</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print to terminal the yaml-dumped dictionary of a certain interface/plugin.</span>
+
+<span class="sd">        Color the key, value pairs cyan, yellow to highlight the text in a human</span>
+<span class="sd">        readable manner. This is done for every `geoips describe ...` command.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plugin_entry: dict</span>
+<span class="sd">            - The dictionary of info for a certain plugin in the plugin registry.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">yaml_text</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">dict_entry</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">yaml_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">):</span>
+            <span class="c1"># Color the keys in cyan and values in yellow</span>
+            <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">line</span><span class="p">:</span>
+                <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="n">key</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;Package&quot;</span><span class="p">,</span> <span class="s2">&quot;Geoips Package&quot;</span><span class="p">]:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;GeoIPS Package&quot;</span>
+                <span class="k">elif</span> <span class="n">key</span> <span class="o">==</span> <span class="s2">&quot;Relpath&quot;</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;Relative Path&quot;</span>
+                <span class="n">formatted_line</span> <span class="o">=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">CYAN</span> <span class="o">+</span> <span class="n">key</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
+                <span class="n">formatted_line</span> <span class="o">+=</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="n">value</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">formatted_line</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">formatted_line</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">Fore</span><span class="o">.</span><span class="n">YELLOW</span> <span class="o">+</span> <span class="n">line</span> <span class="o">+</span> <span class="n">Style</span><span class="o">.</span><span class="n">RESET_ALL</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">formatted_line</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_registry_by_interface_and_package</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">package_name</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the correct plugin registry given interface and package name.</span>
+
+<span class="sd">        Given a GeoIPS Interface and a package name, load in the correct plugin</span>
+<span class="sd">        registry. This could be the global plugin registry which each interface has</span>
+<span class="sd">        access to, or it could be the correct interface entry of a certain plugin</span>
+<span class="sd">        package&#39;s &quot;registered_plugins.json&quot;, if we are just searching through a</span>
+<span class="sd">        single package (which occurs when -p &lt;package_name&gt; is given).</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        interface: geoips.interfaces.&lt;interface_type&gt;</span>
+<span class="sd">            - The interface we will be parsing and displaying.</span>
+<span class="sd">        package_name: str</span>
+<span class="sd">            - The name of the package to retrive the appropriate interfaces from:</span>
+<span class="sd">              If name is &quot;all&quot;, just use the plugin registry that&#39;s on all interfaces.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        interface_registry: dict</span>
+<span class="sd">            - The plugin registry associated with the given interface. If the provided</span>
+<span class="sd">              interface doesn&#39;t exist in a certain package&#39;s plugin registry, then None</span>
+<span class="sd">              is returned instead.</span>
+<span class="sd">        interface_type: str</span>
+<span class="sd">            - The type of interface we are dealing with:</span>
+<span class="sd">              (&quot;module_based&quot;, &quot;yaml_based&quot;, &quot;text_based&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">package_name</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+            <span class="c1"># If there are no plugins of current interface, just return None, do not</span>
+            <span class="c1"># fail catastrophically. This will fail on &quot;sector_adjusters&quot; interface</span>
+            <span class="c1"># during &quot;geoips list plugins&quot; if only geoips repo is installed (since there</span>
+            <span class="c1"># are no &quot;sector_adjuster&quot; plugins in the geoips repo)</span>
+            <span class="k">if</span> <span class="p">(</span>
+                <span class="n">interface</span><span class="o">.</span><span class="n">name</span>
+                <span class="ow">in</span> <span class="n">interface</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span>
+                    <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span>
+                <span class="p">]</span>
+            <span class="p">):</span>
+                <span class="n">interface_registry</span> <span class="o">=</span> <span class="n">interface</span><span class="o">.</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">registered_plugins</span><span class="p">[</span>
+                    <span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span>
+                <span class="p">][</span><span class="n">interface</span><span class="o">.</span><span class="n">name</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">interface_registry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span>
+                <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">fo</span><span class="p">:</span>
+                <span class="n">interface_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fo</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="p">]:</span>
+                <span class="n">interface_registry</span> <span class="o">=</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">interface</span><span class="o">.</span><span class="n">interface_type</span><span class="p">][</span>
+                    <span class="n">interface</span><span class="o">.</span><span class="n">name</span>
+                <span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">interface_registry</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">interface_registry</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_headers_by_command</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">default_headers</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieve the appropriate headers from a list command with the given args.</span>
+
+<span class="sd">        Headers are the top-row of the tabular output from &#39;list&#39; commands. These are</span>
+<span class="sd">        customizable via optional args [--column, --long] and we retrieve the</span>
+<span class="sd">        appropriate headers based on those optional arguments and the &#39;list&#39; command</span>
+<span class="sd">        provided.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: argparse Argument Namespace</span>
+<span class="sd">            - The arguments provided to a certain list command</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        headers: list of str</span>
+<span class="sd">            - The list of column headers that will be outputted</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">columns</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">columns</span>
+        <span class="k">if</span> <span class="n">columns</span><span class="p">:</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">columns</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">default_headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                    <span class="n">err_str</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Column header &#39;</span><span class="si">{</span><span class="n">col</span><span class="si">}</span><span class="s2">&#39;, is not a valid header. Please select &quot;</span>
+                        <span class="s2">&quot;one or more of the following keys, which correspond to the &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;appropriate value:</span><span class="se">\n</span><span class="si">{</span><span class="n">default_headers</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">err_str</span><span class="p">)</span>
+                <span class="n">headers</span><span class="p">[</span><span class="n">col</span><span class="p">]</span> <span class="o">=</span> <span class="n">default_headers</span><span class="p">[</span><span class="n">col</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># long has been set or was defaulted to; use the default headers</span>
+            <span class="n">headers</span> <span class="o">=</span> <span class="n">default_headers</span>
+        <span class="k">return</span> <span class="n">headers</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_print_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">interface_registry</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Print the plugins under a certain interface in alongside minimal info.</span>
+
+<span class="sd">        &quot;Long Format&quot; includes these pieces of information:</span>
+<span class="sd">            - GeoIPS Package</span>
+<span class="sd">            - Interface Name</span>
+<span class="sd">            - Interface Type</span>
+<span class="sd">            - Family</span>
+<span class="sd">            - Plugin Name</span>
+<span class="sd">            - Source Names</span>
+<span class="sd">            - Relpath</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        interface: geoips.interfaces.&lt;interface_type&gt;</span>
+<span class="sd">            - The interface we will be parsing and displaying.</span>
+<span class="sd">        interface_registry: dict</span>
+<span class="sd">            - The plugin registry associated with the given interface.</span>
+<span class="sd">        args: argparse Argument Namespace</span>
+<span class="sd">            - The arguments provided to a certain list command</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">default_headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="s2">&quot;GeoIPS Package&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="s2">&quot;Interface Name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;Interface Type&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="s2">&quot;Family&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;plugin_name&quot;</span><span class="p">:</span> <span class="s2">&quot;Plugin Name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;source_names&quot;</span><span class="p">:</span> <span class="s2">&quot;Source Names&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="s2">&quot;Relative Path&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_headers_by_command</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">default_headers</span><span class="p">)</span>
+        <span class="n">table_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_generate_table_data_by_interface</span><span class="p">(</span>
+            <span class="n">interface</span><span class="p">,</span>
+            <span class="n">interface_registry</span><span class="p">,</span>
+            <span class="n">headers</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="n">tabulate</span><span class="p">(</span>
+                <span class="n">table_data</span><span class="p">,</span>
+                <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rounded_grid&quot;</span><span class="p">,</span>
+                <span class="n">maxcolwidths</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminal_width</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_generate_table_data_by_interface</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">interface</span><span class="p">,</span> <span class="n">interface_registry</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate the table data needed for output in &#39;_print_plugins.</span>
+
+<span class="sd">        Given a certain interface and a list of headers, generate a list of table data</span>
+<span class="sd">        used for outputting information used by &#39;geoips list interface&#39; and</span>
+<span class="sd">        &#39;geoips list plugins&#39;.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        interface: geoips.interfaces.&lt;interface_type&gt;</span>
+<span class="sd">            - The interface object we will be gathering data from.</span>
+<span class="sd">        interface_registry: dict</span>
+<span class="sd">            - The plugin registry associated with the given interface.</span>
+<span class="sd">        headers: dict</span>
+<span class="sd">            - Dictionary of strings representing the key-value mapping of the</span>
+<span class="sd">              headers we&#39;d like to output.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        table_data: 2D List of Strings</span>
+<span class="sd">            - The corresponding data we will output, where each sub-list is ordered</span>
+<span class="sd">              by headers.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">interface</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">plugin_key</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">interface_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="n">product_dict</span> <span class="o">=</span> <span class="n">interface_registry</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">]</span>
+                <span class="n">table_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry</span><span class="p">(</span><span class="n">product_dict</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">table_data</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_entry</span><span class="p">(</span><span class="n">interface_registry</span><span class="p">,</span> <span class="n">headers</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table_data</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_entry</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plugin_dict</span><span class="p">,</span> <span class="n">headers</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Generate a table of info based on the plugin and headers provided.</span>
+
+<span class="sd">        Where a table of info is a 2D list of strings that represents the</span>
+<span class="sd">        plugin x headers combination of data. Say, for product plugin yaml file</span>
+<span class="sd">        abi.yaml, we&#39;d loop over every product in that file, add to that product</span>
+<span class="sd">        plugin&#39;s entry each header (&#39;source_name&#39;, &#39;family&#39;, &#39;plugin_name&#39;, etc.) that</span>
+<span class="sd">        was selected, and return the 2D table where each 1D list represents the info</span>
+<span class="sd">        that corresponds to the product plugin.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        plugin_dict: dict</span>
+<span class="sd">            - The portion of the plugin_registry needed to access all plugins of a</span>
+<span class="sd">              certain interface or all plugins of a certain product.</span>
+<span class="sd">        headers: dict</span>
+<span class="sd">            - Dictionary of strings representing the key-value mapping of the</span>
+<span class="sd">              headers we&#39;d like to output.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        table_data: 2D list of str</span>
+<span class="sd">            - A 2D list of strings containing information about plugins listed in the</span>
+<span class="sd">              order of headers.keys()</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">table_data</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">plugin_key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">plugin_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="n">plugin_entry</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">header</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">headers</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">header</span> <span class="o">==</span> <span class="s2">&quot;source_names&quot;</span>
+                    <span class="ow">and</span> <span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="s2">&quot;products&quot;</span>
+                <span class="p">):</span>
+                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="p">(</span>
+                    <span class="n">header</span> <span class="o">==</span> <span class="s2">&quot;family&quot;</span>
+                    <span class="ow">and</span> <span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;products&quot;</span>
+                <span class="p">):</span>
+                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;N/A&quot;</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">header</span> <span class="o">==</span> <span class="s2">&quot;plugin_name&quot;</span><span class="p">:</span>
+                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_key</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">plugin_entry</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_dict</span><span class="p">[</span><span class="n">plugin_key</span><span class="p">][</span><span class="n">header</span><span class="p">])</span>
+            <span class="n">table_data</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_entry</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">table_data</span></div>
+
+
+<div class="viewcode-block" id="CommandClassFactory"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_command.CommandClassFactory">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CommandClassFactory</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;An abstract class factory for creating CLI-based Command Classes.</span>
+
+<span class="sd">    This architecture can be used to generate CLI command classes for specific use</span>
+<span class="sd">    cases. A couple which we&#39;ll implement early on is are:</span>
+
+<span class="sd">    * GeoipsListSingleInterface:</span>
+
+<span class="sd">        * GeoipsListSingleInterfaceAlgorithms</span>
+<span class="sd">        * GeoipsListSingleInterfaceColormappers</span>
+<span class="sd">        * ...</span>
+<span class="sd">        * GeoipsListSingleInterfaceTitleFormatters</span>
+
+<span class="sd">    * GeoipsDescribeArtifact</span>
+
+<span class="sd">        * GeoipsDescribeArtifactAlgorithm</span>
+<span class="sd">        * GeoipsDescribeArtifactColormapper</span>
+<span class="sd">        * ...</span>
+<span class="sd">        * GeoipsDescribeArtifactTitleFormatter</span>
+
+<span class="sd">    This class has been created to reduce the verbosity of geoips commands without</span>
+<span class="sd">    having to copy-paste classes specifc to a certain interface.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">base_class</span><span class="p">,</span> <span class="n">class_name</span><span class="p">,</span> <span class="n">add_attrs</span><span class="o">=</span><span class="p">{}):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize the class factory and generate a class derived from base_class.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        base_class: Class</span>
+<span class="sd">            - The base class to build each generated class with..</span>
+<span class="sd">            - Ie. if we were creating a class factory for GeoipsListSingleInterface, the</span>
+<span class="sd">              base class would be &#39;GeoipsListSingleInterface&#39;.</span>
+<span class="sd">        class_name: str</span>
+<span class="sd">            - The name of the class that we&#39;d like to generate.</span>
+<span class="sd">            - Ie. if we were creating a class factory for GeoipsListSingleInterface, the</span>
+<span class="sd">              class to generate would be a strign that represents all the class for the</span>
+<span class="sd">              associated interface we&#39;d like to generate (&#39;algorithms&#39;, ...).</span>
+<span class="sd">            - The classes would then look like:</span>
+<span class="sd">                - &quot;GeoipsListAlgorithms&quot;</span>
+<span class="sd">                - &quot;GeoipsListColormappers&quot;</span>
+<span class="sd">                - ...</span>
+<span class="sd">                - &quot;&lt;base_class_name&gt;&lt;class_name&gt;&quot;</span>
+<span class="sd">        add_attrs: dict (optional)</span>
+<span class="sd">            - A dictionary of attributes we&#39;d like to assign to each command class</span>
+<span class="sd">            - If specified and has overlapping keys to those specified below, this</span>
+<span class="sd">              dictionary will override the defaults.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_class</span> <span class="o">=</span> <span class="n">base_class</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">base_class_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_class</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">default_attrs</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">class_name</span><span class="p">,</span>
+            <span class="s2">&quot;command_classes&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;add_arguments&quot;</span><span class="p">:</span> <span class="n">base_class</span><span class="o">.</span><span class="n">add_arguments</span><span class="p">,</span>
+            <span class="s2">&quot;__call__&quot;</span><span class="p">:</span> <span class="n">base_class</span><span class="o">.</span><span class="fm">__call__</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># Combine with additional attributes, overwriting defaults where applicable.</span>
+        <span class="n">class_attrs</span> <span class="o">=</span> <span class="p">{</span><span class="o">**</span><span class="n">default_attrs</span><span class="p">,</span> <span class="o">**</span><span class="n">add_attrs</span><span class="p">}</span>
+        <span class="c1"># Add the class of &lt;base_class_name&gt;&lt;class_name&gt; to the constructors &#39;classes&#39;</span>
+        <span class="c1"># attribute. Don&#39;t actually initialize these classes as we&#39;ll be doing that</span>
+        <span class="c1"># later once we have the required information.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generated_class</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">base_class_name</span><span class="si">}{</span><span class="n">class_name</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">(</span><span class="n">base_class</span><span class="p">,),</span>
+            <span class="n">class_attrs</span><span class="p">,</span>
+        <span class="p">)</span></div>
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

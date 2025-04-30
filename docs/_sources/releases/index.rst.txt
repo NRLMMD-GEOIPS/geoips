@@ -1,20 +1,66 @@
- | # # # Distribution Statement A. Approved for public release. Distribution unlimited.
- | # # #
- | # # # Author:
- | # # # Naval Research Laboratory, Marine Meteorology Division
- | # # #
- | # # # This program is free software: you can redistribute it and/or modify it under
- | # # # the terms of the NRLMMD License included with this program. This program is
- | # # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of
- | # # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license
- | # # # for more details. If you did not receive the license, for more information see:
- | # # # https://github.com/U-S-NRL-Marine-Meteorology-Division/
+.. dropdown:: Distribution Statement
+
+ | This is an auto-generated file.
+ | Please abide by license packaged with this software.
 
 .. _release_notes:
 
-*************
 Release Notes
 *************
+
+Latest (version on cutting edge of git)
+---------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   latest
+
+Version 1.15
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   1.15.1
+   1.15.0
+
+Version 1.14
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   1.14.5
+   1.14.4
+   1.14.3
+   1.14.2
+   1.14.1
+   1.14.0
+   v1_14_0a0
+
+Version 1.13
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   v1_13_1
+   v1_13_0
+   v1_13_0a0
+
+Version 1.12
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   v1_12_4
+   v1_12_3
+   v1_12_2
+   v1_12_2a0
+   v1_12_1
+   v1_12_0
 
 Version 1.11
 ------------
@@ -22,7 +68,14 @@ Version 1.11
 .. toctree::
    :maxdepth: 1
 
+   v1_11_7
+   v1_11_7a0
+   v1_11_6
+   v1_11_5
+   v1_11_5a0
+   v1_11_3
    v1_11_3a0
+   v1_11_2
    v1_11_1
    v1_11_1a0
    v1_11_0
@@ -150,3 +203,4 @@ Version 1.1
    v1_1_15
    v1_1_14
    v1_1_13
+

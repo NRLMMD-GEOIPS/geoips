@@ -1,0 +1,801 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>GeoIPS Generalized Best Practices &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'getting-started/best-practices/research-and-ops';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Tutorials" href="../../tutorials/index.html" />
+    <link rel="prev" title="Expert User Installation (with administrative privileges)" href="../installing/expert.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../what-is-geoips/index.html">What is GeoIPS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../system-requirements.html">System Requirements</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../installing/index.html">Installing GeoIPS</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../installing/linux_with_conda.html">Conda-based Installation for Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing/mac_with_conda.html">Conda-based Installation for Mac</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing/windows_with_conda.html">Linux-based Installation for Windows</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../installing/expert.html">Expert User Installation (with administrative privileges)</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">GeoIPS Generalized Best Practices</a></li>
+
+
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting Started</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">GeoIPS Generalized Best Practices</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="geoips-generalized-best-practices">
+<span id="best-practices"></span><h1>GeoIPS Generalized Best Practices<a class="headerlink" href="#geoips-generalized-best-practices" title="Permalink to this heading">#</a></h1>
+<p>There are many ways one can incorporate GeoIPS into their research or operational flow.
+While the developers do not want to be prescriptivist, we do recommend a series
+of best practices to ensure that your plugin development/deployment experience is as smooth as possible.
+First, we will propose some generalized best practices to consider before developing a plugin,
+followed by best practices to follow during development, during initial release/deployment,
+and finally at the planned or unplanned EOL of your plugin. Future iterations of this document
+will include best practices for operational and research use of GeoIPS.</p>
+<section id="best-practices-at-conception-of-your-plugin">
+<h2>Best Practices at Conception of your Plugin<a class="headerlink" href="#best-practices-at-conception-of-your-plugin" title="Permalink to this heading">#</a></h2>
+<p>In general, try to leverage existing GeoIPS capabilities before developing your own plugins!</p>
+<ul class="simple">
+<li><p>One of the core functions of GeoIPS is to eliminate redundant development time. Leverage that!</p></li>
+<li><p>If a reader exists, but is missing a core functionality required for your development, consider the
+following options:</p>
+<ul>
+<li><p>Reach out to the developer of the reader and request they add the feature(s) you are missing. Odds
+are good that if you need it, someone else probably will too!</p></li>
+<li><p>Pull the plugin containing the reader and add the functionality yourself. Then, open a PR on the repo
+containing the plugin to merge your changes.</p></li>
+<li><p>If all else fails and the reader is no longer actively maintained, create a local copy for your plugin
+and provide proper attribution somewhere in your repository (provided you’re going to open source your
+plugin, of course.)</p></li>
+</ul>
+</li>
+</ul>
+<p>Try to make an effort to attend the weekly open-source meetings routinely and become an active
+participant in the discussions! As a community-driven effort, GeoIPS thrives as more people
+join in!</p>
+<ul class="simple">
+<li><p>This will ensure you’re up to date on the latest developments and are aware of what’s coming down
+the pipeline. See the first bullet point for why that’s important!</p></li>
+<li><p>You can also make requests of folks that are developing plugins and products to consider sources
+you are interested in working with.</p>
+<ul>
+<li><p>This means you may not have to do as much development work on any plugins you develop</p></li>
+<li><p>This also works both ways– you might be able to save a member of the community some effort,
+as well as drive some collaboration!</p></li>
+</ul>
+</li>
+<li><p>You’ll be able to provide guidance on the direction GeoIPS is heading, ensuring that it is robust
+and has broad spectrum utility.</p>
+<ul>
+<li><p>One prominent example includes the efforts of Tim Olander and Tony Wimmers’s provision of
+feedback during development of the plugin system. Their feedback helped shape our overall
+implementation of plugins, and included one of the first demonstrations of the system via ARCHER.</p></li>
+<li><p>Another example includes the development efforts at CIRA by Evan Rose and Jeremy Solbrig, who,
+while working closely with the community, have helped shape the way users interact with GeoIPS
+from the lowest levels, to the highest levels.</p></li>
+</ul>
+</li>
+<li><p>Lastly, you can share your success stories and drive interest in the plugins you are developing.</p></li>
+</ul>
+</section>
+<section id="best-practices-during-development-of-your-plugin">
+<h2>Best Practices During Development of your Plugin<a class="headerlink" href="#best-practices-during-development-of-your-plugin" title="Permalink to this heading">#</a></h2>
+<p>When you develop a plugin, it is best to BEGIN by following the coding and formatting standards
+recommended by the GeoIPS developers to facilitate easy sharing and integration into the GeoIPS
+infrastructure.</p>
+<ul class="simple">
+<li><p>Make sure that you’re developing in your own repository and not on the GeoIPS main branch.</p></li>
+<li><p>Ensure your code is properly commented and legible for fellow developers. You never know how many
+emails you’ll be able to prevent by explaining your logic in advance!</p></li>
+<li><p>Make sure you follow the standards and practices recommended for providing informative runtime
+messages, and that they are logged at the correct levels.</p>
+<ul>
+<li><p>Be sure to include a healthy mix of INFO, INTERACTIVE, DEBUG, WARNING and ERROR-level messages!</p></li>
+</ul>
+</li>
+<li><p>Consider running an automated system to monitor your code for formatting and potential security
+risks (e.g., SQL injection.)</p>
+<ul>
+<li><p>check_code.sh is a GeoIPS built-in method for monitoring these!</p></li>
+<li><p>This is especially crucial for your code to enter operations on controllsed systems e.g., FNMOC,
+NAVO.</p></li>
+</ul>
+</li>
+</ul>
+<p>Packages change frequently! Make sure you’re always on the latest working branch of GeoIPS and
+any plugins you are using before sharing your code!</p>
+<ul class="simple">
+<li><p>Sometimes interfaces are deprecated between versions– it’s easier for everyone if you make sure
+everything works on the latest version.</p>
+<ul>
+<li><p>An upcoming GeoIPS 2.0 will retain backward functionality for most plugins, however we reserve
+the right to revoke that capability at any time.</p></li>
+</ul>
+</li>
+<li><p>To that end, stay abreast of upcoming deprecations within non-GeoIPS packages used by your plugin.
+You never know when NumPy will finally make good on all those warnings you’ve been ignoring!</p></li>
+</ul>
+<p>We strongly discourage developing new, core infrastructure for GeoIPS, including new interfaces
+and subsystems.</p>
+<ul class="simple">
+<li><p>These kinds of developments have a strong chance of creating conflicts later on down the line that
+may be difficult to resolve against the main GeoIPS repository.</p></li>
+<li><p>If you identify a need for new, core functionality raise your concern/request in the weekly meetings.
+At best we may have an alternative option to recommend, and at worst you may be conscripted into
+developing the feature!</p></li>
+</ul>
+<p>If your GeoIPS plugin contains ANY proprietary IP or other sensitive data, it is CRUCIALLY IMPORTANT
+that you do not make any changes to the codebases of the main GeoIPS repository or any plugins you
+are using!</p>
+<ul class="simple">
+<li><p>In general, we will reject most commits made the main GeoIPS repository</p></li>
+<li><p>If that chance exists that your repo will enter open source, ensure that you are not committing
+anything private or dangerous.</p>
+<ul>
+<li><p>Check for things like private keys in the commits, small pieces of information that when
+combined could lead to spillage, nasty merge comments, etc.</p></li>
+</ul>
+</li>
+</ul>
+<p>Ensure that your code is performant and reasonably Pythonic. Nobody wants their code to be the
+bottleneck in someone else’s workflow!</p>
+<ul class="simple">
+<li><p>If your plugin includes C or Fortran-wrapped algorithms that’s also okay! We support interfaces
+that use f2py, etc. You might consider converting to native Python later on down the line, but
+that’s never going to be mandatory.</p></li>
+</ul>
+<p>Include test scripts and archive the mininmum number of files required to test your plugin!</p>
+<ul class="simple">
+<li><p>Doing so provides your users a quick way to understand how your plugin is invoked.</p>
+<ul>
+<li><p>We recommend passing explicit file inputs to the procflow rather than a directory to ensure
+exact testing.</p></li>
+</ul>
+</li>
+<li><p>The ability of developers to validate their installation of your plugin is crucial.</p>
+<ul>
+<li><p>To that end, consider including the final output images to be used in the &lt;whatever we call
+the script that compares images&gt;</p></li>
+</ul>
+</li>
+</ul>
+<p>Lastly, share your successes and struggles at the weekly open source meeting!</p>
+<ul class="simple">
+<li><p>If you’re running into problems or have questions, this is one of the best ways to resolve them.</p>
+<ul>
+<li><p>You can also join the GeoIPS slack to ask questions 24/7</p></li>
+</ul>
+</li>
+<li><p>People may have good suggestions or more performant ways to accomplish your goals.</p></li>
+<li><p>People will love to see the pretty pictures you make.</p></li>
+</ul>
+</section>
+<section id="best-practices-before-and-after-deploying-your-plugin">
+<h2>Best Practices Before and After Deploying your Plugin<a class="headerlink" href="#best-practices-before-and-after-deploying-your-plugin" title="Permalink to this heading">#</a></h2>
+<p>While we can’t control how your administrate your own repositories, or how you run
+GeoIPS, we can make some suggestions!</p>
+<p>When you commit to an internal or public-facing repository, make sure ownership and permissions are
+controlled appropriately.</p>
+<ul class="simple">
+<li><p>Try to not let people freely merge code into your repository as it creates a security risk for
+you and anyone using your plugin.</p></li>
+<li><p>Establish review requirements early on, and ensure that commits and PRs are fully tested before
+being merged. Optionally (but ideally,) you’d test these on a fresh GeoIPS installation to catch
+any dependencies that may be missing.</p>
+<ul>
+<li><p>This is a good time to again ensure you’re developing on the most recent versions of the GeoIPS
+and plugins.</p></li>
+</ul>
+</li>
+<li><p>Include documentation for your plugin!</p>
+<ul>
+<li><p>You can use this repository’s documentation as a standard.</p></li>
+</ul>
+</li>
+</ul>
+<p>The infrastructure for automated processing and scheduling of GeoIPS runs on your system is
+outside the scope this documentation.</p>
+<ul class="simple">
+<li><p>We don’t want to risk pigeonholing anyone or exposing our own internal systems.</p></li>
+<li><p>That said, in a future release we may make some basic repositories with simple database
+and automation packages available.</p></li>
+<li><p>In general, though, all you need is way to identify when new files are available and a way
+to automate the passing of those files to GeoIPS. There are myriad solutions from this ranging
+from simple (cron) to advanced (Cylc)</p></li>
+</ul>
+<p>Let people know when your plugin is ready for release!</p>
+<ul class="simple">
+<li><p>Share the good news at the open source meetings! Give talks at conferences! Advertise as
+best as you can!</p>
+<ul>
+<li><p>This is good for GeoIPS and good for you. You may wind up roping in new talent or find
+transition avenues you weren’t aware of.</p></li>
+</ul>
+</li>
+</ul>
+<p>Finally, be reasonably available to support your plugin for end users.</p>
+<ul class="simple">
+<li><p>Try to be an active participant on your repository’s issues board at minimum.</p></li>
+<li><p>Answer questions that people have and address issues they may be coming across.</p></li>
+<li><p>Communicate your planned update schedule (if any) and try to stick to it.</p>
+<ul>
+<li><p>If you plan to deprecate features of your plugin or bring it to end-of-life (EOL,)
+be sure to announce that well in advance!</p></li>
+</ul>
+</li>
+</ul>
+</section>
+<section id="best-practices-for-deprecation-eol-of-your-plugin">
+<h2>Best Practices for Deprecation/EOL of your Plugin<a class="headerlink" href="#best-practices-for-deprecation-eol-of-your-plugin" title="Permalink to this heading">#</a></h2>
+<p>When your plugin crosses the rainbow bridge, due to loss of funding, personnel, or interest
+consider the following:</p>
+<ul class="simple">
+<li><p>Announce the upcoming deprecation/EOL at the GeoIPS weekly open source meeting.</p></li>
+<li><p>Include in your plugin repository a notice of upcoming EOL.</p></li>
+<li><p>Establish a chain of ownership/maintenance if possible.</p>
+<ul>
+<li><p>Have in place a method for another developer to take control of the repository
+for ongoing updates</p></li>
+<li><p>Remove or automatically redirect the repository to one where active development
+of the plugin is ongoing</p></li>
+<li><p>Failing the above, place a prominent warning banning that indicates active
+development of the plugin has ceased.</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="geoips-best-practices-for-operations">
+<h1>GeoIPS Best Practices for Operations<a class="headerlink" href="#geoips-best-practices-for-operations" title="Permalink to this heading">#</a></h1>
+<p>[COMING SOON]</p>
+</section>
+<section id="geoips-best-practices-for-research">
+<h1>GeoIPS Best Practices for Research<a class="headerlink" href="#geoips-best-practices-for-research" title="Permalink to this heading">#</a></h1>
+<p>[COMING SOON]</p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../installing/expert.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Expert User Installation (with administrative privileges)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../tutorials/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Tutorials</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">GeoIPS Generalized Best Practices</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-at-conception-of-your-plugin">Best Practices at Conception of your Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-during-development-of-your-plugin">Best Practices During Development of your Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-before-and-after-deploying-your-plugin">Best Practices Before and After Deploying your Plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices-for-deprecation-eol-of-your-plugin">Best Practices for Deprecation/EOL of your Plugin</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-best-practices-for-operations">GeoIPS Best Practices for Operations</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-best-practices-for-research">GeoIPS Best Practices for Research</a></li>
+</ul>
+
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/getting-started/best-practices/research-and-ops.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

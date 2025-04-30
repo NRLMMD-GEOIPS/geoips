@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.tc_tracks_database &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.sector_utils.tc_tracks_database &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/sector_utils/tc_tracks_database';</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.sector_utils.tc_tracks_database</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.sector_utils.tc_tracks_database</span></li>
   </ul>
 </nav>
 </div>
@@ -421,27 +424,18 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.sector_utils.tc_tracks_database</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;Utilities for creating a database of tropical cyclone tracks.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
-<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 
-<span class="kn">import</span> <span class="nn">sqlite3</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sqlite3</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -449,17 +443,18 @@ document.write(`
 <span class="n">TC_DECKS_DIR</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;TC_DECKS_DIR&quot;</span><span class="p">]</span>
 
 
-<div class="viewcode-block" id="open_tc_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.open_tc_db">[docs]</a><span class="k">def</span> <span class="nf">open_tc_db</span><span class="p">(</span><span class="n">dbname</span><span class="o">=</span><span class="n">TC_DECKS_DB</span><span class="p">):</span>
+<div class="viewcode-block" id="open_tc_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.open_tc_db">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">open_tc_db</span><span class="p">(</span><span class="n">dbname</span><span class="o">=</span><span class="n">TC_DECKS_DB</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Open the TC Decks Database, create it if it doesn&#39;t exist.&quot;&quot;&quot;</span>
     <span class="c1"># Make sure the directory exists.  If the db doesn&#39;t exist,</span>
     <span class="c1"># the sqlite3.connect command will create it - which will</span>
     <span class="c1"># fail if the directory doesn&#39;t exist.</span>
-    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span> <span class="k">as</span> <span class="n">pathdirname</span>
-    <span class="kn">from</span> <span class="nn">geoips.filenames.base_paths</span> <span class="kn">import</span> <span class="n">make_dirs</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">dirname</span> <span class="k">as</span> <span class="n">pathdirname</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_dirs</span>
 
     <span class="n">make_dirs</span><span class="p">(</span><span class="n">pathdirname</span><span class="p">(</span><span class="n">dbname</span><span class="p">))</span>
 
     <span class="n">conn</span> <span class="o">=</span> <span class="n">sqlite3</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">dbname</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Opening tc db: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dbname</span><span class="p">)</span>
     <span class="n">conn_cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
     <span class="c1"># Try to create the table - if it already exists, it will just fail</span>
     <span class="c1"># trying to create, pass, and return the already opened db.</span>
@@ -486,15 +481,14 @@ document.write(`
     <span class="k">return</span> <span class="n">conn_cursor</span><span class="p">,</span> <span class="n">conn</span></div>
 
 
-<div class="viewcode-block" id="check_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.check_db">[docs]</a><span class="k">def</span> <span class="nf">check_db</span><span class="p">(</span><span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="check_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.check_db">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_db</span><span class="p">(</span><span class="n">filenames</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Check TC database for passed filenames.</span>
 
 <span class="sd">    filenames is a list of filenames and directories. if a list element is a</span>
 <span class="sd">    string directory name, it expands to list of files in dir.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">join</span> <span class="k">as</span> <span class="n">pathjoin</span>
-    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">dirname</span> <span class="k">as</span> <span class="n">pathdirname</span>
-    <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">join</span> <span class="k">as</span> <span class="n">pathjoin</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
 
     <span class="k">if</span> <span class="n">filenames</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">filenames</span> <span class="o">=</span> <span class="n">glob</span><span class="p">(</span><span class="n">pathjoin</span><span class="p">(</span><span class="n">TC_DECKS_DIR</span><span class="p">,</span> <span class="s2">&quot;*&quot;</span><span class="p">))</span>
@@ -505,24 +499,29 @@ document.write(`
     <span class="c1"># We might want to rearrange this so we don&#39;t open up every file...</span>
     <span class="c1"># Check timestamps first.</span>
     <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
-        <span class="n">updated_files</span> <span class="o">+=</span> <span class="n">update_fields</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="n">process</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">updated_files</span> <span class="o">+=</span> <span class="n">update_fields</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="n">process</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Failed parsing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+            <span class="k">continue</span>
 
     <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="s2">&quot;SELECT * FROM tc_trackfiles&quot;</span><span class="p">)</span>
     <span class="c1"># data = cc.fetchall()</span>
     <span class="n">conn</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
     <span class="c1"># return data</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> updated storms&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">updated_files</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">updated_files</span></div>
 
 
-<div class="viewcode-block" id="update_fields"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.update_fields">[docs]</a><span class="k">def</span> <span class="nf">update_fields</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="update_fields"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.update_fields">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">update_fields</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,</span> <span class="n">cc</span><span class="p">,</span> <span class="n">conn</span><span class="p">,</span> <span class="n">process</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Update fields in TC track database with passed tc_trackfilename.&quot;&quot;&quot;</span>
     <span class="c1"># Must be of form similar to</span>
     <span class="c1"># Gal912016.dat</span>
 
-    <span class="kn">import</span> <span class="nn">re</span>
-    <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">basename</span> <span class="k">as</span> <span class="n">pathbasename</span>
-    <span class="kn">from</span> <span class="nn">os</span> <span class="kn">import</span> <span class="n">stat</span> <span class="k">as</span> <span class="n">osstat</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">basename</span> <span class="k">as</span> <span class="n">pathbasename</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">stat</span> <span class="k">as</span> <span class="n">osstat</span>
 
     <span class="n">updated_files</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -530,10 +529,19 @@ document.write(`
 
     <span class="c1"># Check if we match Gxxdddddd.dat filename format.</span>
     <span class="c1"># If not just return and don&#39;t do anything.</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
-        <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
-    <span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">&quot;G\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
-        <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+    <span class="k">if</span> <span class="p">(</span>
+        <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;G\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="ow">and</span> <span class="ow">not</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+            <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+        <span class="p">)</span>
     <span class="p">):</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
@@ -550,16 +558,20 @@ document.write(`
     <span class="c1"># Check if timestamp on file is newer than timestamp in database -</span>
     <span class="c1"># if not, just return and don&#39;t do anything.</span>
     <span class="k">if</span> <span class="n">data</span><span class="p">:</span>
-        <span class="n">database_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
-            <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-                <span class="s2">&quot;SELECT last_updated from tc_trackfiles WHERE filename = ?&quot;</span><span class="p">,</span>
-                <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,),</span>
-            <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
-            <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">database_timestamp</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
+                    <span class="s2">&quot;SELECT last_updated from tc_trackfiles WHERE filename = ?&quot;</span><span class="p">,</span>
+                    <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,),</span>
+                <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()[</span><span class="mi">0</span><span class="p">],</span>
+                <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Failed on </span><span class="si">{</span><span class="n">tc_trackfilename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;FAILED ON </span><span class="si">{</span><span class="n">tc_trackfilename</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">file_timestamp</span> <span class="o">&lt;</span> <span class="n">database_timestamp</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
                 <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> already in </span><span class="si">%s</span><span class="s2"> and up to date, not doing anything&quot;</span><span class="p">,</span>
                 <span class="n">tc_trackfilename</span><span class="p">,</span>
                 <span class="n">TC_DECKS_DB</span><span class="p">,</span>
@@ -567,6 +579,9 @@ document.write(`
             <span class="k">return</span> <span class="p">[]</span>
 
     <span class="n">lines</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">readlines</span><span class="p">()</span>
+    <span class="c1"># Remove any whitespace from the loaded deck file lines - otherwise will fail</span>
+    <span class="c1"># parsing datetime information downstream</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
     <span class="n">start_line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;,&quot;</span><span class="p">)</span>
     <span class="c1"># Start 24h prior to start in sectorfile, for initial processing</span>
     <span class="c1"># storm_start_datetime = datetime.strptime(start_line[2],&#39;%Y%m%d%H&#39;)</span>
@@ -581,37 +596,42 @@ document.write(`
             <span class="n">vmax</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">currv</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">data</span> <span class="ow">and</span> <span class="n">database_timestamp</span> <span class="o">&lt;</span> <span class="n">file_timestamp</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
             <span class="s2">&quot;Updating start/end datetime and last_updated fields for &quot;</span>
             <span class="o">+</span> <span class="n">tc_trackfilename</span>
             <span class="o">+</span> <span class="s2">&quot; in &quot;</span>
             <span class="o">+</span> <span class="n">TC_DECKS_DB</span>
         <span class="p">)</span>
         <span class="n">old_start_datetime</span><span class="p">,</span> <span class="n">old_end_datetime</span><span class="p">,</span> <span class="n">old_vmax</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
-            <span class="s2">&quot;SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE filename = ?&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;SELECT start_datetime,end_datetime,vmax from tc_trackfiles WHERE &quot;</span>
+            <span class="s2">&quot;filename = ?&quot;</span><span class="p">,</span>
             <span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">,),</span>
         <span class="p">)</span><span class="o">.</span><span class="n">fetchone</span><span class="p">()</span>
         <span class="c1"># Eventually add in storm_start_datetime</span>
-        <span class="c1"># old_storm_start_datetime,old_start_datetime,old_end_datetime,old_vmax = cc.execute(&quot;SELECT storm_start_datetime,start_datetime,end_datetime,vmax from tc_trackfiles WHERE filename = ?&quot;, (tc_trackfilename,)).fetchone()</span>
+        <span class="c1"># old_storm_start_datetime,old_start_datetime,old_end_datetime,old_vmax =</span>
+        <span class="c1">#   cc.execute(&quot;SELECT storm_start_datetime,start_datetime,end_datetime,vmax</span>
+        <span class="c1">#   from tc_trackfiles WHERE filename = ?&quot;, (tc_trackfilename,)).fetchone()</span>
         <span class="k">if</span> <span class="n">old_start_datetime</span> <span class="o">==</span> <span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED start_datetime: &quot;</span> <span class="o">+</span> <span class="n">old_start_datetime</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED start_datetime: &quot;</span> <span class="o">+</span> <span class="n">old_start_datetime</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
                 <span class="s2">&quot;    Old start_datetime: &quot;</span>
                 <span class="o">+</span> <span class="n">old_start_datetime</span>
                 <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span>
                 <span class="o">+</span> <span class="n">start_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
-        <span class="c1"># if old_storm_start_datetime == storm_start_datetime.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;):</span>
+        <span class="c1"># if old_storm_start_datetime ==</span>
+        <span class="c1">#                            storm_start_datetime.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;):</span>
         <span class="c1">#    LOG.info(&#39;    UNCHANGED storm_start_datetime: &#39;+old_storm_start_datetime)</span>
         <span class="c1"># else:</span>
-        <span class="c1">#    LOG.info(&#39;    Old storm_start_datetime: &#39;+old_storm_start_datetime+&#39; to new: &#39;+storm_start_datetime.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;))</span>
+        <span class="c1">#    LOG.info(&#39;    Old storm_start_datetime: &#39;+old_storm_start_datetime+&#39; to</span>
+        <span class="c1">#              new: &#39;+storm_start_datetime.strftime(&#39;%Y-%m-%d %H:%M:%S&#39;))</span>
         <span class="k">if</span> <span class="n">old_end_datetime</span> <span class="o">==</span> <span class="n">end_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED end_datetime: &quot;</span> <span class="o">+</span> <span class="n">old_end_datetime</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED end_datetime: &quot;</span> <span class="o">+</span> <span class="n">old_end_datetime</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
                 <span class="s2">&quot;    Old end_datetime: &quot;</span>
                 <span class="o">+</span> <span class="n">old_end_datetime</span>
                 <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span>
@@ -619,12 +639,12 @@ document.write(`
             <span class="p">)</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">database_timestamp</span> <span class="o">==</span> <span class="n">file_timestamp</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
                 <span class="s2">&quot;    UNCHANGED last_updated: &quot;</span>
                 <span class="o">+</span> <span class="n">database_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
                 <span class="s2">&quot;    Old last_updated: &quot;</span>
                 <span class="o">+</span> <span class="n">database_timestamp</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2"> %H:%M:%S&quot;</span><span class="p">)</span>
                 <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span>
@@ -632,9 +652,9 @@ document.write(`
             <span class="p">)</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">old_vmax</span> <span class="o">==</span> <span class="n">vmax</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED vmax: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    UNCHANGED vmax: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">))</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Old vmax: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">vmax</span><span class="p">))</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    Old vmax: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">old_vmax</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot; to new: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">vmax</span><span class="p">))</span>
             <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;UPDATE tc_trackfiles SET</span>
@@ -657,16 +677,32 @@ document.write(`
         <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">updated_files</span>
 
-    <span class="n">start_lat</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
-    <span class="n">start_lon</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+    <span class="n">start_lat</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;N&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;S&quot;</span> <span class="ow">in</span> <span class="n">start_lat</span><span class="p">:</span>
+        <span class="n">start_lat</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">start_lat</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;S&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">start_lon</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;E&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;W&quot;</span> <span class="ow">in</span> <span class="n">start_lon</span><span class="p">:</span>
+        <span class="n">start_lon</span> <span class="o">=</span> <span class="s2">&quot;-&quot;</span> <span class="o">+</span> <span class="n">start_lon</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;W&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">storm_basin</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">storm_num</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">start_name</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">48</span><span class="p">]</span> <span class="o">+</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">49</span><span class="p">]</span>
-    <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
-        <span class="n">start_name</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">41</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+    <span class="p">)</span> <span class="ow">or</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">match</span><span class="p">(</span>
+        <span class="n">pathbasename</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+    <span class="p">):</span>
+        <span class="c1"># For the most part, b-deck files line up fairly with G-deck files, but the</span>
+        <span class="c1"># index of the start name is wildly different. I almost wonder if we should</span>
+        <span class="c1"># use the b-deck parser to grab all this information, but this is hopefully</span>
+        <span class="c1"># good enough</span>
+        <span class="n">start_name</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">27</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Keep the old logic for parsing the start_name out of the G-deck files</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">start_name</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">48</span><span class="p">]</span> <span class="o">+</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">49</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
+            <span class="n">start_name</span> <span class="o">=</span> <span class="n">start_line</span><span class="p">[</span><span class="mi">41</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">data</span> <span class="o">==</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="c1"># print &#39;    Adding &#39;+tc_trackfilename+&#39; to &#39;+TC_DECKS_DB</span>
         <span class="n">cc</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
 <span class="w">            </span><span class="sd">&quot;&quot;&quot;insert into tc_trackfiles(</span>
@@ -700,69 +736,69 @@ document.write(`
             <span class="p">),</span>
         <span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;    Adding &quot;</span> <span class="o">+</span> <span class="n">tc_trackfilename</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="n">TC_DECKS_DB</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;    Adding &quot;</span> <span class="o">+</span> <span class="n">tc_trackfilename</span> <span class="o">+</span> <span class="s2">&quot; to &quot;</span> <span class="o">+</span> <span class="n">TC_DECKS_DB</span><span class="p">)</span>
         <span class="n">updated_files</span> <span class="o">+=</span> <span class="p">[</span><span class="n">tc_trackfilename</span><span class="p">]</span>
         <span class="n">conn</span><span class="o">.</span><span class="n">commit</span><span class="p">()</span>
 
         <span class="c1"># This ONLY runs if it is a brand new storm file and we requested</span>
-        <span class="c1"># processing.</span>
-        <span class="k">if</span> <span class="n">process</span><span class="p">:</span>
-            <span class="n">reprocess_storm</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">)</span>
+        <span class="c1"># processing. Not used right now -- includes errors.</span>
+        <span class="c1"># if process:</span>
+        <span class="c1">#     reprocess_storm(tc_trackfilename)</span>
     <span class="k">return</span> <span class="n">updated_files</span></div>
 
 
-<div class="viewcode-block" id="reprocess_storm"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.reprocess_storm">[docs]</a><span class="k">def</span> <span class="nf">reprocess_storm</span><span class="p">(</span><span class="n">tc_trackfilename</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reprocess storm tc_trackfilename, using info in TC tracks database.&quot;&quot;&quot;</span>
-    <span class="c1"># from IPython import embed as shell; shell()</span>
+<span class="c1"># The function below was commented out as it included errors, and is not used by GeoIPS</span>
+<span class="c1"># at this time. 9/27/23</span>
 
-    <span class="n">datelist</span> <span class="o">=</span> <span class="p">[</span><span class="n">startdt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)]</span>
-    <span class="k">for</span> <span class="n">nn</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">((</span><span class="n">enddt</span> <span class="o">-</span> <span class="n">startdt</span><span class="p">)</span><span class="o">.</span><span class="n">days</span> <span class="o">+</span> <span class="mi">2</span><span class="p">):</span>
-        <span class="n">datelist</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">startdt</span> <span class="o">+</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">nn</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">&quot;</span><span class="p">)]</span>
+<span class="c1"># def reprocess_storm(tc_trackfilename):</span>
+<span class="c1">#     &quot;&quot;&quot;Reprocess storm tc_trackfilename, using info in TC tracks database.&quot;&quot;&quot;</span>
+<span class="c1">#     datelist = [startdt.strftime(&quot;%Y%m%d&quot;)]</span>
+<span class="c1">#     for nn in range((enddt - startdt).days + 2):</span>
+<span class="c1">#         datelist += [(startdt + timedelta(nn)).strftime(&quot;%Y%m%d&quot;)]</span>
 
-    <span class="n">hourlist</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">24</span><span class="p">):</span>
-        <span class="n">hourlist</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">enddt</span> <span class="o">-</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">ii</span><span class="p">))</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%H&quot;</span><span class="p">)]</span>
-    <span class="n">hourlist</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
-    <span class="c1"># Do newest first</span>
-    <span class="n">datelist</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1">#     hourlist = []</span>
+<span class="c1">#     for ii in range(24):</span>
+<span class="c1">#         hourlist += [(enddt - timedelta(hours=ii)).strftime(&quot;%H&quot;)]</span>
+<span class="c1">#     hourlist.sort()</span>
+<span class="c1">#     # Do newest first</span>
+<span class="c1">#     datelist.sort(reverse=True)</span>
 
-    <span class="k">for</span> <span class="n">sat</span><span class="p">,</span> <span class="n">sensor</span> <span class="ow">in</span> <span class="p">[</span>
-        <span class="p">(</span><span class="s2">&quot;gcom-w1&quot;</span><span class="p">,</span> <span class="s2">&quot;amsr2&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;gpm&quot;</span><span class="p">,</span> <span class="s2">&quot;gmi&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;npp&quot;</span><span class="p">,</span> <span class="s2">&quot;viirs&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;jpss-1&quot;</span><span class="p">,</span> <span class="s2">&quot;viirs&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;aqua&quot;</span><span class="p">,</span> <span class="s2">&quot;modis&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;terra&quot;</span><span class="p">,</span> <span class="s2">&quot;modis&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;himawari-8&quot;</span><span class="p">,</span> <span class="s2">&quot;ahi&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;goes-16&quot;</span><span class="p">,</span> <span class="s2">&quot;abi&quot;</span><span class="p">),</span>
-        <span class="p">(</span><span class="s2">&quot;goes-17&quot;</span><span class="p">,</span> <span class="s2">&quot;abi&quot;</span><span class="p">),</span>
-    <span class="p">]:</span>
-        <span class="k">for</span> <span class="n">datestr</span> <span class="ow">in</span> <span class="n">datelist</span><span class="p">:</span>
-            <span class="n">process_overpass</span><span class="p">(</span>
-                <span class="n">sat</span><span class="p">,</span>
-                <span class="n">sensor</span><span class="p">,</span>
-                <span class="n">productlist</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">sectorlist</span><span class="o">=</span><span class="p">[</span><span class="n">startstormsect</span><span class="o">.</span><span class="n">name</span><span class="p">],</span>
-                <span class="n">sectorfiles</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">extra_dirs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                <span class="n">sector_file</span><span class="o">=</span><span class="n">sector_file</span><span class="p">,</span>
-                <span class="n">datelist</span><span class="o">=</span><span class="p">[</span><span class="n">datestr</span><span class="p">],</span>
-                <span class="n">hourlist</span><span class="o">=</span><span class="n">hourlist</span><span class="p">,</span>
-                <span class="n">queue</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DEFAULT_QUEUE&quot;</span><span class="p">),</span>
-                <span class="n">mp_max_cpus</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
-                <span class="n">allstatic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">alldynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="c1"># list=True will just list files and not actually run</span>
-                <span class="c1"># list=True,</span>
-                <span class="nb">list</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-                <span class="n">quiet</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                <span class="n">start_datetime</span><span class="o">=</span><span class="n">startdt</span><span class="p">,</span>
-                <span class="n">end_datetime</span><span class="o">=</span><span class="n">enddt</span><span class="p">,</span>
-            <span class="p">)</span></div>
-    <span class="c1"># shell()</span>
+<span class="c1">#     for sat, sensor in [</span>
+<span class="c1">#         (&quot;gcom-w1&quot;, &quot;amsr2&quot;),</span>
+<span class="c1">#         (&quot;gpm&quot;, &quot;gmi&quot;),</span>
+<span class="c1">#         (&quot;npp&quot;, &quot;viirs&quot;),</span>
+<span class="c1">#         (&quot;jpss-1&quot;, &quot;viirs&quot;),</span>
+<span class="c1">#         (&quot;aqua&quot;, &quot;modis&quot;),</span>
+<span class="c1">#         (&quot;terra&quot;, &quot;modis&quot;),</span>
+<span class="c1">#         (&quot;himawari-8&quot;, &quot;ahi&quot;),</span>
+<span class="c1">#         (&quot;goes-16&quot;, &quot;abi&quot;),</span>
+<span class="c1">#         (&quot;goes-17&quot;, &quot;abi&quot;),</span>
+<span class="c1">#     ]:</span>
+<span class="c1">#         for datestr in datelist:</span>
+<span class="c1">#             process_overpass(</span>
+<span class="c1">#                 sat,</span>
+<span class="c1">#                 sensor,</span>
+<span class="c1">#                 productlist=None,</span>
+<span class="c1">#                 sectorlist=[startstormsect.name],</span>
+<span class="c1">#                 sectorfiles=None,</span>
+<span class="c1">#                 extra_dirs=None,</span>
+<span class="c1">#                 sector_file=sector_file,</span>
+<span class="c1">#                 datelist=[datestr],</span>
+<span class="c1">#                 hourlist=hourlist,</span>
+<span class="c1">#                 queue=os.getenv(&quot;DEFAULT_QUEUE&quot;),</span>
+<span class="c1">#                 mp_max_cpus=3,</span>
+<span class="c1">#                 allstatic=False,</span>
+<span class="c1">#                 alldynamic=True,</span>
+<span class="c1">#                 # list=True will just list files and not actually run</span>
+<span class="c1">#                 # list=True,</span>
+<span class="c1">#                 list=False,</span>
+<span class="c1">#                 quiet=True,</span>
+<span class="c1">#                 start_datetime=startdt,</span>
+<span class="c1">#                 end_datetime=enddt,</span>
+<span class="c1">#             )</span>
 
 
-<div class="viewcode-block" id="get_all_storms_from_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.get_all_storms_from_db">[docs]</a><span class="k">def</span> <span class="nf">get_all_storms_from_db</span><span class="p">(</span>
+<div class="viewcode-block" id="get_all_storms_from_db"><a class="viewcode-back" href="../../../geoips_api/geoips.sector_utils.html#geoips.sector_utils.tc_tracks_database.get_all_storms_from_db">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_all_storms_from_db</span><span class="p">(</span>
     <span class="n">start_datetime</span><span class="p">,</span>
     <span class="n">end_datetime</span><span class="p">,</span>
     <span class="n">tc_spec_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
@@ -790,10 +826,15 @@ document.write(`
 <span class="sd">    &gt;&gt;&gt; enddt = datetime.strptime(&#39;20200217&#39;, &#39;%Y%m%d&#39;)</span>
 <span class="sd">    &gt;&gt;&gt; get_storm_from_db(startdt, enddt)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">os.path</span> <span class="kn">import</span> <span class="n">exists</span> <span class="k">as</span> <span class="n">path_exists</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">exists</span> <span class="k">as</span> <span class="n">path_exists</span>
 
     <span class="n">return_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">connection_cursor</span><span class="p">,</span> <span class="n">connection</span> <span class="o">=</span> <span class="n">open_tc_db</span><span class="p">()</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+        <span class="s2">&quot;Getting all storms from tcdb from &#39;</span><span class="si">%s</span><span class="s2">&#39; to &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span>
+        <span class="n">start_datetime</span><span class="p">,</span>
+        <span class="n">end_datetime</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;connection: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">connection</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">connection_cursor</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span>
@@ -806,7 +847,7 @@ document.write(`
         <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">resp</span><span class="si">}</span><span class="s2"> error getting fields from database, return empty list&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">return_area_defs</span>
     <span class="n">deck_filenames</span> <span class="o">=</span> <span class="n">connection_cursor</span><span class="o">.</span><span class="n">fetchall</span><span class="p">()</span>
-    <span class="kn">from</span> <span class="nn">geoips.sector_utils.tc_tracks</span> <span class="kn">import</span> <span class="n">trackfile_to_area_defs</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.tc_tracks</span><span class="w"> </span><span class="kn">import</span> <span class="n">trackfile_to_area_defs</span>
 
     <span class="k">for</span> <span class="n">deck_filename</span> <span class="ow">in</span> <span class="n">deck_filenames</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">deck_filename</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -814,7 +855,7 @@ document.write(`
             <span class="p">(</span><span class="n">deck_filename</span><span class="p">,)</span> <span class="o">=</span> <span class="n">deck_filename</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;deck_filename </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path_exists</span><span class="p">(</span><span class="n">deck_filename</span><span class="p">):</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Deck file does not exist! </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Deck file does not exist! </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)</span>
             <span class="k">continue</span>
         <span class="n">area_defs</span> <span class="o">=</span> <span class="n">trackfile_to_area_defs</span><span class="p">(</span>
             <span class="n">deck_filename</span><span class="p">,</span>
@@ -830,6 +871,7 @@ document.write(`
                     <span class="n">return_area_defs</span> <span class="o">+=</span> <span class="p">[(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">deck_filename</span><span class="p">)]</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">return_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> storms found in time range in tcdb!&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">return_area_defs</span><span class="p">))</span>
     <span class="c1"># return None if no storm matched</span>
     <span class="k">return</span> <span class="n">return_area_defs</span></div>
 </pre></div>
@@ -838,16 +880,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -865,11 +903,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

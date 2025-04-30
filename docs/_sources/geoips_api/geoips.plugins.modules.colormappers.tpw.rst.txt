@@ -4,22 +4,6 @@ geoips.plugins.modules.colormappers.tpw package
 Submodules
 ----------
 
-geoips.plugins.modules.colormappers.tpw.tpw\_cimss module
----------------------------------------------------------
-
-.. automodule:: geoips.plugins.modules.colormappers.tpw.tpw_cimss
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
-geoips.plugins.modules.colormappers.tpw.tpw\_purple module
-----------------------------------------------------------
-
-.. automodule:: geoips.plugins.modules.colormappers.tpw.tpw_purple
-   :members:
-   :undoc-members:
-   :show-inheritance:
-
 geoips.plugins.modules.colormappers.tpw.tpw\_pwat module
 --------------------------------------------------------
 

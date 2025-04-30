@@ -2,49 +2,63 @@
 <!DOCTYPE html>
 
 
-<html lang="en" >
+<html lang="en" data-content_root="" >
 
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.log_setup &#8212; GeoIPS, Geolocated Information Processing System 1.11.1.post4 documentation</title>
+    <title>geoips.commandline.log_setup &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
   
   
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-  
-  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
-
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
     <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=85c6e164"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs"></script>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs"></script>
+    <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";import elkLayouts from "https://cdn.jsdelivr.net/npm/@mermaid-js/layout-elk@0.1.4/dist/mermaid-layout-elk.esm.min.mjs";mermaid.registerLayoutLoaders(elkLayouts);mermaid.initialize({startOnLoad:false});</script>
+    <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+    <script type="module">
+import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@11.2.0/dist/mermaid.esm.min.mjs";
+window.addEventListener("load", () => mermaid.run());
+</script>
     <script>DOCUMENTATION_OPTIONS.pagename = '_modules/geoips/commandline/log_setup';</script>
     <link rel="icon" href="../../../_static/nrlicon.ico"/>
     <link rel="index" title="Index" href="../../../genindex.html" />
     <link rel="search" title="Search" href="../../../search.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
   </head>
   
   
@@ -52,23 +66,16 @@
 
   
   
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+  <div id="pst-scroll-pixel-helper"></div>
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
   
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../../search.html"
       method="get">
@@ -76,7 +83,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -84,18 +90,27 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
-  <div class="navbar-header-items__start">
+  
+  <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../../index.html">
@@ -103,88 +118,85 @@
   
   
   
+  
     
     
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
   
   
 </a></div>
     
   </div>
   
-  
   <div class="col-lg-9 navbar-header-items">
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
                     More
                 </button>
-                <div class="dropdown-menu">
+                <ul id="pst-nav-more-links" class="dropdown-menu">
                     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
             
   </ul>
 </nav></div>
@@ -196,28 +208,24 @@
       
         <div class="navbar-item navbar-persistent--container">
           
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -228,8 +236,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
       
@@ -239,25 +247,30 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
-<script>
-document.write(`
-  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-  </button>
-`);
-</script>
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
       
-      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
         
 
   
@@ -266,73 +279,63 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Site Navigation">
-    Site Navigation
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../introduction/index.html">
-                        Introduction
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../starter/index.html">
-                        Getting Started
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../userguide/index.html">
-                        User Guide
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../devguide/index.html">
-                        Developer Guide
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
-                        API Reference
-                      </a>
-                    </li>
-                
-            <div class="nav-item dropdown">
-                <button class="btn dropdown-toggle nav-item" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    More
-                </button>
-                <div class="dropdown-menu">
-                    
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../releases/index.html">
-                        Release Notes
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+    Concepts
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../../contact/index.html">
-                        Contact
-                      </a>
-                    </li>
-                
-                </div>
-            </div>
-            
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contact/index.html">
+    About Us
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -341,17 +344,14 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
-<script>
-document.write(`
-  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
-    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
-    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
-  </button>
-`);
-</script></div>
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -362,8 +362,8 @@ document.write(`
           
           
           
-          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github"></i></span>
-            <label class="sr-only">GitHub</label></a>
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
         </li>
 </ul></div>
         
@@ -373,30 +373,33 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
       
         <div class="header-article-item">
 
-
-
-<nav aria-label="Breadcrumbs">
-  <ul class="bd-breadcrumbs" role="navigation" aria-label="Breadcrumb">
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
       <a href="../../../index.html" class="nav-link" aria-label="Home">
@@ -406,7 +409,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Module code</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">geoips.commandline.log_setup</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">geoips.commandline.log_setup</span></li>
   </ul>
 </nav>
 </div>
@@ -421,45 +424,282 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
   <h1>Source code for geoips.commandline.log_setup</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # Distribution Statement A. Approved for public release. Distribution unlimited.</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # Author:</span>
-<span class="c1"># # # Naval Research Laboratory, Marine Meteorology Division</span>
-<span class="c1"># # #</span>
-<span class="c1"># # # This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c1"># # # the terms of the NRLMMD License included with this program. This program is</span>
-<span class="c1"># # # distributed WITHOUT ANY WARRANTY; without even the implied warranty of</span>
-<span class="c1"># # # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the included license</span>
-<span class="c1"># # # for more details. If you did not receive the license, for more information see:</span>
-<span class="c1"># # # https://github.com/U-S-NRL-Marine-Meteorology-Division/</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;Geoips module for setting up logging handlers with a specified verbosity.&quot;&quot;&quot;</span>
 
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">textwrap</span><span class="w"> </span><span class="kn">import</span> <span class="n">wrap</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">getenv</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">socket</span><span class="w"> </span><span class="kn">import</span> <span class="n">gethostname</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
 
 
-<div class="viewcode-block" id="setup_logging"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.setup_logging">[docs]</a><span class="k">def</span> <span class="nf">setup_logging</span><span class="p">(</span><span class="n">verbose</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set up logging handler.</span>
+<span class="n">logging</span><span class="o">.</span><span class="n">captureWarnings</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="sd">    If you do this the first time with no argument, it sets up the logging</span>
-<span class="sd">    for all submodules. Subsequently, in submodules, you can just do</span>
-<span class="sd">    LOG = logging.getLogger(__name__)</span>
+
+<div class="viewcode-block" id="log_with_emphasis"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.log_with_emphasis">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">log_with_emphasis</span><span class="p">(</span><span class="n">print_func</span><span class="p">,</span> <span class="o">*</span><span class="n">messages</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print messages boxed in asterisks using the specified print function.</span>
+
+<span class="sd">    Print one or more messages using the specified print function. The messages</span>
+<span class="sd">    will be surrounded in asterisks. Long messages will be word wrapped to fit</span>
+<span class="sd">    within a maximum width of 74 characters, save for any individual words that</span>
+<span class="sd">    are over 74 characters which will not be broken.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    print_func: func</span>
+<span class="sd">        An instance of a function that prints (e.g. ``logging.debug``, ``logging.info``,</span>
+<span class="sd">        etc, or the ``print`` function itself).</span>
+<span class="sd">    messages: one or more strings</span>
+<span class="sd">        The messages to be logged with emphasis</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">wrapped_messages</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c1"># Even though only strings should be passed here, we are going to allow any type of</span>
+    <span class="c1"># object to be passed for the time being. Best not to overthink the situation and</span>
+    <span class="c1"># just cast for the time being.</span>
+    <span class="n">messages</span> <span class="o">=</span> <span class="nb">filter</span><span class="p">(</span><span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">messages</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">message</span> <span class="ow">in</span> <span class="n">messages</span><span class="p">:</span>
+        <span class="c1"># wrap the message to a specified length</span>
+        <span class="n">wrapped_messages</span> <span class="o">+=</span> <span class="n">wrap</span><span class="p">(</span>
+            <span class="n">message</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">74</span><span class="p">,</span> <span class="n">break_long_words</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">break_on_hyphens</span><span class="o">=</span><span class="kc">False</span>
+        <span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">max_message_len</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="mi">74</span><span class="p">,</span> <span class="nb">max</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">wmessage</span><span class="p">)</span> <span class="k">for</span> <span class="n">wmessage</span> <span class="ow">in</span> <span class="n">wrapped_messages</span><span class="p">]))</span>
+    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="s2">&quot;No proper messages were provided for logging.</span><span class="se">\n</span><span class="s2">&quot;</span>
+            <span class="o">+</span> <span class="s2">&quot;Make sure the messages are not all empty strings.&quot;</span>
+        <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+    <span class="c1"># adding +6 to max_message_len as we add &#39;** &#39; and &#39; **&#39; pre/post-fixes (6 chars)</span>
+    <span class="n">print_func</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_message_len</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">wrapped_message</span> <span class="ow">in</span> <span class="n">wrapped_messages</span><span class="p">:</span>
+        <span class="c1"># for each of the wrapped messages, if the length of such message is less</span>
+        <span class="c1"># than max message length, add some whitespace to make some things match,</span>
+        <span class="c1"># this is what the &#39;ljust(len)&#39; function does</span>
+        <span class="n">print_func</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;** </span><span class="si">{</span><span class="n">wrapped_message</span><span class="o">.</span><span class="n">ljust</span><span class="p">(</span><span class="n">max_message_len</span><span class="p">)</span><span class="si">}</span><span class="s2"> **&quot;</span><span class="p">)</span>
+    <span class="n">print_func</span><span class="p">(</span><span class="s2">&quot;*&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="n">max_message_len</span> <span class="o">+</span> <span class="mi">6</span><span class="p">))</span>
+    <span class="n">print_func</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LogLevelAdder"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.LogLevelAdder">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">LogLevelAdder</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a callable that can add a new logging level.</span>
+
+<span class="sd">    Initialize simply as `add_log_level = LogLevelAdder()` and add a new level by</span>
+<span class="sd">    calling `add_log_level` with the name of the new log level and its level number.</span>
+
+<span class="sd">    For further call information, see the docstring for LogLevelAdder.__call__().</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_name</span><span class="p">,</span> <span class="n">level_num</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Comprehensively adds a new logging level to the `logging` module.</span>
+
+<span class="sd">        Comprehensively adds a new logging level named `level_name` to the `logging`</span>
+<span class="sd">        module and the currently configured logging class. The new logging level&#39;s</span>
+<span class="sd">        precidence is set by `level_num`. For example, a level_num of `15` would create</span>
+<span class="sd">        a logging level that falls between `logging.DEBUG` and `logging.INFO` whose</span>
+<span class="sd">        level_num are `10` and `20`, respectively.</span>
+
+<span class="sd">        Calling this function will add the following to the logging class:</span>
+<span class="sd">        - A new log level named `logging.{level_name}`</span>
+<span class="sd">        - A new logging function called `logging.{level_name.lower()]}`</span>
+
+<span class="sd">        To avoid conflicts between the log level attribute and the logging function,</span>
+<span class="sd">        `level_name` must not be entirely lowercase.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        level_name : str</span>
+<span class="sd">            Name for the new log level. This must not be completely lowercase.</span>
+<span class="sd">        level_num : int</span>
+<span class="sd">            Numeric precidence of the new log level.</span>
+
+<span class="sd">        `level_name` becomes an attribute of the `logging` module with the value</span>
+<span class="sd">        `level_num`. `methodName` becomes a convenience method for both `logging`</span>
+<span class="sd">        itself and the class returned by `logging.getLoggerClass()` (usually just</span>
+<span class="sd">        `logging.Logger`). If `methodName` is not specified, `level_name.lower()` is</span>
+<span class="sd">        used.</span>
+
+<span class="sd">        To avoid accidental clobberings of existing attributes, this method will</span>
+<span class="sd">        raise an `AttributeError` if the level name is already an attribute of the</span>
+<span class="sd">        `logging` module or if the method name is already present</span>
+
+<span class="sd">        Example</span>
+<span class="sd">        -------</span>
+<span class="sd">        &gt;&gt;&gt; add_logging_level = LogLevelAdder()</span>
+<span class="sd">        &gt;&gt;&gt; add_logging_level(&#39;TRACE&#39;, logging.DEBUG - 5)</span>
+<span class="sd">        &gt;&gt;&gt; logging.getLogger(__name__).setLevel(&quot;TRACE&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; logging.getLogger(__name__).trace(&#39;that worked&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; logging.trace(&#39;so did this&#39;)</span>
+<span class="sd">        &gt;&gt;&gt; logging.TRACE</span>
+<span class="sd">        5</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">methodName</span> <span class="o">=</span> <span class="n">level_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+
+        <span class="c1"># Add the log level</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level_name</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level_name</span><span class="p">)</span> <span class="o">!=</span> <span class="n">level_num</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">level_name</span><span class="si">}</span><span class="s2"> level already defined in logging module and its &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;value (</span><span class="si">{</span><span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span><span class="w"> </span><span class="n">level_name</span><span class="p">)</span><span class="si">}</span><span class="s2">) differs from the &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;requested value (</span><span class="si">{</span><span class="n">level_num</span><span class="si">}</span><span class="s2">).&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logging</span><span class="o">.</span><span class="n">addLevelName</span><span class="p">(</span><span class="n">level_num</span><span class="p">,</span> <span class="n">level_name</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">level_name</span><span class="p">,</span> <span class="n">level_num</span><span class="p">)</span>
+
+        <span class="c1"># Add the logging method to the current root logger</span>
+        <span class="n">logToRoot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_logToRoot</span><span class="p">(</span><span class="n">level_num</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">methodName</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">methodName</span><span class="p">)</span> <span class="o">!=</span> <span class="n">logToRoot</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">methodName</span><span class="si">}</span><span class="s2"> method already defined in logging module and &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;differs from the requested method.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">methodName</span><span class="p">,</span> <span class="n">logToRoot</span><span class="p">)</span>
+
+        <span class="c1"># Add the logging method to the logger class so it gets attached to new logger</span>
+        <span class="c1"># instances moving forward</span>
+        <span class="n">loggerClass</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLoggerClass</span><span class="p">()</span>
+        <span class="n">logForLevel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_logForLevel</span><span class="p">(</span><span class="n">level_num</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">loggerClass</span><span class="p">,</span> <span class="n">methodName</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">loggerClass</span><span class="p">,</span> <span class="n">methodName</span><span class="p">)</span> <span class="o">!=</span> <span class="n">logForLevel</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">methodName</span><span class="si">}</span><span class="s2"> method already defined in logger class and differs &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;from the requested method.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">loggerClass</span><span class="p">,</span> <span class="n">methodName</span><span class="p">,</span> <span class="n">logForLevel</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_logForLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_num</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_logForLevel_funcs&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">level_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span><span class="p">:</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">logForLevel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">isEnabledFor</span><span class="p">(</span><span class="n">level_num</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="n">level_num</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span><span class="p">[</span><span class="n">level_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">logForLevel</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logForLevel_funcs</span><span class="p">[</span><span class="n">level_num</span><span class="p">]</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_logToRoot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">level_num</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;_logToRoot_funcs&quot;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logToRoot_funcs</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">level_num</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logToRoot_funcs</span><span class="p">:</span>
+
+            <span class="k">def</span><span class="w"> </span><span class="nf">logToRoot</span><span class="p">(</span><span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                <span class="n">logging</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">level_num</span><span class="p">,</span> <span class="n">message</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_logToRoot_funcs</span><span class="p">[</span><span class="n">level_num</span><span class="p">]</span> <span class="o">=</span> <span class="n">logToRoot</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_logToRoot_funcs</span><span class="p">[</span><span class="n">level_num</span><span class="p">]</span></div>
+
+
+<span class="n">add_logging_level</span> <span class="o">=</span> <span class="n">LogLevelAdder</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="setup_logging"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.log_setup.setup_logging">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">fmt_string</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">datefmt_string</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get a new logger instance for GeoIPS.</span>
+
+<span class="sd">    Get a new logger instance for GeoIPS. This will set the logger&#39;s logging level, its</span>
+<span class="sd">    formatter, and add a `StreamHandler` pointing to `sys.stdout`.</span>
+
+<span class="sd">    This is most often used at the top-level of an applcation to set up the root logger</span>
+<span class="sd">    for the application (e.g. in a command line script). Once configured, the root</span>
+<span class="sd">    logger&#39;s properties will be inherited by lower-level logger instances. So, to use</span>
+<span class="sd">    the same logging configuration in submodules, simply instantiate a new logger</span>
+<span class="sd">    instance via `LOG = logging.getLogger(__name__)` and it will behave the same as the</span>
+<span class="sd">    root logger.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    logging_level : str, default=None</span>
+<span class="sd">        Sets the minimum log level for which log output will be written to stdout.</span>
+<span class="sd">        If None, will default to value set in base_paths.  This allows using</span>
+<span class="sd">        GEOIPS_LOGGING_LEVEL to override default.</span>
+<span class="sd">    fmt_string: str, default=None</span>
+<span class="sd">        Explicitly specify the log formatter format string. If None, default</span>
+<span class="sd">        to the value set in geoips/filenames/base_paths (which in the future</span>
+<span class="sd">        will be replaced with a GeoIPS config file).</span>
+<span class="sd">    datefmt_string: str, default=None</span>
+<span class="sd">        Explicitly specify the log formatter datefmt string. If None, default</span>
+<span class="sd">        to the value set in geoips/filenames/base_paths (which in the future</span>
+<span class="sd">        will be replaced with a GeoIPS config file).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">log</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">()</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">fmt</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span>
-        <span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> </span><span class="si">%(module)12s%(lineno)4d%(levelname)7s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span>
-    <span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">verbose</span><span class="p">:</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">)</span>
-    <span class="n">stream_hndlr</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
-    <span class="n">stream_hndlr</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
-    <span class="n">stream_hndlr</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
-    <span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">stream_hndlr</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Identify the current requested logging level</span>
+
+    <span class="c1"># If logging_level was not specified, default to base_path specification here.</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">logging_level</span><span class="p">:</span>
+        <span class="n">logging_level</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_LOGGING_LEVEL&quot;</span><span class="p">]</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">logging_level</span><span class="o">.</span><span class="n">upper</span><span class="p">()))</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Identify the current requested format and date format strings for</span>
+    <span class="c1"># log formatter.</span>
+
+    <span class="k">if</span> <span class="n">fmt_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Note that any format specifications supported directly by the</span>
+        <span class="c1"># logging.Formatter fmt keyword argument are specified as %(fmtspec)</span>
+        <span class="c1"># Username and hostname were not directly supported by logging.Formatter,</span>
+        <span class="c1"># so we added the capability to include them via os.getenv and</span>
+        <span class="c1"># socket.gethostname and f-string formatting.</span>
+        <span class="n">fmt_string</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_LOGGING_FMT_STRING&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">datefmt_string</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">datefmt_string</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_LOGGING_DATEFMT_STRING&quot;</span><span class="p">]</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Now replace any variables specified as {varname} within the format string.</span>
+
+    <span class="n">username</span> <span class="o">=</span> <span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;USER&quot;</span><span class="p">)</span>
+    <span class="n">hostname</span> <span class="o">=</span> <span class="n">gethostname</span><span class="p">()</span>
+
+    <span class="c1"># These are the variables explicitly supported in the format string, no other</span>
+    <span class="c1"># variables specified with {varname} are supported.</span>
+    <span class="n">fmt_vars</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;username&quot;</span><span class="p">:</span> <span class="n">username</span><span class="p">,</span> <span class="s2">&quot;hostname&quot;</span><span class="p">:</span> <span class="n">hostname</span><span class="p">}</span>
+    <span class="c1"># Identify which of the above variables are actually in the format string.</span>
+    <span class="n">fmt_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">fmt_vars</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fmt_string</span><span class="p">}</span>
+    <span class="c1"># Pass each of the variables specified in the format string as keyword</span>
+    <span class="c1"># arguments to the format method of the string.  Ie,</span>
+    <span class="c1"># fmt_string.format(username=username, hostname=hostname)</span>
+    <span class="n">fmt_string</span> <span class="o">=</span> <span class="n">fmt_string</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">fmt_kwargs</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Set the actual log formatter using fmt_string and datefmt_string.</span>
+
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">Formatter</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">fmt_string</span><span class="p">,</span> <span class="n">datefmt</span><span class="o">=</span><span class="n">datefmt_string</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Set the log handlers if they are not already set</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">log</span><span class="o">.</span><span class="n">handlers</span><span class="p">:</span>
+        <span class="n">stream_hndlr</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">StreamHandler</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
+        <span class="n">stream_hndlr</span><span class="o">.</span><span class="n">setFormatter</span><span class="p">(</span><span class="n">fmt</span><span class="p">)</span>
+        <span class="n">stream_hndlr</span><span class="o">.</span><span class="n">setLevel</span><span class="p">(</span><span class="n">logging</span><span class="o">.</span><span class="n">INFO</span><span class="p">)</span>
+        <span class="n">log</span><span class="o">.</span><span class="n">addHandler</span><span class="p">(</span><span class="n">stream_hndlr</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Print username and host at the info level at the beginning of the log output</span>
+
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;USER: </span><span class="si">{</span><span class="n">username</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">log</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;HOST: </span><span class="si">{</span><span class="n">hostname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="c1">###########################################################################</span>
+    <span class="c1"># Return the resulting log for use throughout GeoIPS</span>
+
     <span class="k">return</span> <span class="n">log</span></div>
 </pre></div>
 
@@ -467,16 +707,12 @@ document.write(`
               
               
               
-                <footer class="bd-footer-article">
+              
+              
+                <footer class="prev-next-footer d-print-none">
                   
-<div class="footer-article-items footer-article__inner">
-  
-    <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
-</div></div>
-  
 </div>
-
                 </footer>
               
             </div>
@@ -494,11 +730,12 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../../_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
-<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
+  
   
   
     <div class="footer-items__end">

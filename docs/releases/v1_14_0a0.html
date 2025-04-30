@@ -1,0 +1,1554 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.14.0a0 (2024-08-16) &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/v1_14_0a0';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.13.1 (2024-07-07)" href="v1_13_1.html" />
+    <link rel="prev" title="Version 1.14.0 (2025-04-30)" href="1.14.0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2025-04-30)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2025-04-30)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2025-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2025-04-30)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0.html">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.14.0a0 (2024-08-16)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="version-1-14-0a0-2024-08-16">
+<h1>Version 1.14.0a0 (2024-08-16)<a class="headerlink" href="#version-1-14-0a0-2024-08-16" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Bug fix</em>: Mac Image Match Bug</p></li>
+<li><p><em>Bug fix</em>: Update build_docs.sh to auto-generate &lt;version&gt;.rst with brassy</p></li>
+<li><p><em>Bug fix</em>: Add pip install of plugin package to build_docs.sh</p></li>
+<li><p><em>Bug fix</em>: Minor bug fixes and updates to AWS download script and abi_l2_netcdf reader</p></li>
+<li><p><em>Bug fix</em>: Remove exact comparison failures from image output checker plugin</p></li>
+<li><p><em>Bug fix</em>: Add support for algorithm application for xarray dict based families</p></li>
+<li><p><em>Bug fix</em>: Fix typo causing product family xrdict_area_product_to_outlist failure</p></li>
+<li><p><em>Bug fix</em>: Remove interactive log from plugin unit test</p></li>
+<li><p><em>Bug fix</em>: Revert docs/source/releases/index.rst back after build_docs.sh</p></li>
+<li><p><em>Bug fix</em>: Fix install on contemporary Debian machines (Ubuntu, etc.)</p></li>
+<li><p><em>Bug fix</em>: CLI Bug Fixes and Formatting Updates</p></li>
+<li><p><em>Bug fix</em>: Install packages prior to attempting to build their documentation</p></li>
+<li><p><em>Bug fix</em>: Ensure return value correctly captured when importing package in build_docs.sh</p></li>
+<li><p><em>Bug fix</em>: Fix memusg.py bugs that occur on Mac</p></li>
+<li><p><em>Continuous_integration</em>: Change release note .yaml folder from version to latest</p></li>
+<li><p><em>Enhancement</em>: New <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> command</p></li>
+<li><p><em>Continuous integration</em>: Fix CI issues with incorrectly passing/failing release notes</p></li>
+<li><p><em>Continuous integration</em>: Disable check_new_release_note on <code class="docutils literal notranslate"><span class="pre">main</span></code></p></li>
+<li><p><em>Continuous integration</em>: Fix the workflow to run on all PRs</p></li>
+<li><p><em>Continuous integration</em>: Auto-PR built release note on new tag</p></li>
+<li><p><em>Bug-fix</em>: Fix duplicate logs, cartopy version, and expose unit test</p></li>
+<li><p><em>Bug-fix</em>: Correct typo causing product family xrdict_area_product_to_outlist failure</p></li>
+<li><p><em>Bug-fix</em>: Fix failing test data CLI unit tests</p></li>
+<li><p><em>Installation</em>: Remove references to template_fusion_plugin from full install and test</p></li>
+<li><p><em>Installation</em>: Add base and full pip and mamba environment files</p></li>
+<li><p><em>Documentation</em>: Add pinkrst and brassy to dependencies</p></li>
+<li><p><em>Documentation</em>: Update LICENSE and DISTRIBUTION to latest approved version</p></li>
+<li><p><em>Documentation</em>: Add top level descriptions to minor releases</p></li>
+<li><p><em>Documentation</em>: Integrate new docs into old docs for workshop</p></li>
+<li><p><em>Documentation</em>: Write System Requirements</p></li>
+<li><p><em>Documentation</em>: Updated CLI Documentation to reflect the current state of the CLI</p></li>
+<li><p><em>Ci</em>: Added brassy to CI</p></li>
+<li><p><em>Testing</em>: Call pytest_long from check_code.sh via all_test_data vs all</p></li>
+<li><p><em>Testing</em>: Add NOAA-20, NOAA-21, and NPP downloads to NOAA AWS download script</p></li>
+<li><p><em>Refactoring updates</em>: Applied Scope to CLI Arguments</p></li>
+<li><p><em>Refactoring updates</em>: Change geoips get to geoips describe</p></li>
+<li><p><em>Refactoring updates</em>: Refactored <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">interface</span></code> to use a class factory</p></li>
+<li><p><em>Refactoring updates</em>: Refactored <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span></code> commands to use a class factory</p></li>
+<li><p><em>Refactoring updates</em>: Merged <code class="docutils literal notranslate"><span class="pre">create_sector_image</span></code> into the CLI</p></li>
+<li><p><em>Bug fixes</em>: Resolve algorithm_colormapper typo in single_source procflow</p></li>
+<li><p><em>Enchancement</em>: Add VIIRS HDF5 SDR reader</p></li>
+<li><p><em>Regression fix</em>: Fix Regression of geoips tree command</p></li>
+</ul>
+</div></blockquote>
+<section id="bug-fix">
+<h2>Bug fix<a class="headerlink" href="#bug-fix" title="Permalink to this heading">#</a></h2>
+<section id="mac-image-match-bug">
+<h3>Mac Image Match Bug<a class="headerlink" href="#mac-image-match-bug" title="Permalink to this heading">#</a></h3>
+<p>While testing Mac for the 2024 tutorial, it was found quite a few tests were
+failing due to bad image comparisons. Upon greater inspection, it was found that
+these tests were failing only due to a couple of different pixels, which we assume
+is due to different backend mechanics depending on your OS. Instead of failing a
+test if a single pixel is outside of a certain threshold, we’ve decided to test an
+image’s match with another pixel via a group basis.</p>
+<p>Ie. If num_pixels_mismatched_by_threshold / total_num_pixels &gt; x%, then we’ll
+raise an error. This is a more lenient test, but will still catch differences
+between two images. All in all, we wan’t to ignore tiny differences between images
+and catch the more glaring differences that affect lots of pixels when they occur.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">/</span><span class="n">image</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="update-build-docs-sh-to-auto-generate-version-rst-with-brassy">
+<h3>Update build_docs.sh to auto-generate &lt;version&gt;.rst with brassy<a class="headerlink" href="#update-build-docs-sh-to-auto-generate-version-rst-with-brassy" title="Permalink to this heading">#</a></h3>
+<p>Update build_docs.sh to call brassy to auto-generate the release notes prior
+to doc build.</p>
+<p>Also from doc build, call new script to update the release note index to add a
+“latest” section if there are latest YAML release notes. We may want to use this
+script to add versioned sections to index.rst in the future as well, but
+for now it only auto-adds latest.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">gitignore</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">update_release_note_index</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="add-pip-install-of-plugin-package-to-build-docs-sh">
+<h3>Add pip install of plugin package to build_docs.sh<a class="headerlink" href="#add-pip-install-of-plugin-package-to-build-docs-sh" title="Permalink to this heading">#</a></h3>
+<p>Add pip install of plugin package to build_docs.sh to ensure package is
+installed before attempting to build API docs.</p>
+<p>Currently, build_docs.sh checks is the current package is installed, and if not
+it pip installs it.  In the future will likely just error, and assume the
+package is installed already if attempting to build documentation.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="minor-bug-fixes-and-updates-to-aws-download-script-and-abi-l2-netcdf-reader">
+<h3>Minor bug fixes and updates to AWS download script and abi_l2_netcdf reader<a class="headerlink" href="#minor-bug-fixes-and-updates-to-aws-download-script-and-abi-l2-netcdf-reader" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS/geoips#666: 2024-07-16, Final Bug Fixes Prior to Workshop</em>
+Minor bug fixes to abi_l2_netcdf reader for masking out bad lat/lon points, and
+to download_noaa_aws.sh script that allow the script to download other collections
+from AWS (i.e. L2 data)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_l2_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-exact-comparison-failures-from-image-output-checker-plugin">
+<h3>Remove exact comparison failures from image output checker plugin<a class="headerlink" href="#remove-exact-comparison-failures-from-image-output-checker-plugin" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS/geoips#666: 2024-07-16, Final Bug Fixes Prior to Workshop</em></p>
+<p>Primary functional change</p>
+<ul class="simple">
+<li><p>Only check for percentage pixel diffs with the thresholded call to pixelmatch</p></li>
+<li><p>Only include exact check for purposes of reporting and outputing exact diff image.</p></li>
+</ul>
+<p>A few additional updates to help figure out the best way forward for comparison</p>
+<ul class="simple">
+<li><p>Return immediately if the arrays are identical (avoid running pixelmatch)</p></li>
+<li><p>Ensure we run exact and thresholded pixelmatch if the arrays are not identical</p></li>
+<li><p>Output separate exact and thresholded diff images</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">output_checkers</span><span class="o">/</span><span class="n">image</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="add-support-for-algorithm-application-for-xarray-dict-based-families">
+<h3>Add support for algorithm application for xarray dict based families<a class="headerlink" href="#add-support-for-algorithm-application-for-xarray-dict-based-families" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS/geoips#666: 2024-07-16, Final Bug Fixes Prior to Workshop</em></p>
+<p>Ensure all xarray dict based product families are supported within the single
+source procflow, including sectored and unsectored dictionaries of xarrays,
+algorithm and no algorithm application, and with and without area defs. Note
+ALL are not supported, but better identified what is missing / supported now.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-typo-causing-product-family-xrdict-area-product-to-outlist-failure">
+<h3>Fix typo causing product family xrdict_area_product_to_outlist failure<a class="headerlink" href="#fix-typo-causing-product-family-xrdict-area-product-to-outlist-failure" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS/geoips#666: 2024-07-16, Final Bug Fixes Prior to Workshop</em></p>
+<p>Product families that did not have pre-defined output lists and expected data
+passed unmodified from the readers to the output formatters were failing due to
+a missing else statement ensuring the list of final_products was set even when
+the output file list was not pre-defined.  Add else statement to set final_products
+to curr_products when output file list not defined.</p>
+<p>This resolved an error with product family xrdict_area_product_to_outlist when
+it was requested without sectoring, but it worked if sectoring was requested
+(followed a different route through the code for each).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="remove-interactive-log-from-plugin-unit-test">
+<h3>Remove interactive log from plugin unit test<a class="headerlink" href="#remove-interactive-log-from-plugin-unit-test" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS/geoips#666: 2024-07-30, Final Bug Fixes Prior to Workshop</em></p>
+<p>This test script unnecessarily requires test data. It was updated to skip
+the test if $GEOIPS_TESTDATA_DIR doesn’t exist, but then it would still fail if some
+test data was available, but not the test data required for the abi reader.
+Comment this test out altogether for now - we should create a new one at some
+point that does not require test data if we want to test the interactive logs
+from a directly imported plugin.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_log_setup</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="revert-docs-source-releases-index-rst-back-after-build-docs-sh">
+<h3>Revert docs/source/releases/index.rst back after build_docs.sh<a class="headerlink" href="#revert-docs-source-releases-index-rst-back-after-build-docs-sh" title="Permalink to this heading">#</a></h3>
+<p>Revert index.rst back to original contents after build_docs.sh completes.
+Since the intent is for index.rst to always be auto updated, and never manually
+edited, we will ensure all changes are reverted after build_docs completes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-install-on-contemporary-debian-machines-ubuntu-etc">
+<h3>Fix install on contemporary Debian machines (Ubuntu, etc.)<a class="headerlink" href="#fix-install-on-contemporary-debian-machines-ubuntu-etc" title="Permalink to this heading">#</a></h3>
+<p>When installing GeoIPS on a machine with only python3 (and not python)
+we get <code class="docutils literal notranslate"><span class="pre">WARNING:</span> <span class="pre">'python</span> <span class="pre">--version'</span> <span class="pre">failed,</span> <span class="pre">please</span> <span class="pre">install</span> <span class="pre">python</span> <span class="pre">&gt;=</span> <span class="pre">3.9</span> <span class="pre">before</span> <span class="pre">proceeding</span></code>
+because the code looks for <code class="docutils literal notranslate"><span class="pre">python</span></code> explicitly. Some Linux distributions decided during
+the transition from Python 2 to Python 3 that python should always refer to Python 2,
+and the command to run Python 3 would be python3 with a 3 at the end. Debian and Ubuntu did this.
+This change adds a message to users informing them how they can change their
+system so calls to <code class="docutils literal notranslate"><span class="pre">python</span></code> are re-routed to their local <code class="docutils literal notranslate"><span class="pre">python3</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">check_system_requirements</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="cli-bug-fixes-and-formatting-updates">
+<h3>CLI Bug Fixes and Formatting Updates<a class="headerlink" href="#cli-bug-fixes-and-formatting-updates" title="Permalink to this heading">#</a></h3>
+<p>This PR fixed small bugs and formatting inconsistencies with the CLI. Specifically,
+this PR addressed the format of the output of ‘geoips describe’ commands, to make
+the keys in the yaml output all be in title format rather than (some_val:) vs.
+(Some Val:). In this PR we were working on getting CLI documentation up to date,
+and discovered a bug with ‘geoips list packages’ where the ‘–columns’ flag was not
+actually working. This was a simple fix and that functionality is now working as
+expected. Unit tests have been updated to address these changes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_describe</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_list</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_describe_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_plugin</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_packages</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="install-packages-prior-to-attempting-to-build-their-documentation">
+<h3>Install packages prior to attempting to build their documentation<a class="headerlink" href="#install-packages-prior-to-attempting-to-build-their-documentation" title="Permalink to this heading">#</a></h3>
+<p>Add a step in the <code class="docutils literal notranslate"><span class="pre">build_sphinx_html</span></code> CI job to install the package for which we
+want to build documentation prior to building the documentation. Also remove the
+installation code from the <code class="docutils literal notranslate"><span class="pre">build_docs.sh</span></code> script.</p>
+<p>This fixes an issue where installation doesn’t always happen correctly causing the
+docs to fail to build.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">lint</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="ensure-return-value-correctly-captured-when-importing-package-in-build-docs-sh">
+<h3>Ensure return value correctly captured when importing package in build_docs.sh<a class="headerlink" href="#ensure-return-value-correctly-captured-when-importing-package-in-build-docs-sh" title="Permalink to this heading">#</a></h3>
+<p>Ensure we capture return value from import mypkgname correctly
+when determining if plugin package is installed. Previously
+always failed, so always attempted to reinstall the plugin package.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-memusg-py-bugs-that-occur-on-mac">
+<h3>Fix memusg.py bugs that occur on Mac<a class="headerlink" href="#fix-memusg-py-bugs-that-occur-on-mac" title="Permalink to this heading">#</a></h3>
+<p>This branch was needed as there was recently a bug introduced on Mac that would prevent
+any use of GeoIPS. This was introduced in geoips/utils/memusg.py, where a Process method
+was used that was only available on Linux, FreeBSD, SunOS. The method was
+<code class="docutils literal notranslate"><span class="pre">Process.cpu_num</span></code> and was used in tracking information about the CPU Count used during
+a certain GeoIPS Process. Unfortunately, this is unavailable on Mac and caused bugs when
+trying to run GeoIPS.</p>
+<p>To fix this, we added a <code class="docutils literal notranslate"><span class="pre">platform.system()</span> <span class="pre">==</span> <span class="pre">Linux</span></code> check for <code class="docutils literal notranslate"><span class="pre">Process.cpu_num</span></code>
+calls which ensured that function would only be ran if on a Linux system. Otherwise skip
+that call and don’t collect inforamation on that variable.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">memusg</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="continuous-integration">
+<h2>Continuous_integration<a class="headerlink" href="#continuous-integration" title="Permalink to this heading">#</a></h2>
+<section id="change-release-note-yaml-folder-from-version-to-latest">
+<h3>Change release note .yaml folder from version to latest<a class="headerlink" href="#change-release-note-yaml-folder-from-version-to-latest" title="Permalink to this heading">#</a></h3>
+<p>Moved the yaml release files from <code class="docutils literal notranslate"><span class="pre">docs/source/release/v(version</span> <span class="pre">number)/*</span></code> to <code class="docutils literal notranslate"><span class="pre">docs/source/release/latest/*</span></code>, which now builds to <code class="docutils literal notranslate"><span class="pre">latest.rst</span></code>.
+Added <code class="docutils literal notranslate"><span class="pre">latest.rst</span></code> because brassy does not automatically build .rst files at the moment.
+Ideally, brassy would create <code class="docutils literal notranslate"><span class="pre">latest.rst</span></code>, which could be pulled down and built into the docs locally.
+Without <code class="docutils literal notranslate"><span class="pre">latest.rst</span></code> the docs will not build. So adding a blank file serves as a placeholder until the CI automatically builds and commits a <code class="docutils literal notranslate"><span class="pre">latest.rst</span></code> file.
+Added latest to <code class="docutils literal notranslate"><span class="pre">/docs/source/release/index.rst</span></code> so docs build.
+The release note not edited check SHOULD NOT PASS, because…. it was edited 😄</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="mi">687</span><span class="o">-</span><span class="n">change</span><span class="o">-</span><span class="n">release</span><span class="o">-</span><span class="n">note</span><span class="o">-</span><span class="n">yaml</span><span class="o">-</span><span class="n">folder</span><span class="o">-</span><span class="n">from</span><span class="o">-</span><span class="n">version</span><span class="o">-</span><span class="n">to</span><span class="o">-</span><span class="n">latest</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">lint</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enhancement">
+<h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
+<section id="new-geoips-tree-command">
+<h3>New <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> command<a class="headerlink" href="#new-geoips-tree-command" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#627: 2024-05-31, Add functionality to the CLI which prints out a tree of available commands</em></p>
+<p>The GeoIPS CLI provides a variety of commands which aren’t necessarily easily exposed
+via <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">-h</span></code>. To improve this issue, we’ve added a <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> command which
+exposes all GeoIPS CLI commands in a tree-like fashion. This way, we can expose all
+commands that are available via the GeoIPS CLI, and expose the depth in which these
+commands exist.</p>
+<p>By displaying the commands in a depthwise structure, users can understand what commands
+are available and how they are called.</p>
+<p>If you just call <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code>, you’ll get the full command tree in a non-colored,
+verbose output.</p>
+<p>The output of running <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> is shown below.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>tree
+
+geoips
+<span class="w">    </span>geoips<span class="w"> </span>config
+<span class="w">        </span>geoips<span class="w"> </span>config<span class="w"> </span>install
+<span class="w">    </span>geoips<span class="w"> </span>get
+<span class="w">        </span>geoips<span class="w"> </span>get<span class="w"> </span>family
+<span class="w">        </span>geoips<span class="w"> </span>get<span class="w"> </span>interface
+<span class="w">        </span>geoips<span class="w"> </span>get<span class="w"> </span>package
+<span class="w">        </span>geoips<span class="w"> </span>get<span class="w"> </span>plugin
+<span class="w">    </span>geoips<span class="w"> </span>list
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>interface
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>interfaces
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>packages
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>plugins
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>scripts
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>test-datasets
+<span class="w">        </span>geoips<span class="w"> </span>list<span class="w"> </span>unit-tests
+<span class="w">    </span>geoips<span class="w"> </span>run
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>single_source
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>data_fusion
+<span class="w">        </span>geoips<span class="w"> </span>run<span class="w"> </span>config_based
+<span class="w">    </span>geoips<span class="w"> </span><span class="nb">test</span>
+<span class="w">        </span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>linting
+<span class="w">        </span>geoips<span class="w"> </span><span class="nb">test</span><span class="w"> </span>script
+<span class="w">    </span>geoips<span class="w"> </span>tree
+<span class="w">    </span>geoips<span class="w"> </span>validate
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> additionaly provides optional arguments to filter the output of this
+command. Shown below are these optional arguments and descriptions of what each argument
+does.</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--color</span></code></p>
+<ul>
+<li><p>The output of <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> might be a little hard to interpret. If you want the
+output of <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> to be colored by depth, make sure to use the <code class="docutils literal notranslate"><span class="pre">--color</span></code>
+flag. (Defaults to False)</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--max-depth</span></code></p>
+<ul>
+<li><p>How many levels of the tree we’d like to expose. Defaults to two levels, which is
+shown above.</p></li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--short-name</span></code></p>
+<ul>
+<li><p>The output of <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> provides the full command string at each level. If you
+just want the literal command name and every level, make sure to provide this flag.
+(Defaults to False)</p></li>
+</ul>
+</li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_tree</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_tree</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id1">
+<h2>Continuous integration<a class="headerlink" href="#id1" title="Permalink to this heading">#</a></h2>
+<section id="fix-ci-issues-with-incorrectly-passing-failing-release-notes">
+<h3>Fix CI issues with incorrectly passing/failing release notes<a class="headerlink" href="#fix-ci-issues-with-incorrectly-passing-failing-release-notes" title="Permalink to this heading">#</a></h3>
+<p>Changed boolean check for whether or not release notes have been added
+to fix bug where the check for nesessary yaml files would pass
+unexpectedly. Additionally, changed check to prevent manual editing of
+release files to fail on changes to any <cite>*.rst</cite> files in
+<cite>docs/source/release/</cite> instead of just <cite>latest.rst</cite> in the same path.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">lint</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="disable-check-new-release-note-on-main">
+<h3>Disable check_new_release_note on <code class="docutils literal notranslate"><span class="pre">main</span></code><a class="headerlink" href="#disable-check-new-release-note-on-main" title="Permalink to this heading">#</a></h3>
+<p>Disable check_new_release_note on <code class="docutils literal notranslate"><span class="pre">main</span></code> because it compares against <code class="docutils literal notranslate"><span class="pre">main</span></code>… and thus always fails.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">lint</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-the-workflow-to-run-on-all-prs">
+<h3>Fix the workflow to run on all PRs<a class="headerlink" href="#fix-the-workflow-to-run-on-all-prs" title="Permalink to this heading">#</a></h3>
+<p>Update the workflow to run tests regardless of which branch a PR points to.
+Previously had only run if pointing to <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">lint</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="auto-pr-built-release-note-on-new-tag">
+<h3>Auto-PR built release note on new tag<a class="headerlink" href="#auto-pr-built-release-note-on-new-tag" title="Permalink to this heading">#</a></h3>
+<p>Added workflow to build, commit and PR a built release note with brassy</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">brassy</span><span class="o">-</span><span class="n">note</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id2">
+<h2>Bug-fix<a class="headerlink" href="#id2" title="Permalink to this heading">#</a></h2>
+<section id="fix-duplicate-logs-cartopy-version-and-expose-unit-test">
+<h3>Fix duplicate logs, cartopy version, and expose unit test<a class="headerlink" href="#fix-duplicate-logs-cartopy-version-and-expose-unit-test" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#685: 2024-07-17, Fix unit test that will fail if any plugin packages with console scripts are installed</em></p>
+<p>There are a few lingering bugs that need fixed before the workshop starts in August.
+These were relatively simple to fix so I merged three bug fixes into this PR.</p>
+<p>Bug #1 managed to stay in GeoIPS for a while, and resulted in duplicate log statements
+for every log level. This was caused by <code class="docutils literal notranslate"><span class="pre">geoips.commandline.log_setup:setup_logging</span></code>
+and would result in <code class="docutils literal notranslate"><span class="pre">LOG</span> <span class="pre">X</span> <span class="pre">(num</span> <span class="pre">times</span> <span class="pre">setup_logging</span> <span class="pre">called)</span></code> per a program’s execution.
+To fix this, I added two global variables in <code class="docutils literal notranslate"><span class="pre">setup_logging</span></code>, once of which tests if
+that function has already been called, the second being a <code class="docutils literal notranslate"><span class="pre">log</span></code> variable that will be
+returned the first time, and every time after this function is called. With this update,
+we need to make sure that the lowest log-level requested should be called FIRST.
+Otherwise, it will be obfuscated by higher level log levels.</p>
+<p>Bug #2 was a simple fix, and was just a version change for Cartopy in pyproject.toml.
+There was a minor pixel difference in some tests outputs using version 0.22.0, so we
+updated this to gt=0.23.0.</p>
+<p>Bug #3 was a possible bug that was introduced by the expose command. There was a
+hardcoded portion of a unit test for that command that could result in failed tests
+if certain packages had console scripts. We’ve refactored this command to be dynamic,
+and now should pass no matter what packages are provided.</p>
+<p>Bug #4 was related to commandline instructions unit tests, specifically the tests
+that checked whether or not a file was newer than another file. These work locally,
+but git causes problems with the files write time and these tests sometimes fail.
+Since we are confident in the functionality of this code, we’ve decided to remove
+these unit tests for the time being.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">log_setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_expose</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_get_commandline_instructions</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">/</span><span class="n">json_newer</span><span class="o">/*</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">/</span><span class="n">yaml_newer</span><span class="o">/*</span>
+</pre></div>
+</div>
+</section>
+<section id="correct-typo-causing-product-family-xrdict-area-product-to-outlist-failure">
+<h3>Correct typo causing product family xrdict_area_product_to_outlist failure<a class="headerlink" href="#correct-typo-causing-product-family-xrdict-area-product-to-outlist-failure" title="Permalink to this heading">#</a></h3>
+<p>Correct typo causing product family xrdict_area_product_to_outlist failure. Product
+families that did not have pre-defined output lists and expected data passed
+unmodified from the readers to the output formatters were failing due to a missing
+else statement ensuring the list of final_products was set even when the output file
+list was not pre-defined. Add else statement to set final_products to curr_products
+when output file list not defined. This resolved an error with product family
+xrdict_area_product_to_outlist when it was requested without sectoring, but it
+worked if sectoring was requested (followed a different route through the code for
+each).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="fix-failing-test-data-cli-unit-tests">
+<h3>Fix failing test data CLI unit tests<a class="headerlink" href="#fix-failing-test-data-cli-unit-tests" title="Permalink to this heading">#</a></h3>
+<p>Fix failing test data CLI unit tests. <cite>test_geoips_config_install.py</cite> and
+<cite>test_log_setup.py</cite> had 1 or more tests that were failing, which caused the CI to
+fail as well. Fix these unit tests so we can actually use the CI to address problems
+that are coming from new PRs.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_log_setup</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_config_install</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<section id="remove-references-to-template-fusion-plugin-from-full-install-and-test">
+<h3>Remove references to template_fusion_plugin from full install and test<a class="headerlink" href="#remove-references-to-template-fusion-plugin-from-full-install-and-test" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#666: 2024-07-17, Final bug fixes prior to workshop</em></p>
+<p>Remove all references to template_fusion_plugin.  No longer supporting
+template_fusion_plugin - only template_basic_plugin with very basic
+plugins, and geoips_plugin_example with more extensive examples.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_install</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">full_test</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="add-base-and-full-pip-and-mamba-environment-files">
+<h3>Add base and full pip and mamba environment files<a class="headerlink" href="#add-base-and-full-pip-and-mamba-environment-files" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#666: 2024-07-17, Final bug fixes prior to workshop</em></p>
+<p>Add base and full environment dumps from version 1.13.0.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_base_package_list_1</span><span class="mf">.13.0_20240713</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">mamba_full_package_list_1</span><span class="mf">.13.0_20240717</span><span class="o">.</span><span class="n">yml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_base_requirements_1</span><span class="mf">.13.0_20240713</span><span class="o">.</span><span class="n">txt</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">environments</span><span class="o">/</span><span class="n">pip_full_requirements_1</span><span class="mf">.13.0_20240717</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="add-pinkrst-and-brassy-to-dependencies">
+<h3>Add pinkrst and brassy to dependencies<a class="headerlink" href="#add-pinkrst-and-brassy-to-dependencies" title="Permalink to this heading">#</a></h3>
+<p>Add pinkrst and brassy to dependencies.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+</pre></div>
+</div>
+</section>
+<section id="update-license-and-distribution-to-latest-approved-version">
+<h3>Update LICENSE and DISTRIBUTION to latest approved version<a class="headerlink" href="#update-license-and-distribution-to-latest-approved-version" title="Permalink to this heading">#</a></h3>
+<p>Update LICENSE and DISTRIBUTION to latest approved version.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">LICENSE</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">DISTRIBUTION</span>
+</pre></div>
+</div>
+</section>
+<section id="add-top-level-descriptions-to-minor-releases">
+<h3>Add top level descriptions to minor releases<a class="headerlink" href="#add-top-level-descriptions-to-minor-releases" title="Permalink to this heading">#</a></h3>
+<p>Added summaries to the minor releases in the docs to make searching for a specific
+change easier.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="integrate-new-docs-into-old-docs-for-workshop">
+<h3>Integrate new docs into old docs for workshop<a class="headerlink" href="#integrate-new-docs-into-old-docs-for-workshop" title="Permalink to this heading">#</a></h3>
+<p>Removed old files, tidied up prose and integrated new docs into old docs via links/toctrees.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">license</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">adding</span><span class="o">-</span><span class="n">functionality</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">code</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">conduct</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">coding_standards</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">git</span><span class="o">-</span><span class="n">github</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">releases</span><span class="o">/</span><span class="n">latest</span><span class="o">/</span><span class="n">integrate</span><span class="o">-</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">-</span><span class="n">into</span><span class="o">-</span><span class="n">old</span><span class="o">-</span><span class="n">docs</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">index_PKG</span><span class="o">.</span><span class="n">html</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">contact</span><span class="o">/</span><span class="n">aboutus</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">contact</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">contributors</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">dev_setup</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">documentation_strategy</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">git_workflow</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">software_requirements_specification</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">xarray_standards</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">geoips_api</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">description_geoips</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">functionality</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">concepts</span><span class="o">/</span><span class="n">scope</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contact</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">homepage</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">expert_installation</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">extending</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">installation</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">mac_installation</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">starter_examples</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">starter</span><span class="o">/</span><span class="n">windows_installation</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">geoips_structure</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">algorithm</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">colormapper</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">feature_annotator</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">gridline_annotator</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">output_formatter</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">product</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">product_default</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">reader</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">static_sector</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_extend</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_registries</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">coding_standards</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">devguide</span><span class="o">/</span><span class="n">build_docs</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">conduct</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">examples_output</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">introduction</span><span class="o">/</span><span class="n">function_summary</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">adding</span><span class="o">-</span><span class="n">functionality</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">code</span><span class="o">-</span><span class="n">of</span><span class="o">-</span><span class="n">conduct</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">contribute</span><span class="o">/</span><span class="n">coding</span><span class="o">-</span><span class="n">standards</span><span class="o">/</span><span class="n">git</span><span class="o">-</span><span class="n">github</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">function_list</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="write-system-requirements">
+<h3>Write System Requirements<a class="headerlink" href="#write-system-requirements" title="Permalink to this heading">#</a></h3>
+<p>Added system requirements to the documentation. This includes minimum and recommended
+requirements for users and developers as well as language limiting the applicability
+of the system requirements.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">new</span><span class="o">-</span><span class="n">docs</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">system</span><span class="o">-</span><span class="n">requirements</span><span class="o">/</span><span class="n">index</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+<section id="updated-cli-documentation-to-reflect-the-current-state-of-the-cli">
+<h3>Updated CLI Documentation to reflect the current state of the CLI<a class="headerlink" href="#updated-cli-documentation-to-reflect-the-current-state-of-the-cli" title="Permalink to this heading">#</a></h3>
+<p>This PR updated the CLI documentation to reflect the current state of the CLI code.
+Largely, this PR went through the documentation of the CLI commands and made sure
+that what was documented matched what would actually happen when that command was
+ran. There was a duplicate entry in the documentation that was removed as well.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">commandl_line</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="ci">
+<h2>Ci<a class="headerlink" href="#ci" title="Permalink to this heading">#</a></h2>
+<section id="added-brassy-to-ci">
+<h3>Added brassy to CI<a class="headerlink" href="#added-brassy-to-ci" title="Permalink to this heading">#</a></h3>
+<p>Added brassy builds to the CI</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">workflows</span><span class="o">/</span><span class="n">doc</span><span class="o">-</span><span class="n">lint</span><span class="o">-</span><span class="n">test</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="call-pytest-long-from-check-code-sh-via-all-test-data-vs-all">
+<h3>Call pytest_long from check_code.sh via all_test_data vs all<a class="headerlink" href="#call-pytest-long-from-check-code-sh-via-all-test-data-vs-all" title="Permalink to this heading">#</a></h3>
+<p>Make pytest_long called via “all_test_data” vs “all”</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">utils</span><span class="o">/</span><span class="n">check_code</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+<section id="add-noaa-20-noaa-21-and-npp-downloads-to-noaa-aws-download-script">
+<h3>Add NOAA-20, NOAA-21, and NPP downloads to NOAA AWS download script<a class="headerlink" href="#add-noaa-20-noaa-21-and-npp-downloads-to-noaa-aws-download-script" title="Permalink to this heading">#</a></h3>
+<p>Add NOAA-20, NOAA-21, and NPP downloads to NOAA AWS download script</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">download_noaa_aws</span><span class="o">.</span><span class="n">sh</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="refactoring-updates">
+<h2>Refactoring updates<a class="headerlink" href="#refactoring-updates" title="Permalink to this heading">#</a></h2>
+<section id="applied-scope-to-cli-arguments">
+<h3>Applied Scope to CLI Arguments<a class="headerlink" href="#applied-scope-to-cli-arguments" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#637: 2024-06-06, Using parser.parse_known_args in the CLI to apply scope to arguments</em></p>
+<p>While this PR ended up not making use of <code class="docutils literal notranslate"><span class="pre">parse_known_args</span></code> (It was buggy and
+resulted in overly complex conditionals), we did end up finding a way to apply scope
+(ie. share arguments from parents to children) to CLI commands to reduce repeated
+portions of the code. This is also nice because we only have to make code changes to one
+place if we want to alter arguments that are shared by various commands.</p>
+<p>To do this, we created a <code class="docutils literal notranslate"><span class="pre">ParentParsers</span></code> Object in
+<code class="docutils literal notranslate"><span class="pre">geoips.commandline.geoips_command</span></code> which contains argument parsers that add arguments
+which will be shared by some, if not all of the child command classes. For example, the
+<code class="docutils literal notranslate"><span class="pre">geoips_parser</span></code> attribute of <code class="docutils literal notranslate"><span class="pre">ParentParsers</span></code> will be shared to all child commands.
+This is because every command is a child of <code class="docutils literal notranslate"><span class="pre">geoips</span></code> (the name of <code class="docutils literal notranslate"><span class="pre">GeoipsCLI</span></code> class).
+A similar ideology applies to <code class="docutils literal notranslate"><span class="pre">list_parser</span></code>, except that only children of <code class="docutils literal notranslate"><span class="pre">list</span></code>,
+ie. <code class="docutils literal notranslate"><span class="pre">GeoipsListPackages</span></code>, <code class="docutils literal notranslate"><span class="pre">GeoipsListPlugins</span></code>, etc. will get the arguments created
+by <code class="docutils literal notranslate"><span class="pre">list_parser</span></code>. This allows for us to share universal arguments such as log level
+and command specific argumetns such as <code class="docutils literal notranslate"><span class="pre">package_name</span></code>.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="change-geoips-get-to-geoips-describe">
+<h3>Change geoips get to geoips describe<a class="headerlink" href="#change-geoips-get-to-geoips-describe" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#495: 2024-04-15, Change CLI Command ‘geoips get’ to ‘geoips describe’</em></p>
+<p>This update renames all references of ‘geoips get’ to ‘geoips describe’. ‘Describe’
+is a better name for this command as it generally provides additional information
+about a certain GeoIPS artifact, whereas ‘get’ could be a bit ambiguous as users
+may think we are actually getting a certain plugin, interface, etc. Another reason
+for this update is that all references to the CLI in the tutorial use
+‘geoips describe’, rather than ‘geoips get’. This PR was only a nomenclature change
+and did not impact any of the actual functionality of the CLI.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_describe</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_describe_family</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_describe_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_describe_package</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_describe_plugin</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_get</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_family</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_package</span><span class="o">.</span><span class="n">py</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_plugin</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">alias_mapping</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="refactored-geoips-list-interface-to-use-a-class-factory">
+<h3>Refactored <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">interface</span></code> to use a class factory<a class="headerlink" href="#refactored-geoips-list-interface-to-use-a-class-factory" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#576: 2024-05-11, CLI: Reduce number of command layers where possible and appropriate</em>
+<em>From GEOIPS#573: 2024-05-11, Use class factories to generate subcommands for commands like ``geoips get family`` and ``geoips get interface``</em></p>
+<p>While this PR doesn’t fix all of the problems addressed in the issues above, it is our
+initial attempt at creating a class factory for certain CLI commands to reduce the
+verbage needed to execute those commands. Spefically in this branch, we’ve addressed the
+command class <code class="docutils literal notranslate"><span class="pre">GeoipsListSingleInterface</span></code>. We now use the aforementioned class as a
+base class to build <code class="docutils literal notranslate"><span class="pre">GeoipsListSingleInterface&lt;interface_name&gt;</span></code> classes at runtime.</p>
+<p>By doing so, we can now run <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">&lt;interface_name&gt;</span></code> rather than
+<code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">interface</span> <span class="pre">&lt;interface_name&gt;</span></code>. This improves the readability of this
+command and makes it much easier to type via the CLI. We expect in future PRs to address
+similar commands, such as <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">family</span> <span class="pre">&lt;family_name&gt;</span></code> and
+<code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">plugin</span> <span class="pre">&lt;interface_name&gt;</span> <span class="pre">&lt;plugin_name&gt;</span></code> for the reasons mentioned
+previously.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_list</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_interface</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+<section id="refactored-geoips-get-interface-name-commands-to-use-a-class-factory">
+<h3>Refactored <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span></code> commands to use a class factory<a class="headerlink" href="#refactored-geoips-get-interface-name-commands-to-use-a-class-factory" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#576: 2024-05-11, CLI: Reduce number of command layers where possible and appropriate</em>
+<em>From GEOIPS#573: 2024-05-11, Use class factories to generate subcommands for commands like ``geoips get family`` and ``geoips get interface``</em></p>
+<p>This branch refactors commands which use the form of <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span></code> to
+make use of class factories. Before, we had to run commands such as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">interface</span> <span class="pre">&lt;interface_name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">family</span> <span class="pre">&lt;interface_name&gt;</span> <span class="pre">&lt;family_name&gt;</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">plugin</span> <span class="pre">&lt;interface_name&gt;</span> <span class="pre">&lt;family_name&gt;</span></code></p></li>
+</ul>
+<p>The aforementioned commands were overly verbose and needed some refactoring to reduce
+the levels required to execute a certain command. In this branch, we refactored
+<code class="docutils literal notranslate"><span class="pre">GeoipsGetInterface</span></code> to be a base command for <code class="docutils literal notranslate"><span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span></code>,
+<code class="docutils literal notranslate"><span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span> <span class="pre">family</span> <span class="pre">&lt;family_name&gt;</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span> <span class="pre">&lt;plugin_name&gt;</span></code>. This resulted in the removal of
+<code class="docutils literal notranslate"><span class="pre">GeoipsGetFamily</span></code> and <code class="docutils literal notranslate"><span class="pre">GeoipsGetPlugin</span></code> and the refactoring of
+<code class="docutils literal notranslate"><span class="pre">GeoipsGetInterface</span></code> to include the functionality of those other commands. We can use
+class factories for each interface to execute these commands now.</p>
+<p>On top of this, we implemented aliases for a variety of CLI commands. For an exact
+listing of aliases available for each command, see
+<code class="docutils literal notranslate"><span class="pre">geoips/commandline/ancillary_info/alias_mapping.yaml</span></code>, which includes aliases
+supported for each command. Now, we can run a verbose command such as:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">algorithms</span> <span class="pre">-p</span> <span class="pre">geoips</span></code></p></li>
+</ul>
+<p>and replace it with</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">ls</span> <span class="pre">algs</span> <span class="pre">-p</span> <span class="pre">geoips</span></code></p></li>
+</ul>
+<p>This also reduces the verbosity of certain CLI commands. Note, the unit tests have been
+modified to reflect these changes.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">gitignore</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">_templates</span><span class="o">/</span><span class="n">conf_PKG</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">commandline_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_command</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_get</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">cli_top_level_tester</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_family</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_package</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_get_plugin</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_interface</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_interfaces</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_packages</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_plugins</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_scripts</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_test_datasets</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_list_unit_tests</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_get_commandline_instructions</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">alias_mapping</span><span class="o">.</span><span class="n">yaml</span>
+</pre></div>
+</div>
+</section>
+<section id="merged-create-sector-image-into-the-cli">
+<h3>Merged <code class="docutils literal notranslate"><span class="pre">create_sector_image</span></code> into the CLI<a class="headerlink" href="#merged-create-sector-image-into-the-cli" title="Permalink to this heading">#</a></h3>
+<p><em>From GEOIPS#636: 2024-06-05, Merge create_sector_image.py functionality into the CLI</em></p>
+<p>This update moves the functionality from the independent console script
+<code class="docutils literal notranslate"><span class="pre">create_sector_image</span></code> onto the CLI under the command <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">test</span> <span class="pre">sector</span></code>. Since the
+CLI has been added to main, we are slowly consolidating all independent console scripts
+onto the CLI, so we have a uniform was of executing console commands with GeoIPS.</p>
+<p>There was a slight modification to this command, as we now only allow one sector to
+be provided to this command instead of a list of sectors. This fits better with the
+nomenclature of the command and can be ran multiple times if the user wants to create
+multiple sector images.</p>
+<p>Unit tests have been added for this command as well.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">test_geoips_test_sector</span><span class="o">.</span><span class="n">py</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">images</span><span class="o">/</span><span class="n">command_line_examples</span><span class="o">/</span><span class="n">canada</span><span class="o">.</span><span class="n">png</span>
+<span class="n">deleted</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">create_sector_image</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_test</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">pyproject</span><span class="o">.</span><span class="n">toml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">console_script_create_sector_image</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">command_line</span><span class="o">.</span><span class="n">rst</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">userguide</span><span class="o">/</span><span class="n">plugin_development</span><span class="o">/</span><span class="n">static_sector</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="bug-fixes">
+<h2>Bug fixes<a class="headerlink" href="#bug-fixes" title="Permalink to this heading">#</a></h2>
+<section id="resolve-algorithm-colormapper-typo-in-single-source-procflow">
+<h3>Resolve algorithm_colormapper typo in single_source procflow<a class="headerlink" href="#resolve-algorithm-colormapper-typo-in-single-source-procflow" title="Permalink to this heading">#</a></h3>
+<p>Resolve algorithm_interpolator_colormapper typo in single_source procflow
+Pass in xarray.Dataset() rather than alg_xarray as the “interp_xarray” to
+the “perform_interpolation” function. Previously the xarray was not being
+interpolated, because it thought the alg_xarray was the pre-interpolated array.
+This bug was introduced when refactoring single source to avoid
+re-interpolating.  We should probably add an integration test for this
+product family.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">procflows</span><span class="o">/</span><span class="n">single_source</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enchancement">
+<h2>Enchancement<a class="headerlink" href="#enchancement" title="Permalink to this heading">#</a></h2>
+<section id="add-viirs-hdf5-sdr-reader">
+<h3>Add VIIRS HDF5 SDR reader<a class="headerlink" href="#add-viirs-hdf5-sdr-reader" title="Permalink to this heading">#</a></h3>
+<p>Created reader for VIIRS HDF5 SDR data, correcting for bowtie
+distortion for single and multiple files.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">viirs_sdr_hdf5</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="regression-fix">
+<h2>Regression fix<a class="headerlink" href="#regression-fix" title="Permalink to this heading">#</a></h2>
+<section id="fix-regression-of-geoips-tree-command">
+<h3>Fix Regression of geoips tree command<a class="headerlink" href="#fix-regression-of-geoips-tree-command" title="Permalink to this heading">#</a></h3>
+<p>With the addition of Command Class Factories, Shared Arguments, and Aliases, we had
+an expected regression that would impact the functionality of the command
+‘geoips tree’. While we still may make updates to this command in the future,
+regarding its output and how we’d like to unit test it, we now have working in a
+much cleaner fashion. This PR addressed removing duplicate entries in the output
+of the tree, as well hardcoded some conditionals for corner cases that would cause
+duplicate entries do to the structure of aliases. For example, we had to add
+conditionals when we encountered ‘sector’ as a command name, as this is an alias for
+‘geoips list sectors’ and ‘geoips describe sectors’, and is the actual command name
+of ‘geoips test sector’.</p>
+<p>Additionally, we commented out the functionality of ‘hyperlinking’ the text as the
+current documentation is not being built up on GitHub and renders that functionality
+useless at the moment. In the future, we expect to bring the hyperlink functionality
+back in and update how we retrieve the command name as we change how ‘prog’ is set
+for each commands’ subparser attribute.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">alias_mapping</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_describe</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_list</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_tree</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1.14.0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.14.0 (2025-04-30)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="v1_13_1.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.13.1 (2024-07-07)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix">Bug fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mac-image-match-bug">Mac Image Match Bug</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-build-docs-sh-to-auto-generate-version-rst-with-brassy">Update build_docs.sh to auto-generate &lt;version&gt;.rst with brassy</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-pip-install-of-plugin-package-to-build-docs-sh">Add pip install of plugin package to build_docs.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minor-bug-fixes-and-updates-to-aws-download-script-and-abi-l2-netcdf-reader">Minor bug fixes and updates to AWS download script and abi_l2_netcdf reader</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-exact-comparison-failures-from-image-output-checker-plugin">Remove exact comparison failures from image output checker plugin</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-support-for-algorithm-application-for-xarray-dict-based-families">Add support for algorithm application for xarray dict based families</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-typo-causing-product-family-xrdict-area-product-to-outlist-failure">Fix typo causing product family xrdict_area_product_to_outlist failure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-interactive-log-from-plugin-unit-test">Remove interactive log from plugin unit test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#revert-docs-source-releases-index-rst-back-after-build-docs-sh">Revert docs/source/releases/index.rst back after build_docs.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-install-on-contemporary-debian-machines-ubuntu-etc">Fix install on contemporary Debian machines (Ubuntu, etc.)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cli-bug-fixes-and-formatting-updates">CLI Bug Fixes and Formatting Updates</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-packages-prior-to-attempting-to-build-their-documentation">Install packages prior to attempting to build their documentation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#ensure-return-value-correctly-captured-when-importing-package-in-build-docs-sh">Ensure return value correctly captured when importing package in build_docs.sh</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-memusg-py-bugs-that-occur-on-mac">Fix memusg.py bugs that occur on Mac</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#continuous-integration">Continuous_integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-release-note-yaml-folder-from-version-to-latest">Change release note .yaml folder from version to latest</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-geoips-tree-command">New <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">tree</span></code> command</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Continuous integration</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-ci-issues-with-incorrectly-passing-failing-release-notes">Fix CI issues with incorrectly passing/failing release notes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#disable-check-new-release-note-on-main">Disable check_new_release_note on <code class="docutils literal notranslate"><span class="pre">main</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-the-workflow-to-run-on-all-prs">Fix the workflow to run on all PRs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-pr-built-release-note-on-new-tag">Auto-PR built release note on new tag</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">Bug-fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-duplicate-logs-cartopy-version-and-expose-unit-test">Fix duplicate logs, cartopy version, and expose unit test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#correct-typo-causing-product-family-xrdict-area-product-to-outlist-failure">Correct typo causing product family xrdict_area_product_to_outlist failure</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-failing-test-data-cli-unit-tests">Fix failing test data CLI unit tests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-references-to-template-fusion-plugin-from-full-install-and-test">Remove references to template_fusion_plugin from full install and test</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-base-and-full-pip-and-mamba-environment-files">Add base and full pip and mamba environment files</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-pinkrst-and-brassy-to-dependencies">Add pinkrst and brassy to dependencies</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-license-and-distribution-to-latest-approved-version">Update LICENSE and DISTRIBUTION to latest approved version</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-top-level-descriptions-to-minor-releases">Add top level descriptions to minor releases</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integrate-new-docs-into-old-docs-for-workshop">Integrate new docs into old docs for workshop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#write-system-requirements">Write System Requirements</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#updated-cli-documentation-to-reflect-the-current-state-of-the-cli">Updated CLI Documentation to reflect the current state of the CLI</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#ci">Ci</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#added-brassy-to-ci">Added brassy to CI</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#call-pytest-long-from-check-code-sh-via-all-test-data-vs-all">Call pytest_long from check_code.sh via all_test_data vs all</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-noaa-20-noaa-21-and-npp-downloads-to-noaa-aws-download-script">Add NOAA-20, NOAA-21, and NPP downloads to NOAA AWS download script</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#refactoring-updates">Refactoring updates</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#applied-scope-to-cli-arguments">Applied Scope to CLI Arguments</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#change-geoips-get-to-geoips-describe">Change geoips get to geoips describe</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactored-geoips-list-interface-to-use-a-class-factory">Refactored <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">list</span> <span class="pre">interface</span></code> to use a class factory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#refactored-geoips-get-interface-name-commands-to-use-a-class-factory">Refactored <code class="docutils literal notranslate"><span class="pre">geoips</span> <span class="pre">get</span> <span class="pre">&lt;interface_name&gt;</span></code> commands to use a class factory</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#merged-create-sector-image-into-the-cli">Merged <code class="docutils literal notranslate"><span class="pre">create_sector_image</span></code> into the CLI</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">Bug fixes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#resolve-algorithm-colormapper-typo-in-single-source-procflow">Resolve algorithm_colormapper typo in single_source procflow</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enchancement">Enchancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-viirs-hdf5-sdr-reader">Add VIIRS HDF5 SDR reader</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#regression-fix">Regression fix</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#fix-regression-of-geoips-tree-command">Fix Regression of geoips tree command</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/releases/v1_14_0a0.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

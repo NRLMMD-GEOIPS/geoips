@@ -1,0 +1,396 @@
+.. dropdown:: Distribution Statement
+
+ | # # # This source code is subject to the license referenced at
+ | # # # https://github.com/NRLMMD-GEOIPS.
+
+Version 1.13.0a0 (2024-04-24)
+*****************************
+
+* Enhancements
+
+  * Initial Stage of the GeoIPS CLI
+  * CLI Changes - new implementation of 'geoips run' and more args for 'geiops list'
+  * Improve error message when user missing ``pixelmatch``
+
+* Documentation
+
+  * Add Code of Conduct
+  * New Docs Structure + GitHub Actions
+
+* Release Updates
+
+  * Update update_this_release_note
+  * Add v1_13_0a0.rst release note
+
+* Refactoring Updates
+
+  * Removed all support for Python versions less than 3.10.0
+
+* Bug fixes
+
+  * Fix color table application in geotiff_standard output formatter
+  * Fix bug introduced by matplotlib versions ``>=3.9``
+
+* Testing Updates
+
+  * Updated portions of the code to use new NextCloud Data Links
+
+Enhancements
+============
+
+Initial Stage of the GeoIPS CLI
+-------------------------------
+
+*From GEOIPS#37: 2022-08-11, Create a useful CLI for GeoIPS.*
+
+GeoIPS currently runs off of a few command scripts scattered throughout the code. The
+only way a user could discover this is by reading the documentation, or looking through
+the pyproject.toml to discover what scripts/commands are executable at the commandline.
+
+To fix this, we are beginning to implement a new GeoIPS CLI, which will be called via
+``geoips <command> <sub-command>``. This will allow the user to easily query and/or
+execute geoips without having extensive knowledge of the lower-level implementations of
+GeoIPS.
+
+Currently, the GeoIPS CLI implements config, get, list, run, and validate commands. We
+expect that we will change how ``run`` works, as well as add additional commands such as
+``test``.
+
+You can find more detailed information about each command at
+``geoips/geoips/commandline/ancillary_info/cmd_instructions.yaml``. Below, we'll detail
+to a minimal extent what each command does.
+
+``geoips config`` implements configuration commands which are used to modify and/or
+set up your GeoIPS environment. Currently, we implement installation methods for
+downloading and decompressing test datasets. This is called via
+``geoips config install <test_dataset_name>``.
+
+``geoips get`` implements a variety of commands which retrieve additional information
+about GeoIPS artifacts. Artifacts are a high level term for software pieces implemented
+throughout GeoIPS. This includes individual plugins, interfaces, families, and top-level
+packages.
+
+``geoips list`` implements a variety of list methods which are used to detail what
+artifacts exist throughout the GeoIPS Environment, or at a package specific level. We
+currently support listing an individual interface, available interfaces, implemented
+interfaces in a certain/all package[s], packages, scripts, and test-datasets.
+
+``geoips run`` is an easy way to run a certain test script contained within a GeoIPS
+package. These scripts must be placed in the ``<pkg_name>/tests/scripts`` directory and
+be implemented via a ``*.sh`` bash script. This is an easier method to run your test
+scripts opposed to traversing to the explicit directory and running the bash script
+manually. We expect this command will change greatly as we continue to develop the CLI
+and implement the order based procflow.
+
+``geoips test`` implements a few methods to run testing scattered throughout GeoIPS
+and other GeoIPS packages. It functions similar to run, but instead of being limited
+to just executing normal test scripts, we can also run integration tests, liniting,
+and unit tests. Since we expect ``geoips run`` to change in the future, we've
+implemented this command to execute testing protocols for the foreseeable future.
+
+``geoips validate`` implements a simple method of validating a certain plugin found
+at the specified filepath. We expect this command will do more in the future, but for
+the meantime, this command will validate the plugin using the associated interface
+defined in the aforementioned plugin.
+
+For an example of how to run the GeoIPS CLI, see the code section below.
+.. code-block:: bash
+
+    # Install the test_data_clavrx Test Dataset from CIRA's Nextcloud Instance
+    geoips config install test_data_clavrx
+    # All Interfaces GeoIPS and other GeoIPS Packages will be listed including all of
+    # The plugin names that exist in that type of interface
+    geoips list interface algorithms
+    # Retrieve the 'single_channel' algorithm plugin and output information related
+    # to it
+    geoips get plugin algorithms single_channel
+    # Will run the script under <script_name>.sh as it would execute ./<script_name>.sh
+    # run_procflow command in the corresponding tests/scripts directory
+    geoips run geoips abi.static.Infrared.imagery_annotated.sh
+    # Example of how to validate a specific plugin
+    geoips validate /home/evan/geoips/geoips_packages/geoips/geoips/plugins/yaml/products/abi.yaml
+
+::
+
+    modified: geoips/geoips/interfaces/base.py
+    modified: geoips/.gitignore
+    modified: geoips/pyproject.toml
+    added: geoips/docs/source/userguide/command_line.rst
+    added: geoips/geoips/commandline/ancillary_info/cmd_instructions.json
+    added: geoips/geoips/commandline/ancillary_info/cmd_instructions.yaml
+    added: geoips/geoips/commandline/commandline_interface.py
+    added: geoips/geoips/commandline/geoips_command.py
+    added: geoips/geoips/commandline/geoips_config.py
+    added: geoips/geoips/commandline/geoips_get.py
+    added: geoips/geoips/commandline/geoips_list.py
+    added: geoips/geoips/commandline/geoips_run.py
+    added: geoips/geoips/commandline/geoips_test.py
+    added: geoips/geoips/commandline/geoips_validate.py
+    added: geoips/tests/unit_tests/commandline/cli_top_level_tester.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_config_install.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_family.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_interface.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_package.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_get_plugin.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_interface.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_interfaces.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_packages.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_plugins.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_scripts.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_test_datasets.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_list_unit_tests.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_run.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_linting.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_script.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_unit_test.py
+    added: geoips/tests/unit_tests/commandline/test_geoips_test_validate.py
+
+CLI Changes - new implementation of 'geoips run' and more args for 'geoips list'
+--------------------------------------------------------------------------------
+
+*From GEOIPS#455: 2024-03-21, CLI Stage Two*
+
+With the addition of the GeoIPS CLI
+(*From GEOIPS#37: 2022-08-11, Create a useful CLI for GeoIPS.*), we now have access to
+a wide array of commands to interact with GeoIPS. The purpose of this PR is to enhance
+the GeoIPS CLI with new and improved functionality. Specifically this PR addresses the
+``geoips run`` command and adds additional arguments (``--columns, --long``) to
+``geoips list`` commands.
+
+``geoips run`` now invokes the same process as what ``run_procflow`` and
+``data_fusion_procflow`` do. We've made this change to allow process workflow
+functionality to become part of the CLI rather than a separate commandline entrypoint
+that was hard to discover. Eventually, it would be nice to move all independent
+commandline entrypoints onto the CLI. Such as ``create_plugin_registries``,
+``create_sector_image``, etc. To use ``geoips run``, simply replace ``run_procflow``
+or ``data_fusion_procflow`` with ``geoips run <specified_procflow>``, keeping the
+remaining arguments the exact same. We have deprecated the use of the old procflow calls
+and the ``--procflow <specified_procflow>`` flag as that information is now obtained by
+the ``geoips run <specified_procflow>`` call. Below is an example of what a new
+procflow script looks like:
+
+::
+
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+        --reader_name abi_netcdf \
+        --product_name Infrared \
+        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --resampled_read \
+        --logging_level info \
+        --sector_list goes_east
+
+As stated above, we also added new optional arguments to all ``geoips list`` commands.
+These arguments are shared and are only specified once via the ``GeoipsListCommon``
+class. The two new optional arguments are ``--long`` and ``--columns <col_header> ...``.
+``--long`` is the default for all ``geoips list`` commands and specifies that all
+headers should be outputted. ``--columns <col_header> ...`` Specifies which columns
+you'd like outputted via the ``geoips list`` command. For example, if we ran
+``geoips list interface algorithms``, we'd get the ``--long`` format outputted. Running
+``geoips list interface algorithms --columns package interface plugin_type relpath``
+provides us table output with only those specified columns. Available columns differ
+by list command.
+
+Modified Files
+
+::
+
+    added: tests/integration_tests/cli_dummy_integration.sh
+    added: tests/integration_tests/cli_dummy_script.sh
+    modified: docs/source/userguide/command_line.rst
+    modified: geoips/commandline/ancillary_info/cmd_instructions.json
+    modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+    modified: geoips/commandline/args.py
+    modified: geoips/commandline/commandline_interface.py
+    modified: geoips/commandline/geoips_command.py
+    modified: geoips/commandline/geoips_list.py
+    modified: geoips/commandline/geoips_run.py
+    modified: geoips/commandline/run_procflow.py
+    modified: geoips/utils/context_managers.py
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/geoips_utils.py
+    modified: pyproject.toml
+    modified: tests/scripts/abi.config_based_exclude_goes17.sh
+    modified: tests/scripts/abi.config_based_output.sh
+    modified: tests/scripts/abi.config_based_output_low_memory.sh
+    modified: tests/scripts/abi.static.Infrared.imagery_annotated.sh
+    modified: tests/scripts/abi.static.Visible.imagery_annotated.sh
+    modified: tests/scripts/ahi.tc.WV.geotiff.sh
+    modified: tests/scripts/amsr2.config_based_no_compare.sh
+    modified: tests/scripts/amsr2.config_based_no_compare_full.sh
+    modified: tests/scripts/amsr2.config_based_overlay_output.sh
+    modified: tests/scripts/amsr2.config_based_overlay_output_low_memory.sh
+    modified: tests/scripts/amsr2.tc.89H-Physical.imagery_annotated.sh
+    modified: tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh
+    modified: tests/scripts/amsub_mirs.tc.183-3H.imagery_annotated.sh
+    modified: tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh
+    modified: tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_uhr.tc.nrcs.imagery_clean.sh
+    modified: tests/scripts/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/ascat_uhr.tc.windspeed.imagery_clean.sh
+    modified: tests/scripts/atms.tc.165H.netcdf_geoips.sh
+    modified: tests/scripts/documentation_imagery.sh
+    modified: tests/scripts/ewsg.static.Infrared.imagery_clean.sh
+    modified: tests/scripts/gmi.tc.89pct.imagery_clean.sh
+    modified: tests/scripts/hy2.tc.windspeed.imagery_annotated.sh
+    modified: tests/scripts/imerg.tc.Rain.imagery_clean.sh
+    modified: tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh
+    modified: tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh
+    modified: tests/scripts/modis.Infrared.unprojected_image.sh
+    modified: tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh
+    modified: tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh
+    modified: tests/scripts/sar.tc.nrcs.imagery_annotated.sh
+    modified: tests/scripts/seviri.WV-Upper.unprojected_image.sh
+    modified: tests/scripts/smap.tc.windspeed.imagery_clean.sh
+    modified: tests/scripts/smap.unsectored.text_winds.sh
+    modified: tests/scripts/smos.tc.sectored.text_winds.sh
+    modified: tests/scripts/ssmi.tc.37pct.imagery_clean.sh
+    modified: tests/scripts/ssmis.color91.unprojected_image.sh
+    modified: tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.unprojected_image.sh
+    modified: tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh
+    modified: tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh
+    modified: tests/unit_tests/commandline/test_geoips_list_interface.py
+    modified: tests/unit_tests/commandline/test_geoips_list_packages.py
+    modified: tests/unit_tests/commandline/test_geoips_list_scripts.py
+    modified: tests/unit_tests/commandline/test_geoips_list_test_datasets.py
+    modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
+    modified: tests/unit_tests/commandline/test_geoips_run.py
+    modified: tests/unit_tests/commandline/test_geoips_test_script.py
+
+Improve error message when user missing ``pixelmatch``
+------------------------------------------------------
+
+When a user uses the image output checker with ``--compare-path`` without
+
+``pixelmatch`` installed, an error is raised. The old error was confusing.
+This change improves the error, and directs the user on how to ameliorate
+the issue.
+
+Documentation
+=============
+
+New Docs Structure + GitHub Actions
+-----------------------------------
+
+Created a new folder, docs/new-docs, for updated documentation structure. A new doc8 linting action will only check the contents of this folder. Additionally, a new action ensures that the "old docs" (all other docs except docs/new-docs) remain unchanged. All new documentation should be added to new-docs. Development will now occur in new-docs rather than a feature branch. Added a banner to the documentation site to inform readers that the old docs are frozen and to link them to the new docs as a preview. Note that no new functionality has been added to GeoIPS.
+
+Add Code of Conduct
+-------------------
+Borrowed the Contributor Covenant Code of Conduct v2.1, but removed the enforcement section since it doesn't appear to work well for GitHub since it requires private communication. Also added to the documentation using the m2r2 package which was added as a requirement to the `doc` target in pyproject.toml. We will also begin ignoring conf_PKG.py in the frozen docs checks.
+
+::
+
+    added: CODE_OF_CONDUCT.md
+    modified: docs/source/new-docs/contribute/code-of-conduct/index.rst
+    modified: docs/source/_templates/conf_PKG.py
+    modified: pyproject.toml
+    modified: docs/check-old-docs-frozen.py
+
+
+Release Updates
+===============
+
+Update "update_this_release_note" to v1_13_0a0
+----------------------------------------------
+
+*From GEOIPS#506: 2024-04-24, update update_this_release_note to 1.13.0a0*
+
+::
+
+    modified: docs/source/releases/index.rst
+    new file: docs/source/releases/v1_13_0a0.rst
+    modified: update_this_release_note
+
+Refactoring Updates
+===================
+
+Removed all support for Python versions less than 3.10.0
+--------------------------------------------------------
+
+*From GEOIPS#439: 2024-02-12, Remove Support for Python 3.9*
+
+'There are a few places in the code where we explicitly attempt to support Python 3.9
+but supporting 3.9 is beginning to hold us back in some ways. We should explicitly
+remove support for Python 3.9 and update the code to remove all related special cases.'
+
+Since Python 3.9 and older versions are holding GeoIPS back, and since primary GeoIPS
+users are using Python versions greater than or equal to 3.10.0, we are removing all
+support for versions less than 3.10. The following files have been modified to
+implement those changes.
+
+::
+
+    modified: pyproject.toml
+    modified: geoips/create_plugin_registries.py
+    modified: geoips/plugin_registry.py
+    modified: geoips/geoips_utils.py
+
+Bug Fixes
+=========
+
+Fix color table application in geotiff_standard output formatter
+----------------------------------------------------------------
+
+Prior to rasterio version 1.3.10, the color table was applied correctly
+after writing the array.  It appears this now needs to be done before the
+array is written.
+
+::
+
+  modified: docs/source/releases/v1_13_0a0.rst
+  modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
+  modified: pyproject.toml
+
+Fix bug introduced by matplotlib versions ``>=3.9``
+---------------------------------------------------
+
+Prior to matplotlib versions ``>=3.9`` we were able to use ``matplotlib.cm.get_cmap``
+without any problem. After 3.9 was introduced, this failed because
+``cm had no attribute called 'get_cmap'``. To fix this, we've migrated such calls from
+``cm.get_cmap`` to ``pyplot.get_cmap``, as that function still works for pyplot. It's
+weird that the same functionality was located in two different places, but at least it
+makes for an easy fix.
+
+::
+
+    modified: geoips/image_utils/colormap_utils.py
+    modified: geoips/plugins/modules/colormappers/matplotlib_linear_norm.py
+
+Testing Updates
+===============
+
+Updated portions of the code to use new NextCloud Data Links
+------------------------------------------------------------
+
+*From GEOIPS#624: 2024-05-29, Update Code and Documentation to reflect new NextCloud Test Data Location*
+*From GEOIPS#625: 2024-05-29, Fix Bug In ``setup/download_test_data.py``*
+
+Portions ``setup/check_system_requirements.sh`` test data install code was outdated due
+to the old instance of NextCloud being taken down recently. We've created a new instance
+of NextCloud which hosts a large majority of the data used for testing GeoIPS, and this
+required updating portions of the code which used the old links to the new link
+locations.
+
+As we were making those changes, we also found that ``setup/download_test_data.py``
+would not work for non ``.git`` hosted datsets. This is because a change was made to
+``setup/check_system_requirements.sh`` which sent the output of the raw repsonse from
+``requests.get`` to a logfile rather than piping it to tar extraction then a logfile. To
+fix this, we added a conditional in ``setup/check_system_requirements.sh`` which
+determined the source of the dataset, and either send the output of
+``setup/download_test_data.py`` directly to a logfile (``.git``-based), or piped it to
+tar extraction then to a log file.
+
+These changes address the new data locations and the bug introduced to
+``setup/check_system_requirements.sh``.
+
+::
+
+    modified: geoips/commandline/ancillary_info/test_data.py
+    modified: geoips/commandline/geoips_config.py
+    modified: setup/check_system_requirements.sh
+    modified: tests/integration_tests/full_install.sh
+    modified: tests/unit_tests/commandline/cli_top_level_tester.py
