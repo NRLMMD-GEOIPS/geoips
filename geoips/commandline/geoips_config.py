@@ -101,11 +101,20 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
-        self.parser.add_argument(
-            "test_dataset_name",
+        mutex_group = self.parser.add_mutually_exclusive_group()
+        mutex_group.add_argument(
+            "test_dataset_names",
             type=str.lower,
+            nargs="+",
             choices=list(test_dataset_dict.keys()),
-            help="GeoIPS Test Dataset to Install.",
+            help="Names of the GeoIPS test datasets to install.",
+        )
+        mutex_group.add_argument(
+            "--all",
+            type=bool,
+            default=False,
+            action="store_true",
+            help="A flag denoting that GeoIPS should install all test datasets.",
         )
         self.parser.add_argument(
             "-o",
@@ -116,30 +125,44 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """Run the `geoips config install <test_dataset_name>` command.
+        """Run the `geoips config install <test_dataset_name> -o <outdir>` command.
+
+        Optionall can be ran with the mutually exclusive argument --all via
+        `geoips config install --all -o <outdir>` command. test_dataset_name and
+        --all cannot be used in the same command.
 
         Parameters
         ----------
         args: Namespace()
             - The argument namespace to parse through
         """
-        test_dataset_name = args.test_dataset_name
+        test_dataset_names = args.test_dataset_names
+        all_datasets = args.all
         outdir = args.outdir
-        test_dataset_url = test_dataset_dict[test_dataset_name]
-        if any([test_dataset_name in fol for fol in listdir(outdir)]):
-            print(
-                f"Test dataset '{test_dataset_name}' already exists under "
-                f"'{join(outdir, test_dataset_name)}*/'. See that "
-                "location for the contents of the test dataset."
-            )
-        else:
-            print(
-                f"Installing {test_dataset_name} test dataset. This may take a while..."
-            )
-            self.download_extract_test_data(test_dataset_url, outdir)
-            out_str = f"Test dataset '{test_dataset_name}' has been installed under "
-            out_str += f"{outdir}/{test_dataset_name}/"
-            print(out_str)
+
+        install_dataset_names = (
+            list(test_dataset_dict.keys()) if all_datasets else test_dataset_names
+        )
+
+        for test_dataset_name in install_dataset_names:
+            test_dataset_url = test_dataset_dict[test_dataset_name]
+            if any([test_dataset_name in fol for fol in listdir(outdir)]):
+                print(
+                    f"Test dataset '{test_dataset_name}' already exists under "
+                    f"'{join(outdir, test_dataset_name)}*/'. See that "
+                    "location for the contents of the test dataset."
+                )
+            else:
+                print(
+                    f"Installing {test_dataset_name} test dataset. This may take a "
+                    "while..."
+                )
+                self.download_extract_test_data(test_dataset_url, outdir)
+                out_str = (
+                    f"Test dataset '{test_dataset_name}' has been installed under "
+                )
+                out_str += f"{outdir}/{test_dataset_name}/"
+                print(out_str)
 
     def download_extract_test_data(self, url, download_dir):
         """Download the specified URL and write it to the corresponding download_dir.
