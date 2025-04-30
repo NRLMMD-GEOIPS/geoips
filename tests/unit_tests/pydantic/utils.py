@@ -13,6 +13,9 @@ from geoips import interfaces
 from geoips import pydantic as gpydan
 
 
+
+from copy import deepcopy
+
 LOG = logging.getLogger(__name__)
 
 
@@ -166,7 +169,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     plugin_model: instance or child of geoips.pydantic.bases.PluginModel
         - The pydantic-based model used to validate this plugin.
     """
-    bad_plugin = good_plugin
+    bad_plugin = deepcopy(good_plugin)
     key = test_tup["key"]
     val = test_tup["val"]
     failing_model = test_tup["cls"]
@@ -181,6 +184,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
         bad_plugin[key] = val
         try:
             plugin_model(**bad_plugin)
+            print("parsed model result:", plugin_model(**bad_plugin))
         except ValidationError as e:
             # The code below assumes that your test only raised one error. That's how
             # we've structured testing for the time being. In the case that one or more
