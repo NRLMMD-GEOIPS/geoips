@@ -1,0 +1,203 @@
+name: Test Coverage Comparison
+
+on:
+  pull_request:
+    branches: [ main ]
+  push:
+    branches-ignore: [ main ]
+
+jobs:
+  compare-coverage:
+    runs-on: ubuntu-latest
+    
+    env:
+      COVERAGE_TOLERANCE: 0.1  # Configurable tolerance level (percentage points)
+    
+    steps:
+    - name: Checkout PR branch
+      uses: actions/checkout@v3
+      with:
+        fetch-depth: 0
+        path: branch-code
+    
+    - name: Set up Python 3.10
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.10'
+        cache: 'pip'
+    
+    - name: Install required system dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y bc
+    
+    - name: Create virtual environments
+      run: |
+        python -m pip install --upgrade pip virtualenv
+        python -m virtualenv branch-venv
+        python -m virtualenv main-venv
+    
+    - name: Install dependencies and package from branch with extras
+      run: |
+        source branch-venv/bin/activate
+        cd branch-code
+        pip install pytest pytest-cov
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install package with doc, lint, and test extras
+        pip install -e ".[doc,lint,test]"
+        pip freeze > installed-packages.txt
+        deactivate
+      
+    - name: Cache pip dependencies for branch
+      uses: actions/cache@v3
+      with:
+        path: branch-venv
+        key: ${{ runner.os }}-pip-branch-${{ hashFiles('branch-code/installed-packages.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-branch-
+    
+    - name: Run tests on branch and generate coverage
+      id: branch-coverage
+      run: |
+        source branch-venv/bin/activate
+        cd branch-code
+        mkdir -p coverage-reports
+        pytest --cov=./ --cov-report=xml:coverage-reports/coverage-branch.xml --cov-report=lcov:coverage-reports/coverage-branch.lcov
+        
+        # Extract coverage with error handling
+        if [ -f coverage-reports/coverage-branch.xml ]; then
+          BRANCH_COVERAGE=$(python -c "
+import xml.etree.ElementTree as ET
+import sys
+try:
+    tree = ET.parse('coverage-reports/coverage-branch.xml')
+    root = tree.getroot()
+    print(float(root.attrib.get('line-rate', 0)) * 100)
+except Exception as e:
+    print('Error parsing XML: {}'.format(e), file=sys.stderr)
+    print('0')  # Default to 0 on error
+")
+          echo "BRANCH_COVERAGE=$BRANCH_COVERAGE" >> $GITHUB_ENV
+          echo "branch_coverage=$BRANCH_COVERAGE" >> $GITHUB_OUTPUT
+        else
+          echo "Coverage XML file not found for branch"
+          echo "BRANCH_COVERAGE=0" >> $GITHUB_ENV
+          echo "branch_coverage=0" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+        deactivate
+    
+    - name: Check if comparing with main is relevant
+      id: check-main-relevance
+      run: |
+        if [[ "${{ github.event_name }}" == "pull_request" ]]; then
+          echo "Comparing with main is relevant for PR targeting main"
+          echo "is_relevant=true" >> $GITHUB_OUTPUT
+        else
+          # For push events, check if this branch is related to main
+          cd branch-code
+          COMMON_ANCESTOR=$(git merge-base HEAD origin/main 2>/dev/null || echo "none")
+          if [[ "$COMMON_ANCESTOR" != "none" ]]; then
+            echo "Branch has common history with main, comparison is relevant"
+            echo "is_relevant=true" >> $GITHUB_OUTPUT
+          else
+            echo "Branch doesn't appear to be related to main, comparison may not be relevant"
+            echo "is_relevant=false" >> $GITHUB_OUTPUT
+          fi
+        fi
+    
+    - name: Checkout main branch
+      if: steps.check-main-relevance.outputs.is_relevant == 'true'
+      uses: actions/checkout@v3
+      with:
+        ref: main
+        path: main-code
+    
+    - name: Install dependencies and package from main with extras
+      if: steps.check-main-relevance.outputs.is_relevant == 'true'
+      run: |
+        source main-venv/bin/activate
+        cd main-code
+        pip install pytest pytest-cov
+        if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+        # Install package with doc, lint, and test extras
+        pip install -e ".[doc,lint,test]"
+        pip freeze > installed-packages.txt
+        deactivate
+    
+    - name: Cache pip dependencies for main
+      if: steps.check-main-relevance.outputs.is_relevant == 'true'
+      uses: actions/cache@v3
+      with:
+        path: main-venv
+        key: ${{ runner.os }}-pip-main-${{ hashFiles('main-code/installed-packages.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-main-
+    
+    - name: Run tests on main branch and generate coverage
+      if: steps.check-main-relevance.outputs.is_relevant == 'true'
+      id: main-coverage
+      run: |
+        source main-venv/bin/activate
+        cd main-code
+        mkdir -p coverage-reports
+        pytest --cov=./ --cov-report=xml:coverage-reports/coverage-main.xml
+        
+        # Extract coverage with error handling
+        if [ -f coverage-reports/coverage-main.xml ]; then
+          MAIN_COVERAGE=$(python -c "
+import xml.etree.ElementTree as ET
+import sys
+try:
+    tree = ET.parse('coverage-reports/coverage-main.xml')
+    root = tree.getroot()
+    print(float(root.attrib.get('line-rate', 0)) * 100)
+except Exception as e:
+    print('Error parsing XML: {}'.format(e), file=sys.stderr)
+    print('0')  # Default to 0 on error
+")
+          echo "MAIN_COVERAGE=$MAIN_COVERAGE" >> $GITHUB_ENV
+          echo "main_coverage=$MAIN_COVERAGE" >> $GITHUB_OUTPUT
+        else
+          echo "Coverage XML file not found for main"
+          echo "MAIN_COVERAGE=0" >> $GITHUB_ENV
+          echo "main_coverage=0" >> $GITHUB_OUTPUT
+          exit 1
+        fi
+        deactivate
+    
+    - name: Compare coverage
+      if: steps.check-main-relevance.outputs.is_relevant == 'true'
+      run: |
+        echo "Branch coverage: $BRANCH_COVERAGE%"
+        echo "Main coverage: $MAIN_COVERAGE%"
+        
+        # Calculate difference (branch - main)
+        COVERAGE_DIFF=$(echo "$BRANCH_COVERAGE - $MAIN_COVERAGE" | bc)
+        echo "Coverage difference: $COVERAGE_DIFF percentage points"
+        
+        # Check if branch coverage is within tolerance
+        if (( $(echo "$COVERAGE_DIFF >= -$COVERAGE_TOLERANCE" | bc -l) )); then
+          echo "✅ Branch coverage is within acceptable tolerance of main coverage"
+          exit 0
+        else
+          echo "❌ Branch coverage is below main coverage by more than the tolerance level"
+          echo "Tolerance level: $COVERAGE_TOLERANCE percentage points"
+          exit 1
+        fi
+    
+    - name: Skip comparison message
+      if: steps.check-main-relevance.outputs.is_relevant == 'false'
+      run: |
+        echo "Skipping comparison with main branch as it doesn't appear to be relevant for this branch"
+        echo "Branch coverage: $BRANCH_COVERAGE%"
+    
+    - name: Upload coverage reports as artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: coverage-reports
+        path: |
+          branch-code/coverage-reports/coverage-branch.lcov
+          branch-code/coverage-reports/coverage-branch.xml
+          main-code/coverage-reports/coverage-main.xml
+        retention-days: 14
