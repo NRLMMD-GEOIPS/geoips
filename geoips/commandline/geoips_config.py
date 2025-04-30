@@ -6,7 +6,6 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
-import logging
 from os import listdir, environ
 from os.path import abspath, join
 import requests
@@ -19,9 +18,6 @@ from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCom
 from geoips.plugin_registry import PluginRegistry
 
 
-LOG = logging.getLogger(__name__)
-
-
 class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
     """Config Command Class for creating plugin registries for plugin packages."""
 
@@ -30,27 +26,6 @@ class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
-        self.parser.add_argument(
-            "-p",
-            "--packages",
-            default=None,
-            type=list[str],
-            help=(
-                "The plugin packages to create plugin registries for. Defaults to None."
-                "If None, all plugin packages under 'namespace' will have their "
-                "plugin registries created."
-            ),
-        )
-        self.parser.add_argument(
-            "-n",
-            "--namespace",
-            default="geoips.plugin_packages",
-            type=str,
-            help=(
-                "The namespace of plugin packages to create plugin registries for. "
-                "If not specified, this defaults to 'geoips.plugin_packages'."
-            ),
-        )
         self.parser.add_argument(
             "-s",
             "--save_type",
@@ -77,7 +52,9 @@ class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
         save_type = args.save_type
         loglvl = args.log_level
         plugin_registry = PluginRegistry(namespace)
-        getattr(LOG, loglvl)(plugin_registry.create_registries(packages, save_type))
+        getattr(self.LOG, loglvl)(
+            plugin_registry.create_registries(packages, save_type)
+        )
 
 
 class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
@@ -88,28 +65,7 @@ class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
-        self.parser.add_argument(
-            "-p",
-            "--packages",
-            default=None,
-            type=list[str],
-            nargs="+",
-            help=(
-                "The plugin packages to delete plugin registries in. Defaults to None."
-                "If None, all plugin packages under 'namespace' will have their "
-                "plugin registries created."
-            ),
-        )
-        self.parser.add_argument(
-            "-n",
-            "--namespace",
-            default="geoips.plugin_packages",
-            type=str,
-            help=(
-                "The namespace of plugin packages to delete plugin registries in. "
-                "If not specified, this defaults to 'geoips.plugin_packages'."
-            ),
-        )
+        pass
 
     def __call__(self, args):
         """Run the `geoips config delete-registries -n <namespace> -p <packages>` command.  # NOQA
@@ -123,7 +79,7 @@ class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
         namespace = args.namespace
         loglvl = args.log_level
         plugin_registry = PluginRegistry(namespace)
-        getattr(LOG, loglvl)(plugin_registry.delete_registries(packages))
+        getattr(self.LOG, loglvl)(plugin_registry.delete_registries(packages))
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
