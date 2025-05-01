@@ -92,6 +92,7 @@ satpy = "*"        # efficiency improvements >= 0.33.1
 scikit-image = "*" # Radius based center coverage checks
 alphashape = ">=1.3.1" # For masking scipy's griddata output
 tabulate = "*"     # Tables for the CLI
+tqdm = "*"         # Progress bars for CLI dataset installs
 colorama = "*"     # Easy terminal color codes
 pygrib = "*" # Reading GRIB model data
 hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins

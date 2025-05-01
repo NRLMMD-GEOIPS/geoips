@@ -185,6 +185,9 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             total_size = int(resp.headers.get("Content-Length", 0))
             chunk_size = 1024 * 1024  # 1MB
 
+            # Write the data to a temp file on disk. This is needed as files larger than
+            # 1-2Gb might not fit in memory for some machines. Delete the temp file
+            # after extraction has finished.
             with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
                 # Progress bar setup
                 progress = tqdm(
@@ -208,6 +211,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
             print("Beginning data extraction...")
             self.extract_data_cautiously(tmp_file.name, download_dir)
+            # Delete the temp file!
             remove(tmp_file.name)
         else:
             self.parser.error(
