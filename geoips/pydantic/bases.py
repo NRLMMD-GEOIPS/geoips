@@ -225,7 +225,7 @@ class PluginModel(FrozenModel):
         else:
             ints = get_interface_module(cls.namespace)
         try:
-            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
+            metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
             )
         except AttributeError:
