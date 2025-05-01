@@ -25,6 +25,17 @@ LOG = logging.getLogger(__name__)
 def get_interface_module(namespace):
     """Retrieve the interface module from a given namespace.
 
+    Since this function uses the first portion of a namespace, I.e.
+    (geoips.plugin_packages --> geoips), only interfaces implemented in that exact
+    package will be recognized in that namespace. This means that if developers or users
+    implement new interfaces in the 'geoips.plugin_packages' namespace, they still won't
+    be recognized or available for use in GeoIPS.
+
+    To get new interfaces to work, you must implement them in a separate namespace that
+    is named the same as the plugin package that implemented them. I.e.
+    (splunk.plugin_packages --> splunk). Any other package that falls under that
+    namespace can make use of these interfaces, as well as GeoIPS' interfaces.
+
     Parameters
     ----------
     namespace: str
