@@ -50,11 +50,8 @@ class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
         packages = args.packages
         namespace = args.namespace
         save_type = args.save_type
-        loglvl = args.log_level
         plugin_registry = PluginRegistry(namespace)
-        getattr(self.LOG, loglvl)(
-            plugin_registry.create_registries(packages, save_type)
-        )
+        print(plugin_registry.create_registries(packages, save_type))
 
 
 class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
@@ -77,9 +74,8 @@ class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
         """
         packages = args.packages
         namespace = args.namespace
-        loglvl = args.log_level
         plugin_registry = PluginRegistry(namespace)
-        getattr(self.LOG, loglvl)(plugin_registry.delete_registries(packages))
+        print(plugin_registry.delete_registries(packages))
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
@@ -101,20 +97,16 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
-        mutex_group = self.parser.add_mutually_exclusive_group()
-        mutex_group.add_argument(
+        self.parser.add_argument(
             "test_dataset_names",
             type=str.lower,
             nargs="+",
             choices=list(test_dataset_dict.keys()),
-            help="Names of the GeoIPS test datasets to install.",
-        )
-        mutex_group.add_argument(
-            "--all",
-            type=bool,
-            default=False,
-            action="store_true",
-            help="A flag denoting that GeoIPS should install all test datasets.",
+            help=(
+                "Names of the GeoIPS test datasets to install. If 'all' is specified, "
+                "GeoIPS will install all test datasets hosted on NextCloud. 'all' "
+                "cannot be specified alongside other test dataset names."
+            ),
         )
         self.parser.add_argument(
             "-o",
@@ -125,11 +117,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         )
 
     def __call__(self, args):
-        """Run the `geoips config install <test_dataset_name> -o <outdir>` command.
-
-        Optionall can be ran with the mutually exclusive argument --all via
-        `geoips config install --all -o <outdir>` command. test_dataset_name and
-        --all cannot be used in the same command.
+        """Run the `geoips config install <test_dataset_names> -o <outdir>` command.
 
         Parameters
         ----------
@@ -137,8 +125,19 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             - The argument namespace to parse through
         """
         test_dataset_names = args.test_dataset_names
-        all_datasets = args.all
         outdir = args.outdir
+
+        if len(test_dataset_names) > 1 and "all" in test_dataset_names:
+            self.parser.error(
+                "Error: you cannot specify 'all' alongside other test dataset names. "
+                "If 'all' is specified, that must be the only argument provided."
+            )
+
+        all_datasets = (
+            True
+            if len(test_dataset_names) == 1 and test_dataset_names[0] == "all"
+            else False
+        )
 
         install_dataset_names = (
             list(test_dataset_dict.keys()) if all_datasets else test_dataset_names
@@ -160,8 +159,9 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 self.download_extract_test_data(test_dataset_url, outdir)
                 out_str = (
                     f"Test dataset '{test_dataset_name}' has been installed under "
+                    f"{outdir}/{test_dataset_name}/"
                 )
-                out_str += f"{outdir}/{test_dataset_name}/"
+                # Print the output of the command.
                 print(out_str)
 
     def download_extract_test_data(self, url, download_dir):
