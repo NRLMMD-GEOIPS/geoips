@@ -128,7 +128,7 @@ def initialize_paths():
         "GEOIPS_COPYRIGHT": "NRL-Monterey",
         "GEOIPS_COPYRIGHT_ABBREVIATED": "NRLMRY",
         # Configuration and Queue
-        "GEOIPS_CACHE_DIR": platformdirs.user_cache_dir()
+        "GEOIPS_CACHE_DIR": f"{platformdirs.user_cache_dir()}/geoips",
         "GEOIPS_RCFILE": "",
         "DEFAULT_QUEUE": None,
         # Computer Identifier
