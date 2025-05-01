@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: ne_asia
-docstring: "Northeastern Asia"
+docstring: "Northeastern Asia."
 metadata:
   region:
     continent: Asia
