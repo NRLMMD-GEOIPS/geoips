@@ -6,12 +6,14 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
-from os import listdir, environ
+from os import listdir, environ, remove
 from os.path import abspath, join
 import requests
+import tempfile
 
 from numpy import any
 import tarfile
+from tqdm import tqdm
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
@@ -179,13 +181,40 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         resp = requests.get(url, stream=True, timeout=15)
         if resp.status_code == 200:
-            self.extract_data_cautiously(resp, download_dir)
+
+            total_size = int(resp.headers.get("Content-Length", 0))
+            chunk_size = 1024 * 1024  # 1MB
+
+            with tempfile.NamedTemporaryFile(delete=False) as tmp_file:
+                # Progress bar setup
+                progress = tqdm(
+                    total=total_size,
+                    unit="B",
+                    unit_scale=True,
+                    unit_divisor=1024,
+                    desc="Downloading",
+                )
+
+                for chunk in resp.iter_content(chunk_size=chunk_size):
+                    if chunk:
+                        tmp_file.write(chunk)
+                        progress.update(len(chunk))
+
+                progress.close()
+                tmp_file.flush()
+
+                # Seek back to the start of the file for extraction
+                tmp_file.seek(0)
+
+            print("Beginning data extraction...")
+            self.extract_data_cautiously(tmp_file.name, download_dir)
+            remove(tmp_file.name)
         else:
             self.parser.error(
                 f"Error retrieving data from {url}; Status Code {resp.status_code}."
             )
 
-    def extract_data_cautiously(self, response, download_dir):
+    def extract_data_cautiously(self, filepath, download_dir):
         """Extract the GET Response cautiously and skip any dangerous members.
 
         Iterate through a Response and check that each member is not dangerous to
@@ -197,17 +226,23 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
         Parameters
         ----------
-        response: Requests Response Object
-            - The GET Response from retrieving the data url
+        filepath: str
+            - The path to the temporary file to extract from.
         download_dir: str
             - The directory in which to download and extract the data into
         """
-        with tarfile.open(fileobj=response.raw, mode="r|gz") as tar:
+        with tarfile.open(filepath, mode="r:gz") as tar:
+            members = tar.getmembers()
+
             # Validate and extract each member of the archive
-            for m in tar:
-                if not abspath(join(download_dir, m.name)).startswith(download_dir):
-                    raise SystemExit("Found unsafe filepath in tar, exiting now.")
-                tar.extract(m, path=download_dir)
+            with tqdm(
+                total=len(members), unit="file", desc="Extracting", ncols=80
+            ) as progress:
+                for m in tar:
+                    if not abspath(join(download_dir, m.name)).startswith(download_dir):
+                        raise SystemExit("Found unsafe filepath in tar, exiting now.")
+                    tar.extract(m, path=download_dir)
+                    progress.update(1)
 
 
 class GeoipsConfig(GeoipsCommand):
