@@ -29,8 +29,8 @@ enhancement:
     number: 810
     repo_url: ''
   date:
-    start: 20250430
-    finish: 20250501
+    start: 04/30/2025
+    finish: 05/01/2025
 documentation:
 - title: 'Document file cache and GEOIPS_CACHE_DIR'
   description: |
@@ -48,5 +48,5 @@ documentation:
     number: 810
     repo_url: ''
   date:
-    start: 20250430
-    finish: 20250501
+    start: 04/30/2025
+    finish: 05/01/2025
