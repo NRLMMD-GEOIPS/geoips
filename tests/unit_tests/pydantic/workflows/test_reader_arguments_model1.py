@@ -3,14 +3,12 @@
 
 """Test Order-based procflow ReaderArgumentsModel."""
 
-import os
 from copy import deepcopy
 import yaml
 from importlib.resources import files
 
 # Third-Party Libraries
 import pytest
-from pydantic import ValidationError
 
 # GeoIPS Libraries
 from geoips.pydantic import workflows
@@ -31,6 +29,7 @@ good_yaml = yaml.safe_load(
 good_yaml["abspath"] = str(files("geoips") / "plugins/yaml/workflows/read_test.yaml")
 good_yaml["relpath"] = "plugins/yaml/workflows/read_test.yaml"
 good_yaml["package"] = "geoips"
+
 
 @pytest.fixture
 def good_reader_arguments_instance():
@@ -67,4 +66,6 @@ def test_bad_reader_arguments_instance(good_reader_arguments_instance, test_tup)
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
           used to run and validate tests.
     """
-    validate_bad_plugin(good_reader_arguments_instance, test_tup, workflows.ReaderArgumentsModel)
+    validate_bad_plugin(
+        good_reader_arguments_instance, test_tup, workflows.ReaderArgumentsModel
+    )
