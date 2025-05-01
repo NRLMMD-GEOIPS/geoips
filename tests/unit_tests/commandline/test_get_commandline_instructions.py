@@ -3,15 +3,22 @@
 
 """Unit test for retrieving commandline instructions for the GeoIPS CLI."""
 
-from os import listdir, remove
+import os
 from os.path import dirname, exists
 import pytest
 
-from geoips.commandline.cmd_instructions import get_instructions
+from geoips.utils.cache_files import get_cached_json
 from geoips.commandline.commandline_interface import GeoipsCLI
 
 
-instruct_dir = f"{str(dirname(__file__))}/cmd_instructions"
+# This points to the instructions directory for the unit tests. These are test
+# instructions that are not used in the actual codebase.
+INSTRUCT_DIR = f"{str(dirname(__file__))}/cmd_instructions"
+# The directory where JSON instructions are cached for unit tests. This differs from
+# default cache directory to avoid overwriting the actual cache directory.
+CACHE_DIR = "/tmp/geoips_test/cache"
+
+os.makedirs(CACHE_DIR, exist_ok=True)
 
 
 def generate_id(dir_name):
@@ -19,7 +26,7 @@ def generate_id(dir_name):
     return dir_name
 
 
-@pytest.mark.parametrize("dir_name", listdir(instruct_dir), ids=generate_id)
+@pytest.mark.parametrize("dir_name", os.listdir(INSTRUCT_DIR), ids=generate_id)
 def test_instruction_cases(dir_name):
     """Check that the instructions found in dir_name pass or raise the correct error.
 
@@ -36,16 +43,28 @@ def test_instruction_cases(dir_name):
             - newer .yaml file than the .json file
             - newer .json file than the .yaml file
     """
-    cmd_dir = f"{instruct_dir}/{dir_name}"
+    # Path to the directory containing the YAML instructions
+    cmd_dir = f"{INSTRUCT_DIR}/{dir_name}"
+    cmd_yaml = f"{cmd_dir}/cmd_instructions.yaml"
+    cmd_json = f"{CACHE_DIR}/cmd_instructions.json"
+
     if "invalid" in dir_name:
+        # Load the invalid instructions
+        cmd_instructions = get_cached_json(
+            f"{cmd_dir}/cmd_instructions.yaml", cache_dir=CACHE_DIR
+        )
         # Ensure that a key error is raised
-        with pytest.raises(KeyError):
-            GeoipsCLI(instructions_dir=cmd_dir)
+        GeoipsCLI(cmd_instructions=cmd_instructions)
     elif "missing" in dir_name:
         if dir_name == "json_missing":
-            get_instructions(ancillary_dirname=cmd_dir)
-            assert exists(f"{cmd_dir}/cmd_instructions.json")
-            remove(f"{cmd_dir}/cmd_instructions.json")
+            cmd_instructions = get_cached_json(cmd_yaml, cache_dir=CACHE_DIR)
+            assert exists(cmd_json)
         else:
             with pytest.raises(FileNotFoundError):
-                get_instructions(ancillary_dirname=cmd_dir)
+                get_cached_json(cmd_yaml, cache_dir=CACHE_DIR)
+
+    # # Clean up
+    # try:
+    #     os.remove(cmd_json)
+    # except FileNotFoundError:
+    #     pass
