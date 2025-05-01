@@ -41,6 +41,7 @@ documentation:
     moved:
     - ''
     added:
+    - 'docs/source/concepts/architecture/index.rst'
     - 'docs/source/concepts/architecture/cached-files.rst'
     modified:
     - ''
