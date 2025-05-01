@@ -7,12 +7,12 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
 
-from os.path import basename
+import os
 import sys
 
 from colorama import Fore, Style
 
-from geoips.commandline.cmd_instructions import get_instructions
+from geoips.commandline import ancillary_info
 from geoips.commandline.geoips_command import GeoipsCommand
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_describe import GeoipsDescribe
@@ -42,7 +42,7 @@ class GeoipsCLI(GeoipsCommand):
         GeoipsValidate,
     ]
 
-    def __init__(self, instructions_dir=None, legacy=False):
+    def __init__(self, cmd_instructions=None, legacy=False):
         """Initialize the GeoipsCLI and each of it's command classes.
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
@@ -54,20 +54,17 @@ class GeoipsCLI(GeoipsCommand):
 
         Parameters
         ----------
-        instructions_dir: str or Posix.Path
-            - The path to the directory which includes the commandline instructions.
-              This is only used for testing purposes so we can ensure the correct
-              functionality occurs for possibly missing / invalid instruction files.
+        cmd_instructions: dict
+            A dictionary containing the commandline instructions for the CLI. This
+            dictionary is used to populate the commandline arguments for the CLI.
+            This is used for testing purposes and, if not provided, the default
+            instructions will be used.
         """
-        if instructions_dir:
-            # Instructions dir has been provided, use the instructions found in that
-            # directory so we can test that the correct functionality occurs for any
-            # given instruction file state.
-            self.cmd_instructions = get_instructions(instructions_dir)
+        # If cmd_instructions weren't provided, use the default instructions
+        if not cmd_instructions:
+            self.cmd_instructions = ancillary_info.cmd_instructions
         else:
-            # Otherwise use the default instructions which we know are correct
-            # (and if they're not, the appropriate error will be raised.)
-            self.cmd_instructions = None
+            self.cmd_instructions = cmd_instructions
 
         # parse_known_args expects arguments in a specific order. So, currrently,
         # 'geoips --log-level info <rest of command>' will work but
@@ -131,7 +128,7 @@ def support_legacy_procflows():
     defined_procflow = None
     supported_procflows = ["config_based", "data_fusion", "single_source"]
     if (
-        basename(sys.argv[0]) == "geoips"
+        os.path.basename(sys.argv[0]) == "geoips"
         and len(sys.argv) > 2
         and sys.argv[1] == "run"
         and (len(sys.argv) < 3 or sys.argv[2] not in supported_procflows)
@@ -149,11 +146,11 @@ def support_legacy_procflows():
             "this is not at the current time of use.\nFor a list of supported "
             f"procflows, choose one of the following: {supported_procflows}."
         )
-    elif basename(sys.argv[0]) == "run_procflow":
+    elif os.path.basename(sys.argv[0]) == "run_procflow":
         entrypoint = "run_procflow"
         defined_procflow = "single_source"
 
-    elif basename(sys.argv[0]) == "data_fusion_procflow":
+    elif os.path.basename(sys.argv[0]) == "data_fusion_procflow":
         entrypoint = "data_fusion_procflow"
         defined_procflow = "data_fusion"
 

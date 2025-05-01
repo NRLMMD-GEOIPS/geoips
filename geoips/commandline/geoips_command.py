@@ -8,18 +8,19 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips validate'.
 """
 
+import os
 import abc
 import argparse
 from importlib import metadata, resources
 import json
-from os.path import dirname
 from shutil import get_terminal_size
 
 from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+from geoips.utils.cache_files import get_cached_json
+from geoips.commandline.ancillary_info import alias_mapping
 from geoips.commandline.log_setup import setup_logging
 
 
@@ -45,7 +46,7 @@ class PluginPackages:
             for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
         self.paths = [
-            dirname(resources.files(ep.value))
+            os.path.dirname(resources.files(ep.value))
             for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
 
@@ -168,15 +169,11 @@ class GeoipsCommand(abc.ABC):
                 )
                 curr_parent = curr_parent.parent
 
-            if parent.cmd_instructions:
-                # this is used for testing purposes to ensure failure for invalid
-                # help information. If the parent already has cmd_instructions set,
-                # use these instructions so we can test proper functionality of the CLI.
-                self.cmd_instructions = parent.cmd_instructions
-            else:
-                # Otherwise use the default cmd_instructions which are used for normal
-                # invocation of the CLI.
-                self.cmd_instructions = cmd_instructions
+            # Propagate the command instructions from the parent to this command. This
+            # is important for unit testing where we might provide non-standard
+            # instructions.
+            self.cmd_instructions = parent.cmd_instructions
+
             try:
                 # If the command's name exists w/in the alias mapping, then
                 # add thoss aliases to the parser, otherwise just set it as an empty
