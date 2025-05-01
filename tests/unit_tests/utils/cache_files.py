@@ -4,19 +4,13 @@ import os
 import shutil
 import yaml
 import json
+import tempfile
 
 from geoips.utils.cache_files import (
     source_modified,
     create_cached_json_from_yaml,
     get_cached_json,
 )
-
-
-TMP_DIR = "/tmp/geoips_test"
-os.makedirs(TMP_DIR, exist_ok=True)
-
-# Don't create here, should be created by create_cached_json_from_yaml
-TMP_CACHE_DIR = "/tmp/geoips_test/cache"
 
 
 def test_source_modified():
@@ -26,9 +20,12 @@ def test_source_modified():
     returns True if the source file is newer than the destination file, and False
     otherwise. This will also test the case where the destination file does not exist.
     """
+    tmp_dir = tempfile.mkdtemp()
+    cache_dir = tempfile.mkdtemp()
+
     # Create a temporary source and destination file
-    source = f"{TMP_DIR}/geoips_test_source.txt"
-    dest = f"{TMP_CACHE_DIR}/test_dest.txt"
+    source = f"{tmp_dir}/geoips_test_source.txt"
+    dest = f"{cache_dir}/test_dest.txt"
 
     with open(source, "w") as f:
         f.write("This is a test.")
@@ -36,7 +33,7 @@ def test_source_modified():
     # Test that source_modified returns True if the destination file does not exist.
     assert source_modified(source, dest)
 
-    os.makedirs(TMP_CACHE_DIR, exist_ok=True)
+    os.makedirs(cache_dir, exist_ok=True)
     with open(dest, "w") as f:
         f.write("This is a test.")
 
@@ -51,7 +48,8 @@ def test_source_modified():
     # Clean up
     os.remove(source)
     os.remove(dest)
-    os.rmdir(TMP_CACHE_DIR)
+    os.rmdir(cache_dir)
+    os.rmdir(tmp_dir)
 
 
 def test_create_cached_json_from_yaml():
