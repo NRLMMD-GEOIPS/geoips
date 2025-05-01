@@ -29,6 +29,7 @@ Environment Variables:
 import logging
 import os
 import socket
+import platformdirs
 
 LOG = logging.getLogger(__name__)
 
@@ -127,6 +128,7 @@ def initialize_paths():
         "GEOIPS_COPYRIGHT": "NRL-Monterey",
         "GEOIPS_COPYRIGHT_ABBREVIATED": "NRLMRY",
         # Configuration and Queue
+        "GEOIPS_CACHE_DIR": platformdirs.user_cache_dir()
         "GEOIPS_RCFILE": "",
         "DEFAULT_QUEUE": None,
         # Computer Identifier
