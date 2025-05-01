@@ -11,11 +11,11 @@ instructions:
       - Output related to config process that was run.
   geoips_config_install:
     help_str: |
-      Install the appropriate test dataset(s) and based on the arguments provided. To
-      see a list of available test datasets for install, run
-      `geoips list test-datasets`. If wanting to install data to a location different
-      that $GEOIPS_TESTDATA_DIR, then use the -o (outdir) option and provide a full path
-      to the directory you desire to install data in.
+      Install appropriate test dataset(s) based on the arguments provided. To see a list
+      of available test datasets for install, run `geoips list test-datasets`. If
+      wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
+      use the -o (outdir) option and provide a full path to the directory you desire to
+      install data in.
 
       Optionally, you can run the command 'geoips config install all', which will
       install all test datasets listed in 'geoips list test-datasets'. If 'all' is
