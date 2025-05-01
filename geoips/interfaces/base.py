@@ -1134,7 +1134,7 @@ class BaseModuleInterface(BaseInterface):
               valid according to `plugin_is_valid`.
             - 'func' contains a dict whose keys are plugin names and whose values are
               the function for each Plugin.
-            - 'family' contains a dict whose keys are plugin names and whose vlaues
+            - 'family' contains a dict whose keys are plugin names and whose values
               are the contents of the 'family' attribute for each Plugin.
         """
         # plugin_names = self.get_plugins(sort_by="family")
