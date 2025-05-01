@@ -1,0 +1,52 @@
+enhancement:
+- title: 'Write cached json files to GEOIPS_CACHE_DIR'
+  description: |
+    The CLI was not usable when installed by a user other than the user running the CLI.
+    This was because the CLI writes cached json files and was writing them into the install
+    directory. This PR introduces GEOIPS_CACHE_DIR which defaults to platformdirs.user_cache_dir().
+    It also reorganizes a bit to move the caching functions to geoips/utils for use by other
+    code. This will also be used by the plugin registry. Note, this also adds a new formal
+    depenency on platformdirs, however, this was already a dependency of other dependencies.
+  files:
+    deleted:
+    - 'geoips/commandline/commandline_interface.py'
+    moved:
+    - ''
+    added:
+    - 'geoips/utils/cache_files.py'
+    - 'tests/unit_tests/utils/cache_files.py'
+    modified:
+    - 'pyproject.toml'
+    - 'geoips/commandline/ancillary_info/__init__.py'
+    - 'geoips/commandline/commandline_interface.py'
+    - 'geoips/commandline/geoips_command.py'
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/interfaces/base.py'
+    - 'tests/unit_tests/commandline/cli_top_level_tester.py'
+    - 'tests/unit_tests/commandline/test_get_commandline_instructions.py'
+
+  related-issue:
+    number: 810
+    repo_url: ''
+  date:
+    start: 20250430
+    finish: 20250501
+documentation:
+- title: 'Document file cache and GEOIPS_CACHE_DIR'
+  description: |
+    Provide documentation describing GEOIPS_CACHE_DIR and the files that get cached.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/concepts/architecture/cached-files.rst'
+    modified:
+    - ''
+  related-issue:
+    number: 810
+    repo_url: ''
+  date:
+    start: 20250430
+    finish: 20250501
