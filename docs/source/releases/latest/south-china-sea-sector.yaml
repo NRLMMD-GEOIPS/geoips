@@ -7,8 +7,9 @@ enhancement:
     in a separate namespace from 'geoips.plugin_packages'. For example, if you had a
     package named 'splunk' and wanted to create interfaces to support functionality
     not implemented in GeoIPS, you'd register your pyproject.toml under the
-    'splunk.plugin_packages' namespace. GeoIPS will be unaware of any of these
-    new interfaces while 'splunk' can still make use of GeoIPS' interfaces and plugins.
+    'splunk.plugin_packages' namespace. GeoIPS can make use of any of these
+    new interfaces (though if it needed to, we'd just implement it in GeoIPS) while
+    'splunk' can still make use of GeoIPS' interfaces and plugins.
 
     All packages that fall under the 'splunk' namespace can also make use of 'splunks'
     new interface functionality, and make use of GeoIPS' functionality. If a developer
