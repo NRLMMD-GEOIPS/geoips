@@ -1,7 +1,5 @@
 """Unit tests for geoips.utils.cache_files."""
 
-import pytest
-
 import os
 import shutil
 import yaml
