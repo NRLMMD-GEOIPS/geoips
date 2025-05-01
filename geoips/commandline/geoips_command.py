@@ -19,7 +19,6 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.utils.cache_files import get_cached_json
 from geoips.commandline.ancillary_info import alias_mapping
 from geoips.commandline.log_setup import setup_logging
 

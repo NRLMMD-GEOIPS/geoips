@@ -1,3 +1,5 @@
+"""Unit tests for geoips.utils.cache_files."""
+
 import pytest
 
 import os
@@ -59,13 +61,16 @@ def test_create_cached_json_from_yaml():
     it. This will read the YAML file write the data to a JSON file in `cache_dir`. The
     test just ensures that the JSON file was created and contains the correct data.
     """
+    tmp_dir = tempfile.mkdtemp()
+    cache_dir = tempfile.mkdtemp()
+
     # Create a temporary YAML file
-    yaml_file = f"{TMP_DIR}/test.yaml"
+    yaml_file = f"{tmp_dir}/test.yaml"
     with open(yaml_file, "w") as f:
         yaml.dump({"key": "value"}, f)
 
     # Create the cached JSON file
-    json_file = create_cached_json_from_yaml(yaml_file, cache_dir=TMP_CACHE_DIR)
+    json_file = create_cached_json_from_yaml(yaml_file, cache_dir=cache_dir)
 
     # Check that the JSON file was created and contains the correct data
     assert os.path.exists(json_file)
@@ -76,6 +81,8 @@ def test_create_cached_json_from_yaml():
     # Clean up
     os.remove(yaml_file)
     os.remove(json_file)
+    os.rmdir(cache_dir)
+    os.rmdir(tmp_dir)
 
 
 def test_get_cached_json():
@@ -85,15 +92,19 @@ def test_get_cached_json():
     write it to a JSON file in `cache_dir`, read the JSON file and return the data, then
     compare the new data to the original YAML data.
     """
+    tmp_dir = tempfile.mkdtemp()
+    cache_dir = tempfile.mkdtemp()
+
     # Create a temporary YAML file
-    yaml_file = f"{TMP_DIR}/test.yaml"
+    yaml_file = f"{tmp_dir}/test.yaml"
     with open(yaml_file, "w") as f:
         yaml.dump({"key": "value"}, f)
 
     # Get the cached JSON file
-    data = get_cached_json(yaml_file, cache_dir=TMP_CACHE_DIR)
+    data = get_cached_json(yaml_file, cache_dir=cache_dir)
     assert data == {"key": "value"}
 
     # Clean up
     os.remove(yaml_file)
-    shutil.rmtree(TMP_CACHE_DIR)
+    shutil.rmtree(cache_dir)
+    os.rmdir(tmp_dir)
