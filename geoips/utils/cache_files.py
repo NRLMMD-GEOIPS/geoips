@@ -2,21 +2,21 @@
 
 This modules provides functions to manage cache files in GeoIPS.
 Cache files will be stored in the user cache directory, which is platform-dependent. The
-correct cache directory is determined using the `user_cache_dir` function from the
-`platformdirs` module. The cache directory is created if it does not already exist.
+correct cache directory is determined using the GEOIPS_CACHE_DIR environment variable
+which defaults to `platformdirs.user_cache_dir("geoips")` if not set.
 """
 
 import os
 import yaml
 import json
-from platformdirs import user_cache_dir
 from logging import getLogger
+from geoips.filenames.base_paths import PATHS
 
 LOG = getLogger(__name__)
 
 
 def source_modified(source, dest):
-    """Check if the source file was mofified more recently than the destination file.
+    """Check if the source file was modified more recently than the destination file.
 
     This uses os.path.getmtime() to determine whether the source file has been modified
     more recently than the destination file. Returns True if the source file was
@@ -29,8 +29,8 @@ def source_modified(source, dest):
     dest: str
         The path to the destination file we will update if the source file changes.
 
-    Returns:
-    --------
+    Returns
+    -------
     bool
         True if the source file was modified more recently than the destination file,
         False otherwise.
@@ -47,21 +47,21 @@ def create_cached_json_from_yaml(source, cache_dir=None):
     cache directory. The JSON file will be created if it does not already exist, or
     updated if it does.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     source: str
         The path to the source YAML file.
     cache_dir: str, optional
         The path to the cache directory. If not provided, the default user cache
         directory will be used.
 
-    Returns:
-    --------
+    Returns
+    -------
     str
         The path to the cached JSON file.
     """
     if not cache_dir:
-        cache_dir = user_cache_dir("geoips")
+        cache_dir = PATHS["GEOIPS_CACHE_DIR"]
 
     os.makedirs(cache_dir, exist_ok=True)
     dest = os.path.join(cache_dir, os.path.basename(source).replace(".yaml", ".json"))
@@ -84,8 +84,8 @@ def get_cached_json(source, cache_dir=None):
     creates a new cached JSON file from the YAML file. It then returns the contents of
     the cached JSON file.
 
-    Parameters:
-    -----------
+    Parameters
+    ----------
     source: str
         The path to the source YAML file.
     cache_dir: str, optional
