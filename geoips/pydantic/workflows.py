@@ -285,8 +285,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
                 f"models are {valid_models}."
             )
             LOG.interactive(
-                "Plugin kind '%s' was already validated, yet PluginArgumentsModel lookup "
-                "failed. Please report this to the GeoIPS development team"
+                "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
+                "lookup failed. Please report this to the GeoIPS development team"
             )
 
         plugin_arguments_model(**model.arguments)
