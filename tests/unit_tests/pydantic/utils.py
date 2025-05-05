@@ -12,8 +12,6 @@ import yaml
 from geoips import interfaces
 from geoips import pydantic as gpydan
 
-
-
 from copy import deepcopy
 
 LOG = logging.getLogger(__name__)
@@ -179,9 +177,11 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     if key in ["abspath", "relpath", "package"]:
         bad_plugin.pop(key)
         plugin_model(**bad_plugin)
+        print("parsed model result:", plugin_model(**bad_plugin))
     # Otherwise, set the bad value in the plugin, and test for ValidationErrors
     else:
         bad_plugin[key] = val
+        # with pydantic raise - Kumar
         try:
             plugin_model(**bad_plugin)
             print("parsed model result:", plugin_model(**bad_plugin))
