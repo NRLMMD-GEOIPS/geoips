@@ -184,6 +184,9 @@ class WorkflowStepDefinitionModel(FrozenModel):
         ValueError
             If the user-provided value for 'kind' is not in the valid_kind list.
         """
+        # We did not switch to kind: Annotated[str, Field(pattern=kind_pattern)] due to
+        # lack of user-friendly error reporting options in case of validation failure.
+
         if not value:
             raise ValueError("Invalid input: 'kind' cannot be empty.")
 
@@ -269,22 +272,22 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "ReaderArgumentsModel": ReaderArgumentsModel,
             "WorkflowArgumentsModel": WorkflowArgumentsModel,
         }
+
         try:
-            plugin_arguments_model = plugin_arguments_models.get(
+            plugin_arguments_model = plugin_arguments_models[
                 plugin_arguments_model_name
-            )
+            ]
         except KeyError:
+            valid_models = ", ".join(plugin_arguments_models)
             raise ValueError(
                 f'The argument class/model "{plugin_arguments_model_name}" for'
-                f'the plugin kind "{plugin_kind}" is not defined.'
+                f'the plugin kind "{plugin_kind}" is not defined. Valid available'
+                f"models are {valid_models}."
             )
-
-        # Discuss with Jeremy
-        # if plugin_arguments_model is None:
-        #     raise ValueError(
-        #         f'The argument class/model "{plugin_arguments_model_name}" for'
-        #         f'the plugin kind "{plugin_kind}" is not defined.'
-        #     )
+            LOG.interactive(
+                "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
+                "lookup failed. Please report this to the GeoIPS development team"
+            )
 
         plugin_arguments_model(**model.arguments)
 

@@ -311,10 +311,12 @@ class PluginModel(FrozenModel):
         str
             Validated ``description`` string.
 
-        Raises
-        ------
-        PydanticCustomError
+        Warns
+        -----
+        FutureWarning
             If the ``description`` field violates any of the validation rules.
+            This will raise a ValidationError in a future release.
+
         """
         error_messages = {
             "single_line": "Description must be a single line.",
