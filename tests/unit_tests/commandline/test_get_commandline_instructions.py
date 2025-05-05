@@ -5,11 +5,11 @@
 
 from os import listdir, remove
 from os.path import dirname, exists
+
 import pytest
 
 from geoips.commandline.cmd_instructions import get_instructions
 from geoips.commandline.commandline_interface import GeoipsCLI
-
 
 instruct_dir = f"{str(dirname(__file__))}/cmd_instructions"
 
