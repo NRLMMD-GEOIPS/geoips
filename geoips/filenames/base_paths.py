@@ -128,6 +128,9 @@ def initialize_paths():
         "GEOIPS_COPYRIGHT": "NRL-Monterey",
         "GEOIPS_COPYRIGHT_ABBREVIATED": "NRLMRY",
         # Configuration and Queue
+        # Note: platformdirs provides functions to retrieve appropriate directory paths
+        # for different use types on different operating systems. GEOIPS_CACHE_DIR will
+        # resolve to a different path on Linux/WSL, OSX, and Windows.
         "GEOIPS_CACHE_DIR": platformdirs.user_cache_dir("geoips"),
         "GEOIPS_RCFILE": "",
         "DEFAULT_QUEUE": None,
