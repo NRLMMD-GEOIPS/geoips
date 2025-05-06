@@ -1,5 +1,5 @@
 enhancement:
-- title: 'OBP workflow definition enhancements'
+- title: 'OBP workflow definition enhancements.'
   description: "Refactors step definition to use 'kind' instead of 'type', placing it within the step."
   files:
     deleted:
