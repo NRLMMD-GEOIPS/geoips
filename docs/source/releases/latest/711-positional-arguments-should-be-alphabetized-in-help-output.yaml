@@ -4,8 +4,10 @@ enhancement:
   files:
     modified:
     - geoips/commandline/geoips_command.py
+    - docs/source/concepts/architecture/index.rst
     added:
     - tests/unit_tests/commandline/test_help_sorting.py
+    - docs/source/concepts/architecture/command_line_interface.rst
   related-issue:
     number: 711
     repo_url: https://github.com/NRLMMD-GEOIPS/geoips/
