@@ -1,5 +1,5 @@
 enhancement:
-- title: "Implement Lexeme type for singular/plural normalization"
+- title: "Implement Lexeme type for singular/plural normalization."
   description: |
     Introduce ``Lexeme``, a lightweight ``str`` subclass that normalizes English
     singular and plural spellings for comparison, hashing, and Pydantic (v2only)
