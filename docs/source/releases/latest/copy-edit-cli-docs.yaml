@@ -4,12 +4,12 @@ documentation:
     added:
     - 'docs/source/userguide/command_line_autodoc.rst'
     deleted:
-    - ''
+    - 'docs/source/new-docs/concepts/functionality/interfaces/module_based/algorithm.rst' # duplicate file left from bad merge
     modified:
-    - 'docs/source/userguide/command_line.rst'
-    - 'docs/source/userguide/index.rst'
+    - 'docs/source/concepts/functionality/command-line/command_line_autodoc.rst'
+    - 'docs/source/concepts/functionality/command-line/index.rst'
     moved:
-    - ''
+    - 'docs/source/concepts/functionality/data_units.rst' # out of new-docs into just... the docs
   related-issue:
     number: 0
     repo_url: ''
