@@ -18,7 +18,7 @@ bug fix:
     finish: null
 enhancement:
 - title: 'Standardize Reader Arguments'
-  description: 'Standardize the arguments in the call() function across all GeoIPS reader plugins to ensure consistency where possible.'
+  description: 'Standardize the arguments in the call()  function across all GeoIPS reader plugins to ensure consistency where possible.'
   files:
     deleted:
     - ''
