@@ -1,23 +1,23 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read SAPHIR hdf files."""
 
 # Python Standard Libraries
-import logging
 from datetime import datetime
+import logging
+
+# Third-Party Libraries
+import h5py
 import numpy as np
 import xarray as xr
-import h5py
-
-# from numpy import datetime64
-# import pandas as pd
 
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "saphir_hdf5"
+source_names = ["saphir"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):

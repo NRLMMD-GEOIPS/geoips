@@ -1,0 +1,29 @@
+interface: products
+family: list
+name: amsr2rss
+docstring: |
+  The amsr2rss products configuration, which produces windspeed, unsectored, sectored
+  products.
+spec:
+  products:
+    - name: windspeed
+      source_names: [amsr2rss]
+      docstring: |
+        The windspeed product_defaults for amsr2rss product.
+      product_defaults: windspeed
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: unsectored
+      source_names: [amsr2rss]
+      docstring: |
+        The unsectored product_defaults for amsr2rss product.
+      product_defaults: unsectored
+      spec:
+        variables: ["wind_speed_kts"]
+    - name: sectored
+      source_names: [amsr2rss]
+      docstring: |
+        The sectored product_defaults for amsr2rss product.
+      product_defaults: sectored
+      spec:
+        variables: ["wind_speed_kts"]

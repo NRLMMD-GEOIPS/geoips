@@ -1,0 +1,54 @@
+flowchart TD
+    Start[Start]
+    DocBuild{Are you modifying the homepage or how the documentation is built?}
+    Templates[Modify files in <em>_templates</em> or <em>_static</em>]
+    ReleaseNote[Do you need to add a release note, doing a release or something else?]
+    LatestRelease[Add to <em>releases/latest</em>]
+    MoveLatest[Move <em>latest</em> to versioned directory and create new empty <em>latest</em>]
+    CodeDoc{"Are you documenting code (function, method, file) that doesn't have up-to-date docstrings?"}
+    Docstrings[Add docstrings in the relevant code file]
+    ContributeInfo{Is it about how to contribute to the project? Or the Scope of the project?}
+    ContributeFolder[Add to <em>contribute</em> folder]
+    TutorialCheck{Is it a step-by-step tutorial or have explicit steps for someone to complete?}
+    TutorialsFolder[Add to <em>tutorials</em> folder]
+    ConceptualInfo{Does it deal with how the code works, is laid out or how to use the code?}
+    FunctionalityFolder[Add to relevant file in <em>functionality</em>]
+    ArchSubfolders{Specific area?}
+    ArchDocumentation[Add to <em>architecture/documentation</em>]
+    ArchStructure[Add to <em>architecture/structure-of-geoips</em>]
+    ArchTests[Add to <em>architecture/tests</em>]
+    ArchOther[Look for relevant file in <em>architecture</em>]
+    ScopeFolder[Add to <em>concepts/scope</em>]
+    FutureCheck{Are you writing about something already implmented and working?}
+    FutureFolder[Add to relevant file in <em>concepts/future</em>]
+    Consult[Consult with team for appropriate location]
+
+    Start --> DocBuild
+    DocBuild -- Yes --> Templates
+    Templates
+    DocBuild -- No --> ReleaseNote
+    ReleaseNote -- Adding Release Note --> LatestRelease
+    ReleaseNote -- Release Process --> MoveLatest
+    ReleaseNote -- Something else--> FutureCheck
+
+    FutureCheck -- No --> FutureFolder
+    FutureCheck -- Yes --> CodeDoc
+
+    CodeDoc -- Yes --> Docstrings
+    CodeDoc -- No --> ContributeInfo
+    Docstrings -- Need to write more? --> Start
+
+    ContributeInfo -- Contribute --> ContributeFolder
+    ContributeInfo -- Scope --> ScopeFolder
+    ContributeInfo -- Something else --> TutorialCheck
+    TutorialCheck -- Yes --> TutorialsFolder
+    TutorialCheck -- No --> ConceptualInfo
+    ConceptualInfo -- No / Something else --> Consult
+    ConceptualInfo -- How to use code, run tests, or build documentation. --> FunctionalityFolder
+    ConceptualInfo -- How/why code works --> ArchSubfolders
+    ConceptualInfo -- How code is laid out --> ArchSubfolders
+
+    ArchSubfolders -- Documentation --> ArchDocumentation
+    ArchSubfolders -- Tests --> ArchTests
+    ArchSubfolders -- Structure of code --> ArchStructure
+    ArchSubfolders -- Other --> ArchOther

@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Interpolation methods using pyresample routines."""
@@ -40,7 +40,7 @@ def get_data_box_definition(source_name, lons, lats):
     )
     from pyresample.geometry import GridDefinition
 
-    if source_name == "abi":
+    if source_name == "abi" and lons.ndim > 1:
         data_box_definition = GridDefinition(
             lons=numpy.ma.array(lons, subok=False),
             lats=numpy.ma.array(lats, subok=False),

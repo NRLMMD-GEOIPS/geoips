@@ -1,9 +1,10 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Matplotlib-based unprojected image output."""
 
 import logging
+from os.path import basename, dirname, join
 
 import matplotlib.pyplot as plt
 import matplotlib
@@ -28,6 +29,7 @@ def call(
     x_size=None,
     y_size=None,
     savefig_kwargs=None,
+    is_3d=False,
 ):
     """Plot unprojected image to matplotlib figure."""
     if savefig_kwargs is None:
@@ -60,22 +62,65 @@ def call(
     main_ax.set_axis_off()
     fig.add_axes(main_ax)
 
-    main_ax.imshow(
-        xarray_obj[product_name],
-        norm=mpl_colors_info["norm"],
-        cmap=mpl_colors_info["cmap"],
-    )
+    # This needs to be done as output_formatter_kwargs can only be specified as strings
+    # (to my knowledge at least)
+    is_3d = str(is_3d) == "True"
 
-    success_outputs = []
-    for fname in output_fnames:
-        LOG.info("Plotting %s with plt", fname)
-        # This just handles cleaning up the axes, creating directories, etc
-        success_outputs += save_image(
-            fig,
-            fname,
-            is_final=False,
-            image_datetime=xarray_obj.start_datetime,
-            savefig_kwargs=savefig_kwargs,
+    if is_3d:
+        slices = [
+            xarray_obj[product_name].data[slice]
+            for slice in range(xarray_obj[product_name].data.shape[0])
+        ]
+    else:
+        slices = [xarray_obj[product_name].data]
+    for slice_idx, slice_data in enumerate(slices):
+        main_ax.clear()
+        main_ax.imshow(
+            slice_data,
+            norm=mpl_colors_info["norm"],
+            cmap=mpl_colors_info["cmap"],
         )
+
+        success_outputs = []
+        for fname in output_fnames:
+            if is_3d:
+                # This is generic for overcast data, on the order of (level) * 0.5 km.
+                # I.e. if level == 5, lvl_str == '02_50.'. This is an easy way to denote
+                # what height each image corresponds to, though I'm not sure if we
+                # should hardcode this string here. Maybe create a new filename
+                # formatter for that data or we can add a new argument to this plugin
+                # which handles fname conventions for 3D data. Such as a function which
+                # produces a pre-prended string to the corresponding fname.
+                lvl_km = str(slice_idx * 0.5).split(".")
+                lvl_str = f"{lvl_km[0].zfill(2)}_{lvl_km[1]}0"
+                suffix = f".{basename(fname).split('.')[-1]}"
+                # This is expected from ovcst_fname filename_formatter
+                if "ovcst" in basename(fname):
+                    # OVCST_<product_name>_<datetime>.png
+                    # <datetime> fmt = yyyymmddhhnnss
+                    datetime = basename(fname).split("_")[-1][: -len(suffix)]
+                    date = datetime[:8]
+                    time = datetime[8:]
+                # This is expected from basic_fname filename_formatter
+                else:
+                    date, time = basename(fname).split(".")[0:2]
+                # Making a directory with date.time/fname as there are 40 images per
+                # file for OVERCAST data
+                final_fname = join(
+                    dirname(fname),
+                    f"{date}.{time}",
+                    f"{basename(fname)[:-len(suffix)]}_{lvl_str}{suffix}",
+                )
+            else:
+                final_fname = fname
+            LOG.info("Plotting %s with plt", fname)
+            # This just handles cleaning up the axes, creating directories, etc
+            success_outputs += save_image(
+                fig,
+                final_fname,
+                is_final=False,
+                image_datetime=xarray_obj.start_datetime,
+                savefig_kwargs=savefig_kwargs,
+            )
 
     return success_outputs

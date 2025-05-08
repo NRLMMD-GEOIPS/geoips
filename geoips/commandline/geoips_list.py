@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "list" command.
@@ -10,7 +10,7 @@ from glob import glob
 from importlib import metadata, resources, import_module
 import json
 from os import listdir
-from os.path import basename
+from os.path import basename, exists
 import sys
 
 from tabulate import tabulate
@@ -23,6 +23,105 @@ from geoips.commandline.geoips_command import (
 )
 from geoips.geoips_utils import is_editable
 from geoips import interfaces
+
+
+class GeoipsListSourceNames(GeoipsExecutableCommand):
+    """List Command for listing out source_names from available reader plugins.
+
+    This command is used to easily expose what source_names are supported by each
+    reader. If a reader module is missing the source_name attribute, then that will be
+    notified in the CLI output.
+    """
+
+    name = "source-names"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the list-subparser for the List Source Names Command."""
+        pass
+
+    def __call__(self, args):
+        """List all source-names in reader plugins held under <package_name>.
+
+        Printed to Terminal
+        -------------------
+        out_array: 2D Array of Strings
+            - GeoIPS Package
+            - Source Names
+            - Reader Name
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The list argument namespace to parse through
+        """
+        package_name = args.package_name
+        default_headers = {
+            "source_name": "Source Name",
+            "reader_names": "Reader Names",
+        }
+        interface_registry = self._get_registry_by_interface_and_package(
+            interfaces.readers, package_name
+        )
+        if interface_registry is None:
+            print(
+                f"\nPlugin Package '{package_name}' has no reader plugins and "
+                "therefore no implemented source_names."
+            )
+            return
+        headers = self._get_headers_by_command(args, default_headers)
+        src_name_mapping = self.match_readers_with_source_name(interface_registry)
+        src_name_info = []
+        for src_name, rdrs in src_name_mapping.items():
+            src_name_entry = []
+            for header in list(headers.keys()):
+                if header == "source_name":
+                    src_name_entry.append(src_name)
+                elif header == "reader_names":
+                    src_name_entry.append(list(rdrs))
+            src_name_info.append(src_name_entry)
+        if package_name == "all":
+            package_name = "All GeoIPS Plugin Packages"
+        print("-" * len(f"'{package_name}' Reader Source Names"))
+        print(f"'{package_name}' Reader Source Names")
+        print("-" * len(f"'{package_name}' Reader Source Names"))
+        print(
+            tabulate(
+                sorted(src_name_info),
+                headers=headers.values(),
+                tablefmt="rounded_grid",
+                maxcolwidths=self.terminal_width // len(headers),
+            )
+        )
+
+    def match_readers_with_source_name(self, registry):
+        """Assemble a dictionary of <source_name>:[readers] for tabular listing.
+
+        Match source_names found in the registry to readers which support that
+        source_name. Each key in the dictionary will be a unique source_name with values
+        that are the names of readers which support that source_name.
+
+        Parameters
+        ----------
+        registry: dict
+            - The readers portion of all GeoIPS plugin packages' plugin registries or
+              a single package's plugin registry.
+
+        Returns
+        -------
+        src_name_mapping: dict
+            - A dictionary mapping of source_name:[readers] which links readers to a
+              unique source_name which they support.
+        """
+        src_name_mapping = {}
+        for rdr_name in registry:
+            src_names = registry[rdr_name]["source_names"]
+            for src_name in src_names:
+                if src_name not in src_name_mapping:
+                    src_name_mapping[src_name] = set([rdr_name])
+                else:
+                    src_name_mapping[src_name].add(rdr_name)
+        return src_name_mapping
 
 
 class GeoipsListUnitTests(GeoipsExecutableCommand):
@@ -84,12 +183,17 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             try:
                 listdir(unit_test_dir)
             except FileNotFoundError:
-                if len(package_names) == 1:
+                # I'm not sure why len(package_names) == 1 would indicate that the
+                # unit-tests folder does not exist.  Instead, check if the unit-tests
+                # folder exists to see if it exists.
+                # if len(package_names) == 1:
+                if not exists(unit_test_dir):
                     err_str = f"No unit test directory found under {pkg_name}. "
                     err_str += "Please create a tests/unit_tests folder for that "
                     err_str += "package if you want to continue."
                     self.parser.error(err_str)
                 else:
+                    print(f"package_names: {package_names}")
                     print(f"No unit tests found in '{pkg_name}', continuing.")
                     continue
             for subdir_name in listdir(unit_test_dir):
@@ -330,11 +434,10 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         ):
 
             if package_name == "all" or package_name == plugin_package_name:
-                pkg_registry = json.load(
-                    open(
-                        f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
-                    )
-                )
+                with open(
+                    f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
+                ) as fo:
+                    pkg_registry = json.load(fo)
             else:
                 continue
             interface_data = []
@@ -421,7 +524,7 @@ class GeoipsListPackages(GeoipsExecutableCommand):
                     pkg_name_requested = True
                     pkg_entry.append(package_name)
                 elif header == "docstring":
-                    pkg_entry.append(docstring)
+                    pkg_entry.append(str(docstring))
                 elif header == "package_path":
                     pkg_entry.append(package_path)
                 elif header == "version":
@@ -679,6 +782,7 @@ class GeoipsList(GeoipsCommand):
         GeoipsListPackages,
         GeoipsListPlugins,
         GeoipsListScripts,
+        GeoipsListSourceNames,
         GeoipsListTestDatasets,
         GeoipsListUnitTests,
     ]

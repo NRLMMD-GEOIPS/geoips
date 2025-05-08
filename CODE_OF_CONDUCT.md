@@ -1,3 +1,6 @@
+    # # # This source code is subject to the license referenced at
+    # # # https://github.com/NRLMMD-GEOIPS.
+
 # Contributor Covenant Code of Conduct
 
 This Code of Conduct is maintained and enforced by our community collaborators,

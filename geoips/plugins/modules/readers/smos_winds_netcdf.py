@@ -1,10 +1,23 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
 
+# Python Standard Libraries
+from datetime import datetime, timedelta
 import logging
 from os.path import basename
+
+# Third-Party Libraries
+import numpy as np
+from netCDF4 import Dataset
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -14,6 +27,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "smos_winds_netcdf"
+source_names = ["smos-spd"]
 
 
 def read_smos_data(wind_xarray, fname):
@@ -23,10 +37,6 @@ def read_smos_data(wind_xarray, fname):
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    import xarray
-    import numpy
-    from datetime import datetime, timedelta
-
     LOG.info("Reading SMOS data")
 
     # Attributes aren't set in the data files - use the file names to determine the
@@ -50,17 +60,17 @@ def read_smos_data(wind_xarray, fname):
             wind_xarray["quality_level"] < 2
         )[0, :, :]
     wind_xarray["wind_speed_kts"] = xarray.DataArray(
-        data=numpy.flipud(wind_xarray.wind_speed_kts) * MS_TO_KTS,
+        data=np.flipud(wind_xarray.wind_speed_kts) * MS_TO_KTS,
         name="wind_speed_kts",
         coords=wind_xarray["wind_speed_kts"].coords,
     )
 
     # Set lat/lons appropriately
     # These are (1440x720)
-    lats2d, lons2d = numpy.meshgrid(wind_xarray.lat, wind_xarray.lon)
+    lats2d, lons2d = np.meshgrid(wind_xarray.lat, wind_xarray.lon)
     # Full dataset is 720x1440x2
     wind_xarray["latitude"] = xarray.DataArray(
-        data=numpy.flipud(lats2d.transpose()),
+        data=np.flipud(lats2d.transpose()),
         name="latitude",
         coords=wind_xarray["wind_speed_kts"].coords,
     )
@@ -70,26 +80,24 @@ def read_smos_data(wind_xarray, fname):
         coords=wind_xarray["wind_speed_kts"].coords,
     )
     wind_xarray = wind_xarray.set_coords(["latitude", "longitude"])
-    # timearray = numpy.zeros(wind_xarray.wind_speed_kts.shape).astype(int) +
+    # timearray = np.zeros(wind_xarray.wind_speed_kts.shape).astype(int) +
     #                                                         wind_xarray.time.values[0]
 
-    timearray = numpy.ma.masked_array(
-        data=numpy.zeros(wind_xarray.wind_speed_kts.shape).astype(int)
+    timearray = np.ma.masked_array(
+        data=np.zeros(wind_xarray.wind_speed_kts.shape).astype(int)
         + wind_xarray.time.values[0],
         mask=True,
     )
-    from numpy import datetime64, timedelta64
-    from netCDF4 import Dataset
 
     ncobj = Dataset(fname)
-    basedt = datetime64(datetime.strptime("19900101", "%Y%m%d"))
-    nctimearray = numpy.flipud(ncobj.variables["measurement_time"][...][0, :, :])
-    timeinds = numpy.ma.where(nctimearray)
+    basedt = np.datetime64(datetime.strptime("19900101", "%Y%m%d"))
+    nctimearray = np.flipud(ncobj.variables["measurement_time"][...][0, :, :])
+    timeinds = np.ma.where(nctimearray)
     # Check if there are any unmasked timeinds, if so update timearray
-    if numpy.size(timeinds) > 0:
+    if np.size(timeinds) > 0:
         timedata = nctimearray[timeinds].data.tolist()
-        timevals = numpy.ma.masked_array(
-            [basedt + timedelta64(timedelta(days=xx)) for xx in timedata]
+        timevals = np.ma.masked_array(
+            [basedt + np.timedelta64(timedelta(days=xx)) for xx in timedata]
         )
         timearray[timeinds] = timevals
     # Otherwise set timearray as unmasked values
@@ -138,13 +146,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import numpy
-    import xarray
-
     ingested = []
     for fname in fnames:
         wind_xarray = xarray.open_dataset(str(fname))
@@ -160,10 +161,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         # Checking if the wind_xarray.time is valid
         if (
-            not isinstance(wind_xarray.time.values[0], numpy.datetime64)
+            not isinstance(wind_xarray.time.values[0], np.datetime64)
             and wind_xarray.time.values[0].year > 3000
         ):
-            from datetime import datetime, timedelta
 
             cov_start = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
@@ -175,7 +175,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 seconds=(cov_end - cov_start).total_seconds() / 2
             )
             time_attrs = wind_xarray.time.attrs
-            wind_xarray["time"] = numpy.array([time], dtype=numpy.datetime64)
+            wind_xarray["time"] = np.array([time], dtype=np.datetime64)
             wind_xarray["time"].attrs = time_attrs
 
         LOG.info("Read data from %s", fname)
@@ -206,7 +206,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             #     if curr_xobj["wind_speed_kts"].shape == curr_xobj[varname].shape:
             #         final_xobj[varname] = xarray.where(
             final_wind_xarrays["WINDSPEED"] = xarray.concat(
-                [final_wind_xarrays["WINDSPEED"], wind_xarrays["WINDSPEED"]], dim="time"
+                [final_wind_xarrays["WINDSPEED"], wind_xarrays["WINDSPEED"]],
+                dim="time",
             )
             # This is lame.  Interpolation did not immediately handle
             # 6x721x1442 array
@@ -243,7 +244,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         == final_wind_xarrays["METADATA"].end_datetime
     ):
         # Use alternate attributes to set start and end datetime
-        from datetime import datetime
 
         final_wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
             wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"

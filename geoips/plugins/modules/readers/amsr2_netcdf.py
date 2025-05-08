@@ -1,11 +1,17 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Read AMSR2 data products."""
+"""Read Advanced Microwave Scanning Radiometer (AMSR2) data products."""
 
+# Python Standard Libraries
+from glob import glob
 import logging
 from os.path import basename
-from glob import glob
+
+# Third-Party Libraries
+import numpy
+import pandas
+import xarray
 
 LOG = logging.getLogger(__name__)
 
@@ -60,22 +66,23 @@ chan_nums = {
 interface = "readers"
 family = "standard"
 name = "amsr2_netcdf"
+source_names = ["amsr2"]
 
 
-def read_amsr_winds(wind_xarray):
-    """Reformat AMSR xarray object appropriately.
+def read_amsr2_winds(wind_xarray):
+    """Reformat AMSR2 xarray object appropriately.
 
     * variables: latitude, longitude, time, wind_speed_kts
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
     MS_TO_KTS = 1.94384
-    LOG.info("Reading AMSR data")
+    LOG.info("Reading AMSR2 data")
     # Set attributes appropriately
     wind_xarray.attrs["source_name"] = "amsr2"
     wind_xarray.attrs["platform_name"] = "gcom-w1"
     wind_xarray.attrs["interpolation_radius_of_influence"] = 10000
-    # AMSR is one text file per datafile, so don't append
+    # AMSR2 is one text file per datafile, so don't append
     wind_xarray.attrs["overwrite_text_file"] = True
     wind_xarray.attrs["append_text_file"] = False
     # https://www.ospo.noaa.gov/Products/atmosphere/gpds/about_amsr2.html
@@ -97,9 +104,6 @@ def read_amsr_winds(wind_xarray):
     )
 
     # Set wind_speed_kts appropriately
-    import numpy
-    import xarray
-
     # convert to kts
     wind_xarray["wind_speed_kts"] = wind_xarray["WSPD"] * MS_TO_KTS
 
@@ -114,7 +118,6 @@ def read_amsr_winds(wind_xarray):
     )
 
     # Set time array appropriately
-    import pandas
 
     dtstrs = []
     LOG.info("Reading scan_times")
@@ -142,17 +145,15 @@ def read_amsr_winds(wind_xarray):
     return {"WINDS": wind_xarray}
 
 
-def read_amsr_mbt(full_xarray, varname, time_array=None):
+def read_amsr2_mbt(full_xarray, varname, time_array=None):
     """
-    Reformat AMSR xarray object appropriately.
+    Reformat AMSR2 xarray object appropriately.
 
     * variables: latitude, longitude, time,
       brightness temperature variables
     * attributes: source_name, platform_name, data_provider,
       interpolation_radius_of_influence
     """
-    import xarray
-
     LOG.info("Reading AMSR data %s", varname)
     sub_xarray = xarray.Dataset()
     sub_xarray.attrs = full_xarray.attrs.copy()
@@ -195,11 +196,8 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     )
 
     if time_array is None:
-        import numpy
 
         # Set time appropriately
-        import pandas
-
         dtstrs = []
         LOG.info("Reading scan_times, for dims %s", sub_xarray[varnames[varname]].dims)
         for scan_time in full_xarray["Scan_Time"]:
@@ -227,7 +225,7 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
         sub_xarray = sub_xarray.set_coords(["time"])
     else:
         LOG.info(
-            "Using existing scan_times, for dims %s", sub_xarray[varnames[varname]].dims
+            "Using existing scan_times for dims %s", sub_xarray[varnames[varname]].dims
         )
         sub_xarray["time"] = time_array
     from geoips.xarray_utils.time import (
@@ -240,7 +238,7 @@ def read_amsr_mbt(full_xarray, varname, time_array=None):
     return sub_xarray
 
 
-def read_amsr_data(full_xarray, chans):
+def read_amsr2_data(full_xarray, chans):
     """Read non-AMSR2_OCEAN data."""
     full_xarray = full_xarray.reset_coords(full_xarray.coords)
 
@@ -261,7 +259,7 @@ def read_amsr_data(full_xarray, chans):
             for xra in list(xarrays.values()):
                 if xra.time.dims == full_xarray[varname].dims:
                     usetime = xra.time
-            new_xarray = read_amsr_mbt(full_xarray, varname, usetime)
+            new_xarray = read_amsr2_mbt(full_xarray, varname, usetime)
             if sunzen.dims == tuple(new_xarray.dims):
                 new_xarray["satellite_azimuth_angle"] = satazm
                 new_xarray["satellite_zenith_angle"] = satzen
@@ -321,8 +319,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    import xarray
-
     LOG.interactive("AMSR2 reader test_arg: %s", test_arg)
 
     ingested = []
@@ -352,13 +348,13 @@ def call(
             return {"METADATA": full_xarray}
 
         if hasattr(full_xarray, "title") and "AMSR2_OCEAN" in full_xarray.title:
-            xarrays = read_amsr_winds(full_xarray)
+            xarrays = read_amsr2_winds(full_xarray)
 
         elif hasattr(full_xarray, "title") and "MBT" in full_xarray.title:
-            xarrays = read_amsr_data(full_xarray, chans)
+            xarrays = read_amsr2_data(full_xarray, chans)
 
         elif hasattr(full_xarray, "title") and "PRECIP" in full_xarray.title:
-            xarrays = read_amsr_data(full_xarray, chans)
+            xarrays = read_amsr2_data(full_xarray, chans)
         ingested.append(xarrays)
 
     # Merge all datasets together:

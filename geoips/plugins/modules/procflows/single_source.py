@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Processing workflow for single data source processing."""
@@ -11,7 +11,9 @@ import inspect
 import xarray
 
 # Internal utilities
-from geoips.filenames.base_paths import PATHS as gpaths
+from geoips.errors import PluginError
+from geoips.errors import OutputFormatterDatelineError
+from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.duplicate_files import remove_duplicates
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import PidLog
@@ -560,8 +562,9 @@ def apply_alg_first(
     if alg_plugin.family in ["xarray_to_numpy"]:
         # Why does this one use sect_xarrays and not curr_sect_xarrays?
         # And it uses variable_names, not variables.
+        # print(variable_names,variables)
         alg_xarray = apply_alg_xarray_to_numpy(
-            alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variable_names
+            alg_xarray, alg_plugin, alg_args, prod_plugin, sect_xarrays, variables
         )
     elif alg_plugin.family in ["xarray_dict_area_def_to_numpy"]:
         # Why does this one use sect_xarrays and not curr_sect_xarrays?
@@ -604,12 +607,16 @@ def apply_interp_after_alg(
         final_xarray = alg_xarray
     # If required, interpolate the result prior to returning
     elif prod_plugin.family == "algorithm_interpolator_colormapper":
-        interp_args["varlist"] = [prod_plugin.name]
+        if interp_args.get("varlist") is None or interp_args["varlist"] is None:
+            # Just assume the only thing we're interpolating is the product name itself
+            interp_args["varlist"] = [prod_plugin.name]
+        # Otherwise use the varlist that was provided. For example, a user could produce
+        # Additional variables from their algorithm alongside their product name
         final_xarray = perform_interpolation(
             interp_plugin,
             area_def,
             alg_xarray,
-            alg_xarray,
+            xarray.Dataset(),
             interp_args,
             processed_xarrays,
         )
@@ -713,9 +720,11 @@ def apply_alg_xarray_to_numpy(
                 alg_plugin.family,
                 alg_plugin.name,
             )
+            alg_xarray = sect_xarrays[dsname]
             alg_xarray[prod_plugin.name] = xarray.DataArray(
                 alg_plugin(sect_xarrays[dsname], **alg_args)
             )
+            # drops geo values?
     return alg_xarray
 
 
@@ -952,6 +961,50 @@ def process_xarray_dict_to_output_format(
         # No input filename list, no check that output filename list matches
         LOG.info(
             "Not checking output file list for output family %s", output_plugin.family
+        )
+
+    # We theoretically can do this for all output_formatters that don't require an area
+    # definition
+    elif output_plugin.family == "unprojected":
+        # If there is not a colormap dictionary already provided in output_formatter
+        # kwargs, then try to retrieve it here. If it's not possible, raise a
+        # PluginError which points out that no colormapper plugin was provided and
+        # therefore we can't produce an unprojected image.
+        if "mpl_colors_info" not in output_formatter_kwargs:
+            prd_plg = products.get_plugin(
+                prod_plugin["source_names"][0], prod_plugin.name
+            )
+            cmap_name = (
+                prd_plg["spec"].get("colormapper", {}).get("plugin", {}).get("name")
+            )
+            if cmap_name:
+                cmap_plg = colormappers.get_plugin(cmap_name)
+                output_formatter_kwargs["mpl_colors_info"] = cmap_plg(
+                    **prd_plg["spec"]["colormapper"]["plugin"]["arguments"]
+                )
+        else:
+            raise PluginError(
+                f"Error: product plugin '{prod_plugin.name}' does not have a "
+                "colormapper plugin that is needed for the 'unprojected_image'"
+                "output formatter. Please add a colormapper plugin to your product, and"
+                " try again."
+            )
+        # Unprojected Output formatter expects the xarray including the data for your
+        # product rather than a dictionary containing that xarray. We probably could
+        # just default to 'xobjs[prod_plugin.name]', however adding this conditional
+        # doesn't hurt in the case xobjs is an xarray.Dataset(). Shouldn't happen,
+        # but again, doesn't hurt to add this functionality.
+        if isinstance(xobjs, dict):
+            in_xobjs = xobjs[prod_plugin.name]
+        else:
+            in_xobjs = xobjs
+        # Apply unprojected image output formatter
+        LOG.info("Applying output formatter of family %s", output_plugin.family)
+        curr_products = output_plugin(
+            in_xobjs,
+            prod_plugin.name,
+            output_fnames,
+            **output_formatter_kwargs,
         )
 
     else:
@@ -1198,15 +1251,34 @@ def plot_data(
                 output_plugin.family,
                 output_plugin.name,
             )
-            output_products = output_plugin(
-                area_def,
-                xarray_obj=alg_xarray,
-                product_name=prod_plugin.name,
-                output_fnames=list(output_fnames.keys()),
-                product_name_title=display_name,
-                mpl_colors_info=mpl_colors_info,
-                **output_kwargs,
-            )
+            try:
+                output_products = output_plugin(
+                    area_def,
+                    xarray_obj=alg_xarray,
+                    product_name=prod_plugin.name,
+                    output_fnames=list(output_fnames.keys()),
+                    product_name_title=display_name,
+                    mpl_colors_info=mpl_colors_info,
+                    **output_kwargs,
+                )
+            except OutputFormatterInvalidProjectionError as e:
+                LOG.warning(
+                    "Failed to produce %s output: %s",
+                    output_plugin.name,
+                    "; ".join(list(output_fnames.keys())),
+                )
+                LOG.warning("OutputFormatterInvalidProjectionError: %s", e)
+                output_fnames = {}
+                output_products = []
+            except OutputFormatterDatelineError as e:
+                LOG.warning(
+                    "Failed to produce %s output: %s",
+                    output_plugin.name,
+                    "; ".join(list(output_fnames.keys())),
+                )
+                LOG.warning("OutputFormatterDatelineError: %s", e)
+                output_fnames = {}
+                output_products = []
             if output_products != list(output_fnames.keys()):
                 raise ValueError("Did not produce expected products")
         elif output_plugin.family == "unprojected":
@@ -1833,7 +1905,7 @@ def call(fnames, command_line_args=None):
     output_checker_kwargs = command_line_args["output_checker_kwargs"]
 
     if product_db:
-        from geoips_db.interfaces import databases
+        from geoips.interfaces import databases
 
         db_writer = databases.get_plugin(product_db_writer)
         if not getenv("GEOIPS_DB_URI"):
@@ -1918,6 +1990,13 @@ def call(fnames, command_line_args=None):
                 window_start_time=window_start_time,
                 window_end_time=window_end_time,
             )
+        # This is a workaround so these products can use single source and other
+        # algorithms which don't return a dictionary of xarrays. Just convert this back
+        # to a dictionary under the hood and hope the metadata included in 'xdict.attrs'
+        # is enough for your filename formatter.
+        if not isinstance(xdict, dict):
+            xdict = {prod_plugin.name: xdict, "METADATA": xdict[[]]}
+
         final_products += process_xarray_dict_to_output_format(
             xdict, variables, prod_plugin, command_line_args
         )
@@ -2209,6 +2288,7 @@ def call(fnames, command_line_args=None):
             # processed array)
             if ":" in covg_varname:
                 covg_varname = covg_varname.split(":")[1]
+
             covg = covg_plugin(
                 alg_xarray,
                 covg_varname,
@@ -2309,14 +2389,33 @@ def call(fnames, command_line_args=None):
                         "product": product_name,
                         "fileType": fprod.split(".")[-1],
                     }
-                    product_added = db_writer(
-                        fprod,
-                        area_def=area_def,
-                        xarray_obj=alg_xarray,
-                        additional_attrs=additional_attrs,
-                        **product_db_writer_kwargs,
-                    )
-                    database_writes += [product_added]
+                    if db_writer.family == "xarray_area_def_to_table":
+                        product_added = db_writer(
+                            product_filename=fprod,
+                            xarray_obj=alg_xarray,
+                            area_def=area_def,
+                            additional_attrs=additional_attrs,
+                            **product_db_writer_kwargs,
+                        )
+                        database_writes += [product_added]
+                    elif db_writer.family == "xarray_dict_to_table":
+                        product_added = db_writer(
+                            product_filename=fprod,
+                            xarray_dict=alg_xarray,
+                            area_def=area_def,
+                            additional_attrs=additional_attrs,
+                            **product_db_writer_kwargs,
+                        )
+                        database_writes += [product_added]
+                    else:
+                        LOG.error(
+                            "FAILED DB WRITE: Only "
+                            "xarray_area_def_to_table and xarray_dict_to_table "
+                            "db_writer families supported. Either reformat "
+                            "db_writer plugin as correct family, or add support "
+                            "for additional families in the procflow and "
+                            "databases interface."
+                        )
 
             process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
             num_jobs += 1
@@ -2337,12 +2436,7 @@ def call(fnames, command_line_args=None):
         LOG.info("Writing successful outputs to %s", output_file_list_fname)
         with open(output_file_list_fname, "w", encoding="utf8") as fobj:
             fobj.writelines(
-                "\n".join(
-                    [
-                        fname.replace(gpaths["GEOIPS_OUTDIRS"], "$GEOIPS_OUTDIRS")
-                        for fname in final_products
-                    ]
-                )
+                "\n".join([replace_geoips_paths(fname) for fname in final_products])
             )
             # If we don't write out the last newline, then wc won't return the
             # appropriate number, and we won't get to the last file when attempting to

@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """VIIRS NetCDF reader.
@@ -47,18 +47,20 @@ of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
 # Python Standard Libraries
+from collections import defaultdict
+from datetime import datetime
 import logging
 import os
 
-# Installed Libraries
+# Third-Party Libraries
 import numpy
 import pandas as pd
 import xarray as xr
 
-from geoips.utils.context_managers import import_optional_dependencies
-
-# GeoIPS Libraries
+# GeoIPS imports
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import get_indexes
+from geoips.utils.context_managers import import_optional_dependencies
+from geoips.errors import MissingRequiredXarrayMetadata
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
 # import. This reader will not work if the import fails, and the package will have to be
@@ -202,6 +204,7 @@ xvarnames = {
 interface = "readers"
 family = "standard"
 name = "viirs_netcdf"
+source_names = ["viirs"]
 
 
 def _get_geolocation_metadata(orig_shape, fnames, xarray):
@@ -331,9 +334,6 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from collections import defaultdict
-    from datetime import datetime
-
     # since fname is a LIST of input files, this reader needs additional adjustments to
     # read all files and put them into the XARRAY output (add one more array for
     # number of files)
@@ -428,6 +428,14 @@ def call(
             # xarrays[data_type].attrs['platform_name']  = 'jpss-1'
             # Attribute still lists JPSS-1, but operational satellite name is NOAA-20.
             xarrays[data_type].attrs["platform_name"] = "noaa-20"
+        if ncdf_file.platform == "JPSS-2":
+            # xarrays[data_type].attrs['platform_name']  = 'jpss-2'
+            # Attribute still lists JPSS-2, but operational satellite name is NOAA-21.
+            xarrays[data_type].attrs["platform_name"] = "noaa-21"
+        if "platform_name" not in xarrays[data_type].attrs:
+            raise MissingRequiredXarrayMetadata(
+                "Missing platform_name, ensure platform_name set in reader"
+            )
         xarrays[data_type].attrs["data_provider"] = "NASA"
         if os.path.basename(fname) not in xarrays[data_type].attrs["source_file_names"]:
             xarrays[data_type].attrs["source_file_names"] += [os.path.basename(fname)]
@@ -596,6 +604,15 @@ def call(
                 nparr_masked = numpy.ma.masked_greater(
                     ncvar[...], ncvar.valid_max * ncvar.scale_factor + ncvar.add_offset
                 )
+
+                # Gamma, Scale factor from old Vis product
+                from geoips.data_manipulations.corrections import (
+                    apply_gamma,
+                    apply_scale_factor,
+                )
+
+                nparr_masked = apply_gamma(nparr_masked, 1.5)
+                nparr_masked = apply_scale_factor(nparr_masked, 100)
 
                 add_to_xarray(
                     refvarname,

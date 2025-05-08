@@ -1,14 +1,9 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is protected under the license referenced at
+ | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-Contact
-*******
+About Us
+********
 
-contact geoips@nrlmry.navy.mil
-
-.. toctree::
-   :maxdepth: 2
-
-   aboutus
+You can contact us at geoips@us.navy.mil

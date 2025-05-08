@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Output Checkers interface module."""
@@ -81,8 +81,10 @@ def write_bad_comparisons_to_file(badcomps, compare_products, compare_strings, d
             "BADCOMPARES Commands to copy %d files that had bad comparisons",
             len(badcomps),
         )
-        LOG.info(f"  source {fname_badcptest}")
+        LOG.debug(f"  source {fname_badcptest}")
         LOG.interactive(f"  source {fname_cp}")
+        # Include print statement for easy copy/paste at the command line
+        print(f"***\nsource {fname_cp}\n***")
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "BADCOMPARES")
         with open(fname_cp, "a") as fobj:
@@ -165,6 +167,8 @@ def write_remove_temp_files_to_file(remove_temp_files, diffdir):
             len(remove_temp_files),
         )
         LOG.interactive(f"  source {fname_rmtemp}")
+        # Include print statement for easy copy/paste at the command line
+        print(f"***\nsource {fname_rmtemp}\n***")
         with open(fname_rmtemp, "a") as fobj:
             for remove_temp_file in remove_temp_files:
                 fobj.write(f"rm -v {remove_temp_file}\n")
@@ -217,10 +221,12 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
         Binary code: 0 if all comparisons were completed successfully, non-zero
         if there were missing products.
     """
-    for missingproduct in missingproducts:
-        LOG.warning(
-            "MISSINGPRODUCT no %s in output path from current run", missingproduct
-        )
+    # This should be in loop below
+    # for compareproduct in compare_products:
+    #     LOG.warning(
+    #         "MISSINGPRODUCT not in current run: %s",
+    #         basename(compareproduct),
+    #     )
     # If we have any missingproducts, loop through in order to write them to
     # file for manual removal from the test comparison directories.
     if len(missingproducts) > 0:
@@ -234,11 +240,13 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
             "incorrect files from test output path.",
             len(missingproducts),
         )
-        LOG.info("  source {0}".format(fname_missingprodcptest))
+        LOG.debug("  source {0}".format(fname_missingprodcptest))
         # If there are missing products, ensure the source command to
         # remove them from the comparison test outputs directory is
         # printed at the interactive log level
         LOG.interactive("  source {0}".format(fname_rm))
+        # Include print statement for easy copy/paste at the command line
+        print("***\nsource {0}\n***".format(fname_rm))
         test_path = join(diffdir, "MISSINGPRODUCTS")
         with open(fname_rm, "a") as fobj:
             # Now loop through each missing product to write them to the file
@@ -260,9 +268,21 @@ def write_missing_products_to_file(missingproducts, compare_products, diffdir):
                             "stored_comparison"
                         ]
                         fobj.write(f"  rm -v {comparison_filename}\n")
-                        LOG.interactive(f"    TEST OUTPUT: {comparison_filename}")
+                        LOG.debug(f"    TEST OUTPUT: {comparison_filename}")
+                        LOG.warning(
+                            "MISSINGPRODUCT not in current run: %s",
+                            basename(comparison_filename),
+                        )
                     else:
-                        LOG.interactive(f"    TEST OUTPUT: {file_for_comparison}")
+                        comparison_filename = compare_products[compare_product][
+                            "stored_comparison"
+                        ]
+                        fobj.write(f"  rm -v {comparison_filename}\n")
+                        LOG.debug(f"    TEST OUTPUT: {file_for_comparison}")
+                        LOG.warning(
+                            "MISSINGPRODUCT not in current run: %s",
+                            basename(comparison_filename),
+                        )
         # This is just for testing purposes - write out copy commands to
         # copy the missing product into a test location for easy review.
         with open(fname_missingprodcptest, "a") as fobj:
@@ -326,7 +346,7 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
         if there were missing comparisons.
     """
     for missingcompare in missingcomps:
-        LOG.warning("MISSINGCOMPARE no %s in comparepath", missingcompare)
+        LOG.warning("MISSINGCOMPARE not in comparepath: %s", basename(missingcompare))
     if len(missingcomps) > 0:
         fname_cp = join(diffdir, "cp_MISSINGCOMPARE.txt")
         fname_missingcompcptest = join(diffdir, "cptest_MISSINGCOMPARE.txt")
@@ -334,8 +354,10 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
             "MISSINGCOMPARE Commands to copy %d missing files to comparison path.",
             len(missingcomps),
         )
-        LOG.info("  source {0}".format(fname_missingcompcptest))
+        LOG.debug("  source {0}".format(fname_missingcompcptest))
         LOG.interactive("  source {0}".format(fname_cp))
+        # Include print statement for easy copy/paste at the command line
+        print("***\nsource {0}\n***".format(fname_cp))
         comparison_path = join(diffdir, "..")
         test_path = join(diffdir, "MISSINGCOMPARE")
         with open(fname_cp, "a") as fobj:
@@ -345,7 +367,7 @@ def write_missing_comparisons_to_file(missingcomps, diffdir):
                 # so they are just copied as is.  Developers must manually
                 # gzip before commiting if desired.
                 fobj.write(f"  cp -v {missingcomp} {comparison_path}\n")
-                LOG.interactive(f"    CURR OUTPUT: {missingcomp}")
+                LOG.debug(f"    CURR OUTPUT: {missingcomp}")
         with open(fname_missingcompcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
             for missingcomp in missingcomps:
@@ -409,7 +431,7 @@ def write_good_comparisons_to_file(goodcomps, compare_strings, diffdir):
         LOG.warning("GOODCOMPARE %s", goodcompare)
     if len(goodcomps) > 0:
         fname_goodcptest = join(diffdir, "cptest_GOODCOMPARE.txt")
-        LOG.info(f"source {fname_goodcptest}")
+        LOG.debug(f"source {fname_goodcptest}")
         test_path = join(diffdir, "GOODCOMPARE")
         with open(fname_goodcptest, "a") as fobj:
             fobj.write(f"mkdir {test_path}\n")
@@ -751,9 +773,7 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
                 )
                 remove_temp_files += [output_product_for_comparison]
 
-            log_with_emphasis(
-                LOG.info, f"COMPARE {basename(output_product_for_comparison)}"
-            )
+            log_with_emphasis(LOG.info, f"COMPARE {output_product_for_comparison}")
             found_one = False
             for compare_product in compare_products:
                 file_for_comparison = compare_products[basename(compare_product)][
@@ -1011,9 +1031,23 @@ class OutputCheckersInterface(BaseModuleInterface):
             raise TypeError("There isn't an output checker built for this data type.")
         return checker_name
 
-    def get_plugin(self, name):
-        """Return the output checker plugin corresponding to checker_name."""
-        plug = super().get_plugin(name)
+    def get_plugin(self, name, rebuild_registries=None):
+        """Return the output checker plugin corresponding to checker_name.
+
+        Parameters
+        ----------
+        name : str
+            - The name the desired plugin.
+        rebuild_registries: bool (default=None)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
+        """
+        plug = super().get_plugin(name, rebuild_registries)
         if self.valid_plugin(plug):
             return plug
 

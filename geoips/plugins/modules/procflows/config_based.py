@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Processing workflow for config-based processing."""
@@ -10,6 +10,7 @@ from os.path import exists
 from os.path import basename
 from os import getpid
 from datetime import datetime
+from pyaml_env import parse_config
 
 from geoips.commandline.args import check_command_line_args
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -68,7 +69,7 @@ from geoips.plugins.modules.procflows.single_source import (
 )
 
 # Moved to top-level errors module, fixing issue #67
-from geoips.errors import CoverageError
+from geoips.errors import CoverageError, PluginError
 
 PMW_NUM_PIXELS_X = 1400
 PMW_NUM_PIXELS_Y = 1400
@@ -452,6 +453,7 @@ def process_unsectored_data_outputs(
     variables,
     command_line_args=None,
     write_to_product_db=False,
+    config_dict=None,
 ):
     """Process unsectored data output.
 
@@ -542,6 +544,7 @@ def process_unsectored_data_outputs(
                                     available_sectors_dict,
                                     output_dict,
                                     geoips_version,
+                                    config_dict=config_dict,
                                 )
                                 final_products[cpath]["database writes"] += [
                                     product_added
@@ -643,9 +646,10 @@ def get_config_dict(config_yaml_file):
     #     config_dict = yaml.safe_load(f)
     # return config_dict
     # This allows environment variables specified by !ENV ${ENVVARNAME}
-    from pyaml_env import parse_config
+    config_dict = parse_config(config_yaml_file)
+    config_dict["procflow_config_file"] = config_yaml_file
 
-    return parse_config(config_yaml_file)
+    return config_dict
 
 
 def get_variables_from_available_outputs_dict(
@@ -755,6 +759,23 @@ def get_area_defs_from_available_sectors(
         # Double check if tcdb should be set to false
         if sector_dict.get("trackfiles"):
             sector_dict["tcdb"] = False
+
+        # Check if sector_list specified under YAML output config file is a list or a
+        # dictionary. If sector_list is a list, static sectors are enabled for all
+        # platforms that use the output config YAML. If sector_list is a dictionary,
+        # each key is a platform name that holds a list of static sectors to be
+        # processed for said platform. If sector_list is a dictionary, and the platform
+        # name is not a key, warning is raised and sector_list is set as an empty list.
+        if sector_dict.get("sector_list") and isinstance(
+            sector_dict.get("sector_list"), dict
+        ):
+            try:
+                sector_dict["sector_list"] = sector_dict["sector_list"][
+                    xobjs["METADATA"].platform_name
+                ]
+            except KeyError as resp:
+                LOG.warning("%s MISSING PLATFORM NAME", resp)
+                sector_dict["sector_list"] = []
 
         # This is the standard "get_area_defs_from_command_line_args", YAML config
         # specified sector information matches the command line specified sector
@@ -968,7 +989,16 @@ def call(fnames, command_line_args=None):
         for sector, database_writer in command_line_args[
             "product_db_writer_override"
         ].items():
-            config_dict["available_sectors"][sector] = database_writer
+            sector_settings = config_dict["available_sectors"][sector]
+            if database_writer.get("product_database_writer"):
+                sector_settings["product_database_writer"] = database_writer[
+                    "product_database_writer"
+                ]
+            if database_writer.get("product_database_writer_kwargs"):
+                for key, val in database_writer[
+                    "product_database_writer_kwargs"
+                ].items():
+                    sector_settings["product_database_writer_kwargs"][key] = val
 
     if command_line_args.get("composite_output_kwargs_override"):
         for sector_output, kwargs in command_line_args[
@@ -1046,6 +1076,7 @@ def call(fnames, command_line_args=None):
         variables,
         command_line_args,
         write_to_product_db=product_db,
+        config_dict=config_dict,
     )
     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
 
@@ -1072,11 +1103,28 @@ def call(fnames, command_line_args=None):
         sector_type_num = 0
         for sector_type in area_defs[area_def_id]:
             sector_type_num = sector_type_num + 1
-
-            curr_variables = get_variables_from_available_outputs_dict(
-                config_dict["outputs"], source_name, sector_types=[sector_type]
-            )
-
+            # Rather than solely relying on the metadata to obtain the source_name,
+            # check the source name for all datasets. We cannot guarantee the
+            # source_name in the METADATA is the end-all-be-all. Use the first product
+            # plugin that we find.
+            # This should really only be toggled if we expect this to be the case, or
+            # maybe change source_name to source_names in the standard GeoIPS attrs.
+            # If going with the toggle solution, perhaps this would be triggered if
+            # METADATA.source_name == multi, or something along those lines.
+            all_source_names = [x.source_name for x in xobjs.values()]
+            for src_nm in set(all_source_names):
+                try:
+                    curr_variables = get_variables_from_available_outputs_dict(
+                        config_dict["outputs"], src_nm, sector_types=[sector_type]
+                    )
+                    break
+                except PluginError as e:
+                    LOG.warn(e)
+                    continue
+            else:
+                raise PluginError(
+                    f"Plugin doesn't exist under source names" f"{all_source_names}"
+                )
             if not curr_variables:
                 LOG.info("No input variables for sector type: %s", sector_type)
                 continue
@@ -1486,13 +1534,33 @@ def call(fnames, command_line_args=None):
                 LOG.info("\n\n\n\narea definition: %s", area_def)
 
                 product_num = 0
+                all_source_names = [x.source_name for x in pad_sect_xarrays.values()]
                 for product_name in output_dict["product_names"]:
                     product_num = product_num + 1
-                    prod_plugin = products.get_plugin(
-                        pad_sect_xarrays["METADATA"].source_name,
-                        product_name,
-                        output_dict.get("product_spec_override"),
-                    )
+                    for source_name in set(all_source_names):
+                        # Rather than solely relying on the metadata to obtain the
+                        # source_name, check the source name for all datasets.
+                        # We cannot guarantee the source_name in the METADATA is the
+                        # end-all-be-all. Use the first product plugin that we find.
+                        # This should really only be toggled if we expect this to be
+                        # the case, or maybe change source_name to source_names in the
+                        # standard GeoIPS attrs. If going with the toggle solution,
+                        # perhaps this would be triggered if
+                        # METADATA.source_name == multi, or something along those lines
+                        try:
+                            prod_plugin = products.get_plugin(
+                                source_name,
+                                product_name,
+                                output_dict.get("product_spec_override"),
+                            )
+                            break
+                        except PluginError:
+                            continue
+                    else:
+                        raise PluginError(
+                            f"Plugin [{product_name}] doesn't exist under source names"
+                            "{all_source_names}"
+                        )
                     LOG.info("\n\n\n\nAll area_def_ids: %s", area_defs.keys())
                     LOG.info(
                         "\n\n\n\nAll sector_types: %s", area_defs[area_def_id].keys()
@@ -1578,6 +1646,7 @@ def call(fnames, command_line_args=None):
                                     output_dict,
                                     geoips_version,
                                     area_def=area_def,
+                                    config_dict=config_dict,
                                 )
                                 if product_added is not None:
                                     final_products[cpath]["database writes"] += [
@@ -1744,6 +1813,11 @@ def call(fnames, command_line_args=None):
                         continue
                     composite_kwargs = output_dict.get("composite_kwargs", {})
                     if composite_kwargs.get("composite_products"):
+                        if not product_db:
+                            LOG.interactive(
+                                "Product database disabled, cannot create composite"
+                            )
+                            continue
                         from geoips.utils.composite import find_preproc_alg_files
 
                         # Required kwargs for generating composite
@@ -1759,8 +1833,17 @@ def call(fnames, command_line_args=None):
                         db_kwargs = config_dict["available_sectors"][sector_type].get(
                             "product_database_writer_kwargs", {}
                         )
-                        db_schemas = db_kwargs.get("schema_name")
-                        db_tables = db_kwargs.get("table_name")
+                        # Default schema and tables
+                        db_schema = db_kwargs.get("schema_name")
+                        db_table = db_kwargs.get("table_name")
+                        # Check to see if products should be queried from other schema
+                        # and/or tables - fall back to defaults if not specified.
+                        query_schema = comp_settings.get(
+                            "database_query_schema", db_schema
+                        )
+                        query_table = comp_settings.get(
+                            "database_query_table", db_table
+                        )
 
                         preproc_files = find_preproc_alg_files(
                             product_time=alg_xarray.start_datetime,
@@ -1772,8 +1855,8 @@ def call(fnames, command_line_args=None):
                             file_format=comp_file_format,
                             product_db=product_db,
                             db_query_plugin=db_query_plugin,
-                            db_schemas=db_schemas,
-                            db_tables=db_tables,
+                            db_schemas=[query_schema],
+                            db_tables=[query_table],
                         )
                         if preproc_files:
                             pre_proc = reader(preproc_files)
@@ -1837,6 +1920,7 @@ def call(fnames, command_line_args=None):
                                 geoips_version,
                                 coverage=covg,
                                 area_def=area_def,
+                                config_dict=config_dict,
                             )
                             if product_added is not None:
                                 final_products[cpath]["database writes"] += [
@@ -1930,9 +2014,7 @@ def call(fnames, command_line_args=None):
                     fobj.writelines(
                         "\n".join(
                             [
-                                fname.replace(
-                                    gpaths["GEOIPS_OUTDIRS"], "$GEOIPS_OUTDIRS"
-                                )
+                                replace_geoips_paths(fname)
                                 for fname in final_products[cpath]["files"]
                             ]
                         )

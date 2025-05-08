@@ -10,6 +10,7 @@ else
     GEOIPS_CONDA_DIR=$GEOIPS_DEPENDENCIES_DIR/miniconda3
 fi
 
+# DO NOT set PATH in here. Ever.
 if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
     # >>> conda initialize >>>
     # !! Contents within this block are managed by 'conda init' !!
@@ -19,21 +20,17 @@ if [[ -f $GEOIPS_CONDA_DIR/bin/conda ]]; then
     else
         if [ -f "$GEOIPS_CONDA_DIR/etc/profile.d/conda.sh" ]; then
             . "$GEOIPS_CONDA_DIR/etc/profile.d/conda.sh"
-        else
-            export PATH="$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin:$PATH"
+        elif [ -f "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/mamba.sh" ]; then
+            . "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/mamba.sh"
         fi
     fi
     unset __conda_setup
     # <<< conda initialize <<<
 fi
 
-export PATH="$GEOIPS_DEPENDENCIES_DIR/miniconda3/bin:$PATH"
 whichconda=`which conda 2> /dev/null`
 if [[ "$whichconda" != "" ]]; then
     if conda env list | grep -q --regex '^geoips_conda'; then
         eval "$(conda shell.bash activate geoips_conda)"
     fi
-fi
-if [ -f "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/mamba.sh" ]; then
-    . "$GEOIPS_DEPENDENCIES_DIR/miniconda3/etc/profile.d/mamba.sh"
 fi

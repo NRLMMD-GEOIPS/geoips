@@ -2,6 +2,13 @@ interface: products
 family: list
 name: ssmis
 docstring: |
+  Special Sensor Microwave Imager/Sounder. From the Department of Defense (DoD), SSMIS has a swath of 1707 km and the spatial resolution 
+  varies with frequency; highest resolution is 25km x 17km and lowest is 70km x 42km. SSMIS passes the same location twice a day and uses conical scan.
+
+  Used on: 
+  F16/F17/F18: Launched by the Defense Meteorological Satellite Program (DMSP) at altitudes of 848 km (F16 & F17) and 850 km (F18). 
+  The satellites have an orbital period of 101 minutes and an orbital inclination of 98.9°.
+
   The ssmis product_inputs configuration, which produces color37, 37pct, color91, 91pct, 91H, 91V, 91HW, 91H-Physical, 91H-Legacy,
   150H, 183-1H, 183-3H, 183-7H, 190V, 19H, 19V, 37H-Legacy, 37H-Physical, 37H, and 37V products.
 spec:

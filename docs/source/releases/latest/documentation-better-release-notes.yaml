@@ -1,7 +1,0 @@
-documentation:
-- description: |
-    Added summaries to the minor releases in the docs to make searching for a specific
-    change easier.
-  title: 'Add top level descriptions to minor releases'
-  files:
-    modified: ["docs/source/releases/index.rst"]

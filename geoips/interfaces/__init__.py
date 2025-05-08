@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS interface module."""
@@ -19,6 +19,7 @@ from geoips.interfaces.module_based.algorithms import algorithms
 from geoips.interfaces.module_based.colormappers import colormappers
 from geoips.interfaces.module_based.output_checkers import output_checkers
 from geoips.interfaces.module_based.coverage_checkers import coverage_checkers
+from geoips.interfaces.module_based.databases import databases
 from geoips.interfaces.module_based.filename_formatters import filename_formatters
 from geoips.interfaces.module_based.interpolators import interpolators
 from geoips.interfaces.module_based.output_formatters import (
@@ -48,6 +49,7 @@ from geoips.interfaces.yaml_based.gridline_annotators import (
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
 from geoips.interfaces.yaml_based.products import products
 from geoips.interfaces.yaml_based.sectors import sectors
+from geoips.interfaces.yaml_based.workflows import workflows
 
 # These lists are the "master" lists of the interface names.
 # These are used in validating the plugins (ie, so we will catch a typo
@@ -56,6 +58,7 @@ module_based_interfaces = [
     "algorithms",
     "colormappers",
     "coverage_checkers",
+    "databases",
     "filename_formatters",
     "interpolators",
     "output_checkers",
@@ -73,6 +76,7 @@ yaml_based_interfaces = [
     "product_defaults",
     "products",
     "sectors",
+    "workflows",
 ]
 # Note due to the fact that we are including all of the imported packages
 # in __all__ via variables rather than the actual strings, flake8 does

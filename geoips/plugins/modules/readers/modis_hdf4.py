@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """MODIS HDF4 reader.
@@ -21,14 +21,15 @@ The MOD03 and MOD14 files have the geolocation (lat/lon) and sensor geoometry
 infomation, while other files have values at each channels.
 """
 # Python Standard Libraries
-from os.path import basename
+from datetime import datetime
 import logging
+from os.path import basename
 
-
-# Installed Libraries
+# Third-Party Libraries
 import numpy as np
 import xarray as xr
 
+# GeoIPS imports
 from geoips.utils.context_managers import import_optional_dependencies
 
 LOG = logging.getLogger(__name__)
@@ -44,6 +45,7 @@ LOG.info("info on imported functions")
 interface = "readers"
 family = "standard"
 name = "modis_hdf4"
+source_names = ["modis"]
 
 # define functions
 
@@ -259,10 +261,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         ],
     }
     # @staticmethod
-
-    from datetime import datetime
-    import numpy as np
-    import xarray as xr
 
     # from pyhdf.SD import SD, SDC
     # from pyhdf.SD import *

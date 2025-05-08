@@ -1,0 +1,23 @@
+interface: feature_annotators
+name: default_oldlace
+family: cartopy
+docstring: |
+  The default_oldlace feature_annotators plugin.
+  All line types enabled. All colored red. 2px coastlines, 1px countries, 0.5px states
+  borders, and 0px rivers. oldlace background color.
+spec:
+  coastline:
+    enabled: true
+    edgecolor: red
+    linewidth: 2
+  borders:
+    enabled: true
+    edgecolor: red
+    linewidth: 1
+  states:
+    enabled: true
+    edgecolor: red
+    linewidth: 0.5
+  rivers:
+    enabled: false
+  background: oldlace

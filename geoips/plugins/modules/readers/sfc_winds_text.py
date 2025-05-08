@@ -1,9 +1,14 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR text data."""
 
+# Python Standard Libraries
 import logging
+
+# Third-Party Libraries
+import numpy
+import pandas
 
 LOG = logging.getLogger(__name__)
 
@@ -12,6 +17,7 @@ MS_TO_KTS = 1.94384
 interface = "readers"
 family = "standard"
 name = "sfc_winds_text"
+source_names = ["sar-spd", "smap-spd", "smos-spd", "amsr2"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -57,8 +63,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             "Please call with a single file."
         )
     fname = fnames[0]
-    import numpy
-    import pandas
 
     LOG.info("Reading file %s", fname)
     data = numpy.loadtxt(fname, dtype=str, skiprows=0)

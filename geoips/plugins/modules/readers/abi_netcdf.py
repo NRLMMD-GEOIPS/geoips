@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
@@ -8,10 +8,13 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
+
+# Third-Party Libraries
 import numpy as np
-
 from scipy.ndimage import zoom
+import xarray
 
+from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     get_geolocation_cache_filename,
@@ -26,17 +29,17 @@ LOG = logging.getLogger(__name__)
 # Installed Libraries
 
 with import_optional_dependencies(loglevel="info"):
-    """Attempt to import a package and print to LOG.info if the import fails."""
-    # If this reader is not installed on the system, don't fail alltogether, just skip
-    # this import.  This reader will not work if the import fails and the package will
-    # have to be installed to process data of this type.
+    """Attempt to import a package & print to LOG.info if the import fails."""
+    # If this reader is not installed on the system, don't fail alltogether,
+    # just skip this import. This reader will not work if the import fails
+    # and the package will have to be installed to process data of this type.
     import netCDF4 as ncdf
     import numexpr as ne
 
 interface = "readers"
 family = "standard"
 name = "abi_netcdf"
-
+source_names = ["abi"]
 
 nprocs = 6
 
@@ -266,6 +269,9 @@ def _get_variable_metadata(df):
             metadata[name] = df.variables[name][...]
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
+            if name in ["x", "y"]:
+                metadata[f"{name}_add_offset"] = df.variables[name].add_offset
+                metadata[f"{name}_scale_factor"] = df.variables[name].scale_factor
         except KeyError:
             LOG.info("Warning! Variable-level metadata field missing: {0}".format(name))
     metadata["num_lines"] = metadata["y"].size
@@ -539,6 +545,52 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+    )
+
+
+def call_single_time(
+    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+):
+    """
+    Read ABI NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
     gvars = {}
     datavars = {}
     standard_metadata = {}
@@ -575,7 +627,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(ncdf.Dataset(str(fname), "r"), fname)
+            with ncdf.Dataset(str(fname), "r") as df:
+                all_metadata[fname] = _get_metadata(df, fname)
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             continue
@@ -591,7 +644,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # required size.
     # Dict structure is channel{metadata}
     file_info = {}
-    import xarray
 
     xarray_obj = xarray.Dataset()
     for md in all_metadata.values():
@@ -629,6 +681,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_obj.attrs["end_datetime"] = edt
     xarray_obj.attrs["source_name"] = "abi"
     xarray_obj.attrs["data_provider"] = "noaa"
+    xarray_obj.attrs["source_file_names"] = [
+        os.path.basename(fname) for fname in fnames
+    ]
 
     # G16 -> goes-16
     xarray_obj.attrs["platform_name"] = highest_md["file_info"]["platform_ID"].replace(
@@ -860,9 +915,16 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # Remove lines and samples arrays.  Not needed.
     for res in gvars.keys():
         try:
+            LOG.info(f"Popping Lines and samples for {res}")
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
+        except KeyError:
+            LOG.info(f"Did not find Lines and Samples to pop for {res}")
+            pass
+        try:
+            LOG.info(f"Masking greater than 75 degrees sat zenith angle for {res}")
             for varname, var in gvars[res].items():
+                LOG.info(f"Masking {varname} greater than 75 degrees sat zenith angle")
                 gvars[res][varname] = np.ma.array(
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
@@ -870,6 +932,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                     gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
                 )
         except KeyError:
+            LOG.info(f"Did not find satellite zenith angle to mask for {res}")
             pass
     for ds in datavars.keys():
         if not datavars[ds]:
@@ -885,16 +948,18 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
 
         roi = 500
+        roi_factor = 5
         if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
             roi = max(
                 xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
             )
             LOG.info("Trying area_def roi %s", roi)
         for curr_res in standard_metadata.keys():
-            if standard_metadata[curr_res]["res_km"] * 1000.0 > roi:
-                roi = standard_metadata[curr_res]["res_km"] * 1000.0
+            if standard_metadata[curr_res]["res_km"] * 1000.0 * roi_factor > roi:
+                roi = standard_metadata[curr_res]["res_km"] * 1000.0 * roi_factor
                 LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
         xobj.attrs["interpolation_radius_of_influence"] = roi
+        LOG.info(f"Using roi {roi}")
         xarray_objs[dsname] = xobj
         # At some point we may need to deconflict, but for now just use any of the
         # dataset attributes as the METADATA dataset
@@ -932,9 +997,6 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
     else:
         full_disk = True
 
-    # Open the data file for reading
-    df = ncdf.Dataset(md["path"], "r")
-
     band_num = md["var_info"]["band_id"]
 
     # Read radiance data for channel
@@ -942,81 +1004,83 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
     # It is very slow and creates memory errors if there are too many.
     # Have to read ALL of the data, then subset.
     # Need to find a solution for this.
-    if not full_disk:
-        rad_data = np.float64(df.variables["Rad"][...][line_inds, sample_inds])
-        qf = df.variables["DQF"][...][line_inds, sample_inds]
-    else:
-        # Here we need to determine which indexes to read based on the size of the
-        # input geolocation data.  We assume that the geolocation data and the variable
-        # data cover the same domain, just at a different resolution.
-        geoloc_shape = np.array(gvars["solar_zenith_angle"].shape, dtype=np.float64)
-        data_shape = np.array(df.variables["Rad"].shape, dtype=np.float64)
-        # If the geolocation shape matches the data shape, just read the data
-        if np.all(geoloc_shape == data_shape):
-            rad_data = np.float64(df.variables["Rad"][...])
-            qf = df.variables["DQF"][...]
-        # Upscaling data to match geolocation shape
-        elif np.all(np.maximum(geoloc_shape, data_shape) == geoloc_shape):
-            # Data shape is smaller, so it is the denominator
-            zoom_factor, remainder = np.divmod(geoloc_shape, data_shape)
-            # Ensure that all elements of the zoom factor are whole numbers
-            if np.any(remainder):
-                raise ValueError(
-                    "Zoom factor is not a whole number.  "
-                    "This section of code needs to be reexamined."
-                )
-            # Ensure that all elements of the zoom factor are equal
-            if not np.all(zoom_factor == zoom_factor[0]):
-                raise ValueError(
-                    "Zoom factor must be equal for both dimensions.  "
-                    "This section of code needs to be reexamined."
-                )
-            # Perform the actual zoom
-            zoom_factor = zoom_factor.astype(np.int)
-            rad_data = zoom(
-                np.float64(df.variables["Rad"][...]), zoom_factor[0], order=0
-            )
-            qf = zoom(df.variables["DQF"][...], zoom_factor[0], order=0)
-        # Downscaling data to match geolocation shape
-        elif np.all(np.maximum(geoloc_shape, data_shape) == data_shape):
-            # Geoloc shape is smaller, so it is the denominator
-            zoom_factor, remainder = np.divmod(data_shape, geoloc_shape)
-            # Ensure that all elements of the zoom factor are whole numbers
-            if np.any(remainder):
-                raise ValueError(
-                    "Zoom factor is not a whole number.  "
-                    "This section of code needs to be reexamined."
-                )
-            # Ensure that all elements of the zoom factor are equal
-            if not np.all(zoom_factor == zoom_factor[0]):
-                raise ValueError(
-                    "Zoom factor must be equal for both dimensions.  "
-                    "This section of code needs to be reexamined."
-                )
-            # Perform the actual subsampling
-            LOG.info("Before zoom")
-            zoom_factor = zoom_factor.astype(np.int)
-
-            # NOTE: Strides are broken for netCDF4 library version < 4.6.2.
-            #       At present, the most recent stable release is 4.6.1.
-            #       Once 4.6.2 is released, this should be retested.
-            #       See https://github.com/Unidata/netcdf4-python/issues/680
-
-            rad_data = np.float64(
-                df.variables["Rad"][...][:: zoom_factor[0], :: zoom_factor[0]]
-            )
-            qf = df.variables["DQF"][...][:: zoom_factor[0], :: zoom_factor[0]]
-            # rad_data = np.float64(
-            #     df.variables['Rad'][::zoom_factor[0], ::zoom_factor[0]]
-            # )
-            # qf = df.variables['DQF'][::zoom_factor[0], ::zoom_factor[0]]
-            LOG.info("After zoom")
+    # Use with to open the data file for reading and automatically close once complete
+    with ncdf.Dataset(md["path"], "r") as df:
+        if not full_disk:
+            rad_data = np.float64(df.variables["Rad"][...][line_inds, sample_inds])
+            qf = df.variables["DQF"][...][line_inds, sample_inds]
         else:
-            raise ValueError(
-                "Zoom factor cannot be computed.  "
-                "All either both dimensions of geolocation data must be "
-                "larger than the data dimensions or vice versa."
-            )
+            # Here we need to determine which indexes to read based on the size of the
+            # input geolocation data.  We assume that the geolocation data and the
+            # variable data cover the same domain, just at a different resolution.
+            geoloc_shape = np.array(gvars["solar_zenith_angle"].shape, dtype=np.float64)
+            data_shape = np.array(df.variables["Rad"].shape, dtype=np.float64)
+            # If the geolocation shape matches the data shape, just read the data
+            if np.all(geoloc_shape == data_shape):
+                rad_data = np.float64(df.variables["Rad"][...])
+                qf = df.variables["DQF"][...]
+            # Upscaling data to match geolocation shape
+            elif np.all(np.maximum(geoloc_shape, data_shape) == geoloc_shape):
+                # Data shape is smaller, so it is the denominator
+                zoom_factor, remainder = np.divmod(geoloc_shape, data_shape)
+                # Ensure that all elements of the zoom factor are whole numbers
+                if np.any(remainder):
+                    raise ValueError(
+                        "Zoom factor is not a whole number.  "
+                        "This section of code needs to be reexamined."
+                    )
+                # Ensure that all elements of the zoom factor are equal
+                if not np.all(zoom_factor == zoom_factor[0]):
+                    raise ValueError(
+                        "Zoom factor must be equal for both dimensions.  "
+                        "This section of code needs to be reexamined."
+                    )
+                # Perform the actual zoom
+                zoom_factor = zoom_factor.astype(np.int)
+                rad_data = zoom(
+                    np.float64(df.variables["Rad"][...]), zoom_factor[0], order=0
+                )
+                qf = zoom(df.variables["DQF"][...], zoom_factor[0], order=0)
+            # Downscaling data to match geolocation shape
+            elif np.all(np.maximum(geoloc_shape, data_shape) == data_shape):
+                # Geoloc shape is smaller, so it is the denominator
+                zoom_factor, remainder = np.divmod(data_shape, geoloc_shape)
+                # Ensure that all elements of the zoom factor are whole numbers
+                if np.any(remainder):
+                    raise ValueError(
+                        "Zoom factor is not a whole number.  "
+                        "This section of code needs to be reexamined."
+                    )
+                # Ensure that all elements of the zoom factor are equal
+                if not np.all(zoom_factor == zoom_factor[0]):
+                    raise ValueError(
+                        "Zoom factor must be equal for both dimensions.  "
+                        "This section of code needs to be reexamined."
+                    )
+                # Perform the actual subsampling
+                LOG.info("Before zoom")
+                zoom_factor = zoom_factor.astype(np.int)
+
+                # NOTE: Strides are broken for netCDF4 library version < 4.6.2.
+                #       At present, the most recent stable release is 4.6.1.
+                #       Once 4.6.2 is released, this should be retested.
+                #       See https://github.com/Unidata/netcdf4-python/issues/680
+
+                rad_data = np.float64(
+                    df.variables["Rad"][...][:: zoom_factor[0], :: zoom_factor[0]]
+                )
+                qf = df.variables["DQF"][...][:: zoom_factor[0], :: zoom_factor[0]]
+                # rad_data = np.float64(
+                #     df.variables['Rad'][::zoom_factor[0], ::zoom_factor[0]]
+                # )
+                # qf = df.variables['DQF'][::zoom_factor[0], ::zoom_factor[0]]
+                LOG.info("After zoom")
+            else:
+                raise ValueError(
+                    "Zoom factor cannot be computed.  "
+                    "All either both dimensions of geolocation data must be "
+                    "larger than the data dimensions or vice versa."
+                )
 
     data = {"Rad": rad_data}
     # Originally was using -1, but this is a uint8 and set to 255 for off of disk

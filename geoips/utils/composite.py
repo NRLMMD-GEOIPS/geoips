@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Utilities for swath compositing in GeoIPS."""
@@ -6,10 +6,7 @@
 import isodate
 from datetime import timedelta
 
-try:
-    from geoips_db.interfaces import databases
-except ImportError:
-    pass
+from geoips.interfaces import databases
 
 
 def find_preproc_alg_files(

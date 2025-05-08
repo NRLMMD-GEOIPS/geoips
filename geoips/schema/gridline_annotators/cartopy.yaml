@@ -51,6 +51,98 @@ properties:
             type: boolean
           right:
             type: boolean
+          # The inverse percentage of which the text is transparent. 1 is solid and 0
+          # is completely transparent
+          alpha:
+            type: number
+          # Background color for the frame surrounding the label. Must be either a
+          # matplotlib named color or a hexadecimal color string.
+          backgroundcolor:
+            type: string
+          # Color for the label. Must be either a matplotlib named color or a
+          # hexadecimal color string.
+          color:
+            type: string
+          # The family of the font to apply to the labels. If not provided, it will be
+          # the default font that matplotlib uses. Otherwise, it should be a family
+          # supported by 'matplotlib.font_manager.get_font_names()'.
+          fontfamily:
+            type: string
+          # float or {'xx-small', 'x-small', 'small', 'medium', 'large', 'x-large',
+          # 'xx-large'}. Defaults to matplotlib.pyplot.rcParams['font.size']
+          fontsize:
+            anyOf: [
+              type: number,
+              type: string,
+            ]
+          # a numberic value in range 0-1000 or {'ultra-condensed', 'extra-condensed',
+          # 'condensed', 'semi-condensed', 'normal', 'semi-expanded', 'expanded',
+          # 'extra-expanded', 'ultra-expanded'}. Defaults to
+          # matplotlib.pyplot.rcParams['font.stretch']
+          fontstretch:
+            anyOf: [
+              type: integer,
+              type: string,
+            ]
+          # The style of the font to output. Defaults to normal, but can be either
+          # 'italic', 'normal', or 'oblique'.
+          fontstyle:
+            type: string
+          # The variant of the font to output. Defaults to normal, but can be
+          # 'small-caps'.
+          fontvariant:
+            type: string
+          # {a numeric value in range 0-1000, 'ultralight', 'light', 'normal',
+          # 'regular', 'book', 'medium', 'roman', 'semibold', 'demibold', 'demi',
+          # 'bold', 'heavy', 'extra bold', 'black'}
+          fontweight:
+            anyOf: [
+              type: integer,
+              type: string,
+            ]
+          # The linespacing between labels. Defaults to 1.2.
+          linespacing:
+            type: number
+          # Whether or not we want a mouseover effect for the labels. Defaults to false.
+          mouseover:
+            type: boolean
+          # The absolute (x, y) position of the label. If Null, this is generated at
+          # runtime based on the specs of the figure.
+          position:
+            type: array
+          # The rotation of the label. Float (horizontal = 0, vertical = 90), or
+          # {'vertical', 'horizontal'}. Default vertical.
+          rotation:
+            anyof: [
+              type: number,
+              type: string,
+            ]
+          # The mode in which we rotate the labels. Defaults to 'default', which
+          # rotates, then aligns the label. If 'anchor', align the label, then rotate.
+          rotation_mode:
+            type: string
+          # Snapping Behavior. If ture, snapping will align the positions of the label
+          # with the pixel grid, which results in a clearer image. Default is false.
+          snap:
+            type: boolean
+          # Boolean. Whether or not we will allow wrapping of the text in the label.
+          # Default is false.
+          wrap:
+            type: boolean
+          # The order in which elemenets are drawn. The lower the zorder value, the
+          # earlier the element will be drawn.
+          zorder:
+            type: number
+          # The amount of pixels to offset the x-axis (usually longitude) labels for
+          # imagery. If negative, this will shift the labels inside the map-portion of
+          # the imagery.
+          xpadding:
+            type: integer
+          # The amount of pixels to offset the y-axis (usually latitude) labels for
+          # imagery. If negative, this will shift the labels inside the map-portion of
+          # the imagery.
+          ypadding:
+            type: integer
       lines:
         type: object
         required:
@@ -69,3 +161,7 @@ properties:
               type: integer
           linewidth:
             type: number
+      # Background color for the frame surrounding the annotated image. Must be either a
+      # matplotlib named color or a hexadecimal color string.
+      background:
+        type: string

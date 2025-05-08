@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Utilities for creating a database of tropical cyclone tracks."""
@@ -70,7 +70,11 @@ def check_db(filenames=None, process=False):
     # We might want to rearrange this so we don't open up every file...
     # Check timestamps first.
     for filename in filenames:
-        updated_files += update_fields(filename, cc, conn, process=process)
+        try:
+            updated_files += update_fields(filename, cc, conn, process=process)
+        except IndexError:
+            LOG.warning("Failed parsing %s", filename)
+            continue
 
     cc.execute("SELECT * FROM tc_trackfiles")
     # data = cc.fetchall()
@@ -96,10 +100,19 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
 
     # Check if we match Gxxdddddd.dat filename format.
     # If not just return and don't do anything.
-    if not re.compile(r"G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
-        pathbasename(tc_trackfilename)
-    ) and not re.compile(r"G\D\D\d\d\d\d\d\d\.dat").match(
-        pathbasename(tc_trackfilename)
+    if (
+        not re.compile(r"G\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
+            pathbasename(tc_trackfilename)
+        )
+        and not re.compile(r"G\D\D\d\d\d\d\d\d\.dat").match(
+            pathbasename(tc_trackfilename)
+        )
+        and not re.compile(r"b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
+            pathbasename(tc_trackfilename)
+        )
+        and not re.compile(r"b\D\D\d\d\d\d\d\d\.dat").match(
+            pathbasename(tc_trackfilename)
+        )
     ):
         LOG.info("")
         LOG.warning(
@@ -116,13 +129,17 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     # Check if timestamp on file is newer than timestamp in database -
     # if not, just return and don't do anything.
     if data:
-        database_timestamp = datetime.strptime(
-            cc.execute(
-                "SELECT last_updated from tc_trackfiles WHERE filename = ?",
-                (tc_trackfilename,),
-            ).fetchone()[0],
-            "%Y-%m-%d %H:%M:%S.%f",
-        )
+        try:
+            database_timestamp = datetime.strptime(
+                cc.execute(
+                    "SELECT last_updated from tc_trackfiles WHERE filename = ?",
+                    (tc_trackfilename,),
+                ).fetchone()[0],
+                "%Y-%m-%d %H:%M:%S.%f",
+            )
+        except ValueError as resp:
+            LOG.exception(f"Failed on {tc_trackfilename}")
+            raise (ValueError(f"FAILED ON {tc_trackfilename}: {resp}"))
         if file_timestamp < database_timestamp:
             LOG.info("")
             LOG.interactive(
@@ -133,6 +150,9 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             return []
 
     lines = open(tc_trackfilename, "r").readlines()
+    # Remove any whitespace from the loaded deck file lines - otherwise will fail
+    # parsing datetime information downstream
+    lines = [x.replace(" ", "") for x in lines]
     start_line = lines[0].split(",")
     # Start 24h prior to start in sectorfile, for initial processing
     # storm_start_datetime = datetime.strptime(start_line[2],'%Y%m%d%H')
@@ -228,14 +248,30 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
         conn.commit()
         return updated_files
 
-    start_lat = start_line[6]
-    start_lon = start_line[7]
+    start_lat = start_line[6].replace("N", "")
+    if "S" in start_lat:
+        start_lat = "-" + start_lat.replace("S", "")
+    start_lon = start_line[7].replace("E", "")
+    if "W" in start_lon:
+        start_lon = "-" + start_lon.replace("W", "")
     storm_basin = start_line[0]
     storm_num = start_line[1]
-    try:
-        start_name = start_line[48] + start_line[49]
-    except IndexError:
-        start_name = start_line[41]
+    if re.compile(r"b\D\D\d\d\d\d\d\d\.dat").match(
+        pathbasename(tc_trackfilename)
+    ) or re.compile(r"b\D\D\d\d\d\d\d\d\.\d\d\d\d\d\d\d\d\d\d.dat").match(
+        pathbasename(tc_trackfilename)
+    ):
+        # For the most part, b-deck files line up fairly with G-deck files, but the
+        # index of the start name is wildly different. I almost wonder if we should
+        # use the b-deck parser to grab all this information, but this is hopefully
+        # good enough
+        start_name = start_line[27]
+    else:
+        # Keep the old logic for parsing the start_name out of the G-deck files
+        try:
+            start_name = start_line[48] + start_line[49]
+        except IndexError:
+            start_name = start_line[41]
 
     if data is None:
         # print '    Adding '+tc_trackfilename+' to '+TC_DECKS_DB

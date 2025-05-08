@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Full disk image matplotlib-based output format."""
@@ -44,6 +44,12 @@ def call(
     )
     from geoips.image_utils.mpl_utils import get_title_string_from_objects, set_title
 
+    frame_clr = None
+    # If a gridline_annotator plugin was supplied, attempt to get the frame background
+    # color. Otherwise, just keep it as None.
+    if gridline_annotator:
+        frame_clr = gridline_annotator.get("spec", {}).get("background")
+
     if hasattr(area_def, "x_size"):
         x_size = area_def.x_size
         y_size = area_def.y_size
@@ -62,7 +68,11 @@ def call(
         #                                   area_def.sector_info['clat'])
         mapobj = cartopy.crs.Geostationary(area_def.sector_info["clon"])
     fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-        x_size, y_size, area_def, existing_mapobj=mapobj
+        x_size,
+        y_size,
+        area_def,
+        existing_mapobj=mapobj,
+        frame=frame_clr,
     )
 
     # Plot the actual data on a map

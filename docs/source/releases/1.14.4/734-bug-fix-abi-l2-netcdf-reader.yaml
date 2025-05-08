@@ -1,0 +1,16 @@
+bug fix:
+- description: |
+    Fix bug where the start and end datetime was not properly being tracked for each
+    file ingested in the main loop. This was causing issues when attempting to
+    concatenate multiple scan times with 2D arrays. Concatenation of multiple files
+    for a single scan time is currently only supported with 1D xarray datasets.
+  files:
+    added:
+    - ''
+    deleted:
+    - ''
+    modified:
+    - geoips/plugins/modules/readers/abi_l2_netcdf.py
+    moved:
+    - ''
+  title: Bug fix abi_l2_netcdf reader

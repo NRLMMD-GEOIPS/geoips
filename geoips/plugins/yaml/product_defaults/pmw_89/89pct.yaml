@@ -18,7 +18,7 @@ spec:
     plugin:
       name: pmw_89pct
       arguments:
-        data_range: [105, 280]
+        data_range: [105.0, 280.0]
   interpolator:
     plugin:
       name: interp_gauss

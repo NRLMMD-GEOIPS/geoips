@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Geoips style NetCDF output format."""
@@ -11,7 +11,7 @@ family = "xarray_data"
 name = "netcdf_geoips"
 
 
-def call(xarray_obj, product_names, output_fnames):
+def call(xarray_obj, product_names, output_fnames, clobber=False):
     """Write GeoIPS style NetCDF to disk."""
     import xarray
 
@@ -28,5 +28,5 @@ def call(xarray_obj, product_names, output_fnames):
     )
 
     for ncdf_fname in output_fnames:
-        write_xarray_netcdf(prod_xarray, ncdf_fname)
+        write_xarray_netcdf(prod_xarray, ncdf_fname, clobber=clobber)
     return output_fnames

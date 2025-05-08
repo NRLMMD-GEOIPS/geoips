@@ -1,23 +1,28 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
+import abc
 import yaml
 import inspect
 import logging
-from os.path import basename, splitext
+from os.path import basename, exists, splitext
 from glob import glob
+from subprocess import call
+from inspect import isclass
 
 from importlib.resources import files
-from importlib import util
+from importlib import util, reload
 from pathlib import Path
 import jsonschema
 import referencing
 from referencing import jsonschema as refjs
 from jsonschema.exceptions import ValidationError, SchemaError
+import pydantic
 
 from geoips.errors import PluginError, PluginRegistryError
+from geoips.filenames.base_paths import PATHS
 
 LOG = logging.getLogger(__name__)
 
@@ -85,7 +90,8 @@ def get_schemas(path, validator):
     for schema_file in schema_files:
         LOG.debug(f"Adding schema file {schema_file}")
 
-        schema = yaml.safe_load(open(schema_file, "r"))
+        with open(schema_file, "r") as fo:
+            schema = yaml.safe_load(fo)
         schema_id = schema["$id"]
 
         try:
@@ -288,7 +294,7 @@ class BaseModulePlugin:
     pass
 
 
-class BaseInterface:
+class BaseInterface(abc.ABC):
     """Base class for GeoIPS interfaces.
 
     This class should not be instantiated directly. Instead, interfaces should be
@@ -300,9 +306,12 @@ class BaseInterface:
     the GeoIPS algorithm plugins.
     """
 
-    from geoips.plugin_registry import plugin_registry
+    from geoips import plugin_registry as plugin_registry_module
 
-    plugin_registry = plugin_registry
+    plugin_registry = plugin_registry_module.plugin_registry
+    name = "BaseInterface"
+    interface_type = None  # This is set by child classes
+    rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
 
     def __new__(cls):
         """Plugin interface new method."""
@@ -317,6 +326,86 @@ class BaseInterface:
 
         return super(BaseInterface, cls).__new__(cls)
 
+    @abc.abstractmethod
+    def get_plugin(self, name, rebuild_registries=rbr):
+        """Abstract function for retrieving a plugin under a certain interface.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the yaml-based plugin. Either a single string or a tuple of
+              strings for product plugins.
+        rebuild_registries: bool (default=True)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              true and get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
+            - rbr (ReBuildRegistries) is set in geoips.filenames.base_paths with a
+              default value of True. Users and developers can change this if desired.
+        """
+        pass
+
+    def call_create_plugin_registries(self, yaml=False):
+        """Run command 'create_plugin_registries' as a subprocess.
+
+        This should be done whenever a plugin is attempted to be loaded but fails
+        because it isn't an entry in the plugin registry. If the plugin still cannot be
+        found after this function is ran, then report the issue to the user.
+
+        Parameters
+        ----------
+        yaml: bool (default=False)
+            - Truth value as to whether or not we want to create a .yaml registry. If
+              false, then create the default .json registry instead.
+        """
+        args = ["create_plugin_registries"]
+        if yaml:
+            args += ["-s", "yaml"]
+        call(args, shell=False)
+        # Reload the interface's plugin_registry_module so that the plugin registry is
+        # in the most recent state.
+        reload(self.plugin_registry_module)
+        self.plugin_registry = self.plugin_registry_module.plugin_registry
+
+    def retry_get_plugin(self, name, rebuild_registries, err_str, err_type=PluginError):
+        """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
+
+        By running 'create_plugin_registries', we automate the registration of plugins
+        in GeoIPS. If the plugin persists not to be found, then we'll raise an
+        appropriate PluginError as denoted by 'err_str'.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the yaml plugin. Either a single string or a tuple of strings
+              for product plugins.
+        rebuild_registries: bool
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              true and get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
+        err_str: string
+            - The error to be reported.
+        err_type: Exception-based Class
+            - The class of exception to be raised.
+        """
+        if rebuild_registries:
+            LOG.interactive(
+                "Running 'create_plugin_registries' due to a missing plugin located "
+                f"under interface: '{self.name}', plugin_name: '{name}'."
+            )
+            self.call_create_plugin_registries()
+            # This is done as some interface classes override 'get_plugin' with
+            # additional parameters it it's call signature. We only want to call
+            # BaseYamlInterface or BaseModuleInterface 'get_plugin', then return such
+            # information to the child class which overrode 'get_plugin'. Implementing
+            # it this way ensures that will happen.
+            base_interface_class = self.__class__.__base__()
+            base_interface_class.name = self.name
+            return base_interface_class.get_plugin(name, rebuild_registries=False)
+        else:
+            raise err_type(err_str)
+
     @property
     def registered_module_based_plugins(self):
         """Return a dictionary of registered module-based plugins.
@@ -330,8 +419,9 @@ class BaseInterface:
                     self.plugin_registry.registered_plugins["module_based"]
                 )
             except (AttributeError, KeyError):
-                raise PluginRegistryError(
-                    "Plugin registries not found, please run 'create_plugin_registries'"
+                self.call_create_plugin_registries()
+                self._registered_module_based_plugins = (
+                    self.plugin_registry.registered_plugins["module_based"]
                 )
         return self._registered_module_based_plugins
 
@@ -342,16 +432,63 @@ class BaseInterface:
         This property provides centeralized error handling for missing plugin
         registries.
         """
-        if not hasattr(self, "_registered_module_based_plugins"):
+        if not hasattr(self, "_registered_yaml_based_plugins"):
             try:
                 self._registered_yaml_based_plugins = (
                     self.plugin_registry.registered_plugins["yaml_based"]
                 )
             except (AttributeError, KeyError):
-                raise PluginRegistryError(
-                    "Plugin registries not found, please run 'create_plugin_registries'"
+                self.call_create_plugin_registries()
+                self._registered_yaml_based_plugins = (
+                    self.plugin_registry.registered_plugins["yaml_based"]
                 )
         return self._registered_yaml_based_plugins
+
+    def get_plugin_metadata(self, name):
+        """Retrieve a plugin's metadata.
+
+        Where the metadata of the plugin matches the plugin's corresponding entry in the
+        plugin registry.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the plugin whose metadata we want.
+
+        Returns
+        -------
+        metadata: dict
+            - A dictionary of metadata for the requested plugin.
+        """
+        interface_registry = self.plugin_registry.registered_plugins.get(
+            self.interface_type, {}
+        ).get(self.name)
+
+        if interface_registry is None:
+            raise KeyError(
+                "Error: There is no interface in the plugin registry of type '"
+                f"{self.interface_type}' called '{self.name}'."
+            )
+
+        if isinstance(name, tuple):
+            # This occurs for product plugins: i.e. ('abi', 'Infrared')
+            metadata = interface_registry.get(name[0], {}).get(name[1])
+        elif isinstance(name, str):
+            metadata = interface_registry.get(name)
+        else:
+            raise KeyError(
+                f"Error: cannot search the plugin registry with the provided name = "
+                f"{name}. Please provide either a string or a tuple of strings."
+            )
+
+        if metadata is None:
+            raise PluginRegistryError(
+                f"Error: There is no associated plugin under interface '{self.name}' "
+                f"called '{name}'. If you're sure this plugin exists, please run "
+                "'create_plugin_registries'."
+            )
+
+        return metadata
 
 
 class BaseYamlInterface(BaseInterface):
@@ -366,6 +503,9 @@ class BaseYamlInterface(BaseInterface):
     the GeoIPS products plugins.
     """
 
+    # This defaults to the json-schema-based validator but can be overridden
+    # by the interface class to use a different validator. We are making use of this as
+    # we switch to the new pydantic-based validators.
     validator = YamlPluginValidator()
     interface_type = "yaml_based"
     name = "BaseYamlInterface"
@@ -431,6 +571,10 @@ class BaseYamlInterface(BaseInterface):
         ]:
             try:
                 obj_attrs[attr] = yaml_plugin[attr]
+            # This should be removed once we fully switch to pydantic models
+            except TypeError:
+                yaml_plugin = yaml_plugin.dict()
+                obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
         if missing:
@@ -453,18 +597,42 @@ class BaseYamlInterface(BaseInterface):
         """Plugin interface repr method."""
         return f"{self.__class__.__name__}()"
 
-    def get_plugin(self, name):
+    def get_plugin(self, name, rebuild_registries=None):
         """Get a plugin by its name.
 
         This default method can be overridden to provide different search
         functionality for an interface. An example of this is in the
         ProductsInterface which uses a tuple containing 'source_name' and
         'name'.
+
+        Parameters
+        ----------
+        name: str or tuple(str)
+            - The name of the yaml-based plugin. Either a single string or a tuple of
+              strings for product plugins.
+        rebuild_registries: bool (default=None)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
         """
         from importlib.resources import files
 
         registered_yaml_plugins = self.registered_yaml_based_plugins
 
+        if rebuild_registries is None:
+            rebuild_registries = self.rbr
+        elif not isinstance(rebuild_registries, bool):
+            raise ValueError(
+                "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
+                f" value. Encountered this '{rebuild_registries}' instead."
+            )
+
+        # This is used for finding products whose plugin names are tuples
+        # of the form ('source_name', 'name')
         if isinstance(name, tuple):
             # These are stored in the yaml as str(name),
             # ie "('viirs', 'Infrared')"
@@ -476,11 +644,31 @@ class BaseYamlInterface(BaseInterface):
                     "package"
                 ]
             except KeyError:
-                raise PluginError(
+                err_str = (
                     f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
                 )
+                return self.retry_get_plugin(name, rebuild_registries, err_str)
             abspath = str(files(package) / relpath)
-            plugin = yaml.safe_load(open(abspath, "r"))
+            # If abspath doesn't exist the registry is out of date with the actual
+            # contents of all, or a certain plugin package.
+            if not exists(abspath):
+                err_str = (
+                    f"Products plugin source: '{name[0]}', plugin: '{name[1]} exists in"
+                    f" the registry but its corresponding file at '{abspath}' cannot be"
+                    " found. Reinstall your package and re-run "
+                    "'create_plugin_registries'."
+                )
+                # This error should never occur, but we're adding error handling here
+                # just in case. The reason it will never occur is that, if the path
+                # to such plugin does not exist, when create_plugin_registries is re-run
+                # that syncs up the path to the associated plugin. It cannot reach this
+                # point if the plugin name is invalid, so this point couldn't be hit
+                # twice
+                return self.retry_get_plugin(
+                    name, rebuild_registries, err_str, PluginRegistryError
+                )
+            with open(abspath, "r") as fo:
+                plugin = yaml.safe_load(fo)
             plugin_found = False
             for product in plugin["spec"]["products"]:
                 if product["name"] == name[1] and name[0] in product["source_names"]:
@@ -488,27 +676,68 @@ class BaseYamlInterface(BaseInterface):
                     plugin = product
                     break
             if not plugin_found:
-                raise PluginError(
-                    "There is no plugin that has " + name[1] + " included in it."
-                )
+                err_str = "There is no plugin that has " + name[1] + " included in it."
+                return self.retry_get_plugin(name, rebuild_registries, err_str)
             plugin["interface"] = "products"
             plugin["package"] = package
             plugin["abspath"] = abspath
             plugin["relpath"] = relpath
+        # This is used for finding all non-product plugins
         else:
             try:
                 relpath = registered_yaml_plugins[self.name][name]["relpath"]
                 package = registered_yaml_plugins[self.name][name]["package"]
             except KeyError:
-                raise PluginError(
-                    f"Plugin [{name}] doesn't exist under interface [{self.name}]"
-                )
+                err_str = f"Plugin [{name}] doesn't exist under interface [{self.name}]"
+                return self.retry_get_plugin(name, rebuild_registries, err_str)
             abspath = str(files(package) / relpath)
-            plugin = yaml.safe_load(open(abspath, "r"))
-            plugin["package"] = package
-            plugin["abspath"] = abspath
-            plugin["relpath"] = relpath
-        validated = self.validator.validate(plugin)
+            # If abspath doesn't exist the registry is out of date with the actual
+            # contents of all, or a certain plugin package.
+            if not exists(abspath):
+                err_str = (
+                    f"Plugin '{name}' exists in the registry but its corresponding file"
+                    f" at '{abspath}' cannot be found. Reinstall your package and "
+                    "re-run 'create_plugin_registries'."
+                )
+                # This error should never occur, but we're adding error handling here
+                # just in case. The reason it will never occur is that, if the path
+                # to such plugin does not exist, when create_plugin_registries is re-run
+                # that syncs up the path to the associated plugin. It cannot reach this
+                # point if the plugin name is invalid, so this point couldn't be hit
+                # twice
+                return self.retry_get_plugin(
+                    name, rebuild_registries, err_str, PluginRegistryError
+                )
+
+            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
+            doc_length = sum(1 for _ in doc_iter)
+            if doc_length > 1 or self.name == "workflows":
+                plugin_found = False
+                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
+                    if plugin["name"] == name:
+                        plugin_found = True
+                        plugin["package"] = package
+                        plugin["abspath"] = abspath
+                        plugin["relpath"] = relpath
+                        break
+                if not plugin_found:
+                    raise PluginRegistryError(
+                        f"Error: YAML plugin under name '{name}' could not be found. "
+                        "Please ensure this plugin exists, and if it does, run "
+                        "'create_plugin_registries'."
+                    )
+                # NOTE: Haven't created a validator for this yet so we are just going to
+                # convert this to an object without validating for the time being.
+                return self._plugin_yaml_to_obj(name, plugin)
+            else:
+                plugin = yaml.safe_load(open(abspath, "r"))
+                plugin["package"] = package
+                plugin["abspath"] = abspath
+                plugin["relpath"] = relpath
+        if isclass(self.validator) and issubclass(pydantic.BaseModel, self.validator):
+            validated = self.validator(**plugin)
+        else:
+            validated = self.validator.validate(plugin)
         # Store "name" as the product's "id"
         # This is helpful when an interfaces uses something other than just "name" to
         # find its plugins as is the case with ProductsInterface
@@ -580,6 +809,7 @@ class BaseModuleInterface(BaseInterface):
     """
 
     interface_type = "module_based"
+    name = "BaseModuleInterface"
     required_args = {}
 
     def __repr__(self):
@@ -687,13 +917,21 @@ class BaseModuleInterface(BaseInterface):
         # Create an object of type ``plugin_type`` with attributes from ``obj_attrs``
         return type(plugin_type, (plugin_base_class,), obj_attrs)()
 
-    def get_plugin(self, name):
+    def get_plugin(self, name, rebuild_registries=None):
         """Retrieve a plugin from this interface by name.
 
         Parameters
         ----------
         name : str
-          The name the desired plugin.
+            - The name the desired plugin.
+        rebuild_registries: bool (default=None)
+            - Whether or not to rebuild the registries if get_plugin fails. If set to
+              None, default to what we have set in geoips.filenames.base_paths, which
+              defaults to True. If specified, use the input value of rebuild_registries,
+              which should be a boolean value. If rebuild registries is true and
+              get_plugin fails, rebuild the plugin registry, call then call
+              get_plugin once more with rebuild_registries toggled off, so it only gets
+              rebuilt once.
 
         Returns
         -------
@@ -708,19 +946,46 @@ class BaseModuleInterface(BaseInterface):
         # Find the plugin module
         # Convert the module into an object
         registered_module_plugins = self.registered_module_based_plugins
+
+        if rebuild_registries is None:
+            rebuild_registries = self.rbr
+        elif not isinstance(rebuild_registries, bool):
+            raise ValueError(
+                "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
+                f" value. Encountered this '{rebuild_registries}' instead."
+            )
+
         if name not in registered_module_plugins[self.name]:
-            raise PluginError(
+            err_str = (
                 f"Plugin '{name}', "
                 f"from interface '{self.name}' "
                 f"appears to not exist."
-                f"\nCreate plugin, then call create_plugin_registries?"
+                f"\nCreate plugin, then call create_plugin_registries."
             )
+            return self.retry_get_plugin(name, rebuild_registries, err_str)
 
         package = registered_module_plugins[self.name][name]["package"]
         relpath = registered_module_plugins[self.name][name]["relpath"]
         module_path = splitext(relpath.replace("/", "."))[0]
         module_path = f"{package}.{module_path}"
         abspath = files(package) / relpath
+        # If abspath doesn't exist the registry is out of date with the actual contents
+        # of all, or a certain plugin package.
+        if not exists(abspath):
+            err_str = (
+                f"Plugin '{name}' exists in the registry but its corresponding file at "
+                f"'{abspath}' cannot be found. Reinstall your package and re-run "
+                "'create_plugin_registries'."
+            )
+            # This error should never occur, but we're adding error handling here
+            # just in case. The reason it will never occur is that, if the path
+            # to such plugin does not exist, when create_plugin_registries is re-run
+            # that syncs up the path to the associated plugin. It cannot reach this
+            # point if the plugin name is invalid, so this point couldn't be hit
+            # twice
+            return self.retry_get_plugin(
+                name, rebuild_registries, err_str, PluginRegistryError
+            )
         spec = util.spec_from_file_location(module_path, abspath)
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)

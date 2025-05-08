@@ -1,18 +1,23 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """MIMIC TPW NetCDF reader."""
 
 # Python Standard Libraries
+from datetime import datetime
 import logging
 import os
-from datetime import datetime
+
+# Third-Party Libraries
+import numpy
+import xarray
 
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "mimic_netcdf"
+source_names = ["mimic"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -71,8 +76,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     fname = fnames[0]
 
-    import xarray
-
     xobj = xarray.open_dataset(fname)
 
     [date, time, ext] = os.path.basename(fname).split(".")
@@ -100,8 +103,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     lon = xobj.variables["lonArr"][...]
 
     LOG.info("Calculating full lat/lon grid")
-    import numpy
-
     lon_final, lat_final = numpy.meshgrid(lon, lat)
 
     LOG.info("Adding lat grid to xarray")

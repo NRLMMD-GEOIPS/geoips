@@ -1,11 +1,23 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from SAR netcdf data."""
 
+# Python Standard Libraries
+from datetime import datetime
+import glob
 import logging
 from os.path import basename
-import glob
+
+# Third-Party Libraries
+import numpy
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -15,6 +27,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "sar_winds_netcdf"
+source_names = ["sar-spd"]
 
 
 def read_sar_data(wind_xarray):
@@ -63,9 +76,6 @@ def read_sar_data(wind_xarray):
     wind_xarray["wind_speed_kts"] = wind_xarray["sar_wind"] * MS_TO_KTS
     wind_xarray["wind_speed_kts"].attrs = wind_xarray["sar_wind"].attrs
     wind_xarray["wind_speed_kts"].attrs["units"] = "kts"
-    import xarray
-    import numpy
-
     wind_xarray["wind_speed_kts"] = xarray.where(
         wind_xarray.mask == -1, wind_xarray.wind_speed_kts, numpy.nan
     )
@@ -140,12 +150,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))
@@ -181,8 +185,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             wind_xarrays = {"WINDSPEED": wind_xarrays[0]}
         else:
             final_xarray = xarray.Dataset()
-            import numpy
-
             lat_array = xarray.DataArray(
                 numpy.vstack(
                     [
@@ -259,8 +261,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     wind_xarrays["METADATA"] = wind_xarray[[]]
     if wind_xarrays["METADATA"].start_datetime == wind_xarrays["METADATA"].end_datetime:
         # Use alternate attributes to set start and end datetime
-        from datetime import datetime
-
         try:
             wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"

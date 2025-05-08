@@ -12,9 +12,11 @@ instructions:
     help_str: |
       Install the appropriate test dataset and/or package based on the arguments
       provided. To see a list of available test datasets for install, run
-      `geoips list test-datasets`.
+      `geoips list test-datasets`. If wanting to install data to a location different
+      that $GEOIPS_TESTDATA_DIR, then use the -o (outdir) option and provide a full path
+      to the directory you desire to install data in.
     usage_str: |
-      To use, type `geoips config install <test_dataset_name>`.
+      To use, type `geoips config install <test_dataset_name> -o <full_path>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
@@ -68,6 +70,7 @@ instructions:
   geoips_describe_algorithms: *geoips-describe-artifact
   geoips_describe_colormappers: *geoips-describe-artifact
   geoips_describe_coverage-checkers: *geoips-describe-artifact
+  geoips_describe_databases: *geoips-describe-artifact
   geoips_describe_filename-formatters: *geoips-describe-artifact
   geoips_describe_interpolators: *geoips-describe-artifact
   geoips_describe_output-checkers: *geoips-describe-artifact
@@ -83,6 +86,7 @@ instructions:
   geoips_describe_product-defaults: *geoips-describe-artifact
   geoips_describe_products: *geoips-describe-artifact
   geoips_describe_sectors: *geoips-describe-artifact
+  geoips_describe_workflows: *geoips-describe-artifact
   # geoips_describe_family:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Family alongside descriptive information of
@@ -153,6 +157,7 @@ instructions:
     help_str: |
       List off available GeoIPS artifacts provided further commands. Current artifacts
       available for listing are: ["algorithms", "colormappers", "coverage_checkers",
+      "databases",
       "filename_formatters", "interpolators", "output_checkers", "output_formatters",
       "procflows", "readers", "sector_adjusters", "sector_metadata_generators",
       "sector_spec_generators", "title_formatters", "feature_annotators",
@@ -194,6 +199,7 @@ instructions:
   geoips_list_algorithms: *list-single-interface
   geoips_list_colormappers: *list-single-interface
   geoips_list_coverage-checkers: *list-single-interface
+  geoips_list_databases: *list-single-interface
   geoips_list_filename-formatters: *list-single-interface
   geoips_list_interpolators: *list-single-interface
   geoips_list_output-checkers: *list-single-interface
@@ -209,6 +215,7 @@ instructions:
   geoips_list_product-defaults: *list-single-interface
   geoips_list_products: *list-single-interface
   geoips_list_sectors: *list-single-interface
+  geoips_list_workflows: *list-single-interface
   geoips_list_interfaces:
     help_str: |
       List off every GeoIPS Interface. This is useful for seeing what is
@@ -274,6 +281,20 @@ instructions:
     output_info:
       - Package
       - Script Name
+  geoips_list_source-names:
+    help_str: |
+      List off source_names of reader plugins found under all, or a specified GeoIPS
+      package. This information can then be used in creating product plugins which will
+      use the aforementioned source_names for product creation.
+    usage_str: |
+      To use, type `geoips list source-names`. Optionally includes `-p` flag for
+      seeing what source-names are in a certain package (-p). For example, to see what
+      source-names are attributed to a single package, run
+      `geoips list source-names -p <pkg_name>`, or you can remove the `-p` flag to see
+      what's been created in every package.
+    output_info:
+      - Source Name
+      - Reader Names
   geoips_list_test-datasets:
     help_str: |
       List off test-datasets used for testing GeoIPS and other GeoIPS Packages.
@@ -397,8 +418,10 @@ instructions:
     help_str: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood
       via GeoIPS, this is an easy way to test whether or not the plugin you are
-      developing is valid.
+      developing is valid. If the <file_path> you're trying to validate is a
+      multi-document YAML file, you'll also need to provide the name of the plugin
+      within that file for this command to work.
     usage_str: |
-      To use, type `geoips validate <file_path>`. Do it man. NOW.
+      To use, type `geoips validate <file_path> OPT_ARG <plugin_name>`.
     output_info:
       - A message telling you if the plugin is valid or not and why.

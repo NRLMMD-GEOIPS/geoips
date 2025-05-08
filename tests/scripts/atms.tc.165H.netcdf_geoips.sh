@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/bash
@@ -31,7 +31,7 @@ geoips run single_source \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/atms.tc.<product>.netcdf_geoips" \
           --tc_spec_template tc_4km_256x256 \
           --product_spec_override '{}' \
-          --output_formatter_kwargs '{}' \
+          --output_formatter_kwargs '{"clobber": "True"}' \
           --filename_formatter_kwargs '{}' \
           --metadata_output_formatter_kwargs '{}' \
           --metadata_filename_formatter_kwargs '{}'

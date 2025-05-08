@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Generates all available plugins from all installed GeoIPS packages.
@@ -12,6 +12,7 @@ EVERY currently installed plugin package. A separate registered_plugins.json is
 created at the top level package directory for each plugin package.
 """
 
+import warnings
 import yaml
 from importlib import metadata, resources, util
 from inspect import signature
@@ -522,139 +523,141 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
         reporting them all at once, to facilitate rapidly identifying and
         resolving errors.
     """
-    plugin = yaml.safe_load(open(filepath, mode="r"))
-    plugin["relpath"] = relpath
-    plugin["package"] = package
+    for plugin in yaml.load_all(open(filepath, mode="r"), Loader=yaml.SafeLoader):
+        plugin["relpath"] = relpath
+        plugin["package"] = package
 
-    try:
-        interface_name = plugin["interface"]
-    except KeyError:
-        raise PluginRegistryError(
-            f"""No 'interface' level in '{filepath}'.
-                Ensure all required metadata is included."""
-        )
-    interface_module = getattr(geoips.interfaces, f"{interface_name}")
+        try:
+            interface_name = plugin["interface"]
+        except KeyError:
+            raise PluginRegistryError(
+                f"""No 'interface' level in '{filepath}'.
+                    Ensure all required metadata is included."""
+            )
+        interface_module = getattr(geoips.interfaces, f"{interface_name}")
 
-    if interface_name not in plugins.keys():
-        plugins[interface_name] = {}
+        if interface_name not in plugins.keys():
+            plugins[interface_name] = {}
 
-    error_message = ""
-    # If the current family is "list", make sure we loop through the list,
-    # expanding out each individual product found within the list.
-    if plugin["family"] == "list":
-        # These are not complete plugins at this stage, only the metadata,
-        # so do not validate the plugins here, they will be validated on open.
+        error_message = ""
+        # If the current family is "list", make sure we loop through the list,
+        # expanding out each individual product found within the list.
+        if plugin["family"] == "list":
+            # These are not complete plugins at this stage, only the metadata,
+            # so do not validate the plugins here, they will be validated on open.
 
-        # plugin_yaml_to_obj returns the actual plugin object, ie, ProductsPlugin,
-        # or SectorsPlugin, etc.
-        plg_list = interface_module._plugin_yaml_to_obj(plugin["name"], plugin)
+            # plugin_yaml_to_obj returns the actual plugin object, ie, ProductsPlugin,
+            # or SectorsPlugin, etc.
+            plg_list = interface_module._plugin_yaml_to_obj(plugin["name"], plugin)
 
-        # plg_list is an e.g. ProductsPlugin object of family list,
-        # so within its e.g. plg_list["spec"]["products"] key, we will
-        # find a list of all products contained within this single
-        # plugin file.
-        for yaml_subplg in plg_list["spec"][interface_module.name]:
-            # _create_registered_plugin_names will return a list of names
-            # found in this single product specification.  Most interfaces
-            # this will just return a list of length one, containing
-            # [plugin.name], but for products it will return a list of
-            # tuples of (source_name, product_name), allowing specifying
-            # a list of valid sources within each product spec.
-            subplg_names = interface_module._create_registered_plugin_names(yaml_subplg)
-            # Loop through each of the returned registered plugin names.
-            # Give each one its own entry in the plugin registry for easy
-            # access.
-            for subplg_name in subplg_names:
-                subplg_source = str(subplg_name[0])
-                subplg_product = str(subplg_name[1])
-                if subplg_source not in plugins[interface_name]:
-                    plugins[interface_name][subplg_source] = {}
-                # since we are dealing with sub-plugins of a product plugin,
-                # include a couple other pieces of information, such as
-                # product_defaults and source_names.
-                source_names = yaml_subplg["source_names"]
-                pd = None
-                if "product_defaults" in yaml_subplg:
-                    pd = yaml_subplg["product_defaults"]
-                family = None
-                if "family" in yaml_subplg:
-                    family = yaml_subplg["family"]
-                docstring = None
-                if "docstring" in yaml_subplg:
-                    docstring = yaml_subplg["docstring"]
-                # If docstring or family are not specified, and a
-                # product_defaults isn't specified, raise an error
-                # (docstring and family must be defined in a
-                # product_defaults if not defined explicitly).
-                if (not docstring or not family) and not pd:
-                    error_message += f"""
-                    Error with package '{plugin["package"]}':
-                        docstring or family not defined in product,
-                        and product_defaults not specified.
-                        Must specify docstring and family in either product
-                        or product_defaults.
-                        interface '{interface_module.name}'
-                        plugin name '{plugin["name"]}'
-                        pkg relpath: '{plugin["relpath"]}'\n"""
-                    continue
+            # plg_list is an e.g. ProductsPlugin object of family list,
+            # so within its e.g. plg_list["spec"]["products"] key, we will
+            # find a list of all products contained within this single
+            # plugin file.
+            for yaml_subplg in plg_list["spec"][interface_module.name]:
+                # _create_registered_plugin_names will return a list of names
+                # found in this single product specification.  Most interfaces
+                # this will just return a list of length one, containing
+                # [plugin.name], but for products it will return a list of
+                # tuples of (source_name, product_name), allowing specifying
+                # a list of valid sources within each product spec.
+                subplg_names = interface_module._create_registered_plugin_names(
+                    yaml_subplg
+                )
+                # Loop through each of the returned registered plugin names.
+                # Give each one its own entry in the plugin registry for easy
+                # access.
+                for subplg_name in subplg_names:
+                    subplg_source = str(subplg_name[0])
+                    subplg_product = str(subplg_name[1])
+                    if subplg_source not in plugins[interface_name]:
+                        plugins[interface_name][subplg_source] = {}
+                    # since we are dealing with sub-plugins of a product plugin,
+                    # include a couple other pieces of information, such as
+                    # product_defaults and source_names.
+                    source_names = yaml_subplg["source_names"]
+                    pd = None
+                    if "product_defaults" in yaml_subplg:
+                        pd = yaml_subplg["product_defaults"]
+                    family = None
+                    if "family" in yaml_subplg:
+                        family = yaml_subplg["family"]
+                    docstring = None
+                    if "docstring" in yaml_subplg:
+                        docstring = yaml_subplg["docstring"]
+                    # If docstring or family are not specified, and a
+                    # product_defaults isn't specified, raise an error
+                    # (docstring and family must be defined in a
+                    # product_defaults if not defined explicitly).
+                    if (not docstring or not family) and not pd:
+                        error_message += f"""
+                        Error with package '{plugin["package"]}':
+                            docstring or family not defined in product,
+                            and product_defaults not specified.
+                            Must specify docstring and family in either product
+                            or product_defaults.
+                            interface '{interface_module.name}'
+                            plugin name '{plugin["name"]}'
+                            pkg relpath: '{plugin["relpath"]}'\n"""
+                        continue
 
-                # I think filling in the nulls should be handled at the CLI
-                # and/or interface level, so leave family/docstring as None
-                # in the registry.
-                # There is no way to guarantee the product_defaults are
-                # available in the same plugin package as the current plugin,
-                # so pulling the family and docstring from the product defaults
-                # when creating the registry will not always work.
-                # If we are concerned about efficiency with opening product and
-                # product_defaults with every plugin access, we could do a
-                # second pass in the plugin registry creation to fill in the
-                # nulls (but we will not worry about that yet)
-                # if not docstring or not family:
-                #     # if the yaml_subplg doesn't include a docstring, grab its
-                #     # product_defaults docstring
-                #     if (
-                #         "product_defaults" not in plugins
-                #         or pd not in plugins["product_defaults"]
-                #     ):
-                #         LOG.error(
-                #             f"""Product defaults '{pd}' does not exist.
-                #                   Using 'undefined' docstring.
-                #                   Need to figure out how to pull product defaults
-                #                   from a different plugin package at some point."""
-                #         )
-                #     else:
-                #         if not docstring:
-                #             docstring = plugins["product_defaults"][pd]["docstring"]
-                #         if not family:
-                #             family = plugins["product_defaults"][pd]["family"]
-                plugins[interface_name][subplg_source][subplg_product] = {
-                    "docstring": format_docstring(docstring),
-                    "family": family,
-                    "interface": interface_module.name,
-                    "package": plugin["package"],
-                    "plugin_type": "yaml_based",
-                    "product_defaults": pd,
-                    "source_names": source_names,
-                    "relpath": plugin["relpath"],
-                }
-    else:
-        error_message += check_plugin_exists(
-            package, plugins, interface_name, plugin["name"], relpath
-        )
+                    # I think filling in the nulls should be handled at the CLI
+                    # and/or interface level, so leave family/docstring as None
+                    # in the registry.
+                    # There is no way to guarantee the product_defaults are
+                    # available in the same plugin package as the current plugin,
+                    # so pulling the family and docstring from the product defaults
+                    # when creating the registry will not always work.
+                    # If we are concerned about efficiency with opening product and
+                    # product_defaults with every plugin access, we could do a
+                    # second pass in the plugin registry creation to fill in the
+                    # nulls (but we will not worry about that yet)
+                    # if not docstring or not family:
+                    #     # if the yaml_subplg doesn't include a docstring, grab its
+                    #     # product_defaults docstring
+                    #     if (
+                    #         "product_defaults" not in plugins
+                    #         or pd not in plugins["product_defaults"]
+                    #     ):
+                    #         LOG.error(
+                    #             f"""Product defaults '{pd}' does not exist.
+                    #                   Using 'undefined' docstring.
+                    #                   Need to figure out how to pull product defaults
+                    #                   from a different plugin package at some point."""  # NOQA
+                    #         )
+                    #     else:
+                    #         if not docstring:
+                    #             docstring = plugins["product_defaults"][pd]["docstring"]  # NOQA
+                    #         if not family:
+                    #             family = plugins["product_defaults"][pd]["family"]
+                    plugins[interface_name][subplg_source][subplg_product] = {
+                        "docstring": format_docstring(docstring),
+                        "family": family,
+                        "interface": interface_module.name,
+                        "package": plugin["package"],
+                        "plugin_type": "yaml_based",
+                        "product_defaults": pd,
+                        "source_names": source_names,
+                        "relpath": plugin["relpath"],
+                    }
+        else:
+            error_message += check_plugin_exists(
+                package, plugins, interface_name, plugin["name"], relpath
+            )
 
-        # If this is not of family list, just set a single entry for
-        # current plugin name.
-        # Since this is not a product plugin, we can ensure that these top-level
-        # attributes should exist. Don't include product_defaults or source_names in
-        # this info, because it doesn't apply to this type of plugin.
-        plugins[interface_name][plugin["name"]] = {
-            "docstring": format_docstring(plugin["docstring"]),
-            "family": plugin["family"],
-            "interface": plugin["interface"],
-            "package": package,
-            "plugin_type": "yaml_based",
-            "relpath": relpath,
-        }
+            # If this is not of family list, just set a single entry for
+            # current plugin name.
+            # Since this is not a product plugin, we can ensure that these top-level
+            # attributes should exist. Don't include product_defaults or source_names in
+            # this info, because it doesn't apply to this type of plugin.
+            plugins[interface_name][plugin["name"]] = {
+                "docstring": format_docstring(plugin["docstring"]),
+                "family": plugin["family"],
+                "interface": plugin["interface"],
+                "package": package,
+                "plugin_type": "yaml_based",
+                "relpath": relpath,
+            }
     return error_message
 
 
@@ -734,7 +737,7 @@ def add_text_plugin(package, relpath, plugins):
 
 
 def add_module_plugin(package, relpath, plugins):
-    """Add the yaml plugin associated with the filepaths and package to plugins.
+    """Add the module plugin associated with the filepaths and package to plugins.
 
     Parameters
     ----------
@@ -858,6 +861,23 @@ def add_module_plugin(package, relpath, plugins):
         "signature": str(signature(module.call)),
         "relpath": relpath,
     }
+    if interface_name == "readers":
+        if hasattr(module, "source_names"):
+            plugins[interface_name][name]["source_names"] = module.source_names
+        else:
+            warnings.warn(
+                (
+                    f"Plugin package '{package}'s reader"
+                    f" plugin '{name}' is using a deprecated source_names "
+                    "implementation. Please add a module-level 'source_names' "
+                    "attribute to this plugin and re-run "
+                    "'create_plugin_registries'. This will be fully deprecated "
+                    "when GeoIPS v2.0.0 is released."
+                ),
+                DeprecationWarning,
+                stacklevel=2,
+            )
+            plugins[interface_name][name]["source_names"] = ["Unspecified"]
     del module
     # Return the final error message - an exception will be raised at the very
     # end after collecting and reporting on all errors if there were any errors

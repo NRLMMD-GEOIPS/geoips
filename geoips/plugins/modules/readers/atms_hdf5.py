@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Reader to read a grannual NOAA ATMS SDR TBs in h5 format.
@@ -77,23 +77,25 @@ The example files are:
 * ``SATMS_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for TBs.  'b': orbit#
 * ``GATMO_j01_d20210809_t0959306_e1000023_b19296_fnmoc_ops.h5``: for geolocations
 """
-# Python Standard Libraries
 
+# Python Standard Libraries
+import datetime
+import logging
 from os.path import basename
 
-import h5py
-import numpy as np
-import datetime
-import xarray as xr
+# Third-Party Libraries
 from astropy.time import Time
 from dateutil.relativedelta import relativedelta
-import logging
+import h5py
+import numpy as np
+import xarray as xr
 
 LOG = logging.getLogger(__name__)
 
 interface = "readers"
 family = "standard"
 name = "atms_hdf5"
+source_names = ["atms"]
 
 # from IPython import embed as shell
 
@@ -119,7 +121,7 @@ xvarnames = {
     "SatelliteAzimuthAngle": "satellite_azimuth_angle",
 }
 
-final_xarray = xr.Dataset()  # define a xarray to hold all selected variables
+# final_xarray = xr.Dataset()  # define a xarray to hold all selected variables
 
 
 def convert_epoch_to_datetime64(time_array, use_shape=None):
@@ -155,31 +157,36 @@ def convert_epoch_to_datetime64(time_array, use_shape=None):
     return converted_time.astype(np.datetime64)
 
 
-def read_atms_file(fname, xarray_atms):
+def read_atms_file(fname, xarray_atms, metadata_only=False):
     """Read ATCF data from file fname."""
     fileobj = h5py.File(fname, mode="r")
 
     # check for available variables from nput file
+    # Do not read the BT data unless metadata_only is False
     if "ATMS-SDR_All" in fileobj["All_Data"].keys():  # for TB-data
         data_select = fileobj["All_Data"]["ATMS-SDR_All"]
 
-        tb = data_select["BrightnessTemperature"][()]
         tb_time = data_select["BeamTime"][()]
-        tb_factor = data_select["BrightnessTemperatureFactors"][()]
-
-        # convert tb to actual values
-        tbs = tb * tb_factor[0] + tb_factor[1]
-
-        # TBs for selected channels
-        V23 = tbs[:, :, 0]
-        V31 = tbs[:, :, 1]
-        H50 = tbs[:, :, 2]
-        V89 = tbs[:, :, 15]
-        H165 = tbs[:, :, 16]
-        H183 = tbs[:, :, 18]  # to match the 183+-4.5 GHz channel used by FNMOC
-
         #  get UTC time in datetime64 format required by geoips for each pixel
         time_scan = convert_epoch_to_datetime64(tb_time)
+
+        # Rather than reading from the file, create empty arrays of time_scan shape
+        if metadata_only:
+            V23 = V31 = H50 = V89 = H165 = H183 = np.empty(time_scan.shape)
+        else:
+            tb = data_select["BrightnessTemperature"][()]
+            tb_factor = data_select["BrightnessTemperatureFactors"][()]
+
+            # convert tb to actual values
+            tbs = tb * tb_factor[0] + tb_factor[1]
+
+            # TBs for selected channels
+            V23 = tbs[:, :, 0]
+            V31 = tbs[:, :, 1]
+            H50 = tbs[:, :, 2]
+            V89 = tbs[:, :, 15]
+            H165 = tbs[:, :, 16]
+            H183 = tbs[:, :, 18]  # to match the 183+-4.5 GHz channel used by FNMOC
 
         # make dict of numpy arrays
         ingested = {
@@ -195,31 +202,34 @@ def read_atms_file(fname, xarray_atms):
     if "ATMS-SDR-GEO_All" in fileobj["All_Data"].keys():  # for geo-data
         data_select = fileobj["All_Data"]["ATMS-SDR-GEO_All"]
 
+        # We will always read in latitude regardless if metadata_only is True.
+        # Do this so we can filter out bad data, which can cause the start time
+        # to be somewhere around 1957....
         lat = data_select["Latitude"][()]
-        lon = data_select["Longitude"][()]
-        solar_zenith_angle = data_select["SolarZenithAngle"][()]
-        solar_azimuth_angle = data_select["SolarAzimuthAngle"][()]
-        satellite_zenith_angle = data_select["SatelliteZenithAngle"][()]
-        satellite_azimuth_angle = data_select["SatelliteAzimuthAngle"][()]
         StartTime = data_select["StartTime"][()]
-
         #  get UTC time in datetime64 format required by geoips for each pixel
-        time_scan = convert_epoch_to_datetime64(StartTime, use_shape=lon.shape)
+        time_scan = convert_epoch_to_datetime64(StartTime, use_shape=lat.shape)
 
-        # make dict of numpy arrays
         ingested = {
             "latitude": lat,
-            "longitude": lon,
-            "solar_zenith_angle": solar_zenith_angle,
-            "solar_azimuth_angle": solar_azimuth_angle,
-            "satellite_zenith_angle": satellite_zenith_angle,
-            "satellite_azimuth_angle": satellite_azimuth_angle,
             "geo_time": time_scan,
+            "valid_indices": ~(abs(lat) > 90),
         }
+        if not metadata_only:
+            ingested["longitude"] = data_select["Longitude"][()]
+            ingested["solar_zenith_angle"] = data_select["SolarZenithAngle"][()]
+            ingested["solar_azimuth_angle"] = data_select["SolarAzimuthAngle"][()]
+            ingested["satellite_zenith_angle"] = data_select["SatelliteZenithAngle"][()]
+            ingested["satellite_azimuth_angle"] = data_select["SatelliteAzimuthAngle"][
+                ()
+            ]
+
+    platform_name = fileobj.attrs["Platform_Short_Name"][0, 0].decode("utf-8")
 
     # close the h5 object
     fileobj.close()
-
+    # final_xarray = xr.Dataset()
+    final_xarray = xarray_atms
     #          ------  setup xarray variables   ------
     for key, data in ingested.items():
         if key not in xarray_atms.variables.keys():
@@ -235,6 +245,18 @@ def read_atms_file(fname, xarray_atms):
         final_xarray["time"] = final_xarray["sdr_time"]
     else:
         final_xarray["time"] = final_xarray["geo_time"]
+
+    # Map platform names found in data file attributes to consistent
+    # GeoIPS naming conventions (match VIIRS reader).
+    if platform_name == "J01":
+        platform_name = "noaa-20"
+    elif platform_name == "J02":
+        platform_name = "noaa-21"
+    elif platform_name == "NPP":
+        platform_name = "npp"
+    final_xarray.attrs["platform_name"] = platform_name
+    final_xarray.attrs["data_provider"] = "NOAA"
+
     return final_xarray
 
 
@@ -277,48 +299,32 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     """
     LOG.info("Reading files %s", fnames)
 
-    if metadata_only is True:  # read-in datafiles first time if 'metadata_only= True'
-        xarray_atms = xr.Dataset()
-        source_file_names = []
-        for fname in fnames:
-            xarray_atms = read_atms_file(fname, xarray_atms)
-            source_file_names += [basename(fname)]  # name of last file from input files
-        xarray_atms.attrs["source_file_names"] = source_file_names
+    # if metadata_only is True:  # read-in datafiles first time if 'metadata_only= True'
+    xarray_atms = xr.Dataset()
+    source_file_names = []
+    for fname in fnames:
+        xarray_atms = read_atms_file(fname, xarray_atms, metadata_only=metadata_only)
+        source_file_names += [basename(fname)]  # name of last file from input files
+    xarray_atms.attrs["source_file_names"] = source_file_names
 
-        # setup attributors
-        fileobj = h5py.File(fname, mode="r")
-        from geoips.xarray_utils.time import (
-            get_max_from_xarray_time,
-            get_min_from_xarray_time,
-        )
+    # setup attributors
+    from geoips.xarray_utils.time import (
+        get_max_from_xarray_time,
+        get_min_from_xarray_time,
+    )
 
-        xarray_atms.attrs["start_datetime"] = get_min_from_xarray_time(
-            xarray_atms, "time"
-        )
-        xarray_atms.attrs["end_datetime"] = get_max_from_xarray_time(
-            xarray_atms, "time"
-        )
-        xarray_atms.attrs["source_name"] = "atms"
-        platform_name = fileobj.attrs["Platform_Short_Name"][0, 0].decode("utf-8")
-        # Map platform names found in data file attributes to consistent
-        # GeoIPS naming conventions (match VIIRS reader).
-        if platform_name == "J01":
-            platform_name = "noaa-20"
-        elif platform_name == "J02":
-            platform_name = "noaa-21"
-        elif platform_name == "NPP":
-            platform_name = "npp"
-        xarray_atms.attrs["platform_name"] = platform_name
-        xarray_atms.attrs["data_provider"] = "NOAA"
+    if "valid_indices" in xarray_atms:
+        xarray_atms = xarray_atms.where(xarray_atms["valid_indices"])
 
-        # MTIFs need to be "prettier" for PMW products, so 2km resolution for
-        # final image
-        xarray_atms.attrs["sample_distance_km"] = 2
-        xarray_atms.attrs["interpolation_radius_of_influence"] = (
-            30000  # could be tuned if needed
-        )
-        fileobj.close()
-    else:  # if 'metadata_only= False', it is for the second time to read-in datafiles
-        xarray_atms = final_xarray  # avoid read the data the second time
+    xarray_atms.attrs["start_datetime"] = get_min_from_xarray_time(xarray_atms, "time")
+    xarray_atms.attrs["end_datetime"] = get_max_from_xarray_time(xarray_atms, "time")
+    xarray_atms.attrs["source_name"] = "atms"
+
+    # MTIFs need to be "prettier" for PMW products, so 2km resolution for
+    # final image
+    xarray_atms.attrs["sample_distance_km"] = 2
+    xarray_atms.attrs["interpolation_radius_of_influence"] = (
+        30000  # could be tuned if needed
+    )
 
     return {"METADATA": xarray_atms[[]], "ATMS": xarray_atms}

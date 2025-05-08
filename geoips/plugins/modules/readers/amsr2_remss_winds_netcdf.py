@@ -1,11 +1,22 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from REMSS AMSR netcdf data."""
 
+# Python Standard Libraries
+from glob import glob
 import logging
 from os.path import basename
-from glob import glob
+
+# Third-Party Libraries
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
+from geoips.plugins.modules.readers.utils.remss_reader import read_remss_data
 
 LOG = logging.getLogger(__name__)
 
@@ -15,6 +26,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "amsr2_remss_winds_netcdf"
+source_names = ["amsr2rss"]
 
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
@@ -54,12 +66,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
-
     # Only SAR reads multiple files
     fname = fnames[0]
     wind_xarray = xarray.open_dataset(str(fname))
@@ -78,10 +84,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         and "Remote Sensing Systems" in wind_xarray.institution
     ):
         if hasattr(wind_xarray, "title") and "AMSR2" in wind_xarray.title:
-            from geoips.plugins.modules.readers.utils.remss_reader import (
-                read_remss_data,
-            )
-
             wind_xarrays = read_remss_data(wind_xarray, "amsr2")
 
     for wind_xarray in wind_xarrays.values():

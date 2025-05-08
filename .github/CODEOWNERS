@@ -1,0 +1,16 @@
+# This is a comment.
+# Each line is a file pattern followed by one or more owners.
+
+# Order is important; the last matching pattern takes the most
+# precedence.
+
+# More info:
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners#example-of-a-codeowners-file
+
+# These owners will be the default owners for everything in
+# the repo.
+
+# All PRs to default branch require one NRL and one CIRA review
+# CODEOWNERS file can only require a single team, so requiring NRL here,
+# implying the other of the 2 required reviews should be from a CIRA member.
+*       @NRLMMD-GEOIPS/nrl-review

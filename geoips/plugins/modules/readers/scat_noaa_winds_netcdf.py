@@ -1,12 +1,23 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Read derived surface winds from KNMI scatterometer netcdf data."""
 
-import logging
-from os.path import basename
+# Python Standard Libraries
 from copy import deepcopy
 from glob import glob
+import logging
+from os.path import basename
+
+# Third-Party Libraries
+import numpy
+import xarray
+
+# GeoIPS imports
+from geoips.xarray_utils.time import (
+    get_min_from_xarray_time,
+    get_max_from_xarray_time,
+)
 
 LOG = logging.getLogger(__name__)
 
@@ -16,6 +27,7 @@ DEG_TO_KM = 111.321
 interface = "readers"
 family = "standard"
 name = "scat_noaa_winds_netcdf"
+source_names = ["ascat"]
 
 
 def read_noaa_data(wind_xarray):
@@ -80,15 +92,16 @@ def read_noaa_data(wind_xarray):
             "wind_dir_sol": "wind_dir_deg_ambiguity_met",
         }
     )
-    import xarray
-    import numpy
 
     RAIN_FLAG_BIT = 9
     if hasattr(xarray, "ufuncs"):
         # ufuncs no longer available as of xarray v2022.06 (at least)
+        # ufuncs appears to be back as of v2025.3.1
         wind_xarray["rain_flag"] = xarray.ufuncs.logical_and(
             wind_xarray["wvc_quality_flag"], (1 << RAIN_FLAG_BIT)
         )
+        # rf variable used downstream for determining ambiguities
+        rf = wind_xarray["rain_flag"]
     else:
         # Can not figure out how to do the logical and in xarray now -
         # so do it in numpy.
@@ -164,12 +177,6 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-    from geoips.xarray_utils.time import (
-        get_min_from_xarray_time,
-        get_max_from_xarray_time,
-    )
-    import xarray
-
     final_wind_xarrays = {}
     ingested = []
     for fname in fnames:

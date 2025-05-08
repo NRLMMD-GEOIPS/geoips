@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 #!/bin/bash
@@ -176,6 +176,7 @@ if [[ "$test" == "pytest_short" || "$test" == "all" ]]; then
     fi
     echo "TEST COMPLETE pytest_short"
 fi
+# Do not include in "test" keyword - this takes a very long time to run
 if [[ "$test" == "pytest_long" || "$test" == "all_test_data" ]]; then
     echo ""
     echo "CALLING TEST:"

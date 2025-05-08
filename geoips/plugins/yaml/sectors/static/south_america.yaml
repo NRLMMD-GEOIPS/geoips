@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: south_america
-docstring: "South American Continent"
+docstring: "South American Continent."
 metadata:
   region:
     continent: SouthAmerica

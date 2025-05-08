@@ -1,0 +1,9 @@
+bug fix:
+- description: 'Change string operations on env var replacement to use pathlib to fix issue with links'
+  files:
+    modified:
+    - 'geoips/geoips_utils.py'
+  related-issue:
+    number: 792
+    repo_url: ''
+  title: 'Fix environment variable substitution'

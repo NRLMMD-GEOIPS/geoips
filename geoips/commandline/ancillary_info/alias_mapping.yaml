@@ -10,6 +10,10 @@ coverage-checkers:
   - cchk
   - cchks
   - coverage-checker
+databases:
+  - db
+  - dbs
+  - database
 filename-formatters:
   - ffmt
   - ffmts
@@ -72,6 +76,10 @@ sectors:
   - sec
   - secs
   - sector
+workflows:
+  - wf
+  - wfs
+  - workflow
 package:
   - pkg
 packages:
@@ -86,3 +94,5 @@ list:
   - ls
 validate:
   - val
+source-names:
+  - src-names

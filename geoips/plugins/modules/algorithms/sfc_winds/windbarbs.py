@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Surface Winds plotted as Barbs in Knots.
@@ -7,6 +7,9 @@ Data manipulation steps for surface winds products.
 This algorithm expects surface wind speeds in units of kts
 """
 import logging
+
+# install libraries
+import numpy as np
 
 LOG = logging.getLogger(__name__)
 
@@ -81,8 +84,6 @@ def call(
         * direction in degrees
         * rain_flag 0 or 1
     """
-    import numpy
-
     spd = arrays[0]
     if output_data_range is None:
         output_data_range = (spd.min(), spd.max)
@@ -90,7 +91,7 @@ def call(
     if len(arrays) > 2:
         rain_flag = arrays[2]
     else:
-        rain_flag = numpy.zeros(arrays[1].shape)
+        rain_flag = np.zeros(arrays[1].shape)
 
     from geoips.data_manipulations.conversions import unit_conversion
 
@@ -107,4 +108,4 @@ def call(
         norm=norm,
         inverse=inverse,
     )
-    return numpy.ma.dstack((spd, direction, rain_flag)).squeeze()
+    return np.ma.dstack((spd, direction, rain_flag)).squeeze()
