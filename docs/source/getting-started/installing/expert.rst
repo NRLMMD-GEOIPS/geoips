@@ -31,8 +31,8 @@ Required (**included in**
 * git >= 2.19.1 (git -C commands in complete installation)
 * openblas (required for scipy pip install)
 * make (required for pypublicdecompwt)
-* Python >= 3.11 (3.9 required for entry points, 3.10 required for importlib
-  improvements, 3.11 required for config file improvements)
+* Python >= 3.11 (>=3.9 required for entry points, >=3.10 required for importlib
+  improvements, >=3.11 required for config file and efficiency improvements)
 * Test data repos contained in $GEOIPS_TESTDATA_DIR
   (required for tests to pass)
 * pdflatex (optional, for building pdf documentation)
