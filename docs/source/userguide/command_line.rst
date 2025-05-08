@@ -14,15 +14,12 @@ Command Line Interface (CLI)
     The CLI may change without warning!
     Please consult this documentation for up-to-date info on the CLI.
 
-The CLI interacts with GeoIPS artifacts.
-A GeoIPS artifact is a piece of data or functionality,
-such as an Interface, Package, Plugin,
-Family, Test Script, Test Dataset, etc.
+The CLI can be used to run, configure, and test GeoIPS. It can also print lists or descriptions of available data or functionality.
 
 CLI commands are split up into two groups by their utility:
 
- - `Information retrieval`_ commands
- - `Action performing commands <#performing-processes>`_
+ - `Discovery commands`_
+ - `Action commands`_
 
 You can find the automatically created CLI usage documentation `here <./command_line_autodoc>`_.
 
@@ -30,134 +27,35 @@ You can find the automatically created CLI usage documentation `here <./command_
     :local:
     :backlinks: none
 
-Information Retrieval
-=====================
+Getting Help
+===========
 
-The CLI Implements two top-level commands which retrieve information about GeoIPS
-artifacts: ``describe`` and ``list`` (``ls``).
+To retrieve information about the CLI's commands and arguments, the ``-h/--help`` argument can be provided at any time. For example, each of the following will return different, context dependent, help information:
 
-Each command shown below can be ran with a ``-h``
-flag to provide associated help instructions.
+- ``geoips -h``
+- ``geoips list -h``
+- ``geoips list algorithms -h``
+- ``geoips run -h``
 
-describe
---------
+Command Aliases
+==============
 
-``describe`` retrieves detailed information about a GeoIPS artifact.
+Many GeoIPS commands and subcommands have aliases for convenience. Common aliases include:
 
-Outputted information may differ by each describe command.
-It implements four sub-commands described below.
+- ``ls`` for ``list``
+- ``alg`` or ``algs`` for ``algorithms``
+- ``pkg`` or ``pkgs`` for ``packages``
+- ``fam`` for ``family``
+- ``cfg`` for ``config``
+- ``val`` for ``validate``
 
-Information about artifact functionality and requirements
-is useful during use and/or development.
+These aliases can be used interchangeably with their full command names throughout the CLI.
 
-describe interface
-^^^^^^^^^^^^^^^^^^
+Discovery Commands
+=================
 
-``describe <interface_name>`` retrieves information specific to an interface.
-It returns:
-
-* Absolute Path
-* Docstring
-* Interface
-* Interface Type
-* Supported Families
-
-For more information about available GeoIPS Interfaces,
-see the `list <#list>`_ command.
-
-You can use aliases to run this command.
-For example, Algorithm has the following aliases
-
-.. code-block:: bash
-
-    geoips describe alg
-    geoips describe algs
-    geoips describe algorithm
-    geoips describe algorithms
-    geoips describe <interface_name>
-
-describe family
-^^^^^^^^^^^^^^^
-
-``describe <interface_name> family <family_name>`` (or ``fam``) is a
-sub-command of ``describe``
-
-It returns the following information about an interface's family:
-
-* Docstring
-* Family Name
-* Family Path
-* Interface Name
-* Interface Type
-* Required Args / Schema
-
-For example:
-
-.. code-block:: bash
-
-    geoips describe prod-def fam interpolator_algorithm_colormapper
-    geoips describe prod-defs fam interpolator_algorithm_colormapper
-    geoips describe product_default family interpolator_algorithm_colormapper
-    geoips describe product_defaults family interpolator_algorithm_colormapper
-    geoips describe <interface_name> family <family_name>
-
-describe package
-^^^^^^^^^^^^^^^^
-
-``describe package`` is a sub-command of describe.
-It returns the following information about a Package:
-
-* Docstring
-* GeoIPS Package
-* Package Path
-* Source Code
-* Version Number
-
-For example:
-
-.. code-block:: bash
-
-    geoips describe algorithm family single_channel
-
-You can use aliases to run this command.
-For example:
-
-.. code-block:: bash
-
-    geoips describe pkg geoips
-
-describe plugin
-^^^^^^^^^^^^^^^
-
-``describe plugin`` is a sub-command of describe.
-It returns the following information about a Plugin:
-
-* Docstring
-* Family Name
-* Interface Name
-* Interface Type
-* GeoIPS Package
-* Plugin Type
-* Product Defaults (if applicable)
-* Relative Path
-* Signature (if applicable)
-* Source Names (if applicable)
-
-For example:
-
-.. code-block:: bash
-
-    geoips describe alg single_channel
-
-You can use aliases to run this command.
-For example:
-
-.. code-block:: bash
-
-    geoips describe algorithm single_channel
-    geoips describe algorithms single_channel
-    geoips describe alg single_channel
-    geoips describe algs single_channel
+The CLI Implements two top-level commands that retrieve information about GeoIPS
+artifacts: ``list`` and ``describe``.
 
 list
 ----
@@ -171,7 +69,7 @@ list
 list interface
 ^^^^^^^^^^^^^^
 
-``list interfaces`` is a sub-command of list. It returns a list of GeoIPS interfaces.
+``list interfaces`` returns a list of GeoIPS interfaces.
 
 By default it returns the following for native interfaces:
 
@@ -221,9 +119,7 @@ or
 list interface
 ^^^^^^^^^^^^^^
 
-``list <interface_name>`` is a sub-command of list.
-
-It returns a list of an interfaces plugins with the following plugin information:
+``list <interface_name>`` returns a list of an interface's plugins with the following plugin information:
 
 * GeoIPS Package
 * Interface Name
@@ -246,45 +142,26 @@ You can also filter by package name with ``--package_name`` or ``-p``. For examp
     geoips list interfaces --package_name geoips
     geoips list <interface_name> -p <package_name>
 
-You can use aliases to run this command.
+list packages
+^^^^^^^^^^^^
 
-For example:
-
-.. code-block:: bash
-
-    geoips ls alg
-    geoips ls algs
-    geoips list algorithm
-    geoips list algorithms
-
-``list packages`` is a sub-command of list.
-
-It returns a list of GeoIPS Packages with the following package information:
+``list packages`` returns a list of GeoIPS Packages with the following package information:
 
 * Package Name
 * Docstring
 * Package Path
 * Version Number
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style.
+For example:
 
 .. code-block:: bash
 
     geoips list packages
 
-This command uses aliases. For example:
-
-.. code-block:: bash
-
-    geoips ls pkgs
-
 list plugins
 ^^^^^^^^^^^^
 
-``list plugins`` is a sub-command of list.
-
-It returns the following information about plugins:
+``list plugins`` returns the following information about plugins:
 
 * GeoIPS Package
 * Interface Name
@@ -299,7 +176,6 @@ For example:
 .. code-block:: bash
 
     geoips list plugins
-    geoips ls plugins
 
 You can filter by package with ``--package-name`` or ``-p``. For example:
 
@@ -307,20 +183,10 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 
     geoips list plugins -p <package_name>
 
-You can use aliases to run this command.
-For example:
-
-.. code-block:: bash
-
-    geoips ls plgs
-    geoips list plgs
-    geoips ls plugins
-
 list scripts
 ^^^^^^^^^^^^
 
-``list scripts`` is a sub-command of list.
-It returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable mode.
+``list scripts`` returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable mode.
 
 For each test script, this command returns:
 
@@ -351,8 +217,7 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 test-datasets
 ^^^^^^^^^^^^^
 
-``list test-datasets`` is a sub-command of list.
-For each test dataset, this command returns:
+``list test-datasets`` returns:
 
 * Data Host
 * Dataset Name
@@ -378,8 +243,7 @@ For example:
 unit-tests
 ^^^^^^^^^^
 
-``list unit-tests`` is a sub-command of ``list``.
-It returns a list of unit-tests from plugin packages that are installed in editable mode.
+``list unit-tests`` returns a list of unit-tests from plugin packages that are installed in editable mode.
 
 For each unit-test, the following information is returned:
 
@@ -388,7 +252,7 @@ For each unit-test, the following information is returned:
 * Unit Test Name
 
 .. note::
-    For this command to find your unit tets, you must
+    For this command to find your unit tests, you must
     place the unit tests under ``<package_install_location>/tests/unit_tests/``.
 
 For example:
@@ -424,18 +288,92 @@ For example:
 
     geoips list <cmd_name> --columns help
 
-Performing Processes
-====================
+describe
+--------
+
+``describe`` retrieves detailed information about a single GeoIPS artifact. It can be used to retrieve information about ``interfaces``, ``families``, ``packages``, and ``plugins``. To provide information that is relevant and useful for each artifact type, the information retrieved differs for different types of artifacts.
+
+describe interface
+^^^^^^^^^^^^^^^^^^
+
+``describe <interface_name>`` retrieves information about an interface.
+It returns:
+
+* Absolute Path
+* Docstring
+* Interface
+* Interface Type
+* Supported Families
+
+For more information about available GeoIPS Interfaces,
+see the `list <#list>`_ command.
+
+describe family
+^^^^^^^^^^^^^^^
+
+``describe <interface_name> family <family_name>`` (or ``fam``) retrieves information about a family.
+
+It returns the following information about an interface's family:
+
+* Docstring
+* Family Name
+* Family Path
+* Interface Name
+* Interface Type
+* Required Args / Schema
+
+For example:
+
+.. code-block:: bash
+
+    geoips describe prod-def fam interpolator_algorithm_colormapper
+
+describe package
+^^^^^^^^^^^^^^^^
+
+``describe package`` retrieves information about a registered plugin package.
+It returns the following information about a Package:
+
+* Docstring
+* GeoIPS Package
+* Package Path
+* Source Code
+* Version Number
+
+For example:
+
+.. code-block:: bash
+
+    geoips describe pkg geoips_clavrx
+
+describe plugin
+^^^^^^^^^^^^^^^
+
+``describe plugin`` retrieves information about a specific plugin.
+It returns the following information about a Plugin:
+
+* Docstring
+* Family Name
+* Interface Name
+* Interface Type
+* GeoIPS Package
+* Plugin Type
+* Product Defaults (if applicable)
+* Relative Path
+* Signature (if applicable)
+* Source Names (if applicable)
+
+For example:
+
+.. code-block:: bash
+
+    geoips describe alg single_channel
+
+Action Commands
+==============
 
 The CLI can kick off functionality built into GeoIPS. Below, we describe commands that
 do this.
-
-validation, executing test scripts, installing test datasets used by GeoIPS, and running
-a processing workflow as ``run_procflow`` previously did. The latter is the most
-significant change as we've rerouted all ``run_procflow`` & ``data_fusion_procflow``
-commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actually
-change the implementation of how procflows were ran, this makes all procflow calls be
-easily integrated as a CLI process.
 
 config
 ------
@@ -468,13 +406,6 @@ For example:
 
     To list installable test datasets,
     see ``geoips list test-datasets``.
-
-This command provides the alias ``cfg`` (short for ``config``) for convenience.
-For example:
-
-.. code-block:: bash
-
-    geoips cfg install test_data_clavrx
 
 run
 -----------
@@ -598,6 +529,9 @@ be saved to ``$GEOIPS_OUTDIRS/canada.png``.
 .. image:: ../images/command_line_examples/canada.png
    :width: 800
 
+test script
+^^^^^^^^^^^
+
 ``script`` executes an output-based test script which will return a numerical value
 based on the output of the test.
 
@@ -716,8 +650,6 @@ For example, running ``geoips tree`` returns:
 
 * ``--short-name``: return only literal command names
 
-.. TODO: ^ explain what --short-name does in more detail
-
 validate
 --------
 
@@ -726,7 +658,7 @@ validate
 .. note::
     To list plugins available for validation, see ``geoips list plugins`` above.
 
-A plugins full location path is needed to validate it.
+A plugin's full location path is needed to validate it.
 
 For example:
 
@@ -734,9 +666,3 @@ For example:
 
     geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>
-
-This command has a shortened alias ``val`` for convenience. For example:
-
-.. code-block:: bash
-
-    geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
