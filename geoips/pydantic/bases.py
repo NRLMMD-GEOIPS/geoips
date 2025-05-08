@@ -22,8 +22,8 @@ from pydantic import (
 )
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
+from pydantic.fields import PrivateAttr
 from typing_extensions import Annotated
-
 
 # GeoIPS imports
 from geoips import interfaces
@@ -177,7 +177,33 @@ class PluginModel(FrozenModel):
     for more information about how this is used.
     """
 
-    namespace: ClassVar = "geoips.plugin_packages"
+    def __init_subclass__(cls):
+        """Initialize the PluginModel class.
+
+        If the class doesn't already have apiVersion set, do it here.
+        """
+        super().__init_subclass__()
+        if not hasattr(cls, "apiVersion"):
+            cls.apiVersion = "geoips/v1"
+        cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+
+    # def _derive_plugin_namespace(cls):
+    #     """Derive the plugin's namespace from cls.apiVersion.
+
+    #     By default, the computed namespace will be 'geoips.plugin_packages'.
+
+    #     Raises
+    #     ------
+    #     AttributeError
+    #         Raised if cls.apiVersion does not exist.
+    #     """
+    #     # Set namespace based on apiVersion (static logic, not per-instance)
+    #     if hasattr(cls, "apiVersion"):
+    #         return f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+    #     else:
+    #         raise AttributeError("'apiVersion' must be defined.")
+
+    # _namespace: str = PrivateAttr(default_factory=_derive_plugin_namespace)
 
     interface: PythonIdentifier = Field(
         ...,
@@ -220,18 +246,21 @@ class PluginModel(FrozenModel):
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
         interface_name = values.get("interface")
-        if cls.namespace == "geoips.plugin_packages":
+        if cls._namespace == "geoips.plugin_packages":
             ints = interfaces
         else:
-            ints = get_interface_module(cls.namespace)
+            ints = get_interface_module(cls._namespace)
         try:
+            from IPython import embed as shell
+
+            shell()
             metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
             )
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
-                f"Must be one of {get_interfaces(cls.namespace)}"
+                f"Must be one of {get_interfaces(cls._namespace)}"
             )
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the fuutre issue #906
@@ -270,7 +299,7 @@ class PluginModel(FrozenModel):
         ValueError
             If the 'interface' field value is not in the list of valid interfaces.
         """
-        valid_interfaces = get_interfaces(cls.namespace)
+        valid_interfaces = get_interfaces(cls._namespace)
         if value not in valid_interfaces:
             err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
             LOG.critical(err_msg, exc_info=True)

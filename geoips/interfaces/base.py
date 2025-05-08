@@ -320,6 +320,14 @@ class BaseInterface(abc.ABC):
                 "must have the class attribute 'name'."
             )
 
+        if not hasattr(cls, "apiVersion"):
+            # If the class is missing 'apiVersion', default to geoips/v1. Namespace
+            # will be derived later on.
+            cls.apiVersion = "geoips/v1"
+        else:
+            # Otherwise derive namespace from the provided apiVersion.
+            cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+
         cls.__doc__ = f"GeoIPS interface for {cls.name} plugins."
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
