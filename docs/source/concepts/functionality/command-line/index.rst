@@ -14,7 +14,8 @@ Command Line Interface (CLI)
     The CLI may change without warning!
     Please consult this documentation for up-to-date info on the CLI.
 
-The CLI can be used to run, configure, and test GeoIPS. It can also print lists or descriptions of available data or functionality.
+The CLI can be used to run, configure, and test GeoIPS. It can also print lists or descriptions of available data or
+functionality.
 
 CLI commands are split up into two groups by their utility:
 
@@ -28,9 +29,10 @@ You can find the automatically created CLI usage documentation `here <./command_
     :backlinks: none
 
 Getting Help
-===========
+============
 
-To retrieve information about the CLI's commands and arguments, the ``-h/--help`` argument can be provided at any time. For example, each of the following will return different, context dependent, help information:
+To retrieve information about the CLI's commands and arguments, the ``-h/--help`` argument can be provided at any time.
+For example, each of the following will return different, context dependent, help information:
 
 - ``geoips -h``
 - ``geoips list -h``
@@ -38,7 +40,7 @@ To retrieve information about the CLI's commands and arguments, the ``-h/--help`
 - ``geoips run -h``
 
 Command Aliases
-==============
+===============
 
 Many GeoIPS commands and subcommands have aliases for convenience. Common aliases include:
 
@@ -52,7 +54,7 @@ Many GeoIPS commands and subcommands have aliases for convenience. Common aliase
 These aliases can be used interchangeably with their full command names throughout the CLI.
 
 Discovery Commands
-=================
+==================
 
 The CLI Implements two top-level commands that retrieve information about GeoIPS
 artifacts: ``list`` and ``describe``.
@@ -143,7 +145,7 @@ You can also filter by package name with ``--package_name`` or ``-p``. For examp
     geoips list <interface_name> -p <package_name>
 
 list packages
-^^^^^^^^^^^^
+^^^^^^^^^^^^^
 
 ``list packages`` returns a list of GeoIPS Packages with the following package information:
 
@@ -186,7 +188,8 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 list scripts
 ^^^^^^^^^^^^
 
-``list scripts`` returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable mode.
+``list scripts`` returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable
+mode.
 
 For each test script, this command returns:
 
@@ -216,7 +219,7 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 
 test-datasets
 ^^^^^^^^^^^^^
-=======
+=============
 .. _geoips_list_source_names:
 
 :ref:`geoips list source-names <geoips_list_source_names>`
@@ -317,7 +320,9 @@ For example:
 describe
 --------
 
-``describe`` retrieves detailed information about a single GeoIPS artifact. It can be used to retrieve information about ``interfaces``, ``families``, ``packages``, and ``plugins``. To provide information that is relevant and useful for each artifact type, the information retrieved differs for different types of artifacts.
+``describe`` retrieves detailed information about a single GeoIPS artifact. It can be used to retrieve information about
+``interfaces``, ``families``, ``packages``, and ``plugins``. To provide information that is relevant and useful for each
+artifact type, the information retrieved differs for different types of artifacts.
 
 describe interface
 ^^^^^^^^^^^^^^^^^^
@@ -396,7 +401,7 @@ For example:
     geoips describe alg single_channel
 
 Action Commands
-==============
+===============
 
 The CLI can kick off functionality built into GeoIPS. Below, we describe commands that
 do this.
@@ -434,7 +439,7 @@ For example:
     see ``geoips list test-datasets``.
 
 run
------------
+---
 
 GeoIPS creates outputs (as defined by products)
 via a processing workflow, aka a procflow.
