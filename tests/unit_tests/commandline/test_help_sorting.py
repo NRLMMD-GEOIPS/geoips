@@ -10,7 +10,7 @@ from geoips.commandline.geoips_command import AlphabeticalHelpFormatter
 
 class TestAlphabeticalHelpFormatter:
     """
-    Test suite for AlphabeticalHelpFormatter.
+    :noindex: Test suite for AlphabeticalHelpFormatter.
 
     Ensures that the custom help formatter correctly sorts
     command-line arguments in alphabetical order.
