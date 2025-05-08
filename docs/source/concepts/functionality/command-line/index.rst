@@ -17,7 +17,7 @@ Command Line Interface (CLI)
 The CLI can be used to run, configure, and test GeoIPS. It can also print lists or descriptions of available data or
 functionality.
 
-CLI commands are split up into two groups by their utility:
+CLI commands are split up into two groups by their functionality:
 
  - `Discovery commands`_
  - `Action commands`_
@@ -31,7 +31,7 @@ You can find the automatically created CLI usage documentation `here <./command_
 Getting Help
 ============
 
-To retrieve information about the CLI's commands and arguments, the ``-h/--help`` argument can be provided at any time.
+To retrieve information about the CLI's commands and arguments, use the ``-h/--help`` argument.
 For example, each of the following will return different, context dependent, help information:
 
 - ``geoips -h``
@@ -441,8 +441,6 @@ run
 
 GeoIPS creates outputs (as defined by products)
 via a processing workflow, aka a procflow.
-
-Procflows are bash scripts that call GeoIPS with configuration options.
 
 .. warning::
 
