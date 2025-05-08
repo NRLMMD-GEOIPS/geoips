@@ -1,0 +1,21 @@
+refactor:
+- title: 'Python Dependency and INTERACTIVE Log Level Updates'
+  description: |
+    This PR makes small updates to the minimum python version GeoIPS supports and the
+    logging level that is associated with INTERACTIVE mode. GeoIPS now only supports
+    python versions >= 3.11.0. Additionally, we updated the numeric value of the
+    INTERACTIVE log level to be 25 rather than 35 so that LOG.WARNING output (35) will
+    still be shown in our logs.
+  files:
+    modified:
+      - docs/source/getting-started/installing/expert.rst
+      - docs/source/getting-started/installing/linux_with_conda.rst
+      - docs/source/getting-started/installing/mac_with_conda.rst
+      - geoips/__init__.py
+      - pyproject.toml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
