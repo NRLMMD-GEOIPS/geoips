@@ -242,7 +242,7 @@ For example:
     geoips list source-names -p <package_name>
 
 list test-datasets
-^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
 ``list test-datasets`` returns:
 
@@ -268,7 +268,7 @@ For example:
     geoips list test-datasets
 
 list unit-tests
-^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^
 
 ``list unit-tests`` returns a list of unit-tests from plugin packages that are installed in editable mode.
 
@@ -697,4 +697,3 @@ For example:
 
     geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>
-            
