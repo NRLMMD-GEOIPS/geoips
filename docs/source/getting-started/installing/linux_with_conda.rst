@@ -8,7 +8,7 @@
 Conda-based Installation for Linux
 **********************************
 
-Using a fresh Mini/Anaconda Python 3.11.0+ Environment is the easiest way to
+Using a fresh Mini/Anaconda Python 3.11+ Environment is the easiest way to
 get geoips up and running.
 
 Complete Local conda-based GeoIPS Installation
@@ -94,7 +94,7 @@ but this command will ensure that for everyone.
     # Note geos no longer required for cartopy >= 0.22
     # openblas / gcc required for recenter_tc / akima build.
     # git required for -C commands
-    mamba create -y -n geoips -c conda-forge python=3.11.0 gcc gxx openblas git
+    mamba create -y -n geoips -c conda-forge python=3.11 gcc gxx openblas git
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``conda activate geoips``
