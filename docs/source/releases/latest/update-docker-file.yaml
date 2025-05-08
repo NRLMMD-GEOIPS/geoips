@@ -1,0 +1,18 @@
+enhancement:
+- title: 'Update Dockerfile'
+  description: 'This update adds multi-stage builds for dev, prod and testing.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'Dockerfile'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
