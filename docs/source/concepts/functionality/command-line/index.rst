@@ -217,35 +217,33 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 
     geoips list scripts -p <package_name>
 
-test-datasets
-^^^^^^^^^^^^^
-=============
-.. _geoips_list_source_names:
+list source-names
+^^^^^^^^^^^^^^^^^
 
-:ref:`geoips list source-names <geoips_list_source_names>`
-
-``list source-names`` is a list sub-command which retrieves a listing of source_names
+``list source-names`` (or ``list src-names``) retrieves a listing of source_names
 from all, or a certain GeoIPS Package. For this command to find a listing of
 source_names, you must add a module-level ``source_names`` attribute to your reader
 plugin. Every core GeoIPS reader plugin has this attribute set. We recommend following
 the same method of implementation as core GeoIPS readers, as reader plugins without this
 attribute will be deprecated when GeoIPS v2.0.0 is released.
+
 Information included when calling this command is:
 
-    * Source Name
-    * Reader Names
+* Source Name
+* Reader Names
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. One of the commands below lists
-source_names from a certain GeoIPS package.
-::
+For example:
+
+.. code-block:: bash
 
     geoips ls source-names
     geoips ls src-names
     geoips list source-names
     geoips list source-names -p <package_name>
 
-.. _geoips_list_test-datasets:
+list test-datasets
+^^^^^^^^^^^^^^^^^
+
 ``list test-datasets`` returns:
 
 * Data Host
@@ -265,12 +263,12 @@ We require these datasets for testing GeoIPS:
 
 For example:
 
-::
+.. code-block:: bash
 
     geoips list test-datasets
 
-unit-tests
-^^^^^^^^^^
+list unit-tests
+^^^^^^^^^^^^^^
 
 ``list unit-tests`` returns a list of unit-tests from plugin packages that are installed in editable mode.
 
@@ -546,7 +544,9 @@ For example:
 
 An additional output directory can be specified with ``--outdir``. For example:
 
-    * ``geoips test sector <sector_name> --outdir <output_directory_path>``
+.. code-block:: bash
+
+    geoips test sector <sector_name> --outdir <output_directory_path>
 
 After creating a new sector plugin, run ``create_plugin_registries``
 to add the sector to your registry.
@@ -577,7 +577,7 @@ For example:
 
 .. code-block:: bash
 
-    geoips test script <script_name> (defaults to 'geoips' package)
+    geoips test script <script_name> # (defaults to 'geoips' package)
 
 ``script`` can execute integration tests in the 'geoips' package.
 
@@ -590,8 +590,8 @@ For example:
 To run a test script, or run your integration tests, you must first place your
 integration / normal test scripts in one of these file locations:
 
-    * Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
-    * Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
+* Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
+* Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
 
 You can run test scripts in plugin packages by specifying the
 plugin package with ``-p`` or ``--package_name``. For example:
@@ -697,3 +697,4 @@ For example:
 
     geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>
+            
