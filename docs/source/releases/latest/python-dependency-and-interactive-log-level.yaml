@@ -8,6 +8,9 @@ refactor:
     still be shown in our logs.
   files:
     modified:
+      - docs/source/getting-started/installing/expert.rst
+      - docs/source/getting-started/installing/linux_with_conda.rst
+      - docs/source/getting-started/installing/mac_with_conda.rst
       - geoips/__init__.py
       - pyproject.toml
   related-issue:
