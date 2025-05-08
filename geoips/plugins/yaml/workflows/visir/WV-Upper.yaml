@@ -5,27 +5,32 @@ docstring: |
   The WV_Upper workflow configuration.
 spec:
   steps:
-    - interpolator:
-        name: interp_nearest
-        arguments: {}
-    - algorithm:
-        name: single_channel
-        arguments:
-          output_data_range: [-70.0, 0.0]
-          input_units: Kelvin
-          output_units: celsius
-          min_outbounds: crop
-          max_outbounds: crop
-          norm: null
-          inverse: null
-    - output_formatter:
-        name: imagery_annotated
-        arguments:
-          colormapper:
-            name: WV
-            arguments:
-              data_range: [-70.0, 0.0]
-          filename_formatter:
-            name: geoips_fname
-            arguments:
-              suffix: ".png"
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      arguments:
+        output_data_range: [-70.0, 0.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      arguments:
+        colormapper:
+          kind: colormapper
+          name: WV
+          arguments:
+            data_range: [-70.0, 0.0]
+        filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          arguments:
+            suffix: ".png"

@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: e_pacific
-docstring: "Eastern Pacific"
+docstring: "Eastern Pacific."
 metadata:
   region:
     continent: x

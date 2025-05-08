@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: geokompsat
-docstring: "Full disk sector for GEO-KOMPSAT"
+docstring: "Full disk sector for GEO-KOMPSAT."
 metadata:
   region:
     continent: Global

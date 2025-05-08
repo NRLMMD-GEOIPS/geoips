@@ -10,6 +10,8 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
+from typing import Union, Tuple
+import warnings
 
 # Third-Party Libraries
 from pydantic import (
@@ -28,6 +30,9 @@ from typing_extensions import Annotated
 from geoips import interfaces
 
 LOG = logging.getLogger(__name__)
+
+ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
+ColorType = Union[ColorTuple, str]
 
 
 class CoreBaseModel(BaseModel):
@@ -51,7 +56,9 @@ class CoreBaseModel(BaseModel):
         str
             A JSON-formatted string representation of the Pydantic model.
         """
-        return self.model_dump_json(indent=2)
+        # Check if exclude unset removes all None attributes or just those which weren't
+        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
+        return self.model_dump_json(indent=2, exclude_unset=True)
 
 
 class FrozenModel(CoreBaseModel):
@@ -183,13 +190,7 @@ class PluginModel(FrozenModel):
         description=("A short description or defaults to first line from docstring."),
     )
     package: PythonIdentifier = (
-        Field(
-            None,
-            description=(
-                "Automatically derived package name for this plugin. Users "
-                "must not set this field manually."
-            ),
-        ),
+        Field(..., description="Package that contains this plugin."),
     )
     relpath: str = Field(
         None, description="Path to the plugin file relative to its parent package."
@@ -216,23 +217,18 @@ class PluginModel(FrozenModel):
         """
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
-
         interface_name = values.get("interface")
         try:
-            interface = getattr(interfaces, interface_name)
+            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
+                values.get("name")
+            )
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
                 f"Must be one of {get_interfaces()}"
             )
-
-        try:
-            metadata = interface.get_plugin_metadata(values.get("name"))
-        except KeyError:
-            raise ValueError(f"Plugin not found: '{values.get('name')}'")
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the future issue #906
-
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
@@ -253,8 +249,6 @@ class PluginModel(FrozenModel):
 
         Parameters
         ----------
-        cls : Type
-            PluginModel class.
         value :
             Value of the 'interface' field to validate.
 
@@ -270,7 +264,7 @@ class PluginModel(FrozenModel):
         """
         valid_interfaces = get_interfaces()
         if value not in valid_interfaces:
-            err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
+            err_msg = f"Invalid interface:'{value}'. Must be one of {valid_interfaces}"
             LOG.critical(err_msg, exc_info=True)
             raise ValueError(err_msg)
         return value
@@ -321,10 +315,12 @@ class PluginModel(FrozenModel):
         str
             Validated ``description`` string.
 
-        Raises
-        ------
-        PydanticCustomError
+        Warns
+        -----
+        FutureWarning
             If the ``description`` field violates any of the validation rules.
+            This will raise a ValidationError in a future release.
+
         """
         error_messages = {
             "single_line": "Description must be a single line.",
@@ -333,27 +329,37 @@ class PluginModel(FrozenModel):
             ),
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
-        if "\n" in value:
-            LOG.critical(
-                "'error': %s 'input_provided': %r",
-                error_messages["single_line"],
-                value,
-                exc_info=True,
+        try:
+
+            def _log_and_raise_custom_pydantic_errors(
+                error_type: str, error_message: str, value: str
+            ):
+                warnings.warn(
+                    f"'error': {error_message} 'input_provided': {value}",
+                    FutureWarning,
+                    stacklevel=3,
+                )
+                raise PydanticCustomError(error_type, error_message)
+
+            if "\n" in value:
+                _log_and_raise_custom_pydantic_errors(
+                    "single_line", error_messages["single_line"], value
+                )
+            elif not value or not value[0].isalnum() or not value.endswith("."):
+                _log_and_raise_custom_pydantic_errors(
+                    "format_error", error_messages["format_error"], value
+                )
+            elif len(value) > 72:
+                excess_length = len(value) - 72
+                err_msg = f"{error_messages['length_error']} {excess_length} characters"
+                _log_and_raise_custom_pydantic_errors("length_error", err_msg, value)
+
+        except PydanticCustomError as e:
+            warnings.warn(
+                f"Future ValidationError encountered. This current warning will become "
+                f"an error in a future release. {e}",
+                FutureWarning,
+                stacklevel=2,
             )
-            raise PydanticCustomError("single_line", error_messages["single_line"])
-        if not (value[0].isalnum() and value.endswith(".")):
-            LOG.critical(
-                "'error': %s 'input_provided': %r",
-                error_messages["format_error"],
-                value,
-                exc_info=True,
-            )
-            raise PydanticCustomError("format_error", error_messages["format_error"])
-        if len(value) > 72:
-            excess_length = len(value) - 72
-            err_msg = f"{error_messages['length_error']} {excess_length} characters"
-            LOG.critical(
-                "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
-            )
-            raise PydanticCustomError("length_error", err_msg)
+
         return value
