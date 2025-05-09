@@ -10,7 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
-from typing import ClassVar, Union, Tuple
+from typing import Union, Tuple
 
 # Third-Party Libraries
 from pydantic import (
@@ -22,7 +22,6 @@ from pydantic import (
 )
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
-from pydantic.fields import PrivateAttr
 from typing_extensions import Annotated
 
 # GeoIPS imports
@@ -187,24 +186,6 @@ class PluginModel(FrozenModel):
             cls.apiVersion = "geoips/v1"
         cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
 
-    # def _derive_plugin_namespace(cls):
-    #     """Derive the plugin's namespace from cls.apiVersion.
-
-    #     By default, the computed namespace will be 'geoips.plugin_packages'.
-
-    #     Raises
-    #     ------
-    #     AttributeError
-    #         Raised if cls.apiVersion does not exist.
-    #     """
-    #     # Set namespace based on apiVersion (static logic, not per-instance)
-    #     if hasattr(cls, "apiVersion"):
-    #         return f"{cls.apiVersion.split('/')[0]}.plugin_packages"
-    #     else:
-    #         raise AttributeError("'apiVersion' must be defined.")
-
-    # _namespace: str = PrivateAttr(default_factory=_derive_plugin_namespace)
-
     interface: PythonIdentifier = Field(
         ...,
         description="""Name of the plugin's interface. Run geoips list interfaces to see
@@ -251,9 +232,6 @@ class PluginModel(FrozenModel):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            from IPython import embed as shell
-
-            shell()
             metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
             )
