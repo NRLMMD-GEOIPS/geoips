@@ -3,6 +3,8 @@
 
 """Test Order-based procflow ReaderArgumentsModel."""
 
+import copy
+
 # Third-Party Libraries
 import pytest
 from pydantic import ValidationError
@@ -75,3 +77,20 @@ def test_bad_reader_arguments_model_empty_list_for_variable(
     model = workflows.ReaderArgumentsModel(**valid_reader_arguments_model_data)
 
     assert model.variables == []
+
+
+def test_bad_reader_arguments_model_chans_deprecation(
+    caplog, valid_reader_arguments_model_data
+):
+    """Tests ReaderArgumentsModel with valid inputs."""
+    invalid_test_data = copy.deepcopy(valid_reader_arguments_model_data)
+    invalid_test_data["chans"] = invalid_test_data.pop("variables")
+
+    with caplog.at_level("WARNING"):
+        model = workflows.ReaderArgumentsModel(**invalid_test_data)
+
+    # Assert model still created
+    assert model
+
+    # Check that a warning was logged
+    assert any("'chans' is deprecated" in msg for msg in caplog.messages)
