@@ -27,9 +27,7 @@ from os.path import (
 )
 from os import remove
 import re
-import sys
 import logging
-from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
 import json
@@ -944,40 +942,3 @@ def get_parser():
         ),
     )
     return parser
-
-
-def main():
-    """Generate all available plugins from all installed GeoIPS packages.
-
-    After all plugins have been generated, they are written to registered_plugins.yaml
-    containing a dictionary of all the registered GeoIPS plugins. Keys in this
-    dictionary are the interface names, following by each plugin name.
-
-    Parameters
-    ----------
-    args: list
-        List of strings representing the arguments provided via command line.
-    """
-    parser = get_parser()
-
-    ARGS = parser.parse_args()
-    save_type = ARGS.save_type
-    package_name = ARGS.package_name
-    namespace = ARGS.namespace
-
-    LOG = setup_logging(logging_level="INTERACTIVE")
-    # Note: Python 3.9 appears to return duplicates when installed with setuptools.
-    # These are filtered within the create_plugin_registries function.
-    plugin_packages = metadata.entry_points(group=namespace)
-    if package_name:
-        for plugin_package in plugin_packages:
-            if plugin_package.name == package_name:
-                use_plugin_package = plugin_package
-        plugin_packages = [use_plugin_package]
-    LOG.debug(plugin_packages)
-    create_plugin_registries(plugin_packages, save_type, namespace)
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

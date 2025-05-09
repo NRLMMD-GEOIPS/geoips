@@ -105,6 +105,29 @@ class ParentParsers:
                 """,
     )
 
+    config_parser = argparse.ArgumentParser(add_help=False)
+    config_parser.add_argument(
+        "-n",
+        "--namespace",
+        default="geoips.plugin_packages",
+        type=str,
+        help=(
+            "The namespace of plugin packages to create plugin registries for. "
+            "If not specified, this defaults to 'geoips.plugin_packages'."
+        ),
+    )
+    config_parser.add_argument(
+        "-p",
+        "--packages",
+        default=None,
+        type=list[str],
+        help=(
+            "The plugin packages to create or delete plugin registries for. Defaults to"
+            " None. If None, all plugin packages under 'namespace' will have their "
+            "plugin registries created or deleted, based on the command supplied."
+        ),
+    )
+
 
 class GeoipsCommand(abc.ABC):
     """Abstract Base Class for top-level GeoIPS Command Classes, such as run or list.
@@ -162,6 +185,12 @@ class GeoipsCommand(abc.ABC):
             curr_parent = self.parent
             self.parent_parsers = []
             while curr_parent and hasattr(ParentParsers, f"{curr_parent.name}_parser"):
+                # Don't add parent parser arguments to 'geoips config install'. Config's
+                # shared arguments only apply to 'create-registries' and
+                # 'delete-registries' and the time being. I've looked for easier
+                # workarounds and can't find any suitable options other than hardcoding.
+                if self.name == "install" and self.parent.name == "config":
+                    break
                 self.parent_parsers.insert(
                     0,
                     getattr(ParentParsers, f"{curr_parent.name}_parser"),
