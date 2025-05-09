@@ -28,6 +28,8 @@ import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
 from geoips.errors import PluginError, PluginRegistryError
+from geoips.filenames.base_paths import PATHS
+from geoips.geoips_utils import merge_nested_dicts
 
 
 LOG = logging.getLogger(__name__)
@@ -116,7 +118,6 @@ class PluginRegistry:
         """
         # Load the registries here and return them as a dictionary
         if not hasattr(self, "_registered_plugins") or force_reset:
-            from geoips.geoips_utils import merge_nested_dicts
 
             # Complete dictionary of all available plugins found in every geoips package
             self._registered_plugins = {}
@@ -127,45 +128,7 @@ class PluginRegistry:
             # "text_based": [tpw_cimss, ...]
             # }
             self._interface_mapping = {}
-            for reg_path in self.registry_files:
-                if not os.path.exists(reg_path):
-                    LOG.error(
-                        f"Plugin registry {reg_path} did not exist, "
-                        "please run 'create_plugin_registries'"
-                    )
-                    # Create plugin registries
-                    self.create_registries()
-                    # Force a rebuild of the master registered_plugins dictionary
-                    return self._set_class_properties(force_reset=True)
-                # This will include all plugins, including schemas, yaml_based,
-                # and module_based plugins.
-                if self._is_test:
-                    with open(reg_path, "r") as fo:
-                        pkg_plugins = yaml.safe_load(fo)
-                else:
-                    with open(reg_path, "r") as fo:
-                        pkg_plugins = json.load(fo)
-                    # Do not validate ALL plugins at runtime.
-                    # self.validate_registry(pkg_plugins, reg_path)
-                try:
-                    for plugin_type in pkg_plugins:
-                        if plugin_type not in self._registered_plugins:
-                            self._registered_plugins[plugin_type] = {}
-                            self._interface_mapping[plugin_type] = []
-                        for interface in pkg_plugins[plugin_type]:
-                            interface_dict = pkg_plugins[plugin_type][interface]
-                            if interface not in self._registered_plugins[plugin_type]:
-                                self._registered_plugins[plugin_type][
-                                    interface
-                                ] = interface_dict  # NOQA
-                                self._interface_mapping[plugin_type].append(interface)
-                            else:
-                                merge_nested_dicts(
-                                    self._registered_plugins[plugin_type][interface],
-                                    interface_dict,
-                                )
-                except TypeError:
-                    raise PluginRegistryError(f"Failed reading {reg_path}.")
+            self._load_registries()
             # Let's test this separately, not at runtime (see validate_all_registries).
             # Assume it was tested up front, and no longer needs testing at
             # runtime, so we don't fail catastrophically for a single bad
@@ -177,6 +140,78 @@ class PluginRegistry:
             #     )
         else:
             return self._registered_plugins
+
+    def _load_registries(self):
+        """Load all plugin registries for each package found under self.namespace.
+
+        By default, self.namespace is 'geoips.plugin_packages'.
+        """
+        for reg_path in self.registry_files:
+            # Make sure we only attempt to rebuild if GEOIPS_REBUILD_REGISTRIES
+            # is set to True
+            if not os.path.exists(reg_path) and PATHS["GEOIPS_REBUILD_REGISTRIES"]:
+                LOG.error(
+                    f"Plugin registry {reg_path} does not exist, "
+                    "please run 'create_plugin_registries'"
+                )
+
+                # We attempt to create plugin registries under self.namespace if one
+                # or more plugin packages' registry file is missing and the
+                # GEOIPS_REBUILD_REGISTRIES environment is set to true. This should
+                # not be hit twice.
+
+                # Create plugin registries
+                self.create_registries()
+                # Force a rebuild of the master registered_plugins dictionary
+                return self._set_class_properties(force_reset=True)
+            elif (
+                not os.path.exists(reg_path) and not PATHS["GEOIPS_REBUILD_REGISTRIES"]
+            ):
+                raise FileNotFoundError(
+                    f"Plugin registry {reg_path} does not exist and "
+                    "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
+                    "create these files, run 'geoips config create-registries'."
+                )
+            # This will include all plugins, including schemas, yaml_based,
+            # and module_based plugins.
+            if self._is_test:
+                with open(reg_path, "r") as fo:
+                    pkg_plugins = yaml.safe_load(fo)
+            else:
+                with open(reg_path, "r") as fo:
+                    pkg_plugins = json.load(fo)
+                # Do not validate ALL plugins at runtime.
+                # self.validate_registry(pkg_plugins, reg_path)
+            try:
+                self._parse_registries(pkg_plugins)
+            except TypeError:
+                raise PluginRegistryError(f"Failed reading {reg_path}.")
+
+    def _parse_registries(self, pkg_plugins):
+        """Parse all plugins found under a package's plugin registry.
+
+        Parameters
+        ----------
+        pkg_plugins: dict
+            - A dictionary of metadata corresponding to every plugin found under an
+              individual plugin package.
+        """
+        for plugin_type in pkg_plugins:
+            if plugin_type not in self._registered_plugins:
+                self._registered_plugins[plugin_type] = {}
+                self._interface_mapping[plugin_type] = []
+
+            for interface in pkg_plugins[plugin_type]:
+                interface_dict = pkg_plugins[plugin_type][interface]
+
+                if interface not in self._registered_plugins[plugin_type]:
+                    self._registered_plugins[plugin_type][interface] = interface_dict
+                    self._interface_mapping[plugin_type].append(interface)
+                else:
+                    merge_nested_dicts(
+                        self._registered_plugins[plugin_type][interface],
+                        interface_dict,
+                    )
 
     def get_plugin_metadata(self, interface_obj, plugin_name):
         """Retrieve a plugin's metadata.
@@ -250,8 +285,6 @@ class PluginRegistry:
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
         """
-        from importlib.resources import files
-
         try:
             registered_yaml_plugins = self.registered_plugins["yaml_based"]
         except KeyError:
@@ -286,7 +319,7 @@ class PluginRegistry:
                 return self.retry_get_plugin(
                     interface_obj, name, rebuild_registries, err_str
                 )
-            abspath = str(files(package) / relpath)
+            abspath = str(resources.files(package) / relpath)
             # If abspath doesn't exist the registry is out of date with the actual
             # contents of all, or a certain plugin package.
             if not os.path.exists(abspath):
@@ -339,7 +372,7 @@ class PluginRegistry:
                 return self.retry_get_plugin(
                     interface_obj, name, rebuild_registries, err_str
                 )
-            abspath = str(files(package) / relpath)
+            abspath = str(resources.files(package) / relpath)
             # If abspath doesn't exist the registry is out of date with the actual
             # contents of all, or a certain plugin package.
             if not os.path.exists(abspath):
@@ -494,7 +527,11 @@ class PluginRegistry:
         spec = util.spec_from_file_location(module_path, abspath)
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        return interface_obj._plugin_module_to_obj(name, module)
+        plugin = interface_obj._plugin_module_to_obj(name, module)
+        # This function might raise a PluginError with pertinent information on why
+        # the plugin is invalid. Don't catch that, we want the error to be raised.
+        interface_obj.plugin_is_valid(plugin)
+        return plugin
 
     def get_module_plugins(self, interface_obj):
         """Retrieve all module plugins for this interface.
@@ -663,25 +700,12 @@ class PluginRegistry:
                 json_plug_path = str(
                     resources.files(pkg.value) / "registered_plugins.json"
                 )
-                # If the .json registry is missing, raise a FileNotFoundError.
-                if os.path.exists(json_plug_path):
-                    os.remove(json_plug_path)
-                else:
-                    raise FileNotFoundError(
-                        f"Error: deletion of '{pkg.value}'s registry was requested "
-                        f" but {json_plug_path} couldn't be found. Run "
-                        "'create_plugin_registries' to fix this issue."
-                    )
-                # Don't have the code above in a for loop as we don't require the
-                # .yaml registry file. Just raise a warning if it's missing.
-                if os.path.exists(yaml_plug_path):
-                    os.remove(yaml_plug_path)
-                else:
-                    LOG.warning(
-                        f"Warning: deletion was requested for '{pkg.value}'s plugin "
-                        f"registry files but {yaml_plug_path} couldn't be found. "
-                        "Run 'create_plugin_registries -s yaml' to fix this issue."
-                    )
+                for path in [json_plug_path, yaml_plug_path]:
+                    # Attempt to remove the files, pass silently if they don't exist.
+                    try:
+                        os.remove(path)
+                    except FileNotFoundError:
+                        continue
 
     def _validate_packages_input(self, packages):
         """Validate that packages is a list of strings.
