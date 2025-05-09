@@ -154,6 +154,12 @@ class PluginRegistry:
                     f"Plugin registry {reg_path} does not exist, "
                     "please run 'create_plugin_registries'"
                 )
+
+                # We attempt to create plugin registries under self.namespace if one
+                # or more plugin packages' registry file is missing and the
+                # GEOIPS_REBUILD_REGISTRIES environment is set to true. This should
+                # not be hit twice.
+
                 # Create plugin registries
                 self.create_registries()
                 # Force a rebuild of the master registered_plugins dictionary
@@ -194,12 +200,12 @@ class PluginRegistry:
             if plugin_type not in self._registered_plugins:
                 self._registered_plugins[plugin_type] = {}
                 self._interface_mapping[plugin_type] = []
+
             for interface in pkg_plugins[plugin_type]:
                 interface_dict = pkg_plugins[plugin_type][interface]
+
                 if interface not in self._registered_plugins[plugin_type]:
-                    self._registered_plugins[plugin_type][
-                        interface
-                    ] = interface_dict  # NOQA
+                    self._registered_plugins[plugin_type][interface] = interface_dict
                     self._interface_mapping[plugin_type].append(interface)
                 else:
                     merge_nested_dicts(
@@ -690,25 +696,12 @@ class PluginRegistry:
                 json_plug_path = str(
                     resources.files(pkg.value) / "registered_plugins.json"
                 )
-                # If the .json registry is missing, raise a FileNotFoundError.
-                if os.path.exists(json_plug_path):
-                    os.remove(json_plug_path)
-                else:
-                    raise FileNotFoundError(
-                        f"Error: deletion of '{pkg.value}'s registry was requested "
-                        f" but {json_plug_path} couldn't be found. Run "
-                        "'create_plugin_registries' to fix this issue."
-                    )
-                # Don't have the code above in a for loop as we don't require the
-                # .yaml registry file. Just raise a warning if it's missing.
-                if os.path.exists(yaml_plug_path):
-                    os.remove(yaml_plug_path)
-                else:
-                    LOG.warning(
-                        f"Warning: deletion was requested for '{pkg.value}'s plugin "
-                        f"registry files but {yaml_plug_path} couldn't be found. "
-                        "Run 'create_plugin_registries -s yaml' to fix this issue."
-                    )
+                for path in [json_plug_path, yaml_plug_path]:
+                    # Attempt to remove the files, pass silently if they don't exist.
+                    try:
+                        os.remove(path)
+                    except FileNotFoundError:
+                        continue
 
     def _validate_packages_input(self, packages):
         """Validate that packages is a list of strings.
