@@ -3,8 +3,8 @@
 
 """Workflow plugin models.
 
-Defines pydantic models related to Workflow plugins, including top-level callable
-interfaces (eg. Readers, OutputFormatters, etc.).
+Defines pydantic models related to Workflow plugins,
+including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 """
 
 # Python Standard Libraries
