@@ -715,7 +715,6 @@ class BaseYamlInterface(BaseInterface):
                 plugin_found = False
                 with open(abspath, "r") as fo:
                     plugins = list(yaml.load_all(fo, Loader=yaml.SafeLoader))
-                # for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
                 for plugin in plugins:
                     if plugin["name"] == name:
                         plugin_found = True
