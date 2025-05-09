@@ -308,6 +308,12 @@ class BaseInterface(abc.ABC):
     interface_type = None  # This is set by child classes
     rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
 
+    def __init__(self):
+        """Initialize the BaseInterface class."""
+        # Default to self.apiVersion = 'geoips/v1' if not provided already.
+        if not hasattr(self, "apiVersion"):
+            self.apiVersion = "geoips/v1"
+
     def __new__(cls):
         """Plugin interface new method."""
         if not hasattr(cls, "name") or not cls.name:
@@ -315,7 +321,6 @@ class BaseInterface(abc.ABC):
                 f"Error creating {cls.name} class. SubClasses of ``BaseInterface`` "
                 "must have the class attribute 'name'."
             )
-
         cls.__doc__ = f"GeoIPS interface for {cls.name} plugins."
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
@@ -331,7 +336,9 @@ class BaseInterface(abc.ABC):
         namespace to search in.
         """
         if not hasattr(self, "_namespace"):
-            self._namespace = "geoips.plugin_packages"
+            # By default all GeoIPS interfaces will have self.apiVersion = 'geoips/v1'
+            # If that attribute is not already set.
+            self._namespace = f"{self.apiVersion.split('/')[0]}.plugin_packages"
         return self._namespace
 
     @property
