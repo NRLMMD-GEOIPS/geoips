@@ -573,7 +573,7 @@ class BaseYamlInterface(BaseInterface):
                 obj_attrs[attr] = yaml_plugin[attr]
             # This should be removed once we fully switch to pydantic models
             except TypeError:
-                yaml_plugin = yaml_plugin.dict()
+                yaml_plugin = yaml_plugin.model_dump()
                 obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
