@@ -10,7 +10,8 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
-from typing import ClassVar, Union, Tuple
+from typing import Union, Tuple
+import warnings
 
 # Third-Party Libraries
 from pydantic import (
@@ -23,7 +24,6 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
-
 
 # GeoIPS imports
 from geoips import interfaces
@@ -38,8 +38,8 @@ ColorType = Union[ColorTuple, str]
 class PrettyBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default.
 
-    This model overrides the default string representation of Pyantic models to generate
-    a user-friendly, JSON-formatted output with two-space indentation.
+    This model overrides the default string representation of Pydantic models to
+    generate a user-friendly, JSON-formatted output with two-space indentation.
     """
 
     def __str__(self) -> str:
@@ -147,7 +147,7 @@ def get_interfaces(namespace) -> set[str]:
     """Return a set of distinct interfaces.
 
     This function returns all available plugin interfaces. The results are cached for
-    runtime memory optimizaiton.
+    runtime memory optimization.
 
     Returns
     -------
@@ -177,7 +177,15 @@ class PluginModel(FrozenModel):
     for more information about how this is used.
     """
 
-    namespace: ClassVar = "geoips.plugin_packages"
+    def __init_subclass__(cls):
+        """Initialize the PluginModel class.
+
+        If the class doesn't already have apiVersion set, do it here.
+        """
+        super().__init_subclass__()
+        if not hasattr(cls, "apiVersion"):
+            cls.apiVersion = "geoips/v1"
+        cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
 
     interface: PythonIdentifier = Field(
         ...,
@@ -220,10 +228,10 @@ class PluginModel(FrozenModel):
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
         interface_name = values.get("interface")
-        if cls.namespace == "geoips.plugin_packages":
+        if cls._namespace == "geoips.plugin_packages":
             ints = interfaces
         else:
-            ints = get_interface_module(cls.namespace)
+            ints = get_interface_module(cls._namespace)
         try:
             metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
@@ -231,10 +239,10 @@ class PluginModel(FrozenModel):
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
-                f"Must be one of {get_interfaces(cls.namespace)}"
+                f"Must be one of {get_interfaces(cls._namespace)}"
             )
         # the above exception handling would be further improved by checking the
-        # existence of plugin registry in the fuutre issue #906
+        # existence of plugin registry in the future issue #906
         if "package" not in metadata:
             err_msg = (
                 "Metadata for '%s' workflow plugin must contain 'package' key."
@@ -255,8 +263,6 @@ class PluginModel(FrozenModel):
 
         Parameters
         ----------
-        cls : Type
-            PluginModel class.
         value :
             Value of the 'interface' field to validate.
 
@@ -270,9 +276,9 @@ class PluginModel(FrozenModel):
         ValueError
             If the 'interface' field value is not in the list of valid interfaces.
         """
-        valid_interfaces = get_interfaces(cls.namespace)
+        valid_interfaces = get_interfaces(cls._namespace)
         if value not in valid_interfaces:
-            err_msg = f"Incorrect interface:'{value}'.Must be one of {valid_interfaces}"
+            err_msg = f"Invalid interface:'{value}'. Must be one of {valid_interfaces}"
             LOG.critical(err_msg, exc_info=True)
             raise ValueError(err_msg)
         return value
@@ -282,7 +288,7 @@ class PluginModel(FrozenModel):
         cls: type["PluginModel"], values: dict[str, str | int | float | None]
     ):
         """
-        Set ``description`` to first line of ``dosctring`` field if not provided.
+        Set ``description`` to first line of ``docstring`` field if not provided.
 
         Parameters
         ----------
@@ -323,10 +329,12 @@ class PluginModel(FrozenModel):
         str
             Validated ``description`` string.
 
-        Raises
-        ------
-        PydanticCustomError
+        Warns
+        -----
+        FutureWarning
             If the ``description`` field violates any of the validation rules.
+            This will raise a ValidationError in a future release.
+
         """
         error_messages = {
             "single_line": "Description must be a single line.",
@@ -335,27 +343,37 @@ class PluginModel(FrozenModel):
             ),
             "length_error": "Description cannot be more than 72 characters, reduce by:",
         }
-        if "\n" in value:
-            LOG.critical(
-                "'error': %s 'input_provided': %r",
-                error_messages["single_line"],
-                value,
-                exc_info=True,
+        try:
+
+            def _log_and_raise_custom_pydantic_errors(
+                error_type: str, error_message: str, value: str
+            ):
+                warnings.warn(
+                    f"'error': {error_message} 'input_provided': {value}",
+                    FutureWarning,
+                    stacklevel=3,
+                )
+                raise PydanticCustomError(error_type, error_message)
+
+            if "\n" in value:
+                _log_and_raise_custom_pydantic_errors(
+                    "single_line", error_messages["single_line"], value
+                )
+            elif not value or not value[0].isalnum() or not value.endswith("."):
+                _log_and_raise_custom_pydantic_errors(
+                    "format_error", error_messages["format_error"], value
+                )
+            elif len(value) > 72:
+                excess_length = len(value) - 72
+                err_msg = f"{error_messages['length_error']} {excess_length} characters"
+                _log_and_raise_custom_pydantic_errors("length_error", err_msg, value)
+
+        except PydanticCustomError as e:
+            warnings.warn(
+                f"Future ValidationError encountered. This current warning will become "
+                f"an error in a future release. {e}",
+                FutureWarning,
+                stacklevel=2,
             )
-            raise PydanticCustomError("single_line", error_messages["single_line"])
-        if not (value[0].isalnum() and value.endswith(".")):
-            LOG.critical(
-                "'error': %s 'input_provided': %r",
-                error_messages["format_error"],
-                value,
-                exc_info=True,
-            )
-            raise PydanticCustomError("format_error", error_messages["format_error"])
-        if len(value) > 72:
-            excess_length = len(value) - 72
-            err_msg = f"{error_messages['length_error']} {excess_length} characters"
-            LOG.critical(
-                "'error': %s 'input_provided': %r", err_msg, value, exc_info=True
-            )
-            raise PydanticCustomError("length_error", err_msg)
+
         return value

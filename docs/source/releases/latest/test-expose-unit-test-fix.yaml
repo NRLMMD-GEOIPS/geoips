@@ -1,0 +1,15 @@
+bug fix:
+- title: 'Test Expose Unit Test Fix'
+  description: |
+    Simple bug fix that wasn't caught by a PR merged yesterday. All this PR does is
+    update the logging level that caplog uses in a unit test. Now uses logging level of
+    25 instead of the previous 35.
+  files:
+    modified:
+      - tests/unit_tests/commandline/test_expose.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
