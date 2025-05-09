@@ -196,11 +196,11 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
             try:
                 plugin_model(**bad_plugin)
             except ValidationError as e:
-                # The code below assumes that your test only raised one error. That's how
-                # we've structured testing for the time being. In the case that one or more
-                # errors are reported, we default to the last error of the failing model
-                # reported, or, if no failing model could be associated with this error,
-                # we just default to the last error reported.
+                # The code below assumes that your test only raised one error. That's
+                # how we've structured testing for the time being. In the case that one
+                #  or more errors are reported, we default to the last error of the
+                # failing model reported, or, if no failing model could be associated
+                # with this error, we just default to the last error reported.
                 errors = e.errors()
                 if len(e.errors()) > 1:
                     val_err = attempt_to_associate_model_with_error(
@@ -208,7 +208,8 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
                     )
                 else:
                     val_err = errors[0]
-                # In testing, it seems that the last 'loc' is always the failing attribute
+                # In testing, it seems that the last 'loc' is always the failing
+                # attribute
                 bad_field = val_err["loc"][-1]
                 err_msg = val_err["msg"]
                 # Find the module which contains the failing model. I.e. PluginModel in
@@ -219,21 +220,22 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
                         module = mod
                         break
                     elif hasattr(gpydan._modules[mod], failing_model):
-                        # This behaviour occurs for the 'ColorType' attribute, which is a
-                        # type instance but not actually a pydantic class. Skip the field
-                        # assertion below
+                        # This behavior occurs for the 'ColorType' attribute, which is
+                        # a type instance but not actually a pydantic class. Skip the
+                        # field assertion below
                         module = "pass"
                         break
                 if module != "pass":
-                    # Assert that the failing field was found in the model expected to fail
+                    # Assert that the failing field was found in the model expected to
+                    # fail
                     assert (
                         module
                         and bad_field
                         in getattr(gpydan._modules[module], failing_model).model_fields
                     )
                 if err_str:
-                    # Assert that the error string provided is in the error message returned
-                    # or equal to the error message returned.
+                    # Assert that the error string provided is in the error message
+                    # returned or equal to the error message returned.
                     assert err_str in err_msg or err_str == err_msg
 
 
