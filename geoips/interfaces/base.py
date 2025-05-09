@@ -311,12 +311,9 @@ class BaseInterface(abc.ABC):
     name = "BaseInterface"
     interface_type = None  # This is set by child classes
     rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
-
-    def __init__(self):
-        """Initialize the BaseInterface class."""
-        # Default to self.apiVersion = 'geoips/v1' if not provided already.
-        if not hasattr(self, "apiVersion"):
-            self.apiVersion = "geoips/v1"
+    # Setting this attribute at the top level so it can be used by all methods.
+    # This can be overriden by setting them in child interface classes
+    apiVersion = "geoips/v1"
 
     def __new__(cls):
         """Plugin interface new method."""
