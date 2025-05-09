@@ -74,7 +74,9 @@ def load_test_cases(interface_name):
             f"Error: No test cases file could be found. Expected {fpath} but it did not"
             " exist. Please create this file and rerun your tests."
         )
-    test_cases = yaml.safe_load(open(fpath, "r"))
+    with open(fpath, "r") as fo:
+        test_cases = yaml.safe_load(fo)
+
     for id, val in test_cases.items():
         for key in list(val.keys()):
             if key not in ("key", "val", "cls", "err_str", "warn_match"):
@@ -96,7 +98,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
 
     Parameters
     ----------
-    inteface_name: str
+    interface_name: str
         - The name of the GeoIPS plugin's interface.
     plugin_name: str
         - The name of the plugin of type 'interface_name'.
