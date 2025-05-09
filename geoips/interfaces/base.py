@@ -731,7 +731,7 @@ class BaseModuleInterface(BaseInterface):
         """Retrieve all module plugins for this interface."""
         return self.plugin_registry.get_module_plugins(self)
 
-    def plugin_is_valid(self, name):
+    def plugin_is_valid(self, plugin):
         """Check that an interface is valid.
 
         Check that the requested interface function has the correct call signature.
@@ -740,15 +740,14 @@ class BaseModuleInterface(BaseInterface):
 
         Parameters
         ----------
-        name : str
-          Name of the interface to be validated
+        plugin : PluginObject
+          A plugin object coming from _plugin_module_to_obj that needs to be validated.
 
         Returns
         -------
         bool
           True if valid, False if invalid
         """
-        plugin = self.get_plugin(name)
         if plugin.family not in self.required_args:
             raise PluginError(
                 f"'{plugin.family}' must be added to required args list"
@@ -822,7 +821,7 @@ class BaseModuleInterface(BaseInterface):
         """
         plugins = self.get_plugins()
         for plugin in plugins:
-            if not self.plugin_is_valid(plugin.name):
+            if not self.plugin_is_valid(plugin):
                 return False
         return True
 

@@ -527,7 +527,11 @@ class PluginRegistry:
         spec = util.spec_from_file_location(module_path, abspath)
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        return interface_obj._plugin_module_to_obj(name, module)
+        plugin = interface_obj._plugin_module_to_obj(name, module)
+        # This function might raise a PluginError with pertinent information on why
+        # the plugin is invalid. Don't catch that, we want the error to be raised.
+        interface_obj.plugin_is_valid(plugin)
+        return plugin
 
     def get_module_plugins(self, interface_obj):
         """Retrieve all module plugins for this interface.
