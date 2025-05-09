@@ -12,6 +12,7 @@ import yaml
 from geoips import interfaces
 from geoips import pydantic as gpydan
 
+from copy import deepcopy
 
 LOG = logging.getLogger(__name__)
 
@@ -95,7 +96,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
 
     Parameters
     ----------
-    inteface_name: str
+    interface_name: str
         - The name of the GeoIPS plugin's interface.
     plugin_name: str
         - The name of the plugin of type 'interface_name'.
@@ -166,7 +167,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     plugin_model: instance or child of geoips.pydantic.bases.PluginModel
         - The pydantic-based model used to validate this plugin.
     """
-    bad_plugin = good_plugin
+    bad_plugin = deepcopy(good_plugin)
     key = test_tup["key"]
     val = test_tup["val"]
     failing_model = test_tup["cls"]
@@ -176,11 +177,14 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     if key in ["abspath", "relpath", "package"]:
         bad_plugin.pop(key)
         plugin_model(**bad_plugin)
+        print("parsed model result:", plugin_model(**bad_plugin))
     # Otherwise, set the bad value in the plugin, and test for ValidationErrors
     else:
         bad_plugin[key] = val
+        # with pydantic raise - Kumar
         try:
             plugin_model(**bad_plugin)
+            print("parsed model result:", plugin_model(**bad_plugin))
         except ValidationError as e:
             # The code below assumes that your test only raised one error. That's how
             # we've structured testing for the time being. In the case that one or more
@@ -203,7 +207,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
                     module = mod
                     break
                 elif hasattr(gpydan._modules[mod], failing_model):
-                    # This behaviour occurs for the 'ColorType' attribute, which is a
+                    # This behavior occurs for the 'ColorType' attribute, which is a
                     # type instance but not actually a pydantic class. Skip the field
                     # assertion below
                     module = "pass"
