@@ -10,7 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
-from typing import Union, Tuple
+from typing import ClassVar, Union, Tuple
 import warnings
 
 # Third-Party Libraries
@@ -24,6 +24,9 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
+from pydantic._internal._model_construction import (
+    ModelMetaclass,
+)  # internal API, but safe to use
 
 # GeoIPS imports
 from geoips import interfaces
@@ -165,7 +168,33 @@ def get_interfaces(namespace) -> set[str]:
         return set(mod.__all__)
 
 
-class PluginModel(FrozenModel):
+class PluginModelMetadata(ModelMetaclass):
+    """API version and namespace metadata for the corresponding plugin model.
+
+    This is used to derive 'apiVersion' and 'namespace' for any given PluginModel.
+    PluginModel can be instantiated directly or a child class of PluginModel can be
+    instantiated and the functionality will for the same.
+
+    Initially attempted to use __init_subclass__ in the PluginModel class itself, but
+    that only supported child classes of PluginModel (i.e. WorkflowPluginModel, ...),
+    but not instantiation of PluginModel itself.
+
+    NOTE: Need to inherit from ModelMetaclass, otherwise we'll wind up with this error:
+
+    E TypeError: metaclass conflict: the metaclass of a derived class must be a
+    (non-strict) subclass of the metaclasses of all its bases
+    """
+
+    def __new__(mcs, name, bases, namespace, **kwargs):
+        cls = super().__new__(mcs, name, bases, namespace)
+        # Set apiVersion if not already set
+        if not hasattr(cls, "apiVersion") or cls.apiVersion is None:
+            cls.apiVersion = "geoips/v1"
+        cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+        return cls
+
+
+class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     """Base Plugin model for all GeoIPS plugins.
 
     This should be used as the base class for all top-level
@@ -177,15 +206,8 @@ class PluginModel(FrozenModel):
     for more information about how this is used.
     """
 
-    def __init_subclass__(cls):
-        """Initialize the PluginModel class.
-
-        If the class doesn't already have apiVersion set, do it here.
-        """
-        super().__init_subclass__()
-        if not hasattr(cls, "apiVersion"):
-            cls.apiVersion = "geoips/v1"
-        cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+    apiVerson: ClassVar[str | None] = None
+    _namespace: ClassVar[str | None] = None
 
     interface: PythonIdentifier = Field(
         ...,
