@@ -238,7 +238,7 @@ class PluginRegistry:
         if interface_registry is None:
             raise KeyError(
                 "Error: There is no interface in the plugin registry of type '"
-                f"{self.interface_type}' called '{self.name}'."
+                f"{interface_obj.interface_type}' called '{interface_obj.name}'."
             )
 
         if isinstance(plugin_name, tuple):
@@ -247,7 +247,7 @@ class PluginRegistry:
         elif isinstance(plugin_name, str):
             metadata = interface_registry.get(plugin_name)
         else:
-            raise KeyError(
+            raise TypeError(
                 f"Error: cannot search the plugin registry with the provided name = "
                 f"{plugin_name}. Please provide either a string or a tuple of strings."
             )

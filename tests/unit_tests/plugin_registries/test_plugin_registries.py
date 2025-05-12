@@ -12,8 +12,10 @@ import pytest
 import json
 import yaml
 
-from geoips.plugin_registry import PluginRegistry
 from geoips.errors import PluginRegistryError
+from geoips.filenames.base_paths import PATHS
+from geoips.interfaces import algorithms, products
+from geoips.plugin_registry import PluginRegistry
 
 LOG = logging.getLogger(__name__)
 
@@ -201,7 +203,12 @@ class TestPluginRegistry:
         recursive=True,
     )
 
-    pr_validator = PluginRegistryValidator(default_fpaths)
+    # pr_validator uses test registry files for most tests
+    pr_validator = PluginRegistryValidator(fpaths=default_fpaths)
+    # real reg validator is responsible for testing deleting and building of registries
+    # based on whether or not we want that to occur:
+    # I.e. whether or not PATHS["GEOIPS_REBUILD_REGISTRIES"] is set to True or False
+    real_reg_validator = PluginRegistryValidator(fpaths=None)
 
     # Couldn't implement this class via inheritance because PyTest Raised this error:
     # PytestCollectionWarning: cannot collect test class 'TestPluginRegistry' because
@@ -222,14 +229,24 @@ class TestPluginRegistry:
 
     def test_registered_plugin_property(self):
         """Ensure registered_plugins is valid in its nature."""
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
         print(self.pr_validator.registered_plugins)
         assert isinstance(self.pr_validator.registered_plugins, dict)
         assert "yaml_based" in self.pr_validator.registered_plugins
         assert "module_based" in self.pr_validator.registered_plugins
         assert "text_based" in self.pr_validator.registered_plugins
+        # This will return self.pr_validator._registered_plugins, since it already
+        # exists. This would not occur if that attribute is missing, and nothing would
+        # be returned
+        assert self.pr_validator._set_class_properties()
 
     def test_interface_mapping_property(self):
         """Ensure interface_mapping is valid in its nature."""
+        if hasattr(self.pr_validator, "_interface_mapping"):
+            del self.pr_validator._interface_mapping
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
         print(self.pr_validator.interface_mapping)
         assert isinstance(self.pr_validator.interface_mapping, dict)
         assert "yaml_based" in self.pr_validator.interface_mapping
@@ -238,6 +255,82 @@ class TestPluginRegistry:
         assert isinstance(self.pr_validator.interface_mapping["yaml_based"], list)
         assert isinstance(self.pr_validator.interface_mapping["module_based"], list)
         assert isinstance(self.pr_validator.interface_mapping["text_based"], list)
+
+    def test_registered_module_plugins_property(self):
+        """Ensure that registered_module_plugins exist and have contents."""
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
+        print(self.pr_validator.registered_module_based_plugins)
+        assert isinstance(self.pr_validator.registered_module_based_plugins, dict)
+        assert len(self.pr_validator.registered_module_based_plugins)
+
+    def test_registered_yaml_plugins_property(self):
+        """Ensure that registered_yaml_plugins exist and have contents."""
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
+        print(self.pr_validator.registered_yaml_based_plugins)
+        assert isinstance(self.pr_validator.registered_yaml_based_plugins, dict)
+        assert len(self.pr_validator.registered_yaml_based_plugins)
+
+    def test_automatic_registry_creation(self):
+        """Assert that the registries are automatically rebuilt.
+
+        This occurs if expected registry files are missing and
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] is set to True.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = True
+        self.real_reg_validator.delete_registries()
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        assert self.real_reg_validator.registered_plugins
+
+    def test_disabled_registry_creation(self):
+        """Assert that the registries are not automatically rebuilt.
+
+        This occurs if expected registry files are missing and
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] is set to False. A FileNotFoundError should
+        be raised.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = False
+        self.real_reg_validator.delete_registries()
+        with pytest.raises(FileNotFoundError):
+            self.real_reg_validator._set_class_properties(force_reset=True)
+
+    def test_get_valid_plugin_metadata(self):
+        """Retrieve plugin metadata from a plugin that we know exists and is correct.
+
+        For this test, we'll be using the algorithms.single_channel plugin and the
+        products.abi.Infrared plugin.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = True
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        assert algorithms.get_plugin_metadata("single_channel")
+        assert products.get_plugin_metadata("abi", "Infrared")
+
+    def test_get_invalid_plugin_metadata(self):
+        """Retrieve plugin metadata from a plugin that we know is missing.
+
+        For this test, we'll be using the algorithms.fake_plugin plugin. This will raise
+        a PluginRegistryError.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = True
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        with pytest.raises(PluginRegistryError):
+            algorithms.get_plugin_metadata("fake_plugin")
+        with pytest.raises(TypeError):
+            algorithms.get_plugin_metadata(1078)
+
+        class FakeInterface:
+            """Dummy fake interface used to validate errors that should be raised.
+
+            Where the corresponding errors are raised via the PluginRegistry's
+            get_plugin_metadata method.
+            """
+
+            interface_type = "fake"
+            name = "fake_interface"
+
+        with pytest.raises(KeyError):
+            self.real_reg_validator.get_plugin_metadata(FakeInterface, "fake_plugin")
 
     @pytest.mark.parametrize("fpath", pr_validator.registry_files, ids=generate_id)
     def test_all_registries(self, fpath):
