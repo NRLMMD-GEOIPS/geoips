@@ -186,6 +186,7 @@ class PluginModelMetadata(ModelMetaclass):
     """
 
     def __new__(mcs, name, bases, namespace, **kwargs):
+        """Instantiate a new PluginModelMetadata class."""
         cls = super().__new__(mcs, name, bases, namespace)
         # Set apiVersion if not already set
         if not hasattr(cls, "apiVersion") or cls.apiVersion is None:
