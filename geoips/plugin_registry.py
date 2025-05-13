@@ -295,7 +295,7 @@ class PluginRegistry:
         if rebuild_registries is None:
             rebuild_registries = interface_obj.rbr
         elif not isinstance(rebuild_registries, bool):
-            raise ValueError(
+            raise TypeError(
                 "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
                 f" value. Encountered this '{rebuild_registries}' instead."
             )
@@ -442,7 +442,7 @@ class PluginRegistry:
         plugins = []
         registered_yaml_plugins = self.registered_yaml_based_plugins
         if interface_obj.name not in registered_yaml_plugins:
-            LOG.debug("No plugins found for '%s' interface.", self.name)
+            LOG.debug("No plugins found for '%s' interface.", interface_obj.name)
             return plugins
         for name in registered_yaml_plugins[interface_obj.name].keys():
             plugins.append(self.get_yaml_plugin(interface_obj, name))
