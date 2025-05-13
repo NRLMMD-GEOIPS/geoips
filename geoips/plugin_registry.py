@@ -486,7 +486,7 @@ class PluginRegistry:
         if rebuild_registries is None:
             rebuild_registries = interface_obj.rbr
         elif not isinstance(rebuild_registries, bool):
-            raise ValueError(
+            raise TypeError(
                 "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
                 f" value. Encountered this '{rebuild_registries}' instead."
             )

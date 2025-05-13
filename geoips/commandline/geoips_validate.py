@@ -59,8 +59,12 @@ class GeoipsValidate(GeoipsExecutableCommand):
         )
         if interface.name == "products":
             is_valid = self.validate_sub_products(interface, fpath, plugin)
-        else:
+        elif interface.interface_type == "yaml_based":
             is_valid = interface.plugin_is_valid(plugin_name)
+        else:
+            is_valid = interface.plugin_is_valid(
+                interface._plugin_module_to_obj(plugin_name, plugin)
+            )
         if not is_valid:
             # if it's not valid, report that to the user
             self.parser.error(f"Plugin '{plugin_name}' found at {fpath} is invalid.")
