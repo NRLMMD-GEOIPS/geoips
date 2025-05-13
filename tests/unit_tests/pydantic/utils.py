@@ -152,8 +152,9 @@ def validate_good_plugin(good_plugin, plugin_model):
     """
     plugin_model(**good_plugin)
 
+
 def _validate_test_tup_keys(test_tup: dict) -> tuple:
-    """Ensure test_tup contains exactly one of 'err_str' or 'warn_match', and extract values.
+    """Ensure test_tup contains either 'err_str' or 'warn_match', and extract values.
 
     Parameters
     ----------
@@ -162,8 +163,11 @@ def _validate_test_tup_keys(test_tup: dict) -> tuple:
             - 'key' (str): Path to the attribute being mutated.
             - 'val' (any): The value to set for the given key.
             - 'cls' (str): The name of the model expected to fail.
-            - 'err_str' (str, optional): Expected error message fragment for the ValidationError.
-            - 'warn_match' (str, optional): Expected warning message fragment if a warning is tested.
+            - 'err_str' (str, optional): Expected error message fragment for the
+                ValidationError.
+            - 'warn_match' (str, optional): Expected warning message fragment if a
+                warning is tested.
+
     Returns
     -------
     tuple
@@ -205,36 +209,35 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     plugin_model: instance or child of geoips.pydantic.bases.PluginModel
         - The pydantic-based model used to validate this plugin.
     """
-
     key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
 
     bad_plugin = deepcopy(good_plugin)
     bad_plugin[key] = val
 
     # ValidationErrors won't occur for these fields at the moment.
+    # Skip the testing until the validators are implemented.
     validation_to_be_implemented = ["abspath", "relpath", "package"]
+    if key in validation_to_be_implemented:
+        return
 
-    if key not in validation_to_be_implemented and warn_match:
+    if warn_match:
         with pytest.warns(FutureWarning, match=warn_match):
             plugin_model(**bad_plugin)
-    elif key not in validation_to_be_implemented:
+    else:
         try:
             plugin_model(**bad_plugin)
         except ValidationError as e:
-            # The code below assumes that your test only raised one error. That's
-            # how we've structured testing for the time being. In the case that one
-            #  or more errors are reported, we default to the last error of the
-            # failing model reported, or, if no failing model could be associated
-            # with this error, we just default to the last error reported.
+            # The code below assumes that your test only raised one error. That's how
+            # we've structured testing for the time being. In the case that one or more
+            # errors are reported, we default to the last error of the failing model
+            # reported, or, if no failing model could be associated with this error, we
+            # just default to the last error reported.
             errors = e.errors()
             if len(e.errors()) > 1:
-                val_err = attempt_to_associate_model_with_error(
-                    failing_model, errors
-                )
+                val_err = attempt_to_associate_model_with_error(failing_model, errors)
             else:
                 val_err = errors[0]
-            # In testing, it seems that the last 'loc' is always the failing
-            # attribute
+            # In testing, it seems that the last 'loc' is always the failing attribute
             bad_field = val_err["loc"][-1]
             err_msg = val_err["msg"]
             # Find the module which contains the failing model. I.e. PluginModel in
