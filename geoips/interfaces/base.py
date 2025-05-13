@@ -573,7 +573,7 @@ class BaseYamlInterface(BaseInterface):
                 obj_attrs[attr] = yaml_plugin[attr]
             # This should be removed once we fully switch to pydantic models
             except TypeError:
-                yaml_plugin = yaml_plugin.dict()
+                yaml_plugin = yaml_plugin.model_dump()
                 obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
@@ -708,12 +708,14 @@ class BaseYamlInterface(BaseInterface):
                 return self.retry_get_plugin(
                     name, rebuild_registries, err_str, PluginRegistryError
                 )
-
-            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
+            with open(abspath, "r") as fo:
+                doc_iter = list(yaml.safe_load_all(fo))
             doc_length = sum(1 for _ in doc_iter)
             if doc_length > 1 or self.name == "workflows":
                 plugin_found = False
-                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
+                with open(abspath, "r") as fo:
+                    plugins = list(yaml.safe_load_all(fo))
+                for plugin in plugins:
                     if plugin["name"] == name:
                         plugin_found = True
                         plugin["package"] = package
@@ -730,7 +732,8 @@ class BaseYamlInterface(BaseInterface):
                 # convert this to an object without validating for the time being.
                 return self._plugin_yaml_to_obj(name, plugin)
             else:
-                plugin = yaml.safe_load(open(abspath, "r"))
+                with open(abspath, "r") as fo:
+                    plugin = yaml.safe_load(fo)
                 plugin["package"] = package
                 plugin["abspath"] = abspath
                 plugin["relpath"] = relpath
