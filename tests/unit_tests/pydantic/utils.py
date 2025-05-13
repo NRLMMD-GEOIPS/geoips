@@ -152,6 +152,41 @@ def validate_good_plugin(good_plugin, plugin_model):
     """
     plugin_model(**good_plugin)
 
+def _validate_test_tup_keys(test_tup: dict) -> tuple:
+    """Ensure test_tup contains exactly one of 'err_str' or 'warn_match', and extract values.
+
+    Parameters
+    ----------
+    test_tup:
+        - A dictionary containing the following keys:
+            - 'key' (str): Path to the attribute being mutated.
+            - 'val' (any): The value to set for the given key.
+            - 'cls' (str): The name of the model expected to fail.
+            - 'err_str' (str, optional): Expected error message fragment for the ValidationError.
+            - 'warn_match' (str, optional): Expected warning message fragment if a warning is tested.
+    Returns
+    -------
+    tuple
+        (key, value, cls, err_str / warn_match)
+
+    Raises
+    ------
+    ValueError
+        If neither or both 'err_str' and 'warn_match' are provided.
+    """
+    key = test_tup["key"]
+    val = test_tup["val"]
+    failing_model = test_tup["cls"]
+    err_str = test_tup.get("err_str")
+    warn_match = test_tup.get("warn_match")
+
+    if err_str is not None and warn_match is not None:
+        raise ValueError("Only one of 'err_str' or 'warn_match' should be set.")
+    elif err_str is None and warn_match is None:
+        raise ValueError("At least one of 'err_str' or 'warn_match' must be provided.")
+
+    return key, val, failing_model, err_str, warn_match
+
 
 def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
@@ -171,18 +206,8 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
         - The pydantic-based model used to validate this plugin.
     """
     bad_plugin = deepcopy(good_plugin)
-    key = test_tup["key"]
-    val = test_tup["val"]
-    failing_model = test_tup["cls"]
 
-    err_str = test_tup.get("err_str")
-    warn_match = test_tup.get("warn_match")
-
-    if err_str is not None and warn_match is not None:
-        raise ValueError("Only one of 'err_str' or 'warn_match' should be set.")
-    elif err_str is None and warn_match is None:
-        raise ValueError("At least one of 'err_str' or 'warn_match' must be provided.")
-
+    key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
     # ValidationErrors won't occur for these fields at the moment. Assert that the
     # plugin validates for the time being
     if key in ["abspath", "relpath", "package"]:
