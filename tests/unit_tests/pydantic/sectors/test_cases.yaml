@@ -2,12 +2,12 @@ docstring_missing_period:
   key: docstring
   val: Local Area Sector for GeoKompsat (Korea)
   cls: PluginModel
-  err_str: Description must start with a letter / number and endwith a period.
+  warn_match: Description must start with a letter / number and endwith a period.
 docstring_invalid_first_character:
   key: docstring
   val: ~ocal Area Sector for GeoKompsat (Korea).
   cls: PluginModel
-  err_str: Description must start with a letter / number and endwith a period.
+  warn_match: Description must start with a letter / number and endwith a period.
 continent_invalid_type:
   key: metadata/region/continent
   val: 8912
