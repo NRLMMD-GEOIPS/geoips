@@ -348,7 +348,7 @@ def create_plugin_registries(plugin_packages, save_type, namespace):
     # so we do not need to worry about saving the "wrong" package here.
     # We are actually looping through all the files in each package, so
     # we do not have an entry point for every plugin, just a single entry
-    # point for each plugin packge.
+    # point for each plugin package.
     for ep in plugin_packages:
         pkg_dir = str(resources.files(ep.value))
         if pkg_dir not in pkg_dirs:

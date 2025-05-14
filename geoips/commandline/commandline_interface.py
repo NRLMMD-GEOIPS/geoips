@@ -106,6 +106,7 @@ class GeoipsCLI(GeoipsCommand):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
             self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+            return self.GEOIPS_ARGS
         else:
             print(
                 # f'"{self.GEOIPS_ARGS.command}" command requires a subcommand.\n\n'
@@ -191,15 +192,24 @@ def print_beta_warning():
     )
 
 
-def main():
-    """Entry point for GeoIPS command line interface (CLI)."""
+def main(suppress_args=True):
+    """Entry point for GeoIPS command line interface (CLI).
+
+    Parameters
+    ----------
+    suppress_args: bool, (default=True)
+        - Whether or not we want to suppress the arguments returned from the CLI.
+          If False, return the argument namespace. Used for unit testing.
+    """
     legacy = support_legacy_procflows()
     # Initialize the CLI and all of its commands
     geoips_cli = GeoipsCLI(legacy=legacy)
     # Execute the called command
-    geoips_cli.execute_command()
+    args = geoips_cli.execute_command()
     # Notify that the user is in Beta development status right now.
     print_beta_warning()
+    if not suppress_args:
+        return args
 
 
 if __name__ == "__main__":

@@ -120,7 +120,8 @@ class ParentParsers:
         "-p",
         "--packages",
         default=None,
-        type=list[str],
+        nargs="+",
+        type=str,
         help=(
             "The plugin packages to create or delete plugin registries for. Defaults to"
             " None. If None, all plugin packages under 'namespace' will have their "
