@@ -14,7 +14,7 @@ The GeoIPS Development team is committed to integrating a variety of geospatial
 processing routines into GeoIPS, or as standalone packages that can interact with
 GeoIPS. This can be as simple as adding your algorithm or reader to the main GeoIPS
 code, or it can be more complex in creating a completely separate GeoIPS plugin-package
-specific for your use case. 
+specific for your use case.
 
 Please feel free to view any of our
 `public repositories <https://github.com/orgs/NRLMMD-GEOIPS/repositories>`_ for a
@@ -31,12 +31,12 @@ capabilities of GeoIPS as a whole. Eventually, we'd like to see GeoIPS be one, i
 the package you need to handle your geospatial processing routines.
 
 Funding Requirements for Complex Transitions
--------------------------------------------
+--------------------------------------------
 
-While we welcome all conversations about integrating external packages into GeoIPS, please note that if transitioning 
-your package requires substantial development time and resources, we may require funding to support that effort. The 
-complexity of the integration, the state of your existing codebase, and the extent of modifications needed will all 
-factor into this assessment. We encourage you to reach out to discuss your specific needs, and we can provide guidance 
+While we welcome all conversations about integrating external packages into GeoIPS, please note that if transitioning
+your package requires substantial development time and resources, we may require funding to support that effort. The
+complexity of the integration, the state of your existing codebase, and the extent of modifications needed will all
+factor into this assessment. We encourage you to reach out to discuss your specific needs, and we can provide guidance
 on potential resource requirements and funding options.
 
 Use Cases That We'll Support
