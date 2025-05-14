@@ -14,7 +14,6 @@
 
 .. _understanding-process-workflows:
 
-*****************************************************
 Learn More about GeoIPS Process Workflows (Procflows)
 *****************************************************
 
@@ -141,7 +140,8 @@ what each procflow argument does.
       occurring within this package. This logging functionality has different log
       levels, filter what type of log output will be sent to the terminal during
       execution. Depending on the log level, some logs will be outputted whereas other
-      logs will be omitted. To see a list of log levels, see `log levels <https://docs.python.org/3/library/logging.html>`_.
+      logs will be omitted. To see a list of log levels, see `log levels
+      <https://docs.python.org/3/library/logging.html>`_.
    b. In this example, we have used the ``info`` log level, which will output info logs
       and any other logs which supersede that level. If ``--logging_level`` is not
       specified, the ``log.INTERACTIVE`` level will be used, which supersedes

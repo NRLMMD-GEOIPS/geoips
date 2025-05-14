@@ -5,7 +5,6 @@
 
 .. _product_defaults_functionality:
 
-**************************************
 Product Templates (Defaults) in GeoIPS
 **************************************
 

@@ -167,7 +167,6 @@ is:
     * Signature (if applicable)
     * Source Names (if applicable)
 
-
 For an example of how to run this command, see below. Notice the use of aliases in case
 you want to use these commands in shorthand style. If you want more information about
 what plugins are available, run the command ``geoips list plugins``. Note, if you are

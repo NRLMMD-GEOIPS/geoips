@@ -1,11 +1,12 @@
 Using GeoIPS Output Checkers Tutorial
 *************************************
 
-
 What Are Output Checkers?
-========================
+=========================
 
-Output checkers are testing tools that compare newly generated GeoIPS outputs against pre-generated reference outputs known to be correct. They help ensure that any changes to GeoIPS code or configurations don't inadvertently alter the expected outputs.
+Output checkers are testing tools that compare newly generated GeoIPS outputs against pre-generated reference outputs
+known to be correct. They help ensure that any changes to GeoIPS code or configurations don't inadvertently alter the
+expected outputs.
 
 GeoIPS currently supports output checkers for four types of outputs:
 
@@ -15,7 +16,7 @@ GeoIPS currently supports output checkers for four types of outputs:
 4. Text-based outputs
 
 Why Output Checkers Are Important
---------------------------------
+---------------------------------
 
 GeoIPS processes and outputs various forms of geospatial satellite data. For each output type, we need to verify:
 
@@ -27,10 +28,10 @@ GeoIPS processes and outputs various forms of geospatial satellite data. For eac
 Output checkers provide an automated way to ensure these outputs remain consistent and accurate.
 
 How Output Checkers Work
-=======================
+========================
 
 Step 1: Understanding the Comparison Process
--------------------------------------------
+--------------------------------------------
 
 Each output checker uses a different method appropriate for its file type:
 
@@ -40,7 +41,7 @@ Each output checker uses a different method appropriate for its file type:
 * **Text Checker**: Performs line-by-line comparison of text files
 
 Step 2: Setting Up Reference Outputs
------------------------------------
+------------------------------------
 
 Before using output checkers, you need reference outputs:
 
@@ -49,7 +50,7 @@ Before using output checkers, you need reference outputs:
 3. Save these outputs in a designated location for future comparisons
 
 Step 3: Using Output Checkers in a Workflow
-------------------------------------------
+-------------------------------------------
 
 To use an output checker in your GeoIPS workflow:
 
@@ -73,7 +74,7 @@ Example command:
                  --sector_list goes_east
 
 Step 4: Interpreting Output Checker Results
-------------------------------------------
+-------------------------------------------
 
 After running the workflow with a comparison path:
 
@@ -83,10 +84,10 @@ After running the workflow with a comparison path:
 4. For image comparisons, a difference image may be generated highlighting mismatches in red
 
 Practical Examples
-=================
+==================
 
 Example 1: Checking Image Outputs
---------------------------------
+---------------------------------
 
 When comparing image outputs:
 
@@ -106,7 +107,7 @@ When comparing image outputs:
                  --filename_formatter geoips_fname
 
 Example 2: Checking NetCDF Outputs
----------------------------------
+----------------------------------
 
 For NetCDF comparisons:
 
@@ -126,7 +127,7 @@ For NetCDF comparisons:
                  --filename_formatter geoips_fname
 
 Example 3: Checking Text Outputs
--------------------------------
+--------------------------------
 
 For text-based outputs:
 
@@ -146,10 +147,10 @@ For text-based outputs:
                  --filename_formatter tc_fname
 
 Troubleshooting
-==============
+===============
 
 Common Issues and Solutions
---------------------------
+---------------------------
 
 1. **Mismatched Images**:
    * Check for version differences in dependencies
@@ -166,10 +167,10 @@ Common Issues and Solutions
    * Verify that reference files exist at the specified paths
 
 Advanced Usage
-=============
+==============
 
 Creating Custom Output Checkers
-------------------------------
+-------------------------------
 
 If you need to check specialized output types you can implement your own output checker.
 
