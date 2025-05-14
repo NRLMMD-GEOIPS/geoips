@@ -189,6 +189,10 @@ class GeoipsCommand(abc.ABC):
                 # shared arguments only apply to 'create-registries' and
                 # 'delete-registries' and the time being. I've looked for easier
                 # workarounds and can't find any suitable options other than hardcoding.
+
+                # If we end up needing to add more hardcoded special cases here, it
+                # might be worth looking into other methods of how to share arguments
+                # among specific commands, or subsets of commands. For now, this works
                 if self.name == "install" and self.parent.name == "config":
                     break
                 self.parent_parsers.insert(
