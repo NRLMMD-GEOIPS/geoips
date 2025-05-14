@@ -1,126 +1,15 @@
-bug fix:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-deprecation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-removal:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-performance:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
 documentation:
-- title: ''
-  description: ''
+- title: 'Add documentation about code transition assistance'
+  description: 'Adds guideline which documents why, when, and how developers should work alongside users and researchers to get their geospatial data processing routines integrated alongside GeoIPS. '
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
     added:
-    - ''
+    - 'docs/source/contribute/dev-assisted-package-creation.rst'
+    - 'docs/source/releases/latest/dev-assist-package-translation.yaml'
     modified:
-    - ''
+    - 'docs/source/contribute/index.rst'
   related-issue:
-    number: null
+    number: 507
     repo_url: ''
   date:
-    start: null
-    finish: null
-continuous integration:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
+    start: "April 25 2024"
+    finish: "May 15, 2025"
