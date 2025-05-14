@@ -1,7 +1,3 @@
-Using GeoIPS Output Checkers Tutorial
-*************************************
-
-
 What Are Output Checkers?
 ========================
 
@@ -85,88 +81,7 @@ After running the workflow with a comparison path:
 Practical Examples
 =================
 
-Example 1: Checking Image Outputs
---------------------------------
-
-When comparing image outputs:
-
-1. Run your workflow with the image output formatter and comparison path
-2. The image output checker will compare your new image against the reference
-3. If differences exist, a diff image will be generated showing mismatches in red
-
-.. code-block:: bash
-
-    # Example command for checking image outputs
-    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-                 --procflow single_source \
-                 --reader_name abi_netcdf \
-                 --product_name Infrared \
-                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/image_reference.png" \
-                 --output_formatter imagery_annotated \
-                 --filename_formatter geoips_fname
-
-Example 2: Checking NetCDF Outputs
----------------------------------
-
-For NetCDF comparisons:
-
-1. Run your workflow with a NetCDF output formatter
-2. Specify the reference NetCDF file in the comparison path
-3. The NetCDF checker will compare data variables and metadata
-
-.. code-block:: bash
-
-    # Example command for checking NetCDF outputs
-    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-                 --procflow single_source \
-                 --reader_name abi_netcdf \
-                 --product_name Infrared \
-                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/reference.nc" \
-                 --output_formatter netcdf_geoips \
-                 --filename_formatter geoips_fname
-
-Example 3: Checking Text Outputs
--------------------------------
-
-For text-based outputs:
-
-1. Run your workflow with a text output formatter
-2. Specify the reference text file in the comparison path
-3. The text checker will perform a line-by-line comparison
-
-.. code-block:: bash
-
-    # Example command for checking text outputs
-    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/tc_data/* \
-                 --procflow tc_procflow \
-                 --reader_name tc_reader \
-                 --product_name tc_stats \
-                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/reference.txt" \
-                 --output_formatter text_formatter \
-                 --filename_formatter tc_fname
-
-Troubleshooting
-==============
-
-Common Issues and Solutions
---------------------------
-
-1. **Mismatched Images**:
-   * Check for version differences in dependencies
-   * Verify that your input data is identical to what was used for the reference
-   * Look for timestamp annotations that might differ
-
-2. **NetCDF Comparison Failures**:
-   * Check for floating-point precision issues
-   * Verify metadata consistency
-   * Ensure coordinate systems match
-
-3. **Path Issues**:
-   * Make sure environment variables are correctly set
-   * Verify that reference files exist at the specified paths
-
-Advanced Usage
-=============
+For practical examples, please refer to the documentat../../ion on `functionality of output checkers <./../../../../functionality/interfaces/module_based/output-checkers/index.rst>`.
 
 Creating Custom Output Checkers
 ------------------------------
@@ -174,4 +89,4 @@ Creating Custom Output Checkers
 If you need to check specialized output types you can implement your own output checker.
 
 For more information on implementing custom output checkers, please refer to this tutorial on
-`Implementing Custom Output Checkers <./../../../tutorials/extending-with-plugins/output-formatter.rst>`_
+`Implementing Custom Output Checkers <./../../../../../tutorials/extending-with-plugins/output-formatter.rst>`_

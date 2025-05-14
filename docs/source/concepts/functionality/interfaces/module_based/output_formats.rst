@@ -1,38 +1,177 @@
-.. dropdown:: Distribution Statement
+Using GeoIPS Output Checkers Tutorial
+*************************************
 
- | # # # This source code is subject to the license referenced at
- | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _output_formats_functionality:
+What Are Output Checkers?
+========================
 
-***************************
-Output Formatters in GeoIPS
-***************************
+Output checkers are testing tools that compare newly generated GeoIPS outputs against pre-generated reference outputs known to be correct. They help ensure that any changes to GeoIPS code or configurations don't inadvertently alter the expected outputs.
 
-An output formatter is a module-based GeoIPS plugin designed to output a dataset
-to a file. This encompasses many varied types of output, including geotiff,
-netCDF, and imagery. Output formatters vary in complexity depending on the
-output type.
+GeoIPS currently supports output checkers for four types of outputs:
 
-Examples of output formatter plugins can be found in the list of GeoIPS built-in
-`output formatters <https://github.com/NRLMMD-GEOIPS/geoips/tree/main/geoips/plugins/modules/output_formatters>`_.
+1. Imagery
+2. NetCDF Files
+3. GeoTIFFs
+4. Text-based outputs
 
-A tutorial for implementing a new output formatter can be found in the
-:ref:`GeoIPS Documentation <create-output-formatter>`
+Why Output Checkers Are Important
+--------------------------------
 
-Output formatters can be executed in two ways:
+GeoIPS processes and outputs various forms of geospatial satellite data. For each output type, we need to verify:
 
-1. **Specification at the Command Line:** Output formatters are specified
-as arguments at the command line. For example:
+* **Imagery**: Pixel values, annotations, colormaps
+* **NetCDF Files**: Data variables, metadata, date ranges, geographic coverage
+* **GeoTIFFs**: Geospatial information, pixel values
+* **Text-based outputs**: Correct formatting and values (e.g., for tropical cyclone data)
 
-   .. code-block:: bash
+Output checkers provide an automated way to ensure these outputs remain consistent and accurate.
 
-      --output_formatter imagery_annotated
+How Output Checkers Work
+=======================
 
-2. **Direct Invocation:** Call the output formatter from within a program:
+Step 1: Understanding the Comparison Process
+-------------------------------------------
 
-   .. code-block:: python
+Each output checker uses a different method appropriate for its file type:
 
-      from geoips.interfaces import output_formatters
-      output_fmt_name = "imagery_annotated"
-      output_formatter = output_formatters.get_plugin(output_fmt_name)
+* **Image Checker**: Compares images pixel-by-pixel using the PIL library and pixelmatch
+* **NetCDF Checker**: Compares data variables and metadata, either exactly or within a specified tolerance
+* **GeoTIFF Checker**: Uses a diff-based approach to compare files
+* **Text Checker**: Performs line-by-line comparison of text files
+
+Step 2: Setting Up Reference Outputs
+-----------------------------------
+
+Before using output checkers, you need reference outputs:
+
+1. Run your GeoIPS workflow with known-good configurations
+2. Verify the outputs manually to ensure they're correct
+3. Save these outputs in a designated location for future comparisons
+
+Step 3: Using Output Checkers in a Workflow
+------------------------------------------
+
+To use an output checker in your GeoIPS workflow:
+
+1. Run your GeoIPS process workflow with the ``--compare_path`` parameter
+2. Specify the path to your reference output files
+3. GeoIPS will automatically select the appropriate output checker based on the file type
+
+Example command:
+
+.. code-block:: bash
+
+    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+                 --procflow single_source \
+                 --reader_name abi_netcdf \
+                 --product_name Infrared \
+                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+                 --output_formatter imagery_annotated \
+                 --filename_formatter geoips_fname \
+                 --resampled_read \
+                 --logging_level info \
+                 --sector_list goes_east
+
+Step 4: Interpreting Output Checker Results
+------------------------------------------
+
+After running the workflow with a comparison path:
+
+1. GeoIPS will generate new outputs
+2. The appropriate output checker will compare these with reference outputs
+3. Results will be reported in the console log
+4. For image comparisons, a difference image may be generated highlighting mismatches in red
+
+Practical Examples
+=================
+
+Example 1: Checking Image Outputs
+--------------------------------
+
+When comparing image outputs:
+
+1. Run your workflow with the image output formatter and comparison path
+2. The image output checker will compare your new image against the reference
+3. If differences exist, a diff image will be generated showing mismatches in red
+
+.. code-block:: bash
+
+    # Example command for checking image outputs
+    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+                 --procflow single_source \
+                 --reader_name abi_netcdf \
+                 --product_name Infrared \
+                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/image_reference.png" \
+                 --output_formatter imagery_annotated \
+                 --filename_formatter geoips_fname
+
+Example 2: Checking NetCDF Outputs
+---------------------------------
+
+For NetCDF comparisons:
+
+1. Run your workflow with a NetCDF output formatter
+2. Specify the reference NetCDF file in the comparison path
+3. The NetCDF checker will compare data variables and metadata
+
+.. code-block:: bash
+
+    # Example command for checking NetCDF outputs
+    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+                 --procflow single_source \
+                 --reader_name abi_netcdf \
+                 --product_name Infrared \
+                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/reference.nc" \
+                 --output_formatter netcdf_geoips \
+                 --filename_formatter geoips_fname
+
+Example 3: Checking Text Outputs
+-------------------------------
+
+For text-based outputs:
+
+1. Run your workflow with a text output formatter
+2. Specify the reference text file in the comparison path
+3. The text checker will perform a line-by-line comparison
+
+.. code-block:: bash
+
+    # Example command for checking text outputs
+    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/tc_data/* \
+                 --procflow tc_procflow \
+                 --reader_name tc_reader \
+                 --product_name tc_stats \
+                 --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/reference.txt" \
+                 --output_formatter text_formatter \
+                 --filename_formatter tc_fname
+
+Troubleshooting
+==============
+
+Common Issues and Solutions
+--------------------------
+
+1. **Mismatched Images**:
+   * Check for version differences in dependencies
+   * Verify that your input data is identical to what was used for the reference
+   * Look for timestamp annotations that might differ
+
+2. **NetCDF Comparison Failures**:
+   * Check for floating-point precision issues
+   * Verify metadata consistency
+   * Ensure coordinate systems match
+
+3. **Path Issues**:
+   * Make sure environment variables are correctly set
+   * Verify that reference files exist at the specified paths
+
+Advanced Usage
+=============
+
+Creating Custom Output Checkers
+------------------------------
+
+If you need to check specialized output types you can implement your own output checker.
+
+For more information on implementing custom output checkers, please refer to this tutorial on
+`Implementing Custom Output Checkers <./../../../tutorials/extending-with-plugins/output-formatter.rst>`_
