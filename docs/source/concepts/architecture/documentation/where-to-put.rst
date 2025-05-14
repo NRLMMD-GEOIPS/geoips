@@ -32,8 +32,7 @@ Guidelines
   - During the release process, move ``latest`` to a versioned directory and create a new, empty ``latest`` directory.
 
 - **Documenting Code**:
-  - Document functions, methods, or files directly in the code using docstrings, which are integrated into the GeoIPS
-    API.
+  - Document functions, methods, or files directly in the code using docstrings.
   - If more detailed documentation is needed, also write an RST file in the appropriate section.
 
 - **Contributing to the Project**:
