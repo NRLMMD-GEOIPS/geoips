@@ -25,5 +25,6 @@ Resources for Contributors
 
    code-of-conduct
    coding-standards
+   dev-assisted-package-creation
    git-workflow
 
