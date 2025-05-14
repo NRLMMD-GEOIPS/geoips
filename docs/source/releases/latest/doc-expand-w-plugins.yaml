@@ -1,126 +1,18 @@
-bug fix:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-deprecation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-removal:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-performance:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
 documentation:
-- title: ''
-  description: ''
+- title: 'Enhanced documentation for output formatters and checkers'
+  description: 'Added comprehensive documentation for output checkers and formatters, including detailed explanations of how they work, their importance in the testing process, and practical examples of their usage.'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
     added:
-    - ''
+    - 'docs/source/concepts/architecture/interfaces/module_based/output-formatters/index.rst'
+    - 'docs/source/releases/latest/doc-expand-w-plugins.yaml'
+    - 'docs/source/tutorials/creating-a-output-formatter.rst'
+    - 'docs/source/tutorials/extending-with-plugins/procflow.rst'
     modified:
-    - ''
+    - 'docs/source/concepts/architecture/index.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/output_formats.rst'
   related-issue:
-    number: null
+    number: 398
     repo_url: ''
   date:
-    start: null
-    finish: null
-continuous integration:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
+    start: "Apr 12, 2024"
+    finish: "May 14, 2025"
