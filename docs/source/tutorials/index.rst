@@ -13,3 +13,4 @@ Tutorials
     extending-with-plugins/index
     nrtp-examples/index
     dev_setup
+    2024-tutorial
