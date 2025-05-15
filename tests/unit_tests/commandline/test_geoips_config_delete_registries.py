@@ -5,8 +5,9 @@ import pytest
 from geoips.commandline.commandline_interface import main
 from geoips.errors import PluginRegistryError
 from geoips.plugin_registry import plugin_registry
-from tests.unit_tests.commandline.test_geoips_config_create_registries import (
+from tests.unit_tests.commandline.cli_top_level_tester import (
     generate_id,
+    check_valid_command_using_monkeypatch,
 )
 
 valid_args = [
@@ -89,13 +90,9 @@ def test_delete_registries_valid(monkeypatch, cli_args, expected):
         - A dictionary of expected argument values that are returned from the command
           being ran from args.
     """
+    # Reset the registry at the end of testing. This could break other unit tests if the
+    # registries are not rebuilt.
     if cli_args == ["creating-registries"]:
         plugin_registry.create_registries()
         return
-    monkeypatch.setattr("sys.argv", cli_args)
-    args = main(suppress_args=False)
-    arg_dict = vars(args)
-    arg_dict.pop("command_parser")
-    arg_dict.pop("exe_command")
-    # Assert that the argument dictionary returned from the CLI matches what we expect
-    assert arg_dict == expected
+    check_valid_command_using_monkeypatch(monkeypatch, cli_args, expected)
