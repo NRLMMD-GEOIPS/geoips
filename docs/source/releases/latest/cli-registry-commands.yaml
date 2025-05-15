@@ -27,8 +27,10 @@ enhancement:
       - geoips/create_plugin_registries.py
       - geoips/plugin_registry.py
       - pyproject.toml
+      - tests/unit_tests/commandline/cli_top_level_tester.py
       - tests/unit_tests/commandline/test_geoips_config_create_registries.py
       - tests/unit_tests/commandline/test_geoips_config_delete_registries.py
+      - tests/unit_tests/commandline/test_geoips_list_registries.py
   related-issue:
     number: 945
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
