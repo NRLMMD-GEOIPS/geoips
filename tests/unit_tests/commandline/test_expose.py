@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test asserting functionality for exposing plugin-package commands."""
@@ -35,8 +35,8 @@ def test_expose_pkg_cmds(pkg_name, caplog):
     caplog: pytest caplog fixture
         - Pytest fixture which captures the log from the corresponding calls
     """
-    # 35 is the level of LOG.interactive, which we use in expose_geoips_commands
-    caplog.set_level(35)
+    # 25 is the level of LOG.interactive, which we use in expose_geoips_commands
+    caplog.set_level(25)
     eps = list(
         filter(
             lambda ep: pkg_name in ep.value,

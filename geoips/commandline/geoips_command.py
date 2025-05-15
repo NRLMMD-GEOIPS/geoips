@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Code to implement GeoipsCommand Abstract Base Class for the CLI.
@@ -449,9 +449,10 @@ class GeoipsExecutableCommand(GeoipsCommand):
             else:
                 interface_registry = None
         else:
-            interface_registry = json.load(
-                open(resources.files(package_name) / "registered_plugins.json", "r")
-            )
+            with open(
+                resources.files(package_name) / "registered_plugins.json", "r"
+            ) as fo:
+                interface_registry = json.load(fo)
             if interface.name in interface_registry[interface.interface_type]:
                 interface_registry = interface_registry[interface.interface_type][
                     interface.name

@@ -1,0 +1,19 @@
+interface: products
+family: list
+name: amsu-a_mhs
+docstring: |
+  Product configuration for Level2 products derived from the Advanced Microwave Sounding
+  Unit - A (AMSU-A) and Microwave Humidity Sounder (MHS), which is flown on NOAA-18/19
+  and METOP-B/C.
+  https://en.wikipedia.org/wiki/Advanced_microwave_sounding_unit
+  https://en.wikipedia.org/wiki/Microwave_humidity_sounder
+
+spec:
+  products:
+    - name: RainRate
+      source_names: [amsu-a_mhs]
+      docstring: |
+        Monitors Precipitation.
+      product_defaults: Rain
+      spec:
+        variables: ["RR"]

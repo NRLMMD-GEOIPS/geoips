@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test all YAML plugins."""
@@ -8,6 +8,7 @@ from importlib import resources, metadata
 
 from geoips.interfaces.base import YamlPluginValidator
 from geoips.interfaces.yaml_based.products import ProductsPluginValidator
+from geoips.pydantic.workflows import WorkflowPluginModel
 
 validator = YamlPluginValidator()
 product_validator = ProductsPluginValidator()
@@ -31,8 +32,12 @@ def gen_label(val):
 @pytest.mark.parametrize("plugin", yield_plugins(), ids=gen_label)
 def test_is_plugin_valid(plugin):
     """Test if plugin is valid."""
-    rplugin = yaml.safe_load(open(plugin, "r"))
-    if rplugin["interface"] == "products":
-        product_validator.validate(rplugin)
-    else:
-        validator.validate(rplugin)
+    with open(plugin, "r") as fo:
+        docs = list(yaml.safe_load_all(fo))
+    for rplugin in docs:
+        if rplugin["interface"] == "products":
+            product_validator.validate(rplugin)
+        elif rplugin["interface"] == "workflows":
+            WorkflowPluginModel(**rplugin)
+        else:
+            validator.validate(rplugin)

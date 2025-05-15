@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: france
-docstring: "Country of France"
+docstring: "Country of France."
 metadata:
   region:
     continent: Europe

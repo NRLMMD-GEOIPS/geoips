@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Unit test for GeoIPS CLI `run` command.
@@ -140,6 +140,7 @@ class TestGeoipsRun(BaseCliTest):
 
             # Add argument list to retrieve help message
             self._cmd_list.append(["run_procflow", "-h"])
+            self._cmd_list.append(base_args + ["-h"])
             self._cmd_list.append(base_args + ["config_based", "-h"])
             self._cmd_list.append(base_args + ["single_source", "-h"])
             if "data_fusion" in self.plugin_package_names:

@@ -54,7 +54,7 @@ changelog:
         - "Version Release"
     - title: Developmental Updates
       labels:
-        - "Dev Update"
+        - "dev update"
     - title: Other Changes
       labels:
         - "*"

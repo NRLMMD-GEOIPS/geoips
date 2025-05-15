@@ -1,0 +1,51 @@
+interface: workflows
+family: order_based
+name: ob_windbarbs_dmw_low
+docstring: |
+  The windbarbs workflow configuration.
+spec:
+  steps:
+    algorithm:
+      kind: algorithm
+      name: windbarbs_dmw
+      arguments:
+        pressure_level_range: [701, 1013.25]
+        output_data_range: [0, 200]
+        input_units: m s-1
+        output_units: kts
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    coverage_checker:
+      kind: coverage_checker
+      name: windbarbs
+      arguments: {}
+    output_formatter:
+      kind: output_formatter
+      name: imagery_windbarbs
+      arguments:
+        colormapper:
+          kind: colormapper
+          name: matplotlib_linear_norm
+          arguments:
+            data_range: [0, 200]
+            cbar_ticks: [0, 20, 40, 60, 80, 100, 120, 140, 160, 180, 200]
+            cmap_name: viridis
+            cbar_label: "Derived Motion Wind (kts)\nLow Level: 1013.25 - 701 hPa"
+        windbarb_plotter:
+          kind: windbarb_plotter
+          name: imagery_windbarbs
+          arguments:
+            thinning: 1  # skip data points
+            length: 5.0
+            width: 1.5
+            sizes_dict:
+              height: 0.7
+              spacing: 0.3
+            rain_size: 0
+        filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          arguments:
+            suffix: ".png"

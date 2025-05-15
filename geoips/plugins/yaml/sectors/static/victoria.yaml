@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: victoria
-docstring: "Victorian State"
+docstring: "Victorian State."
 metadata:
   region:
     continent: Australia
