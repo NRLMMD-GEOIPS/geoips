@@ -84,6 +84,12 @@ class GeoipsListRegistries(GeoipsExecutableCommand):
         }
         headers = self._get_headers_by_command(args, default_headers)
         registry_list = []
+        packages = metadata.entry_points(group=namespace)
+
+        if len(packages) == 0:
+            self.parser.error(
+                f"Error: no plugin packages exist under namespace '{namespace}'."
+            )
 
         for pkg in metadata.entry_points(group=namespace):
             pkg_path = resources.files(pkg.value)
@@ -101,8 +107,16 @@ class GeoipsListRegistries(GeoipsExecutableCommand):
             if package_name != "all" and pkg.value == package_name:
                 registry_list.append(reg_entry)
                 break
-            else:
+            elif package_name == "all":
                 registry_list.append(reg_entry)
+            else:
+                continue
+
+        if len(registry_list) == 0:
+            self.parser.error(
+                f"Error: plugin package '{package_name}' could not be found in "
+                f"namespace '{namespace}'."
+            )
 
         print("-" * len("Plugin Package Registries"))
         print("Plugin Package Registries")

@@ -63,6 +63,7 @@ def check_valid_command_using_monkeypatch(monkeypatch, cli_args, expected):
     arg_dict = vars(args)
     arg_dict.pop("command_parser")
     arg_dict.pop("exe_command")
+    print(arg_dict)
     # Assert that the argument dictionary returned from the CLI matches what we expect
     assert arg_dict == expected
 
