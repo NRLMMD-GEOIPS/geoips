@@ -80,7 +80,7 @@ invalid_args = [
 
 
 @pytest.mark.parametrize("cli_args", [args for args in invalid_args], ids=generate_id)
-def test_delete_registries_invalid(monkeypatch, cli_args):
+def test_list_registries_invalid(monkeypatch, cli_args):
     """Test the CLI command 'geoips list registries' using invalid args.
 
     Parameters
@@ -98,7 +98,7 @@ def test_delete_registries_invalid(monkeypatch, cli_args):
     [(args, expected) for args, expected in zip(valid_args, valid_expected)],
     ids=generate_id,
 )
-def test_delete_registries_valid(monkeypatch, cli_args, expected):
+def test_list_registries_valid(monkeypatch, cli_args, expected):
     """Test the CLI command 'geoips list registries' using valid args.
 
     Parameters
