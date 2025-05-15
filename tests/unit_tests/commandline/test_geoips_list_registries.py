@@ -98,7 +98,7 @@ def test_list_registries_invalid(monkeypatch, cli_args):
     [(args, expected) for args, expected in zip(valid_args, valid_expected)],
     ids=generate_id,
 )
-def test_list_registries_valid(monkeypatch, cli_args, expected):
+def test_list_registries_valid(monkeypatch, capsys, cli_args, expected):
     """Test the CLI command 'geoips list registries' using valid args.
 
     Parameters
@@ -110,3 +110,15 @@ def test_list_registries_valid(monkeypatch, cli_args, expected):
           being ran from args.
     """
     check_valid_command_using_monkeypatch(monkeypatch, cli_args, expected)
+    captured = capsys.readouterr()
+    headers = {
+        "package": "GeoIPS Package",
+        "json": "JSON Path",
+        "yaml": "YAML Path",
+    }
+    if "-c" in cli_args:
+        selected = cli_args[cli_args.index("-c") + 1 :]
+    else:
+        selected = list(headers.keys())
+    for col in selected:
+        assert headers[col] in captured.out
