@@ -272,12 +272,7 @@ class PluginRegistry:
         return metadata
 
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
-        """Get a plugin by its name.
-
-        This default method can be overridden to provide different search
-        functionality for an interface. An example of this is in the
-        ProductsInterface which uses a tuple containing 'source_name' and
-        'name'.
+        """Get a YAML plugin by its name.
 
         Parameters
         ----------
@@ -409,11 +404,9 @@ class PluginRegistry:
                     PluginRegistryError,
                 )
 
-            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
-            doc_length = sum(1 for _ in doc_iter)
-            if doc_length > 1 or interface_obj.name == "workflows":
+            with yaml.safe_load_all(open(abspath, "r")) as file:
                 plugin_found = False
-                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
+                for plugin in file:
                     if plugin["name"] == name:
                         plugin_found = True
                         plugin["package"] = package
@@ -426,14 +419,6 @@ class PluginRegistry:
                         "Please ensure this plugin exists, and if it does, run "
                         "'create_plugin_registries'."
                     )
-                # NOTE: Haven't created a validator for this yet so we are just going to
-                # convert this to an object without validating for the time being.
-                return interface_obj._plugin_yaml_to_obj(name, plugin)
-            else:
-                plugin = yaml.safe_load(open(abspath, "r"))
-                plugin["package"] = package
-                plugin["abspath"] = abspath
-                plugin["relpath"] = relpath
         if isclass(interface_obj.validator) and issubclass(
             pydantic.BaseModel, interface_obj.validator
         ):
