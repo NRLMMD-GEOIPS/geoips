@@ -357,9 +357,9 @@ class TestPluginRegistry:
         # Reconstruct the registry in memory so we start at a clean slate
         self.real_reg_validator._set_class_properties(force_reset=True)
         # Set interfaces' rebuild_registries attr to false for the time being
-        sectors.rbr = False
-        products.rbr = False
-        workflows.rbr = False
+        sectors.rebuild_registries = False
+        products.rebuild_registries = False
+        workflows.rebuild_registries = False
 
         yam_reg = self.real_reg_validator.registered_plugins.pop("yaml_based")
         # Caused due to 'yaml_based' plugins being absent from the registry
@@ -456,9 +456,9 @@ class TestPluginRegistry:
         # This test misses line #426 as that is a pydantic check. Can't test this
         # until we switch over to that.
         # Reset interfaces' rbr values to True
-        products.rbr = True
-        sectors.rbr = True
-        workflows.rbr = True
+        products.rebuild_registries = True
+        sectors.rebuild_registries = True
+        workflows.rebuild_registries = True
 
     def test_get_yaml_plugins(self):
         """Retrieve valid (existing and formatted correctly) GeoIPS YAML plugins.
@@ -489,7 +489,7 @@ class TestPluginRegistry:
         # Reconstruct the registry in memory so we start at a clean slate
         self.real_reg_validator._set_class_properties(force_reset=True)
         # Set algorithms' rebuild_registry attr to false for the time being
-        algorithms.rbr = False
+        algorithms.rebuild_registries = False
         mod_reg = self.real_reg_validator.registered_plugins.pop("module_based")
         # Caused due to 'module_based' not being at the top level of the registry
         with pytest.raises(PluginError):
@@ -540,7 +540,7 @@ class TestPluginRegistry:
             "fake_plugin"
         )
         # reset algorithms' rebuild_registries attr to true
-        algorithms.rbr = True
+        algorithms.rebuild_registries = True
 
     def test_get_module_plugins(self):
         """Retrieve valid (existing and formatted correctly) module plugins.

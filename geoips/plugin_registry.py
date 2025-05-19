@@ -404,9 +404,10 @@ class PluginRegistry:
                     PluginRegistryError,
                 )
 
-            with yaml.safe_load_all(open(abspath, "r")) as file:
+            with open(abspath, "r") as file:
+                documents = yaml.safe_load_all(file)
                 plugin_found = False
-                for plugin in file:
+                for plugin in documents:
                     if plugin["name"] == name:
                         plugin_found = True
                         plugin["package"] = package
