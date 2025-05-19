@@ -306,7 +306,7 @@ class BaseInterface(abc.ABC):
 
     name = "BaseInterface"
     interface_type = None  # This is set by child classes
-    rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
+    rebuild_registries = PATHS["GEOIPS_REBUILD_REGISTRIES"]
     # Setting this attribute at the top level so it can be used by all methods.
     # This can be overriden by setting them in child interface classes
     apiVersion = "geoips/v1"
@@ -354,7 +354,7 @@ class BaseInterface(abc.ABC):
         return self._plugin_registry
 
     @abc.abstractmethod
-    def get_plugin(self, name, rebuild_registries=rbr):
+    def get_plugin(self, name, rebuild_registries=rebuild_registries):
         """Abstract function for retrieving a plugin under a certain interface.
 
         Parameters
@@ -367,8 +367,9 @@ class BaseInterface(abc.ABC):
               true and get_plugin fails, rebuild the plugin registry, call then call
               get_plugin once more with rebuild_registries toggled off, so it only gets
               rebuilt once.
-            - rbr (ReBuildRegistries) is set in geoips.filenames.base_paths with a
-              default value of True. Users and developers can change this if desired.
+            - By default, the value of rebuild_registries is set in
+              geoips.filenames.base_paths with a value of True. Users and
+              developers can change this if desired.
         """
         pass
 
