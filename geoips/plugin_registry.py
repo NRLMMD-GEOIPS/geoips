@@ -573,10 +573,10 @@ class PluginRegistry:
     def retry_get_plugin(
         self, interface_obj, name, rebuild_registries, err_str, err_type=PluginError
     ):
-        """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
+        """Rerun self.get_plugin, but call 'geoips config create-registries' beforehand.
 
-        By running 'create_plugin_registries', we automate the registration of plugins
-        in GeoIPS. If the plugin persists not to be found, then we'll raise an
+        By running 'geoips config create-registries', we automate the registration of
+        plugins in GeoIPS. If the plugin persists not to be found, then we'll raise an
         appropriate PluginError as denoted by 'err_str'.
 
         Parameters
