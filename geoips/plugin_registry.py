@@ -76,28 +76,37 @@ class PluginRegistry:
 
     @property
     def registered_plugins(self):
-        """Plugin Registry registered_plugins attribute."""
+        """A dictionary of every plugin's metadata found within self.namespace.
+
+        self.namespace usually should correspond to 'geoips.plugin_packages' unless
+        you're creating registries for plugins that exist outside this namespace.
+        """
         if not hasattr(self, "_registered_plugins"):
             self._set_class_properties()
         return self._registered_plugins
 
     @property
     def interface_mapping(self):
-        """Plugin Registry interface_mapping attribute."""
+        """Dictionary of interface types and interfaces of that type.
+
+        GeoIPS has 3 types of plugins, though only 2 are commonly used (yaml_based,
+        module_based). This dictionary has top level keys of all interface types, with
+        their values being the list of unique interfaces that inherit that type.
+        """
         if not hasattr(self, "_interface_mapping"):
             self._set_class_properties()
         return self._interface_mapping
 
     @property
     def registered_yaml_based_plugins(self):
-        """Plugin Registry yaml_based dictionary attribute."""
+        """A dictionary of registered YAML-based plugins."""
         if not hasattr(self, "_registered_plugins"):
             self._set_class_properties()
         return self._registered_plugins["yaml_based"]
 
     @property
     def registered_module_based_plugins(self):
-        """Plugin Registry module_based dictionary attribute."""
+        """A dictionary of registered module-based plugins."""
         if not hasattr(self, "_registered_plugins"):
             self._set_class_properties()
         return self._registered_plugins["module_based"]
@@ -105,8 +114,9 @@ class PluginRegistry:
     def _set_class_properties(self, force_reset=False):
         """Find all plugins in registered plugin packages.
 
-        Search the ``registered_plugins.yaml`` of each registered plugin package and add
-        them to the _registered_plugins dictionary
+        Traverse the ``registered_plugins.json`` of each registered plugin package under
+        self.namespace and add their entries to the _registered_plugins dictionary
+        attribute.
 
         Parameters
         ----------
@@ -289,11 +299,15 @@ class PluginRegistry:
             registered_yaml_plugins = self.registered_plugins["yaml_based"]
         except KeyError:
             # Very likely could occur if registries haven't been built yet
-            err_str = f"No plugins found for '{interface_obj.name}' interface."
+            err_str = (
+                "No YAML-based plugins found. There likely have been no plugin "
+                "registries built yet. If automatic registry creation has been disabled"
+                ", please run 'geoips config create-registries'."
+            )
             self.retry_get_plugin(interface_obj, name, rebuild_registries, err_str)
 
         if rebuild_registries is None:
-            rebuild_registries = interface_obj.rbr
+            rebuild_registries = interface_obj.rebuild_registries
         elif not isinstance(rebuild_registries, bool):
             raise TypeError(
                 "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
@@ -484,7 +498,7 @@ class PluginRegistry:
             self.retry_get_plugin(interface_obj, name, rebuild_registries, err_str)
 
         if rebuild_registries is None:
-            rebuild_registries = interface_obj.rbr
+            rebuild_registries = interface_obj.rebuild_registries
         elif not isinstance(rebuild_registries, bool):
             raise TypeError(
                 "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
