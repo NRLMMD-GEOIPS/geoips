@@ -447,7 +447,7 @@ class TestPluginRegistry:
         ] = fake_plugin_entry
         # Caused due to workflow plugin being present in registry but not in
         # corresponding plugin
-        with pytest.raises(PluginRegistryError):
+        with pytest.raises(PluginError):
             self.real_reg_validator.get_yaml_plugin(workflows, "fake_plugin")
         # Remove the fake entry from the registry
         self.real_reg_validator.registered_plugins["yaml_based"]["workflows"].pop(
