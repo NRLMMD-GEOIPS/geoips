@@ -945,6 +945,7 @@ def call(
     chans=None,
     area_def=None,
     self_register=False,
+    test_arg="AHI Default Test Arg",
 ):
     """
     Read AHI HSD data data from a list of filenames.

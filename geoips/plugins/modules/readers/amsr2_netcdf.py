@@ -282,6 +282,7 @@ def call(
     chans=None,
     area_def=None,
     self_register=False,
+    test_arg="AMSR2 Default Test Arg",
 ):
     """
     Read AMSR2 netcdf data products.
