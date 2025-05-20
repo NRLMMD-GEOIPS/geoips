@@ -5,7 +5,6 @@
 
 .. _dynamic_sectors_functionality:
 
-*************************
 Dynamic Sectors in GeoIPS
 *************************
 
@@ -34,7 +33,8 @@ available within GeoIPS.
 Dynamic sectors are defined in a YAML file and are then included as arguments
 at the command line. For example, the ``tc_web_ascatuhr_barbs`` sector is
 defined in a YAML file within the list of
-`dynamic sectors <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml>`_
+`dynamic sectors
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/yaml/sectors/dynamic/tc_web_ascatuhr_barbs_template.yaml>`_
 as follows:
 
    .. code-block:: yaml
@@ -56,5 +56,6 @@ This sector can then be used as a command line argument.
         --tc_spec_template tc_web_ascatuhr_barbs
 
 See the
-`ASCAT UHR <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh>`_
-test script for a more complete picture 
+`ASCAT UHR
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/ascat_uhr.tc.windbarbs.imagery_windbarbs.sh>`_
+test script for a more complete picture
