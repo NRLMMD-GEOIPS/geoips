@@ -455,7 +455,7 @@ class TestPluginRegistry:
         )
         # This test misses line #426 as that is a pydantic check. Can't test this
         # until we switch over to that.
-        # Reset interfaces' rbr values to True
+        # Reset interfaces' rebuild_registries values to True
         products.rebuild_registries = True
         sectors.rebuild_registries = True
         workflows.rebuild_registries = True

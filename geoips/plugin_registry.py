@@ -89,9 +89,10 @@ class PluginRegistry:
     def interface_mapping(self):
         """Dictionary of interface types and interfaces of that type.
 
-        GeoIPS has 3 types of plugins, though only 2 are commonly used (yaml_based,
-        module_based). This dictionary has top level keys of all interface types, with
-        their values being the list of unique interfaces that inherit that type.
+        GeoIPS has three types of interfaces, though only two are commonly used
+        (yaml_based, module_based). This dictionary has top level keys of all interface
+        types, with their values being the list of unique interfaces that inherit that
+        type.
         """
         if not hasattr(self, "_interface_mapping"):
             self._set_class_properties()
