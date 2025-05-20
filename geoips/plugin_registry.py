@@ -3,13 +3,13 @@
 
 """PluginRegistry class to interface with the JSON plugin registries.
 
-The "create_plugin_registries" utility generates a JSON file at the top
+The "geoips config create-registries" utility generates a JSON file at the top
 level of every geoips plugin package with a complete list of all plugins with
 the associated metadata (everything except the actual contents of the plugin
 itself).
 
 Once all of the registered_plugins.json files have been generated via
-create_plugin_registries, this class uses those registries to quickly
+geoips config create-registries, this class uses those registries to quickly
 identify and open plugins as required.  Previously the individual
 interface classes would open all plugins every time one was required,
 so moving this process into a single PluginRegistry object allows us to
@@ -89,9 +89,10 @@ class PluginRegistry:
     def interface_mapping(self):
         """Dictionary of interface types and interfaces of that type.
 
-        GeoIPS has 3 types of plugins, though only 2 are commonly used (yaml_based,
-        module_based). This dictionary has top level keys of all interface types, with
-        their values being the list of unique interfaces that inherit that type.
+        GeoIPS has three types of interfaces, though only two are commonly used
+        (yaml_based, module_based). This dictionary has top level keys of all interface
+        types, with their values being the list of unique interfaces that inherit that
+        type.
         """
         if not hasattr(self, "_interface_mapping"):
             self._set_class_properties()
@@ -162,7 +163,7 @@ class PluginRegistry:
             if not os.path.exists(reg_path) and PATHS["GEOIPS_REBUILD_REGISTRIES"]:
                 LOG.error(
                     f"Plugin registry {reg_path} does not exist, "
-                    "please run 'create_plugin_registries'"
+                    "please run 'geoips config create-registries'"
                 )
 
                 # We attempt to create plugin registries under self.namespace if one
@@ -266,7 +267,7 @@ class PluginRegistry:
             raise PluginRegistryError(
                 f"Error: There is no associated plugin under interface "
                 f"'{interface_obj.name}' called '{plugin_name}'. If you're sure this "
-                "plugin exists, please run 'create_plugin_registries'."
+                "plugin exists, please run 'geoips config create-registries'."
             )
 
         return metadata
@@ -309,126 +310,98 @@ class PluginRegistry:
                 f" value. Encountered this '{rebuild_registries}' instead."
             )
 
-        # This is used for finding products whose plugin names are tuples
-        # of the form ('source_name', 'name')
+        interface_entry = registered_yaml_plugins[interface_obj.name]
+        # This occurs for product plugins
         if isinstance(name, tuple):
-            # These are stored in the yaml as str(name),
-            # ie "('viirs', 'Infrared')"
-            try:
-                relpath = registered_yaml_plugins[interface_obj.name][name[0]][name[1]][
-                    "relpath"
-                ]
-                package = registered_yaml_plugins[interface_obj.name][name[0]][name[1]][
-                    "package"
-                ]
-            except KeyError:
-                err_str = (
-                    f"Plugin [{name[1]}] doesn't exist under source name [{name[0]}]"
-                )
-                return self.retry_get_plugin(
-                    interface_obj, name, rebuild_registries, err_str
-                )
-            abspath = str(resources.files(package) / relpath)
-            # If abspath doesn't exist the registry is out of date with the actual
-            # contents of all, or a certain plugin package.
-            if not os.path.exists(abspath):
-                err_str = (
-                    f"Products plugin source: '{name[0]}', plugin: '{name[1]} exists in"
-                    f" the registry but its corresponding file at '{abspath}' cannot be"
-                    " found. Reinstall your package and re-run "
-                    "'create_plugin_registries'."
-                )
-                # This error should never occur, but we're adding error handling here
-                # just in case. The reason it will never occur is that, if the path
-                # to such plugin does not exist, when create_plugin_registries is re-run
-                # that syncs up the path to the associated plugin. It cannot reach this
-                # point if the plugin name is invalid, so this point couldn't be hit
-                # twice
-                return self.retry_get_plugin(
-                    interface_obj,
-                    name,
-                    rebuild_registries,
-                    err_str,
-                    PluginRegistryError,
-                )
-            with open(abspath, "r") as fo:
-                plugin = yaml.safe_load(fo)
-            plugin_found = False
-            for product in plugin["spec"]["products"]:
-                if product["name"] == name[1] and name[0] in product["source_names"]:
-                    plugin_found = True
-                    plugin = product
-                    break
-            if not plugin_found:
-                err_str = "There is no plugin that has " + name[1] + " included in it."
-                return self.retry_get_plugin(
-                    interface_obj, name, rebuild_registries, err_str
-                )
-            plugin["interface"] = "products"
-            plugin["package"] = package
-            plugin["abspath"] = abspath
-            plugin["relpath"] = relpath
-        # This is used for finding all non-product plugins
+            source_name = name[0]
+            plg_name = name[1]
+            extra_info = f"under source_name '{source_name}', "
+        # This occurs for every other YAML plugin
         else:
-            try:
-                relpath = registered_yaml_plugins[interface_obj.name][name]["relpath"]
-                package = registered_yaml_plugins[interface_obj.name][name]["package"]
-            except KeyError:
-                err_str = (
-                    f"Plugin [{name}] doesn't exist under interface "
-                    f"[{interface_obj.name}]"
-                )
-                return self.retry_get_plugin(
-                    interface_obj, name, rebuild_registries, err_str
-                )
-            abspath = str(resources.files(package) / relpath)
-            # If abspath doesn't exist the registry is out of date with the actual
-            # contents of all, or a certain plugin package.
-            if not os.path.exists(abspath):
-                err_str = (
-                    f"Plugin '{name}' exists in the registry but its corresponding file"
-                    f" at '{abspath}' cannot be found. Reinstall your package and "
-                    "re-run 'create_plugin_registries'."
-                )
-                # This error should never occur, but we're adding error handling here
-                # just in case. The reason it will never occur is that, if the path
-                # to such plugin does not exist, when create_plugin_registries is re-run
-                # that syncs up the path to the associated plugin. It cannot reach this
-                # point if the plugin name is invalid, so this point couldn't be hit
-                # twice
-                return self.retry_get_plugin(
-                    interface_obj,
-                    name,
-                    rebuild_registries,
-                    err_str,
-                    PluginRegistryError,
-                )
+            source_name = None
+            plg_name = name
+            extra_info = ""
 
-            with open(abspath, "r") as file:
-                documents = yaml.safe_load_all(file)
-                plugin_found = False
-                for plugin in documents:
-                    if plugin["name"] == name:
+        if plg_name not in interface_entry.get(source_name, interface_entry):
+            err_str = (
+                f"Plugin '{plg_name}', {extra_info}"
+                f"from interface '{interface_obj.name}' "
+                f"appears to not exist."
+                f"\nCreate plugin, then call geoips config create-registries."
+            )
+            return self.retry_get_plugin(
+                interface_obj, name, rebuild_registries, err_str
+            )
+
+        relpath = interface_entry.get(source_name, interface_entry)[plg_name]["relpath"]
+        package = interface_entry.get(source_name, interface_entry)[plg_name]["package"]
+        abspath = str(resources.files(package) / relpath)
+
+        # If abspath doesn't exist the registry is out of date with the actual
+        # contents of all, or a certain plugin package.
+        if not os.path.exists(abspath):
+            err_str = (
+                f"Products plugin source: '{source_name}', plugin: '{plg_name} "
+                f"exists in the registry but its corresponding file at '{abspath}' "
+                "cannot be found. Reinstall your package and re-run "
+                "'geoips config create-registries'."
+            )
+            # This error should never occur, but we're adding error handling here
+            # just in case. The reason it will never occur is that, if the path
+            # to such plugin does not exist, when geoips config create-registries is
+            # re-run that syncs up the path to the associated plugin. It cannot
+            # reach this point if the plugin name is invalid, so this point couldn't
+            # be hit twice
+            return self.retry_get_plugin(
+                interface_obj,
+                name,
+                rebuild_registries,
+                err_str,
+                PluginRegistryError,
+            )
+        with open(abspath, "r") as file:
+            documents = yaml.safe_load_all(file)
+            plugin_found = False
+            for plugin in documents:
+                # This occurs for product plugins
+                if source_name:
+                    for product in plugin["spec"]["products"]:
+                        if (
+                            product["name"] == plg_name
+                            and source_name in product["source_names"]
+                        ):
+                            plugin_found = True
+                            plugin = product
+                            break
+                # Every other type of YAML plugin
+                else:
+                    if plugin["name"] == plg_name:
                         plugin_found = True
-                        plugin["package"] = package
-                        plugin["abspath"] = abspath
-                        plugin["relpath"] = relpath
-                        break
-                if not plugin_found:
-                    raise PluginRegistryError(
-                        f"Error: YAML plugin under name '{name}' could not be found. "
-                        "Please ensure this plugin exists, and if it does, run "
-                        "'create_plugin_registries'."
-                    )
+
+                if plugin_found:
+                    break
+
+        if not plugin_found:
+            err_str = (
+                f"Error: {interface_obj.name} YAML plugin under name '{name}' could"
+                " not be found. Please ensure this plugin exists, and if it does, "
+                "run 'geoips config create-registries'."
+            )
+            return self.retry_get_plugin(
+                interface_obj, name, rebuild_registries, err_str
+            )
+        plugin["interface"] = interface_obj.name
+        plugin["package"] = package
+        plugin["abspath"] = abspath
+        plugin["relpath"] = relpath
+
         if isclass(interface_obj.validator) and issubclass(
             pydantic.BaseModel, interface_obj.validator
         ):
             validated = interface_obj.validator(**plugin)
         else:
             validated = interface_obj.validator.validate(plugin)
-        # Store "name" as the product's "id"
-        # This is helpful when an interfaces uses something other than just "name" to
-        # find its plugins as is the case with ProductsInterface
+
         return interface_obj._plugin_yaml_to_obj(name, validated)
 
     def get_yaml_plugins(self, interface_obj):
@@ -496,7 +469,7 @@ class PluginRegistry:
                 f"Plugin '{name}', "
                 f"from interface '{interface_obj.name}' "
                 f"appears to not exist."
-                f"\nCreate plugin, then call create_plugin_registries."
+                f"\nCreate plugin, then call geoips config create-registries."
             )
             return self.retry_get_plugin(
                 interface_obj, name, rebuild_registries, err_str
@@ -513,13 +486,13 @@ class PluginRegistry:
             err_str = (
                 f"Plugin '{name}' exists in the registry but its corresponding file at "
                 f"'{abspath}' cannot be found. Reinstall your package and re-run "
-                "'create_plugin_registries'."
+                "'geoips config create-registries'."
             )
             # This error should never occur, but we're adding error handling here
             # just in case. The reason it will never occur is that, if the path
-            # to such plugin does not exist, when create_plugin_registries is re-run
-            # that syncs up the path to the associated plugin. It cannot reach this
-            # point if the plugin name is invalid, so this point couldn't be hit
+            # to such plugin does not exist, when geoips config create-registries is
+            # re-run that syncs up the path to the associated plugin. It cannot reach
+            # this point if the plugin name is invalid, so this point couldn't be hit
             # twice
             return self.retry_get_plugin(
                 interface_obj, name, rebuild_registries, err_str, PluginRegistryError
@@ -598,8 +571,9 @@ class PluginRegistry:
         """
         if rebuild_registries:
             LOG.interactive(
-                "Running 'create_plugin_registries' due to a missing plugin located "
-                f"under interface: '{interface_obj.name}', plugin_name: '{name}'."
+                "Running 'geoips config create-registries' due to a missing plugin "
+                f"located under interface: '{interface_obj.name}', plugin_name: "
+                f"'{name}'."
             )
             self.create_registries()
             # Force a rebuild of the master 'registered_plugins' dictionary.
