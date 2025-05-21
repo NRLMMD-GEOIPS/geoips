@@ -1,0 +1,416 @@
+{
+    "version": "0.2",
+    "language": "en", // Default language
+
+    // --- Custom Words ---
+    // Words considered correct for THIS project specifically
+    "words": [
+        // Project Specific / Acronyms / People / Orgs
+        "GeoIPS", "METOC", "NRL-MMD", "NAVO", "CIRA", "CIRA's", "CIMSS", "CLAVR-x", "NRCS",
+        "Surratt", "Solbrig", "Wimmers", "NOAA", "NASA", "EUMETSAT", "ECMWF", "FNMOC", "JTWC",
+        "NHC", "JCSDA", "NESDIS", "NCEP", "ESRL", "JPL", "NCAR", "UCAR", "geokompsat",
+
+        // Libraries / Tools
+        "pyproject", "xarray", "xarrays", "pyyaml", "dask", "numpy", "scipy", "pandas",
+        "matplotlib", "pydantic", "cartopy", "sphinx", "pytest", "astropy", "Mambaforge",
+        "Miniforge", "openblas", "rclone", "pdflatex", "libncurses", "pypublicdecompwt",
+        "netcdf4", "h5py", "h5netcdf", "rioxarray", "satpy", "pyresample", "pyproj", "eccodes",
+        "cfgrib", "pygrib", "wgrib2", "metpy", "cmocean", "scikit", "opencv", "pystac",
+        "earthdata", "boto3", "zarr", "numba", "cython", "conda", "mamba", "pip", "gdal",
+        "shapely", "fiona", "geopandas", "rasterio", "pillow", "pil", "basemap", "folium",
+        "ipywidgets", "jupyterlab", "nbsphinx", "ipyleaflet", "plotly", "bokeh", "holoviews",
+        "gfortran", "rstjinja", "pytests", "pyhdf", "clavrx", "xobjs",
+
+        // METOC / Remote Sensing / Science Terms
+        "colormap", "colormaps", "colorbar", "colorbars", "colormapper", "metoctiff",
+        "Geotiff", "geotiff", "geotiffs", "Meteosat", "Kompsat", "SMOS", "SSMI", "SSMIS",
+        "VIIRS", "SEVIRI", "AMSR", "Himawari", "SMAP", "windbarbs", "windbarb", "windspeed",
+        "regridding", "geolocated", "georeferencing", "unprojected", "unsectored",
+        "recentering", "recentered", "latitude", "longitude", "geospatial", "raster", "vector",
+        "satellite", "radiometry", "reflectance", "emissivity", "interpolation", "resampling",
+        "NetCDF", "HDF", "GRIB", "Bufr", "geolocation", "nadir", "zenith", "azimuth", "swath",
+        "orbit", "pixel", "subpixel", "timestep", "timeseries", "multiband", "hyperspectral",
+        "multispectral", "chlorophyll", "aerosol", "radiance", "irradiance", "transmittance",
+        "albedo", "bathymetry", "topography", "altimetry", "scatterometer", "radiometer",
+        "spectrometer", "interferometer", "soundings", "sounding", "cyclone", "anticyclone",
+        "vorticity", "divergence", "convection", "advection", "diffusion", "precipitation",
+        "evaporation", "transpiration", "humidity", "barometric", "isobar", "isotherm",
+        "isotach", "geostrophic", "ageostrophic", "baroclinic", "barotropic", "mesoscale",
+        "synoptic", "climatology", "teleconnection", "oscillation", "monsoon", "typhoon",
+        "hurricane", "extratropical", "intertropical", "convergence", "thermocline",
+        "halocline", "pycnocline", "stratosphere", "troposphere", "mesosphere", "ionosphere",
+        "tropopause", "stratopause", "mesopause", "isopycnal", "isentropic", "isohaline",
+        "buoyancy", "coriolis", "rossby", "ekman", "kelvin", "beaufort", "saffir", "simpson",
+        "fujita", "dvorak", "landfall", "eyewall", "mesocyclone", "microburst", "downburst",
+        "derecho", "sounding", "skewt", "hodograph", "radiosonde", "dropsonde", "lidar",
+        "sodar", "sonar", "thermistor", "anemometer", "barometer", "hygrometer", "pyranometer",
+        "pyrgeometer", "pyrheliometer", "ceilometer", "disdrometer", "pluviometer",
+        "nephanalysis", "bathythermograph", "conductivity", "salinity", "oceanography",
+        "meteorology", "climatology", "hydrology", "atmospheric", "oceanic", "hydrologic",
+        "cryospheric", "biospheric", "lithospheric", "pedospheric", "anthropogenic",
+        "teleconnection", "wavelet", "eigenvalue", "eigenvector", "covariance", "kriging",
+        "semivariogram", "autocorrelation", "crosscorrelation", "orthogonal", "nonlinear",
+        "stochastic", "deterministic", "parameterization", "assimilation", "reanalysis",
+        "hindcast", "forecast", "nowcast", "backcast", "downscaling", "upscaling",
+        "ensemble", "probabilistic", "deterministic", "anomaly", "climatological", "seasonal",
+        "diurnal", "nocturnal", "insolation", "longwave", "shortwave", "ultraviolet", "infrared",
+        "microwave", "visible", "multispectral", "hyperspectral", "panchromatic", "isotropic",
+        "anisotropic", "homogeneous", "heterogeneous", "stationary", "nonstationary",
+        "interp",
+
+        // Instrument/Platform Names
+        "MODIS", "AVHRR", "GOES", "JPSS", "Suomi", "NOAA-20", "Landsat", "Sentinel", "ASCAT",
+        "AMSU", "ATMS", "CrIS", "IASI", "AIRS", "OMPS", "TROPOMI", "CERES", "MISR", "CALIPSO",
+        "CloudSat", "GPM", "TRMM", "CYGNSS", "QuikSCAT", "WindSat", "Jason", "OSTM", "SWOT",
+        "SARAL", "AltiKa", "GRACE", "GOCE", "SMOS", "SMAP", "Aquarius", "ALOS", "TerraSAR",
+        "Radarsat", "COSMO", "SkyMed", "RISAT", "PALSAR", "NISAR", "Oceansat", "Megha",
+        "Tropiques", "Metop", "FY-3", "FY-4", "GF-4", "Elektro", "Meteor", "INSAT", "Kalpana",
+
+        // Technical / Code / Doc Terms
+        "gridline", "gridlines", "docstring", "docstrings", "pinkrst", "nohup", "inotify",
+        "inotifywait", "ypadding", "xpadding", "param", "params", "toctree", "automodule",
+        "autodoc", "autosummary", "autoclass", "automethod", "ref", "doc", "func", "mod",
+        "class", "meth", "attr", "py", "yaml", "yml", "rst", "uncompress", "procflow",
+        "RGBA", "xobj", "unitless", "kwarg", "kwargs", "arg", "args", "repr", "str", "bool",
+        "int", "float", "dict", "list", "tuple", "enum", "iterable", "validator", "fieldname",
+        "config", "utils", "helpers", "cli", "api", "url", "http", "https", "json", "xml",
+        "dataclass", "dataclasses", "metaclass", "mixin", "coroutine", "async", "await",
+        "threadpool", "multiprocessing", "parallelization", "serialization", "deserializer",
+        "deserialize", "serializer", "serialize", "accessor", "accessor's", "backend", "backends",
+        "frontend", "frontends", "middleware", "plugin", "plugins", "addon", "addons",
+        "microservice", "microservices", "containerization", "dockerfile", "kubernetes",
+        "orchestration", "serverless", "webhook", "webhooks", "oauth", "jwt", "openid",
+        "openapi", "swagger", "graphql", "restful", "idempotent", "stateful", "stateless",
+        "cacheable", "uncacheable", "memoization", "memoize", "memoized", "backoff",
+        "throttling", "ratelimit", "ratelimiting", "timeout", "timeouts", "retryable",
+        "nonretryable", "idempotency", "transactional", "atomicity", "atomically",
+        "akima"
+    ],
+
+
+    // --- File/Folder Exclusions ---
+    // Glob patterns for files and folders to ignore globally
+    "ignorePaths": [
+        // Common VCS/Dev environment folders
+        "**/node_modules/**",
+        "**/bower_components/**",
+        "**/venv/**",
+        "**/.venv/**",
+        "**/env/**",
+        "**/.env/**",
+        "**/.git/**",
+        "**/.hg/**",
+        "**/.svn/**",
+        ".vscode/**",
+        ".idea/**",
+        "**/.tox/**",
+
+        // Python specific
+        "**/__pycache__/**",
+        "**/*.pyc",
+        "**/*.pyo",
+        "**/*.egg-info/**",
+        "**/site-packages/**",
+
+        // Build artifacts
+        "**/build/**",
+        "**/dist/**",
+        "**/htmlcov/**", // Coverage reports
+        ".pytest_cache/**",
+        "**/docs/_build/**", // Sphinx build output
+
+        // Data / Assets (adjust patterns as needed)
+        "**/test/**",
+
+        // Lock files and logs
+        "**/*.lock", // pipenv, poetry, npm, yarn, etc.
+        "**/*.log",
+
+        // Temporary/Generated files
+        "**/*~", // Backup files
+        "**/*.tmp",
+        "**/*.bak",
+        "**/*.swp", // Vim swap files
+
+        // Config files that often contain non-words
+        "**/package.json",
+        "**/package-lock.json",
+        "**/yarn.lock",
+        "**/Pipfile",
+        "**/Pipfile.lock",
+        "**/poetry.lock",
+
+        // METOC data files
+        "**/*.nc",
+        "**/*.hdf",
+        "**/*.hdf5",
+        "**/*.h5",
+        "**/*.tif",
+        "**/*.tiff",
+        "**/*.grib",
+        "**/*.grib2",
+        "**/*.bufr",
+        "**/*.bin",
+        "**/*.dat",
+        "**/*.raw",
+        "**/*.zarr/**",
+        "**/*.parquet",
+        "**/*.cdf",
+        "**/*.fits",
+        "**/*.grb",
+        "**/*.grb2",
+        "**/*.area",
+        "**/*.geotiff",
+
+        // CSpell configs
+        "**/*cspell.json",
+        "*cspell.json"
+    ],
+
+    // --- Dictionaries ---
+    "dictionaryDefinitions": [],
+
+    // List of dictionaries to use globally (can be overridden in languageSettings)
+    "dictionaries": [
+        // Standard Dictionaries
+        "en_US",           // Standard American English
+        "en-gb",           // British English (useful for mixed documentation)
+        "companies",       // Common company names
+        "softwareTerms",   // Common software terms (API, URL, CSS, HTML etc.)
+        "scienceTerms",    // Common scientific terms (highly relevant for METOC)
+        "misc",            // Miscellaneous terms
+        "filetypes",       // Common file extensions/types
+        "html",            // HTML terms (relevant for RST raw blocks/output)
+        "fonts",           // Common font names
+
+        // Language Specific Dictionaries
+        "python",          // Python keywords, builtins, common stdlib
+        "bash",            // Common shell commands (useful in docs/scripts)
+    ],
+
+    // --- Ignored Words ---
+    // Words to ignore entirely, even if misspelled (use sparingly!)
+    "ignoreWords": [
+        "YYYYMMDDTHHMNSS", "PUBLICWWW", "PRIVATEWWW", "GOODCOMPARE", "BADCOMPARE", "TESTDATA",
+        "lorem", "ipsum", "dolor", "amet", "foobar", "baz", "qux", "abc", "xyz",
+        "yyyymmdd", "hhmmss", "ddhhmmss", "yyyyddd", "yyyyjjj", "yyyy", "mm", "dd", "hh", "nn", "ss",
+        "ttt", "zzz", "lat", "lon", "lats", "lons", "latlon", "latlons", "latlng", "latlngs",
+        "tmp", "nodata", "nullval", "fillval", "fillvalue", "maskval", "maskvalue", "stddev",
+        "stderr", "stdout", "stdin", "mydatatype", "ndarray", "dtype", "mymathlib", "imshow",
+        "cmap", "fname", "idontexist", "itype", "idict", "iregistry", "pname", "fpaths",
+        "cogeotiff", "fnames", "logfname", "mycm", "rplugin", "oscat", "hscat", "imerg",
+        "yyyyjjjhhmn"
+    ],
+
+    // --- Global Ignore Patterns ---
+    // Regular expressions for patterns to ignore globally
+    "ignoreRegExpList": [
+        // --- General Identifiers/Codes ---
+        "/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi", // UUIDs
+        "/0x[0-9a-fA-F]+/g",   // Hexadecimal numbers
+        "/[0-9]+\\.[0-9]+(?:[eE][-+]?[0-9]+)?/", // Floating point numbers
+        "/[a-f0-9]{7,}/gi",   // commit SHAs
+
+        // --- COMPARE files ---
+        "**/COMPARE.txt",
+        "**/*COMPARE.txt",
+        "**/COMPARE*.txt",
+        "**/*COMPARE*.txt",
+        "**/*requirements*.txt",
+
+        // --- File Paths and URLs ---
+        "/(?:\\/|\\\\)[\\w\\.\\-]+(?:\\/|\\\\)/g", // Parts of file paths
+        "/[\\w\\-]+\\.(?:py|rst|yaml|yml|json|xml|html|css|js|sh|bat|md|txt|log|cfg|ini|toml|nc|hdf|tif|tiff|grib|bufr|jpg|png|gif|svg|pdf|env|lock)/g", // Common filenames
+        "/https?:\/\/[^\\s\"'`]+/g", // URLs/URIs
+
+        // --- Email Addresses ---
+        "/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}/g",
+
+        // --- METOC specific patterns ---
+        "/\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:[.,]\\d+)?(?:Z|[+-]\\d{2}:\\d{2})?/g", // ISO 8601 timestamps
+        "/\\d{8}T\\d{6}Z?/g", // Compact timestamps (YYYYMMDDTHHMMSSZ)
+        "/\\d{2}[A-Z]{3}\\d{4}/g", // Date formats like 01JAN2022
+        "/\\d{1,3}(?:\\.\\d{1,3}){3}/g", // IP addresses
+        "/(?:lat|latitude|lon|longitude|alt|altitude|elev|elevation|depth|height|temp|temperature|pres|pressure|rh|humidity|precip|precipitation)_\\w+/g", // Common variable naming patterns
+        "/\\d+(?:\\.\\d+)?\\s*(?:km|m|cm|mm|nm|ft|mi|°C|°F|K|hPa|mb|Pa|kt|kts|knots|m\\/s|mph|mm\\/hr|dBZ|psu|ppt)/g" // Measurements with units
+    ],
+
+    // --- Language Specific Settings ---
+    // Apply specific dictionaries, words, or ignore patterns based on file type
+    "languageSettings": [
+        {
+            // Python specific settings
+            "languageId": "python",
+            "dictionaries": ["python", "en_US", "softwareTerms", "scienceTerms", "metoc-terms"],
+            "words": [
+                "ndarray", "dtype", "iloc", "loc", "iterrows", "itertuples", "arange", "linspace",
+                "meshgrid", "struct", "classmethod", "staticmethod", "getattr", "setattr", "hasattr",
+                "delattr", "__init__", "__repr__", "__str__", "__eq__", "__ne__", "__lt__", "__le__",
+                "__gt__", "__ge__", "__len__", "__getitem__", "__setitem__", "__delitem__", "__iter__",
+                "__next__", "__call__", "__enter__", "__exit__", "__add__", "__sub__", "__mul__",
+                "__truediv__", "__floordiv__", "__mod__", "__pow__", "astype", "tolist", "toarray",
+                "todense", "asarray", "atleast_1d", "atleast_2d", "atleast_3d", "vstack", "hstack",
+                "dstack", "column_stack", "concatenate", "ascontiguousarray", "asfortranarray",
+                "vectorize", "broadcast", "einsum", "tensordot", "kron", "outer", "inner", "matmul",
+                "linalg", "fft", "ifft", "rfft", "irfft", "fftfreq", "fftshift", "ifftshift",
+                "nanmean", "nansum", "nanmin", "nanmax", "nanstd", "nanvar", "nanmedian", "nanpercentile",
+                "isnan", "isinf", "isfinite", "nan_to_num", "interp", "griddata", "RegularGridInterpolator",
+                "LinearNDInterpolator", "NearestNDInterpolator", "RectBivariateSpline", "cKDTree",
+                "convolve", "correlate", "filtfilt", "butter", "savgol_filter", "detrend", "argrelextrema",
+                "argrelmin", "argrelmax", "gradient", "divergence", "curl", "laplacian"
+            ],
+            "ignoreRegExpList": [
+                "/f['\"](?=.*\\{)[^'\"]*['\"]/g", // Ignore contents of f-strings (heuristic)
+                "/#\\s*noqa\\b/g", // Ignore noqa comments
+                "/#\\s*type:\\s*ignore/g", // Ignore type ignore comments
+                "/\\b[A-Za-z_][A-Za-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*/g", // Ignore attribute access like 'obj.attr'
+                "/@[a-zA-Z_][a-zA-Z0-9_]*/g", // Ignore decorators
+                "/(?:r|u|b|f|rb|fr|br)?['\"][^'\"]*['\"]/g", // String literals (careful, can hide errors)
+                "/(?:from|import)\\s+[a-zA-Z0-9_.]+(?:\\s+(?:as)\\s+[a-zA-Z0-9_]+)?/g", // Import statements
+                "/def\\s+[a-zA-Z_][a-zA-Z0-9_]*/g", // Function definitions
+                "/class\\s+[A-Z][a-zA-Z0-9_]*/g", // Class definitions
+                "/\\s*[a-zA-Z_][a-zA-Z0-9_]*\\s*=/g", // Variable assignments
+                "/except\\s+[A-Za-z_][A-Za-z0-9_]*(?:\\s+as\\s+[a-z_][a-z0-9_]*)?:/g" // Exception handling
+            ]
+        },
+        {
+            // reStructuredText specific settings
+            "languageId": "restructuredtext",
+            "dictionaries": ["en_US", "en-gb", "python", "softwareTerms", "scienceTerms", "html", "metoc-terms", "organization-terms"],
+            "words": [
+                "toctree", "automodule", "autodoc", "autosummary", "autoclass", "automethod",
+                "code-block", "literalinclude", "figure", "image", "note", "warning", "tip", "important",
+                "versionadded", "versionchanged", "deprecated", "seealso", "rubric", "contents",
+                "math", "label", "eq", "download", "option", "envvar", "command", "numref",
+                "glossary", "term", "hlist", "tabularcolumns", "acks", "centered", "hlisttable",
+                "index", "genindex", "modindex", "titleindex", "footerbanner", "sectionauthor",
+                "codeauthor", "moduleauthor", "sphx-glr-thumbnail", "nbsphinx", "ipython",
+                "jupyter", "doctest", "testcode", "testoutput", "testsetup", "docutils", "sectnum",
+                "header", "footer", "title", "meta", "include", "raw", "replace", "unicode",
+                "date", "class", "role", "default-role", "highlight", "parsed-literal",
+                "line-block", "compound", "container", "table", "csv-table", "list-table",
+                "footnote", "citation", "target", "restructuredtext-test-directive"
+            ],
+            "ignoreRegExpList": [
+                // RST Directives (e.g., .. code-block:: python)
+                "/^\\.\\.\\s+[a-zA-Z_-]+::/m",
+                // Field lists (e.g., :param key:)
+                "/^\\s*:([^:]+):\\s*$/m", // Simple field list line
+                "/^\\s*:([^:]+):\\s+[^\\s]/m", // Field list with content on same line
+                // Interpreted text roles (e.g., :py:func:`~my_func`)
+                "/:[a-zA-Z_\\-]+:`~?([^`]+)`/",
+                // Inline literals (e.g., ``code``)
+                "/``([^`]+)``/",
+                // Standalone hyperlinks (e.g., `My Link`_)
+                "/`[^`]+`_/",
+                // Hyperlink targets (e.g., .. _my-target:)
+                "/^\\.\\.\\s+_([^:]+):/m",
+                // Substitution definitions (e.g., .. |sub| replace:: Text)
+                "/^\\.\\.\\s+\\|[^|]+\\|\\s+[a-zA-Z_-]+::/m",
+                // Comments (e.g., .. This is a comment)
+                "/^\\.\\.(\\s+|$)/m", // Ignore the '..' itself if followed by space or end of line
+                // Line blocks (lines starting with |)
+                "/^\\s*\\|\\s+/m",
+                // Grid table syntax characters
+                "/[+\\-|=]+/g", // Might be too broad, but catches table lines
+                // Section titles
+                "/^[=\\-`:'\"~^_*+#]{3,}$/m", // Underlines for section titles
+                // Footnote references
+                "/\\[\\d+\\]_/g",
+                // Substitution references
+                "/\\|[^|]+\\|/g",
+                // Math expressions
+                "/\\:math\\:`[^`]+`/g"
+            ]
+        },
+        {
+            // YAML specific settings
+            "languageId": "yaml",
+            // Dictionaries for comments and string values
+            "dictionaries": ["en_US", "softwareTerms", "metoc-terms"],
+            // Add common YAML keys specific to your project if needed
+            "words": [
+                "apiVersion", "kind", "metadata", "spec", "selector", "template", "containers",
+                "imagePullPolicy", "livenessProbe", "readinessProbe", // Common Kubernetes keys
+                "conda", "channels", "dependencies", // Common Conda env keys
+                "datasource", "datasources", // Common config keys
+                "dataset", "datasets", "variables", "coords", "dimensions", "attrs", "encoding",
+                "chunks", "compression", "complevel", "shuffle", "fletcher32", "contiguous",
+                "chunksizes", "endian", "dtype", "fill_value", "least_significant_digit",
+                "source", "destination", "transform", "crs", "epsg", "proj4", "wkt",
+                "colormap", "colormaps", "vmin", "vmax", "cmap", "norm", "levels", "extend",
+                "origin", "extent", "projection", "transform", "scale", "offset", "units",
+                "standard_name", "long_name", "calendar", "bounds", "climatology", "cell_methods",
+                "ancillary_variables", "missing_value", "_FillValue", "valid_range", "valid_min",
+                "valid_max", "scale_factor", "add_offset", "node_offset", "history", "references",
+                "comment", "institution", "source", "platform", "instrument", "title", "summary",
+                "keywords", "Conventions", "processing_level", "product_version", "netcdf_version",
+                "creation_date", "created_by", "creator_name", "creator_email", "creator_url",
+                "publisher_name", "publisher_email", "publisher_url", "license", "acknowledgement",
+                "standard_name_vocabulary", "cdm_data_type", "featureType", "geospatial_lat_min",
+                "geospatial_lat_max", "geospatial_lon_min", "geospatial_lon_max", "geospatial_vertical_min",
+                "geospatial_vertical_max", "time_coverage_start", "time_coverage_end", "time_coverage_duration",
+                "time_coverage_resolution"
+            ],
+            // Regex patterns to ignore ONLY in YAML files
+            "ignoreRegExpList": [
+                "/^\\s*[a-zA-Z0-9_-]+:/m", // Ignore keys at the start of a line (e.g., key:)
+                "/\\$[{(]?[a-zA-Z_][a-zA-Z0-9_]*[})]?/g", // Ignore variable substitutions (e.g., $VAR, ${VAR}, $(VAR))
+                "/\\{\\{.*?\\}\\}/g", // Ignore Jinja2-like template variables
+                "/<%.*?%>/g", // Ignore ERB-like template variables
+                "/^\\s*#.*/m", // Ignore comments
+                "/\\s+#.*/m", // Inline comments
+                "/^\\s*-\\s+/m", // List items
+                "/^\\s*-?\\s*\\w+:\\s+[>|]\\s*$/m", // Multiline string indicators
+                "/&\\w+\\b/g", // YAML anchors
+                "/\\*\\w+\\b/g", // YAML aliases
+                "/!![\\w\\/]+/g", // YAML tags
+                "/:\\s+\\[.*?\\]/g", // Inline arrays
+                "/:\\s+\\{.*?\\}/g" // Inline objects
+            ]
+        }
+    ],
+
+    // --- Advanced Options ---
+    // Maximum number of problems to report per file (0 for unlimited)
+    "maxNumberOfProblems": 1000,
+    // Minimum word length to check
+    "minWordLength": 4,
+    // Allow compound words (e.g., "hardcode" if "hard" and "code" are known)
+    "allowCompoundWords": true,
+    // Specify character sequences that should always be treated as word separators
+    "wordSeparators": "./\\()\"'-:,.;<>~!@#$%^&*|+=[]{}`~?",
+
+    // File types to check (if not inferred automatically)
+    "enableFiletypes": [
+        "python",
+        "restructuredtext",
+        "yaml",
+        "yml",
+        "markdown",
+        "md",
+        "json",
+        "jsonc",
+        "text",
+        "txt",
+        "dockerfile",
+        "bash",
+        "sh",
+        "ini",
+        "toml",
+        "cfg"
+    ],
+
+    // Enable suggestions (autocorrect suggestions)
+    "suggestionNumChanges": 3,
+
+    // Specify whether to use the locale dictionary
+    "useLocaleDictionaries": true,
+
+    "checkRepeatedWords": true,
+
+    "flagWords": [],
+
+    // Enable checking of compound words
+    "checkCompoundWords": true
+}
