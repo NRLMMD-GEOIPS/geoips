@@ -17,16 +17,15 @@ bug fix:
     start: null
     finish: null
 enhancement:
-- title: 'Enable YAML-based testing for ReaderArgumentsModel'
-  description: 'Add neutral test case testing functions to support ReaderArgumentsModel testing'
+- title: 'Enhance YAML-based testing framework'
+  description: 'Modularizes test infrastructure, resolves edge-case bugs, and removes false positives from validation.'
   files:
     deleted:
     - ''
     moved:
     - ''
     added:
-    - 'tests/unit_tests/pydantic/workflows/test_cases.yaml'
-    - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model1.py'
+    - ''
     modified:
     - 'tests/unit_tests/pydantic/feature_annotators/test_cases.yaml'
     - 'tests/unit_tests/pydantic/sectors/test_cases.yaml'
