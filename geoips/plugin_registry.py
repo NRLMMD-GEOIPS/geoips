@@ -21,6 +21,8 @@ from importlib import util, metadata, resources
 from inspect import isclass
 import logging
 import os
+from pathlib import Path
+from types import SimpleNamespace
 
 import json
 import pydantic
@@ -57,26 +59,11 @@ class PluginRegistry:
         # Use this for normal operation and collect the registry files
         else:
             self._is_test = False
-            self.registry_files = []  # Collect the paths to the registry files here
-            for pkg in metadata.entry_points(group=self.namespace):
-                try:
-                    self.registry_files.append(
-                        str(resources.files(pkg.value) / "registered_plugins.json")
-                    )
-                except TypeError:
-                    raise PluginRegistryError(
-                        f"resources.files('{pkg.value}') failed\n"
-                        f"pkg {pkg}\n"
-                        "Potentially missing __init__.py file? Try:\n"
-                        f"    touch {pkg.value}/__init__.py\n"
-                        "and try again.\n"
-                        "Note you will need to add a docstring to "
-                        f"{pkg.value}/__init__.py in order for all tests to pass"
-                    )
+            self.registry_files = self._find_registry_files(self.namespace)
 
     @property
     def registered_plugins(self):
-        """A dictionary of every plugin's metadata found within self.namespace.
+        """Dictionary of every plugin's metadata found within self.namespace.
 
         self.namespace usually should correspond to 'geoips.plugin_packages' unless
         you're creating registries for plugins that exist outside this namespace.
@@ -84,6 +71,14 @@ class PluginRegistry:
         if not hasattr(self, "_registered_plugins"):
             self._set_class_properties()
         return self._registered_plugins
+
+    @registered_plugins.setter
+    def registered_plugins(self, new_value):
+        """Set the registered_plugins class attribute.
+
+        See the registered_plugins property for more information.
+        """
+        self._registered_plugins = new_value
 
     @property
     def interface_mapping(self):
@@ -98,6 +93,14 @@ class PluginRegistry:
             self._set_class_properties()
         return self._interface_mapping
 
+    @interface_mapping.setter
+    def interface_mapping(self, new_value):
+        """Set the interface_mapping class attribute.
+
+        See the interface_mapping property for more information.
+        """
+        self._registered_plugins = new_value
+
     @property
     def registered_yaml_based_plugins(self):
         """A dictionary of registered YAML-based plugins."""
@@ -111,6 +114,24 @@ class PluginRegistry:
         if not hasattr(self, "_registered_plugins"):
             self._set_class_properties()
         return self._registered_plugins["module_based"]
+
+    """
+    _set_class_properties
+        Should be responsible for setting everything.
+        Should return nothing.
+        Called functions should be staticmethods, only responsible for
+        collecting and returning variables.
+        Should call find_registry_files, loop over the results, and call _load_registry
+        and _parse_registry inside the loop.
+    _load_registries staticmethod
+        Should be split into two parts:
+        _find_registry_files should find and return the filenames of all registries.
+        _load_registry (singular) should load and return an individual registry.
+    _parse_registry staticmethod
+        Should accept a loaded registry and return the plugins that it reads from it.
+        Should be called inside the loop in _set_class_properties. _set_class_properties
+        should be responsible for setting all attributes.
+    """
 
     def _set_class_properties(self, force_reset=False):
         """Find all plugins in registered plugin packages.
@@ -139,7 +160,33 @@ class PluginRegistry:
             # "text_based": [tpw_cimss, ...]
             # }
             self._interface_mapping = {}
-            self._load_registries()
+            for reg_path in self.registry_files:
+                try:
+                    registry = self._load_registry(reg_path)
+                except FileNotFoundError as e:
+                    if PATHS["GEOIPS_REBUILD_REGISTRIES"]:
+                        # This will be hit if we have this environment variable set to
+                        # True
+                        LOG.warning(
+                            f"Plugin registry {reg_path} does not exist, "
+                            "please run 'geoips config create-registries'"
+                        )
+                        # We attempt to create plugin registries under self.namespace
+                        # if one or more plugin packages' registry file is missing and
+                        # the GEOIPS_REBUILD_REGISTRIES environment is set to true. This
+                        # should not be hit twice.
+
+                        # Create plugin registries
+                        self.create_registries()
+                        registry = self._load_registry(reg_path)
+                    else:
+                        # Otherwise, raise the error that we caught here
+                        raise e
+                return_tuple = self._parse_registry(
+                    self.interface_mapping, self.registered_plugins, registry
+                )
+                self.interface_mapping = return_tuple.interface_mapping
+                self.registered_plugins = return_tuple.registered_plugins
             # Let's test this separately, not at runtime (see validate_all_registries).
             # Assume it was tested up front, and no longer needs testing at
             # runtime, so we don't fail catastrophically for a single bad
@@ -149,80 +196,141 @@ class PluginRegistry:
             #         self._registered_plugins,
             #         "all_registered_plugins",
             #     )
-        else:
-            return self._registered_plugins
 
-    def _load_registries(self):
-        """Load all plugin registries for each package found under self.namespace.
+    def _find_registry_files(namespace):
+        """Locate all plugin registry files found under 'namespace'.
 
-        By default, self.namespace is 'geoips.plugin_packages'.
+        Parameters
+        ----------
+        namespace: str
+            - The namespace in which plugin packages are registered to. Usually, this
+              will be the 'geoips.plugin_package' namespace, however this can be changed
+              by providing a different top-level namespace to the PluginRegistry class.
+
+        Returns
+        -------
+        registry_files: list[str]
+            - A list of filepaths corresponding to expected registered_plugins.json
+              files for all plugin packages found under namespace.
+
+        Raises
+        ------
+        PluginRegistryError:
+            - Occurs if a package is potentially missing an __init__.py file.
         """
-        for reg_path in self.registry_files:
-            # Make sure we only attempt to rebuild if GEOIPS_REBUILD_REGISTRIES
-            # is set to True
-            if not os.path.exists(reg_path) and PATHS["GEOIPS_REBUILD_REGISTRIES"]:
-                LOG.error(
-                    f"Plugin registry {reg_path} does not exist, "
-                    "please run 'geoips config create-registries'"
-                )
-
-                # We attempt to create plugin registries under self.namespace if one
-                # or more plugin packages' registry file is missing and the
-                # GEOIPS_REBUILD_REGISTRIES environment is set to true. This should
-                # not be hit twice.
-
-                # Create plugin registries
-                self.create_registries()
-                # Force a rebuild of the master registered_plugins dictionary
-                return self._set_class_properties(force_reset=True)
-            elif (
-                not os.path.exists(reg_path) and not PATHS["GEOIPS_REBUILD_REGISTRIES"]
-            ):
-                raise FileNotFoundError(
-                    f"Plugin registry {reg_path} does not exist and "
-                    "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
-                    "create these files, run 'geoips config create-registries'."
-                )
-            # This will include all plugins, including schemas, yaml_based,
-            # and module_based plugins.
-            if self._is_test:
-                with open(reg_path, "r") as fo:
-                    pkg_plugins = yaml.safe_load(fo)
-            else:
-                with open(reg_path, "r") as fo:
-                    pkg_plugins = json.load(fo)
-                # Do not validate ALL plugins at runtime.
-                # self.validate_registry(pkg_plugins, reg_path)
+        registry_files = []  # Collect the paths to the registry files here
+        for pkg in metadata.entry_points(group=namespace):
             try:
-                self._parse_registries(pkg_plugins)
+                registry_files.append(
+                    str(resources.files(pkg.value) / "registered_plugins.json")
+                )
             except TypeError:
-                raise PluginRegistryError(f"Failed reading {reg_path}.")
+                raise PluginRegistryError(
+                    f"resources.files('{pkg.value}') failed\n"
+                    f"pkg {pkg}\n"
+                    "Potentially missing __init__.py file? Try:\n"
+                    f"    touch {pkg.value}/__init__.py\n"
+                    "and try again.\n"
+                    "Note you will need to add a docstring to "
+                    f"{pkg.value}/__init__.py in order for all tests to pass"
+                )
+        return registry_files
 
-    def _parse_registries(self, pkg_plugins):
+    @staticmethod
+    def _load_registry(reg_path):
+        """Load the plugin registry found at 'reg_path'.
+
+        All files provided to this function share the same namespace. Usually, this
+        will be the 'geoips.plugin_package' namespace, however this can be changed by
+        providing a different top-level namespace to the PluginRegistry class.
+
+        Parameters
+        ----------
+        reg_path: str
+            - The absolute path to the plugin registry file for a certain plugin
+              package.
+
+        Returns
+        -------
+        registry: dict
+            - A dictionary representing the contents of a plugin registry file. Can
+              include top-level keys such as 'yaml_based' or 'module_based' each of
+              which is another dictionary containing interfaces of that type, which
+              are also dictionaries containing plugins that correspond to that
+              interface.
+
+        Raises
+        ------
+        FileNotFoundError:
+            - Raised if 'reg_path' doesn't exist.
+        """
+        if not os.path.exists(reg_path):
+            raise FileNotFoundError(
+                f"Plugin registry {reg_path} does not exist and "
+                "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
+                "create these files, run 'geoips config create-registries'."
+            )
+        # if this is a yaml file, this is used for testing
+        if Path(reg_path).suffix == ".yaml":
+            with open(reg_path, "r") as fo:
+                registry = yaml.safe_load(fo)
+        else:
+            with open(reg_path, "r") as fo:
+                registry = json.load(fo)
+
+        return registry
+
+    @staticmethod
+    def _parse_registry(interface_mapping, registered_plugins, registry):
         """Parse all plugins found under a package's plugin registry.
 
         Parameters
         ----------
-        pkg_plugins: dict
-            - A dictionary of metadata corresponding to every plugin found under an
-              individual plugin package.
+        interface_mapping: dict
+            - Dictionary of interface types and interfaces of that type.
+              GeoIPS has three types of interfaces, though only two are commonly used
+              (yaml_based, module_based). This dictionary has top level keys of all
+              interface types, with their values being the list of unique interfaces
+              that inherit that type.
+        registered_plugins: dict
+            - A dictionary of every plugin's metadata found within the plugin_registry's
+              namespace.
+        registry: dict
+            - A dictionary representing the contents of a plugin registry file. Can
+              include top-level keys such as 'yaml_based' or 'module_based' each of
+              which is another dictionary containing interfaces of that type, which
+              are also dictionaries containing plugins that correspond to that
+              interface.
+
+        Returns
+        -------
+        return_tuple: SimpleNamespace
+            - A SimpleNamespace object containing updated values of the variables
+              ['interface_mapping', 'registered_plugins'] which are dictionaries. See
+              comments about those two variables in the parameters section above.
         """
-        for plugin_type in pkg_plugins:
-            if plugin_type not in self._registered_plugins:
-                self._registered_plugins[plugin_type] = {}
-                self._interface_mapping[plugin_type] = []
+        for plugin_type in registry:
+            if plugin_type not in registered_plugins:
+                registered_plugins[plugin_type] = {}
+                interface_mapping[plugin_type] = []
 
-            for interface in pkg_plugins[plugin_type]:
-                interface_dict = pkg_plugins[plugin_type][interface]
+            for interface in registry[plugin_type]:
+                interface_dict = registry[plugin_type][interface]
 
-                if interface not in self._registered_plugins[plugin_type]:
-                    self._registered_plugins[plugin_type][interface] = interface_dict
-                    self._interface_mapping[plugin_type].append(interface)
+                if interface not in registered_plugins[plugin_type]:
+                    registered_plugins[plugin_type][interface] = interface_dict
+                    interface_mapping[plugin_type].append(interface)
                 else:
-                    merge_nested_dicts(
-                        self._registered_plugins[plugin_type][interface],
+                    registered_plugins = merge_nested_dicts(
+                        registered_plugins[plugin_type][interface],
                         interface_dict,
+                        in_place=False,
                     )
+
+        return_tuple = SimpleNamespace(
+            interface_mapping=interface_mapping, registered_plugins=registered_plugins
+        )
+        return return_tuple
 
     def get_plugin_metadata(self, interface_obj, plugin_name):
         """Retrieve a plugin's metadata.
