@@ -115,24 +115,6 @@ class PluginRegistry:
             self._set_class_properties()
         return self._registered_plugins["module_based"]
 
-    """
-    _set_class_properties
-        Should be responsible for setting everything.
-        Should return nothing.
-        Called functions should be staticmethods, only responsible for
-        collecting and returning variables.
-        Should call find_registry_files, loop over the results, and call _load_registry
-        and _parse_registry inside the loop.
-    _load_registries staticmethod
-        Should be split into two parts:
-        _find_registry_files should find and return the filenames of all registries.
-        _load_registry (singular) should load and return an individual registry.
-    _parse_registry staticmethod
-        Should accept a loaded registry and return the plugins that it reads from it.
-        Should be called inside the loop in _set_class_properties. _set_class_properties
-        should be responsible for setting all attributes.
-    """
-
     def _set_class_properties(self, force_reset=False):
         """Find all plugins in registered plugin packages.
 
@@ -163,7 +145,7 @@ class PluginRegistry:
             for reg_path in self.registry_files:
                 try:
                     registry = self._load_registry(reg_path)
-                except FileNotFoundError as e:
+                except FileNotFoundError:
                     if PATHS["GEOIPS_REBUILD_REGISTRIES"]:
                         # This will be hit if we have this environment variable set to
                         # True
@@ -180,8 +162,11 @@ class PluginRegistry:
                         self.create_registries()
                         registry = self._load_registry(reg_path)
                     else:
-                        # Otherwise, raise the error that we caught here
-                        raise e
+                        raise FileNotFoundError(
+                            f"Plugin registry {reg_path} does not exist and "
+                            "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
+                            "create these files, run 'geoips config create-registries'."
+                        )
                 return_tuple = self._parse_registry(
                     self.interface_mapping, self.registered_plugins, registry
                 )
@@ -265,12 +250,6 @@ class PluginRegistry:
         FileNotFoundError:
             - Raised if 'reg_path' doesn't exist.
         """
-        if not os.path.exists(reg_path):
-            raise FileNotFoundError(
-                f"Plugin registry {reg_path} does not exist and "
-                "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
-                "create these files, run 'geoips config create-registries'."
-            )
         # if this is a yaml file, this is used for testing
         if Path(reg_path).suffix == ".yaml":
             with open(reg_path, "r") as fo:
