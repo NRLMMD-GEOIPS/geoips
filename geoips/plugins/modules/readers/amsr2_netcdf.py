@@ -319,6 +319,7 @@ def call(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    LOG.debug("AMSR2 reader test_arg: %s", test_arg)
     ingested = []
     for fname in fnames:
         # full_xarray = xarray.open_dataset(str(fname))
