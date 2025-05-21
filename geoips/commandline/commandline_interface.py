@@ -13,7 +13,7 @@ import sys
 from colorama import Fore, Style
 
 from geoips.commandline.cmd_instructions import get_instructions
-from geoips.commandline.geoips_command import GeoipsCommand
+from geoips.commandline.geoips_command import GeoipsCommand, print_beta_warning
 from geoips.commandline.geoips_config import GeoipsConfig
 from geoips.commandline.geoips_describe import GeoipsDescribe
 from geoips.commandline.geoips_list import GeoipsList
@@ -173,22 +173,6 @@ def support_legacy_procflows():
         sys.argv.insert(2, defined_procflow)
         return True
     return False
-
-
-def print_beta_warning():
-    """Notify the user that the CLI is still in Beta development stage."""
-    print(
-        Fore.RED
-        + "\nWARNING: "
-        + Fore.YELLOW
-        + "The GeoIPS CLI is currently under development and is subject "
-        "to change.\nUntil this warning is removed, do not rely on the CLI to be "
-        "static.\nPlease feel free to test the CLI and report any bugs or comments as "
-        "an issue here:\n"
-        + Fore.BLUE
-        + "https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose\n"
-        + Style.RESET_ALL
-    )
 
 
 def main():
