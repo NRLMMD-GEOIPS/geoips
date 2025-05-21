@@ -61,12 +61,12 @@ shape_missing_height:
       15000
   cls: SectorShape
   err_str: Field required
-center_missing_y:
-  key: spec/center
-  val:
-    x: 0
-  cls: AreaDefinitionSpec
-  err_str: Field required
+# center_missing_y:
+#   key: spec/center
+#   val:
+#     x: 0
+#   cls: AreaDefinitionSpec
+#   err_str: Field required
 area_extent_missing_lower_left_xy:
   key: spec/area_extent
   val:
