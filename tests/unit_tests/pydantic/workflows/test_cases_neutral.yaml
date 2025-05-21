@@ -1,0 +1,5 @@
+additional_attribute:
+  key: test_arg
+  val: "AMSR2 Default Test Arg"
+  cls: ReaderArgumentsModel
+  err_str: na
