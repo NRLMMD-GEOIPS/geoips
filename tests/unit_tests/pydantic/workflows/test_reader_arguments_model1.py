@@ -20,7 +20,7 @@ from tests.unit_tests.pydantic.utils import (
 )
 
 
-test_cases = load_test_cases("workflows")
+test_cases_bad = load_test_cases("workflows", "bad")
 
 good_yaml = yaml.safe_load(
     open(str(files("geoips") / "plugins/yaml/workflows/read_test.yaml"), mode="r")
@@ -54,14 +54,14 @@ def test_good_reader_arguments_model_instance(good_reader_arguments_instance):
     validate_good_plugin(good_reader_arguments_instance, workflows.ReaderArgumentsModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases.values(), ids=list(test_cases.keys()))
+@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
 def test_bad_reader_arguments_instance(good_reader_arguments_instance, test_tup):
-    """Perform validation on static sector plugins, including failing cases.
+    """Perform validation on Reader plugins, including failing cases.
 
     Parameters
     ----------
     good_sector: dict
-        - A dictionary representing a sector plugin that is valid.
+        - A dictionary representing a reader plugin that is valid.
     test_tup:
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
           used to run and validate tests.

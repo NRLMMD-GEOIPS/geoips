@@ -52,7 +52,7 @@ class PathDict(dict):
             dict.__setitem__(self, key, value)
 
 
-def load_test_cases(interface_name):
+def load_test_cases(interface_name, test_type):
     """Load a set of test cases used to validate pydantic model(s).
 
     This can either be a top level model, such as SectorPluginModel, or a component
@@ -68,12 +68,13 @@ def load_test_cases(interface_name):
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases.yaml"
-    if not os.path.exists(fpath):
-        raise FileNotFoundError(
-            f"Error: No test cases file could be found. Expected {fpath} but it did not"
-            " exist. Please create this file and rerun your tests."
-        )
+    if test_type=="bad":
+        fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_bad.yaml"
+        if not os.path.exists(fpath):
+            raise FileNotFoundError(
+                f"Error: No test cases file could be found. Expected {fpath} but it did not"
+                " exist. Please create this file and rerun your tests."
+            )
     with open(fpath, "r") as fo:
         test_cases = yaml.safe_load(fo)
 
@@ -83,7 +84,7 @@ def load_test_cases(interface_name):
                 error = (
                     f"ERROR: test_case '{id}' has item with key '{key}' which is an "
                     "invalid test case key. We only support the full set of keys "
-                    "[key, val, cls, err_str] at this moment."
+                    "[key, val, cls, err_str / warn_match] at this moment."
                 )
                 raise RuntimeError(error)
     return test_cases

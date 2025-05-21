@@ -17,7 +17,7 @@ from tests.unit_tests.pydantic.utils import (
 interface = "sectors"
 
 
-test_cases = load_test_cases(interface)
+test_cases_bad = load_test_cases(interface, "bad")
 good_yaml = yaml.safe_load(
     open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
 )
@@ -49,7 +49,7 @@ def test_good_sector(good_sector):
     validate_good_plugin(good_sector, SectorPluginModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases.values(), ids=list(test_cases.keys()))
+@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
 def test_bad_sector_plugins(good_sector, test_tup):
     """Perform validation on static sector plugins, including failing cases.
 
