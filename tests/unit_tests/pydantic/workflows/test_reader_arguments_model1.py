@@ -17,10 +17,12 @@ from tests.unit_tests.pydantic.utils import (
     load_test_cases,
     validate_bad_plugin,
     validate_good_plugin,
+    validate_neutral_plugin,
 )
 
 
 test_cases_bad = load_test_cases("workflows", "bad")
+test_cases_neutral = load_test_cases("workflows", "neutral")
 
 good_yaml = yaml.safe_load(
     open(str(files("geoips") / "plugins/yaml/workflows/read_test.yaml"), mode="r")
@@ -56,16 +58,33 @@ def test_good_reader_arguments_model_instance(good_reader_arguments_instance):
 
 @pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
 def test_bad_reader_arguments_instance(good_reader_arguments_instance, test_tup):
-    """Perform validation on Reader plugins, including failing cases.
+    """Perform validation on reader plugins with known failing cases.
 
     Parameters
     ----------
-    good_sector: dict
+    good_reader: dict
         - A dictionary representing a reader plugin that is valid.
     test_tup:
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
           used to run and validate tests.
     """
     validate_bad_plugin(
+        good_reader_arguments_instance, test_tup, workflows.ReaderArgumentsModel
+    )
+
+
+@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
+def test_neutral_reader_arguments_instance(good_reader_arguments_instance, test_tup):
+    """Perform validation on reader plugins with known failing cases.
+
+    Parameters
+    ----------
+    good_reader: dict
+        - A dictionary representing a reader plugin that is valid.
+    test_tup:
+        - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
+          used to run and validate tests.
+    """
+    validate_neutral_plugin(
         good_reader_arguments_instance, test_tup, workflows.ReaderArgumentsModel
     )
