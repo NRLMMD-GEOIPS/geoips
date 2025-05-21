@@ -17,8 +17,8 @@ bug fix:
     start: null
     finish: null
 enhancement:
-- title: 'Enable YAML-based testing for ReaderArgumentsModel'
-  description: 'Add neutral test case testing functions to support ReaderArgumentsModel testing'
+- title: 'Add support for neutral tests in YAML-based testing'
+  description: 'Enhances YAML-based testing by adding support for neutral tests such as FutureWarnings, edge-cases, and log emissions.'
   files:
     deleted:
     - ''
