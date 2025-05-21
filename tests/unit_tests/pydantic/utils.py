@@ -256,21 +256,21 @@ def attempt_to_associate_model_with_error(failing_model, errors):
     errors: pydantic.ValidationError.errors() -- list
         - A list of errors containing information on why a field failed to validate.
     """
-    val_err_idxs = []
+    val_err_inds = []
     for err in errors:
         failing_model_found = False
         for loc in err["loc"]:
             if loc == failing_model:
                 failing_model_found = True
                 break
-        val_err_idxs.append(failing_model_found)
-    val_err_idxs = np.array(val_err_idxs)
+        val_err_inds.append(failing_model_found)
+    val_err_inds = np.array(val_err_inds)
     # If no errors could be associated with the failing model, just default
     # to the last error reported
-    if not np.any(val_err_idxs):
+    if not np.any(val_err_inds):
         val_err = np.array(errors)[-1]
     # Otherwise, choose the last error associated with the failing model.
     else:
-        val_err = np.array(errors)[val_err_idxs][-1]
+        val_err = np.array(errors)[val_err_inds][-1]
 
     return val_err
