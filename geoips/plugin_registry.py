@@ -197,6 +197,7 @@ class PluginRegistry:
             #         "all_registered_plugins",
             #     )
 
+    @staticmethod
     def _find_registry_files(namespace):
         """Locate all plugin registry files found under 'namespace'.
 
@@ -321,10 +322,9 @@ class PluginRegistry:
                     registered_plugins[plugin_type][interface] = interface_dict
                     interface_mapping[plugin_type].append(interface)
                 else:
-                    registered_plugins = merge_nested_dicts(
+                    merge_nested_dicts(
                         registered_plugins[plugin_type][interface],
                         interface_dict,
-                        in_place=False,
                     )
 
         return_tuple = SimpleNamespace(

@@ -243,10 +243,7 @@ class TestPluginRegistry:
         assert "yaml_based" in self.pr_validator.registered_plugins
         assert "module_based" in self.pr_validator.registered_plugins
         assert "text_based" in self.pr_validator.registered_plugins
-        # This will return self.pr_validator._registered_plugins, since it already
-        # exists. This would not occur if that attribute is missing, and nothing would
-        # be returned
-        assert self.pr_validator._set_class_properties()
+        assert self.pr_validator.registered_plugins
 
     def test_interface_mapping_property(self):
         """Ensure interface_mapping is valid in its nature."""
