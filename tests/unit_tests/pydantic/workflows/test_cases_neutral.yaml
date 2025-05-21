@@ -1,8 +1,5 @@
 additional_attribute:
   key: test_arg
   val: "AMSR2 Default Test Arg"
-  # val: ["hello"]
-  # val: []
   cls: ReaderArgumentsModel
-  # err_type: ValidationError
-  err_str: Input should be a valid list
+  err_str: na

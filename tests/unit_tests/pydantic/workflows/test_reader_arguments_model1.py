@@ -73,7 +73,7 @@ def test_bad_reader_arguments_instance(good_reader_arguments_instance, test_tup)
     )
 
 
-@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
+@pytest.mark.parametrize("test_tup", test_cases_neutral.values(), ids=list(test_cases_neutral.keys()))
 def test_neutral_reader_arguments_instance(good_reader_arguments_instance, test_tup):
     """Perform validation on reader plugins with known failing cases.
 
