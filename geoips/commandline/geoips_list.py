@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """GeoIPS CLI "list" command.
@@ -10,7 +10,7 @@ from glob import glob
 from importlib import metadata, resources, import_module
 import json
 from os import listdir
-from os.path import basename
+from os.path import basename, exists
 import sys
 
 from tabulate import tabulate
@@ -189,12 +189,17 @@ class GeoipsListUnitTests(GeoipsExecutableCommand):
             try:
                 listdir(unit_test_dir)
             except FileNotFoundError:
-                if len(package_names) == 1:
+                # I'm not sure why len(package_names) == 1 would indicate that the
+                # unit-tests folder does not exist.  Instead, check if the unit-tests
+                # folder exists to see if it exists.
+                # if len(package_names) == 1:
+                if not exists(unit_test_dir):
                     err_str = f"No unit test directory found under {pkg_name}. "
                     err_str += "Please create a tests/unit_tests folder for that "
                     err_str += "package if you want to continue."
                     self.parser.error(err_str)
                 else:
+                    print(f"package_names: {package_names}")
                     print(f"No unit tests found in '{pkg_name}', continuing.")
                     continue
             for subdir_name in listdir(unit_test_dir):
@@ -444,11 +449,10 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         ):
 
             if package_name == "all" or package_name == plugin_package_name:
-                pkg_registry = json.load(
-                    open(
-                        f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
-                    )
-                )
+                with open(
+                    f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
+                ) as fo:
+                    pkg_registry = json.load(fo)
             else:
                 continue
             interface_data = []

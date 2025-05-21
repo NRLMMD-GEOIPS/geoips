@@ -1,0 +1,168 @@
+interface: workflows
+family: order_based
+name: abi_infrared
+docstring: |
+  ABI Infrared Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
+---
+interface: workflows
+family: order_based
+name: abi_infrared_gray
+docstring: |
+  ABI Infrared Gray Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
+---
+interface: workflows
+family: order_based
+name: abi_ir_bd
+docstring: |
+  ABI Infrared Brightness Difference Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B14BT"]
+---
+interface: workflows
+family: order_based
+name: abi_wv
+docstring: |
+  ABI Water Vapor Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B09BT"]
+---
+interface: workflows
+family: order_based
+name: abi_wv_lower
+docstring: |
+  ABI Water Vapor Lower Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B10BT"]
+---
+interface: workflows
+family: order_based
+name: abi_wv_upper
+docstring: |
+  ABI Water Vapor Upper Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B08BT"]
+---
+interface: workflows
+family: order_based
+name: abi_visible
+docstring: |
+  ABI Visible Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B03Ref", "MED:solar_zenith_angle"]
+---
+interface: workflows
+family: order_based
+name: abi_visible_high_res
+docstring: |
+  ABI Visible High Resolution Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B02Ref", "HIGH:solar_zenith_angle"]
+---
+interface: workflows
+family: order_based
+name: abi_nasa_dust_rgb
+docstring: |
+  ABI NASA Dust RGB Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments:
+        variables: ["B11BT", "B13BT", "B14BT", "B15BT"]
+---
+interface: workflows
+family: order_based
+name: abi_dmw_low
+docstring: |
+  ABI DWM Low Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+---
+interface: workflows
+family: order_based
+name: abi_dmw_mid
+docstring: |
+  ABI DWM Middle Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+---
+interface: workflows
+family: order_based
+name: abi_dmw_high
+docstring: |
+  ABI DWM High Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]
+---
+interface: workflows
+family: order_based
+name: abi_dmw_low_mid_high
+docstring: |
+  ABI DWM Low-Mid-High Workflow.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        variables: ["wind_speed", "wind_direction", "pressure"]

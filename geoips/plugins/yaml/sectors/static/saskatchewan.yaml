@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: saskatchewan
-docstring: "Saskatchewan Province"
+docstring: "Saskatchewan Province."
 metadata:
   region:
     continent: NorthAmerica

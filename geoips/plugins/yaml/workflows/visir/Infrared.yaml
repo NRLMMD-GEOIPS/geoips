@@ -1,0 +1,36 @@
+interface: workflows
+family: order_based
+name: ob_Infrared
+docstring: |
+  The Infrared Workflow configuration.
+spec:
+  steps:
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      arguments:
+        colormapper:
+          kind: colormapper
+          name: Infrared
+          arguments:
+            data_range: [-90.0, 30.0]
+        filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          arguments:
+            suffix: ".png"

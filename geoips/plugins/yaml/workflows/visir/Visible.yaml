@@ -1,0 +1,45 @@
+interface: workflows
+family: order_based
+name: ob_Visible
+docstring: |
+  The Visible workflow configuration.
+spec:
+  steps:
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      # This works as-is with defaults for VIIRS and ABI and SEVIRI.
+      # AHI does NOT use gamma! Replacement values in product_inputs/ahi.yaml
+      # MODIS does NOT use gamma, and has scale_factor of 1.0! Replacement values in product_inputs/modis.yaml
+      arguments:
+        output_data_range: [0.0, 100.0]
+        input_units: reflectance
+        output_units: reflectance
+        min_outbounds: crop
+        max_outbounds: crop
+        scale_factor: 100
+        gamma_list: [1.5]
+        sun_zen_correction: true
+        max_day_zen: 90
+        inverse: null
+        norm: null
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      arguments:
+        colormapper:
+          kind: colormapper
+          name: matplotlib_linear_norm
+          arguments:
+            data_range: [0.0, 100.0]
+            cmap_name: Greys_r
+            cbar_label: Reflectance
+        filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          arguments:
+            suffix: ".png"

@@ -58,15 +58,20 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 [tool.poetry.dependencies] # must download to run
 # NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
 setuptools = "<70"     # Required for any fortran builds until meson working
-python = ">=3.10.0"    # mandatory to declare the required python version
+python = ">=3.11.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
-netcdf4 = "*"    # Base requirement
-numpy = "*"         # Base requirement
+# Note netcdf <1.7.0 didn't seg fault if you did not properly close netcdf files.
+# >= 1.7.0 reasonably DOES seg fault without properly closing netcdf files.
+netcdf4 = ">1.7.0"    # Base requirement >= 1.7.0 works without reader seg faults
+# Note there was a version of numpy 2.x that broke masked datetime64 arrays in smap.
+numpy = ">=2.2.4"      # Base requirement >=2.2.4 works
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
 scipy = ">1.2"         # Base requirement, requires openblas
-xarray = "<2024.3"     # Base requirement; Pinned to <2024.3 due to bug mentioned in #558
+# Resolved as of 2025.3.1 https://github.com/NRLMMD-GEOIPS/geoips/issues/558
+# Also note, ufuncs went away 2022.06, and back 2025.3.1, impacting scat_noaa_winds_netcdf
+xarray = ">=2025.3.1"  # Base requirement
 astropy = "*"          # Used for accounting leap seconds when converting epoch timestamps
 cartopy = ">=0.23.0"   # No longer requires libgeos; 0.22.0 works but 0.23.0 is needed for tests to pass
 ephem = "*"            # Required for overpass predictor
@@ -75,6 +80,7 @@ isodate = "*"          # Required for overpass predictor
 jsonschema = ">4.18.0" # Provides validation for YAML plugins
 numexpr = "*"     # for efficiency improvements
 psutil = "*"           # Required for memory checks
+pydantic = ">=2.10.0"  # Data validation using Python type hints
 pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
 pyorbital = "*"        # required by satpy
@@ -135,9 +141,9 @@ pinkrst = { version = "*", optional = true }
 # Test group
 pytest = { version = "*", optional = true }
 pytest-cov = { version = "*", optional = true }
+pytest-mock = { version = ">=3.14.0", optional = true}
 pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
-xarray-datatree = { version = "*", optional = true }
 # Debug group
 ipython = { version = "*", optional = true }
 
@@ -173,8 +179,8 @@ lint = [
 test = [
     "pytest",          # Required for unit tests
     "pytest-cov",      # Reports on test coverage
+    "pytest-mock",     # Required for unit tests
     "pixelmatch",
-    "xarray-datatree", # Currently only used in unit tests
     "pytest-xdist",
 ]
 debug = ["ipython"]

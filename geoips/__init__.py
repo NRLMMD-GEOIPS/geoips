@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """
@@ -16,7 +16,7 @@ Homepage: https://github.com/NRLMMD-GEOIPS/geoips
 
 .. |unireg|    unicode:: U+000AE .. REGISTERED SIGN
 """
-
+from matplotlib import rcParams
 from geoips import errors
 from geoips import filenames
 from geoips import interfaces
@@ -27,8 +27,12 @@ from ._version import __version__, __version_tuple__
 import logging  # noqa
 from geoips.commandline.log_setup import add_logging_level
 
+# Turn off image interpolation for matplotlib by default.
+rcParams["image.interpolation"] = "none"
 
-add_logging_level("INTERACTIVE", 35)
+# Setting INTERACTIVE to 25 as this is between INFO (20) and WARNING (30). This way,
+# WARNING output will still be shown if INFO or INTERACTIVE is set.
+add_logging_level("INTERACTIVE", 25)
 
 __all__ = [
     "interfaces",
