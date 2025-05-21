@@ -64,39 +64,29 @@ Implementation Tips
 7. Apply proper scaling factors and offsets to raw data
 8. Consider memory usage for large datasets
 
-Common Challenges
-----------------
-1. **Time Formatting**: Convert various time formats (TAI93, UTC, seconds since epoch) to datetime objects
-2. **1D vs 2D Variables**: Ensure consistent dimensionality across all variables
-3. **Coordinate Systems**: Handle different coordinate systems and projections
-4. **Missing Data**: Properly mask or fill missing data values
-5. **Large Files**: Implement efficient reading strategies for large datasets
-
-Usage
------
-.. code-block:: python
+Example Usage
+-------------
+.. code-block:: bash
 
    # Command line usage
    --reader_name my_reader_name
+
+.. code-block:: python
 
    # Direct invocation
    from geoips.interfaces import readers
    reader_name = "my_reader_name"
    data = readers.get_plugin(reader_name)
 
-Connection to Products
----------------------
-The ``source_name`` set in your reader must match the ``source_names`` property in your products plugin to ensure proper data flow.
-
-Reader Parameters Explained
---------------------------
+Reader Parameters
+-----------------
 - ``metadata_only``: When True, only read metadata without loading full dataset
 - ``chans``: List of specific channels/variables to read (for efficiency)
 - ``area_def``: Specify region to read (spatial subsetting)
-- ``self_register``: Register all data to a specific dataset
+- ``self_register``: Specify a dataset name to use as a point of reference for interpolate/convert all other arrays to be the same shape.
 
 Reader Template
---------------
+---------------
 .. code-block:: python
 
    """
@@ -211,32 +201,11 @@ Reader Template
        # Return dictionary with dataset
        return {"DATA": dataset, "METADATA": dataset[[]]}
 
-   def get_test_files(test_data_dir):
-       """Return test files for unit testing.
-       
-       Parameters
-       ----------
-       test_data_dir : str
-           Directory containing test data
-           
-       Returns
-       -------
-       dict
-           Dictionary containing test datasets
-       """
-       import os
-       
-       test_file = os.path.join(test_data_dir, "path", "to", "test_file")
-       return call([test_file])
-
-   def get_test_parameters():
-       """Get test data key and a variable to test."""
-       return [{"data_key": "DATA", "data_var": "variable_name"}]
 
 Testing Your Reader
-------------------
-1. Create unit tests to verify your reader works correctly
-2. Test with various input files to ensure robustness
+-------------------
+1. Create unit and/or integration tests to verify your reader works correctly
+2. Test with various input files
 3. Verify all required attributes and variables are present
 4. Check that data values are properly scaled and masked
 5. Validate time and coordinate information
