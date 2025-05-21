@@ -320,10 +320,10 @@ def validate_neutral_plugin(good_plugin, test_tup, plugin_model):
 
     key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
 
-    bad_plugin = deepcopy(good_plugin)
-    bad_plugin[key] = val
+    neutral_plugin = deepcopy(good_plugin)
+    neutral_plugin[key] = val
 
     if warn_match:
         with pytest.warns(FutureWarning, match=warn_match):
-            plugin_model(**bad_plugin)
+            plugin_model(**neutral_plugin)
         return
