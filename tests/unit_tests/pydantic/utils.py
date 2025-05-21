@@ -75,6 +75,14 @@ def load_test_cases(interface_name, test_type):
                 f"Error: No test cases file could be found. Expected {fpath} but it did not"
                 " exist. Please create this file and rerun your tests."
             )
+    elif test_type=="neutral":
+        fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_neutral.yaml"
+        if not os.path.exists(fpath):
+            raise FileNotFoundError(
+                f"Error: No test cases file could be found. Expected {fpath} but it did not"
+                " exist. Please create this file and rerun your tests."
+            )
+
     with open(fpath, "r") as fo:
         test_cases = yaml.safe_load(fo)
 
@@ -260,11 +268,6 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     if key in validation_to_be_implemented:
         return
 
-    if warn_match:
-        with pytest.warns(FutureWarning, match=warn_match):
-            plugin_model(**bad_plugin)
-        return
-
     try:
         plugin_model(**bad_plugin)
     except ValidationError as e:
@@ -295,3 +298,32 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
             ), f"Expected error message to match: \n {err_str} \n Got:\n{err_msg}"
     else:
         assert False, f"Expected ValidationError for key '{key}', but none was raised."
+
+
+def validate_neutral_plugin(good_plugin, test_tup, plugin_model):
+    """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
+
+    Current supported plugins include readers and sectors. More to come in the future,
+    and this function might change because of that. This is a beta method for the time
+    being.
+
+    Parameters
+    ----------
+    good_plugin: dict
+        - A dictionary representing a plugin that is valid.
+    test_tup:
+        - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
+          used to run and validate tests.
+    plugin_model: instance or child of geoips.pydantic.bases.PluginModel
+        - The pydantic-based model used to validate this plugin.
+    """
+
+    key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
+
+    bad_plugin = deepcopy(good_plugin)
+    bad_plugin[key] = val
+
+    if warn_match:
+        with pytest.warns(FutureWarning, match=warn_match):
+            plugin_model(**bad_plugin)
+        return
