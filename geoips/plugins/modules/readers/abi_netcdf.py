@@ -296,10 +296,7 @@ def _get_lat_lon_extent_metadata(df):
     ]
     for name in md_names:
         try:
-            metadata[name] = getattr(
-                df.variables["geospatial_lat_lon_extent"],
-                name
-            )
+            metadata[name] = getattr(df.variables["geospatial_lat_lon_extent"], name)
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except AttributeError:
@@ -432,7 +429,9 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         ne.evaluate("cos(y)", out=cos_y)  # NOQA
         ne.evaluate("sin(x)", out=sin_x)  # NOQA
         ne.evaluate("sin(y)", out=sin_y)  # NOQA
-        ne.evaluate("sin_x**2 + cos_x**2 * (cos_y**2 + sin_y**2 * R_rat)", out=a)  # NOQA
+        ne.evaluate(
+            "sin_x**2 + cos_x**2 * (cos_y**2 + sin_y**2 * R_rat)", out=a
+        )  # NOQA
         ne.evaluate("-2 * H * cos_x * cos_y", out=b)  # NOQA
         ne.evaluate("(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)", out=rs)  # NOQA
         good_mask = np.isfinite(rs)
