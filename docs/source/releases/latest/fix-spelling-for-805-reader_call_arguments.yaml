@@ -1,0 +1,132 @@
+bug fix:
+- title: 'Fix spelling in files impacted by #816'
+  description: 'Fix spelling in files impacted by #816'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - '.cspell.json'
+    - 'geoips/plugins/modules/readers/abi_l2_netcdf.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
+    - 'geoips/plugins/modules/readers/ssmi_binary.py'
+    - 'geoips/plugins/modules/readers/ssmis_binary.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+enhancement:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
