@@ -221,9 +221,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             area_dataset = xr.Dataset(coords=coords)
             area_dataset.attrs = xarray.attrs
             lines = geo["Lines"]
-            samps = geo["Samples"]
+            samples = geo["Samples"]
             for key in xarray.keys():
-                array = xarray[key].values[lines, samps]
+                array = xarray[key].values[lines, samples]
                 area_dataset[key] = (("y", "x"), array)
             xarray = area_dataset
         if ll_mask is not None:
@@ -246,28 +246,28 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         start_times = [x.attrs["start_datetime"] for x in xarrays]
         if len(set(start_times)) > 1:
             # multiple scan times were passed in
-            xarray_dset = xr.concat(xarrays, dim="time_dim")
-            xarray_dset.attrs["start_datetime"] = min(start_times)
-            xarray_dset = xarray_dset.assign_coords({"time_dim": start_times})
+            xr_dataset = xr.concat(xarrays, dim="time_dim")
+            xr_dataset.attrs["start_datetime"] = min(start_times)
+            xr_dataset = xr_dataset.assign_coords({"time_dim": start_times})
         else:
             # Multiple files for a single scan time were passed in (such as multiple
             # Derived motion winds (DMW) files)
             # We can easily concatenate if these are 1D data, and have the same dim.
             # Check if we can do this, raise an error if not.
             # First check the dim sizes for each variable in the xarray
-            xarray_dim_sizes = [len(dset.dims) for dset in xarrays]
+            xr_dim_sizes = [len(d_set.dims) for d_set in xarrays]
             # Now check if each variable
-            xarray_dim_names = ["_".join(list(dset.dims)) for dset in xarrays]
-            if all([size == 1 for size in xarray_dim_sizes]) and (
-                len(set(xarray_dim_names)) == 1
+            xr_dim_names = ["_".join(list(d_set.dims)) for d_set in xarrays]
+            if all([size == 1 for size in xr_dim_sizes]) and (
+                len(set(xr_dim_names)) == 1
             ):
-                xarray_dset = xr.concat(xarrays, dim=xarray_dim_names[0])
+                xr_dataset = xr.concat(xarrays, dim=xr_dim_names[0])
             else:
                 raise ValueError(
                     "Do not know how to stack xarrays with "
                     "mismatching dim sizes and names"
                 )
     else:
-        xarray_dset = xarrays[0]
+        xr_dataset = xarrays[0]
 
-    return {"abi_l2_data": xarray_dset, "METADATA": meta_dataset}
+    return {"abi_l2_data": xr_dataset, "METADATA": meta_dataset}

@@ -3,6 +3,8 @@
 
 """Read Advanced Microwave Scanning Radiometer (AMSR2) data products."""
 
+# cspell:ignore WSPD, PRECIP
+
 # Python Standard Libraries
 from glob import glob
 import logging
@@ -119,10 +121,10 @@ def read_amsr2_winds(wind_xarray):
 
     # Set time array appropriately
 
-    dtstrs = []
+    dt_strs = []
     LOG.info("Reading scan_times")
     for scan_time in wind_xarray["Scan_Time"]:
-        dtstrs += [
+        dt_strs += [
             "{0:04.0f}{1:02.0f}{2:02.0f}T{3:02.0f}{4:02.0f}{5:02.0f}".format(
                 *tuple([xx for xx in scan_time.values])
             )
@@ -131,7 +133,7 @@ def read_amsr2_winds(wind_xarray):
     # (otherwise if you set it directly to ts, it is a pandas format time series, and
     # expand_dims doesn't exist).
     time_array = pandas.to_datetime(
-        dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
+        dt_strs, format="%Y%m%dT%H%M%S", errors="coerce"
     ).tolist()
     LOG.info("Setting list of times")
     tss = [time_array for ii in range(0, wind_xarray["wind_speed_kts"].shape[1])]
@@ -198,10 +200,10 @@ def read_amsr2_mbt(full_xarray, varname, time_array=None):
     if time_array is None:
 
         # Set time appropriately
-        dtstrs = []
+        dt_strs = []
         LOG.info("Reading scan_times, for dims %s", sub_xarray[varnames[varname]].dims)
         for scan_time in full_xarray["Scan_Time"]:
-            dtstrs += [
+            dt_strs += [
                 "{0:04.0f}{1:02.0f}{2:02.0f}T{3:02.0f}{4:02.0f}{5:02.0f}".format(
                     *tuple([xx for xx in scan_time.values])
                 )
@@ -210,7 +212,7 @@ def read_amsr2_mbt(full_xarray, varname, time_array=None):
         # (otherwise if you set it directly to ts, it is a pandas format time series,
         # and expand_dims doesn't exist).
         curr_time_array = pandas.to_datetime(
-            dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
+            dt_strs, format="%Y%m%dT%H%M%S", errors="coerce"
         ).tolist()
         LOG.info("    Setting list of times")
         tss = [
@@ -245,8 +247,8 @@ def read_amsr2_data(full_xarray, chans):
     sunzen = 90 - full_xarray.Sun_Elevation
     satzen = full_xarray.Earth_Incidence_Angle
     satazm = full_xarray.Earth_Azimuth_Angle
-    loqf = full_xarray.Pixel_Data_Quality_6_to_36
-    hiqf = full_xarray.Pixel_Data_Quality_89
+    low_qf = full_xarray.Pixel_Data_Quality_6_to_36
+    high_qf = full_xarray.Pixel_Data_Quality_89
     sunglint_flag = full_xarray.Sun_Glint_Flag
     sensor_scan_angle = full_xarray.Scan_Angle
     xarrays = {}
@@ -264,11 +266,11 @@ def read_amsr2_data(full_xarray, chans):
                 new_xarray["satellite_azimuth_angle"] = satazm
                 new_xarray["satellite_zenith_angle"] = satzen
                 new_xarray["solar_zenith_angle"] = sunzen
-                new_xarray["QualityFlag"] = loqf
+                new_xarray["QualityFlag"] = low_qf
                 new_xarray["SunGlintFlag"] = sunglint_flag
                 new_xarray["sensor_scan_angle"] = sensor_scan_angle
-            elif hiqf.dims == tuple(new_xarray.dims):
-                new_xarray["QualityFlag"] = hiqf
+            elif high_qf.dims == tuple(new_xarray.dims):
+                new_xarray["QualityFlag"] = high_qf
             xarrays[varname] = new_xarray
         else:
             LOG.info("SKIPPING variable %s", varname)
@@ -359,10 +361,10 @@ def call(
     # Merge all datasets together:
     final_xarrays = {}
     for xr_key in xarrays.keys():
-        xars = [xar[xr_key] for xar in ingested]
-        final_xarrays[xr_key] = xarray.concat(xars, dim="Number_of_Scans")
+        arrays = [arr[xr_key] for arr in ingested]
+        final_xarrays[xr_key] = xarray.concat(arrays, dim="Number_of_Scans")
 
-    for dsname, curr_xarray in final_xarrays.items():
+    for ds_name, curr_xarray in final_xarrays.items():
         LOG.info("Setting standard metadata")
         from geoips.xarray_utils.time import (
             get_min_from_xarray_time,

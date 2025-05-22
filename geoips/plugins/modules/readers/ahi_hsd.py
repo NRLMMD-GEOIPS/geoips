@@ -3,6 +3,8 @@
 
 """Advanced Himawari Imager Data Reader."""
 
+# cspell:ignore lfac, loff, cfac, coeff, geoll
+
 # Python Standard Libraries
 from datetime import datetime, timedelta
 from glob import glob
@@ -51,7 +53,7 @@ BADVALS = {
     "Error": -999.8,
     "Out_Of_Valid_Range": -999.7,
     "Root_Test": -999.6,
-    "Unitialized": -9999.9,
+    "Uninitialized": -9999.9,
 }
 
 DATASET_INFO = {
@@ -247,7 +249,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
 
         LOG.debug("Calculating latitudes and longitudes.")
 
-        sclunit = 1.525878906250000e-05  # NOQA
+        scale_unit = 1.525878906250000e-05  # NOQA
 
         # Constants
         LOG.info("    LATLONCALC Building constants.")
@@ -285,13 +287,13 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         # by about five times.
         #
         # In [8]: timeit -n100 deg2rad *
-        # (np.array(x, dtype=np.float) - coff)/(sclunit * cfac)
+        # (np.array(x, dtype=np.float) - coff)/(scale_unit * cfac)
         # 100 loops, best of 3: 96.6 ms per loop
         #
-        # In [9]: timeit -n100 ne.evaluate('deg2rad*(x-coff)/(sclunit*cfac)')
+        # In [9]: timeit -n100 ne.evaluate('deg2rad*(x-coff)/(scale_unit*cfac)')
         # 100 loops, best of 3: 20 ms per loop
-        x = ne.evaluate("deg2rad * (x - coff) / (sclunit * cfac)")  # NOQA
-        y = ne.evaluate("deg2rad*(y - loff)/(sclunit * lfac)")  # NOQA
+        x = ne.evaluate("deg2rad * (x - coff) / (scale_unit * cfac)")  # NOQA
+        y = ne.evaluate("deg2rad*(y - loff)/(scale_unit * lfac)")  # NOQA
         # # Improvement here is from 132ms for np.sin(x) to 23.5ms for
         # ne.evaluate('sin(x)')
         LOG.info("    LATLONCALC Calculating sines and cosines")
@@ -386,7 +388,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
     # Create a memmap to the lat/lon file
     # Nothing will be read until explicitly requested
     # We are mapping this here so that the lats and lons are available when
-    # calculating satlelite angles
+    # calculating satellite angles
     LOG.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["ob_area"])
     )
@@ -530,9 +532,9 @@ def _get_metadata_block_03(df, block_info):
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     block_data["sub_lon"] = np.fromstring(data[3:11], dtype="float64")[0]
-    # Column sclaing factor
+    # Column scale factor
     block_data["CFAC"] = np.fromstring(data[11:15], dtype="uint32")[0]
-    # Line scaling factor
+    # Line scale factor
     block_data["LFAC"] = np.fromstring(data[15:19], dtype="uint32")[0]
     # Column offset
     block_data["COFF"] = np.fromstring(data[19:23], dtype="float32")[0]
@@ -613,7 +615,7 @@ def _get_metadata_block_05(df, block_info):
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     block_data["band_number"] = np.fromstring(data[3:5], dtype="uint16")[0]
-    block_data["cent_wavelenth"] = np.fromstring(data[5:13], dtype="float64")[0]
+    block_data["cent_wavelength"] = np.fromstring(data[5:13], dtype="float64")[0]
     block_data["valid_bits_per_pixel"] = np.fromstring(data[13:15], dtype="uint16")[0]
     block_data["count_badval"] = np.fromstring(data[15:17], dtype="uint16")[0]
     block_data["count_outside_scan"] = np.fromstring(data[17:19], dtype="uint16")[0]
@@ -628,7 +630,7 @@ def _get_metadata_block_05(df, block_info):
         block_data["C2"] = np.fromstring(data[75:83], dtype="float64")[0]
         block_data["speed_of_light"] = np.fromstring(data[83:91], dtype="float64")[0]
         block_data["planck_const"] = np.fromstring(data[91:99], dtype="float64")[0]
-        block_data["boltz_const"] = np.fromstring(data[99:107], dtype="float64")[0]
+        block_data["boltzmann_const"] = np.fromstring(data[99:107], dtype="float64")[0]
         # block_data['spare'] = np.fromstring(data[107:147], dtype='float64')
     else:
         block_data["c_prime"] = np.fromstring(data[35:43], dtype="float64")[0]
@@ -661,7 +663,7 @@ def _get_metadata_block_06(df, block_info):
     block_data["GSICS_slope"] = np.fromstring(data[11:19], dtype="float64")[0]
     block_data["GSICS_quadratic"] = np.fromstring(data[19:27], dtype="float64")[0]
     block_data["radiance_bias"] = np.fromstring(data[27:35], dtype="float64")[0]
-    block_data["bias_uncert"] = np.fromstring(data[35:43], dtype="float64")[0]
+    block_data["bias_uncertainty"] = np.fromstring(data[35:43], dtype="float64")[0]
     block_data["standard_radiance"] = np.fromstring(data[43:51], dtype="float64")[0]
     block_data["GSICS_valid_start"] = np.fromstring(data[51:59], dtype="float64")[0]
     block_data["GSICS_valid_end"] = np.fromstring(data[59:67], dtype="float64")[0]
@@ -901,7 +903,8 @@ def _check_file_consistency(metadata):
     If any differ, returns False.
     """
     # Checks start dates without comparing times.
-    # Times are uncomparable using this field, but are compared below using ob_timeline.
+    # Times are not comparable using this field, but are compared below using
+    # ob_timeline.
     start_dates = [
         int(metadata[fname]["block_01"]["ob_start_time"]) for fname in metadata.keys()
     ]
@@ -923,7 +926,7 @@ def _check_file_consistency(metadata):
     for block in members_to_check.keys():
         for field in members_to_check[block].keys():
             member_vals = [metadata[fname][block][field] for fname in metadata.keys()]
-            # This tests to be sure that all elemnts in member_vals are equal
+            # This tests to be sure that all elements in member_vals are equal
             # If they aren't all equal, then return False
             if member_vals[1:] != member_vals[:-1]:
                 return False
@@ -1037,18 +1040,18 @@ def call_single_time(
     process_datetimes["overall_start"] = datetime.utcnow()
     gvars = {}
     datavars = {}
-    adname = "undefined"
+    ad_name = "undefined"
     if area_def and self_register:
         raise ValueError("area_def and self_register are mutually exclusive keywords")
     elif area_def:
-        adname = area_def.area_id
+        ad_name = area_def.area_id
     elif self_register:
         if self_register not in DATASET_INFO:
             raise ValueError(
                 "Unrecognized resolution name requested for self registration: "
                 f"{self_register}",
             )
-        adname = "FULL_DISK"
+        ad_name = "FULL_DISK"
 
     # Get metadata for all input data files
     all_metadata = {}
@@ -1056,8 +1059,8 @@ def call_single_time(
         if chans:
             gotone = False
             for chan in chans:
-                currchan = chan.replace("BT", "").replace("Ref", "").replace("Rad", "")
-                if currchan in fname:
+                curr_chan = chan.replace("BT", "").replace("Ref", "").replace("Rad", "")
+                if curr_chan in fname:
                     gotone = True
             if not gotone:
                 LOG.info(
@@ -1084,7 +1087,7 @@ def call_single_time(
     # required size. Dict structure is channel{segment{file}}
     # Also build sets containing all segments and channels passed
     file_info = {}
-    file_segs = set()
+    file_segments = set()
     file_chans = set()
 
     xarray_obj = xarray.Dataset()
@@ -1094,7 +1097,7 @@ def call_single_time(
         if ch not in file_info:
             file_info[ch] = {}
         file_info[ch][sn] = md
-        file_segs.add(sn)
+        file_segments.add(sn)
         file_chans.add(ch)
 
     xarray_obj.attrs["file_metadata"] = file_info.copy()
@@ -1145,7 +1148,7 @@ def call_single_time(
             ob_area[1], ob_area[2:]
         )
     else:
-        raise ValueError("Unregognized ob_area {}".format(ob_area))
+        raise ValueError("Unrecognized ob_area {}".format(ob_area))
     xarray_obj.attrs["start_datetime"] = start_dt
     xarray_obj.attrs["end_datetime"] = end_dt
     xarray_obj.attrs["source_name"] = "ahi"
@@ -1163,10 +1166,10 @@ def call_single_time(
 
     # If one or more channels are missing a segment that other channels have, add it in
     # as "None". This will be set to bad values in the output data
-    for ch, segs in file_info.items():
-        diff = file_segs.difference(segs.keys())
+    for ch, segments in file_info.items():
+        diff = file_segments.difference(segments.keys())
         if diff:
-            segs.update({(sn, None) for sn in diff})
+            segments.update({(sn, None) for sn in diff})
 
     all_chans_list = []
     for chl in list(ALL_CHANS.values()) + list(ALL_GVARS.values()):
@@ -1204,19 +1207,19 @@ def call_single_time(
     # for res in ['HIGH', 'MED', 'LOW']:
     if self_register:
         LOG.info("")
-        LOG.info("Getting geolocation information for adname %s.", adname)
+        LOG.info("Getting geolocation information for ad_name %s.", ad_name)
         gmd = _get_geolocation_metadata(res_md[self_register])
         fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
-        gvars[adname] = get_geolocation(
+        gvars[ad_name] = get_geolocation(
             start_dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
         )
-        if not gvars[adname]:
+        if not gvars[ad_name]:
             LOG.error(
-                "GEOLOCATION FAILED for adname %s DONT_AUTOGEN_GEOLOCATION is: %s",
-                adname,
+                "GEOLOCATION FAILED for ad_name %s DONT_AUTOGEN_GEOLOCATION is: %s",
+                ad_name,
                 DONT_AUTOGEN_GEOLOCATION,
             )
-            gvars[adname] = {}
+            gvars[ad_name] = {}
     else:
         for res in ["LOW", "MED", "HIGH"]:
             try:
@@ -1225,7 +1228,7 @@ def call_single_time(
                 continue
             LOG.info("")
             LOG.info(
-                "Getting geolocation information for resolution %s for %s", res, adname
+                "Getting geolocation information for resolution %s for %s", res, ad_name
             )
             try:
                 gmd = _get_geolocation_metadata(res_md[res])
@@ -1237,7 +1240,7 @@ def call_single_time(
                 LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
                 raise IndexError(resp)
 
-    LOG.info("Done with geolocation for %s", adname)
+    LOG.info("Done with geolocation for %s", ad_name)
     LOG.info("")
     # Read the data
     # Will read all data if area_def is None
@@ -1254,14 +1257,14 @@ def call_single_time(
             LOG.info(
                 "We don't have geolocation information for %s for %s skipping %s",
                 res,
-                adname,
+                ad_name,
                 chan,
             )
             continue
         if not area_def:
-            dsname = res
+            ds_name = res
         else:
-            dsname = adname
+            ds_name = ad_name
 
         rad = ref = bt = False
         if "Rad" in types:
@@ -1295,9 +1298,9 @@ def call_single_time(
         # data = self.get_data(chan_md, gvars[res], rad, ref, bt, zoom=zoom)
         data = get_data(chan_md, gvars[res], rad, ref, bt)
         for typ, val in data.items():
-            if dsname not in datavars:
-                datavars[dsname] = {}
-            datavars[dsname][chan + typ] = val
+            if ds_name not in datavars:
+                datavars[ds_name] = {}
+            datavars[ds_name][chan + typ] = val
 
     # This needs to be fixed:
     #   remove any unneeded datasets from datavars and gvars
@@ -1306,12 +1309,12 @@ def call_single_time(
         for res in ["HIGH", "MED", "LOW"]:
             if res not in gvars.keys():
                 continue
-            if adname not in gvars and "latitude" in gvars[res]:
-                gvars[adname] = gvars[res]
+            if ad_name not in gvars and "latitude" in gvars[res]:
+                gvars[ad_name] = gvars[res]
             gvars.pop(res)
 
     if self_register:
-        adname = "FULL_DISK"
+        ad_name = "FULL_DISK"
 
         # Determine which resolution has geolocation
         LOG.info("Registering to %s", self_register)
@@ -1380,15 +1383,15 @@ def call_single_time(
     print_mem_usage("MEMUSG", verbose=False)
     xarray_objs = {}
 
-    for dsname in datavars.keys():
+    for ds_name in datavars.keys():
         xobj = xarray.Dataset()
         xobj.attrs = xarray_obj.attrs.copy()
-        for varname in datavars[dsname].keys():
-            xobj[varname] = xarray.DataArray(datavars[dsname][varname])
+        for varname in datavars[ds_name].keys():
+            xobj[varname] = xarray.DataArray(datavars[ds_name][varname])
             if re.match(r"B[0-9][0-9]", varname):
                 xobj[varname].attrs["channel_number"] = int(varname[1:3])
-        for varname in gvars[dsname].keys():
-            xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+        for varname in gvars[ds_name].keys():
+            xobj[varname] = xarray.DataArray(gvars[ds_name][varname])
         # if hasattr(xobj, 'area_definition') and xobj.area_definition is not None:
         #     xobj.attrs['interpolation_radius_of_influence'] =
         #     max(xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y)
@@ -1397,11 +1400,11 @@ def call_single_time(
         # Make this a fixed 3000 (1.5 * lowest resolution data) - may want to
         # adjust for different channels.
         xobj.attrs["interpolation_radius_of_influence"] = 3000
-        xarray_objs[dsname] = xobj
+        xarray_objs[ds_name] = xobj
         # May need to deconflict / combine at some point, but for now just use
         # attributes from any one of the datasets as the METADATA dataset
         xarray_objs["METADATA"] = xobj[[]]
-    LOG.info("Done reading AHI data for {}".format(adname))
+    LOG.info("Done reading AHI data for {}".format(ad_name))
     LOG.info("")
 
     print_mem_usage("MEMUSG", verbose=False)
@@ -1412,7 +1415,7 @@ def call_single_time(
     return xarray_objs
 
 
-def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
+def set_variable_metadata(xobj_attrs, band_metadata, ds_name, varname):
     """
     Set variable metadata.
 
@@ -1429,23 +1432,23 @@ def set_variable_metadata(xobj_attrs, band_metadata, dsname, varname):
     pulled from the appropriate location in the  xobj_attrs
     dictionary and set on the _varinfo dictionary)
     """
-    if dsname not in xobj_attrs.keys():
-        xobj_attrs[dsname] = {}
+    if ds_name not in xobj_attrs.keys():
+        xobj_attrs[ds_name] = {}
     bandname = varname.replace("Rad", "").replace("Ref", "").replace("BT", "")
-    if varname not in xobj_attrs[dsname].keys():
+    if varname not in xobj_attrs[ds_name].keys():
         if bandname in band_metadata.keys():
-            xobj_attrs[dsname][varname] = {}
+            xobj_attrs[ds_name][varname] = {}
             # Store the full metadata dictionary in the scifile metadata
-            xobj_attrs[dsname][varname]["all"] = band_metadata[bandname]
+            xobj_attrs[ds_name][varname]["all"] = band_metadata[bandname]
             # Set the actual wavelength property on the variable itself
             if (
                 "calibration_information" in band_metadata[bandname].keys()
-                and "cent_wavelenth"
+                and "cent_wavelength"
                 in band_metadata[bandname]["calibration_information"].keys()
             ):
-                xobj_attrs[dsname][varname]["wavelength"] = band_metadata[bandname][
+                xobj_attrs[ds_name][varname]["wavelength"] = band_metadata[bandname][
                     "calibration_information"
-                ]["cent_wavelenth"]
+                ]["cent_wavelength"]
 
 
 def get_band_metadata(all_metadata):
@@ -1494,8 +1497,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         full_disk = True
         # Assume we are going to make a full-disk image
         smd = md[list(md.keys())[0]]
-        nseg = smd["block_07"]["num_segments"]
-        lines = smd["num_lines"] * nseg
+        n_segments = smd["block_07"]["num_segments"]
+        lines = smd["num_lines"] * n_segments
         samples = smd["num_samples"]
         # sample_inds, line_inds = np.meshgrid(np.arange(samples), np.arange(lines))
         shape = (lines, samples)
@@ -1560,7 +1563,7 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         if not req_lines.intersection(lines):
             continue
 
-        LOG.debug("Determining indicies in data array.")
+        LOG.debug("Determining indices in data array.")
         header_len = smd["block_01"]["total_header_length"]
         if not full_disk:
             data_inds = np.where(
@@ -1658,8 +1661,8 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
             data["BT"] = np.empty_like(data["Rad"])
 
         h = calib["planck_const"]
-        k = calib["boltz_const"]
-        wl = calib["cent_wavelenth"] / 1000000.0  # Initially in microns
+        k = calib["boltzmann_const"]
+        wl = calib["cent_wavelength"] / 1000000.0  # Initially in microns
         c = calib["speed_of_light"]
         c0 = calib["c0"]  # NOQA
         c1 = calib["c1"]  # NOQA

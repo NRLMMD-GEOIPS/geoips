@@ -3,6 +3,8 @@
 
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
+# cspell:ignore geoll, invf, pphgt
+
 # Python Standard Libraries
 import logging
 import os
@@ -61,7 +63,7 @@ BADVALS = {
     "Conditional": -999.8,
     "Out_Of_Valid_Range": -999.7,
     "No_Value": -999.6,
-    "Unitialized": -9999.9,
+    "Uninitialized": -9999.9,
 }
 
 DATASET_INFO = {
@@ -155,7 +157,7 @@ def _check_file_consistency(metadata):
     """
     Check that all input metadata are from the same image time.
 
-    Performs cheks on platform_ID, instrument_type, processing_level, and times.
+    Performs checks on platform_ID, instrument_type, processing_level, and times.
     If these are all equal, returns True.
     If any differ, returns False.
     """
@@ -281,7 +283,6 @@ def _get_variable_metadata(df):
 
 def _get_lat_lon_extent_metadata(df):
     """Get lat lon extent metadata."""
-    glle = df.variables["geospatial_lat_lon_extent"]
     metadata = {}
     md_names = [
         "geospatial_eastbound_longitude",
@@ -295,7 +296,10 @@ def _get_lat_lon_extent_metadata(df):
     ]
     for name in md_names:
         try:
-            metadata[name] = getattr(glle, name)
+            metadata[name] = getattr(
+                df.variables["geospatial_lat_lon_extent"],
+                name
+            )
             if metadata[name].size == 1:
                 metadata[name] = metadata[name][()]
         except AttributeError:
@@ -359,7 +363,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
     """
     Get latitudes and longitudes.
 
-    This routine accepts a dictionary containing metadata as read from a NCDF4
+    This routine accepts a dictionary containing metadata as read from a NetCDF4
     format file, and returns latitudes and longitudes for a full disk.
     """
     # If the filename format needs to change for the pre-generated geolocation
@@ -381,9 +385,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
 
         lambda0 = np.radians(metadata["lon0"])  # NOQA
         Re = metadata["Re"]
-        # invf = metadata['invf']
         Rp = metadata["Rp"]
-        # e = np.sqrt((1 / invf) * (2 - 1 / invf))
         H = metadata["H_m"]
         c = H**2 - Re**2  # NOQA
 
@@ -411,36 +413,36 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         #       variable assignment first, then fill them
         # This method requires that all lines remain in the SAME ORDER or things
         # will go very badly
-        cosx = np.empty_like(x)
-        cosy = np.empty_like(x)
+        cos_x = np.empty_like(x)
+        cos_y = np.empty_like(x)
         a = np.empty_like(x)
         b = np.empty_like(x)
-        sinx = x  # X is not needed after the line that defines sinx
-        siny = y  # Y is not needed after the line that defines siny
+        sin_x = x  # X is not needed after the line that defines sin_x
+        sin_y = y  # Y is not needed after the line that defines sin_y
         rs = a
         sx = b
-        sy = cosy  # sinx is not needed after the line that defines sy
-        sz = cosx  # cosx is not needed after the line that defines sz
+        sy = cos_y  # sin_x is not needed after the line that defines sy
+        sz = cos_x  # cos_x is not needed after the line that defines sz
         lats = rs
         lons = sz
 
         LOG.info("      Calculating intermediate steps")
-        Rrat = Re**2 / Rp**2  # NOQA
-        ne.evaluate("cos(x)", out=cosx)  # NOQA
-        ne.evaluate("cos(y)", out=cosy)  # NOQA
-        ne.evaluate("sin(x)", out=sinx)  # NOQA
-        ne.evaluate("sin(y)", out=siny)  # NOQA
-        ne.evaluate("sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)", out=a)  # NOQA
-        ne.evaluate("-2 * H * cosx * cosy", out=b)  # NOQA
+        R_rat = Re**2 / Rp**2  # NOQA
+        ne.evaluate("cos(x)", out=cos_x)  # NOQA
+        ne.evaluate("cos(y)", out=cos_y)  # NOQA
+        ne.evaluate("sin(x)", out=sin_x)  # NOQA
+        ne.evaluate("sin(y)", out=sin_y)  # NOQA
+        ne.evaluate("sin_x**2 + cos_x**2 * (cos_y**2 + sin_y**2 * R_rat)", out=a)  # NOQA
+        ne.evaluate("-2 * H * cos_x * cos_y", out=b)  # NOQA
         ne.evaluate("(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)", out=rs)  # NOQA
         good_mask = np.isfinite(rs)
 
-        ne.evaluate("rs * cosx * cosy", out=sx)  # NOQA
-        ne.evaluate("rs * cosx * siny", out=sz)  # NOQA
-        ne.evaluate("rs * sinx", out=sy)  # NOQA
+        ne.evaluate("rs * cos_x * cos_y", out=sx)  # NOQA
+        ne.evaluate("rs * cos_x * sin_y", out=sz)  # NOQA
+        ne.evaluate("rs * sin_x", out=sy)  # NOQA
 
         LOG.info("Calculating Latitudes")
-        ne.evaluate("r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))", out=lats)
+        ne.evaluate("r2d * arctan(R_rat * sz / sqrt((H - sx)**2 + sy**2))", out=lats)
         LOG.info("Calculating Longitudes")
         lons = ne.evaluate("r2d * (lambda0 + arctan(sy / (H - sx)))", out=lons)
         lats[~good_mask] = BADVALS["Off_Of_Disk"]
@@ -462,7 +464,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
     # Create memmap to the lat/lon file
     # Nothing will be read until explicitly requested
     # We are mapping this here so that the lats and lons are available when
-    # calculating satlelite angles
+    # calculating satellite angles
     LOG.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
     )
@@ -483,7 +485,7 @@ def _get_geolocation_metadata(metadata):
     """
     Gather all of the metadata used in creating geolocation data for input file.
 
-    This is split out so we can easily create a chash of the data for creation
+    This is split out so we can easily create a chache of the data for creation
     of a unique filename. This allows us to avoid recalculation of angles that
     have already been calculated.
     """
@@ -594,11 +596,11 @@ def call_single_time(
     gvars = {}
     datavars = {}
     standard_metadata = {}
-    adname = "undefined"
+    ad_name = "undefined"
     if area_def and self_register:
         raise ValueError("area_def and self_register are mutually exclusive keywords")
     elif area_def:
-        adname = area_def.area_id
+        ad_name = area_def.area_id
 
     # Test inputs
     if area_def and self_register:
@@ -613,13 +615,13 @@ def call_single_time(
         if chans:
             gotone = False
             for chan in chans:
-                currchan = (
+                curr_chan = (
                     chan.replace("BT", "")
                     .replace("Ref", "")
                     .replace("Rad", "")
                     .replace("B", "C")
                 )
-                if currchan in fname:
+                if curr_chan in fname:
                     gotone = True
             if not gotone:
                 LOG.info(
@@ -711,7 +713,7 @@ def call_single_time(
         elif scene_id == "RadC":
             xarray_obj.attrs["area_id"] = "CONUS"
         xarray_obj.attrs["area_definition"] = None
-    adname = xarray_obj.attrs["area_id"]
+    ad_name = xarray_obj.attrs["area_id"]
 
     if metadata_only:
         LOG.info("Only need metadata from first file, returning")
@@ -761,23 +763,23 @@ def call_single_time(
         LOG.info("")
         LOG.info(
             "Getting geolocation information for resolution {} for {}.".format(
-                self_register, adname
+                self_register, ad_name
             )
         )
         # Get just the metadata we need
-        standard_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
+        standard_metadata[ad_name] = _get_geolocation_metadata(res_md[self_register])
         fldk_lats, fldk_lons = get_latitude_longitude(
-            standard_metadata[adname], BADVALS, area_def
+            standard_metadata[ad_name], BADVALS, area_def
         )
-        gvars[adname] = get_geolocation(
-            sdt, standard_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+        gvars[ad_name] = get_geolocation(
+            sdt, standard_metadata[ad_name], fldk_lats, fldk_lons, BADVALS, area_def
         )
-        if not gvars[adname]:
+        if not gvars[ad_name]:
             LOG.error(
-                f"GEOLOCATION FAILED for adname {adname} DONT_AUTOGEN_GEOLOCATION "
+                f"GEOLOCATION FAILED for ad_name {ad_name} DONT_AUTOGEN_GEOLOCATION "
                 f"is: {DONT_AUTOGEN_GEOLOCATION}"
             )
-            gvars[adname] = {}
+            gvars[ad_name] = {}
     else:
         for res in ["LOW", "MED", "HIGH"]:
             try:
@@ -796,7 +798,7 @@ def call_single_time(
             except ValueError as resp:
                 LOG.error(
                     "{} GEOLOCATION FAILED FOR {} resolution {}. Skipping.".format(
-                        resp, adname, res
+                        resp, ad_name, res
                     )
                 )
             # Not sure what this does, but it fails if we only pass one resolution
@@ -806,12 +808,12 @@ def call_single_time(
             # geolocation has not been autogenerated.  I'll see.
             # if not gvars[res]:
             #     LOG.error(
-            #         f"GEOLOCATION FAILED for {adname} resolution {res} "
+            #         f"GEOLOCATION FAILED for {ad_name} resolution {res} "
             #         f"DONT_AUTOGEN_GEOLOCATION is: {DONT_AUTOGEN_GEOLOCATION}"
             #     )
             #     gvars[res] = {}
 
-    LOG.interactive("Done with geolocation for {}".format(adname))
+    LOG.interactive("Done with geolocation for {}".format(ad_name))
     LOG.info("")
 
     # Read the data
@@ -830,14 +832,14 @@ def call_single_time(
             res not in gvars.keys() or not gvars[res] or "latitude" not in gvars[res]
         ):
             LOG.info(
-                f"We don't have geolocation information for {res} for {adname} "
+                f"We don't have geolocation information for {res} for {ad_name} "
                 f"skipping {chan}."
             )
             continue
         if not area_def:
-            dsname = res
+            ds_name = res
         else:
-            dsname = adname
+            ds_name = ad_name
 
         rad = ref = bt = False
         if "Rad" in types:
@@ -847,21 +849,21 @@ def call_single_time(
         if "BT" in types:
             bt = True
         if self_register:
-            data = get_data(chan_md, gvars[adname], rad, ref, bt)
+            data = get_data(chan_md, gvars[ad_name], rad, ref, bt)
         else:
             data = get_data(chan_md, gvars[res], rad, ref, bt)
         for typ, val in data.items():
-            if dsname not in datavars:
-                datavars[dsname] = {}
-            datavars[dsname][chan + typ] = val
+            if ds_name not in datavars:
+                datavars[ds_name] = {}
+            datavars[ds_name][chan + typ] = val
 
     # This needs to be fixed:
     #   remove any unneeded datasets from datavars and gvars
     #   also mask any values below -999.0
     if area_def:
         for res in ["LOW", "MED", "HIGH"]:
-            if adname not in gvars and res in gvars and gvars[res]:
-                gvars[adname] = gvars[res]
+            if ad_name not in gvars and res in gvars and gvars[res]:
+                gvars[ad_name] = gvars[res]
             try:
                 gvars.pop(res)
             except KeyError:
@@ -873,36 +875,36 @@ def call_single_time(
         # Determine which resolution has geolocation
         LOG.info("Registering to {}".format(self_register))
         if self_register == "HIGH":
-            datavars[adname] = datavars.pop("HIGH")
+            datavars[ad_name] = datavars.pop("HIGH")
             for varname, var in datavars["LOW"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 4, order=0)
+                datavars[ad_name][varname] = var
+                # datavars[ad_name][varname] = zoom(var, 4, order=0)
             datavars.pop("LOW")
             for varname, var in datavars["MED"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 2, order=0)
+                datavars[ad_name][varname] = var
+                # datavars[ad_name][varname] = zoom(var, 2, order=0)
             datavars.pop("MED")
 
         elif self_register == "MED":
-            datavars[adname] = datavars.pop("MED")
+            datavars[ad_name] = datavars.pop("MED")
             for varname, var in datavars["LOW"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 2, order=0)
+                datavars[ad_name][varname] = var
+                # datavars[ad_name][varname] = zoom(var, 2, order=0)
             datavars.pop("LOW")
             for varname, var in datavars["HIGH"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::2, ::2]
+                datavars[ad_name][varname] = var
+                # datavars[ad_name][varname] = var[::2, ::2]
             datavars.pop("HIGH")
 
         elif self_register == "LOW":
-            datavars[adname] = datavars.pop("LOW")
+            datavars[ad_name] = datavars.pop("LOW")
             for varname, var in datavars["MED"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::2, ::2]
+                datavars[ad_name][varname] = var
+                # datavars[ad_name][varname] = var[::2, ::2]
             datavars.pop("MED")
             for varname, var in datavars["HIGH"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::4, ::4]
+                datavars[ad_name][varname] = var
+                # datavars[ad_name][varname] = var[::4, ::4]
             datavars.pop("HIGH")
 
         else:
@@ -939,13 +941,13 @@ def call_single_time(
             datavars.pop(ds)
 
     xarray_objs = {}
-    for dsname in datavars.keys():
+    for ds_name in datavars.keys():
         xobj = xarray.Dataset()
         xobj.attrs = xarray_obj.attrs.copy()
-        for varname in datavars[dsname].keys():
-            xobj[varname] = xarray.DataArray(datavars[dsname][varname])
-        for varname in gvars[dsname].keys():
-            xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+        for varname in datavars[ds_name].keys():
+            xobj[varname] = xarray.DataArray(datavars[ds_name][varname])
+        for varname in gvars[ds_name].keys():
+            xobj[varname] = xarray.DataArray(gvars[ds_name][varname])
 
         roi = 500
         roi_factor = 5
@@ -960,12 +962,12 @@ def call_single_time(
                 LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
         xobj.attrs["interpolation_radius_of_influence"] = roi
         LOG.info(f"Using roi {roi}")
-        xarray_objs[dsname] = xobj
+        xarray_objs[ds_name] = xobj
         # At some point we may need to deconflict, but for now just use any of the
         # dataset attributes as the METADATA dataset
         xarray_objs["METADATA"] = xobj[[]]
 
-    LOG.info("Done reading ABI data for %s", adname)
+    LOG.info("Done reading ABI data for %s", ad_name)
     LOG.info("")
     return xarray_objs
 

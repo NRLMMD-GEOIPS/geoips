@@ -1,21 +1,23 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore cfnoc, sdris, nbytes, nfiller, nscan, enviro, tqflag, hqflag
+
 """SSMIS Binary reader.
 
-This code is converted from geoips v1 into geoipd v2 framework. This new version
-of reader is indepent from the GEOIPS system whose environmental parametrs must
-be used in V1.  Now, only python functipns are used with geoips framework
+This code is converted from geoips v1 into geoips v2 framework. This new version
+of the reader is independent from the GEOIPS system whose environmental parameters must
+be used in V1.  Now, only python functions are used with geoips framework
 and xarray is utilized to process datasets for product applications.
 
-Version Histopry:
+Version History:
      V1: initial code, July 24, 2020, NRL-MRY
 
 Input File
      SSMIS SDR data
 
 Output Fields
-     XARRAY onjectives to hold variables
+     XARRAY objects to hold variables
 """
 # Python Standard Libraries
 from datetime import datetime, timedelta
@@ -96,20 +98,20 @@ def append_xarray_dicts(xobjs_list):
     min_start_dt = xobjs_list[0]["METADATA"].attrs["start_datetime"]
     max_end_dt = xobjs_list[0]["METADATA"].attrs["end_datetime"]
     final_xobjs["METADATA"] = xobjs_list[0]["METADATA"][[]]
-    for dsname in xobjs_list[0]:
+    for ds_name in xobjs_list[0]:
         xobjs_ds_list = []
         for xobjs in xobjs_list:
-            xobjs_ds_list += [xobjs[dsname]]
-            curr_start_dt = xobjs[dsname].attrs["start_datetime"]
-            curr_end_dt = xobjs[dsname].attrs["end_datetime"]
+            xobjs_ds_list += [xobjs[ds_name]]
+            curr_start_dt = xobjs[ds_name].attrs["start_datetime"]
+            curr_end_dt = xobjs[ds_name].attrs["end_datetime"]
             if curr_start_dt < min_start_dt:
                 min_start_dt = curr_start_dt
             if curr_end_dt > max_end_dt:
                 max_end_dt = curr_end_dt
-        if dsname != "METADATA":
-            final_xobjs[dsname] = xr.concat(xobjs_ds_list, dim="dim_0")
-        final_xobjs[dsname].attrs["start_datetime"] = min_start_dt
-        final_xobjs[dsname].attrs["end_datetime"] = max_end_dt
+        if ds_name != "METADATA":
+            final_xobjs[ds_name] = xr.concat(xobjs_ds_list, dim="dim_0")
+        final_xobjs[ds_name].attrs["start_datetime"] = min_start_dt
+        final_xobjs[ds_name].attrs["end_datetime"] = max_end_dt
     final_xobjs["METADATA"].attrs["start_datetime"] = min_start_dt
     final_xobjs["METADATA"].attrs["end_datetime"] = max_end_dt
     return final_xobjs
@@ -141,8 +143,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
     rev = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
     jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
-    hour, minu = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()
-    satid, nsdr = np.fromstring(f1.read(4), dtype=np.dtype("short")).byteswap()
+    hour, minute = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()
+    sat_id, n_sdr = np.fromstring(f1.read(4), dtype=np.dtype("short")).byteswap()
     spare1, spare2, spare3 = np.fromstring(  # NOQA
         f1.read(3), dtype=np.dtype("int8")
     ).byteswap()
@@ -151,7 +153,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     ).byteswap()  # NOQA
     spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
     # Need to set up time to be read in by the metadata (year and jday are arrays)
-    time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minu)  # NOQA
+    time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minute)  # NOQA
     nbytes = 28  # bytes that have been read in
     # Read scan records at 512-byte boundaries
     nfiller = 512 - (
@@ -162,23 +164,23 @@ def read_ssmis_data_file(fname, metadata_only=False):
         f1.read(nfiller), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
 
-    # Rev 6A of the SSMIS SDR software changed the scalling of channel 12-16 to 100
+    # Rev 6A of the SSMIS SDR software changed the scaling of channel 12-16 to 100
     # (it was 10 before this change) effective with orbit rev 12216 for F-16 and
     # thereafter for all future satellites
     rev6a = 1
     # When revs wrapped back to 0, the rev[0] < 12216 was no longer valid.
     # Check that rev < 12216, AND year < 2023 (revs wrapped on 7 March 2023)
-    if satid == 1 and rev[0] < 12216 and year < 2023:
+    if sat_id == 1 and rev[0] < 12216 and year < 2023:
         rev6a = 0
 
-    if satid == 1:
-        satid = "F16"
-    elif satid == 2:
-        satid = "F17"
-    elif satid == 3:
-        satid = "F18"
-    elif satid == 4:
-        satid = "F19"
+    if sat_id == 1:
+        sat_id = "F16"
+    elif sat_id == 2:
+        sat_id = "F17"
+    elif sat_id == 3:
+        sat_id = "F18"
+    elif sat_id == 4:
+        sat_id = "F19"
 
     satellite_zenith_angle = 53.1
     sensor_scan_angle = 45.0
@@ -186,14 +188,14 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
     # bad_value = -999
 
-    for nn in range(nsdr):  # loop number of sdr data records
+    for nn in range(n_sdr):  # loop number of sdr data records
         nbytes = 0
 
         # SCAN HEADER
         syncword = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
         scan_year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
         scan_jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
-        scan_hour, scan_minu = np.fromstring(
+        scan_hour, scan_minute = np.fromstring(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()
         scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
@@ -226,14 +228,14 @@ def read_ssmis_data_file(fname, metadata_only=False):
 
         # not use geoips functions for time variables
         yyyyjjjhhmn = "{0:4d}{1:03d}{2:02d}{3:02d}".format(
-            scan_year[0], scan_jday[0], scan_hour, scan_minu
+            scan_year[0], scan_jday[0], scan_hour, scan_minute
         )
 
-        # set up start and end toem of this data
+        # set up start and end time of this data
 
         if nn == 0:
             start_time = yyyyjjjhhmn
-        # if nn == nsdr - 1:
+        # if nn == n_sdr - 1:
         #     end_time = yyyyjjjhhmn
 
         try:
@@ -266,7 +268,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # listed in the file name, then dividing the total number of seconds by the
             # number of sensor data records, which came out to 45.5 seconds
             estimated_seconds_per_sensor_data_record = 45.5
-            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            seconds_offset = estimated_seconds_per_sensor_data_record * n_sdr
             end_datetime = start_datetime + timedelta(seconds=seconds_offset)
 
         try:
@@ -299,7 +301,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # listed in the file name, then dividing the total number of seconds by the
             # number of sensor data records, which came out to 45.5 seconds
             estimated_seconds_per_sensor_data_record = 45.5
-            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            seconds_offset = estimated_seconds_per_sensor_data_record * n_sdr
             end_datetime = start_datetime + timedelta(seconds=seconds_offset)
 
         try:
@@ -332,7 +334,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # listed in the file name, then dividing the total number of seconds by the
             # number of sensor data records, which came out to 45.5 seconds
             estimated_seconds_per_sensor_data_record = 45.5
-            seconds_offset = estimated_seconds_per_sensor_data_record * nsdr
+            seconds_offset = estimated_seconds_per_sensor_data_record * n_sdr
             end_datetime = start_datetime + timedelta(seconds=seconds_offset)
 
         if metadata_only:
@@ -340,7 +342,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             xarray_imager.attrs["start_datetime"] = start_datetime
             xarray_imager.attrs["end_datetime"] = end_datetime
             xarray_imager.attrs["source_name"] = "ssmis"
-            xarray_imager.attrs["platform_name"] = satid
+            xarray_imager.attrs["platform_name"] = sat_id
             xarray_imager.attrs["data_provider"] = "DMSP"
             xarray_imager.attrs["source_file_names"] = [basename(fname)]
             xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
@@ -360,7 +362,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         if scenecounts_imager[0] < 0:
             LOG.info("IMAGER is negative")
 
-        # initilization of imager variables
+        # initialize imager variables
 
         lt_img = np.zeros((nscan_imager, 180))
         lg_img = np.zeros((nscan_imager, 180))
@@ -463,7 +465,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         if scenecounts_enviro[0] < 0:
             LOG.info("ENVIRO is negative")
 
-        # initilization of imager variables
+        # initialize imager variables
 
         lt_env = np.zeros((nscan_enviro, 90))
         lg_env = np.zeros((nscan_enviro, 90))
@@ -487,60 +489,60 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     LOG.info("value of enviro odd scan is %s", ii)
                     continue
                 for jj in range(scenecounts_enviro[ii]):
-                    enviroodd_lat, enviroodd_lon, enviroodd_scene = np.fromstring(
+                    enviro_odd_lat, enviro_odd_lon, enviro_odd_scene = np.fromstring(
                         f1.read(6), dtype=np.dtype("short")
                     ).byteswap()
-                    enviroodd_seaice, enviroodd_surf = np.fromstring(
+                    enviro_odd_seaice, enviro_odd_surf = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
                     (
-                        enviroodd_ch12,
-                        enviroodd_ch13,
-                        enviroodd_ch14,
-                        enviroodd_ch15,
-                        enviroodd_ch16,
-                        enviroodd_ch15_5x5,
-                        enviroodd_ch16_5x5,
-                        enviroodd_ch17_5x5,
-                        enviroodd_ch18_5x5,
-                        enviroodd_ch17_5x4,
-                        enviroodd_ch18_5x4,
+                        enviro_odd_ch12,
+                        enviro_odd_ch13,
+                        enviro_odd_ch14,
+                        enviro_odd_ch15,
+                        enviro_odd_ch16,
+                        enviro_odd_ch15_5x5,
+                        enviro_odd_ch16_5x5,
+                        enviro_odd_ch17_5x5,
+                        enviro_odd_ch18_5x5,
+                        enviro_odd_ch17_5x4,
+                        enviro_odd_ch18_5x4,
                     ) = np.fromstring(f1.read(22), dtype=np.dtype("short")).byteswap()
-                    enviroodd_rain1, enviroodd_rain2 = np.fromstring(
+                    enviro_odd_rain1, enviro_odd_rain2 = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
                     edr_bitflags = np.fromstring(  # NOQA
                         f1.read(4), dtype=np.dtype("int32")
                     ).byteswap()
                     nbytes += 36
-                    lat = 0.01 * enviroodd_lat
-                    lon = 0.01 * enviroodd_lon
+                    lat = 0.01 * enviro_odd_lat
+                    lon = 0.01 * enviro_odd_lon
                     lt_env[ii][jj] = lat
                     lg_env[ii][jj] = lon
                     if rev6a == 1:
-                        ch12[ii][jj] = enviroodd_ch12  # 19H
-                        ch13[ii][jj] = enviroodd_ch13  # 19V
-                        ch14[ii][jj] = enviroodd_ch14  # 22V
-                        ch15[ii][jj] = enviroodd_ch15  # 37H
-                        ch16[ii][jj] = enviroodd_ch16  # 37V
-                        ch15_5x5[ii][jj] = enviroodd_ch15_5x5
-                        ch16_5x5[ii][jj] = enviroodd_ch16_5x5
-                        ch17_5x5[ii][jj] = enviroodd_ch17_5x5
-                        ch18_5x5[ii][jj] = enviroodd_ch18_5x5
-                        ch17_5x4[ii][jj] = enviroodd_ch17_5x4
-                        ch18_5x4[ii][jj] = enviroodd_ch18_5x4
+                        ch12[ii][jj] = enviro_odd_ch12  # 19H
+                        ch13[ii][jj] = enviro_odd_ch13  # 19V
+                        ch14[ii][jj] = enviro_odd_ch14  # 22V
+                        ch15[ii][jj] = enviro_odd_ch15  # 37H
+                        ch16[ii][jj] = enviro_odd_ch16  # 37V
+                        ch15_5x5[ii][jj] = enviro_odd_ch15_5x5
+                        ch16_5x5[ii][jj] = enviro_odd_ch16_5x5
+                        ch17_5x5[ii][jj] = enviro_odd_ch17_5x5
+                        ch18_5x5[ii][jj] = enviro_odd_ch18_5x5
+                        ch17_5x4[ii][jj] = enviro_odd_ch17_5x4
+                        ch18_5x4[ii][jj] = enviro_odd_ch18_5x4
                     else:
-                        ch12[ii][jj] = 10 * enviroodd_ch12
-                        ch13[ii][jj] = 10 * enviroodd_ch13
-                        ch14[ii][jj] = 10 * enviroodd_ch14
-                        ch15[ii][jj] = 10 * enviroodd_ch15
-                        ch16[ii][jj] = 10 * enviroodd_ch16
-                        ch15_5x5[ii][jj] = 10 * enviroodd_ch15_5x5
-                        ch16_5x5[ii][jj] = 10 * enviroodd_ch16_5x5
-                        ch17_5x5[ii][jj] = 10 * enviroodd_ch17_5x5
-                        ch18_5x5[ii][jj] = 10 * enviroodd_ch18_5x5
-                        ch17_5x4[ii][jj] = 10 * enviroodd_ch17_5x4
-                        ch18_5x4[ii][jj] = 10 * enviroodd_ch18_5x4
+                        ch12[ii][jj] = 10 * enviro_odd_ch12
+                        ch13[ii][jj] = 10 * enviro_odd_ch13
+                        ch14[ii][jj] = 10 * enviro_odd_ch14
+                        ch15[ii][jj] = 10 * enviro_odd_ch15
+                        ch16[ii][jj] = 10 * enviro_odd_ch16
+                        ch15_5x5[ii][jj] = 10 * enviro_odd_ch15_5x5
+                        ch16_5x5[ii][jj] = 10 * enviro_odd_ch16_5x5
+                        ch17_5x5[ii][jj] = 10 * enviro_odd_ch17_5x5
+                        ch18_5x5[ii][jj] = 10 * enviro_odd_ch18_5x5
+                        ch17_5x4[ii][jj] = 10 * enviro_odd_ch17_5x4
+                        ch18_5x4[ii][jj] = 10 * enviro_odd_ch18_5x4
 
             if (
                 ii % 2 == 1
@@ -550,36 +552,36 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     LOG.info("value of enviro even scan is %s", ii)
                     continue
                 for jj in range(scenecounts_enviro[ii]):
-                    enviroeven_lat, enviroeven_lon, enviroeven_scene = np.fromstring(
+                    enviro_even_lat, enviro_even_lon, enviro_even_scene = np.fromstring(
                         f1.read(6), dtype=np.dtype("short")
                     ).byteswap()
-                    enviroeven_seaice, enviroeven_surf = np.fromstring(
+                    enviro_even_seaice, enviro_even_surf = np.fromstring(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
                     (
-                        enviroeven_ch12,
-                        enviroeven_ch13,
-                        enviroeven_ch14,
-                        enviroeven_ch15,
-                        enviroeven_ch16,
+                        enviro_even_ch12,
+                        enviro_even_ch13,
+                        enviro_even_ch14,
+                        enviro_even_ch15,
+                        enviro_even_ch16,
                     ) = np.fromstring(f1.read(10), dtype=np.dtype("short")).byteswap()
                     nbytes += 18
-                    lat = 0.01 * enviroeven_lat
-                    lon = 0.01 * enviroeven_lon
+                    lat = 0.01 * enviro_even_lat
+                    lon = 0.01 * enviro_even_lon
                     lt_env[ii][jj] = lat
                     lg_env[ii][jj] = lon
                     if rev6a == 1:
-                        ch12[ii][jj] = enviroeven_ch12
-                        ch13[ii][jj] = enviroeven_ch13
-                        ch14[ii][jj] = enviroeven_ch14
-                        ch15[ii][jj] = enviroeven_ch15
-                        ch16[ii][jj] = enviroeven_ch16
+                        ch12[ii][jj] = enviro_even_ch12
+                        ch13[ii][jj] = enviro_even_ch13
+                        ch14[ii][jj] = enviro_even_ch14
+                        ch15[ii][jj] = enviro_even_ch15
+                        ch16[ii][jj] = enviro_even_ch16
                     else:
-                        ch12[ii][jj] = 10 * enviroeven_ch12
-                        ch13[ii][jj] = 10 * enviroeven_ch13
-                        ch14[ii][jj] = 10 * enviroeven_ch14
-                        ch15[ii][jj] = 10 * enviroeven_ch15
-                        ch16[ii][jj] = 10 * enviroeven_ch16
+                        ch12[ii][jj] = 10 * enviro_even_ch12
+                        ch13[ii][jj] = 10 * enviro_even_ch13
+                        ch14[ii][jj] = 10 * enviro_even_ch14
+                        ch15[ii][jj] = 10 * enviro_even_ch15
+                        ch16[ii][jj] = 10 * enviro_even_ch16
 
         time_enviro[:][:] = yyyyjjjhhmn
 
@@ -1081,7 +1083,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager.attrs["start_datetime"] = start_datetime
     xarray_imager.attrs["end_datetime"] = end_datetime
     xarray_imager.attrs["source_name"] = "ssmis"
-    xarray_imager.attrs["platform_name"] = satid
+    xarray_imager.attrs["platform_name"] = sat_id
     xarray_imager.attrs["data_provider"] = "DMSP"
     xarray_imager.attrs["source_file_names"] = [basename(fname)]
     xarray_imager.attrs["satellite_zenith_angle"] = satellite_zenith_angle
@@ -1096,7 +1098,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro.attrs["start_datetime"] = start_datetime
     xarray_enviro.attrs["end_datetime"] = end_datetime
     xarray_enviro.attrs["source_name"] = "ssmis"
-    xarray_enviro.attrs["platform_name"] = satid
+    xarray_enviro.attrs["platform_name"] = sat_id
     xarray_enviro.attrs["data_provider"] = "DMSP"
     xarray_enviro.attrs["source_file_names"] = [basename(fname)]
     xarray_enviro.attrs["satellite_zenith_angle"] = satellite_zenith_angle
@@ -1111,7 +1113,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las.attrs["start_datetime"] = start_datetime
     xarray_las.attrs["end_datetime"] = end_datetime
     xarray_las.attrs["source_name"] = "ssmis"
-    xarray_las.attrs["platform_name"] = satid
+    xarray_las.attrs["platform_name"] = sat_id
     xarray_las.attrs["data_provider"] = "DMSP"
     xarray_las.attrs["source_file_names"] = [basename(fname)]
     xarray_las.attrs["satellite_zenith_angle"] = satellite_zenith_angle
@@ -1126,7 +1128,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_uas.attrs["start_datetime"] = start_datetime
     xarray_uas.attrs["end_datetime"] = end_datetime
     xarray_uas.attrs["source_name"] = "ssmis"
-    xarray_uas.attrs["platform_name"] = satid
+    xarray_uas.attrs["platform_name"] = sat_id
     xarray_uas.attrs["data_provider"] = "DMSP"
     xarray_uas.attrs["source_file_names"] = [basename(fname)]
     xarray_uas.attrs["satellite_zenith_angle"] = satellite_zenith_angle

@@ -1,9 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore cmon, cmin, cday, scid, bjld, bmin, bsec, ejld, emin, esec
+# cspell:ignore ajld, amin, asec, scann, xtime, cfnoc, sdrmi, fcyr
+
 """SSMI binary reader.
 
-This SSMI reader is desgined for importing SSMI sdr data files (such as
+This SSMI reader is designed for importing SSMI sdr data files (such as
 ssmi_orbital_sdrmi_f15_d20200427_s104500_e123100_r05323_cfnoc.def). This reader
 is created to read in TBs at 19 (V,H),22V, 37(V,H) and 85 (V,H) GHz channels.
 There are A/B scans for 85 GHz.  The combined A/B scans will be used for
@@ -124,7 +127,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     LOG.info("Reading file %s", fname)
 
-    #     check for right nput SSMI SDR data file
+    #     check for right input SSMI SDR data file
 
     data_name = os.path.basename(fname).split("_")[-1].split(".")[-1]
 
@@ -152,7 +155,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                           '22V', '37V','37H','time_scan'
                         HIRES Channels (combined A-B scans):
                           'latitude', 'longitude', '85V', '85H', 'sfcType', 'time_scan'
-               Attibutes:
+               Attributes:
                         'source_name', 'platform_name', 'data_provider',
                         'interpolation_radius_of_influence',
                         'start_datetime', 'end_datetime'
@@ -210,7 +213,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             v37[spotL] = V2(bb + 16) / unit_scale
             h37[spotL] = V2(bb + 18) / unit_scale
 
-            # Initilize variable for A and B scans [0] - A scan; [1] - B scan
+            # Initialize variable for A and B scans [0] - A scan; [1] - B scan
 
             # for LORES pixel positions
             lat[spotH] = np.zeros(2)
@@ -320,7 +323,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     #    Product ID Block
     buf = np.frombuffer(f1.read(blocks["ProdID"]), dtype="uint8")
-    satid0 = 10 * (V1(18) - 48) + V1(19) - 48
+    sat_id0 = 10 * (V1(18) - 48) + V1(19) - 48
     fcyr = V2(20)  # date of this input file createed
     # fcmon = V1(22)
     # fcday = V1(23)
@@ -338,7 +341,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     #     Rev Header Block
     buf = np.frombuffer(f1.read(blocks["RevHdr"]), dtype="uint8")
-    # scid = V4(4)  # spcaecraft ID, i.e., 15 for F15
+    # scid = V4(4)  # spacecraft ID, i.e., 15 for F15
     # rev = V4(8)
     bjld = V2(12)  # start date info: julian day
     bhr = V1(14)  # -                 hour
@@ -360,7 +363,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     #   --------  Start processes of reading and extraction of scans  -------------
 
-    scan_read = 0  # initilization of scan count
+    scan_read = 0  # initialize scan count
 
     while f1:  # loop scans of this file
         # Read Scan Header Block
@@ -395,7 +398,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # scann = V2(4)  # not used      (first scan, i.e., scan header)
         bst = V4(6)  # B-scan start time (sec): second of the day
 
-        # conver time to seconds from beggining of 1987 (do we need this info?)
+        # convert time to seconds from beggining of 1987 (do we need this info?)
 
         scan_hr = bst / 3600  # hour of the scan
         scan_min = (bst - scan_hr * 3600) / 60  # minute of scan
@@ -441,7 +444,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             break
         elif length != blocks["Scan"]:
             LOG.info("block length= {0} {1}".format(blocks["Scan"], length))
-            continue  # unexpected block lengthi, go to next block
+            continue  # unexpected block length, go to next block
 
         # check of max scans
         if scan_read > MAXSCANS:
@@ -461,7 +464,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
     # bad_value = -999
 
-    # initilization of variables
+    # initialize variables
     lat_lo = np.zeros((scan_read, 64))  # LORES channels: lat
     lon_lo = np.zeros((scan_read, 64))  # lon
     V19 = np.zeros((scan_read, 64))
@@ -593,7 +596,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # FOV_list=['43','40','28',13']  km
 
     # satID string
-    satid = "F" + str(satid0)
+    sat_id = "F" + str(sat_id0)
 
     start_time = "%04d%03d%02d%02d" % (fcyr, bjld, bhr, bmin)
     end_time = "%04d%03d%02d%02d" % (fcyr, ejld, ehr, emin)
@@ -602,7 +605,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_lores.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
     xarray_lores.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
     xarray_lores.attrs["source_name"] = "ssmi"
-    xarray_lores.attrs["platform_name"] = satid
+    xarray_lores.attrs["platform_name"] = sat_id
     xarray_lores.attrs["data_provider"] = "DMSP"
     xarray_lores.attrs["source_file_names"] = [os.path.basename(fname)]
 
@@ -616,7 +619,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_85ab.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
     xarray_85ab.attrs["source_file_datetimes"] = [xarray_85ab.start_datetime]
     xarray_85ab.attrs["source_name"] = "ssmi"
-    xarray_85ab.attrs["platform_name"] = satid
+    xarray_85ab.attrs["platform_name"] = sat_id
     xarray_85ab.attrs["data_provider"] = "DMSP"
     xarray_85ab.attrs["source_file_names"] = [os.path.basename(fname)]
 
