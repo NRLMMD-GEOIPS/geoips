@@ -324,7 +324,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     #    Product ID Block
     buf = np.frombuffer(f1.read(blocks["ProdID"]), dtype="uint8")
     sat_id0 = 10 * (V1(18) - 48) + V1(19) - 48
-    fcyr = V2(20)  # date of this input file createed
+    fcyr = V2(20)  # date of this input file created
     # fcmon = V1(22)
     # fcday = V1(23)
     # fchr = V1(24)
