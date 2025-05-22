@@ -4,7 +4,7 @@
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
 # cspell:ignore geoll, invf, pphgt, cosx, cosy, sinx, siny, adname, currchan
-# cspell:ignore dsname
+# cspell:ignore dsname, Rrat
 
 # Python Standard Libraries
 import logging
@@ -425,13 +425,13 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         lons = sz
 
         LOG.info("      Calculating intermediate steps")
-        R_rat = Re**2 / Rp**2  # NOQA
+        Rrat = Re**2 / Rp**2  # NOQA
         ne.evaluate("cos(x)", out=cosx)  # NOQA
         ne.evaluate("cos(y)", out=cosy)  # NOQA
         ne.evaluate("sin(x)", out=sinx)  # NOQA
         ne.evaluate("sin(y)", out=siny)  # NOQA
         ne.evaluate(
-            "sinx**2 + cosx**2 * (cosy**2 + siny**2 * R_rat)", out=a
+            "sinx**2 + cosx**2 * (cosy**2 + siny**2 * Rrat)", out=a
         )  # NOQA
         ne.evaluate("-2 * H * cosx * cosy", out=b)  # NOQA
         ne.evaluate("(-b - sqrt(b**2 - (4 * a * c))) / (2 * a)", out=rs)  # NOQA
@@ -442,7 +442,7 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         ne.evaluate("rs * sinx", out=sy)  # NOQA
 
         LOG.info("Calculating Latitudes")
-        ne.evaluate("r2d * arctan(R_rat * sz / sqrt((H - sx)**2 + sy**2))", out=lats)
+        ne.evaluate("r2d * arctan(Rrat * sz / sqrt((H - sx)**2 + sy**2))", out=lats)
         LOG.info("Calculating Longitudes")
         lons = ne.evaluate("r2d * (lambda0 + arctan(sy / (H - sx)))", out=lons)
         lats[~good_mask] = BADVALS["Off_Of_Disk"]
