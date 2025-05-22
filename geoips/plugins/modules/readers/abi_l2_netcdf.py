@@ -3,6 +3,8 @@
 
 """ABI Level 2 NetCDF reader."""
 
+# cspell:ignore dset, samps
+
 # Python Standard Libraries
 from datetime import datetime
 import logging
@@ -221,9 +223,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             area_dataset = xr.Dataset(coords=coords)
             area_dataset.attrs = xarray.attrs
             lines = geo["Lines"]
-            samples = geo["Samples"]
+            samps = geo["Samples"]
             for key in xarray.keys():
-                array = xarray[key].values[lines, samples]
+                array = xarray[key].values[lines, samps]
                 area_dataset[key] = (("y", "x"), array)
             xarray = area_dataset
         if ll_mask is not None:
@@ -246,9 +248,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         start_times = [x.attrs["start_datetime"] for x in xarrays]
         if len(set(start_times)) > 1:
             # multiple scan times were passed in
-            xr_dataset = xr.concat(xarrays, dim="time_dim")
-            xr_dataset.attrs["start_datetime"] = min(start_times)
-            xr_dataset = xr_dataset.assign_coords({"time_dim": start_times})
+            xarray_dset = xr.concat(xarrays, dim="time_dim")
+            xarray_dset.attrs["start_datetime"] = min(start_times)
+            xarray_dset = xarray_dset.assign_coords({"time_dim": start_times})
         else:
             # Multiple files for a single scan time were passed in (such as multiple
             # Derived motion winds (DMW) files)
@@ -261,13 +263,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             if all([size == 1 for size in xr_dim_sizes]) and (
                 len(set(xr_dim_names)) == 1
             ):
-                xr_dataset = xr.concat(xarrays, dim=xr_dim_names[0])
+                xarray_dset = xr.concat(xarrays, dim=xr_dim_names[0])
             else:
                 raise ValueError(
                     "Do not know how to stack xarrays with "
                     "mismatching dim sizes and names"
                 )
     else:
-        xr_dataset = xarrays[0]
+        xarray_dset = xarrays[0]
 
-    return {"abi_l2_data": xr_dataset, "METADATA": meta_dataset}
+    return {"abi_l2_data": xarray_dset, "METADATA": meta_dataset}
