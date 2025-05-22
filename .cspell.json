@@ -84,7 +84,7 @@
         "cacheable", "uncacheable", "memoization", "memoize", "memoized", "backoff",
         "throttling", "ratelimit", "ratelimiting", "timeout", "timeouts", "retryable",
         "nonretryable", "idempotency", "transactional", "atomicity", "atomically",
-        "akima"
+        "akima", "inds"
     ],
 
 

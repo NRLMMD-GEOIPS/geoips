@@ -200,7 +200,7 @@ class TestPluginRegistry:
     """
     Pytest-based Unit Test for the PluginRegistry Class.
 
-    Note: Since we are not able to initlialize this class due to restrictions placed by
+    Note: Since we are not able to initialize this class due to restrictions placed by
     Pytest, if you want to change the test files used, simply replace the location below
     with the location of your new test files.
     """
