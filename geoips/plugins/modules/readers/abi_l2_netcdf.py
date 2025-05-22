@@ -257,13 +257,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             # We can easily concatenate if these are 1D data, and have the same dim.
             # Check if we can do this, raise an error if not.
             # First check the dim sizes for each variable in the xarray
-            xr_dim_sizes = [len(d_set.dims) for d_set in xarrays]
+            xarray_dim_sizes = [len(dset.dims) for dset in xarrays]
             # Now check if each variable
-            xr_dim_names = ["_".join(list(d_set.dims)) for d_set in xarrays]
-            if all([size == 1 for size in xr_dim_sizes]) and (
-                len(set(xr_dim_names)) == 1
+            xarray_dim_names = ["_".join(list(dset.dims)) for dset in xarrays]
+            if all([size == 1 for size in xarray_dim_sizes]) and (
+                len(set(xarray_dim_names)) == 1
             ):
-                xarray_dset = xr.concat(xarrays, dim=xr_dim_names[0])
+                xarray_dset = xr.concat(xarrays, dim=xarray_dim_names[0])
             else:
                 raise ValueError(
                     "Do not know how to stack xarrays with "
