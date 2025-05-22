@@ -4,6 +4,7 @@
 import logging
 from importlib.resources import files
 import os
+import pytest
 
 import numpy as np
 from pydantic import ValidationError
@@ -73,10 +74,12 @@ def load_test_cases(interface_name):
             f"Error: No test cases file could be found. Expected {fpath} but it did not"
             " exist. Please create this file and rerun your tests."
         )
-    test_cases = yaml.safe_load(open(fpath, "r"))
+    with open(fpath, "r") as fo:
+        test_cases = yaml.safe_load(fo)
+
     for id, val in test_cases.items():
         for key in list(val.keys()):
-            if key not in ("key", "val", "cls", "err_str"):
+            if key not in ("key", "val", "cls", "err_str", "warn_match"):
                 error = (
                     f"ERROR: test_case '{id}' has item with key '{key}' which is an "
                     "invalid test case key. We only support the full set of keys "
@@ -95,7 +98,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
 
     Parameters
     ----------
-    inteface_name: str
+    interface_name: str
         - The name of the GeoIPS plugin's interface.
     plugin_name: str
         - The name of the plugin of type 'interface_name'.
@@ -170,7 +173,15 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     key = test_tup["key"]
     val = test_tup["val"]
     failing_model = test_tup["cls"]
-    err_str = test_tup["err_str"]
+
+    err_str = test_tup.get("err_str")
+    warn_match = test_tup.get("warn_match")
+
+    if err_str is not None and warn_match is not None:
+        raise ValueError("Only one of 'err_str' or 'warn_match' should be set.")
+    elif err_str is None and warn_match is None:
+        raise ValueError("At least one of 'err_str' or 'warn_match' must be provided.")
+
     # ValidationErrors won't occur for these fields at the moment. Assert that the
     # plugin validates for the time being
     if key in ["abspath", "relpath", "package"]:
@@ -179,46 +190,55 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     # Otherwise, set the bad value in the plugin, and test for ValidationErrors
     else:
         bad_plugin[key] = val
-        try:
-            plugin_model(**bad_plugin)
-        except ValidationError as e:
-            # The code below assumes that your test only raised one error. That's how
-            # we've structured testing for the time being. In the case that one or more
-            # errors are reported, we default to the last error of the failing model
-            # reported, or, if no failing model could be associated with this error,
-            # we just default to the last error reported.
-            errors = e.errors()
-            if len(e.errors()) > 1:
-                val_err = attempt_to_associate_model_with_error(failing_model, errors)
-            else:
-                val_err = errors[0]
-            # In testing, it seems that the last 'loc' is always the failing attribute
-            bad_field = val_err["loc"][-1]
-            err_msg = val_err["msg"]
-            # Find the module which contains the failing model. I.e. PluginModel in
-            # geoips.pydantic.bases
-            module = None
-            for mod in gpydan._modules:
-                if failing_model in gpydan._classes[mod]:
-                    module = mod
-                    break
-                elif hasattr(gpydan._modules[mod], failing_model):
-                    # This behaviour occurs for the 'ColorType' attribute, which is a
-                    # type instance but not actually a pydantic class. Skip the field
-                    # assertion below
-                    module = "pass"
-                    break
-            if module != "pass":
-                # Assert that the failing field was found in the model expected to fail
-                assert (
-                    module
-                    and bad_field
-                    in getattr(gpydan._modules[module], failing_model).model_fields
-                )
-            if err_str:
-                # Assert that the error string provided is in the error message returned
-                # or equal to the error message returned.
-                assert err_str in err_msg or err_str == err_msg
+
+        if warn_match:
+            with pytest.warns(FutureWarning, match=warn_match):
+                plugin_model(**bad_plugin)
+        else:
+            try:
+                plugin_model(**bad_plugin)
+            except ValidationError as e:
+                # The code below assumes that your test only raised one error. That's
+                # how we've structured testing for the time being. In the case that one
+                #  or more errors are reported, we default to the last error of the
+                # failing model reported, or, if no failing model could be associated
+                # with this error, we just default to the last error reported.
+                errors = e.errors()
+                if len(e.errors()) > 1:
+                    val_err = attempt_to_associate_model_with_error(
+                        failing_model, errors
+                    )
+                else:
+                    val_err = errors[0]
+                # In testing, it seems that the last 'loc' is always the failing
+                # attribute
+                bad_field = val_err["loc"][-1]
+                err_msg = val_err["msg"]
+                # Find the module which contains the failing model. I.e. PluginModel in
+                # geoips.pydantic.bases
+                module = None
+                for mod in gpydan._modules:
+                    if failing_model in gpydan._classes[mod]:
+                        module = mod
+                        break
+                    elif hasattr(gpydan._modules[mod], failing_model):
+                        # This behavior occurs for the 'ColorType' attribute, which is
+                        # a type instance but not actually a pydantic class. Skip the
+                        # field assertion below
+                        module = "pass"
+                        break
+                if module != "pass":
+                    # Assert that the failing field was found in the model expected to
+                    # fail
+                    assert (
+                        module
+                        and bad_field
+                        in getattr(gpydan._modules[module], failing_model).model_fields
+                    )
+                if err_str:
+                    # Assert that the error string provided is in the error message
+                    # returned or equal to the error message returned.
+                    assert err_str in err_msg or err_str == err_msg
 
 
 def attempt_to_associate_model_with_error(failing_model, errors):
@@ -236,21 +256,21 @@ def attempt_to_associate_model_with_error(failing_model, errors):
     errors: pydantic.ValidationError.errors() -- list
         - A list of errors containing information on why a field failed to validate.
     """
-    val_err_idxs = []
+    val_err_inds = []
     for err in errors:
         failing_model_found = False
         for loc in err["loc"]:
             if loc == failing_model:
                 failing_model_found = True
                 break
-        val_err_idxs.append(failing_model_found)
-    val_err_idxs = np.array(val_err_idxs)
+        val_err_inds.append(failing_model_found)
+    val_err_inds = np.array(val_err_inds)
     # If no errors could be associated with the failing model, just default
     # to the last error reported
-    if not np.any(val_err_idxs):
+    if not np.any(val_err_inds):
         val_err = np.array(errors)[-1]
     # Otherwise, choose the last error associated with the failing model.
     else:
-        val_err = np.array(errors)[val_err_idxs][-1]
+        val_err = np.array(errors)[val_err_inds][-1]
 
     return val_err
