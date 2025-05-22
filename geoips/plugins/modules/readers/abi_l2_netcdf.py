@@ -112,7 +112,7 @@ def xr_read(fname, chans=None):
 
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """
-    Read ABI Level 2 NetCDF data from a list of filenames.
+    Read ABI Level 2 NetCDF data from a list of filenames .
 
     Parameters
     ----------
