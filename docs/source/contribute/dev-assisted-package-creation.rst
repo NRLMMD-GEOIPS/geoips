@@ -49,7 +49,7 @@ The data processing you've implemented cannot already exist in
 GeoIPS, or any of its corresponding packages. If you have processing routines that are
 similar, it is likely you'll just have to reformat your inputs to integrate correctly
 with the GeoIPS system. We are happy to help with that if needed. For a full list of
-public repositories that NRLMMD-GEOIPS supports, see
+public repositories that the GeoIPS team supports, see
 `GeoIPS Repositories <https://github.com/orgs/NRLMMD-GEOIPS/repositories>`_.
 
 Please either submit an issue `here <https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose>`_,
