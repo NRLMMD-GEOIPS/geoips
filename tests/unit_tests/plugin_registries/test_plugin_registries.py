@@ -12,10 +12,19 @@ import pytest
 import json
 import yaml
 
+from geoips.errors import PluginError, PluginRegistryError
+from geoips.filenames.base_paths import PATHS
+from geoips.interfaces import algorithms, products, sectors, workflows
 from geoips.plugin_registry import PluginRegistry
-from geoips.errors import PluginRegistryError
 
 LOG = logging.getLogger(__name__)
+
+
+class FakeInterface:
+    """Dummy fake interface used to cause appropriate errors from the PluginRegistry."""
+
+    interface_type = "fake"
+    name = "fake_interface"
 
 
 class PluginRegistryValidator(PluginRegistry):
@@ -201,7 +210,12 @@ class TestPluginRegistry:
         recursive=True,
     )
 
-    pr_validator = PluginRegistryValidator(default_fpaths)
+    # pr_validator uses test registry files for most tests
+    pr_validator = PluginRegistryValidator(fpaths=default_fpaths)
+    # real reg validator is responsible for testing deleting and building of registries
+    # based on whether or not we want that to occur:
+    # I.e. whether or not PATHS["GEOIPS_REBUILD_REGISTRIES"] is set to True or False
+    real_reg_validator = PluginRegistryValidator(fpaths=None)
 
     # Couldn't implement this class via inheritance because PyTest Raised this error:
     # PytestCollectionWarning: cannot collect test class 'TestPluginRegistry' because
@@ -222,14 +236,21 @@ class TestPluginRegistry:
 
     def test_registered_plugin_property(self):
         """Ensure registered_plugins is valid in its nature."""
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
         print(self.pr_validator.registered_plugins)
         assert isinstance(self.pr_validator.registered_plugins, dict)
         assert "yaml_based" in self.pr_validator.registered_plugins
         assert "module_based" in self.pr_validator.registered_plugins
         assert "text_based" in self.pr_validator.registered_plugins
+        assert self.pr_validator.registered_plugins
 
     def test_interface_mapping_property(self):
         """Ensure interface_mapping is valid in its nature."""
+        if hasattr(self.pr_validator, "_interface_mapping"):
+            del self.pr_validator._interface_mapping
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
         print(self.pr_validator.interface_mapping)
         assert isinstance(self.pr_validator.interface_mapping, dict)
         assert "yaml_based" in self.pr_validator.interface_mapping
@@ -238,6 +259,345 @@ class TestPluginRegistry:
         assert isinstance(self.pr_validator.interface_mapping["yaml_based"], list)
         assert isinstance(self.pr_validator.interface_mapping["module_based"], list)
         assert isinstance(self.pr_validator.interface_mapping["text_based"], list)
+
+    def test_registered_module_plugins_property(self):
+        """Ensure that registered_module_plugins exist and have contents."""
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
+        print(self.pr_validator.registered_module_based_plugins)
+        assert isinstance(self.pr_validator.registered_module_based_plugins, dict)
+        assert len(self.pr_validator.registered_module_based_plugins)
+
+    def test_registered_yaml_plugins_property(self):
+        """Ensure that registered_yaml_plugins exist and have contents."""
+        if hasattr(self.pr_validator, "_registered_plugins"):
+            del self.pr_validator._registered_plugins
+        print(self.pr_validator.registered_yaml_based_plugins)
+        assert isinstance(self.pr_validator.registered_yaml_based_plugins, dict)
+        assert len(self.pr_validator.registered_yaml_based_plugins)
+
+    def test_automatic_registry_creation(self):
+        """Assert that the registries are automatically rebuilt.
+
+        This occurs if expected registry files are missing and
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] is set to True.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = True
+        self.real_reg_validator.delete_registries()
+        # Delete again using specific packages (won't do anything) for code coverage
+        self.real_reg_validator.delete_registries(packages=["geoips"])
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        assert self.real_reg_validator.registered_plugins
+
+    def test_disabled_registry_creation(self):
+        """Assert that the registries are not automatically rebuilt.
+
+        This occurs if expected registry files are missing and
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] is set to False. A FileNotFoundError should
+        be raised.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = False
+        self.real_reg_validator.delete_registries()
+        with pytest.raises(FileNotFoundError):
+            self.real_reg_validator._set_class_properties(force_reset=True)
+
+    def test_get_plugin_metadata(self):
+        """Retrieve plugin metadata from a plugin that we know exists and is correct.
+
+        For this test, we'll be using the algorithms.single_channel plugin and the
+        products.abi.Infrared plugin.
+        """
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = True
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        assert algorithms.get_plugin_metadata("single_channel")
+        assert products.get_plugin_metadata("abi", "Infrared")
+
+    def test_get_plugin_metadata_failing_cases(self):
+        """Attempt to retrieve plugin metadata from a cases that we know should fail."""
+        PATHS["GEOIPS_REBUILD_REGISTRIES"] = True
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        # Caused when a plugin doesn't exist under an interface's registry
+        with pytest.raises(PluginRegistryError):
+            algorithms.get_plugin_metadata("fake_plugin")
+        # Caused due to invalid argument type
+        with pytest.raises(TypeError):
+            algorithms.get_plugin_metadata(1078)
+
+        # Caused due to the registry being unable to locate this inteface of a certain
+        # type
+        with pytest.raises(KeyError):
+            self.real_reg_validator.get_plugin_metadata(FakeInterface, "fake_plugin")
+
+    def test_get_yaml_plugin(self):
+        """Retrieve valid (existing and formatted correctly) GeoIPS YAML plugin(s).
+
+        Will retrieve ('abi', 'Infrared') product, 'goes_east' sector, and
+        'abi_infrared' workflow plugins, as those all hit different portions of the
+        codebase.
+        """
+        prd = self.real_reg_validator.get_yaml_plugin(products, ("abi", "Infrared"))
+        sect = self.real_reg_validator.get_yaml_plugin(sectors, "goes_east")
+        wrkflw = self.real_reg_validator.get_yaml_plugin(workflows, "abi_infrared")
+
+        assert prd["name"] == "Infrared"
+        assert prd["interface"] == "products"
+        assert "abi" in prd["source_names"]
+
+        assert sect["name"] == "goes_east"
+        assert sect["interface"] == "sectors"
+
+        assert wrkflw["name"] == "abi_infrared"
+        assert wrkflw["interface"] == "workflows"
+
+    def test_get_yaml_plugin_failing_cases(self):
+        """Attempt to get all plugins from an interface using cases that should fail."""
+        # Reconstruct the registry in memory so we start at a clean slate
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        # Set interfaces' rebuild_registries attr to false for the time being
+        sectors.rebuild_registries = False
+        products.rebuild_registries = False
+        workflows.rebuild_registries = False
+
+        yam_reg = self.real_reg_validator.registered_plugins.pop("yaml_based")
+        # Caused due to 'yaml_based' plugins being absent from the registry
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_yaml_plugin(sectors, "goes_east")
+        # Reset the yaml_based portion of the registry back to its original value
+        self.real_reg_validator.registered_plugins["yaml_based"] = yam_reg
+
+        # Caused due to invalid argument type (rebuild_registries) should be a boolean
+        with pytest.raises(TypeError):
+            self.real_reg_validator.get_yaml_plugin(
+                sectors, "goes_east", rebuild_registries=Exception
+            )
+
+        # Caused due to a missing plugin
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_yaml_plugin(
+                products, ("abi", "fake_plugin"), rebuild_registries=False
+            )
+
+        abi_infrared_relpath = self.real_reg_validator.registered_yaml_based_plugins[
+            "products"
+        ]["abi"]["Infrared"].pop("relpath")
+        self.real_reg_validator.registered_yaml_based_plugins["products"]["abi"][
+            "Infrared"
+        ]["relpath"] = "/some/fake/path.yaml"
+        # Caused due to non existent file path
+        with pytest.raises(PluginRegistryError):
+            self.real_reg_validator.get_yaml_plugin(products, ("abi", "Infrared"))
+        # Reset that relative path back to its original value
+        self.real_reg_validator.registered_yaml_based_plugins["products"]["abi"][
+            "Infrared"
+        ]["relpath"] = abi_infrared_relpath
+
+        fake_plugin_entry = {
+            "docstring": "The 89VNearest product_defaults for gmi product.",
+            "family": None,
+            "interface": "products",
+            "package": "geoips",
+            "plugin_type": "yaml_based",
+            "product_defaults": "89VNearest",
+            "source_names": ["gmi"],
+            "relpath": "plugins/yaml/products/gmi.yaml",
+        }
+        self.real_reg_validator.registered_plugins["yaml_based"]["products"]["gmi"][
+            "fake_plugin"
+        ] = fake_plugin_entry
+        # Caused due to products plugin being found in the registry but doesn't exist
+        # in the actual file specified
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_yaml_plugin(products, ("gmi", "fake_plugin"))
+        # Remove the fake entry from the registry
+        self.real_reg_validator.registered_plugins["yaml_based"]["products"]["gmi"].pop(
+            "fake_plugin"
+        )
+
+        # Caused due to a missing plugin (that's not a products plugin)
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_yaml_plugin(sectors, "fake_plugin")
+
+        goes_east_relpath = self.real_reg_validator.registered_yaml_based_plugins[
+            "sectors"
+        ]["goes_east"].pop("relpath")
+        self.real_reg_validator.registered_yaml_based_plugins["sectors"]["goes_east"][
+            "relpath"
+        ] = "/some/fake/path.yaml"
+        # Caused due to non existent file path
+        with pytest.raises(PluginRegistryError):
+            self.real_reg_validator.get_yaml_plugin(sectors, "goes_east")
+        # Reset that relative path back to its original value
+        self.real_reg_validator.registered_yaml_based_plugins["sectors"]["goes_east"][
+            "relpath"
+        ] = goes_east_relpath
+
+        fake_plugin_entry = {
+            "docstring": "ABI DWM High Workflow.",
+            "family": "order_based",
+            "interface": "workflows",
+            "package": "geoips",
+            "plugin_type": "yaml_based",
+            "relpath": "plugins/yaml/workflows/abi.yaml",
+        }
+        self.real_reg_validator.registered_plugins["yaml_based"]["workflows"][
+            "fake_plugin"
+        ] = fake_plugin_entry
+        # Caused due to workflow plugin being present in registry but not in
+        # corresponding plugin
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_yaml_plugin(workflows, "fake_plugin")
+        # Remove the fake entry from the registry
+        self.real_reg_validator.registered_plugins["yaml_based"]["workflows"].pop(
+            "fake_plugin"
+        )
+        # This test misses line #426 as that is a pydantic check. Can't test this
+        # until we switch over to that.
+        # Reset interfaces' rebuild_registries values to True
+        products.rebuild_registries = True
+        sectors.rebuild_registries = True
+        workflows.rebuild_registries = True
+
+    def test_get_yaml_plugins(self):
+        """Retrieve valid (existing and formatted correctly) GeoIPS YAML plugins.
+
+        This tests PluginRegistry.get_yaml_plugins, in this case, using the sectors
+        interface.
+        """
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        assert len(self.real_reg_validator.get_yaml_plugins(sectors))
+
+    def test_get_yaml_plugins_failing_cases(self):
+        """Attempt to retrieve all yaml plugins from a fake interface."""
+        plugins = self.real_reg_validator.get_yaml_plugins(FakeInterface)
+        assert len(plugins) == 0
+
+    def test_get_module_plugin(self):
+        """Retrieve a valid (existing and formatted correctly) module plugin.
+
+        In this test case, we are using algorithms.single_channel.
+        """
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        alg = self.real_reg_validator.get_module_plugin(algorithms, "single_channel")
+        assert alg.name == "single_channel"
+        assert alg.interface == "algorithms"
+
+    def test_get_module_plugin_failing_cases(self):
+        """Attempt to retrieve a module plugin using cases that we know will fail."""
+        # Reconstruct the registry in memory so we start at a clean slate
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        # Set algorithms' rebuild_registry attr to false for the time being
+        algorithms.rebuild_registries = False
+        mod_reg = self.real_reg_validator.registered_plugins.pop("module_based")
+        # Caused due to 'module_based' not being at the top level of the registry
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_module_plugin(algorithms, "single_channel")
+        # Reset the registry to its original state
+        self.real_reg_validator.registered_plugins["module_based"] = mod_reg
+
+        # Caused due to invalid argument type (rebuild_registries) should be a boolean
+        with pytest.raises(TypeError):
+            self.real_reg_validator.get_module_plugin(
+                algorithms, "single_channel", rebuild_registries=Exception
+            )
+
+        # Caused due to a missing plugin
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_module_plugin(
+                algorithms, "fake_plugin", rebuild_registries=False
+            )
+
+        fake_plugin_entry = {
+            "docstring": (
+                "Data manipulation steps for standard 'single_channel' algorithm.\n"
+                "Generalized algorithm to apply data manipulation steps in a standard "
+                "order to apply corrections to a single channel output product."
+            ),
+            "family": "list_numpy_to_numpy",
+            "interface": "algorithms",
+            "package": "geoips",
+            "plugin_type": "module_based",
+            "signature": (
+                "(arrays, output_data_range=None, input_units=None, output_units=None, "
+                "min_outbounds='crop', max_outbounds='crop', norm=False, inverse=False,"
+                " sun_zen_correction=False, mask_night=False, max_day_zen=None, "
+                "mask_day=False, min_night_zen=None, gamma_list=None, "
+                "scale_factor=None, satellite_zenith_angle_cutoff=None)"
+            ),
+            "relpath": "/some/fake/path.py",
+        }
+        self.real_reg_validator.registered_plugins["module_based"]["algorithms"][
+            "fake_plugin"
+        ] = fake_plugin_entry
+        # Caused due to algorithm plugin being present in registry it's relative path
+        # does not exist
+        with pytest.raises(PluginRegistryError):
+            self.real_reg_validator.get_module_plugin(algorithms, "fake_plugin")
+        # Remove the fake entry from the registry
+        self.real_reg_validator.registered_plugins["module_based"]["algorithms"].pop(
+            "fake_plugin"
+        )
+        # reset algorithms' rebuild_registries attr to true
+        algorithms.rebuild_registries = True
+
+    def test_get_module_plugins(self):
+        """Retrieve valid (existing and formatted correctly) module plugins.
+
+        In this case, we are retrieving all GeoIPS module algorithm plugins.
+        """
+        self.real_reg_validator._set_class_properties(force_reset=True)
+        assert len(self.real_reg_validator.get_module_plugins(algorithms))
+
+    def test_get_module_plugins_failing_cases(self):
+        """Attempt to retrieve all module plugins from a fake interface."""
+        plugins = self.real_reg_validator.get_module_plugins(FakeInterface)
+        assert len(plugins) == 0
+
+    def test_retry_get_plugin(self):
+        """Test that PluginRegistry.retry_get_plugin works as expected."""
+        with pytest.raises(PluginError):
+            self.real_reg_validator.get_module_plugin(
+                algorithms, "fake_plugin", rebuild_registries=True
+            )
+
+    def test_create_registries_invalid_input(self):
+        """Assert ValueError is raised when invalid input is sent to create_registries.
+
+        Where 'create_registries' comes from PluginRegistry.
+        """
+        # Caused due to invalid input. save_type must be one of ['json', 'yaml']
+        with pytest.raises(ValueError):
+            self.real_reg_validator.create_registries(save_type="log")
+
+    def test_create_registries_with_specific_packages(self, caplog):
+        """Test that create_registries works with a subset of packages provided.
+
+        In this case, packages = ['geoips'].
+        """
+        # 10 is the level of LOG.debug
+        with caplog.at_level(logging.DEBUG):
+            self.real_reg_validator.create_registries(packages=["geoips"])
+
+        debug_logs = [
+            record.message
+            for record in caplog.records
+            if record.levelno == logging.DEBUG
+        ]
+        assert any(["geoips" in message for message in debug_logs])
+
+    def test_delete_registries_with_invalid_input(self):
+        """Call delete_registries with invalid input and assert that errors are raised.
+
+        Where the expected errors are TypeErrors or PluginRegistryErrors.
+        """
+        # Not a list
+        with pytest.raises(TypeError):
+            self.real_reg_validator.delete_registries(packages=Exception)
+        # Not a list of strings
+        with pytest.raises(TypeError):
+            self.real_reg_validator.delete_registries(packages=[1, 2, 3, 4])
+        # Not a valid package under namespace 'geoips.plugin_packages'
+        with pytest.raises(PluginRegistryError):
+            self.real_reg_validator.delete_registries(packages=["some_fake_package"])
 
     @pytest.mark.parametrize("fpath", pr_validator.registry_files, ids=generate_id)
     def test_all_registries(self, fpath):

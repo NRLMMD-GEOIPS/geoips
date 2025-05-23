@@ -1,0 +1,32 @@
+refactor:
+- title: 'Plugin Registry Class Updates'
+  description: |
+    Largely refactors base.py and plugin_registry.py to consolidate all registry
+    functionality to the PluginRegistry class. The PluginRegistry class is responsible
+    for collecting registries to create a top-level namespace registry, which
+    encapsulates all of the plugin registries found within plugin packages that fall
+    under such namespace. Additionally, the PluginRegistry class is responsible for
+    creating or deleting registry files, as well as retrieving plugins and their
+    metadata when requested from any interface. The PluginRegistry class can also
+    rebuild registries at runtime if plugins or interfaces are missing.
+
+    This update took a lot of the functionality contained in base.py and moved it to
+    the PluginRegistry class. Essentially, <interface>.get_plugin is just a wrapper
+    to a call to the plugin registry now.
+
+    Additionally, this PR largely updated the test_plugin_registries.py unit test file
+    to greatly increase coverage. Went from around 20% to 97% coverage. Minor changes to
+    other unit test files were needed due to the changes made in this PR.
+  files:
+    modified:
+      - geoips/commandline/geoips_validate.py
+      - geoips/interfaces/base.py
+      - geoips/plugin_registry.py
+      - tests/unit_tests/plugin_registries/test_plugin_registries.py
+      - tests/unit_tests/plugins/test_get_plugin_metadata.py
+  related-issue:
+    number: 945
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: null
+    finish: null
