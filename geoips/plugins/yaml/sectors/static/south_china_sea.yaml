@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: south_china_sea
+docstring: "South China Sea"
+metadata:
+  region:
+    continent: Asia
+    country: x
+    area: Continental
+    subarea: SouthEast
+    state: x
+    city: x
+spec:
+  area_id: south_china_sea
+  description: South China Sea
+  projection:
+    a: 6371228.0
+    lat_0: 20.0
+    lon_0: 118.5
+    proj: eqc
+    units: m
+  resolution:
+    - 500
+    - 500
+  shape:
+    height: 3500
+    width: 3000
+  center: [0, 0]

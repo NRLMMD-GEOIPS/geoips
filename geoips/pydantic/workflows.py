@@ -107,6 +107,13 @@ class InterpolatorArgumentsModel(PermissiveFrozenModel):
     pass
 
 
+class WorkflowArgumentsModel(PermissiveFrozenModel):
+    """Validate Workflow arguments."""
+
+    model_config = ConfigDict(extra="allow")
+    pass
+
+
 class ReaderArgumentsModel(PermissiveFrozenModel):
     """Reader step argument definition.
 
@@ -149,12 +156,6 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
                 "'variables' instead."
             )
         return values
-
-
-class WorkflowArgumentsModel(PermissiveFrozenModel):
-    """Validate workflow arguments."""
-
-    pass
 
 
 class WorkflowStepDefinitionModel(FrozenModel):
@@ -269,6 +270,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
             "FilenameFormatterArgumentsModel": FilenameFormatterArgumentsModel,
             "InterpolatorArgumentsModel": InterpolatorArgumentsModel,
             "OutputFormatterArgumentsModel": OutputFormatterArgumentsModel,
+            "CoverageCheckerArgumentsModel": CoverageCheckerArgumentsModel,
             "ReaderArgumentsModel": ReaderArgumentsModel,
             "WorkflowArgumentsModel": WorkflowArgumentsModel,
         }
