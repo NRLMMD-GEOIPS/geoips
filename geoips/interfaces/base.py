@@ -306,12 +306,14 @@ class BaseInterface(abc.ABC):
     the GeoIPS algorithm plugins.
     """
 
-    from geoips import plugin_registry as plugin_registry_module
+    import geoips.plugin_registry as plugin_registry_module
 
-    plugin_registry = plugin_registry_module.plugin_registry
     name = "BaseInterface"
     interface_type = None  # This is set by child classes
     rbr = PATHS["GEOIPS_REBUILD_REGISTRIES"]  # rbr stands for ReBuildRegistries
+    # Setting this attribute at the top level so it can be used by all methods.
+    # This can be overriden by setting them in child interface classes
+    apiVersion = "geoips/v1"
 
     def __new__(cls):
         """Plugin interface new method."""
@@ -320,11 +322,49 @@ class BaseInterface(abc.ABC):
                 f"Error creating {cls.name} class. SubClasses of ``BaseInterface`` "
                 "must have the class attribute 'name'."
             )
-
         cls.__doc__ = f"GeoIPS interface for {cls.name} plugins."
         # cls.__doc__ += interface_attrs_doc causes duplication warnings
 
         return super(BaseInterface, cls).__new__(cls)
+
+    @property
+    def namespace(self):
+        """Default namespace used for the plugin registry associated with this class.
+
+        By default, we use 'geoips.plugin_packages' as the namespace for interface
+        classes. However, if a user has developed interfaces in a separate namespace
+        from geoips, they can override this in their own classes by setting the
+        namespace to search in.
+        """
+        if not hasattr(self, "_namespace"):
+            # By default all GeoIPS interfaces will have self.apiVersion = 'geoips/v1'
+            # If that attribute is not already set.
+            self._namespace = f"{self.apiVersion.split('/')[0]}.plugin_packages"
+        return self._namespace
+
+    @property
+    def plugin_registry(self):
+        """The plugin registry associated with this interface.
+
+        By default, the plugin registry used comes from the namespace
+        'geoips.plugin_packages'. However, if a user has developed interfaces in a
+        separate namespace from geoips, they can override this in their own classes by
+        setting the namespace to search in.
+        """
+        if not hasattr(self, "_plugin_registry"):
+            self._plugin_registry = self.plugin_registry_module.PluginRegistry(
+                self.namespace
+            )
+        return self._plugin_registry
+
+    @plugin_registry.setter
+    def plugin_registry(self, new_value):
+        """Reset the value of plugin registry.
+
+        This occurs if the registry needs to be rebuilt (for example, a missing plugin)
+        during runtime.
+        """
+        self._plugin_registry = new_value
 
     @abc.abstractmethod
     def get_plugin(self, name, rebuild_registries=rbr):
@@ -365,7 +405,9 @@ class BaseInterface(abc.ABC):
         # Reload the interface's plugin_registry_module so that the plugin registry is
         # in the most recent state.
         reload(self.plugin_registry_module)
-        self.plugin_registry = self.plugin_registry_module.plugin_registry
+        self.plugin_registry = self.plugin_registry_module.PluginRegistry(
+            self.namespace
+        )
 
     def retry_get_plugin(self, name, rebuild_registries, err_str, err_type=PluginError):
         """Re-run self.get_plugin, but call 'create_plugin_registries' beforehand.
@@ -573,7 +615,7 @@ class BaseYamlInterface(BaseInterface):
                 obj_attrs[attr] = yaml_plugin[attr]
             # This should be removed once we fully switch to pydantic models
             except TypeError:
-                yaml_plugin = yaml_plugin.dict()
+                yaml_plugin = yaml_plugin.model_dump()
                 obj_attrs[attr] = yaml_plugin[attr]
             except KeyError:
                 missing.append(attr)
@@ -708,12 +750,14 @@ class BaseYamlInterface(BaseInterface):
                 return self.retry_get_plugin(
                     name, rebuild_registries, err_str, PluginRegistryError
                 )
-
-            doc_iter = yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader)
+            with open(abspath, "r") as fo:
+                doc_iter = list(yaml.safe_load_all(fo))
             doc_length = sum(1 for _ in doc_iter)
             if doc_length > 1 or self.name == "workflows":
                 plugin_found = False
-                for plugin in yaml.load_all(open(abspath, "r"), Loader=yaml.SafeLoader):
+                with open(abspath, "r") as fo:
+                    plugins = list(yaml.safe_load_all(fo))
+                for plugin in plugins:
                     if plugin["name"] == name:
                         plugin_found = True
                         plugin["package"] = package
@@ -730,7 +774,8 @@ class BaseYamlInterface(BaseInterface):
                 # convert this to an object without validating for the time being.
                 return self._plugin_yaml_to_obj(name, plugin)
             else:
-                plugin = yaml.safe_load(open(abspath, "r"))
+                with open(abspath, "r") as fo:
+                    plugin = yaml.safe_load(fo)
                 plugin["package"] = package
                 plugin["abspath"] = abspath
                 plugin["relpath"] = relpath
@@ -1141,7 +1186,7 @@ class BaseModuleInterface(BaseInterface):
               valid according to `plugin_is_valid`.
             - 'func' contains a dict whose keys are plugin names and whose values are
               the function for each Plugin.
-            - 'family' contains a dict whose keys are plugin names and whose vlaues
+            - 'family' contains a dict whose keys are plugin names and whose values
               are the contents of the 'family' attribute for each Plugin.
         """
         # plugin_names = self.get_plugins(sort_by="family")

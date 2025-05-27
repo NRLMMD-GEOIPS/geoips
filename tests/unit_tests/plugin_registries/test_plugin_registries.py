@@ -23,7 +23,7 @@ class PluginRegistryValidator(PluginRegistry):
 
     def __init__(self, fpaths=None):
         """Initialize TestPluginRegistry Class."""
-        super().__init__(fpaths)
+        super().__init__("geoips.plugin_packages", _test_registry_files=fpaths)
 
     def validate_plugin_types_exist(self, reg_dict, reg_path):
         """Test that all top level plugin types exist in each registry file."""
@@ -191,7 +191,7 @@ class TestPluginRegistry:
     """
     Pytest-based Unit Test for the PluginRegistry Class.
 
-    Note: Since we are not able to initlialize this class due to restrictions placed by
+    Note: Since we are not able to initialize this class due to restrictions placed by
     Pytest, if you want to change the test files used, simply replace the location below
     with the location of your new test files.
     """
