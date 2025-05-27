@@ -27,6 +27,7 @@ enhancement:
       - geoips/create_plugin_registries.py
       - geoips/plugin_registry.py
       - pyproject.toml
+      - .cspell.json
       - tests/unit_tests/commandline/cli_top_level_tester.py
       - tests/unit_tests/commandline/test_geoips_config_create_registries.py
       - tests/unit_tests/commandline/test_geoips_config_delete_registries.py
