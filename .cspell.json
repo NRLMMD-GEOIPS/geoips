@@ -1090,7 +1090,7 @@
     // File types to check (if not inferred automatically)
     "enableFiletypes": [
         "bash",
-        "cfg"
+        "cfg",
         "dockerfile",
         "ini",
         "json",
