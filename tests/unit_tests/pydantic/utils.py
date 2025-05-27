@@ -5,7 +5,7 @@ import logging
 from importlib.resources import files
 import os
 import pytest
-
+from copy import deepcopy
 from pydantic import ValidationError
 import yaml
 
