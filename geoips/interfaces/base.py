@@ -343,7 +343,7 @@ class BaseInterface(abc.ABC):
         """The plugin registry associated with this interface.
 
         By default, the plugin registry used comes from the namespace
-        'geoips.plugin_packages'. However, if a user has developed iinterfaces in a
+        'geoips.plugin_packages'. However, if a user has developed interfaces in a
         separate namespace from geoips, they can override this in their own classes by
         setting the namespace to search in.
         """
@@ -847,7 +847,7 @@ class BaseModuleInterface(BaseInterface):
               valid according to `plugin_is_valid`.
             - 'func' contains a dict whose keys are plugin names and whose values are
               the function for each Plugin.
-            - 'family' contains a dict whose keys are plugin names and whose vlaues
+            - 'family' contains a dict whose keys are plugin names and whose values
               are the contents of the 'family' attribute for each Plugin.
         """
         # plugin_names = self.get_plugins(sort_by="family")
@@ -871,8 +871,9 @@ class BaseModuleInterface(BaseInterface):
         }
         for curr_family in plugin_ids:
             for curr_id in plugin_ids[curr_family]:
-                output["validity_check"][curr_id] = self.plugin_is_valid(curr_id)
-                output["func"][curr_id] = self.get_plugin(curr_id)
+                plugin = self.get_plugin(curr_id)
+                output["validity_check"][curr_id] = self.plugin_is_valid(plugin)
+                output["func"][curr_id] = plugin
                 output["family"][curr_id] = curr_family
                 output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output

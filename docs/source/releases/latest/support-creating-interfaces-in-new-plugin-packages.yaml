@@ -11,9 +11,9 @@ enhancement:
     new interfaces (though if it needed to, we'd just implement it in GeoIPS) while
     'splunk' can still make use of GeoIPS' interfaces and plugins.
 
-    All packages that fall under the 'splunk' namespace can also make use of 'splunks'
+    All packages that fall under the 'splunk' namespace can also make use of 'splunk's'
     new interface functionality, and make use of GeoIPS' functionality. If a developer
-    tries to create new interfaces under the 'geiops.plugin_packages' namespace, this
+    tries to create new interfaces under the 'geoips.plugin_packages' namespace, this
     will not work and GeoIPS will still be unaware of the new interface implemented in
     that plugin package.
   files:

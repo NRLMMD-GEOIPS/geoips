@@ -200,7 +200,7 @@ class TestPluginRegistry:
     """
     Pytest-based Unit Test for the PluginRegistry Class.
 
-    Note: Since we are not able to initlialize this class due to restrictions placed by
+    Note: Since we are not able to initialize this class due to restrictions placed by
     Pytest, if you want to change the test files used, simply replace the location below
     with the location of your new test files.
     """
@@ -243,10 +243,7 @@ class TestPluginRegistry:
         assert "yaml_based" in self.pr_validator.registered_plugins
         assert "module_based" in self.pr_validator.registered_plugins
         assert "text_based" in self.pr_validator.registered_plugins
-        # This will return self.pr_validator._registered_plugins, since it already
-        # exists. This would not occur if that attribute is missing, and nothing would
-        # be returned
-        assert self.pr_validator._set_class_properties()
+        assert self.pr_validator.registered_plugins
 
     def test_interface_mapping_property(self):
         """Ensure interface_mapping is valid in its nature."""

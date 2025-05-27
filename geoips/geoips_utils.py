@@ -419,7 +419,7 @@ def replace_geoips_paths(
     if base_paths is None:
         base_paths = geoips_paths
 
-    # These are the environment vriables that are specified in base_paths.py.
+    # These are the environment variables that are specified in base_paths.py.
     # Eventually we will want to pull these directly from the environment config,
     # for now explicitly list env vars here.
     if replace_paths is None:

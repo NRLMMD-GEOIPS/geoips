@@ -22,8 +22,8 @@ from os.path import (
     split,
     splitext,
     exists,
-    join as osjoin,
-    relpath as osrelpath,
+    join as os_join,
+    relpath as os_relpath,
 )
 from os import remove
 import re
@@ -236,9 +236,9 @@ def registry_sanity_check(plugin_packages, save_type):
                                                 You can't have two products of the same
                                                 interface [{}] with the same
                                                 plugin name [{}] found under
-                                                subplg name [{}]
+                                                sub_plg name [{}]
                                                 relpath: {}
-                                                subplg relpath: {}\n""".format(
+                                                sub_plg relpath: {}\n""".format(
                                                 comp_pkg.value,
                                                 pkg.value,
                                                 interface,
@@ -307,12 +307,12 @@ def write_registered_plugins(pkg_dir, plugins, save_type):
     No returns, file written to `pkg_dir`
     """
     if save_type == "yaml":
-        reg_plug_abspath = osjoin(pkg_dir, "registered_plugins.yaml")
+        reg_plug_abspath = os_join(pkg_dir, "registered_plugins.yaml")
         with open(reg_plug_abspath, "w") as plugin_registry:
             LOG.interactive("Writing %s", reg_plug_abspath)
             yaml.safe_dump(plugins, plugin_registry, default_flow_style=False)
     else:
-        reg_plug_abspath = osjoin(pkg_dir, "registered_plugins.json")
+        reg_plug_abspath = os_join(pkg_dir, "registered_plugins.json")
         with open(reg_plug_abspath, "w") as plugin_registry:
             LOG.interactive("Writing %s", reg_plug_abspath)
             json.dump(plugins, plugin_registry, indent=4)
@@ -398,10 +398,10 @@ def create_plugin_registries(plugin_packages, save_type, namespace):
         # type (ie, yaml based, text based, and module based plugins, and
         # in the future potentially schema)
         plugin_paths = {
-            "yamls": sorted(yaml_files),
+            "yaml": sorted(yaml_files),
             "text": text_files,
             # "schemas": schema_yamls,
-            "pyfiles": python_files,
+            "py_files": python_files,
         }
         # `plugins` is passed by reference and populated with all YAML, text, and
         # python plugins found within the current plugin package `package`.
@@ -478,10 +478,10 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
         for filepath in plugin_paths[plugin_type]:
             filepath = str(filepath)
             # Path relative to the package directory
-            relpath = osrelpath(filepath, start=package_dir)
+            relpath = os_relpath(filepath, start=package_dir)
             # plugins is passed by reference, so any new plugins found
             # are added to the plugins dictionary and retained throughout.
-            if plugin_type == "yamls":  # yaml based plugins
+            if plugin_type == "yaml":  # yaml based plugins
                 error_message += add_yaml_plugin(
                     filepath, relpath, package, plugins["yaml_based"], namespace
                 )
@@ -629,7 +629,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
                     # second pass in the plugin registry creation to fill in the
                     # nulls (but we will not worry about that yet)
                     # if not docstring or not family:
-                    #     # if the yaml_subplg doesn't include a docstring, grab its
+                    #     # if the yaml_sub_plg doesn't include a docstring, grab its
                     #     # product_defaults docstring
                     #     if (
                     #         "product_defaults" not in plugins
