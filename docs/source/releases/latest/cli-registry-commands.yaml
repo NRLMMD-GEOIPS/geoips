@@ -13,9 +13,10 @@ enhancement:
     You can filter the config commands via -n namespace and -p packages, and for the
     create command, you can also specify what file format you want to save to (-s). The
     list command additionally supports relative path versus absolute path. These
-    commands replace 'create_plugin_registries', which has since been removed from
-    the console scripts attribute of GeoIPS' pyproject.toml. Unit tests have been added
-    for all new functionality.
+    commands replace 'create_plugin_registries', which is still in pyproject.toml, but
+    deprecated. Running 'create_plugin_registries' essentially is just a wrapper for
+    'geoips config create-registries'. Unit tests have been added for all new
+    functionality.
   files:
     modified:
       - geoips/commandline/ancillary_info/alias_mapping.yaml
