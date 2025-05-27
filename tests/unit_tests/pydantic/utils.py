@@ -12,7 +12,6 @@ import yaml
 from geoips import interfaces
 from geoips import pydantic as geoips_pydantic
 
-from copy import deepcopy
 
 LOG = logging.getLogger(__name__)
 
