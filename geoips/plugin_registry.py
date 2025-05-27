@@ -710,6 +710,11 @@ class PluginRegistry:
                 "['json', 'yaml']."
             )
         plugin_packages = metadata.entry_points(group=self.namespace)
+        if len(plugin_packages) == 0:
+            raise PluginRegistryError(
+                f"Error: namespace '{self.namespace}' does not exist or has no plugin "
+                "packages associated with it. Please resolve this before continuing."
+            )
         if packages:
             self._validate_packages_input(packages)
             filtered_packages = []
@@ -749,18 +754,22 @@ class PluginRegistry:
         """
         if packages:
             self._validate_packages_input(packages)
+        else:
+            packages = [ep.value for ep in metadata.entry_points(group=self.namespace)]
+            if len(packages) == 0:
+                raise PluginRegistryError(
+                    f"Error: namespace '{self.namespace}' does not exist or has no "
+                    "plugin packages associated with it. Please resolve this before "
+                    "continuing."
+                )
 
-        for pkg in metadata.entry_points(group=self.namespace):
+        for pkg in packages:
             # If packages is provided and the current package is in that list, or if
             # we're using the default value for that argument, delete the associated
             # registry
-            if (packages and pkg.value in packages) or packages is None:
-                yaml_plug_path = str(
-                    resources.files(pkg.value) / "registered_plugins.yaml"
-                )
-                json_plug_path = str(
-                    resources.files(pkg.value) / "registered_plugins.json"
-                )
+            if (packages and pkg in packages) or packages is None:
+                yaml_plug_path = str(resources.files(pkg) / "registered_plugins.yaml")
+                json_plug_path = str(resources.files(pkg) / "registered_plugins.json")
                 for path in [json_plug_path, yaml_plug_path]:
                     # Attempt to remove the files, pass silently if they don't exist.
                     try:
