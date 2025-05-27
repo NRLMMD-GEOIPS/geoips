@@ -1,0 +1,34 @@
+enhancement:
+- title: 'Support creating interfaces in new plugin packages'
+  description: |
+    This update includes refactoring and some minor enhancements to the plugin registry
+    and pydantic code to allow new interfaces to be created on plugin packages outside
+    of GeoIPS. For a plugin package to do so, they have to register their pyproject.toml
+    in a separate namespace from 'geoips.plugin_packages'. For example, if you had a
+    package named 'splunk' and wanted to create interfaces to support functionality
+    not implemented in GeoIPS, you'd register your pyproject.toml under the
+    'splunk.plugin_packages' namespace. GeoIPS can make use of any of these
+    new interfaces (though if it needed to, we'd just implement it in GeoIPS) while
+    'splunk' can still make use of GeoIPS' interfaces and plugins.
+
+    All packages that fall under the 'splunk' namespace can also make use of 'splunk's'
+    new interface functionality, and make use of GeoIPS' functionality. If a developer
+    tries to create new interfaces under the 'geoips.plugin_packages' namespace, this
+    will not work and GeoIPS will still be unaware of the new interface implemented in
+    that plugin package.
+  files:
+    modified:
+      - geoips/create_plugin_registries.py
+      - geoips/geoips_utils.py
+      - geoips/interfaces/base.py
+      - geoips/plugin_registry.py
+      - geoips/plugins/yaml/sectors/static/south_china_sea.yaml
+      - geoips/pydantic/bases.py
+      - geoips/pydantic/workflows.py
+      - tests/unit_tests/plugin_registries/test_plugin_registries.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
