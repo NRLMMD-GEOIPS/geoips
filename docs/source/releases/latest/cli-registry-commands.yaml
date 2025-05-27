@@ -5,7 +5,7 @@ enhancement:
     and additionally makes some quality of life (QOL) to the 'geoips config install'
     command. QOL improvements include adding a progress bar for data install and
     extraction. The three new commands that were added build off of the plugin registry
-    updates included in branches 'south-china-sea-sector' and '945-plugin-registy-class'
+    updates included in branches 'south-china-sea-sector' and '945-plugin-registry-class'
 
     The new commands ('geoips config create-registries',
     'geoips config delete-registries', 'geoips list registries'), as their names
