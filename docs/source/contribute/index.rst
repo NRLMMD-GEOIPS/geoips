@@ -15,7 +15,6 @@ you have no intention of resolving it yourself. And feel free to
 submit a Pull Request even if all tests are not complete - someone
 else may have time to finalize for approval even if you are unable.
 
-
 Resources for Contributors
 --------------------------
 
@@ -25,5 +24,5 @@ Resources for Contributors
 
    code-of-conduct
    coding-standards
+   dev-assisted-package-creation
    git-workflow
-

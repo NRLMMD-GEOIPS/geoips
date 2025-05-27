@@ -17,6 +17,11 @@ refactor:
     Additionally, this PR largely updated the test_plugin_registries.py unit test file
     to greatly increase coverage. Went from around 20% to 97% coverage. Minor changes to
     other unit test files were needed due to the changes made in this PR.
+
+    At this point, GeoIPS can function as a utility package for other package to implement
+    similar plugin functionality. Other packages can create new interfaces and plugins
+    in a new namespace and they will be registered to that namespace. No one package can
+    define or collect interfaces/plugins from the multiple namespaces.
   files:
     modified:
       - geoips/commandline/geoips_validate.py
