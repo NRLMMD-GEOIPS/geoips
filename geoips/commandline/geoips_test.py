@@ -142,6 +142,16 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             default=f"{environ['GEOIPS_OUTDIRS']}",
             help="The output directory to create your sector image in.",
         )
+        self.parser.add_argument(
+            "--overlay",
+            default=False,
+            action="store_true",
+            help=(
+                "Overlay this sector on the global_cylindrical grid. Useful for testing"
+                "small sectors, where their domain might be difficult to interpret in "
+                "a geospatial context."
+            ),
+        )
 
     def __call__(self, args):
         """Create the provided sector image based off the arguments provided.
@@ -158,6 +168,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         """
         sector_name = args.sector_name
         outdir = args.outdir
+        overlay = args.overlay
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -185,7 +196,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 f"named '{sector_name}' and run 'create_plugin_registries'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname)
+        sect.create_test_plot(fname, overlay=overlay)
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):

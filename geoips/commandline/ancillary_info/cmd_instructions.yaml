@@ -432,8 +432,13 @@ instructions:
       easy way to test whether or not the sector plugin you've created matches the
       region of the globe you want to study at the correct resolution. Provided this
       sector plugin has been added to the plugin registry, this command will work.
+
+      If '--overlay' is supplied, your sector will be overlaid on top of the
+      'global_cylindrical' grid in a semi-transparent fashion. Useful for testing the
+      geospatial domain of very small sectors.
     usage_str: |
-      To use, type `geoips test sector <sector_name> --outdir <output_directory_path>`.
+      To use, type `geoips test sector <sector_name> --overlay --outdir
+      <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
   # geoips_test_unit-test:
