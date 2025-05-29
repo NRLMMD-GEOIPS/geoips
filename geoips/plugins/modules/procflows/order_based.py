@@ -6,7 +6,7 @@ import logging
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.workflows import WorkflowPluginModel
+from geoips.models.workflows import WorkflowPluginModel
 
 LOG = logging.getLogger(__name__)
 
