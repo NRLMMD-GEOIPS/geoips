@@ -115,6 +115,9 @@ class SectorPluginBase(BaseYamlPlugin):
                 fill_value=np.nan,
             )
 
+            data_overlay = np.zeros(resampled_data.shape + (4,), dtype=np.float32)
+            data_overlay[resampled_data != 0] = np.array([0.2, 1, 0.2, 0.5])
+
             # Plot overlay data (with transparency) on the global grid
             ax.imshow(
                 resampled_data,
@@ -126,8 +129,6 @@ class SectorPluginBase(BaseYamlPlugin):
                     global_area_def.area_extent[3],
                 ),
                 origin="upper",
-                cmap="Reds",
-                alpha=0.95,
             )
 
         else:
