@@ -115,12 +115,21 @@ class SectorPluginBase(BaseYamlPlugin):
                 fill_value=np.nan,
             )
 
+            # Normalize to 0–1 range; this additionally masks out pixels we don't want
+            # to color.
+            norm = np.nan_to_num(resampled_data)
+            norm = (norm - norm.min()) / (norm.max() - norm.min() + 1e-6)
+
             data_overlay = np.zeros(resampled_data.shape + (4,), dtype=np.float32)
-            data_overlay[resampled_data != 0] = np.array([0.2, 1, 0.2, 0.5])
+            # This produces a Vivid Green Color
+            data_overlay[..., 0] = 0.282
+            data_overlay[..., 1] = 1.0
+            data_overlay[..., 2] = 0
+            data_overlay[..., 3] = norm * 0.5
 
             # Plot overlay data (with transparency) on the global grid
             ax.imshow(
-                resampled_data,
+                data_overlay,
                 transform=mapobj,
                 extent=(
                     global_area_def.area_extent[0],
