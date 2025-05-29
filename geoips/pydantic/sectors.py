@@ -24,8 +24,8 @@ class EarthConstants(float, Enum):
 class XYCoordinate(FrozenModel):
     """A coordinate in projection units."""
 
-    x: float = Field(None, description="The x coordinate in projection units.")
-    y: float = Field(None, description="The y coordinate in projection units.")
+    x: float = Field(..., description="The x coordinate in projection units.")
+    y: float = Field(..., description="The y coordinate in projection units.")
 
 
 def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
