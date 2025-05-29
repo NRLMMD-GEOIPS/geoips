@@ -11,7 +11,7 @@ from pydantic import ValidationError
 import yaml
 
 from geoips import interfaces
-from geoips import pydantic as gpydan
+from geoips import models as gpydan
 
 
 LOG = logging.getLogger(__name__)

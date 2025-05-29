@@ -11,7 +11,7 @@
 import pytest
 
 # GeoIPS Libraries
-from geoips.pydantic import workflows
+from geoips.models import workflows
 
 
 # The following tests would be added in the later stage of OBP

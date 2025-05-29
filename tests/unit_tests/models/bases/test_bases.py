@@ -12,7 +12,7 @@ import pytest
 from pydantic import Field, ValidationError
 
 # GeoIPS Libraries
-from geoips.pydantic import bases
+from geoips.models import bases
 
 
 @pytest.mark.parametrize(

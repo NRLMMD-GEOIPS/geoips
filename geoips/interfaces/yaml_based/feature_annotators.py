@@ -4,7 +4,7 @@
 """Feature Annotator interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.pydantic.feature_annotators import FeatureAnnotatorPluginModel
+from geoips.models.feature_annotators import FeatureAnnotatorPluginModel
 
 
 class FeatureAnnotatorsInterface(BaseYamlInterface):

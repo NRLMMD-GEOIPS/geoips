@@ -4,8 +4,8 @@ from copy import deepcopy
 
 import pytest
 
-from geoips.pydantic.feature_annotators import FeatureAnnotatorPluginModel
-from tests.unit_tests.pydantic.utils import (
+from geoips.models.feature_annotators import FeatureAnnotatorPluginModel
+from tests.unit_tests.models.utils import (
     PathDict,
     load_test_cases,
     load_geoips_yaml_plugin,
