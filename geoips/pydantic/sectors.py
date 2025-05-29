@@ -340,14 +340,49 @@ class AreaDefinitionSpec(FrozenModel):
             "pyresmaple documentation."
         ),
     )
-
-    center: Union[Tuple[float, float], XYCoordinate] = Field(
-        (0, 0),
+    center: XYCoordinate = Field(
+        default_factory=lambda: XYCoordinate(x=0.0, y=0.0),
         description=(
-            "The center of the sector in projection units. Defaults to (0, 0). "
+            "The center of the sector in projection units. Defaults to (0.0, 0.0). "
             "See the pyresample documentation for more information."
         ),
     )
+
+    @field_validator("center", mode="before")
+    @classmethod
+    def _valdiate_and_convert_center(cls, v):
+        """
+        Validate and normalize the 'center' field into an XYCoordinate object.
+
+        Supports flexible input formats while enforcing strict correctness.
+        Acceptable input formats:
+        - A 2-element list or tuple: [x, y] or (x, y)
+        - A dictionary with 'x' and 'y' keys: {"x":float, "y":float}
+        - An existing XYCoodinate instance
+
+        Raises
+        ------
+            ValueError: If the list / tuple does not have exactly two elements or the
+            dict lacks 'x' or 'y'.
+            TypeError: If the input is not a dict, list, tuple, or XYCoordinate.
+
+        Returns
+        -------
+            XYCoordinate: Validated coordinate object for center of projection.
+        """
+        if isinstance(v, (list, tuple)):
+            if len(v) != 2:
+                raise ValueError("Center must be a 2-element list / tuple (x, y).")
+            return XYCoordinate(x=v[0], y=v[1])
+        elif isinstance(v, dict):
+            if "x" not in v or "y" not in v:
+                raise ValueError(
+                    "Both 'x' and 'y' must be supplied in the center dictionary."
+                )
+            return XYCoordinate(**v)
+        elif isinstance(v, XYCoordinate):
+            return v
+        raise TypeError("center must be (x, y) as a dict, list, tuple.")
 
 
 class RegionMetadata(FrozenModel):
