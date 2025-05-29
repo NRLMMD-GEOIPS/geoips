@@ -25,9 +25,9 @@ enhancement:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/984-enhance-yaml-based-testing.yaml'
     modified:
-    - 'tests/unit_tests/pydantic/feature_annotators/test_cases.yaml'
+    - 'geoips/pydantic/sectors.py'
     - 'tests/unit_tests/pydantic/sectors/test_cases.yaml'
     - 'tests/unit_tests/pydantic/utils.py'
   related-issue:
