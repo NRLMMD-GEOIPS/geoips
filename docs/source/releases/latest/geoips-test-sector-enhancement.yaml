@@ -1,0 +1,47 @@
+enhancement:
+- title: 'GeoIPS Test Sector Enhancement'
+  description: |
+    The large update of this PR was centered at the command 'geoips test sector', where
+    we modified that command to support sector overlays. Essentially, if you want to
+    understand the geospatial domain of a certain sector, you can run
+    'geoips test sector --overlay', and this will overlay your sector in a
+    red-transparent fashion over the global sector. This is especially useful for very
+    small sectors that might not provide much information when running the command as
+    usual. To implement this, slight modifications were made to the CLI and larger
+    updates were made to the SectorBasePlugin class.
+
+    Other updates included replacing all underscores in optional CLI arguments with
+    dashes. Lots of unit tests check the output of help commands, which explains why
+    so many files were updated. This is just name changes and does not impact the
+    functionality of the CLI at all.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_test.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - tests/unit_tests/commandline/cmd_instructions/invalid_json/cmd_instructions.json
+      - tests/unit_tests/commandline/cmd_instructions/invalid_json/cmd_instructions.yaml
+      - tests/unit_tests/commandline/cmd_instructions/invalid_yaml/cmd_instructions.json
+      - tests/unit_tests/commandline/cmd_instructions/invalid_yaml/cmd_instructions.yaml
+      - tests/unit_tests/commandline/cmd_instructions/json_missing/cmd_instructions.yaml
+      - tests/unit_tests/commandline/cmd_instructions/json_newer/cmd_instructions.json
+      - tests/unit_tests/commandline/cmd_instructions/json_newer/cmd_instructions.yaml
+      - tests/unit_tests/commandline/cmd_instructions/yaml_missing/cmd_instructions.json
+      - tests/unit_tests/commandline/cmd_instructions/yaml_newer/cmd_instructions.json
+      - tests/unit_tests/commandline/cmd_instructions/yaml_newer/cmd_instructions.yaml
+      - tests/unit_tests/commandline/test_geoips_describe_package.py
+      - tests/unit_tests/commandline/test_geoips_list_interface.py
+      - tests/unit_tests/commandline/test_geoips_list_source_names.py
+      - tests/unit_tests/commandline/test_geoips_test_linting.py
+      - tests/unit_tests/commandline/test_geoips_test_script.py
+      - tests/unit_tests/commandline/test_geoips_test_sector.py
+      - tests/unit_tests/commandline/test_geoips_test_unit_test.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
