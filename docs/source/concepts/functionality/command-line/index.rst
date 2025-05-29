@@ -328,7 +328,7 @@ plugins from a certain GeoIPS package.
 
 .. _geoips_list_registries:
 
-:ref:`geoips list registries <geoips_list_registires>`
+:ref:`geoips list registries <geoips_list_registries>`
 
 ``list registries`` retrieves a listing of all plugin_registries found within a given
 namespace. By default, this namespace is ``geoips.plugin_packages``, which refers to
