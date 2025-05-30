@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: cairo
-docstring: "City of Cairo"
+docstring: "City of Cairo."
 metadata:
   region:
     continent: Africa

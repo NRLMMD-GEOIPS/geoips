@@ -1,0 +1,41 @@
+enhancement:
+- title: 'CLI Registry Commands and minor CLI QOL Updates'
+  description: |
+    This update enhances the CLI by adding 3 new commands related to the plugin registry
+    and additionally makes some quality of life (QOL) to the 'geoips config install'
+    command. QOL improvements include adding a progress bar for data install and
+    extraction. The three new commands that were added build off of the plugin registry
+    updates included in branches 'south-china-sea-sector' and '945-plugin-registry-class'
+
+    The new commands ('geoips config create-registries',
+    'geoips config delete-registries', 'geoips list registries'), as their names
+    suggest, create, delete, and list plugin registries found within a given namespace.
+    You can filter the config commands via -n namespace and -p packages, and for the
+    create command, you can also specify what file format you want to save to (-s). The
+    list command additionally supports relative path versus absolute path. These
+    commands replace 'create_plugin_registries', which is still in pyproject.toml, but
+    deprecated. Running 'create_plugin_registries' essentially is just a wrapper for
+    'geoips config create-registries'. Unit tests have been added for all new
+    functionality.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_list.py
+      - geoips/create_plugin_registries.py
+      - geoips/plugin_registry.py
+      - pyproject.toml
+      - .cspell.json
+      - tests/unit_tests/commandline/cli_top_level_tester.py
+      - tests/unit_tests/commandline/test_geoips_config_create_registries.py
+      - tests/unit_tests/commandline/test_geoips_config_delete_registries.py
+      - tests/unit_tests/commandline/test_geoips_list_registries.py
+  related-issue:
+    number: 945
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: null
+    finish: null

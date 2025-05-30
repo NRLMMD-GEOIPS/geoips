@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: abu_dhabi
-docstring: "City of Abu Dhabi"
+docstring: "City of Abu Dhabi."
 metadata:
   region:
     continent: Asia

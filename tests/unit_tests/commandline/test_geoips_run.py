@@ -140,6 +140,7 @@ class TestGeoipsRun(BaseCliTest):
 
             # Add argument list to retrieve help message
             self._cmd_list.append(["run_procflow", "-h"])
+            self._cmd_list.append(base_args + ["-h"])
             self._cmd_list.append(base_args + ["config_based", "-h"])
             self._cmd_list.append(base_args + ["single_source", "-h"])
             if "data_fusion" in self.plugin_package_names:

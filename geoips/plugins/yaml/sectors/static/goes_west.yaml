@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: goes_west
-docstring: "Full disk sector for GOES-West"
+docstring: "Full disk sector for GOES-West."
 metadata:
   region:
     continent: Global

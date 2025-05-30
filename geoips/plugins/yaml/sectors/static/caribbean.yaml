@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: caribbean
-docstring: "Caribbean Region"
+docstring: "Caribbean Region."
 metadata:
   region:
     continent: x

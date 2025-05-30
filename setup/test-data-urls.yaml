@@ -24,3 +24,4 @@ test_data_urls:
   merra: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=merra.tgz"
   rayleigh: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=rayleigh.tgz"
   synth_green: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=synth_green.tgz"
+  test_data_awips_windspeed: "https://io2.cira.colostate.edu/s/FK35r3m7Z3q6HaA/download/test_data_awips_windspeed.tgz"

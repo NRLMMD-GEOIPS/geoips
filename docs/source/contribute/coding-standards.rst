@@ -245,7 +245,6 @@ Methods
           np.dot(a, b, out=out)
           return out
 
-
 Sections:
 
 #. `Short summary <https://numpydoc.readthedocs.io/en/latest/format.html#short-summary>`_
@@ -324,7 +323,6 @@ Modules
         >>> divide(9, 3)
         3.0
         """
-
 
 Sections:
 

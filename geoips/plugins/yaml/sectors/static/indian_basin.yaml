@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: indian_basin
-docstring: "Indian Basin Area"
+docstring: "Indian Basin Area."
 metadata:
   region:
     continent: Asia

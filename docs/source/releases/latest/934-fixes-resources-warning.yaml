@@ -1,0 +1,136 @@
+bug fix:
+- title: 'Fixes file object resource warnings across multiple files'
+  description: 'Refactored file handling to use the with context manager for automatic file closure.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/cmd_instructions.py'
+    - 'geoips/commandline/geoips_command.py'
+    - 'geoips/commandline/geoips_describe.py'
+    - 'geoips/commandline/geoips_list.py'
+    - 'geoips/commandline/geoips_validate.py'
+    - 'geoips/interfaces/base.py'
+    - 'geoips/plugin_registry.py'
+    - 'geoips/tests/unit_tests/commandline/test_geoips_list_interface.py'
+    - 'geoips/tests/unit_tests/commandline/test_geoips_list_plugins.py'
+    - 'geoips/tests/unit_tests/plugin_registries/test_plugin_registries.py'
+    - 'geoips/tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py'
+  related-issue:
+    number: 931
+    repo_url: ''
+  date:
+    start: 04/03/2025
+    finish: 04/04/2025
+enhancement:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

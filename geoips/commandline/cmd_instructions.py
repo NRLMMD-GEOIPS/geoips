@@ -95,9 +95,8 @@ def get_instructions(ancillary_dirname=None, fname="cmd_instructions.yaml"):
             instructions = yaml_file
     else:
         # Otherwise load in the JSON file as it's much quicker.
-        instructions = json.load(
-            open(f"{ancillary_dirname}/{fname.replace('yaml', 'json')}", "r")
-        )
+        with open(f"{ancillary_dirname}/{fname.replace('yaml', 'json')}", "r") as fo:
+            instructions = json.load(fo)
     return instructions
 
 

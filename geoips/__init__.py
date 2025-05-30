@@ -30,7 +30,9 @@ from geoips.commandline.log_setup import add_logging_level
 # Turn off image interpolation for matplotlib by default.
 rcParams["image.interpolation"] = "none"
 
-add_logging_level("INTERACTIVE", 35)
+# Setting INTERACTIVE to 25 as this is between INFO (20) and WARNING (30). This way,
+# WARNING output will still be shown if INFO or INTERACTIVE is set.
+add_logging_level("INTERACTIVE", 25)
 
 __all__ = [
     "interfaces",

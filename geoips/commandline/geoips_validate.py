@@ -59,8 +59,12 @@ class GeoipsValidate(GeoipsExecutableCommand):
         )
         if interface.name == "products":
             is_valid = self.validate_sub_products(interface, fpath, plugin)
-        else:
+        elif interface.interface_type == "yaml_based":
             is_valid = interface.plugin_is_valid(plugin_name)
+        else:
+            is_valid = interface.plugin_is_valid(
+                interface._plugin_module_to_obj(plugin_name, plugin)
+            )
         if not is_valid:
             # if it's not valid, report that to the user
             self.parser.error(f"Plugin '{plugin_name}' found at {fpath} is invalid.")
@@ -123,7 +127,8 @@ class GeoipsValidate(GeoipsExecutableCommand):
                             f"in the multi-document yaml plugin at {fpath}."
                         )
                 else:
-                    plugin = yaml.safe_load(open(fpath, "r"))
+                    with open(fpath, "r") as fo:
+                        plugin = yaml.safe_load(fo)
                 interface_name = plugin["interface"]
                 plugin_name = plugin["name"]
         except AttributeError or KeyError:
@@ -136,7 +141,7 @@ class GeoipsValidate(GeoipsExecutableCommand):
         return interface, plugin, plugin_name
 
     def _load_module_from_file(self, file_path, module_name=None):
-        """Load in a given python module provied a file_path and an optional name."""
+        """Load in a given python module provided a file_path and an optional name."""
         if module_name is None:
             # Generate a unique module name if not provided
             module_name = "module_from_"

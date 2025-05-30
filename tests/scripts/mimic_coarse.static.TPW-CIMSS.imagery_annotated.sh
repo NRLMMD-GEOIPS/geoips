@@ -13,7 +13,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_tpw/data/coarse/comp2021
           --filename_formatter geoips_fname \
           --output_formatter imagery_annotated \
           --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated" \
-          --sector_list global
+          --sector_list global_cylindrical
 ss_retval=$?
 
 exit $((ss_retval))

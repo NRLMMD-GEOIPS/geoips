@@ -5,29 +5,34 @@ docstring: |
   The Infrared_Gray Workflow configuration.
 spec:
   steps:
-    - interpolator:
-        name: interp_nearest
-        arguments: {}
-    - algorithm:
-        name: single_channel
-        arguments:
-          output_data_range: [-100.0, 50.0]
-          input_units: Kelvin
-          output_units: celsius
-          min_outbounds: crop
-          max_outbounds: crop
-          norm: null
-          inverse: null
-    - output_formatter:
-        name: imagery_annotated
-        arguments:
-          colormapper:
-            name: matplotlib_linear_norm
-            arguments:
-              data_range: [-100.0, 50.0]
-              cmap_name: Greys
-              cbar_label: "Brightness Temperatures (degrees Celsius)"
-          filename_formatter:
-            name: geoips_fname
-            arguments:
-              suffix: ".png"
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      arguments: {}
+    algorithm:
+      kind: algorithm
+      name: single_channel
+      arguments:
+        output_data_range: [-100.0, 50.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        norm: null
+        inverse: null
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      arguments:
+        colormapper:
+          kind: colormapper
+          name: matplotlib_linear_norm
+          arguments:
+            data_range: [-100.0, 50.0]
+            cmap_name: Greys
+            cbar_label: "Brightness Temperatures (degrees Celsius)"
+        filename_formatter:
+          kind: filename_formatter
+          name: geoips_fname
+          arguments:
+            suffix: ".png"

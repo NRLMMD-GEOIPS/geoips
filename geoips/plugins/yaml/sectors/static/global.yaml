@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: global
-docstring: "Global sector"
+docstring: "Global Sector."
 metadata:
   region:
     continent: Global

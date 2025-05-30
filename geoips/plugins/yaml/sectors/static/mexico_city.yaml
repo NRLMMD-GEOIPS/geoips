@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: mexico_city
-docstring: "Mexico City"
+docstring: "Mexico City."
 metadata:
   region:
     continent: NorthAmerica

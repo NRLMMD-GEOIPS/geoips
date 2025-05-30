@@ -14,10 +14,58 @@ import sys
 
 from geoips.commandline.cmd_instructions import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
+from geoips.commandline.commandline_interface import main as cli_main
 from geoips.geoips_utils import is_editable
 
 
 gcli = GeoipsCLI()
+
+
+def generate_id(args):
+    """Generate an ID from the arguments provided.
+
+    Differs slightly from BaseCliTest:generate_id as this function might encounter
+    arguments that are a dictionary. This happens due to how those tests are structured,
+    where two sets of args are provided for one test (cli_args, expected), where
+    expected is a dictionary and should not be part of the test ID.
+
+    Parameters
+    ----------
+    args: list[str]
+        - A list of strings representing the CLI command being ran.
+    """
+    if isinstance(args, dict):
+        return ""
+    return " ".join(args)
+
+
+def check_valid_command_using_monkeypatch(monkeypatch, cli_args, expected):
+    """Assert that the command provided works as expected.
+
+    This method is used in multiple unit test calls that don't make use of BaseCliTest.
+    Essentially, we mock a sys.argv call via monkeypatch and assert that the output
+    of the command casted as vars(args) matches a dictionary of expected arguments that
+    the test provides.
+
+    Parameters
+    ----------
+    monkeypatch: Generator[Monkeypatch]
+        - A pytest fixture used to create isolated and controlled test environments by
+          modifying code at runtime.
+    cli_args: list[str]
+        - A list of strings representing the CLI command being ran.
+    expected: dict
+        - A dictionary of expected argument values that are returned from the command
+          being ran from args.
+    """
+    monkeypatch.setattr("sys.argv", cli_args)
+    args = cli_main(suppress_args=False)
+    arg_dict = vars(args)
+    arg_dict.pop("command_parser")
+    arg_dict.pop("exe_command")
+    print(arg_dict)
+    # Assert that the argument dictionary returned from the CLI matches what we expect
+    assert arg_dict == expected
 
 
 class BaseCliTest(abc.ABC):

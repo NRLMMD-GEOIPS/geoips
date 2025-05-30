@@ -58,7 +58,7 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 [tool.poetry.dependencies] # must download to run
 # NOTE this setuptools dependency should be removed altogether once meson fortran builds are working
 setuptools = "<70"     # Required for any fortran builds until meson working
-python = ">=3.10.0"    # mandatory to declare the required python version
+python = ">=3.11.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 # Note netcdf <1.7.0 didn't seg fault if you did not properly close netcdf files.
 # >= 1.7.0 reasonably DOES seg fault without properly closing netcdf files.
@@ -92,6 +92,7 @@ satpy = "*"        # efficiency improvements >= 0.33.1
 scikit-image = "*" # Radius based center coverage checks
 alphashape = ">=1.3.1" # For masking scipy's griddata output
 tabulate = "*"     # Tables for the CLI
+tqdm = "*"         # Progress bars for CLI dataset installs
 colorama = "*"     # Easy terminal color codes
 pygrib = "*" # Reading GRIB model data
 hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins
@@ -194,6 +195,6 @@ list_available_plugins = "geoips.commandline.list_available_plugins:main"
 run_procflow = "geoips.commandline.commandline_interface:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
-create_plugin_registries = "geoips.create_plugin_registries:main"
 expose = "geoips.geoips_utils:expose_geoips_commands"
 geoips = "geoips.commandline.commandline_interface:main"
+create_plugin_registries = "geoips.commandline.commandline_interface:main"

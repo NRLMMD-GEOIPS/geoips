@@ -160,7 +160,7 @@ def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     invalid_data = valid_plugin_data.copy()
     invalid_data["interface"] = invalid_interface
 
-    with pytest.raises(ValueError, match="Invalid interface"):
+    with pytest.raises(ValidationError, match="Invalid interface"):
         bases.PluginModel(**invalid_data)
 
 
@@ -262,3 +262,29 @@ def test_bad_plugin_model_set_description_without_input_field(
         f"Expected description: {expected_description},"
         f"but got this: {model.docstring}"
     )
+
+
+def test_bad_plugin_model_validate_one_line_description_length(valid_plugin_data):
+    """Test PluginModel's description validator against more than 72 characters."""
+    data = copy.deepcopy(valid_plugin_data)
+    data["description"] = (
+        "This description is intentionally crafted to exceed seventy-two characters."
+    )
+
+    with pytest.warns(
+        FutureWarning, match="Description cannot be more than 72 characters."
+    ):
+        model = bases.PluginModel(**data)
+
+    assert model.description
+
+
+def test_bad_plugin_model_validate_one_line_description_multi_line(valid_plugin_data):
+    """Test PluginModel's description validator against multi line input."""
+    data = copy.deepcopy(valid_plugin_data)
+    data["description"] = "This description is a \n multi line one."
+
+    with pytest.warns(FutureWarning, match="Description must be a single line."):
+        model = bases.PluginModel(**data)
+
+    assert model.description

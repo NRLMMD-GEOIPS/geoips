@@ -1,0 +1,15 @@
+documentation:
+- title: 'Add documentation about code transition assistance'
+  description: 'Adds guideline which documents why, when, and how developers should work alongside users and researchers to get their geospatial data processing routines integrated alongside GeoIPS. '
+  files:
+    added:
+    - 'docs/source/contribute/dev-assisted-package-creation.rst'
+    - 'docs/source/releases/latest/dev-assist-package-translation.yaml'
+    modified:
+    - 'docs/source/contribute/index.rst'
+  related-issue:
+    number: 507
+    repo_url: ''
+  date:
+    start: "April 25 2024"
+    finish: "May 15, 2025"

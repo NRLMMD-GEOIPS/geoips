@@ -72,7 +72,7 @@ def test_get_plugin_metadata(iname_pname):
     else:
         # Failing case 2
         if pname == 2:
-            with pytest.raises(KeyError):
+            with pytest.raises(TypeError):
                 md = interface.get_plugin_metadata(pname)
             return
         # Failing case 3
