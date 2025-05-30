@@ -59,11 +59,6 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
 
     This custom formatter extends RawTextHelpFormatter to sort command-line
     arguments alphabetically when displaying help messages.
-
-    Methods
-    -------
-    add_arguments(actions)
-        Sort actions alphabetically by option strings before adding them.
     """
 
     def add_arguments(self, actions):
