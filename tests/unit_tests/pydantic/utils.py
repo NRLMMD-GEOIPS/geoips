@@ -5,14 +5,13 @@ import logging
 from importlib.resources import files
 import os
 import pytest
-
+from copy import deepcopy
 from pydantic import ValidationError
 import yaml
 
 from geoips import interfaces
 from geoips import pydantic as geoips_pydantic
 
-from copy import deepcopy
 
 LOG = logging.getLogger(__name__)
 

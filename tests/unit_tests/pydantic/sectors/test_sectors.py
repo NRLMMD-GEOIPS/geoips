@@ -22,9 +22,9 @@ test_cases_bad = load_test_cases(interface, "bad")
 test_cases_neutral = load_test_cases(interface, "neutral")
 
 
-good_yaml = yaml.safe_load(
-    open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
-)
+with open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), "r") as fo:
+    good_yaml = yaml.safe_load(fo)
+
 good_yaml["abspath"] = str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml")
 good_yaml["relpath"] = "plugins/yaml/sectors/static/korea.yaml"
 good_yaml["package"] = "geoips"
