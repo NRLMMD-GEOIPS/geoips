@@ -65,16 +65,14 @@ gridline-annotators:
 product-defaults:
   - pdef
   - pdefs
-  - prod-def
-  - prod-defs
   - product-default
 products:
   - prod
   - prods
   - product
 sectors:
-  - sec
-  - secs
+  - sect
+  - sects
   - sector
 workflows:
   - wf
@@ -100,21 +98,4 @@ validate:
   - val
 source-names:
   - src-names
-install:
-  - inst
-delete-registries:
-  - del-reg
-  - del-regs
-  - del-registry
-  - del-registries
-  - delete-reg
-  - delete-regs
-  - delete-registry
-create-registries:
-  - crt-reg
-  - crt-regs
-  - crt-registry
-  - crt-registries
-  - create-reg
-  - create-regs
-  - create-registry
+

@@ -23,6 +23,52 @@ from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 
 
+class CustomHelpFormatter(
+    argparse.RawTextHelpFormatter,
+    argparse.ArgumentDefaultsHelpFormatter
+):
+    """Custom help formatter for GeoIPS CLI.
+
+    This custom help formatter includes the functionality provided by argparse's
+    RawTextHelpFormatter and ArgumentDefaultsHelpFormatter. Additionally, it overrides
+    the following methods:
+
+    _format_usage: Overridden to remove long choice strings for commands with many
+        sub-commands.
+    """
+
+    def _format_usage(self, usage, actions, groups, prefix):
+        # Allow explicitly specified usage messages to be printed verbatim.
+        if usage is not None:
+            return super()._format_usage(usage, actions, groups, prefix)
+
+        # If no statically defined usage message was received, generate the usage line.
+        optional_parts = []
+        for action in actions:
+            if action.option_strings:
+                part = ' '.join(action.option_strings)
+                if action.choices:
+                    choices_str = ",".join(str(choice) for choice in action.choices)
+                    metavar_str = f"{{{choices_str}}}"
+                elif action.metavar:
+                    metavar_str = action.metavar
+                else:
+                    metavar_str = action.dest.upper()
+
+                if action.nargs not in [0, None]:
+                    part += f" {metavar_str}"
+
+                optional_parts.append(f"[{part}]")
+
+        usage_line = " ".join(optional_parts)
+        return super()._format_usage(
+            f"{self._prog} {usage_line}\n",
+            actions,
+            groups,
+            prefix,
+        )
+
+
 class PluginPackages:
     """Class to hold the plugin packages and their paths.
 
@@ -258,27 +304,25 @@ class GeoipsCommand(abc.ABC):
                 self.cmd_instructions = cmd_instructions
             try:
                 # If the command's name exists w/in the alias mapping, then
-                # add thoss aliases to the parser, otherwise just set it as an empty
+                # add those aliases to the parser, otherwise just set it as an empty
                 # list.
                 aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
                 # Attempt to create a sepate sub-parser for the specific command
                 # class being initialized so we can separate the commands arguments
                 # in a tree-like structure
+                instrs = self.cmd_instructions["instructions"][self.combined_name]
+                help_str = instrs["help_str"]
+                description = instrs.get("description", help_str)
+                usage = instrs.get("usage_str", None)
                 self.parser = parent.subparsers.add_parser(
                     self.name,
-                    description=self.cmd_instructions["instructions"][
-                        self.combined_name
-                    ]["help_str"],
-                    help=self.cmd_instructions["instructions"][self.combined_name][
-                        "help_str"
-                    ],
-                    usage=self.cmd_instructions["instructions"][self.combined_name][
-                        "usage_str"
-                    ],
+                    description=description,
+                    help=help_str,
+                    usage=usage,
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
-                    formatter_class=AlphabeticalHelpFormatter,
+                    formatter_class=CustomHelpFormatter
                 )
             except KeyError:
                 raise KeyError(
@@ -292,7 +336,7 @@ class GeoipsCommand(abc.ABC):
                 self.name,
                 conflict_handler="resolve",
                 parents=[ParentParsers.geoips_parser],
-                formatter_class=AlphabeticalHelpFormatter,
+                formatter_class=CustomHelpFormatter
             )
             self.LOG = self._get_cli_logger()
             self.combined_name = self.name
