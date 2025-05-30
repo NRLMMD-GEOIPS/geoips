@@ -90,7 +90,6 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         >>> parser.add_argument('-a', '--alpha')
         >>> # Help text will show '-a, --alpha' before '-z, --zeta'
         """
-        
         actions = sorted(
             actions, key=lambda x: x.option_strings[0] if x.option_strings else x.dest
         )
