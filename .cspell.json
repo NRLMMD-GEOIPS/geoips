@@ -914,7 +914,6 @@
                 "/^\\.\\.\\s+[a-zA-Z_-]+::/m",
                 // Field lists (e.g., :param key:)
                 "/^\\s*:([^:]+):\\s*$/m", // Simple field list line
-                "/^\\s*:([^:]+):\\s+[^\\s]/m", // Field list with content on same line
                 // Interpreted text roles (e.g., :py:func:`~my_func`)
                 "/:[a-zA-Z_\\-]+:`~?([^`]+)`/",
                 // Inline literals (e.g., ``code``)
