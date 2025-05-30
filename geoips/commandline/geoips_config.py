@@ -30,7 +30,7 @@ class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
         """Add arguments to the config-subparser for the Config Command."""
         self.parser.add_argument(
             "-s",
-            "--save_type",
+            "--save-type",
             default="json",
             type=str,
             choices=["json", "yaml"],

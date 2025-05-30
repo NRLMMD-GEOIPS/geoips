@@ -101,7 +101,7 @@ instructions:
     - Docstring
     - Package Path
     - Documentation Link
-    usage_str: 'To use, type `geoips get package <package_name>`, where <package_name>
+    usage_str: 'To use, type `geoips get package <package-name>`, where <package-name>
       is a
 
       valid GeoIPS Package.
@@ -267,7 +267,7 @@ instructions:
     help_str: 'List off scripts found under all, or a specified GeoIPS package. This
       information
 
-      can then be used with `geoips run <package_name> <script_name>` to run a certain
+      can then be used with `geoips run <package-name> <script_name>` to run a certain
 
       process workflow, defined in a bash script.
 
@@ -310,7 +310,7 @@ instructions:
     - GeoIPS Package
     - Unit Test Directory
     - Unit Test Name
-    usage_str: 'To use, type `geoips list unit-tests -p <package_name>`.
+    usage_str: 'To use, type `geoips list unit-tests -p <package-name>`.
 
       '
   run:
@@ -328,7 +328,7 @@ instructions:
       '
     output_info:
     - Log Output of the Process Workflow (Procflow)
-    usage_str: 'To use, type `geoips run -p <package_name> <script_name>`.
+    usage_str: 'To use, type `geoips run -p <package-name> <script_name>`.
 
       '
   test:
@@ -359,7 +359,7 @@ instructions:
       '
     output_info:
     - Output of the Linters
-    usage_str: 'To use, type `geoips test linting -p <package_name>`.
+    usage_str: 'To use, type `geoips test linting -p <package-name>`.
 
       '
   test_script:
@@ -376,7 +376,7 @@ instructions:
       '
     output_info:
     - Output of the Script Being Ran
-    usage_str: 'To use, type `geoips test script -p <package_name> <--integration>
+    usage_str: 'To use, type `geoips test script -p <package-name> <--integration>
       <script_name>`.
 
       '
@@ -393,7 +393,7 @@ instructions:
     - Output of the Unit Test Being Ran
     usage_str: 'To use, type
 
-      `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
+      `geoips test unit-test -p <package-name> <directory_name> <-n> <script_name>`
 
       '
   validate:
