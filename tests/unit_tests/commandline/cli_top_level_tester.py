@@ -194,7 +194,7 @@ class BaseCliTest(abc.ABC):
         if pkg_name is not None and pkg_name not in self.plugin_package_names:
             # If the package provided is not a valid package, check for that error
             # instead
-            assert f"{args[2]}: error: argument --package_name/-p: invalid" in error
+            assert f"{args[2]}: error: argument --package-name/-p: invalid" in error
             return False
 
         if pkg_name:
@@ -215,7 +215,7 @@ class BaseCliTest(abc.ABC):
                     "script: error: Only package 'geoips' has integration tests"
                 )
                 package_name_error = (
-                    "error: argument --package_name/-p: invalid choice:"
+                    "error: argument --package-name/-p: invalid choice:"
                 )
                 assert integration_error in error or package_name_error in error
             else:

@@ -72,6 +72,7 @@ instructions:
       artifact where an artifact can be a registered plugin package, a plugin interface,
       or a plugin.
 
+<<<<<<< HEAD
       To get information on different types of artifacts, use the command forms below:
         - Plugin Packages: `geoips describe package <package_name>`
           For example, `geoips describe package geoips_clavrx` would return information
@@ -82,6 +83,46 @@ instructions:
         - Plugins: `geoips describe <interface_name> <plugin_name>`
           For example, `geoips describe reader abi_netcdf` would retrun information
           regarding the `abi_netcdf` reader plugin.
+=======
+      * Interface:
+          * Command Signature:
+              * `geoips describe <interface_name>`
+          * Artifact Listing:
+              * `geoips list interfaces`
+          * output_info:
+              * Absolute Path
+              * Docstring
+              * Interface Name
+              * Interface Type
+              * Supported Families
+
+      * Plugin:
+          * Command Signature:
+              * `geoips describe <interface_name> <plugin_name>`
+          * Artifact Listing:
+              * `geoips list plugins <-p> <package-name>`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * GeoIPS Package
+              * Interface Name
+              * Plugin Type
+              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
+              * Relative Path
+
+      * Family:
+          * Command Signature:
+              * `geoips describe <interface_name> family <family_name>`
+          * Artifact Listing:
+              * `geoips list interfaces --columns interface supported_families`
+          * Output Info:
+              * Docstring
+              * Family Name
+              * Family Path
+              * Interface Name
+              * Interface Type
+              * Required Arguments / Schema
+>>>>>>> 004d615be77f6a0d22b374eca87875b595170a1d
     usage_str: |
       To use, type `geoips describe <interface_name> <sub-cmd> ...`.
     output_info:
@@ -139,7 +180,25 @@ instructions:
   #     - Interface Name
   #     - Interface Type
   #     - Supported Families
+<<<<<<< HEAD
   geoips_describe_package: *geoips-describe-artifact
+=======
+  geoips_describe_package:
+    help_str: |
+      Retrieve the appropriate GeoIPS Package alongside descriptive information of
+      that package. See output_info for each datum provided when this command is
+      called. For a listing of available GeoIPS packages, run:
+      `geoips list packages`.
+    usage_str: |
+      To use, type `geoips describe package <package-name>`, where <package-name> is a
+      valid GeoIPS Package.
+    output_info:
+      - GeoIPS Package
+      - Docstring
+      - Package Path
+      - Source Code
+      - Version Number
+>>>>>>> 004d615be77f6a0d22b374eca87875b595170a1d
   # geoips_describe_plugin:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
@@ -277,7 +336,7 @@ instructions:
   geoips_list_scripts:
     help_str: |
       List off scripts found under all, or a specified GeoIPS package. This information
-      can then be used with `geoips run <package_name> <script_name>` to run a certain
+      can then be used with `geoips run <package-name> <script_name>` to run a certain
       process workflow, defined in a bash script.
     usage_str: |
       To use, type `geoips list scripts`. Optionally includes `-p` flag for
@@ -329,7 +388,7 @@ instructions:
       List off unit-tests used in a certain GeoIPS Package.
       This data can be used to run unit tests via `geoips test unit-test ...`.
     usage_str: |
-      To use, type `geoips list unit-tests -p <package_name>`.
+      To use, type `geoips list unit-tests -p <package-name>`.
     output_info:
       - GeoIPS Package
       - Unit Test Directory
@@ -391,7 +450,7 @@ instructions:
       the code you wrote adheres to the specified coding conventions set up by GeoIPS.
       Defaults to the 'geoips' package.
     usage_str: |
-      To use, type `geoips test linting -p <package_name>`.
+      To use, type `geoips test linting -p <package-name>`.
     output_info:
       - Output of the Linters
   geoips_test_script:
@@ -401,7 +460,7 @@ instructions:
       using the 'geoips' package. Use '--integration' to specify that the script
       is integration-based. Defaults to the 'geoips' package.
     usage_str: |
-      To use, type `geoips test script -p <package_name> <--integration> <script_name>`.
+      To use, type `geoips test script -p <package-name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
   geoips_test_sector:
@@ -410,8 +469,13 @@ instructions:
       easy way to test whether or not the sector plugin you've created matches the
       region of the globe you want to study at the correct resolution. Provided this
       sector plugin has been added to the plugin registry, this command will work.
+
+      If '--overlay' is supplied, your sector will be overlaid on top of the
+      'global_cylindrical' grid in a semi-transparent fashion. Useful for testing the
+      geospatial domain of very small sectors.
     usage_str: |
-      To use, type `geoips test sector <sector_name> --outdir <output_directory_path>`.
+      To use, type `geoips test sector <sector_name> --overlay --outdir
+      <output_directory_path>`.
     output_info:
       - A path to the image of the sector you've created.
   # geoips_test_unit-test:
@@ -421,7 +485,7 @@ instructions:
   #     'geoips' package.
   #   usage_str: |
   #     To use, type
-  #     `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
+  #     `geoips test unit-test -p <package-name> <directory_name> <-n> <script_name>`
   #   output_info:
   #     - Output of the Unit Test Being Ran
   geoips_tree:
