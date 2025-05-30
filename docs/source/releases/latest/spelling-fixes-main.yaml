@@ -1,0 +1,13 @@
+enhancement:
+- title: 'Spelling fixes'
+  description: 'Fixes spelling errors on main from the last release (prior to May 30, 2025) and adds correctly spelled but falsely flagged words to cspell config file.'
+  files:
+    modified:
+    - '.cspell.json'
+    - 'geoips/pydantic/sectors.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
