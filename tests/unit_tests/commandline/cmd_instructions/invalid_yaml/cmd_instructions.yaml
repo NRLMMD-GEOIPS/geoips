@@ -65,7 +65,7 @@ because_my_key_is_not_instructions:
       called. For a listing of available GeoIPS packages, run:
       `geoips list packages`.
     usage_str: |
-      To use, type `geoips get package <package_name>`, where <package_name> is a
+      To use, type `geoips get package <package-name>`, where <package-name> is a
       valid GeoIPS Package.
     output_info:
       - GeoIPS Package
@@ -172,7 +172,7 @@ because_my_key_is_not_instructions:
   list_scripts:
     help_str: |
       List off scripts found under all, or a specified GeoIPS package. This information
-      can then be used with `geoips run <package_name> <script_name>` to run a certain
+      can then be used with `geoips run <package-name> <script_name>` to run a certain
       process workflow, defined in a bash script.
     usage_str: |
       To use, type `geoips list scripts`. Optionally includes `-p` flag for
@@ -197,7 +197,7 @@ because_my_key_is_not_instructions:
       List off unit-tests used in a certain GeoIPS Package.
       This data can be used to run unit tests via `geoips test unit-test ...`.
     usage_str: |
-      To use, type `geoips list unit-tests -p <package_name>`.
+      To use, type `geoips list unit-tests -p <package-name>`.
     output_info:
       - GeoIPS Package
       - Unit Test Directory
@@ -210,7 +210,7 @@ because_my_key_is_not_instructions:
       you can run `geoips list-scripts <-p>`, where `-p` can be used alongside a GeoIPS
       Package name if you want scripts from a single package.
     usage_str: |
-      To use, type `geoips run -p <package_name> <script_name>`.
+      To use, type `geoips run -p <package-name> <script_name>`.
     output_info:
       - Log Output of the Process Workflow (Procflow)
   test:
@@ -229,7 +229,7 @@ because_my_key_is_not_instructions:
       the code you wrote adheres to the specified coding conventions set up by GeoIPS.
       Defaults to the 'geoips' package.
     usage_str: |
-      To use, type `geoips test linting -p <package_name>`.
+      To use, type `geoips test linting -p <package-name>`.
     output_info:
       - Output of the Linters
   test_script:
@@ -239,7 +239,7 @@ because_my_key_is_not_instructions:
       using the 'geoips' package. Use '--integration' to specify that the script
       is integration-based. Defaults to the 'geoips' package.
     usage_str: |
-      To use, type `geoips test script -p <package_name> <--integration> <script_name>`.
+      To use, type `geoips test script -p <package-name> <--integration> <script_name>`.
     output_info:
       - Output of the Script Being Ran
   test_unit-test:
@@ -249,7 +249,7 @@ because_my_key_is_not_instructions:
       package.
     usage_str: |
       To use, type
-      `geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`
+      `geoips test unit-test -p <package-name> <directory_name> <-n> <script_name>`
     output_info:
       - Output of the Unit Test Being Ran
   validate:
