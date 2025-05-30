@@ -123,7 +123,7 @@ class ParentParsers:
         add_help=False, formatter_class=AlphabeticalHelpFormatter
     )
     list_parser.add_argument(
-        "--package_name",
+        "--package-name",
         "-p",
         type=str,
         default="all",

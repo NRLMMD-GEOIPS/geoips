@@ -29,6 +29,7 @@ class TestGeoipsTestSector(BaseCliTest):
             # Just want to make sure we get 100% coverage and don't create a ton of new
             # files.
             self._cmd_list.append(base_args + ["goes_east"])
+            self._cmd_list.append(base_args + ["australia", "--overlay"])
             self._cmd_list.append(
                 base_args + ["japan", "--outdir", f"{environ['GEOIPS_OUTDIRS']}"]
             )
