@@ -32,10 +32,11 @@ instructions:
   geoips_config_create-registries:
     help_str: "Create plugin registries for installed plugin packages."
     description: |
-      Create plugin registries for plugin packages found in the specified namespace.
+      The `geoips config create-registries` command creates plugin registries for plugin
+      packages found in the specified namespace.
 
-      This should not be required unless the user has disabled automatic registry
-      generation.
+      ** This should not be required unless the user has disabled automatic registry
+      generation. **
 
       When called, by default, `geoips config create-registries` will find all plugin
       packages installed in the `geoips` namespace and generate a plugin registry in
@@ -72,7 +73,6 @@ instructions:
       artifact where an artifact can be a registered plugin package, a plugin interface,
       or a plugin.
 
-<<<<<<< HEAD
       To get information on different types of artifacts, use the command forms below:
         - Plugin Packages: `geoips describe package <package_name>`
           For example, `geoips describe package geoips_clavrx` would return information
@@ -83,46 +83,6 @@ instructions:
         - Plugins: `geoips describe <interface_name> <plugin_name>`
           For example, `geoips describe reader abi_netcdf` would retrun information
           regarding the `abi_netcdf` reader plugin.
-=======
-      * Interface:
-          * Command Signature:
-              * `geoips describe <interface_name>`
-          * Artifact Listing:
-              * `geoips list interfaces`
-          * output_info:
-              * Absolute Path
-              * Docstring
-              * Interface Name
-              * Interface Type
-              * Supported Families
-
-      * Plugin:
-          * Command Signature:
-              * `geoips describe <interface_name> <plugin_name>`
-          * Artifact Listing:
-              * `geoips list plugins <-p> <package-name>`
-          * Output Info:
-              * Docstring
-              * Family Name
-              * GeoIPS Package
-              * Interface Name
-              * Plugin Type
-              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
-              * Relative Path
-
-      * Family:
-          * Command Signature:
-              * `geoips describe <interface_name> family <family_name>`
-          * Artifact Listing:
-              * `geoips list interfaces --columns interface supported_families`
-          * Output Info:
-              * Docstring
-              * Family Name
-              * Family Path
-              * Interface Name
-              * Interface Type
-              * Required Arguments / Schema
->>>>>>> 004d615be77f6a0d22b374eca87875b595170a1d
     usage_str: |
       To use, type `geoips describe <interface_name> <sub-cmd> ...`.
     output_info:
@@ -164,6 +124,7 @@ instructions:
   #     - Interface Name
   #     - Interface Type
   #     - Required Args / Schema
+  geoips_describe_interface: *geoips-describe-artifact
   # geoips_describe_interface:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Interface alongside descriptive information of
@@ -180,25 +141,7 @@ instructions:
   #     - Interface Name
   #     - Interface Type
   #     - Supported Families
-<<<<<<< HEAD
   geoips_describe_package: *geoips-describe-artifact
-=======
-  geoips_describe_package:
-    help_str: |
-      Retrieve the appropriate GeoIPS Package alongside descriptive information of
-      that package. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS packages, run:
-      `geoips list packages`.
-    usage_str: |
-      To use, type `geoips describe package <package-name>`, where <package-name> is a
-      valid GeoIPS Package.
-    output_info:
-      - GeoIPS Package
-      - Docstring
-      - Package Path
-      - Source Code
-      - Version Number
->>>>>>> 004d615be77f6a0d22b374eca87875b595170a1d
   # geoips_describe_plugin:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
@@ -229,8 +172,8 @@ instructions:
         - Integration test scripts provided by the plugin packages (if available).
         - Static datasets available for download (see `geoips config install`).
         - Unit tests.
-    usage_str: |
-      To use, type `geoips list <cmd> <sub-cmd>`.
+    # usage_str: |
+    #   To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
       - Additional info related to the artifact[s] being listed.
   geoips_list_common:
