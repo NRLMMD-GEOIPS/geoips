@@ -5,6 +5,7 @@
     // Words considered correct for THIS project specifically
     "words": [
         // Project Specific / Acronyms / People / Orgs
+        "AWIPS",
         "CIMSS",
         "CIRA",
         "CIRA's",
@@ -307,6 +308,7 @@
         "upscaling",
         "vector",
         "visible",
+        "visir",
         "vorticity",
         "wavelet",
         "windbarb",
