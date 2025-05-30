@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: african_horn
-docstring: "Horn of Africa"
+docstring: "Horn of Africa."
 metadata:
   region:
     continent: Africa

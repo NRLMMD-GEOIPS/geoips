@@ -25,6 +25,112 @@ from geoips.geoips_utils import is_editable
 from geoips import interfaces
 
 
+class GeoipsListRegistries(GeoipsExecutableCommand):
+    """List Command for listing out plugin registries from installed plugin packages.
+
+    This command is used to easily expose what plugin packages have plugin registries
+    created.
+    """
+
+    name = "registries"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the list-subparser for the List Registries Command."""
+        self.parser.add_argument(
+            "-n",
+            "--namespace",
+            type=str,
+            default="geoips.plugin_packages",
+            help=(
+                "The namespace of plugin packages to list plugin registries for. "
+                "If not specified, this defaults to 'geoips.plugin_packages'."
+            ),
+        )
+        self.parser.add_argument(
+            "-r",
+            "--relpath",
+            default=False,
+            action="store_true",
+            help=(
+                "Whether or not you want the paths for the plugin registry files to be "
+                "displayed as relative paths. Default is false, which means the paths "
+                "will be shown as absolute."
+            ),
+        )
+
+    def __call__(self, args):
+        """List all plugin registries under 'namespace' held under <package_name>.
+
+        Printed to Terminal
+        -------------------
+        out_array: 2D Array of Strings
+            - GeoIPS Package
+            - .json registry path
+            - .yaml registry path
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The list argument namespace to parse through
+        """
+        namespace = args.namespace
+        relpath = args.relpath
+        package_name = args.package_name
+        default_headers = {
+            "package": "GeoIPS Package",
+            "json": "JSON Path",
+            "yaml": "YAML Path",
+        }
+        headers = self._get_headers_by_command(args, default_headers)
+        registry_list = []
+        packages = metadata.entry_points(group=namespace)
+
+        if len(packages) == 0:
+            self.parser.error(
+                f"Error: no plugin packages exist under namespace '{namespace}'."
+            )
+
+        for pkg in metadata.entry_points(group=namespace):
+            pkg_path = resources.files(pkg.value)
+            json_path = str(pkg_path / "registered_plugins.json")
+            yaml_path = str(pkg_path / "registered_plugins.yaml")
+
+            json_path = json_path if exists(json_path) else "missing"
+            yaml_path = yaml_path if exists(yaml_path) else "missing"
+
+            json_path = basename(json_path) if relpath else json_path
+            yaml_path = basename(yaml_path) if relpath else yaml_path
+
+            reg_entry = [pkg.value, json_path, yaml_path]
+
+            if package_name != "all" and pkg.value == package_name:
+                registry_list.append(reg_entry)
+                break
+            elif package_name == "all":
+                registry_list.append(reg_entry)
+            else:
+                continue
+
+        if len(registry_list) == 0:
+            self.parser.error(
+                f"Error: plugin package '{package_name}' could not be found in "
+                f"namespace '{namespace}'."
+            )
+
+        print("-" * len("Plugin Package Registries"))
+        print("Plugin Package Registries")
+        print("-" * len("Plugin Package Registries"))
+        print(
+            tabulate(
+                sorted(registry_list),
+                headers=headers.values(),
+                tablefmt="rounded_grid",
+                maxcolwidths=self.terminal_width // len(headers),
+            )
+        )
+
+
 class GeoipsListSourceNames(GeoipsExecutableCommand):
     """List Command for listing out source_names from available reader plugins.
 
@@ -434,11 +540,10 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
         ):
 
             if package_name == "all" or package_name == plugin_package_name:
-                pkg_registry = json.load(
-                    open(
-                        f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
-                    )
-                )
+                with open(
+                    f"{pkg_path}/{plugin_package_name}/registered_plugins.json", "r"
+                ) as fo:
+                    pkg_registry = json.load(fo)
             else:
                 continue
             interface_data = []
@@ -782,6 +887,7 @@ class GeoipsList(GeoipsCommand):
         GeoipsListInterfaces,
         GeoipsListPackages,
         GeoipsListPlugins,
+        GeoipsListRegistries,
         GeoipsListScripts,
         GeoipsListSourceNames,
         GeoipsListTestDatasets,

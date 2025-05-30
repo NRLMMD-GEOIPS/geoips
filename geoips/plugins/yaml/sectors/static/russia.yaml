@@ -1,7 +1,7 @@
 interface: sectors
 family: area_definition_static
 name: russia
-docstring: "Russian Country"
+docstring: "Russian Country."
 metadata:
   region:
     continent: Asia
