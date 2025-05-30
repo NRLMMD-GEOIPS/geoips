@@ -16,5 +16,3 @@ Functionality
     documentation-building
     examples/index
     interfaces/index
-
-

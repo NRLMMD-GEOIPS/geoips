@@ -49,4 +49,3 @@ Defaults to ``[repo_path]/build/sphinx/html``.
 
     If ``--output-dir`` is not provided and ``$GEOIPS_DOCSDIR`` is set, it
     defaults to ``$GEOIPS_DOCSDIR``
-
