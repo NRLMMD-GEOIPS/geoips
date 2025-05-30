@@ -3,20 +3,53 @@ instructions:
   geoips_config:
     help_str: |
       Various configuration-based commands for setting up your geoips environment.
-      Currently supports `geoips config install <test_dataset_name>` command.
+      Currently supports `geoips config install ...` and
+      `geoips config <create/delete-registries>` commands.
     usage_str: |
       To use, type `geoips config <cmd> <sub-command> ...`
     output_info:
       - Output related to config process that was run.
   geoips_config_install:
     help_str: |
-      Install the appropriate test dataset and/or package based on the arguments
-      provided. To see a list of available test datasets for install, run
-      `geoips list test-datasets`. If wanting to install data to a location different
-      that $GEOIPS_TESTDATA_DIR, then use the -o (outdir) option and provide a full path
-      to the directory you desire to install data in.
+      Install appropriate test dataset(s) based on the arguments provided. To see a list
+      of available test datasets for install, run `geoips list test-datasets`. If
+      wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
+      use the -o (outdir) option and provide a full path to the directory you desire to
+      install data in.
+
+      Optionally, you can run the command 'geoips config install all', which will
+      install all test datasets listed in 'geoips list test-datasets'. If 'all' is
+      provided, no other dataset can be specified.
     usage_str: |
-      To use, type `geoips config install <test_dataset_name> -o <full_path>`.
+      To use, type `geoips config install <test_dataset_names> -o <full_path>`.
+    output_info:
+      - Not Applicable
+  geoips_config_create-registries:
+    help_str: |
+      Create plugin registries for one or more plugin packages of a certain namespace.
+      By default, this command uses namespace 'geoips.plugin_packages', but this can
+      be overridden with the -n (--namespace) flag. If you want to create plugin
+      registries for a subset of packages of the specified namespace, you can provide
+      the -p (--packages) flag, which should be a list of one or more package names
+      to create plugin registries for that fall under 'namespace'. Additionally, you
+      can add the -s (--save_type) flag, which is a string that can be either 'json' or
+      'yaml', specifiying the file format of your registry. By default, GeoIPS expects
+      'json' as the file format to use, and that is the default of this flag.
+    usage_str: |
+      To use, type `geoips config create-registries -n <namespace> -s <save_type>
+      -p <packages>`.
+    output_info:
+      - Not Applicable
+  geoips_config_delete-registries:
+    help_str: |
+      Delete plugin registries in one or more plugin packages of a certain namespace.
+      By default, this command uses namespace 'geoips.plugin_packages', but this can
+      be overridden with the -n (--namespace) flag. If you want to delete plugin
+      registries for a subset of packages of the specified namespace, you can provide
+      the -p (--packages) flag, which should be a list of one or more package names
+      to create plugin registries for that fall under 'namespace'.
+    usage_str: |
+      To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
@@ -281,6 +314,19 @@ instructions:
     output_info:
       - Package
       - Script Name
+  geoips_list_registries:
+    help_str: |
+      List one or more plugin package's plugin registries. By default this outputs the
+      path to both the .json registry and the .yaml registry. -n specifies the namespace
+      in which your plugin packages fall under, -r is a flag specifying that the CLI
+      should output relative paths (default=False), and -p can be a filter a single
+      package listing (defaults to all packages).
+    usage_str: |
+      To use, type `geoips list registries -n <namespace> -r <relpath> -p <pkg_name>`.
+    output_info:
+      - GeoIPS Package
+      - JSON Path
+      - YAML Path
   geoips_list_source-names:
     help_str: |
       List off source_names of reader plugins found under all, or a specified GeoIPS
