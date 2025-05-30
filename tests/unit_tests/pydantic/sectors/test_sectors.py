@@ -69,7 +69,7 @@ def test_bad_sector_plugins(good_sector, test_tup):
 
 
 @pytest.mark.parametrize("test_tup", test_cases_neutral.values(), ids=list(test_cases_neutral.keys()))
-def test_bad_sector_plugins(good_sector, test_tup):
+def test_neutral_sector_plugins(good_sector, test_tup):
     """Perform validation on static sector plugins, including failing cases.
 
     Parameters
