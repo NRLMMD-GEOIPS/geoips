@@ -89,7 +89,7 @@ For practical examples, please refer to the documentation on `functionality of o
 Creating Custom Output Checkers
 -------------------------------
 
-If you need to check specialized output types you can implement your own output checker.
+You can implement your own output checker if you need to check specialized output types.
 
 For more information on implementing custom output checkers, please refer to this tutorial on
 `Implementing Custom Output Checkers <./../../../../../tutorials/extending-with-plugins/output-formatter.rst>`_
