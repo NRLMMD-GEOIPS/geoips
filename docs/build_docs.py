@@ -555,7 +555,6 @@ def build_module_apidocs_with_sphinx(
         module_path,  # module path
         "*/lib/*",  # exclude path
     ]
-    
     # See https://github.com/sphinx-doc/sphinx/issues/8664
     # and https://www.sphinx-doc.org/en/master/man/sphinx-apidoc.html
     # for more info on why they are set.
