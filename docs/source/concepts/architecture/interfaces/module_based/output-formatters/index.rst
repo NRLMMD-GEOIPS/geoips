@@ -83,7 +83,7 @@ After running the workflow with a comparison path:
 Practical Examples
 ==================
 
-For practical examples, please refer to the documentat../../ion on `functionality of output checkers
+For practical examples, please refer to the documentation on `functionality of output checkers
 <./../../../../functionality/interfaces/module_based/output-checkers/index.rst>`.
 
 Creating Custom Output Checkers
