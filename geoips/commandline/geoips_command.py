@@ -63,9 +63,9 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
 
     def add_arguments(self, actions):
         """
-        Sort command-line arguments to alphabetical order when they are added.
+        Sort command-line arguments via alphabetical order when added to a parser.
 
-        This method takes a list of argument actions (eg. positional or flag argument
+        This method takes a list of argument actions (positional or flag argument
         strings) and sorts them alphabetically.
 
         Parameters
@@ -76,18 +76,19 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         Details
         -------
         Sorting works as follows:
+
         - For arguments with option flags (like -h or --help),
-        it uses the first option flag for ordering
-        - For arguments without option flags, it uses the argument's name
+          it uses the first option flag for ordering.
+        - For arguments without option flags, it uses the argument's name.
         - For arguments with aliases flags (like config or conf),
-        it uses the non-alias action word for ordering
+          it uses the non-alias action word for ordering.
 
         Examples
         --------
         >>> argparse.ArgumentParser(formatter_class=SortingHelpFormatter)
         >>> parser.add_argument('-z', '--zeta')
         >>> parser.add_argument('-a', '--alpha')
-        # Help text will now show '-a, --alpha' before '-z, --zeta'
+        # Help text will show '-a, --alpha' before '-z, --zeta'
         """
         actions = sorted(
             actions, key=lambda x: x.option_strings[0] if x.option_strings else x.dest
