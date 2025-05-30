@@ -70,7 +70,7 @@ class SectorProjection(PermissiveFrozenModel):
             ),
         ),
     ]
-    ellps: str = Field(
+    ellipsoid: str = Field(
         "GRS80",
         description=(
             "The name of a built-in ellipsoid definition. "
@@ -482,7 +482,7 @@ class TCMetadata(FrozenModel):
             ..., strict=True, gt=0, description="Pressure of the storm in millibars."
         ),
     ]
-    vmax: Annotated[
+    velocity_max: Annotated[
         float,
         Field(
             ...,
@@ -491,13 +491,13 @@ class TCMetadata(FrozenModel):
             description="Maximum velocity in knots of the storm.",
         ),
     ]
-    clat: Annotated[
+    center_lat: Annotated[
         float,
         Field(
             ..., strict=True, ge=-90, le=90, description="Center latitude of the storm."
         ),
     ]
-    clon: Annotated[
+    center_lon: Annotated[
         float,
         Field(
             ...,

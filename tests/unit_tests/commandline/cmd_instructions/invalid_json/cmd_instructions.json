@@ -48,7 +48,7 @@
         },
         "get_package": {
             "help_str": "Retrieve the appropriate GeoIPS Package alongside descriptive information of\nthat package. See output_info for each datum provided when this command is\ncalled. For a listing of available GeoIPS packages, run:\n`geoips list packages`.\n",
-            "usage_str": "To use, type `geoips get package <package_name>`, where <package_name> is a\nvalid GeoIPS Package.\n",
+            "usage_str": "To use, type `geoips get package <package-name>`, where <package-name> is a\nvalid GeoIPS Package.\n",
             "output_info": [
                 "GeoIPS Package",
                 "Docstring",
@@ -123,7 +123,7 @@
             ]
         },
         "list_scripts": {
-            "help_str": "List off scripts found under all, or a specified GeoIPS package. This information\ncan then be used with `geoips run <package_name> <script_name>` to run a certain\nprocess workflow, defined in a bash script.\n",
+            "help_str": "List off scripts found under all, or a specified GeoIPS package. This information\ncan then be used with `geoips run <package-name> <script_name>` to run a certain\nprocess workflow, defined in a bash script.\n",
             "usage_str": "To use, type `geoips list scripts`. Optionally includes `-p` flag for\nseeing what scripts are in a certain package (-p). For example, to see what\nscripts have been created in a single package, run\n`geoips list scripts -p <pkg_name>`, or you can remove the `-p` flag to see what's\nbeen created in every package.\n",
             "output_info": [
                 "Package",
@@ -140,7 +140,7 @@
         },
         "list_unit-tests": {
             "help_str": "List off unit-tests used in a certain GeoIPS Package.\nThis data can be used to run unit tests via `geoips test unit-test ...`.\n",
-            "usage_str": "To use, type `geoips list unit-tests -p <package_name>`.\n",
+            "usage_str": "To use, type `geoips list unit-tests -p <package-name>`.\n",
             "output_info": [
                 "GeoIPS Package",
                 "Unit Test Directory",
@@ -149,7 +149,7 @@
         },
         "run": {
             "help_str": "Run a geoips process workflow (procflow), given a GeoIPS package and a script\nname. This will do the exact same thing as being in the directory of a certain\nscript, and running it via `./<script_name>`. To see what scripts are available,\nyou can run `geoips list-scripts <-p>`, where `-p` can be used alongside a GeoIPS\nPackage name if you want scripts from a single package.\n",
-            "usage_str": "To use, type `geoips run -p <package_name> <script_name>`.\n",
+            "usage_str": "To use, type `geoips run -p <package-name> <script_name>`.\n",
             "output_info": [
                 "Log Output of the Process Workflow (Procflow)"
             ]
@@ -163,21 +163,21 @@
         },
         "test_linting": {
             "help_str": "Run all GeoIPS linters on a specific GeoIPS Package. This will test whether or not\nthe code you wrote adheres to the specified coding conventions set up by GeoIPS.\nDefaults to the 'geoips' package.\n",
-            "usage_str": "To use, type `geoips test linting -p <package_name>`.\n",
+            "usage_str": "To use, type `geoips test linting -p <package-name>`.\n",
             "output_info": [
                 "Output of the Linters"
             ]
         },
         "test_script": {
             "help_str": "Runs a specific test script (integration-based or normal), found within a certain\nGeoIPS package. If this is specified as an integration test, this will only work\nusing the 'geoips' package. Use '--integration' to specify that the script\nis integration-based. Defaults to the 'geoips' package.\n",
-            "usage_str": "To use, type `geoips test script -p <package_name> <--integration> <script_name>`.\n",
+            "usage_str": "To use, type `geoips test script -p <package-name> <--integration> <script_name>`.\n",
             "output_info": [
                 "Output of the Script Being Ran"
             ]
         },
         "test_unit-test": {
             "help_str": "Run tests unit-test[s] implemented in a certain GeoIPS package. This command\nexpects that the unit tests implemented are pytest-based. Defaults to the 'geoips'\npackage.\n",
-            "usage_str": "To use, type\n`geoips test unit-test -p <package_name> <directory_name> <-n> <script_name>`\n",
+            "usage_str": "To use, type\n`geoips test unit-test -p <package-name> <directory_name> <-n> <script_name>`\n",
             "output_info": [
                 "Output of the Unit Test Being Ran"
             ]
