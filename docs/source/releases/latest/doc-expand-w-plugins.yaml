@@ -3,9 +3,8 @@ documentation:
   description: 'Added comprehensive documentation for output checkers and formatters, including detailed explanations of how they work, their importance in the testing process, and practical examples of their usage.'
   files:
     added: # important changes
-    - 'docs/source/concepts/architecture/interfaces/module_based/output-formatters/index.rst'
+    - 'docs/source/concepts/architecture/interfaces/module_based/output-checkers/index.rst'
     - 'docs/source/releases/latest/doc-expand-w-plugins.yaml'
-    - 'docs/source/tutorials/extending-with-plugins/procflow.rst'
     modified: # pink formatting and adding the above pages to index files
     - 'docs/source/concepts/architecture/documentation/index.rst'
     - 'docs/source/concepts/architecture/documentation/where-to-put.rst'
