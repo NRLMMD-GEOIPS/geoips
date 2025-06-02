@@ -72,7 +72,7 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         ----------
         actions : list
             A collection of command-line argument definitions to be sorted.
-        
+
         Details
         -------
         Sorting works as follows:
