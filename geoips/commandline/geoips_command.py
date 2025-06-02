@@ -73,8 +73,8 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         actions : list
             A collection of command-line argument definitions to be sorted.
 
-        Details
-        -------
+        Notes
+        -----
         Sorting works as follows:
 
         - For arguments with option flags (like -h or --help),
