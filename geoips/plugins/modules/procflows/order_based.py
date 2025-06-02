@@ -15,7 +15,7 @@ family = "standard"
 name = "order_based"
 
 
-def call(fnames, workflow_name, command_line_args=None):
+def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
 
     Process the specified input data files using the OBP in the order of steps
@@ -23,28 +23,25 @@ def call(fnames, workflow_name, command_line_args=None):
 
     Parameters
     ----------
+    workflow: str
+        The name of the workflow to process.
     fnames : list of str
         List of filenames from which to read data.
-    workflow_name: str
-        The name of the workflow to process.
     command_line_args : list of str, None
         Command line arguments to pass to the workflow.
     """
-    LOG.interactive(f"Begin processing '{workflow_name}' workflow.")
-    wf_plugin = interfaces.workflows.get_plugin(workflow_name)
+    LOG.interactive(f"Begin processing '{workflow}' workflow.")
+    wf_plugin = interfaces.workflows.get_plugin(workflow)
     wf = WorkflowPluginModel(**wf_plugin)
 
-    for step in wf.spec.steps:
-        step_def = step.definition
-        #  Tab spaces and newline escape sequences will be removed later.
-        #  I added them for formatting purposes and the reviewer's convenience.
-        #  The severity level will eventually be moved to info.
-        interface = step_def.type + "s"
+    handled_interfaces = ["readers"]
+    for step_id, step_def in wf.spec.steps.items():
+        interface = step_def.kind + "s"
 
-        handled_interfaces = ["readers"]
         if interface not in handled_interfaces:
             LOG.interactive(
-                "Skipping unhandled interface %s. Would call %s plugin.",
+                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
+                "plugin.",
                 interface,
                 step_def.name,
             )
@@ -52,11 +49,13 @@ def call(fnames, workflow_name, command_line_args=None):
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
             LOG.interactive(
-                "Calling %s %s plugin with the following arguments: \n\t%s",
+                "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
+                step_id,
+                step_def.kind,
                 step_def.name,
-                step_def.type,
-                step_def.arguments,
             )
+            LOG.info("Arguments: '%s'", step_def.arguments)
+
             if interface == "readers":
                 # TEMPORARY FIX: Remove when all readers are updated to accept
                 # "variables"
@@ -67,18 +66,19 @@ def call(fnames, workflow_name, command_line_args=None):
             else:
                 data = plg(data, **step_def.arguments)
             LOG.interactive(
-                "Finished %s %s plugin.",
+                "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
+                step_id,
                 step_def.name,
-                step_def.type,
+                step_def.kind,
             )
 
-    LOG.interactive(f"The workflow '{workflow_name}' has finished processing.")
+    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 
 
 if __name__ == "__main__":
 
     parser = ArgumentParser(description="order-based procflow processing")
+    parser.add_argument("workflow", help="The workflow name to process.")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
-    parser.add_argument("-w", "--workflow_name", help="The workflow name to process.")
     args = parser.parse_args()
-    call(args.fnames, args.workflow_name)
+    call(args.workflow, args.fnames)

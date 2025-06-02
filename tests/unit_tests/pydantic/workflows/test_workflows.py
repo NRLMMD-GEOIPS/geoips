@@ -8,7 +8,7 @@
 
 # Third-Party Libraries
 # from pydantic import ValidationError
-# import pytest
+import pytest
 
 # GeoIPS Libraries
 from geoips.pydantic import workflows
@@ -25,17 +25,32 @@ from geoips.pydantic import workflows
 """Test to validate a product definition."""
 
 
-def test_bad_get_plugin_types_missing_types(valid_plugin_types):
-    """Test get_plugin_types call to check there are no missing plugin types."""
+def test_bad_get_plugin_types_missing_types(valid_plugin_kinds):
+    """Test get_plugin_kinds call to check there are no missing plugin kinds."""
     assert not (
-        set(valid_plugin_types) - set(workflows.get_plugin_types())
-    ), "Missing plugin type(s)"
+        set(valid_plugin_kinds) - set(workflows.get_plugin_kinds())
+    ), "Missing plugin kind(s)"
 
 
-def test_bad_get_plugin_types_unexpected_or_new_plugin_type(valid_plugin_types):
-    """Tests get_plugin_types call to check for no unexpected plugin is reported."""
-    unexpected_types = set(workflows.get_plugin_types()) - set(valid_plugin_types)
-    assert not unexpected_types, (
-        f"Unexpected new plugin type(s): {unexpected_types}."
-        "Update the test or check the function implementation."
-    )
+def test_good_get_plugin_names_valid_kind():
+    """Test get_plugin_names call with a valid plugin kind."""
+    plugin_names = workflows.get_plugin_names("reader")
+
+    assert isinstance(plugin_names, list)
+    for plugin in plugin_names:
+        assert isinstance(plugin, str)
+        # assert plugin
+
+
+def test_bad_get_plugin_names_invalid_kind(caplog):
+    """Test get_plugin_names call with an invalid plugin kind."""
+    with caplog.at_level("CRITICAL"):
+        with pytest.raises(AttributeError) as exec_info:
+            workflows.get_plugin_names("invalid_plugin_kind")
+
+        assert "is not a recognized plugin kind." in str(exec_info.value)
+
+        # Check that critical log was made
+        assert any(
+            "is not a recognized plugin kind." in message for message in caplog.messages
+        )

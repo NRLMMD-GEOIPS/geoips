@@ -11,7 +11,7 @@ from shutil import get_terminal_size
 import json
 from pathlib import Path
 import logging
-from importlib import metadata, resources
+from importlib import metadata, resources, import_module
 
 from tabulate import tabulate
 import numpy as np
@@ -20,6 +20,30 @@ from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
+
+
+def get_interface_module(namespace):
+    """Retrieve the interface module from a given namespace.
+
+    Since this function uses the first portion of a namespace, I.e.
+    (geoips.plugin_packages --> geoips), only interfaces implemented in that exact
+    package will be recognized in that namespace. This means that if developers or users
+    implement new interfaces in the 'geoips.plugin_packages' namespace, they still won't
+    be recognized or available for use in GeoIPS.
+
+    To get new interfaces to work, you must implement them in a separate namespace that
+    is named the same as the plugin package that implemented them. I.e.
+    (splunk.plugin_packages --> splunk). Any other package that falls under that
+    namespace can make use of these interfaces, as well as GeoIPS' interfaces.
+
+    Parameters
+    ----------
+    namespace: str
+        - The namespace containg the requested interface module. I.e.
+          'geoips.plugin_packages'.
+    """
+    package_name = namespace.split(".")[0]
+    return import_module(package_name).interfaces
 
 
 def remove_unsupported_kwargs(module, requested_kwargs):
@@ -395,7 +419,7 @@ def replace_geoips_paths(
     if base_paths is None:
         base_paths = geoips_paths
 
-    # These are the environment vriables that are specified in base_paths.py.
+    # These are the environment variables that are specified in base_paths.py.
     # Eventually we will want to pull these directly from the environment config,
     # for now explicitly list env vars here.
     if replace_paths is None:

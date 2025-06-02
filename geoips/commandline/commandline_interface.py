@@ -7,7 +7,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips list' and 'geoips run'
 """
 
-from os.path import basename
+from os.path import basename, dirname, join
 import sys
 
 from colorama import Fore, Style
@@ -21,6 +21,7 @@ from geoips.commandline.geoips_run import GeoipsRun
 from geoips.commandline.geoips_test import GeoipsTest
 from geoips.commandline.geoips_tree import GeoipsTree
 from geoips.commandline.geoips_validate import GeoipsValidate
+from geoips.commandline.log_setup import setup_logging
 
 
 class GeoipsCLI(GeoipsCommand):
@@ -106,12 +107,36 @@ class GeoipsCLI(GeoipsCommand):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.
             self.GEOIPS_ARGS.exe_command(self.GEOIPS_ARGS)
+            return self.GEOIPS_ARGS
         else:
             print(
                 # f'"{self.GEOIPS_ARGS.command}" command requires a subcommand.\n\n'
                 f"{self.GEOIPS_ARGS.command_parser.format_usage()}"
             )
             sys.exit(2)
+
+
+def deprecate_create_plugin_registries():
+    """Deprecate the 'create_plugin_registries' command if it was supplied.
+
+    If 'create_plugin_registries' was called, convert that command to
+    'geoips config create-registries' and print a deprecation warning. These two
+    commands are equivalent, however we are transitioning to the sole use of the CLI
+    rather than unconnected console scripts.
+    """
+    if basename(sys.argv[0]) == "create_plugin_registries":
+        LOG = setup_logging(logging_level="warning")
+        LOG.warning(
+            msg=(
+                "'create_plugin_registries' is deprecated. Please use 'geoips config "
+                "create-registries' from now on. This functionality will be removed in "
+                "the future."
+            ),
+            stacklevel=2,
+        )
+        sys.argv[0] = join(dirname(sys.argv[0]), "geoips")
+        sys.argv.append("config")
+        sys.argv.append("create-registries")
 
 
 def support_legacy_procflows():
@@ -129,7 +154,8 @@ def support_legacy_procflows():
         - The truth value as to whether or not a legacy procflow call was used
     """
     defined_procflow = None
-    supported_procflows = ["config_based", "data_fusion", "single_source"]
+    # Including '-h' here as we need to be able to support help messages for this cmd
+    supported_procflows = ["config_based", "data_fusion", "single_source", "-h"]
     if (
         basename(sys.argv[0]) == "geoips"
         and len(sys.argv) > 2
@@ -190,15 +216,27 @@ def print_beta_warning():
     )
 
 
-def main():
-    """Entry point for GeoIPS command line interface (CLI)."""
+def main(suppress_args=True):
+    """Entry point for GeoIPS command line interface (CLI).
+
+    Parameters
+    ----------
+    suppress_args: bool, (default=True)
+        - Whether or not we want to suppress the arguments returned from the CLI.
+          If False, return the argument namespace. Used for unit testing.
+    """
+    # Support legacy 'run_procflow' calls if applicable
     legacy = support_legacy_procflows()
+    # Deprecate 'create_plugin_registries' if called
+    deprecate_create_plugin_registries()
     # Initialize the CLI and all of its commands
     geoips_cli = GeoipsCLI(legacy=legacy)
     # Execute the called command
-    geoips_cli.execute_command()
+    args = geoips_cli.execute_command()
     # Notify that the user is in Beta development status right now.
     print_beta_warning()
+    if not suppress_args:
+        return args
 
 
 if __name__ == "__main__":

@@ -3,7 +3,15 @@
 
 """Sector interface module."""
 
+from cartopy import feature as cfeature
+import numpy as np
+from pyresample import kd_tree
+
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
+from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
+
+# Uncomment when ready to switch from JsonSchema to Pydantic
+# from geoips.pydantic.sectors import SectorPluginModel
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop
@@ -11,7 +19,7 @@ from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 # def center_to_area_definition(sector):
 #     """Return a pyresample AreaDefinition for the input sector.
 #
-#     The input sector must supply location information in the "center" format.
+#     The input sector must supply location information in the center format.
 #     """
 #     if not sector.family.startswith("center"):
 #         raise ValueError("Sector does not supply location as center coordinates.")
@@ -69,17 +77,76 @@ class SectorPluginBase(BaseYamlPlugin):
         #     ad = corners_to_area_definition(self)
         return ad
 
-    def create_test_plot(self, fname, return_fig_ax_map=False):
-        """Create a test PNG image for this sector."""
-        from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-        from cartopy import feature as cfeature
+    def create_test_plot(self, fname, return_fig_ax_map=False, overlay=False):
+        """Create a test PNG image for this sector.
 
-        fig, ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            self.area_definition.shape[1],
-            self.area_definition.shape[0],
-            self.area_definition,
-            noborder=True,
-        )
+        Parameters
+        ----------
+        fname: str
+            - The full path to the output image.
+        return_fix_ax_map: bool, default=False
+            - Whether or not we should save the image to disk or return the figure,
+              axes, and mapobj variables in memory
+        overlay: bool, default=False
+            - If true, overlay this sector on the global grid and make it slightly
+              transparent. Useful for projecting tiny sectors on the global grid to get
+              a sense of where they'll end up and what they'll look like.
+
+        """
+        if overlay:
+            global_sector = sectors.get_plugin("global_cylindrical")
+            global_area_def = global_sector.area_definition
+            fig, ax, mapobj = create_figure_and_main_ax_and_mapobj(
+                global_area_def.shape[1],
+                global_area_def.shape[0],
+                global_area_def,
+                noborder=True,
+            )
+
+            # Create a dummy 2D numpy array of data for self.area_definition
+            data_overlay = np.ones(self.area_definition.shape) * 10  # or real data
+
+            # Reproject data_overlay to the global grid
+            resampled_data = kd_tree.resample_nearest(
+                self.area_definition,
+                data_overlay,
+                global_area_def,
+                radius_of_influence=14000,  # Not sure what to set here. I chose 14km
+                fill_value=np.nan,
+            )
+
+            # Normalize to 0–1 range; this additionally masks out pixels we don't want
+            # to color.
+            norm = np.nan_to_num(resampled_data)
+            norm = (norm - norm.min()) / (norm.max() - norm.min() + 1e-6)
+
+            data_overlay = np.zeros(resampled_data.shape + (4,), dtype=np.float32)
+            # This produces a Vivid Green Color
+            data_overlay[..., 0] = 0.282
+            data_overlay[..., 1] = 1.0
+            data_overlay[..., 2] = 0
+            data_overlay[..., 3] = norm * 0.5
+
+            # Plot overlay data (with transparency) on the global grid
+            ax.imshow(
+                data_overlay,
+                transform=mapobj,
+                extent=(
+                    global_area_def.area_extent[0],
+                    global_area_def.area_extent[2],
+                    global_area_def.area_extent[1],
+                    global_area_def.area_extent[3],
+                ),
+                origin="upper",
+            )
+
+        else:
+            fig, ax, mapobj = create_figure_and_main_ax_and_mapobj(
+                self.area_definition.shape[1],
+                self.area_definition.shape[0],
+                self.area_definition,
+                noborder=True,
+            )
         ax.add_feature(cfeature.COASTLINE)
         ax.add_feature(cfeature.BORDERS)
         if fname is not None:
@@ -93,6 +160,8 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
+    # Uncomment when ready to switch from JsonSchema to Pydantic
+    # validator = SectorPluginModel
 
 
 sectors = SectorsInterface()
