@@ -415,6 +415,7 @@ class BaseYamlInterface(BaseInterface):
     validator = YamlPluginValidator()
     interface_type = "yaml_based"
     name = "BaseYamlInterface"
+    use_pydantic = False
 
     def __new__(cls):
         """YAML plugin interface new method."""

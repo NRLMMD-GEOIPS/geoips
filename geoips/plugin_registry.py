@@ -17,15 +17,14 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import util, metadata, resources
-from inspect import isclass
+from importlib import import_module, util, metadata, resources
+# from inspect import isclass
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
 import json
-import pydantic
 import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
@@ -359,6 +358,7 @@ class PluginRegistry:
 
         return metadata
 
+
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
         """Get a YAML plugin by its name.
 
@@ -482,12 +482,20 @@ class PluginRegistry:
         plugin["abspath"] = abspath
         plugin["relpath"] = relpath
 
-        if isclass(interface_obj.validator) and issubclass(
-            pydantic.BaseModel, interface_obj.validator
-        ):
-            validated = interface_obj.validator(**plugin)
+        # if isclass(interface_obj.validator) and issubclass(
+        #     pydantic.BaseModel, interface_obj.validator
+        # ):
+        #     validated = interface_obj.validator(**plugin)
+        # else:
+        #     validated = interface_obj.validator.validate(plugin)
+
+        if getattr(interface_obj, "use_pydantic", False):
+            # validated = model.load_plugin(**plugin)
+            validated = interface_obj.validator.load_plugin(plugin)
+            print("\n\n\n Pydantic \n")
         else:
             validated = interface_obj.validator.validate(plugin)
+            print("\n\n\n Without Pydantic \n")
 
         return interface_obj._plugin_yaml_to_obj(name, validated)
 
