@@ -47,7 +47,7 @@ from geoips.interfaces import sectors
 #             help="GeoIPS Packages Unit Test Directory Name where unit tests are held.", # NOQA
 #         )
 #         self.parser.add_argument(
-#             "--package_name",
+#             "--package-name",
 #             "-p",
 #             type=str,
 #             default="geoips",
@@ -142,6 +142,16 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             default=f"{environ['GEOIPS_OUTDIRS']}",
             help="The output directory to create your sector image in.",
         )
+        self.parser.add_argument(
+            "--overlay",
+            default=False,
+            action="store_true",
+            help=(
+                "Overlay this sector on the global_cylindrical grid. Useful for testing"
+                "small sectors, where their domain might be difficult to interpret in "
+                "a geospatial context."
+            ),
+        )
 
     def __call__(self, args):
         """Create the provided sector image based off the arguments provided.
@@ -158,6 +168,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
         """
         sector_name = args.sector_name
         outdir = args.outdir
+        overlay = args.overlay
         # If the path to outdir doesn't already exist, make that path
         if not exists(outdir):
             makedirs(outdir)
@@ -185,7 +196,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
                 f"named '{sector_name}' and run 'create_plugin_registries'."
             )
         print(f"Creating {fname}.")
-        sect.create_test_plot(fname)
+        sect.create_test_plot(fname, overlay=overlay)
 
 
 class GeoipsTestScript(GeoipsExecutableCommand):
@@ -200,7 +211,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
         Currently the "geoips test script" command supports this format:
             - geoips test script <-p> <package_name> <script_name> <--integration>
         Where:
-            - <package_name> is any GeoIPS package that is installed and recognized by
+            - <package-name> is any GeoIPS package that is installed and recognized by
               the GeoIPS Library
             - <script_name> is the name of the bash script being tested
             - '--integration' represents whether or not this is an 'integration' test
@@ -211,7 +222,7 @@ class GeoipsTestScript(GeoipsExecutableCommand):
             help="GeoIPS Script to be tested",
         )
         self.parser.add_argument(
-            "--package_name",
+            "--package-name",
             "-p",
             type=str,
             default="geoips",
@@ -293,7 +304,7 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
     def add_arguments(self):
         """Add arguments to the test-subparser for the Test Linting Command."""
         self.parser.add_argument(
-            "--package_name",
+            "--package-name",
             "-p",
             type=str,
             default="geoips",
@@ -326,7 +337,7 @@ class GeoipsTestLinting(GeoipsExecutableCommand):
 
 
 class GeoipsTest(GeoipsCommand):
-    """Top-Level Test Command for testing GeoIPS and its corresponding Packages."""
+    """Top-Level test command for testing GeoIPS and its corresponding packages."""
 
     name = "test"
     command_classes = [GeoipsTestLinting, GeoipsTestScript, GeoipsTestSector]

@@ -65,7 +65,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #         """
 #         # An error occurred using args. Assert that args is not valid and check the
 #         # output of the error.
-#         err_str = "To use, type\n`geoips test unit-test -p <package_name> "
+#         err_str = "To use, type\n`geoips test unit-test -p <package-name> "
 #         err_str += "<directory_name> <-n> <script_name>`"
 #         assert err_str in error
 
@@ -81,7 +81,7 @@ See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information
 #         """
 #         # The args provided are valid, so test that the output is actually correct
 #         if "-h" in args:
-#             help_str = "To use, type\n`geoips test unit-test -p <package_name> "
+#             help_str = "To use, type\n`geoips test unit-test -p <package-name> "
 #             help_str += "<directory_name> <-n> <script_name>`"
 #             assert help_str in output
 #         else:
