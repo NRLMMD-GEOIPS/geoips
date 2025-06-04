@@ -33,8 +33,10 @@ class CustomHelpFormatter(
     RawTextHelpFormatter and ArgumentDefaultsHelpFormatter. Additionally, it overrides
     the following methods:
 
-    _format_usage: Overridden to remove long choice strings for commands with many
-        sub-commands.
+    ``_format_usage`` - Overridden to remove long choice strings for commands with many
+    sub-commands.
+
+    ``add_arguments`` - Sorts command line arguments in alphabetical order.
     """
 
     def _format_usage(self, usage, actions, groups, prefix):
@@ -61,51 +63,12 @@ class CustomHelpFormatter(
                 optional_parts.append(f"[{part}]")
 
         usage_line = " ".join(optional_parts)
-        return super()._format_usage(
-            f"{self._prog} {usage_line}\n",
-            actions,
-            groups,
-            prefix,
-        )
 
+        if not prefix:
+            prefix = "Usage:"
 
-class PluginPackages:
-    """Class to hold the plugin packages and their paths.
-
-    This class is used to hold the plugin packages and their paths, which are used
-    throughout the CLI to determine which plugins are available to the user. This
-    class is used in the GeoipsCLI class to determine which plugins are available to
-    the user.
-
-    Moving this to a class reduced GeoIPS CLI startup time by about 30%.
-    """
-
-    def __init__(self):
-        """Initialize the PluginPackages class.
-
-        Initialize the plugin packages and their paths. This is done by using the
-        get_plugin_packages() and get_plugin_package_paths() functions.
-        """
-        self.entrypoints = [
-            ep.value
-            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
-        ]
-        self.paths = [
-            dirname(resources.files(ep.value))
-            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
-        ]
-
-
-plugin_packages = PluginPackages()
-
-
-class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
-    """
-    Help message formatter with arguments sorted alphabetically.
-
-    This custom formatter extends RawTextHelpFormatter to sort command-line
-    arguments alphabetically when displaying help messages.
-    """
+        # Note: The extra space before the newline causes the newline to be respected...
+        return f" \n{prefix} {self._prog} {usage_line} <sub command>\n\n"
 
     def add_arguments(self, actions):
         """
@@ -141,6 +104,54 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         )
         super().add_arguments(actions)
 
+    def start_section(self, heading):
+        """Replace positional arguments heading with "Sub Commands"."""
+        if heading == "positional arguments":
+            heading = "Sub Commands"
+        super().start_section(heading)
+
+    def _format_action_invocation(self, action):
+        if isinstance(action, argparse._SubParsersAction):
+            # Just return a custom label for the positional argument group
+            return ""
+        return super()._format_action_invocation(action)
+
+    # def _format_args(self, action, default_metavar):
+    #     """Replace long list of choices with a simple placeholder."""
+    #     if action.choices:
+    #         return "<subcommand>"
+    #     return super()._format_args(action, default_metavar)
+
+
+class PluginPackages:
+    """Class to hold the plugin packages and their paths.
+
+    This class is used to hold the plugin packages and their paths, which are used
+    throughout the CLI to determine which plugins are available to the user. This
+    class is used in the GeoipsCLI class to determine which plugins are available to
+    the user.
+
+    Moving this to a class reduced GeoIPS CLI startup time by about 30%.
+    """
+
+    def __init__(self):
+        """Initialize the PluginPackages class.
+
+        Initialize the plugin packages and their paths. This is done by using the
+        get_plugin_packages() and get_plugin_package_paths() functions.
+        """
+        self.entrypoints = [
+            ep.value
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
+        ]
+        self.paths = [
+            dirname(resources.files(ep.value))
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
+        ]
+
+
+plugin_packages = PluginPackages()
+
 
 class ParentParsers:
     """Object containing shared arguments for commands in a hierarchical order.
@@ -154,7 +165,7 @@ class ParentParsers:
     shared correctly.
     """
 
-    geoips_parser = argparse.ArgumentParser(formatter_class=AlphabeticalHelpFormatter)
+    geoips_parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
     geoips_parser.add_argument(
         "-log",
         "--log-level",
@@ -166,7 +177,7 @@ class ParentParsers:
     )
 
     list_parser = argparse.ArgumentParser(
-        add_help=False, formatter_class=AlphabeticalHelpFormatter
+        add_help=False, formatter_class=CustomHelpFormatter
     )
     list_parser.add_argument(
         "--package-name",
@@ -411,9 +422,7 @@ class GeoipsCommand(abc.ABC):
         command, as in interfaces, plugins, packages, scripts, etc.
         """
         if len(self.command_classes):
-            self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions."
-            )
+            self.subparsers = self.parser.add_subparsers()
             # Sort subcommands alphabetically:
             sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)
             for subcmd_cls in sorted_command_classes:
