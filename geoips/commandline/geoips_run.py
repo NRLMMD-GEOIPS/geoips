@@ -9,6 +9,7 @@ Runs the appropriate script based on the args provided.
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.interfaces import procflows
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -100,6 +101,42 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
             )
 
 
+class GeoipsRunOrderBased(GeoipsExecutableCommand):
+    """Run command for executing an order based process-workflow (procflow).
+
+    Makes use of workflow plugins and additional commandline arguments that single
+    source would use.
+    """
+
+    name = "order_based"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the run-subparser for the 'run order-based' command."""
+        self.parser.add_argument(
+            "-w",
+            "--workflow",
+            type=str,
+            help="The name of the workflow plugin to execute.",
+        )
+        add_args(parser=self.parser, legacy=self.legacy)
+
+    def __call__(self, args):
+        """Run the provided GeoIPS command.
+
+        In specific, run a GeoIPS order based process-workflow (procflow) to produce
+        some output.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through.
+        """
+        workflow = args.workflow
+        obp = procflows.get_plugin("order_based")
+        obp(workflow, args.filenames, args)
+
+
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
     """Run Command for executing the single source process-workflow (procflow)."""
 
@@ -139,7 +176,8 @@ class GeoipsRun(GeoipsCommand):
 
     name = "run"
     command_classes = [
-        GeoipsRunSingleSource,
         GeoipsRunDataFusion,
         GeoipsRunConfigBased,
+        GeoipsRunOrderBased,
+        GeoipsRunSingleSource,
     ]
