@@ -18,6 +18,7 @@ in all plugins multiple times.
 """
 
 from importlib import import_module, util, metadata, resources
+
 # from inspect import isclass
 import logging
 import os
@@ -357,7 +358,6 @@ class PluginRegistry:
             )
 
         return metadata
-
 
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
         """Get a YAML plugin by its name.

@@ -27,7 +27,6 @@ from geoips.models.bases import (
 import importlib
 
 
-
 LOG = logging.getLogger(__name__)
 
 
@@ -318,9 +317,11 @@ class WorkflowPluginModel(PluginModel):
 
     @classmethod
     def load_plugin(cls, data: dict) -> BaseModel:
+        print("data \n", data)
         try:
             api_version = data["apiVersion"]
-            kind = data["kind"]
+            print("api version \t", api_version)
+            # kind = data["kind"]
         except KeyError as e:
             raise ValueError(f"Missing required field: {e}")
 
