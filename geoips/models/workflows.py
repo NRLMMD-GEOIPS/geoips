@@ -322,7 +322,7 @@ class WorkflowPluginModel(PluginModel):
         try:
             api_version = data["apiVersion"]
             print("api version \t", api_version)
-            kind = data["kind"]
+            # kind = data["kind"]
         except KeyError as e:
             raise ValueError(f"Missing required field: {e}")
 
@@ -338,12 +338,12 @@ class WorkflowPluginModel(PluginModel):
 
         # Construct module path and import
         try:
-            module = importlib.import_module(f"{package_name}.pydantic.{model_version}")
+            module = importlib.import_module(f"{package_name}.version.{model_version}")
         except ImportError as e:
             raise ImportError(f"Could not import models from '{api_version}': {e}")
 
         # Get the class matching `kind`
-        model_name = f"{kind}PluginModel"
+        # model_name = f"{kind}PluginModel"
         try:
             model_class = getattr(module, model_name)
         except AttributeError:
