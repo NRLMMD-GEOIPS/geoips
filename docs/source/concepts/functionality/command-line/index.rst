@@ -185,6 +185,8 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 
     geoips list plugins -p <package_name>
 
+.. _geoips_list_scripts:
+
 list scripts
 ^^^^^^^^^^^^
 
@@ -216,6 +218,35 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 .. code-block:: bash
 
     geoips list scripts -p <package_name>
+    
+.. _geoips_list_registries:
+
+:ref:`geoips list registries <geoips_list_registries>`
+
+``list registries`` lists plugin registries for each package
+returns:
+
+    * GeoIPS Package
+    * JSON Path
+    * YAML Path
+
+This outputs absolute paths by default.
+If passed a ``--relpath`` flag it will output relative paths.
+
+By default, this only lists plugin registries for 
+packages in the ``geoips.plugin_packages`` namespace.
+You may pass ``--namespace <different_namespace>``
+to list plugin registries in a different namespace.
+It is unlikely that you will need to do this.
+
+For example:
+
+.. code-block:: bash
+
+    geoips list registries
+    geoips list registries --relpath
+    geoips list registries --namespace <different_namespace>
+
 
 list source-names
 ^^^^^^^^^^^^^^^^^
@@ -428,13 +459,60 @@ For example:
 
 .. code-block:: bash
 
-    geoips config install <test_dataset_name>
+    geoips cfg install test_data_clavrx
     geoips config install test_data_clavrx
+    geoips config install test_data_clavrx test_data_noaa_aws
+    geoips config install all
+
 
 .. note::
 
     To list installable test datasets,
     see ``geoips list test-datasets``.
+    
+
+.. _geoips_config_create-registries:
+
+:ref:`geoips config create-registries <geoips_config_create-registries>`
+
+``config create-registries`` creates plugin registry files.
+These files for GeoIPS to locate and use plugins.
+You should never edit these files.
+
+
+This occurs in the ``geoips.plugin_packages`` namespace by default. 
+It contains all plugin packages registered under GeoIPS.
+You may specify a different name space.
+
+You can pass ``--packages`` to limit the plugins processed. 
+
+JSON files are output by default. 
+You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
+ 
+
+For example:
+
+::
+
+    geoips config create-registries
+    geoips config create-registries --packages geoips geoips_clavrx
+    geoips config create-registries --save-type yaml
+    geoips config create-registries --namespace <different_namespace>
+
+.. _geoips_config_delete-registries:
+
+:ref:`geoips config delete-registries <geoips_config_delete-registries>`
+
+``config delete-registries`` removes the plugin registry files. 
+If no registry files are found, nothing occurs. For example:
+
+::
+
+    geoips config delete-registries
+    geoips config delete-registries --packages geoips geoips_clavrx
+    geoips config delete-registries --namespace <different_namespace>
+
+.. _geoips_run:
 
 run
 ---
@@ -540,8 +618,8 @@ For example:
 
     geoips test sector <sector_name>
 
-An additional output directory can be specified with ``--outdir``. For example:
 
+An additional output directory can be specified with ``--outdir``. For example:
 .. code-block:: bash
 
     geoips test sector <sector_name> --outdir <output_directory_path>
@@ -552,8 +630,12 @@ to add the sector to your registry.
 Once added, this command can produce an image to
 help confirm the region and resolution of that sector.
 
-For example, if you were to run ``geoips test sector canada``, the image below would
-be saved to ``$GEOIPS_OUTDIRS/canada.png``.
+You can overlay a sector on the ``global_cylindrical`` grid if desired. 
+This is useful for small sectors. For example:
+
+.. code-block:: bash
+
+    geoips test sector canada --overlay
 
 .. image:: canada.png
    :width: 800
