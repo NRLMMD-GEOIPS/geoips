@@ -10,6 +10,7 @@ from copy import deepcopy
 from shutil import get_terminal_size
 import json
 from pathlib import Path
+import requests
 import logging
 from importlib import metadata, resources, import_module
 
@@ -20,6 +21,32 @@ from geoips.errors import PluginRegistryError, PluginPackageNotFoundError
 from geoips.filenames.base_paths import PATHS as geoips_paths
 
 LOG = logging.getLogger(__name__)
+
+
+def get_remote_file_size(url):
+    """Get the file size of a remote URL.
+
+    Parameters
+    ----------
+    url: str
+        - The url used to access a remote file.
+
+    Returns
+    -------
+    size: str
+        - The size of the file in appropriate units (I.e. MB, GB, ...).
+    """
+    try:
+        response = requests.head(url, allow_redirects=True, timeout=5)
+        size_bytes = int(response.headers.get("Content-Length", 0))
+        # Convert to human-readable
+        for unit in ["B", "KB", "MB", "GB", "TB"]:
+            if size_bytes < 1024:
+                return f"{size_bytes:.1f} {unit}"
+            size_bytes /= 1024
+        return f"{size_bytes:.1f} PB"
+    except Exception:
+        return "Unkwown"
 
 
 def get_interface_module(namespace):

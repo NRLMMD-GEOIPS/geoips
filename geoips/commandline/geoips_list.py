@@ -21,7 +21,7 @@ from geoips.commandline.geoips_command import (
     GeoipsCommand,
     GeoipsExecutableCommand,
 )
-from geoips.geoips_utils import is_editable
+from geoips.geoips_utils import is_editable, get_remote_file_size
 from geoips import interfaces
 
 
@@ -344,6 +344,36 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         """
         pass
 
+    def size_to_bytes(self, size):
+        """Convert a string formatted '<num> <unit>' to bytes.
+
+        Where bytes is a numerical value calculated via the input string.
+
+        Parameters
+        ----------
+        size: str
+            - The size of the file formatted as '<num> <units>'.
+
+        Returns
+        -------
+        bytes: float
+            - The number of bytes calculated from 'size'.
+        """
+        if size.lower() == "unavailable":
+            return -1  # Sort these to the bottom
+        num, unit = size.split()
+        num = float(num)
+        unit = unit.upper()
+        units = {
+            "B": 1,
+            "KB": 1024,
+            "MB": 1024**2,
+            "GB": 1024**3,
+            "TB": 1024**4,
+            "PB": 1024**5,
+        }
+        return num * units.get(unit, 1)
+
     def __call__(self, args):
         """List all of the test datasets used by GeoIPS.
 
@@ -361,7 +391,11 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         if args.package_name != "all":
             self.parser.error("Error: '-p' flag is not supported for this command")
         dataset_info = []
-        default_headers = {"data_host": "Data Host", "dataset_name": "Dataset Name"}
+        default_headers = {
+            "data_host": "Data Host",
+            "dataset_name": "Dataset Name",
+            "size": "Size",
+        }
         headers = self._get_headers_by_command(args, default_headers)
         for test_dataset_name in list(test_dataset_dict.keys()):
             dataset_entry = []
@@ -370,7 +404,14 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
                     dataset_entry.append("io.cira.colostate.edu")
                 elif header == "dataset_name":
                     dataset_entry.append(test_dataset_name)
+                elif header == "size":
+                    dataset_entry.append(
+                        get_remote_file_size(test_dataset_dict[test_dataset_name])
+                    )
             dataset_info.append(dataset_entry)
+        if "size" in headers:
+            # Sort in order of largest file to smallest file
+            dataset_info.sort(key=lambda entry: -1 * self.size_to_bytes(entry[-1]))
         print("-" * len("Available Test Datasets"))
         print("Available Test Datasets")
         print("-" * len("Available Test Datasets"))
