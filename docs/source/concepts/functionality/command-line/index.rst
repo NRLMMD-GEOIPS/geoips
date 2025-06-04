@@ -531,8 +531,8 @@ For example:
 test sector
 ^^^^^^^^^^^
 
-``sector`` produces a .png image based on the provided sector plugin name. The sector
-must be an entry within any Plugin Package's registered_plugins.(yaml/json) file.
+This command produces a .png image depicting the area of interest covered by the sector
+including any coastlines contained in the sector.
 
 For example:
 
