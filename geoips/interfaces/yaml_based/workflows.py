@@ -4,8 +4,6 @@
 """Workflow interface module."""
 
 import logging
-from pydantic import BaseModel
-
 
 from geoips.interfaces.base import BaseYamlInterface
 from geoips.models.workflows import WorkflowPluginModel

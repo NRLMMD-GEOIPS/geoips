@@ -317,17 +317,20 @@ class WorkflowPluginModel(PluginModel):
 
     @classmethod
     def load_plugin(cls, data: dict) -> BaseModel:
+        """Drat."""
         print("data \n", data)
         try:
             api_version = data["apiVersion"]
             print("api version \t", api_version)
-            # kind = data["kind"]
+            kind = data["kind"]
         except KeyError as e:
             raise ValueError(f"Missing required field: {e}")
 
         # Split "package_name/model_version"
-        # We can use package_name to select the appropriate package to search for the api.
-        # This way, we could access the api from geoips_real_time by using geoips_real_time/v1.
+        # We can use package_name to select the appropriate package to search for the
+        # api.
+        # This way, we could access the api from geoips_real_time by using
+        # geoips_real_time/v1.
         try:
             package_name, model_version = api_version.split("/")
         except ValueError:

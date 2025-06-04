@@ -17,7 +17,7 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import import_module, util, metadata, resources
+from importlib import util, metadata, resources
 
 # from inspect import isclass
 import logging
