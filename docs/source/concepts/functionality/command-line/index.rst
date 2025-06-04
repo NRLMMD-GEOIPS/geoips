@@ -552,24 +552,28 @@ Run Command
 
 .. _geoips_run_single_source:
 
+.. _geoips_run_order_based:
+
 .. _geoips_run_config_based:
 
 .. _geoips_run_data_fusion:
 
 :ref:`geoips run <geoips_run>`
 
-:ref:`geoips run single source <geoips_run_single_source>`
+:ref:`geoips run single_source <geoips_run_single_source>`
+
+:ref:`geoips run order_based <geoips_run_order_based>`
 
 :ref:`geoips run config_based <geoips_run_config_based>`
 
-:ref:`geoips run data fusion <geoips_run_data_fusion>`
+:ref:`geoips run data_fusion <geoips_run_data_fusion>`
 
 Currently, GeoIPS creates all outputs defined by products via a processing workflow
 (procflow). These processing workflows are written as a bash script, which tells GeoIPS
 what plugins will be used and how they will be processed. While this works for the time
 being, we are largely refactoring the way in which outputs will be produced by using an
-order-based procflow. We eventually want to specify the order in which a procflow
-executes using a ``steps`` attribute in your ``product`` / ``product_defaults``.
+order-based procflow. This will be a procflow which executes ``steps`` in order of how
+that attribute is specified in the ``workflow`` plugin.
 
 ``run`` does exactly what ``run_procflow`` and ``data_fusion_procflow`` currently do. To
 preserve test scripts that were written prior to this PR, we've implemented a
