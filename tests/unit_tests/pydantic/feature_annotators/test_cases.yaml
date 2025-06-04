@@ -2,12 +2,12 @@ docstring_missing_period:
   key: docstring
   val: The default_oldlace feature_annotators plugin
   cls: PluginModel
-  err_str: Description must start with a letter / number and endwith a period.
+  warn_match: Description must start with a letter / number and endwith a period.
 docstring_invalid_first_character:
   key: docstring
   val: ~he default_oldlace feature_annotators plugin.
   cls: PluginModel
-  err_str: Description must start with a letter / number and endwith a period.
+  warn_match: Description must start with a letter / number and endwith a period.
 spec_missing_coastline:
   key: spec
   val:

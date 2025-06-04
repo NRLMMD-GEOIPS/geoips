@@ -10,7 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
-from typing import Union, Tuple
+from typing import ClassVar, Union, Tuple
 import warnings
 
 # Third-Party Libraries
@@ -24,10 +24,13 @@ from pydantic import (
 from pydantic_core import PydanticCustomError
 from pydantic.functional_validators import AfterValidator
 from typing_extensions import Annotated
-
+from pydantic._internal._model_construction import (
+    ModelMetaclass,
+)  # internal API, but safe to use
 
 # GeoIPS imports
 from geoips import interfaces
+from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
 
@@ -147,7 +150,7 @@ def python_identifier(val: str) -> str:
 PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
 
 
-def get_interfaces() -> set[str]:
+def get_interfaces(namespace) -> set[str]:
     """Return a set of distinct interfaces.
 
     This function returns all available plugin interfaces. The results are cached for
@@ -158,14 +161,45 @@ def get_interfaces() -> set[str]:
     set of str
         set of interfaces
     """
-    return {
-        available_interfaces
-        for ifs in interfaces.list_available_interfaces().values()
-        for available_interfaces in ifs
-    }
+    if namespace == "geoips.plugin_packages":
+        return {
+            available_interfaces
+            for ifs in interfaces.list_available_interfaces().values()
+            for available_interfaces in ifs
+        }
+    else:
+        mod = get_interface_module(namespace)
+        return set(mod.__all__)
 
 
-class PluginModel(FrozenModel):
+class PluginModelMetadata(ModelMetaclass):
+    """API version and namespace metadata for the corresponding plugin model.
+
+    This is used to derive 'apiVersion' and 'namespace' for any given PluginModel.
+    PluginModel can be instantiated directly or a child class of PluginModel can be
+    instantiated and the functionality will for the same.
+
+    Initially attempted to use __init_subclass__ in the PluginModel class itself, but
+    that only supported child classes of PluginModel (i.e. WorkflowPluginModel, ...),
+    but not instantiation of PluginModel itself.
+
+    NOTE: Need to inherit from ModelMetaclass, otherwise we'll wind up with this error:
+
+    E TypeError: metaclass conflict: the metaclass of a derived class must be a
+    (non-strict) subclass of the metaclasses of all its bases
+    """
+
+    def __new__(mcs, name, bases, namespace, **kwargs):
+        """Instantiate a new PluginModelMetadata class."""
+        cls = super().__new__(mcs, name, bases, namespace)
+        # Set apiVersion if not already set
+        if not hasattr(cls, "apiVersion") or cls.apiVersion is None:
+            cls.apiVersion = "geoips/v1"
+        cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+        return cls
+
+
+class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     """Base Plugin model for all GeoIPS plugins.
 
     This should be used as the base class for all top-level
@@ -176,6 +210,9 @@ class PluginModel(FrozenModel):
     <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/plugin_development/product_default.rst>`_
     for more information about how this is used.
     """
+
+    apiVerson: ClassVar[str | None] = None
+    _namespace: ClassVar[str | None] = None
 
     interface: PythonIdentifier = Field(
         ...,
@@ -218,14 +255,18 @@ class PluginModel(FrozenModel):
         # name is guaranteed to exist due to Pydantic validation.
         # No need to raise an error for 'name'.
         interface_name = values.get("interface")
+        if cls._namespace == "geoips.plugin_packages":
+            ints = interfaces
+        else:
+            ints = get_interface_module(cls._namespace)
         try:
-            metadata = getattr(interfaces, interface_name).get_plugin_metadata(
+            metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
             )
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
-                f"Must be one of {get_interfaces()}"
+                f"Must be one of {get_interfaces(cls._namespace)}"
             )
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the future issue #906
@@ -262,7 +303,7 @@ class PluginModel(FrozenModel):
         ValueError
             If the 'interface' field value is not in the list of valid interfaces.
         """
-        valid_interfaces = get_interfaces()
+        valid_interfaces = get_interfaces(cls._namespace)
         if value not in valid_interfaces:
             err_msg = f"Invalid interface:'{value}'. Must be one of {valid_interfaces}"
             LOG.critical(err_msg, exc_info=True)
