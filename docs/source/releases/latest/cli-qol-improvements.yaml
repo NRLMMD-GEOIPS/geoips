@@ -1,0 +1,27 @@
+enhancement:
+- title: 'CLI QOL Improvements'
+  description: |
+    Made various quality of life (QOL) improvements to the CLI for the upcoming GeoIPS
+    tutorial. This PR updated both `geoips list test-datasets`` and `geoips config
+    install` to include information on the file sizes of the remote test datasets.
+
+    `geoips config install` now asks the user whether or not they want to install one
+    or more datasets after they've seen the size of the compressed file. `geoips list
+    test-datasets` includes an additional column containing the file sizes of each
+    remote test dataset.
+
+    Other changes include spelling fixes, and updates to the format of any `geoips
+    describe`. Formatting changes make output info (namely docstrings) much cleaner.
+  files:
+    modified:
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_config.py
+      - geoips/commandline/geoips_describe.py
+      - geoips/commandline/geoips_list.py
+      - geoips/geoips_utils.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
