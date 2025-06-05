@@ -1,101 +1,88 @@
 name: geoips_cmd_instructions
 instructions:
   geoips_config:
-    help_str: |
-      Various configuration-based commands for setting up your geoips environment.
-      Currently supports `geoips config install ...` and
-      `geoips config <create/delete-registries>` commands.
+    help_str: "Commands for setting up the geoips environment."
+    description: |
+      The `geoips config` command's subcommands allow the user to configure their GeoIPS
+      environment. This includes configuring GeoIPS' behavior (NOT IMPLEMENTED),
+      managing it's plugin registries, and installing static datasets required for
+      certain algorithms and for integration tests.
     usage_str: |
       To use, type `geoips config <cmd> <sub-command> ...`
     output_info:
       - Output related to config process that was run.
   geoips_config_install:
-    help_str: |
-      Install appropriate test dataset(s) based on the arguments provided. To see a list
-      of available test datasets for install, run `geoips list test-datasets`. If
-      wanting to install data to a location different that $GEOIPS_TESTDATA_DIR, then
-      use the -o (outdir) option and provide a full path to the directory you desire to
-      install data in.
+    help_str: "Install static datasets for use certain algorithms or integration tests."
+    description: |
+      The `geoips config install` command installs static datasets required by GeoIPS.
+      Some of these datasets are required for certain algorithms (e.g. LUTs for Rayleigh
+      scattering correction). Others are test datasets for use with GeoIPS' integration
+      tests.
 
-      Optionally, you can run the command 'geoips config install all', which will
-      install all test datasets listed in 'geoips list test-datasets'. If 'all' is
-      provided, no other dataset can be specified.
-    usage_str: |
-      To use, type `geoips config install <test_dataset_names> -o <full_path>`.
+      A list of available datasets can be obtained by running `geoips list
+      test-datasets`.
+
+      Data will be downloaded to `$GEOIPS_TESTDATA_DIR` by default. This can be
+      overridden by providing a path via the `-o/--outdir` option.
+
+      To install all available datasets, use `geoips config install all`. Note that this
+      will require more than 100GB of space.
     output_info:
       - Not Applicable
   geoips_config_create-registries:
-    help_str: |
-      Create plugin registries for one or more plugin packages of a certain namespace.
-      By default, this command uses namespace 'geoips.plugin_packages', but this can
-      be overridden with the -n (--namespace) flag. If you want to create plugin
-      registries for a subset of packages of the specified namespace, you can provide
-      the -p (--packages) flag, which should be a list of one or more package names
-      to create plugin registries for that fall under 'namespace'. Additionally, you
-      can add the -s (--save_type) flag, which is a string that can be either 'json' or
-      'yaml', specifiying the file format of your registry. By default, GeoIPS expects
-      'json' as the file format to use, and that is the default of this flag.
+    help_str: "Create plugin registries for installed plugin packages."
+    description: |
+      The `geoips config create-registries` command creates plugin registries for plugin
+      packages found in the specified namespace.
+
+      ** This should not be required unless the user has disabled automatic registry
+      generation. **
+
+      When called, by default, `geoips config create-registries` will find all plugin
+      packages installed in the `geoips` namespace and generate a plugin registry in
+      json format for each. If a different namespace is desired, `-n/--namespace` may be
+      provided to specify that namespace. A subset of the available packages can be
+      operated on by providing `-p/--packages`. The format can be specified by passing
+      `-s/--save_type`.
     usage_str: |
       To use, type `geoips config create-registries -n <namespace> -s <save_type>
       -p <packages>`.
     output_info:
       - Not Applicable
   geoips_config_delete-registries:
-    help_str: |
-      Delete plugin registries in one or more plugin packages of a certain namespace.
-      By default, this command uses namespace 'geoips.plugin_packages', but this can
-      be overridden with the -n (--namespace) flag. If you want to delete plugin
-      registries for a subset of packages of the specified namespace, you can provide
-      the -p (--packages) flag, which should be a list of one or more package names
-      to create plugin registries for that fall under 'namespace'.
+    help_str: "Delete plugin registries for installed plugin packages."
+    description: |
+      Delete plugin registries for plugin packages found in the specified namespace.
+
+      This should not be required unless the user has disabled automatic registry
+      generation.
+
+      When called, by default, `geoips config delete-registries` will find all plugin
+      packages installed in the `geoips` namespace any plugin registries that it finds.
+      If a different namespace is desired, `-n/--namespace` may be
+      provided to specify that namespace. A subset of the available packages can be
+      operated on by providing `-p/--packages`.
     usage_str: |
       To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
-    help_str: |
-      Retrieve information about a GeoIPS artifact. For this command, an artifact is one
-      of ['interface', 'plugin', 'family']. To get more information on how to
-      retrieve these artifacts, see below.
+    help_str: "Print detailed information about a GeoIPS artifact."
+    description: |
+      The `geoips describe` command prints detailed information about a specific GeoIPS
+      artifact where an artifact can be a registered plugin package, a plugin interface,
+      or a plugin.
 
-      * Interface:
-          * Command Signature:
-              * `geoips describe <interface_name>`
-          * Artifact Listing:
-              * `geoips list interfaces`
-          * output_info:
-              * Absolute Path
-              * Docstring
-              * Interface Name
-              * Interface Type
-              * Supported Families
-
-      * Plugin:
-          * Command Signature:
-              * `geoips describe <interface_name> <plugin_name>`
-          * Artifact Listing:
-              * `geoips list plugins <-p> <package-name>`
-          * Output Info:
-              * Docstring
-              * Family Name
-              * GeoIPS Package
-              * Interface Name
-              * Plugin Type
-              * call_sig / source_names / Product Defaults (dependent on Plugin Type)
-              * Relative Path
-
-      * Family:
-          * Command Signature:
-              * `geoips describe <interface_name> family <family_name>`
-          * Artifact Listing:
-              * `geoips list interfaces --columns interface supported_families`
-          * Output Info:
-              * Docstring
-              * Family Name
-              * Family Path
-              * Interface Name
-              * Interface Type
-              * Required Arguments / Schema
+      To get information on different types of artifacts, use the command forms below:
+        - Plugin Packages: `geoips describe package <package_name>`
+          For example, `geoips describe package geoips_clavrx` would return information
+          on the `geoips_clavrx` package.
+        - Interfaces: `geoips describe <interface_name>`
+          For example, `geoips describe readers` would return information regarding the
+          readers interface.
+        - Plugins: `geoips describe <interface_name> <plugin_name>`
+          For example, `geoips describe reader abi_netcdf` would retrun information
+          regarding the `abi_netcdf` reader plugin.
     usage_str: |
       To use, type `geoips describe <interface_name> <sub-cmd> ...`.
     output_info:
@@ -137,6 +124,7 @@ instructions:
   #     - Interface Name
   #     - Interface Type
   #     - Required Args / Schema
+  geoips_describe_interface: *geoips-describe-artifact
   # geoips_describe_interface:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Interface alongside descriptive information of
@@ -153,21 +141,7 @@ instructions:
   #     - Interface Name
   #     - Interface Type
   #     - Supported Families
-  geoips_describe_package:
-    help_str: |
-      Retrieve the appropriate GeoIPS Package alongside descriptive information of
-      that package. See output_info for each datum provided when this command is
-      called. For a listing of available GeoIPS packages, run:
-      `geoips list packages`.
-    usage_str: |
-      To use, type `geoips describe package <package-name>`, where <package-name> is a
-      valid GeoIPS Package.
-    output_info:
-      - GeoIPS Package
-      - Docstring
-      - Package Path
-      - Source Code
-      - Version Number
+  geoips_describe_package: *geoips-describe-artifact
   # geoips_describe_plugin:
   #   help_str: |
   #     Retrieve the appropriate GeoIPS Plugin alongside descriptive information of
@@ -187,17 +161,19 @@ instructions:
   #     - Relative Path
   #     - Plugin Specific Info (signature / source_names / available overrides)
   geoips_list:
-    help_str: |
-      List off available GeoIPS artifacts provided further commands. Current artifacts
-      available for listing are: ["algorithms", "colormappers", "coverage_checkers",
-      "databases",
-      "filename_formatters", "interpolators", "output_checkers", "output_formatters",
-      "procflows", "readers", "sector_adjusters", "sector_metadata_generators",
-      "sector_spec_generators", "title_formatters", "feature_annotators",
-      "gridline_annotators", "product_defaults", "products", "sectors", "interfaces",
-      "packages", "plugins", "scripts", "test-datasets", "unit-tests"].
-    usage_str: |
-      To use, type `geoips list <cmd> <sub-cmd>`.
+    help_str: "Print a table containing summaries of a list of GeoIPS artifacts."
+    description: |
+      The `geoips list` command prints a table containing a summary of a list of GeoIPS
+      artifacts. Which artifacts are listed is determined by the arguments provided to
+      `geoips list`. Artifacts that can be listed include:
+        - Installed plugin packages.
+        - The plugin interfaces provided by GeoIPS.
+        - All plugins registered to a particular interfaces.
+        - Integration test scripts provided by the plugin packages (if available).
+        - Static datasets available for download (see `geoips config install`).
+        - Unit tests.
+    # usage_str: |
+    #   To use, type `geoips list <cmd> <sub-cmd>`.
     output_info:
       - Additional info related to the artifact[s] being listed.
   geoips_list_common:
@@ -360,43 +336,47 @@ instructions:
       - GeoIPS Package
       - Unit Test Directory
       - Unit Test Name
-  geoips_run:
+  geoips_run: &geoips-run
+    help_str: "Run a GeoIPS procflow."
     help_str: |
-      Run a specified geoips process workflow (procflow) plugin. See
-      'geoips run single_source' or 'geoips run data_fusion' for more information of
-      what arguments to provide.
+      The `geoips run` command runs the specified procflow plugin. Currently availabe
+      procflows include `single_source`, `config_based`, and `data_fusion` (if the
+      data_fusion package is installed).
     usage_str: |
       To use, type `geoips run <procflow_name> **<procflow_arguments>`.
     output_info:
       - Log output of the specified procflow ran over certain products.
-  geoips_run_config_based:
-    help_str: |
-      Run the config based process workflow. For more information of the
-      arguments available, either run 'geoips run config_basd -h', or view the arguments
-      set up in geoips.commandline.args:add_args
-    usage_str: |
-      To use, type `geoips run data_fusion **<data_fusion_args>`.
-    output_info:
-      - Log Output of the Data Fusion Process Workflow (Procflow)
-  geoips_run_data_fusion:
-    help_str: |
-      Run the data fusion process workflow. This process workflow is built on top of the
-      native 'single_source' procflow with extra arguments. For more information of the
-      arguments available, either run 'geoips run data_fusion -h', or view the arguments
-      set up in data_fusion.commandline.args:add_args
-    usage_str: |
-      To use, type `geoips run data_fusion **<data_fusion_args>`.
-    output_info:
-      - Log Output of the Data Fusion Process Workflow (Procflow)
-  geoips_run_single_source:
-    help_str: |
-      Run the native geoips single source process workflow. For more information of the
-      arguments available, either run 'geoips run single_source -h', or view the
-      arguments set up in geoips.commandline.args:add_args
-    usage_str: |
-      To use, type `geoips run single_source **<single_source_args>`.
-    output_info:
-      - Log Output of the Single Source Process Workflow (Procflow)
+  geoips_run_config_based: *geoips-run
+  geoips_run_data_fusion: *geoips-run
+  geoips_run_single_source: *geoips-run
+  # geoips_run_config_based:
+  #   help_str: |
+  #     Run the config based process workflow. For more information of the
+  #     arguments available, either run 'geoips run config_basd -h', or view the arguments
+  #     set up in geoips.commandline.args:add_args
+  #   usage_str: |
+  #     To use, type `geoips run data_fusion **<data_fusion_args>`.
+  #   output_info:
+  #     - Log Output of the Data Fusion Process Workflow (Procflow)
+  # geoips_run_data_fusion:
+  #   help_str: |
+  #     Run the data fusion process workflow. This process workflow is built on top of the
+  #     native 'single_source' procflow with extra arguments. For more information of the
+  #     arguments available, either run 'geoips run data_fusion -h', or view the arguments
+  #     set up in data_fusion.commandline.args:add_args
+  #   usage_str: |
+  #     To use, type `geoips run data_fusion **<data_fusion_args>`.
+  #   output_info:
+  #     - Log Output of the Data Fusion Process Workflow (Procflow)
+  # geoips_run_single_source:
+  #   help_str: |
+  #     Run the native geoips single source process workflow. For more information of the
+  #     arguments available, either run 'geoips run single_source -h', or view the
+  #     arguments set up in geoips.commandline.args:add_args
+  #   usage_str: |
+  #     To use, type `geoips run single_source **<single_source_args>`.
+  #   output_info:
+  #     - Log Output of the Single Source Process Workflow (Procflow)
   geoips_test:
     help_str: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
