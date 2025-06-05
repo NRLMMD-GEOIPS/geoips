@@ -213,7 +213,7 @@ class GeoipsCommand(abc.ABC):
                 self.cmd_instructions = cmd_instructions
             try:
                 # If the command's name exists w/in the alias mapping, then
-                # add thoss aliases to the parser, otherwise just set it as an empty
+                # add those aliases to the parser, otherwise just set it as an empty
                 # list.
                 aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
                 # Attempt to create a sepate sub-parser for the specific command
@@ -349,7 +349,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
     def __init__(self, LOG, parent=None, legacy=False):
         """Initialize GeoipsExecutableCommand.
 
-        This is a child of GeoipsCommand and will invoke the functionaly of
+        This is a child of GeoipsCommand and will invoke the functionality of
         GeoipsCommand __init__ func alongside additional logic needed to set up
         executable-based commands. This will instantiate each subcommand class with a
         parser and point towards the correct default function to call if that subcommand
@@ -374,7 +374,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
               suppressing or displaying help information for '--procflow'.
         """
         super().__init__(LOG=LOG, parent=parent, legacy=legacy)
-        # Since this class is exectuable (ie. not the cli, top-level list...),
+        # Since this class is executable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
         self.add_arguments()

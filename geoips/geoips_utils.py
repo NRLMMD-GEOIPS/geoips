@@ -23,22 +23,29 @@ from geoips.filenames.base_paths import PATHS as geoips_paths
 LOG = logging.getLogger(__name__)
 
 
-def get_remote_file_size(url):
+def get_remote_file_size(url, in_bytes=False):
     """Get the file size of a remote URL.
 
     Parameters
     ----------
     url: str
         - The url used to access a remote file.
+    in_bytes: bool, default=False
+        - A flag representing whether or not this function should return the size of the
+          file in bytes rather than a human readable string.
 
     Returns
     -------
-    size: str
-        - The size of the file in appropriate units (I.e. MB, GB, ...).
+    size: str or int
+        - If in_bytes is False, returns the human readable size of the file in
+          appropriate units (I.e. MB, GB, ...).
+        - Else returns the raw size of the file in bytes.
     """
     try:
         response = requests.head(url, allow_redirects=True, timeout=5)
         size_bytes = int(response.headers.get("Content-Length", 0))
+        if in_bytes:
+            return size_bytes
         # Convert to human-readable
         for unit in ["B", "KB", "MB", "GB", "TB"]:
             if size_bytes < 1024:
