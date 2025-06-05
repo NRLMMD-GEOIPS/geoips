@@ -19,8 +19,10 @@ functionality.
 
 CLI commands are split up into two groups by their functionality:
 
- - `Discovery commands`_
- - `Action commands`_
+ - `Discovery commands`_ help you discover available GeoIPS functionality
+   (e.g. interfaces, plugins, etc.)
+ - `Action commands`_ perform actions using GeoIPS functionality (e.g.
+   configure GeoIPS, run a procflow, install test datasets, run tests, etc.))
 
 You can find the automatically created CLI usage documentation `here <./command_line_autodoc>`_.
 
@@ -51,13 +53,14 @@ Many GeoIPS commands and subcommands have aliases for convenience. Common aliase
 - ``cfg`` for ``config``
 - ``val`` for ``validate``
 
-These aliases can be used interchangeably with their full command names throughout the CLI.
+These aliases can be used interchangeably with their full command names
+throughout the CLI and can be seen in the output from ``-h/--help``.
 
 Discovery Commands
 ==================
 
-The CLI Implements two top-level commands that retrieve information about GeoIPS
-artifacts: ``list`` and ``describe``.
+The CLI Implements two top-level discovery commands that retrieve information
+about GeoIPS artifacts: ``list`` and ``describe``.
 
 list
 ----
@@ -218,7 +221,7 @@ You can filter by package with ``--package-name`` or ``-p``. For example:
 .. code-block:: bash
 
     geoips list scripts -p <package_name>
-    
+
 .. _geoips_list_registries:
 
 :ref:`geoips list registries <geoips_list_registries>`
@@ -233,7 +236,7 @@ returns:
 This outputs absolute paths by default.
 If passed a ``--relpath`` flag it will output relative paths.
 
-By default, this only lists plugin registries for 
+By default, this only lists plugin registries for
 packages in the ``geoips.plugin_packages`` namespace.
 You may pass ``--namespace <different_namespace>``
 to list plugin registries in a different namespace.
@@ -469,7 +472,7 @@ For example:
 
     To list installable test datasets,
     see ``geoips list test-datasets``.
-    
+
 
 .. _geoips_config_create-registries:
 
@@ -480,15 +483,15 @@ These files for GeoIPS to locate and use plugins.
 You should never edit these files.
 
 
-This occurs in the ``geoips.plugin_packages`` namespace by default. 
+This occurs in the ``geoips.plugin_packages`` namespace by default.
 It contains all plugin packages registered under GeoIPS.
 You may specify a different name space.
 
-You can pass ``--packages`` to limit the plugins processed. 
+You can pass ``--packages`` to limit the plugins processed.
 
-JSON files are output by default. 
+JSON files are output by default.
 You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
- 
+
 
 For example:
 
@@ -503,7 +506,7 @@ For example:
 
 :ref:`geoips config delete-registries <geoips_config_delete-registries>`
 
-``config delete-registries`` removes the plugin registry files. 
+``config delete-registries`` removes the plugin registry files.
 If no registry files are found, nothing occurs. For example:
 
 ::
@@ -630,7 +633,7 @@ to add the sector to your registry.
 Once added, this command can produce an image to
 help confirm the region and resolution of that sector.
 
-You can overlay a sector on the ``global_cylindrical`` grid if desired. 
+You can overlay a sector on the ``global_cylindrical`` grid if desired.
 This is useful for small sectors. For example:
 
 .. code-block:: bash
