@@ -355,8 +355,8 @@ class GeoipsDescribePackage(GeoipsExecutableCommand):
 
         docstring = import_module(package_name).__doc__
         package_entry = {
+            "Docstring": docstring,
             "GeoIPS Package": package_name,
-            "Docstring": format_docstring(docstring, use_regex=False),
             "Package Path": package_path,
             "Source Code": f"{self.github_org_url}{package_name}",
             "Version Number": metadata.version(package_name),

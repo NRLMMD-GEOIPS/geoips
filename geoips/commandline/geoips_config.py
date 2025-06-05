@@ -17,6 +17,7 @@ from tqdm import tqdm
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.geoips_utils import get_remote_file_size
 from geoips.plugin_registry import PluginRegistry
 
 
@@ -154,17 +155,26 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                     "location for the contents of the test dataset."
                 )
             else:
-                print(
-                    f"Installing {test_dataset_name} test dataset. This may take a "
-                    "while..."
+                file_size = get_remote_file_size(test_dataset_url)
+                do_install = input(
+                    f"Remote compressed file size is {file_size} in size. The "
+                    "uncompressed file size will likely be larger.\nAre you sure you "
+                    "want to install it? [y/n]. "
                 )
-                self.download_extract_test_data(test_dataset_url, outdir)
-                out_str = (
-                    f"Test dataset '{test_dataset_name}' has been installed under "
-                    f"{outdir}/{test_dataset_name}/"
-                )
-                # Print the output of the command.
-                print(out_str)
+                if do_install.lower() == "y":
+                    print(
+                        f"Installing {test_dataset_name} test dataset. This may take a "
+                        "while..."
+                    )
+                    self.download_extract_test_data(test_dataset_url, outdir)
+                    out_str = (
+                        f"Test dataset '{test_dataset_name}' has been installed under "
+                        f"{outdir}/{test_dataset_name}/"
+                    )
+                    # Print the output of the command.
+                    print(out_str)
+                else:
+                    print(f"Skipping installation of {test_dataset_name}.")
 
     def download_extract_test_data(self, url, download_dir):
         """Download the specified URL and write it to the corresponding download_dir.

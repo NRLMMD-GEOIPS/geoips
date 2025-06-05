@@ -17,7 +17,6 @@ from shutil import get_terminal_size
 
 from colorama import Fore, Style
 from tabulate import tabulate
-import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
@@ -421,23 +420,26 @@ class GeoipsExecutableCommand(GeoipsCommand):
         plugin_entry: dict
             - The dictionary of info for a certain plugin in the plugin registry.
         """
-        yaml_text = yaml.dump(dict_entry, default_flow_style=False)
+        raw_text = [f"{key}: {val}" for key, val in dict_entry.items()]
         print()
-        for line in yaml_text.split("\n"):
-            # Color the keys in cyan and values in yellow
-            if ":" in line:
-                key, value = line.split(":", 1)
-                key = key.title().replace("_", " ")
-                if key in ["Package", "Geoips Package"]:
-                    key = "GeoIPS Package"
-                elif key == "Relpath":
-                    key = "Relative Path"
-                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
-                print(formatted_line)
-            else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
-                print(formatted_line)
+        for entry in raw_text:
+            for idx, line in enumerate(entry.split("\n")):
+                # Color the keys in cyan and values in yellow
+                # idx == 0 means this is the actual key. Ignore any entry with : after
+                # idx == 0
+                if ":" in line and idx == 0:
+                    key, value = line.split(":", 1)
+                    key = key.title().replace("_", " ")
+                    if key in ["Package", "Geoips Package"]:
+                        key = "GeoIPS Package"
+                    elif key == "Relpath":
+                        key = "Relative Path"
+                    formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
+                    formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+                    print(formatted_line)
+                else:
+                    formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                    print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):
         """Retrieve the correct plugin registry given interface and package name.
