@@ -1,5 +1,6 @@
-apiVersion: geoips/v1
+apiVersion: geoips/v2
 interface: workflows
+test: v2
 family: order_based
 name: read_test
 docstring: |

@@ -34,6 +34,9 @@ from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
 
 
+from pydantic import BaseModel
+import importlib
+
 LOG = logging.getLogger(__name__)
 
 
@@ -359,6 +362,59 @@ class PluginRegistry:
 
         return metadata
 
+
+    def load_plugin(self, data: dict) -> BaseModel:
+        try:
+            api_version = data["apiVersion"]
+            # kind = data["kind"]
+            print("api_version is \t", api_version)
+        except KeyError as e:
+            raise ValueError(f"Missing required field: {e}")
+
+        # Split "package_name/model_version"
+        # We can use package_name to select the appropriate package to search for the api.
+        # This way, we could access the api from geoips_real_time by using geoips_real_time/v1.
+        try:
+            package_name, model_version = api_version.split("/")
+        except ValueError:
+            raise ValueError(f"Invalid apiVersion format: {api_version}")
+
+        interface = data["interface"]
+        print("interface name is \t", interface)
+        if not interface:
+            raise ValueError("Missing 'interface' field for plugin dispatch")
+
+
+        # Construct module path and import
+        try:
+            module = importlib.import_module(f"{package_name}.models.{model_version}.{interface}")
+        except ImportError as e:
+            raise ImportError(f"Could not import models from '{api_version}': {e}")
+
+
+        interface_base = interface.rstrip("s")
+        model_name = f"{interface_base.title().replace('_', '')}PluginModel"
+
+        print("model name is  \t", model_name)
+
+        try:
+            model_class = getattr(module, model_name)
+            print("model_class is ", model_class)
+        except AttributeError:
+            raise ValueError(f"Model '{model_name}' not found in '{api_version}'")
+
+
+        # # Get the class matching `kind`
+        # model_name = f"{kind}PluginModel"
+        # try:
+        #     model_class = getattr(module, model_name)
+        # except AttributeError:
+        #     raise ValueError(f"Model for kind '{kind}' not found in '{api_version}'")
+
+        # Validate using the correct class
+        return model_class.model_validate(data)
+
+
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
         """Get a YAML plugin by its name.
 
@@ -491,13 +547,15 @@ class PluginRegistry:
 
         if getattr(interface_obj, "use_pydantic", False):
             # validated = model.load_plugin(**plugin)
-            validated = interface_obj.validator.load_plugin(plugin)
+            # validated = load_plugin(**plugin)
+            validated = self.load_plugin(plugin)
+            #  validated = interface_obj.validator.load_plugin(plugin)
             print("\n\n\n Pydantic \n")
+            return validated
         else:
             validated = interface_obj.validator.validate(plugin)
             print("\n\n\n Without Pydantic \n")
-
-        return interface_obj._plugin_yaml_to_obj(name, validated)
+            return interface_obj._plugin_yaml_to_obj(name, validated)
 
     def get_yaml_plugins(self, interface_obj):
         """Retrieve all yaml plugin objects for this interface.

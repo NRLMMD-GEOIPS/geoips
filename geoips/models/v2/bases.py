@@ -207,7 +207,8 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
-    apiVerson: ClassVar[str | None] = None
+    # apiVersion: ClassVar[str | None] = None
+    apiVersion: str = Field(..., description="apiVersion")
     _namespace: ClassVar[str | None] = None
 
     interface: PythonIdentifier = Field(
@@ -215,6 +216,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         description="""Name of the plugin's interface. Run geoips list interfaces to see
         available options.""",
     )
+    test: PythonIdentifier = Field(..., description="Testing for version-2 models")
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")

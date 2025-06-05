@@ -6,7 +6,7 @@
 import logging
 
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.models.workflows import WorkflowPluginModel
+# from geoips.models.workflows import WorkflowPluginModel
 
 
 LOG = logging.getLogger(__name__)
@@ -16,7 +16,7 @@ class WorkflowsInterface(BaseYamlInterface):
     """Interface for workflow plugins."""
 
     name = "workflows"
-    validator = WorkflowPluginModel
+    # validator = WorkflowPluginModel
     use_pydantic = True
 
 

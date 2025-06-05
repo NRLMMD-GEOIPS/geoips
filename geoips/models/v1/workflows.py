@@ -17,12 +17,22 @@ from pydantic import BaseModel, ConfigDict, Field, field_validator, model_valida
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.models.bases import (
+# from geoips.models.bases import (
+#     PythonIdentifier,
+#     PluginModel,
+#     FrozenModel,
+#     PermissiveFrozenModel,
+# )
+
+from geoips.models.v1.bases import (
     PythonIdentifier,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
 )
+
+
+
 
 import importlib
 
@@ -315,39 +325,39 @@ class WorkflowPluginModel(PluginModel):
     model_config = ConfigDict(extra="allow")
     spec: WorkflowSpecModel = Field(..., description="The workflow specification")
 
-    @classmethod
-    def load_plugin(cls, data: dict) -> BaseModel:
-        """Drat."""
-        print("data \n", data)
-        try:
-            api_version = data["apiVersion"]
-            print("api version \t", api_version)
-            kind = data["kind"]
-        except KeyError as e:
-            raise ValueError(f"Missing required field: {e}")
+    # @classmethod
+    # def load_plugin(cls, data: dict) -> BaseModel:
+    #     """Drat."""
+    #     print("data \n", data)
+    #     try:
+    #         api_version = data["apiVersion"]
+    #         print("api version \t", api_version)
+    #         kind = data["kind"]
+    #     except KeyError as e:
+    #         raise ValueError(f"Missing required field: {e}")
 
-        # Split "package_name/model_version"
-        # We can use package_name to select the appropriate package to search for the
-        # api.
-        # This way, we could access the api from geoips_real_time by using
-        # geoips_real_time/v1.
-        try:
-            package_name, model_version = api_version.split("/")
-        except ValueError:
-            raise ValueError(f"Invalid apiVersion format: {api_version}")
+    #     # Split "package_name/model_version"
+    #     # We can use package_name to select the appropriate package to search for the
+    #     # api.
+    #     # This way, we could access the api from geoips_real_time by using
+    #     # geoips_real_time/v1.
+    #     try:
+    #         package_name, model_version = api_version.split("/")
+    #     except ValueError:
+    #         raise ValueError(f"Invalid apiVersion format: {api_version}")
 
-        # Construct module path and import
-        try:
-            module = importlib.import_module(f"{package_name}.version.{model_version}")
-        except ImportError as e:
-            raise ImportError(f"Could not import models from '{api_version}': {e}")
+    #     # Construct module path and import
+    #     try:
+    #         module = importlib.import_module(f"{package_name}.version.{model_version}")
+    #     except ImportError as e:
+    #         raise ImportError(f"Could not import models from '{api_version}': {e}")
 
-        # Get the class matching `kind`
-        model_name = f"{kind}PluginModel"
-        try:
-            model_class = getattr(module, model_name)
-        except AttributeError:
-            raise ValueError(f"Model for kind '{kind}' not found in '{api_version}'")
+    #     # Get the class matching `kind`
+    #     model_name = f"{kind}PluginModel"
+    #     try:
+    #         model_class = getattr(module, model_name)
+    #     except AttributeError:
+    #         raise ValueError(f"Model for kind '{kind}' not found in '{api_version}'")
 
-        # Validate using the correct class
-        return model_class.model_validate(data)
+    #     # Validate using the correct class
+    #     return model_class.model_validate(data)

@@ -6,7 +6,7 @@ import logging
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.models.workflows import WorkflowPluginModel
+# from geoips.models.workflows import WorkflowPluginModel
 
 LOG = logging.getLogger(__name__)
 
@@ -33,7 +33,11 @@ def call(workflow, fnames, command_line_args=None):
     LOG.interactive(f"Begin processing '{workflow}' workflow.")
     wf_plugin = interfaces.workflows.get_plugin(workflow)
     print("Hello", wf_plugin)
-    wf = WorkflowPluginModel(**wf_plugin)
+    wf = wf_plugin
+    print("Type of wf:", type(wf))
+    print("wf dict keys:", list(wf.__dict__.keys()) if hasattr(wf, "__dict__") else dir(wf))
+
+    # wf = WorkflowPluginModel(**wf_plugin)
 
     handled_interfaces = ["readers"]
     for step_id, step_def in wf.spec.steps.items():

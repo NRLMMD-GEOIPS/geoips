@@ -207,7 +207,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
-    apiVerson: ClassVar[str | None] = None
+    apiVersion: ClassVar[str | None] = None
     _namespace: ClassVar[str | None] = None
 
     interface: PythonIdentifier = Field(
