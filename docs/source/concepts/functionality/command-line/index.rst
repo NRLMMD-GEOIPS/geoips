@@ -24,7 +24,9 @@ CLI commands are split up into two groups by their functionality:
  - `Action commands`_ perform actions using GeoIPS functionality (e.g.
    configure GeoIPS, run a procflow, install test datasets, run tests, etc.))
 
-You can find the automatically created CLI usage documentation `here <./command_line_autodoc>`_.
+..
+    Commenting this out for now until the linked document is corrected.
+    You can find the automatically created CLI usage documentation `here <./command_line_autodoc.rst>`_.
 
 .. contents:: Table of Contents
     :local:
@@ -62,7 +64,7 @@ Discovery Commands
 The CLI Implements two top-level discovery commands that retrieve information
 about GeoIPS artifacts: ``list`` and ``describe``.
 
-list
+geoips list
 ----
 
 ``list`` returns information about a GeoIPS artifact, such as:
