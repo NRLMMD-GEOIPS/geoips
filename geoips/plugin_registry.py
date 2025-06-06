@@ -362,10 +362,9 @@ class PluginRegistry:
 
         return metadata
 
-
     def load_plugin(self, data: dict) -> BaseModel:
         """
-        Dynamically load and validate pydantic models based on the provided apiVersion and interface.
+        Dynamically load and validate pydantic models based on apiVersion and interface.
 
         This method parses the `apiVersion` field from the input dictionary to
         determine the package and pydantic model version to use. It then dynamically
@@ -409,10 +408,11 @@ class PluginRegistry:
 
         # Construct module path and import
         try:
-            module = importlib.import_module(f"{package_name}.models.{model_version}.{interface}")
+            module = importlib.import_module(
+                f"{package_name}.models.{model_version}.{interface}"
+            )
         except ImportError as e:
             raise ImportError(f"Could not import models from '{api_version}': {e}")
-
 
         interface_base = interface.rstrip("s")
         model_name = f"{interface_base.title().replace('_', '')}PluginModel"
@@ -424,8 +424,6 @@ class PluginRegistry:
             print("model_class is ", model_class)
         except AttributeError:
             raise ValueError(f"Model '{model_name}' not found in '{api_version}'")
-
-
         # # Get the class matching `kind`
         # model_name = f"{kind}PluginModel"
         # try:
@@ -435,7 +433,6 @@ class PluginRegistry:
 
         # Validate using the correct class
         return model_class.model_validate(data)
-
 
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
         """Get a YAML plugin by its name.

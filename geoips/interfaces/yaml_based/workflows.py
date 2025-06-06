@@ -6,6 +6,7 @@
 import logging
 
 from geoips.interfaces.base import BaseYamlInterface
+
 # from geoips.models.workflows import WorkflowPluginModel
 
 

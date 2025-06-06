@@ -5,6 +5,7 @@
 
 from geoips.interfaces.base import BaseYamlInterface
 
+
 class FeatureAnnotatorsInterface(BaseYamlInterface):
     """Interface for feature annotator plugins."""
 

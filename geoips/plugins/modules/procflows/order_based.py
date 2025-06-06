@@ -6,6 +6,7 @@ import logging
 
 # GeoIPS imports
 from geoips import interfaces
+
 # from geoips.models.workflows import WorkflowPluginModel
 
 LOG = logging.getLogger(__name__)
@@ -35,7 +36,6 @@ def call(workflow, fnames, command_line_args=None):
     print("Hello", wf_plugin)
     wf = wf_plugin
     print("Type of wf:", type(wf))
-    print("wf dict keys:", list(wf.__dict__.keys()) if hasattr(wf, "__dict__") else dir(wf))
 
     # wf = WorkflowPluginModel(**wf_plugin)
 
