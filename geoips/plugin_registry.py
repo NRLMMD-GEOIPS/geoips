@@ -364,11 +364,39 @@ class PluginRegistry:
 
 
     def load_plugin(self, data: dict) -> BaseModel:
+        """
+        Dynamically load and validate pydantic models based on the provided apiVersion and interface.
+
+        This method parses the `apiVersion` field from the input dictionary to
+        determine the package and pydantic model version to use. It then dynamically
+        imports the corresponding Pydantic model classes based on the `interface` field
+        to validate the input data.
+
+        Parameters
+        ----------
+        data : dict
+            Dictionary representing a plugin definition. Must include the `interface`
+            field. May optionally include `apiVersion`. If not present, "geoips/v1" is
+            assumed.
+
+        Returns
+        -------
+        BaseModel
+            A validated Pydantic model instance.
+
+        Raises
+        ------
+        ValueError
+            If `apiVersion` is improperly formatted or if `interface` field is missing.
+        ImportError
+            If the specified module for the given model version cannot be imported.
+        """
         api_version = data.get("apiVersion", "geoips/v1")
 
         # Split "package_name/model_version"
-        # We can use package_name to select the appropriate package to search for the api.
-        # This way, we could access the api from geoips_real_time by using geoips_real_time/v1.
+        # Use package_name to select the appropriate package to search for the api.
+        # This way, we could access the api from geoips_real_time by using
+        # geoips_real_time/v1.
         try:
             package_name, model_version = api_version.split("/")
         except ValueError:
