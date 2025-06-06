@@ -64,7 +64,7 @@ Discovery Commands
 The CLI Implements two top-level discovery commands that retrieve information
 about GeoIPS artifacts: ``list`` and ``describe``.
 
-geoips list
+list
 ----
 
 ``list`` returns information about a GeoIPS artifact, such as:
