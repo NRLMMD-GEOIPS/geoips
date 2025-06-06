@@ -1,5 +1,5 @@
 enhancement:
-- title: 'Adding support for invalid JSON in command-line kwargs. eg. --reader-kwargs'
+- title: 'Add support for invalid JSON in command-line kwargs. eg. --reader-kwargs'
   description: |
     'JSON does not officially support single quotes ( eg. '' ). However, sometimes people include them in command line kwargs. This adds support for single quotes by calling ast.literal_eval instead of json.loads.'
   files:
