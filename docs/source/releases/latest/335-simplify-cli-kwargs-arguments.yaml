@@ -1,7 +1,7 @@
 enhancement:
 - title: 'Adding support for invalid JSON in command-line kwargs. eg. --reader-kwargs'
   description: |
-    'JSON does not officially support single quotes ( eg. '' ). However, sometimes people include them in command line kwargs. This change adds support for single quotes by calling ast.literal_eval instead of json.loads'
+    'JSON does not officially support single quotes ( eg. '' ). However, sometimes people include them in command line kwargs. This adds support for single quotes by calling ast.literal_eval instead of json.loads.'
   files:
     added:
     - 'docs/source/releases/latest/335-simplify-cli-kwargs-arguments.yaml'
