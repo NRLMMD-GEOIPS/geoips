@@ -364,12 +364,7 @@ class PluginRegistry:
 
 
     def load_plugin(self, data: dict) -> BaseModel:
-        try:
-            api_version = data["apiVersion"]
-            # kind = data["kind"]
-            print("api_version is \t", api_version)
-        except KeyError as e:
-            raise ValueError(f"Missing required field: {e}")
+        api_version = data.get("apiVersion", "geoips/v1")
 
         # Split "package_name/model_version"
         # We can use package_name to select the appropriate package to search for the api.
@@ -383,7 +378,6 @@ class PluginRegistry:
         print("interface name is \t", interface)
         if not interface:
             raise ValueError("Missing 'interface' field for plugin dispatch")
-
 
         # Construct module path and import
         try:
