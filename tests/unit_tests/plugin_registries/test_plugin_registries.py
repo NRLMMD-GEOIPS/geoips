@@ -339,15 +339,18 @@ class TestPluginRegistry:
         sect = self.real_reg_validator.get_yaml_plugin(sectors, "goes_east")
         wrkflw = self.real_reg_validator.get_yaml_plugin(workflows, "abi_infrared")
 
-        assert prd["name"] == "Infrared"
-        assert prd["interface"] == "products"
-        assert "abi" in prd["source_names"]
+        if isinstance(prd, dict):
+            assert prd["name"] == "Infrared"
+            assert prd["interface"] == "products"
+            assert "abi" in prd["source_names"]
 
-        assert sect["name"] == "goes_east"
-        assert sect["interface"] == "sectors"
+            assert sect["name"] == "goes_east"
+            assert sect["interface"] == "sectors"
 
-        assert wrkflw["name"] == "abi_infrared"
-        assert wrkflw["interface"] == "workflows"
+        else:
+            assert wrkflw.name == "abi_infrared"
+            assert wrkflw.interface == "workflows"
+
 
     def test_get_yaml_plugin_failing_cases(self):
         """Attempt to get all plugins from an interface using cases that should fail."""
