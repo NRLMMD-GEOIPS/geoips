@@ -12,7 +12,7 @@ from pydantic import ValidationError
 import pytest
 
 # GeoIPS Libraries
-from geoips.models import workflows
+from geoips.models.v1 import workflows
 
 
 # def test_bad_workflow_step_definition_model_

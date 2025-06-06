@@ -8,7 +8,7 @@ from importlib import resources, metadata
 
 from geoips.interfaces.base import YamlPluginValidator
 from geoips.interfaces.yaml_based.products import ProductsPluginValidator
-from geoips.models.workflows import WorkflowPluginModel
+from geoips.models.v1.workflows import WorkflowPluginModel
 
 validator = YamlPluginValidator()
 product_validator = ProductsPluginValidator()

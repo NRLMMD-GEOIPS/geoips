@@ -6,8 +6,8 @@ from importlib.resources import files
 import pytest
 import yaml
 
-from geoips.models.sectors import SectorPluginModel
-from tests.unit_tests.models.utils import (
+from geoips.models.v1.sectors import SectorPluginModel
+from tests.unit_tests.models.v1.utils import (
     PathDict,
     load_test_cases,
     validate_bad_plugin,

@@ -2,7 +2,7 @@
 
 from pydantic import Field
 
-from geoips.models.bases import (
+from geoips.models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
     PluginModel,
