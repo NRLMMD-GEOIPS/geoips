@@ -424,14 +424,7 @@ class PluginRegistry:
             print("model_class is ", model_class)
         except AttributeError:
             raise ValueError(f"Model '{model_name}' not found in '{api_version}'")
-        # # Get the class matching `kind`
-        # model_name = f"{kind}PluginModel"
-        # try:
-        #     model_class = getattr(module, model_name)
-        # except AttributeError:
-        #     raise ValueError(f"Model for kind '{kind}' not found in '{api_version}'")
 
-        # Validate using the correct class
         return model_class.model_validate(data)
 
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
@@ -557,18 +550,8 @@ class PluginRegistry:
         plugin["abspath"] = abspath
         plugin["relpath"] = relpath
 
-        # if isclass(interface_obj.validator) and issubclass(
-        #     pydantic.BaseModel, interface_obj.validator
-        # ):
-        #     validated = interface_obj.validator(**plugin)
-        # else:
-        #     validated = interface_obj.validator.validate(plugin)
-
         if getattr(interface_obj, "use_pydantic", False):
-            # validated = model.load_plugin(**plugin)
-            # validated = load_plugin(**plugin)
             validated = self.load_plugin(plugin)
-            #  validated = interface_obj.validator.load_plugin(plugin)
             print("\n\n\n Pydantic \n")
             return validated
         else:

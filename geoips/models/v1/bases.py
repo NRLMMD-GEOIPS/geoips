@@ -207,7 +207,6 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
-    # apiVersion: ClassVar[str | None] = None
     apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
 
