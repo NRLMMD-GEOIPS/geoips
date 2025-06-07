@@ -402,7 +402,6 @@ class PluginRegistry:
             raise ValueError(f"Invalid apiVersion format: {api_version}")
 
         interface = data["interface"]
-        print("interface name is \t", interface)
         if not interface:
             raise ValueError("Missing 'interface' field for plugin dispatch")
 
@@ -417,11 +416,8 @@ class PluginRegistry:
         interface_base = interface.rstrip("s")
         model_name = f"{interface_base.title().replace('_', '')}PluginModel"
 
-        print("model name is  \t", model_name)
-
         try:
             model_class = getattr(module, model_name)
-            print("model_class is ", model_class)
         except AttributeError:
             raise ValueError(f"Model '{model_name}' not found in '{api_version}'")
 
@@ -552,11 +548,9 @@ class PluginRegistry:
 
         if getattr(interface_obj, "use_pydantic", False):
             validated = self.load_plugin(plugin)
-            print("\n\n\n Pydantic \n")
             return validated
         else:
             validated = interface_obj.validator.validate(plugin)
-            print("\n\n\n Without Pydantic \n")
             return interface_obj._plugin_yaml_to_obj(name, validated)
 
     def get_yaml_plugins(self, interface_obj):
