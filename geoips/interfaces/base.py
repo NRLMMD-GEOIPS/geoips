@@ -555,10 +555,25 @@ class BaseYamlInterface(BaseInterface):
         family_list = []
         plugin_ids = {}
         for plugin in plugins:
-            if plugin.family not in family_list:
-                family_list.append(plugin.family)
-                plugin_ids[plugin.family] = []
-            plugin_ids[plugin.family].append(plugin.id)
+            # if plugin.family not in family_list:
+            #     family_list.append(plugin.family)
+            #     plugin_ids[plugin.family] = []
+            # plugin_ids[plugin.family].append(plugin.id)
+
+            if hasattr(plugin, "model_dump"):
+                pdata = plugin.model_dump()
+            else:
+                pdata = plugin if isinstance(plugin, dict) else plugin.__dict__
+
+            plugin_family = pdata.get("family")
+            plugin_name = pdata.get("name")
+
+            if not plugin_family or not plugin_name:
+                raise ValueError(f"Missing required plugin fields: {pdata}")
+            if plugin_family not in family_list:
+                family_list.append(plugin_family)
+                plugin_ids[plugin_family] = []
+            plugin_ids[plugin_family].append(plugin_name)
 
         output = {
             "all_valid": all_valid,
