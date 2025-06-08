@@ -17,15 +17,15 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import util, metadata, resources
-
-# from inspect import isclass
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
 import json
+from importlib import util, metadata, resources
+import importlib
+from pydantic import BaseModel
 import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
@@ -34,8 +34,6 @@ from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
 
 
-from pydantic import BaseModel
-import importlib
 
 LOG = logging.getLogger(__name__)
 
@@ -549,7 +547,6 @@ class PluginRegistry:
         if getattr(interface_obj, "use_pydantic", False):
             validated = self.load_plugin(plugin)
             return validated
-            # return interface_obj._plugin_yaml_to_obj(name, validated)
         else:
             validated = interface_obj.validator.validate(plugin)
             return interface_obj._plugin_yaml_to_obj(name, validated)

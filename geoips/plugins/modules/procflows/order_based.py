@@ -33,10 +33,9 @@ def call(workflow, fnames, command_line_args=None):
     """
     LOG.interactive(f"Begin processing '{workflow}' workflow.")
     wf_plugin = interfaces.workflows.get_plugin(workflow)
-    wf = wf_plugin
 
     handled_interfaces = ["readers"]
-    for step_id, step_def in wf.spec.steps.items():
+    for step_id, step_def in wf_plugin.spec.steps.items():
         interface = step_def.kind + "s"
 
         if interface not in handled_interfaces:

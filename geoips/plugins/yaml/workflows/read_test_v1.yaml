@@ -1,4 +1,4 @@
-apiVersion: geoips/v2
+apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: read_test_v1
