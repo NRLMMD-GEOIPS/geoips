@@ -20,7 +20,6 @@ reduced startup time for the GeoIPS CLI twenty-fold.
 For information on **how** or **when** to create plugin registries,
 please see `Using Plugin Registries <using-plugin-registries>`_.
 
-
 Plugin Registry Contents
 ------------------------
 

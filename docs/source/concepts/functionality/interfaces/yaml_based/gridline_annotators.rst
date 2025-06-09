@@ -52,7 +52,8 @@ Lines
 The ``lines`` element describes how grid lines are formatted in your image. This
 includes the color of the line, the thickness of the line (in pixels), and the linestyle
 of the line, which matches the ``linestyle`` attribute of a
-`matplotlib.axes.Axes.grid object <https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D.set_linestyle>`_.
+`matplotlib.axes.Axes.grid object
+<https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D.set_linestyle>`_.
 
 Line Arguments
 ^^^^^^^^^^^^^^
@@ -62,7 +63,8 @@ Line Arguments
 ``linewidth`` (required):
     * The width of the grid lines in pixels. This is an integer value and not a float.
 ``linestyle`` (required):
-    * The style of your grid lines. See `set_linestyle <https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D.set_linestyle>`_
+    * The style of your grid lines. See `set_linestyle
+      <https://matplotlib.org/stable/api/_as_gen/matplotlib.lines.Line2D.html#matplotlib.lines.Line2D.set_linestyle>`_
       for more information.
 
 Spacing

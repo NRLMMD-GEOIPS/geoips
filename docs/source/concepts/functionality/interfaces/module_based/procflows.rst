@@ -5,7 +5,6 @@
 
 .. _procflows_functionality:
 
-******************************************
 Processing Workflows (Procflows) in GeoIPS
 ******************************************
 
@@ -23,7 +22,7 @@ Examples of procflow plugins can be found in the list of GeoIPS built-in
 Most cases involving the production of basic imagery will use the
 ``single_source`` procflow. More complex cases may not be able to use ``single_source``,
 but can often be handled by the
-``config_based`` or 
+``config_based`` or
 `data_fusion <https://github.com/NRLMMD-GEOIPS/data_fusion>`_
 procflows.
 
@@ -38,7 +37,8 @@ For example, the single_source procflow is called as follows:
       geoips run single_source
 
 The
-`ABI Infrared <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_
+`ABI Infrared
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/tests/scripts/abi.static.Infrared.imagery_annotated.sh>`_
 test script serves as an example of command line call utilizing the single_source procflow.
 
 2. **Direct Invocation:** Procflows can be called within another program:

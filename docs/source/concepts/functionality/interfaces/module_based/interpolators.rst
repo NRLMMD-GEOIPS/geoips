@@ -5,7 +5,6 @@
 
 .. _interpolators_functionality:
 
-***********************
 Interpolators in GeoIPS
 ***********************
 
