@@ -79,7 +79,7 @@ class TestGeoipsTestScript(BaseCliTest):
             # An error occurred using args. Assert that args is not valid and check the
             # output of the error.
             assert (
-                "geoips test script -p <package_name> <--integration> <script_name>`"
+                "geoips test script -p <package-name> <--integration> <script_name>`"
                 in error
             )
 
@@ -96,7 +96,7 @@ class TestGeoipsTestScript(BaseCliTest):
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
             assert (
-                "geoips test script -p <package_name> <--integration> <script_name>`"
+                "geoips test script -p <package-name> <--integration> <script_name>`"
                 in output
             )
         elif "--integration" in args:

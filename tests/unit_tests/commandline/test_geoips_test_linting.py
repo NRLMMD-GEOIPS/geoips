@@ -46,7 +46,7 @@ class TestGeoipsTestLinting(BaseCliTest):
         if editable:
             # An error occurred using args. Assert that args is not valid and check the
             # output of the error.
-            assert "To use, type `geoips test linting -p <package_name>`" in error
+            assert "To use, type `geoips test linting -p <package-name>`" in error
 
     def check_output(self, args, output):
         """Ensure that the 'geoips test linting ...' successful output is correct.
@@ -60,7 +60,7 @@ class TestGeoipsTestLinting(BaseCliTest):
         """
         # The args provided are valid, so test that the output is actually correct
         if "-h" in args:
-            assert "To use, type `geoips test linting -p <package_name>`" in output
+            assert "To use, type `geoips test linting -p <package-name>`" in output
         else:
             # Checking that output from geoips test linting command reports succeeds
             for linter in ["bandit", "black", "flake8"]:
