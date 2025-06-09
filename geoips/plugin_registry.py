@@ -17,14 +17,13 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
+from importlib import import_module, util, metadata, resources
+import json
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
-import json
-from importlib import util, metadata, resources
-import importlib
 from pydantic import BaseModel
 import yaml
 
@@ -405,7 +404,7 @@ class PluginRegistry:
 
         # Construct module path and import
         try:
-            module = importlib.import_module(
+            module = import_module(
                 f"{package_name}.models.{model_version}.{interface}"
             )
         except ImportError as e:

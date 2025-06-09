@@ -7,14 +7,11 @@ import logging
 # GeoIPS imports
 from geoips import interfaces
 
-# from geoips.models.workflows import WorkflowPluginModel
-
 LOG = logging.getLogger(__name__)
 
 interface = "procflows"
 family = "standard"
 name = "order_based"
-
 
 def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
