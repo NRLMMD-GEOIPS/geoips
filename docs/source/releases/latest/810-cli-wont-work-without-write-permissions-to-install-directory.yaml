@@ -6,16 +6,17 @@ enhancement:
     directory. This PR introduces GEOIPS_CACHE_DIR which defaults to platformdirs.user_cache_dir().
     It also reorganizes a bit to move the caching functions to geoips/utils for use by other
     code. This will also be used by the plugin registry. Note, this also adds a new formal
-    depenency on platformdirs, however, this was already a dependency of other dependencies.
+    dependency on platformdirs, however, this was already a dependency of other dependencies.
   files:
     deleted:
-    - 'geoips/commandline/commandline_interface.py'
+    - 'tests/unit_tests/commandline/json_missing/cmd_instructions.yaml'
     moved:
     - ''
     added:
     - 'geoips/utils/cache_files.py'
     - 'tests/unit_tests/utils/cache_files.py'
     modified:
+    - '.cspell.json'
     - 'pyproject.toml'
     - 'geoips/commandline/ancillary_info/__init__.py'
     - 'geoips/commandline/commandline_interface.py'
