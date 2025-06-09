@@ -1,26 +1,9 @@
-bug fix:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
 feature:
 - title: 'Enable Versioned Schema and Models Processing.'
   description: 'Use "apiVersion" to support versioned schema and models validation.'
   files:
     deleted:
+    - 'geoips/plugins/yaml/workflows/read_test.yaml'
     - 'geoips/pydantic/__init__.py'
     - 'geoips/pydantic/bases.py'
     - 'geoips/pydantic/feature_annotators.py'
@@ -39,121 +22,38 @@ feature:
     moved:
     - ''
     added:
+    - 'docs/source/releases/latest/1019-enable-versioned-schema-and-models-using-apiversion.yaml'
     - 'geoips/models/__init__.py'
-    - 'geoips/models/bases.py'
-    - 'geoips/models/feature_annotators.py'
-    - 'geoips/models/sectors.py'
-    - 'geoips/models/workflows.py'
-    - 'tests/unit_tests/models/bases/test_bases.py'
-    - 'tests/unit_tests/models/conftest.py'
-    - 'tests/unit_tests/models/feature_annotators/test_cases.yaml'
-    - 'tests/unit_tests/models/feature_annotators/test_feature_annotators.py'
-    - 'tests/unit_tests/models/sectors/test_cases.yaml'
-    - 'tests/unit_tests/models/sectors/test_sectors.py'
-    - 'tests/unit_tests/models/utils.py'
-    - 'tests/unit_tests/models/workflows/test_reader_arguments_model.py'
-    - 'tests/unit_tests/models/workflows/test_workflow_step_definition_model.py'
-    - 'tests/unit_tests/models/workflows/test_workflows.py'
+    - 'geoips/models/v1/bases.py'
+    - 'geoips/models/v1/feature_annotators.py'
+    - 'geoips/models/v1/sectors.py'
+    - 'geoips/models/v1/workflows.py'
+    - 'geoips/models/v2alpha1/bases.py'
+    - 'geoips/models/v2alpha1/feature_annotators.py'
+    - 'geoips/models/v2alpha1/sectors.py'
+    - 'geoips/models/v2alpha1/workflows.py'
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_v2.yaml'
+    - 'tests/unit_tests/models/v1/bases/test_bases.py'
+    - 'tests/unit_tests/models/v1/conftest.py'
+    - 'tests/unit_tests/models/v1/feature_annotators/test_cases.yaml'
+    - 'tests/unit_tests/models/v1/feature_annotators/test_feature_annotators.py'
+    - 'tests/unit_tests/models/v1/sectors/test_cases.yaml'
+    - 'tests/unit_tests/models/v1/sectors/test_sectors.py'
+    - 'tests/unit_tests/models/v1/utils.py'
+    - 'tests/unit_tests/models/v1/workflows/test_reader_arguments_model.py'
+    - 'tests/unit_tests/models/v1/workflows/test_workflow_step_definition_model.py'
+    - 'tests/unit_tests/models/v1/workflows/test_workflows.py'
     modified:
     - 'geoips/interfaces/base.py'
     - 'geoips/interfaces/yaml_based/feature_annotators.py'
     - 'geoips/interfaces/yaml_based/workflows.py'
     - 'geoips/plugin_registry.py'
     - 'geoips/plugins/modules/procflows/order_based.py'
-    - 'geoips/plugins/yaml/workflows/read_test.yaml'
+    - 'tests/unit_tests/plugin_registries/test_plugin_registries.py'
     - 'tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py'
   related-issue:
-    number: 981
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-deprecation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-removal:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-performance:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-documentation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-continuous integration:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
+    number: 981, 1031, 1032
     repo_url: ''
   date:
     start: null
