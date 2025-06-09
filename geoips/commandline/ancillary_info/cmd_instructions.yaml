@@ -1,18 +1,24 @@
 name: geoips_cmd_instructions
 instructions:
-  geoips_config:
-    help_str: "Commands for setting up the geoips environment."
+  geoips:
+    help_str: "The GeoIPS Command Line Interface (CLI)."
     description: |
-      The `geoips config` command's subcommands allow the user to configure their GeoIPS
-      environment. This includes configuring GeoIPS' behavior (NOT IMPLEMENTED),
-      managing it's plugin registries, and installing static datasets required for
-      certain algorithms and for integration tests.
-    usage_str: |
-      To use, type `geoips config <cmd> <sub-command> ...`
+      The `geoips` command is the main entry point for the Geolocated Information
+      Processing System's (GeoIPS) Command Line Interface (CLI). It provides access to
+      various commands for managing and using GeoIPS.  For a list of available commands,
+      run `geoips --help`.
+    output_info:
+      - N/A
+  geoips_config:
+    help_str: "Configure the geoips environment."
+    description: |
+      The `geoips config` command is used to configure the GeoIPS environment.
+      This includes configuring GeoIPS' behavior (coming soon), installing required
+      static datasets, and managing it's plugin registries.
     output_info:
       - Output related to config process that was run.
   geoips_config_install:
-    help_str: "Install static datasets for use certain algorithms or integration tests."
+    help_str: "Install static datasets for use by certain algorithms or integration tests."
     description: |
       The `geoips config install` command installs static datasets required by GeoIPS.
       Some of these datasets are required for certain algorithms (e.g. LUTs for Rayleigh
@@ -44,9 +50,6 @@ instructions:
       provided to specify that namespace. A subset of the available packages can be
       operated on by providing `-p/--packages`. The format can be specified by passing
       `-s/--save_type`.
-    usage_str: |
-      To use, type `geoips config create-registries -n <namespace> -s <save_type>
-      -p <packages>`.
     output_info:
       - Not Applicable
   geoips_config_delete-registries:
@@ -67,7 +70,7 @@ instructions:
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
-    help_str: "Print detailed information about a GeoIPS artifact."
+    help_str: "Print detailed information about an individual GeoIPS artifact."
     description: |
       The `geoips describe` command prints detailed information about a specific GeoIPS
       artifact where an artifact can be a registered plugin package, a plugin interface,
@@ -83,11 +86,10 @@ instructions:
         - Plugins: `geoips describe <interface_name> <plugin_name>`
           For example, `geoips describe reader abi_netcdf` would retrun information
           regarding the `abi_netcdf` reader plugin.
-    usage_str: |
-      To use, type `geoips describe <interface_name> <sub-cmd> ...`.
     output_info:
       - Information related to the artifact that was retrieved.
-  geoips_describe_algorithms: *geoips-describe-artifact
+  geoips_describe_algorithms:
+    help_str: "Print detailed information about the algorithm interface, a specific algorithm, or an algorithm family."
   geoips_describe_colormappers: *geoips-describe-artifact
   geoips_describe_coverage-checkers: *geoips-describe-artifact
   geoips_describe_databases: *geoips-describe-artifact
@@ -161,7 +163,7 @@ instructions:
   #     - Relative Path
   #     - Plugin Specific Info (signature / source_names / available overrides)
   geoips_list:
-    help_str: "Print a table containing summaries of a list of GeoIPS artifacts."
+    help_str: "Print a list of GeoIPS artifacts as a table of summary information."
     description: |
       The `geoips list` command prints a table containing a summary of a list of GeoIPS
       artifacts. Which artifacts are listed is determined by the arguments provided to
@@ -338,7 +340,7 @@ instructions:
       - Unit Test Name
   geoips_run: &geoips-run
     help_str: "Run a GeoIPS procflow."
-    help_str: |
+    description: |
       The `geoips run` command runs the specified procflow plugin. Currently availabe
       procflows include `single_source`, `config_based`, and `data_fusion` (if the
       data_fusion package is installed).
@@ -378,7 +380,8 @@ instructions:
   #   output_info:
   #     - Log Output of the Single Source Process Workflow (Procflow)
   geoips_test:
-    help_str: |
+    help_str: "Run lint, unit, or integration tests."
+    description: |
       Run tests implemented in GeoIPS or a separate GeoIPS Package. This could be
       running a set of linters on a specific package, running a certain integration or
       normal test script, or running unit tests. Current options are ["linting",
@@ -432,7 +435,8 @@ instructions:
   #   output_info:
   #     - Output of the Unit Test Being Ran
   geoips_tree:
-    help_str: |
+    help_str: "Print a tree of all available GeoIPS CLI commands."
+    description: |
       Print a tree of all of the available GeoIPS CLI commands. This will display every
       command in a top-down tree which gives a visual structure of how the CLI can be
       ran. <--max-depth> must be greater than or equal to 0, where depth denotes the
@@ -446,7 +450,8 @@ instructions:
         Can be colored output if wanted and can define whether or not we want the full
         command string or just the name of the command at the specified depth.
   geoips_validate:
-    help_str: |
+    help_str: "Validate a GeoIPS plugin."
+    description: |
       Validate a GeoIPS Plugin found at <file_path>. While this is done under the hood
       via GeoIPS, this is an easy way to test whether or not the plugin you are
       developing is valid. If the <file_path> you're trying to validate is a
