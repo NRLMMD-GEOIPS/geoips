@@ -555,11 +555,6 @@ class BaseYamlInterface(BaseInterface):
         family_list = []
         plugin_ids = {}
         for plugin in plugins:
-            # if plugin.family not in family_list:
-            #     family_list.append(plugin.family)
-            #     plugin_ids[plugin.family] = []
-            # plugin_ids[plugin.family].append(plugin.id)
-
             if hasattr(plugin, "model_dump"):
                 pdata = plugin.model_dump()
             else:
