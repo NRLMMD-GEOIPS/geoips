@@ -75,7 +75,7 @@ def valid_plugin_data():
     return {
         "interface": "workflows",
         "family": "geoips_family",
-        "name": "read_test",
+        "name": "read_test_v1",
         "docstring": "This is a valid numpy docstring.",
         "description": "This is a valid numpy docstring.",
         "package": "geoips",
