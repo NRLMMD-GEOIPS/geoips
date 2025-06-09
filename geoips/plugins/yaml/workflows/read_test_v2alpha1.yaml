@@ -1,8 +1,8 @@
 apiVersion: geoips/v2alpha1
 interface: workflows
-test: v2
+test: v2alpha1
 family: order_based
-name: read_test_v2
+name: read_test_v2alpha1
 docstring: |
   11.2 µm Infrared.
 
