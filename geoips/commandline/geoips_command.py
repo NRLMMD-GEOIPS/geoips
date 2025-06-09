@@ -23,42 +23,20 @@ from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 
 
-class PluginPackages:
-    """Class to hold the plugin packages and their paths.
+class CustomHelpFormatter(
+    # argparse.RawTextHelpFormatter,
+    argparse.ArgumentDefaultsHelpFormatter
+):
+    """Custom help formatter for GeoIPS CLI.
 
-    This class is used to hold the plugin packages and their paths, which are used
-    throughout the CLI to determine which plugins are available to the user. This
-    class is used in the GeoipsCLI class to determine which plugins are available to
-    the user.
+    This custom help formatter includes the functionality provided by argparse's
+    RawTextHelpFormatter and ArgumentDefaultsHelpFormatter. Additionally, it overrides
+    the following methods:
 
-    Moving this to a class reduced GeoIPS CLI startup time by about 30%.
-    """
+    ``_format_usage`` - Overridden to remove long choice strings for commands with many
+    sub-commands.
 
-    def __init__(self):
-        """Initialize the PluginPackages class.
-
-        Initialize the plugin packages and their paths. This is done by using the
-        get_plugin_packages() and get_plugin_package_paths() functions.
-        """
-        self.entrypoints = [
-            ep.value
-            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
-        ]
-        self.paths = [
-            dirname(resources.files(ep.value))
-            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
-        ]
-
-
-plugin_packages = PluginPackages()
-
-
-class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
-    """
-    Help message formatter with arguments sorted alphabetically.
-
-    This custom formatter extends RawTextHelpFormatter to sort command-line
-    arguments alphabetically when displaying help messages.
+    ``add_arguments`` - Sorts command line arguments in alphabetical order.
     """
 
     def add_arguments(self, actions):
@@ -95,6 +73,59 @@ class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
         )
         super().add_arguments(actions)
 
+    def _format_action_invocation(self, action):
+        """Remove the positional argument group label from the help output.
+
+        We don't use positional argume groups in the GeoIPS CLI. Overriding this method
+        results in something like this:
+
+            Sub Commands
+
+                command_name description
+                command_name description
+
+        instead of:
+
+            Sub Commands
+              subcommand
+                command_name description
+                command_name description
+        """
+        if isinstance(action, argparse._SubParsersAction):
+            # Just return a custom label for the positional argument group
+            return ""
+        return super()._format_action_invocation(action)
+
+
+class PluginPackages:
+    """Class to hold the plugin packages and their paths.
+
+    This class is used to hold the plugin packages and their paths, which are used
+    throughout the CLI to determine which plugins are available to the user. This
+    class is used in the GeoipsCLI class to determine which plugins are available to
+    the user.
+
+    Moving this to a class reduced GeoIPS CLI startup time by about 30%.
+    """
+
+    def __init__(self):
+        """Initialize the PluginPackages class.
+
+        Initialize the plugin packages and their paths. This is done by using the
+        get_plugin_packages() and get_plugin_package_paths() functions.
+        """
+        self.entrypoints = [
+            ep.value
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
+        ]
+        self.paths = [
+            dirname(resources.files(ep.value))
+            for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
+        ]
+
+
+plugin_packages = PluginPackages()
+
 
 class ParentParsers:
     """Object containing shared arguments for commands in a hierarchical order.
@@ -108,7 +139,9 @@ class ParentParsers:
     shared correctly.
     """
 
-    geoips_parser = argparse.ArgumentParser(formatter_class=AlphabeticalHelpFormatter)
+    geoips_parser = argparse.ArgumentParser(
+        description="TESTING", formatter_class=CustomHelpFormatter
+    )
     geoips_parser.add_argument(
         "-log",
         "--log-level",
@@ -116,11 +149,12 @@ class ParentParsers:
         default="interactive",
         # Specified in order of what will be shown. First is lowest level (10).
         choices=["debug", "info", "warning", "interactive", "error", "critical"],
+        metavar="level",
         help="Log level to output when using the CLI.",
     )
 
     list_parser = argparse.ArgumentParser(
-        add_help=False, formatter_class=AlphabeticalHelpFormatter
+        add_help=False, formatter_class=CustomHelpFormatter
     )
     list_parser.add_argument(
         "--package-name",
@@ -128,6 +162,7 @@ class ParentParsers:
         type=str,
         default="all",
         choices=plugin_packages.entrypoints,
+        metavar="package",
         help="The GeoIPS package to list from.",
     )
     mutex_group = list_parser.add_mutually_exclusive_group()
@@ -258,27 +293,26 @@ class GeoipsCommand(abc.ABC):
                 self.cmd_instructions = cmd_instructions
             try:
                 # If the command's name exists w/in the alias mapping, then
-                # add thoss aliases to the parser, otherwise just set it as an empty
+                # add those aliases to the parser, otherwise just set it as an empty
                 # list.
                 aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
                 # Attempt to create a sepate sub-parser for the specific command
                 # class being initialized so we can separate the commands arguments
                 # in a tree-like structure
+                instrs = self.cmd_instructions["instructions"][self.combined_name]
+                help_str = instrs["help_str"]
+                description = instrs.get("description", help_str)
+                usage = instrs.get("usage_str", None)
                 self.parser = parent.subparsers.add_parser(
                     self.name,
-                    description=self.cmd_instructions["instructions"][
-                        self.combined_name
-                    ]["help_str"],
-                    help=self.cmd_instructions["instructions"][self.combined_name][
-                        "help_str"
-                    ],
-                    usage=self.cmd_instructions["instructions"][self.combined_name][
-                        "usage_str"
-                    ],
+                    prog=f"{parent.parser.prog} {self.name}",
+                    description=description,
+                    help=help_str,
+                    usage=usage,
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
-                    formatter_class=AlphabeticalHelpFormatter,
+                    formatter_class=CustomHelpFormatter,
                 )
             except KeyError:
                 raise KeyError(
@@ -288,14 +322,20 @@ class GeoipsCommand(abc.ABC):
                 )
         else:
             # Otherwise initialize a top-level parser for this command.
-            self.parser = argparse.ArgumentParser(
-                self.name,
-                conflict_handler="resolve",
-                parents=[ParentParsers.geoips_parser],
-                formatter_class=AlphabeticalHelpFormatter,
-            )
             self.LOG = self._get_cli_logger()
             self.combined_name = self.name
+            instrs = cmd_instructions["instructions"].get("geoips", {})
+            help_str = instrs.get("help_str", None)
+            description = instrs.get("description", help_str)
+            usage = instrs.get("usage_str", None)
+            self.parser = argparse.ArgumentParser(
+                self.name,
+                description=description,
+                usage=usage,
+                conflict_handler="resolve",
+                parents=[ParentParsers.geoips_parser],
+                formatter_class=CustomHelpFormatter,
+            )
 
         self.add_subparsers()
         self.parser.set_defaults(
@@ -368,7 +408,7 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions."
+                title="Sub Commands", metavar="subcommand"
             )
             # Sort subcommands alphabetically:
             sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)
