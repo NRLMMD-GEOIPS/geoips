@@ -16,4 +16,5 @@ Architecture
     geoips-specification
     cached-files
     tests/index
-    documentation/index.rst
+    documentation/index
+    command_line_interface
