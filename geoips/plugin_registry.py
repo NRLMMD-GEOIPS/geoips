@@ -31,6 +31,7 @@ from geoips.create_plugin_registries import create_plugin_registries
 from geoips.errors import PluginError, PluginRegistryError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -406,7 +407,7 @@ class PluginRegistry:
         except ImportError as e:
             raise ImportError(f"Could not import models from '{api_version}': {e}")
 
-        interface_base = interface.rstrip("s")
+        interface_base = str(Lexeme(interface).singular)
         model_name = f"{interface_base.title().replace('_', '')}PluginModel"
 
         try:
