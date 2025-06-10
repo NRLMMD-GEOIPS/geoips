@@ -117,7 +117,8 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             "-w",
             "--workflow",
             type=str,
-            help="The name of the workflow plugin to execute.",
+            required=True,
+            help="The name of the workflow plugin to execute. REQUIRED.",
         )
         add_args(parser=self.parser, legacy=self.legacy)
 
