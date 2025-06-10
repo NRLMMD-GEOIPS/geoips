@@ -21,7 +21,6 @@ class CartopyFeature(PermissiveFrozenModel):
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) to "
             "apply to the edges of the cartopy feature."
-
             "For more info, see: "
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
@@ -54,7 +53,6 @@ class FeatureAnnotatorSpec(FrozenModel):
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
             "to apply to the background of your image."
-
             "For more info, see: "
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
         ),
@@ -69,7 +67,6 @@ class FeatureAnnotatorPluginModel(PluginModel):
         description=(
             "Specification of how to apply cartopy features to your annotated imagery. "
             "Works alongside matplotlib and cartopy to generate these features."
-
             "For more information, see: "
             "https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html"  # noqa : E501
         ),
