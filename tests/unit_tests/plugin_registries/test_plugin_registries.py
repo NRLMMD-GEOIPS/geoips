@@ -323,7 +323,7 @@ class TestPluginRegistry:
         with pytest.raises(TypeError):
             algorithms.get_plugin_metadata(1078)
 
-        # Caused due to the registry being unable to locate this inteface of a certain
+        # Caused due to the registry being unable to locate this interface of a certain
         # type
         with pytest.raises(KeyError):
             self.real_reg_validator.get_plugin_metadata(FakeInterface, "fake_plugin")
