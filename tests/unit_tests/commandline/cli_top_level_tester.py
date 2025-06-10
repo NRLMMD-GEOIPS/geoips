@@ -12,7 +12,7 @@ import pytest
 import subprocess
 import sys
 
-from geoips.commandline.cmd_instructions import alias_mapping
+from geoips.commandline.ancillary_info import alias_mapping
 from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.commandline.commandline_interface import main as cli_main
 from geoips.geoips_utils import is_editable
