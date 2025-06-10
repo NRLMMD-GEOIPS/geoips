@@ -6,12 +6,14 @@ import logging
 
 # GeoIPS imports
 from geoips import interfaces
+from geoips.commandline.log_setup import setup_logging
 
 LOG = logging.getLogger(__name__)
 
 interface = "procflows"
 family = "standard"
 name = "order_based"
+
 
 def call(workflow, fnames, command_line_args=None):
     """Run the order based procflow (OBP).
@@ -45,6 +47,7 @@ def call(workflow, fnames, command_line_args=None):
             continue
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
+
             LOG.interactive(
                 "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
                 step_id,
@@ -77,5 +80,12 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="order-based procflow processing")
     parser.add_argument("workflow", help="The workflow name to process.")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
+    parser.add_argument(
+        "-l",
+        "--loglevel",
+        choices=["debug", "info", "interactive", "warning", "error"],
+        default="interactive",
+    )
     args = parser.parse_args()
+    LOG = setup_logging(logging_level=args.loglevel)
     call(args.workflow, args.fnames)
