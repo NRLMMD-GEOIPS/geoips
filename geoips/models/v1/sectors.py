@@ -164,12 +164,11 @@ class SectorProjection(PermissiveFrozenModel):
     t_final: float = Field(
         None,
         description=(
-            "Final epoch that the coordinate will be propagated to after transformation."  # NOQA
-            "The special epoch *now* can be used instead of writing a specific period in"  # NOQA
+            "Final epoch that the coordinate will be propagated to after transformation. "  # NOQA
+            "The special epoch *now* can be used instead of writing a specific period in "  # NOQA
             "time. When *now* is used, it is replaced internally with the epoch of the "
             "transformation. This means that the resulting coordinate will be slightly "
-            "different if carried out again at a later date."
-        ),
+            "different if carried out again at a later date."        ),
     )
     x_0: float = Field(
         0.0,
