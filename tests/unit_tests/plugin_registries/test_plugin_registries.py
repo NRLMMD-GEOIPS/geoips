@@ -351,7 +351,6 @@ class TestPluginRegistry:
             assert wrkflw.name == "abi_infrared"
             assert wrkflw.interface == "workflows"
 
-
     def test_get_yaml_plugin_failing_cases(self):
         """Attempt to get all plugins from an interface using cases that should fail."""
         # Reconstruct the registry in memory so we start at a clean slate
