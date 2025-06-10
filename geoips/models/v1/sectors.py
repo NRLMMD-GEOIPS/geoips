@@ -16,7 +16,7 @@ from geoips.models.v1.bases import FrozenModel, PermissiveFrozenModel, PluginMod
 
 
 class EarthConstants(float, Enum):
-    """A simple class containing constant values relative to the geometry of Earth."""
+    """A class with Earth related geometrical constants."""
 
     SEMI_MAJOR_AXIS = 6371228.0  # Semimajor axis of the earth in meters.
 
