@@ -1,0 +1,45 @@
+enhancement:
+- title: 'Improve CLI help formatter.'
+  description: |
+    Improve the CLI help formatter to avoid polluting the output with long lists of
+    aliases and optional arguments.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/geoips_command.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-06-01
+    finish: 2025-06-06
+- title: 'Clean up help output and improve descriptions.''
+  description: |
+    Clean up the help output of the CLI.
+    - Remove several extra command aliases.
+    - Add ability to specify help and description separately for each command. The help
+      text should be short and concise, while the description can be longer and more
+      detailed.
+    - Add descriptions for each command and improve help messages.
+    - General cleanup of the help output to make it more readable and user-friendly.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/ancillary_info/alias_mapping.py'
+    - 'geoips/commandline/ancillary_info/cmd_instructions.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-06-01
+    finish: 2025-06-06

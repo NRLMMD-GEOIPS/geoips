@@ -72,20 +72,32 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the describe-subparser for the describe Interface cmd."""
+        supported_families = getattr(
+            interfaces, self.name.replace("-", "_")
+        ).supported_families
+
         self.parser.add_argument(
             "plugin_name",
             type=str,
             default=None,
             nargs="?",
-            help="GeoIPS Plugin to select from the provided interface.",
+            help=(
+                f"If provided, prints information about the named plugin, otherwise "
+                f"prints information about the {self.name} interface."
+            ),
         )
         self.parser.add_argument(
-            "family_name",
+            "-f",
+            "--family_name",
+            # "family_name",
             type=str,
-            default=None,
-            nargs="?",
-            choices=getattr(interfaces, self.name.replace("-", "_")).supported_families,
-            help="GeoIPS Family to select from the provided interface.",
+            metavar="family",
+            choices=supported_families,
+            help=(
+                "If provided, prints information about a family from the "
+                f"{self.name} interface. "
+                f"\n\nChoices: {', '.join(supported_families)}"
+            ),
         )
         pass
 
@@ -109,29 +121,23 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
-        if (
-            args.plugin_name
-            and args.plugin_name != "family"
-            and args.plugin_name != "fam"
-        ):
-            self.describe_plugin(args)
-        elif (
-            args.plugin_name == "family" or args.plugin_name == "fam"
-        ) and args.family_name:
-            self.describe_family(args)
-        elif args.plugin_name is None and args.family_name is None:
-            self.describe_interface()
-        else:
+        if args.plugin_name and args.family_name:
             self.parser.error(
-                "Invalid command ran for 'geoips describe <interface_name>. Please run "
-                "'geoips describe -h' for more information on how to run this command."
+                "Invalid command: <plugin_name> and -f/--family_name are mutually "
+                "exclusive."
             )
+        elif args.plugin_name:
+            self.describe_plugin(args)
+        elif args.family_name:
+            self.describe_family(args)
+        else:
+            self.describe_interface()
 
     def describe_plugin(self, args):
         """CLI 'geoips describe <interface_name> <plugin_name>' command.
 
         This occurs when a user has requested a plugin in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------
@@ -176,7 +182,7 @@ class GeoipsDescribeArtifact(GeoipsExecutableCommand):
         """CLI 'geoips describe <interface_name> family <family_name>' command.
 
         This occurs when a user has requested a family in the manner shown above.
-        Outputs to the teriminal the following data in a dictionary format if available.
+        Outputs to the terminal the following data in a dictionary format if available.
 
         Printed to Terminal
         -------------------

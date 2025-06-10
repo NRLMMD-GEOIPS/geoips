@@ -23,7 +23,7 @@ from geoips.commandline.log_setup import setup_logging
 
 
 class CustomHelpFormatter(
-    argparse.RawTextHelpFormatter,
+    # argparse.RawTextHelpFormatter,
     argparse.ArgumentDefaultsHelpFormatter
 ):
     """Custom help formatter for GeoIPS CLI.
@@ -37,37 +37,6 @@ class CustomHelpFormatter(
 
     ``add_arguments`` - Sorts command line arguments in alphabetical order.
     """
-
-    def _format_usage(self, usage, actions, groups, prefix):
-        # Allow explicitly specified usage messages to be printed verbatim.
-        if usage is not None:
-            return super()._format_usage(usage, actions, groups, prefix)
-
-        # If no statically defined usage message was received, generate the usage line.
-        optional_parts = []
-        for action in actions:
-            if action.option_strings:
-                part = ' '.join(action.option_strings)
-                if action.choices:
-                    choices_str = ",".join(str(choice) for choice in action.choices)
-                    metavar_str = f"{{{choices_str}}}"
-                elif action.metavar:
-                    metavar_str = action.metavar
-                else:
-                    metavar_str = action.dest.upper()
-
-                if action.nargs not in [0, None]:
-                    part += f" {metavar_str}"
-
-                optional_parts.append(f"[{part}]")
-
-        usage_line = " ".join(optional_parts)
-
-        if not prefix:
-            prefix = "Usage:"
-
-        # Note: The extra space before the newline causes the newline to be respected...
-        return f" \n{prefix} {self._prog} {usage_line} <sub command>\n\n"
 
     def add_arguments(self, actions):
         """
@@ -103,23 +72,28 @@ class CustomHelpFormatter(
         )
         super().add_arguments(actions)
 
-    def start_section(self, heading):
-        """Replace positional arguments heading with "Sub Commands"."""
-        if heading == "positional arguments":
-            heading = "Sub Commands"
-        super().start_section(heading)
-
     def _format_action_invocation(self, action):
+        """Remove the positional argument group label from the help output.
+
+        We don't use positional argume groups in the GeoIPS CLI. Overriding this method
+        results in something like this:
+
+            Sub Commands
+
+                command_name description
+                command_name description
+
+        instead of:
+
+            Sub Commands
+              subcommand
+                command_name description
+                command_name description
+        """
         if isinstance(action, argparse._SubParsersAction):
             # Just return a custom label for the positional argument group
             return ""
         return super()._format_action_invocation(action)
-
-    # def _format_args(self, action, default_metavar):
-    #     """Replace long list of choices with a simple placeholder."""
-    #     if action.choices:
-    #         return "<subcommand>"
-    #     return super()._format_args(action, default_metavar)
 
 
 class PluginPackages:
@@ -164,7 +138,9 @@ class ParentParsers:
     shared correctly.
     """
 
-    geoips_parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
+    geoips_parser = argparse.ArgumentParser(
+        description="TESTING", formatter_class=CustomHelpFormatter
+    )
     geoips_parser.add_argument(
         "-log",
         "--log-level",
@@ -172,6 +148,7 @@ class ParentParsers:
         default="interactive",
         # Specified in order of what will be shown. First is lowest level (10).
         choices=["debug", "info", "warning", "interactive", "error", "critical"],
+        metavar="level",
         help="Log level to output when using the CLI.",
     )
 
@@ -184,6 +161,7 @@ class ParentParsers:
         type=str,
         default="all",
         choices=plugin_packages.entrypoints,
+        metavar="package",
         help="The GeoIPS package to list from.",
     )
     mutex_group = list_parser.add_mutually_exclusive_group()
@@ -326,13 +304,14 @@ class GeoipsCommand(abc.ABC):
                 usage = instrs.get("usage_str", None)
                 self.parser = parent.subparsers.add_parser(
                     self.name,
+                    prog=f"{parent.parser.prog} {self.name}",
                     description=description,
                     help=help_str,
                     usage=usage,
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
-                    formatter_class=CustomHelpFormatter
+                    formatter_class=CustomHelpFormatter,
                 )
             except KeyError:
                 raise KeyError(
@@ -342,14 +321,20 @@ class GeoipsCommand(abc.ABC):
                 )
         else:
             # Otherwise initialize a top-level parser for this command.
-            self.parser = argparse.ArgumentParser(
-                self.name,
-                conflict_handler="resolve",
-                parents=[ParentParsers.geoips_parser],
-                formatter_class=CustomHelpFormatter
-            )
             self.LOG = self._get_cli_logger()
             self.combined_name = self.name
+            instrs = cmd_instructions["instructions"].get("geoips", {})
+            help_str = instrs.get("help_str", None)
+            description = instrs.get("description", help_str)
+            usage = instrs.get("usage_str", None)
+            self.parser = argparse.ArgumentParser(
+                self.name,
+                description=description,
+                usage=usage,
+                conflict_handler="resolve",
+                parents=[ParentParsers.geoips_parser],
+                formatter_class=CustomHelpFormatter,
+            )
 
         self.add_subparsers()
         self.parser.set_defaults(
@@ -421,7 +406,9 @@ class GeoipsCommand(abc.ABC):
         command, as in interfaces, plugins, packages, scripts, etc.
         """
         if len(self.command_classes):
-            self.subparsers = self.parser.add_subparsers()
+            self.subparsers = self.parser.add_subparsers(
+                title="Sub Commands", metavar="subcommand"
+            )
             # Sort subcommands alphabetically:
             sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)
             for subcmd_cls in sorted_command_classes:
