@@ -1,7 +1,6 @@
 """Pydantic models used to validate GeoIPS gridline annotator plugins."""
 
-from enum import Enum
-from typing import Union, List, Optional
+from typing import Literal, Union, List, Optional
 
 from pydantic import Field
 
@@ -13,23 +12,17 @@ from geoips.pydantic.bases import (
 )
 
 
-class LatLonEnum(str, Enum):
-    """Hardcoded 'auto' string that can be used for lat/lon spacing."""
-
-    auto = "auto"
-
-
 class Spacing(FrozenModel):
     """Model used to format the spacing of gridlines in annotated imagery."""
 
-    latitude: Union[float, LatLonEnum.auto] = Field(
+    latitude: Union[float, Literal["auto"]] = Field(
         ...,
         description=(
             "Latitude spacing in degrees, can be a float or a string. If a string, it "
             "must be 'auto', which represents automatic spacing based on your area_def."
         ),
     )
-    longitude: Union[float, LatLonEnum.auto] = Field(
+    longitude: Union[float, Literal["auto"]] = Field(
         ...,
         description=(
             "Longitude spacing in degrees, can be a float or a string. If a string, it "
