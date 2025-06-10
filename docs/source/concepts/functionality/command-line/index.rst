@@ -1,526 +1,501 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is subject to the license referenced at
- | # # # https://github.com/NRLMMD-GEOIPS.
+ This source code is subject to the license referenced at
+ https://github.com/NRLMMD-GEOIPS.
 
 .. _command_line:
 
-Command Line Interface
-**********************
+Command Line Interface (CLI)
+****************************
 
-.. _geoips:
+.. warning::
 
-:ref:`GeoIPS CLI <geoips>`
+    The CLI is currently under development.
+    The CLI may change without warning!
+    Please consult this documentation for up-to-date info on the CLI.
 
-The GeoIPS Command Line Interface (CLI) is currently under development, but we'll keep
-updated instructions in this documentation that reflect the current state of the CLI.
+The CLI can be used to run, configure, and test GeoIPS. It can also print lists or descriptions of available data or
+functionality.
 
-The GeoIPS CLI is used to interrogate / utilize GeoIPS ``artifacts`` in a user-friendly
-manner. A ``GeoIPS artifact`` is an term used to reflect the chosen piece of data or
-functionality implemented in GeoIPS. This could be a GeoIPS Interface, Package, Plugin,
-Family, Test Script, Test Dataset, etc. that is used and/or implemented throughout the
-GeoIPS Environment.
+CLI commands are split up into two groups by their functionality:
 
-The CLI is split up into two groups as of right now. CLI commands which
-:ref:`retrieve information<information_retrieval>` from GeoIPS and CLI commands which
-:ref:`perform processes<performing_processes>` via GeoIPS. We'll dive into each of those
-sections now.
+ - `Discovery commands`_ help you discover available GeoIPS functionality
+   (e.g. interfaces, plugins, etc.)
+ - `Action commands`_ perform actions using GeoIPS functionality (e.g.
+   configure GeoIPS, run a procflow, install test datasets, run tests, etc.))
 
-CLI Use Cases
-*************
+..
+    Commenting this out for now until the linked document is corrected.
+    You can find the automatically created CLI usage documentation `here <./command_line_autodoc.rst>`_.
 
-For your ease of use, we've provided a complete  listing of all available GeoIPS CLI
-commands below. This diagrams what commands are available, and the required and/or
-optional arguments that go alongside these commands.
+.. contents:: Table of Contents
+    :local:
+    :backlinks: none
 
-.. dropdown:: GeoIPS CLI Commands
+Getting Help
+============
 
-    .. admonition:: Usage: geoips
+To retrieve information about the CLI's commands and arguments, use the ``-h/--help`` argument.
+For example, each of the following will return different, context dependent, help information:
 
-        .. autoprogram:: geoips.commandline.commandline_interface:GeoipsCLI().parser
-            :prog: geoips
+- ``geoips -h``
+- ``geoips list -h``
+- ``geoips list algorithms -h``
+- ``geoips run -h``
 
-.. _information_retrieval:
+Command Aliases
+===============
 
-Information Retrieval
-=====================
+Many GeoIPS commands and subcommands have aliases for convenience. Common aliases include:
 
-The GeoIPS CLI Implements two top-level commands which retrieve information about GeoIPS
-artifacts based on the sub-commands provided. These two top-level commands are
-``describe`` (``desc``) and ``list`` (``ls``). Each command shown below can be ran with
-a ``-h`` flag to provide help instructions for the command you are running.
+- ``ls`` for ``list``
+- ``alg`` or ``algs`` for ``algorithms``
+- ``pkg`` or ``pkgs`` for ``packages``
+- ``fam`` for ``family``
+- ``cfg`` for ``config``
+- ``val`` for ``validate``
 
-.. _geoips_describe:
+These aliases can be used interchangeably with their full command names
+throughout the CLI and can be seen in the output from ``-h/--help``.
 
-Describe Command
-----------------
+Discovery Commands
+==================
 
-:ref:`geoips describe <geoips_describe>`
+The CLI Implements two top-level discovery commands that retrieve information
+about GeoIPS artifacts: ``list`` and ``describe``.
 
-``describe`` is a GeoIPS CLI command which retrieves information specific to a single
-GeoIPS artifact. The purpose of any ``describe`` command is to lay out the selected
-GeoIPS artifact in a verbose manner. While the outputted information may differ by each
-describe  command, the ultimate purpose of each command is to provide both users and
-developers detailed information about each artifact. This will help implementing their
-own artifacts, and also clarify what each artifact does / needs to integrate correctly
-within the GeoIPS environment. It currently implements 4 sub-commands, which we'll
-describe below.
+list
+----
 
-.. _geoips_describe_interface:
+``list`` returns information about a GeoIPS artifact, such as:
 
-:ref:`geoips describe interface <geoips_describe_interface>`
+ - Lists of existing artifacts
+ - Artifact locations
+ - Artifact functionality
 
-``describe <interface_name>`` is a describe sub-command which retrieves information
-specific to a GeoIPS interface. Information included when calling this command is:
+list interface
+^^^^^^^^^^^^^^
 
-    * Absolute Path
-    * Docstring
-    * Interface
-    * Interface Type
-    * Supported Families
+``list interfaces`` returns a list of GeoIPS interfaces.
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information
-about what GeoIPS Interfaces are available, run the command ``geoips list interfaces``.
+By default it returns the following for native interfaces:
 
-::
+* GeoIPS Package
+* Interface Type
+* Interface Name
+* Supported Families
+* Docstring
+* Absolute Path
 
-    geoips describe alg
-    geoips describe algs
-    geoips describe algorithm
-    geoips describe algorithms
-    geoips describe <interface_name>
+Implemented Mode
+""""""""""""""""
 
-.. _geoips_describe_family:
+The ``list interfaces`` command has an "implemented" mode.
 
-:ref:`geoips describe family <geoips_describe_family>`
+Implemented mode searches for plugins of each
+interface which have been created throughout GeoIPS
+packages, or a certain package.
 
-``describe <interface_name> family <family_name>`` (or ``fam``) is a describe
-sub-command which retrieves information specific to an interface's family. Information
-included when calling this command is:
+When running in implemented mode, it returns:
 
-    * Docstring
-    * Family Name
-    * Family Path
-    * Interface Name
-    * Interface Type
-    * Required Args / Schema
+* GeoIPS Package
+* Interface Type
+* Interface Name
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what families belong to a certain interface, run the command ``geoips list interfaces``,
-which will include a column representing the supported families of each interface. You
-can also run ``geoips list interfaces --columns interface supported_families`` for a
-concise depiction of what families belong to each interface.
-
-::
-
-    geoips describe alg fam single_channel
-    geoips describe algs fam single_channel
-    geoips describe algorithm family single_channel
-    geoips describe algorithms family single_channel
-    geoips describe prod-def fam interpolator_algorithm_colormapper
-    geoips describe prod-defs fam interpolator_algorithm_colormapper
-    geoips describe product_default family interpolator_algorithm_colormapper
-    geoips describe product_defaults family interpolator_algorithm_colormapper
-    geoips describe <interface_name> family <family_name>
-
-.. _geoips_describe_package:
-
-:ref:`geoips describe package <geoips_describe_package>`
-
-``describe package <package_name>`` (or ``describe pkg <package_name>``) is a describe
-sub-command which retrieves information specific to a GeoIPS Package. Information
-included when calling this command is:
-
-    * Docstring
-    * GeoIPS Package
-    * Package Path
-    * Source Code
-    * Version Number
-
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what GeoIPS Packages are available, run the command ``geoips list packages``.
-
-::
-
-    geoips describe pkg geoips
-    geoips describe package geoips
-    geoips describe package <package_name>
-
-.. _geoips_describe_plugin:
-
-:ref:`geoips describe plugin <geoips_describe_plugin>`
-
-``describe <interface_name> <plugin_name>`` is a describe sub-command which retrieves
-information specific to a GeoIPS Plugin. Information included when calling this command
-is:
-
-    * Docstring
-    * Family
-    * Interface
-    * GeoIPS Package
-    * Plugin Type
-    * Product Defaults (if applicable)
-    * Relative Path
-    * Signature (if applicable)
-    * Source Names (if applicable)
-
-
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. If you want more information about
-what plugins are available, run the command ``geoips list plugins``. Note, if you are
-trying to describe a product, the plugin name is a combination of it's source name and
-product name. I.e. for the product ``Infrared`` coming from source ``abi``, the command
-call would look like ``geoips describe product abi.Infrared``.
-
-::
-
-    geoips describe alg single_channel
-    geoips describe algs single_channel
-    geoips describe algorithm single_channel
-    geoips describe algorithms single_channel
-    geoips describe <interface_name> <plugin_name>
-
-.. _geoips_list:
-
-List Command
-------------
-
-:ref:`geoips list <geoips_list>`
-
-``list`` is a GeoIPS CLI command which retrieves a general set of information specific
-to a GeoIPS artifact type. While the outputted information may differ by each list
-command, the ultimate purpose of each command is to provide both users and developers
-a listing of what artifacts exist, where they can be found, and a general description
-of what the artifact does. This will help users and developers gain a sense of what's,
-available, where it can be found, and what has been implemented across the GeoIPS
-environment. It currently implements 7 sub-commands, which we'll describe below. For any
-``list`` command, there are three shared arguments: ``--long/-l``, ``--columns/-c``, and
-``--package_name/-p``. You can apply any of these optional arguments to any
-``geoips list`` command to specialize the output of the ``list`` command. All ``list``
-commands default to a ``--long`` listing. If you only wanted specific columns to be
-outputted for a ``geoips list packages`` command, you could run it like this.
+For example:
 
 .. code-block:: bash
 
-    geoips ls pkgs --columns package docstring version
-    geoips list pkgs --columns package docstring version
-    geoips list packages --columns package docstring version
-
-The command above would list all GeoIPS Plugin Packages with information including their
-package name, docstring, and current version number. For a listing of what columns you
-can filter by, run ``geoips list <cmd_name> --columns help``.
-
-.. _geoips_list_interface:
-
-:ref:`geoips list interface <geoips_list_interface>`
-
-``list <interface_name>`` is a list sub-command which retrieves a listing of implemented
-
-plugins of a certain interface. This can also be applied to a certain GeoIPS package.
-Information included when calling this command is:
-
-    * GeoIPS Package
-    * Interface Name
-    * Interface Type
-    * Family
-    * Plugin Name
-    * Source Names (if applicable)
-    * Relative Path
-
-For an example of how to run this command, see below, one of which applies this command
-to a specific package. Notice the use of aliases in case you want to use these commands
-in shorthand style. To see which packages are available, run ``geoips list packages``.
-
-::
-
-    geoips ls alg
-    geoips ls algs
-    geoips list algorithm
-    geoips list algorithms
-    geoips list <interface_name> -p <package_name>
-
-.. _geoips_list_interfaces:
-
-:ref:`geoips list interfaces <geoips_list_interfaces>`
-
-``list interfaces`` is a list sub-command which retrieves a listing of GeoIPS
-interfaces. This command has two modes; ``implemented`` and ``general``. Implemented
-mode searches for plugins of each interface which have been created throughout GeoIPS
-packages, or a certain package. General mode retrieves a listing of native GeoIPS
-Interfaces, which users can then create their own plugins using those interfaces.
-General Mode cannot be package specific.
-Information included when calling this command in implemented mode is:
-
-    * GeoIPS Package
-    * Interface Type
-    * Interface Name
-
-Information included when calling this command in general mode is:
-
-    * GeoIPS Package
-    * Interface Type
-    * Interface Name
-    * Supported Families
-    * Docstring
-    * Absolute Path
-
-For an example of how to run both modes of this command, see below.
-
-Implemented Mode Options
-::
-
     geoips list interfaces -i
-    geoips list interfaces -i -p <package_name>
-    geoips list interfaces -p <package_name>
 
-General Mode
-::
+Both the general and implemented outputs can
+be filtered by package with ``--package_name`` or ``-p``.
+
+For example:
+
+.. code-block:: bash
 
     geoips list interfaces
 
-.. _geoips_list_packages:
+or
 
-:ref:`geoips list packages <geoips_list_packages>`
+.. code-block:: bash
 
-``list packages`` (or ``list pkgs``) is a list sub-command which retrieves a listing of
-GeoIPS Packages, alongside the information shown below.
+    geoips list interfaces -i --package_name <package_name>
 
-    * GeoIPS Package
-    * Docstring
-    * Package Path
-    * Version Number
+list interface
+^^^^^^^^^^^^^^
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style.
-::
+``list <interface_name>`` returns a list of an interface's plugins with the following plugin information:
 
-    geoips ls pkgs
+* GeoIPS Package
+* Interface Name
+* Interface Type
+* Family
+* Plugin Name
+* Source Names (if applicable)
+* Relative Path
+
+For example:
+
+.. code-block:: bash
+
+    geoips list algorithms
+
+You can also filter by package name with ``--package_name`` or ``-p``. For example:
+
+.. code-block:: bash
+
+    geoips list interfaces --package_name geoips
+    geoips list <interface_name> -p <package_name>
+
+list packages
+^^^^^^^^^^^^^
+
+``list packages`` returns a list of GeoIPS Packages with the following package information:
+
+* Package Name
+* Docstring
+* Package Path
+* Version Number
+
+For example:
+
+.. code-block:: bash
+
     geoips list packages
 
-.. _geoips_list_plugins:
+list plugins
+^^^^^^^^^^^^
 
-:ref:`geoips list plugins <geoips_list_plugins>`
+``list plugins`` returns the following information about plugins:
 
-``list plugins`` (or ``list plgs``) is a list sub-command which retrieves a listing of
-plugins found within all, or a certain GeoIPS package. Information included when calling
-this command is:
+* GeoIPS Package
+* Interface Name
+* Interface Type
+* Family
+* Plugin Name
+* Source Names
+* Relative Path
+
+For example:
+
+.. code-block:: bash
+
+    geoips list plugins
+
+You can filter by package with ``--package-name`` or ``-p``. For example:
+
+.. code-block:: bash
+
+    geoips list plugins -p <package_name>
+
+.. _geoips_list_scripts:
+
+list scripts
+^^^^^^^^^^^^
+
+``list scripts`` returns a list of test scripts implemented in GeoIPS plugin packages that are installed in editable
+mode.
+
+For each test script, this command returns:
 
     * GeoIPS Package
-    * Interface Name
-    * Interface Type
-    * Family
-    * Plugin Name
-    * Source Names
-    * Relative Path
+    * Filename
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. One of the commands below lists
-plugins from a certain GeoIPS package.
-::
+.. note::
 
-    geoips ls plgs
-    geoips list plgs
-    geoips ls plugins
-    geoips list plugins -p <package_name>
+    For this command to find test scripts,
+    they must be `.sh` files located at ``<package_install_location>/tests/scripts/``.
+
+.. note::
+
+    Test scripts can be run with the `run`_ command
+
+For example:
+
+.. code-block:: bash
+
+    geoips list scripts
+
+You can filter by package with ``--package-name`` or ``-p``. For example:
+
+.. code-block:: bash
+
+    geoips list scripts -p <package_name>
 
 .. _geoips_list_registries:
 
 :ref:`geoips list registries <geoips_list_registries>`
 
-``list registries`` retrieves a listing of all plugin_registries found within a given
-namespace. By default, this namespace is ``geoips.plugin_packages``, which refers to
-all plugin packages recognized by GeoIPS. Your package should almost always be
-registered to this namespace. Information included when calling this command is:
+``list registries`` lists plugin registries for each package
+returns:
 
     * GeoIPS Package
-    * JSON Path (absolute or relative)
-    * YAML Path (absolute or relative)
+    * JSON Path
+    * YAML Path
 
-By default, this command will output absolute paths. If desired, you can override that
-by providing the ``--relpath`` flag.
+This outputs absolute paths by default.
+If passed a ``--relpath`` flag it will output relative paths.
 
-To run this command, see below.
+By default, this only lists plugin registries for
+packages in the ``geoips.plugin_packages`` namespace.
+You may pass ``--namespace <different_namespace>``
+to list plugin registries in a different namespace.
+It is unlikely that you will need to do this.
 
-::
+For example:
+
+.. code-block:: bash
 
     geoips list registries
     geoips list registries --relpath
     geoips list registries --namespace <different_namespace>
 
-.. _geoips_list_scripts:
 
-:ref:`geoips list scripts <geoips_list_scripts>`
+list source-names
+^^^^^^^^^^^^^^^^^
 
-``list scripts`` is a list sub-command which retrieves a listing of test scripts from
-all, or a certain GeoIPS Package. For this command to find your test script, you must
-place the script under ``<package_name>/tests/scripts/``. These test scripts can then be
-ran using ``geoips run <package_name> <script_name>``. This command can only be ran if
-the specified plugin package(s) are installed in *editable* mode.
-Information included when calling this command is:
-
-    * GeoIPS Package
-    * Filename
-
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. One of the commands below lists
-test scripts from a certain GeoIPS package.
-::
-
-    geoips ls scripts
-    geoips list scripts
-    geoips list scripts -p <package_name>
-
-.. _geoips_list_source_names:
-
-:ref:`geoips list source-names <geoips_list_source_names>`
-
-``list source-names`` is a list sub-command which retrieves a listing of source_names
+``list source-names`` (or ``list src-names``) retrieves a listing of source_names
 from all, or a certain GeoIPS Package. For this command to find a listing of
 source_names, you must add a module-level ``source_names`` attribute to your reader
 plugin. Every core GeoIPS reader plugin has this attribute set. We recommend following
 the same method of implementation as core GeoIPS readers, as reader plugins without this
 attribute will be deprecated when GeoIPS v2.0.0 is released.
+
 Information included when calling this command is:
 
-    * Source Name
-    * Reader Names
+* Source Name
+* Reader Names
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. One of the commands below lists
-source_names from a certain GeoIPS package.
-::
+For example:
+
+.. code-block:: bash
 
     geoips ls source-names
     geoips ls src-names
     geoips list source-names
     geoips list source-names -p <package_name>
 
-.. _geoips_list_test-datasets:
+list test-datasets
+^^^^^^^^^^^^^^^^^^
 
-:ref:`geoips list test-datasets <geoips_list_test-datasets>`
+``list test-datasets`` returns:
 
-``list test-datasets`` is a list sub-command which retrieves a listing of test datasets
-used for testing GeoIPS processing workflows. Currently, we rely on the test-datasets
-shown below to properly test GeoIPS.
+* Data Host
+* Dataset Name
 
-List of test-datasets needed for testing GeoIPS:
+We require these datasets for testing GeoIPS:
 
-    * test_data_amsr2
-    * test_data_clavrx
-    * test_data_fusion
-    * test_data_gpm
-    * test_data_noaa_aws
-    * test_data_sar
-    * test_data_scat
-    * test_data_smap
-    * test_data_viirs
+* test_data_amsr2
+* test_data_clavrx
+* test_data_fusion
+* test_data_gpm
+* test_data_noaa_aws
+* test_data_sar
+* test_data_scat
+* test_data_smap
+* test_data_viirs
 
-Information included when calling this command is:
+For example:
 
-    * Data Host
-    * Dataset Name
+.. code-block:: bash
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style.
-::
-
-    geoips ls test-datasets
     geoips list test-datasets
 
-.. _geoips_list_unit-tests:
+list unit-tests
+^^^^^^^^^^^^^^^
 
-:ref:`geoips list unit-tests <geoips_list_unit-tests>`
+``list unit-tests`` returns a list of unit-tests from plugin packages that are installed in editable mode.
 
-``list unit-tests`` is a list sub-command which retrieves a listing of unit tests from
-all, or a certain GeoIPS Package. For this command to find your unit tets, you must
-place the unit tests under ``<package_name>/tests/unit_tests/``. These test scripts can
-then be ran using ``pytest -v /path/to/<package_name/tests/unit_tests/<unit_test_dir>``.
-This command can only be ran if the specified plugin package(s) are installed in
-*editable* mode.
-Information included when calling this command is:
+For each unit-test, the following information is returned:
 
-    * GeoIPS Package
-    * Unit Test Directory
-    * Unit Test Name
+* GeoIPS Package
+* Unit Test Directory
+* Unit Test Name
 
-For an example of how to run this command, see below. Notice the use of aliases in case
-you want to use these commands in shorthand style. One of the commands below lists
-unit tests from a certain GeoIPS package.
-::
+.. note::
+    For this command to find your unit tests, you must
+    place the unit tests under ``<package_install_location>/tests/unit_tests/``.
 
-    geoips ls unit-tests
+For example:
+
+.. code-block:: bash
+
     geoips list unit-tests -p <package_name>
 
-.. _performing_processes:
+The output can be filtered by package with ``--package_name`` or ``-p``.
+The specified plugin package(s) must be installed in editable mode.
 
-Performing Processes
-====================
+For example, to display only the ``package`` and ``docstring``
+columns from the ``geoips list packages`` command:
 
-The other use case of the GeoIPS CLI is for performing GeoIPS processes. We currently
-implement 4 commands which perform some sort of process. This includes plugin
-validation, executing test scripts, installing test datasets used by GeoIPS, and running
-a processing workflow as ``run_procflow`` previously did. The latter is the most
-significant change as we've rerouted all ``run_procflow`` & ``data_fusion_procflow``
-commands to be sent through the GeoIPS CLI. While the GeoIPS CLI does not actually
-change the implementation of how procflows were ran, this makes all procflow calls be
-easily integrated as a CLI process.
+.. code-block:: bash
 
-Shown below are 4 types of GeoIPS Commands which will invoke processes related to
-the command provided.
+    geoips list packages --columns package docstring
 
-.. _geoips_config:
+Output Formatting
+"""""""""""""""""
 
-Config Command
---------------
+The output format can be configured with the following arguments:
 
-:ref:`geoips config <geoips_config>`
+ - ``--long`` or ``-l`` (the default format, a long table)
+ - ``--columns`` or ``-c`` (pass column(s) to display)
 
-Currently, GeoIPS relies on test datasets to perform testing on the processing workflows
-which we've created. These test datasets are installed via a bash script before any
-testing can be done. To make this process easier and more configurable, we've
-implemented a ``geoips config`` (or ``geoips cfg``) command, which encapsulates
-configuration settings that we can implement via the CLI.
+For a list of what columns you can filter by,
+pass ``help`` to the ``--columns`` argument.
 
-We currently only implement the ``geoips config install <test_dataset_name>`` command
-for installing test datasets, though we'll support other config commands as we continue
-to develop the GeoIPS CLI.
+For example:
 
-.. _geoips_config_install:
+.. code-block:: bash
 
-:ref:`geoips config install <geoips_config_install>`
+    geoips list <cmd_name> --columns help
+
+describe
+--------
+
+``describe`` retrieves detailed information about a single GeoIPS artifact. It can be used to retrieve information about
+``interfaces``, ``families``, ``packages``, and ``plugins``. To provide information that is relevant and useful for each
+artifact type, the information retrieved differs for different types of artifacts.
+
+describe interface
+^^^^^^^^^^^^^^^^^^
+
+``describe <interface_name>`` retrieves information about an interface.
+It returns:
+
+* Absolute Path
+* Docstring
+* Interface
+* Interface Type
+* Supported Families
+
+For more information about available GeoIPS Interfaces,
+see the `list <#list>`_ command.
+
+describe family
+^^^^^^^^^^^^^^^
+
+``describe <interface_name> family <family_name>`` (or ``fam``) retrieves information about a family.
+
+It returns the following information about an interface's family:
+
+* Docstring
+* Family Name
+* Family Path
+* Interface Name
+* Interface Type
+* Required Args / Schema
+
+For example:
+
+.. code-block:: bash
+
+    geoips describe prod-def fam interpolator_algorithm_colormapper
+
+describe package
+^^^^^^^^^^^^^^^^
+
+``describe package`` retrieves information about a registered plugin package.
+It returns the following information about a Package:
+
+* Docstring
+* GeoIPS Package
+* Package Path
+* Source Code
+* Version Number
+
+For example:
+
+.. code-block:: bash
+
+    geoips describe pkg geoips_clavrx
+
+describe plugin
+^^^^^^^^^^^^^^^
+
+``describe plugin`` retrieves information about a specific plugin.
+It returns the following information about a Plugin:
+
+* Docstring
+* Family Name
+* Interface Name
+* Interface Type
+* GeoIPS Package
+* Plugin Type
+* Product Defaults (if applicable)
+* Relative Path
+* Signature (if applicable)
+* Source Names (if applicable)
+
+For example:
+
+.. code-block:: bash
+
+    geoips describe alg single_channel
+
+Action Commands
+===============
+
+The CLI can kick off functionality built into GeoIPS. Below, we describe commands that
+do this.
+
+config
+------
+
+``geoips config`` (or ``geoips cfg``) makes testing easier by providing easy access to
+configuration options.
+
+.. note::
+
+    As we continue to develop the GeoIPS CLI,
+    we expect the functionality of this command to grow.
+
+config install
+^^^^^^^^^^^^^^
+
+GeoIPS relies on test datasets to test its processing workflows.
+Test datasets must be installed before tests can be run.
 
 ``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing implemented processing workflows. This command can install one, many, or all
-datasets hosted on NextCloud. For a listing of test datasets available for
-installation, run this command ``geoips list test-datasets``.
+testing processing workflows.
 
-To install a specific test dataset, run the command below.
+For example:
 
-::
+.. code-block:: bash
 
     geoips cfg install test_data_clavrx
     geoips config install test_data_clavrx
     geoips config install test_data_clavrx test_data_noaa_aws
     geoips config install all
-    geoips config install <test_dataset_name>
+
+
+.. note::
+
+    To list installable test datasets,
+    see ``geoips list test-datasets``.
+
 
 .. _geoips_config_create-registries:
 
 :ref:`geoips config create-registries <geoips_config_create-registries>`
 
-``config create-registries`` is responsible for constructing plugin package's plugin
-registry files within a given namespace. By default this command is
-``geoips.plugin_packages``, which refers to all plugin packages registered under GeoIPS.
-These files are needed for GeoIPS to be able to properly locate and use your plugins. A
-.json file is used by default, however you can also create a .yaml file for easier
-viewing. When this command is ran, as long as ``--packages`` is not provided, GeoIPS
-will create registry files for every package found under the namespace given.
+``config create-registries`` creates plugin registry files.
+These files for GeoIPS to locate and use plugins.
 You should never edit these files.
 
-To create plugin registries in one or more packages, run the command below.
+
+This occurs in the ``geoips.plugin_packages`` namespace by default.
+It contains all plugin packages registered under GeoIPS.
+You may specify a different name space.
+
+You can pass ``--packages`` to limit the plugins processed.
+
+JSON files are output by default.
+You may also output yaml files for ease of viewing by passing ``--save-type yaml``.
+
+
+For example:
 
 ::
 
@@ -533,11 +508,8 @@ To create plugin registries in one or more packages, run the command below.
 
 :ref:`geoips config delete-registries <geoips_config_delete-registries>`
 
-``config delete-registries`` is responsible for removing the plugin registry files
-constructed via the previous command. The same namespace logic is applied, as well as
-``--packages`` logic. If no registry files are found, nothing occurs.
-
-To delete plugin registry files in one or more packages, run the command below.
+``config delete-registries`` removes the plugin registry files.
+If no registry files are found, nothing occurs. For example:
 
 ::
 
@@ -547,51 +519,53 @@ To delete plugin registry files in one or more packages, run the command below.
 
 .. _geoips_run:
 
-Run Command
------------
+run
+---
 
-.. _geoips_run_single_source:
+GeoIPS creates outputs (as defined by products)
+via a processing workflow, aka a procflow.
 
-.. _geoips_run_order_based:
+.. warning::
 
-.. _geoips_run_config_based:
+    We are actively changing the way procflows work.
 
-.. _geoips_run_data_fusion:
+    This approach is problematic,
+    and we are refactoring GeoIPS's procflows into an order-based framework.
 
-:ref:`geoips run <geoips_run>`
+    The new framework will allow users to specify the order in which a procflow
+    executes via a ``steps`` attribute.
 
-:ref:`geoips run single_source <geoips_run_single_source>`
+.. warning::
 
-:ref:`geoips run order_based <geoips_run_order_based>`
+    ``run`` replaces ``run_procflow`` and ``data_fusion_procflow``.
 
-:ref:`geoips run config_based <geoips_run_config_based>`
+    ``legacy run`` provides backwards compatibility with
+    these commands by wrapping ``geoips run``
 
-:ref:`geoips run data_fusion <geoips_run_data_fusion>`
-
-Currently, GeoIPS creates all outputs defined by products via a processing workflow
-(procflow). These processing workflows are written as a bash script, which tells GeoIPS
-what plugins will be used and how they will be processed. While this works for the time
-being, we are largely refactoring the way in which outputs will be produced by using an
-order-based procflow. This will be a procflow which executes ``steps`` in order of how
-that attribute is specified in the ``workflow`` plugin.
-
-``run`` does exactly what ``run_procflow`` and ``data_fusion_procflow`` currently do. To
-preserve test scripts that were written prior to this PR, we've implemented a
-``legacy run`` format which will process your test scripts the exact same manner in
-which ``run_procflow`` or ``data_fusion_procflow`` did in the past. While these commands
-won't point to the same entrypoint as they did before, they make use of the GeoIPS CLI
-to call ``geoips run`` which will execute the same functionality as it did before.
+    We recommend transitioning your scripts to use ``run``
+    as backwards compatibility may be removed in the future.
 
 ``run`` follows the procflow defined by a bash script and produces the same output of
-such bash script if it were ran ``./<script_name>``. While you technically can execute a
-``run`` command directly in the commandline, we heavily suggest creating a bash script
-for testing and reusability's sake. We've overwritten all ``geoips`` and ``data_fusion``
-test scripts to make use of the new CLI procflow functionality. Shown below, are the
-differences between executing a legacy procflow and the new CLI-based procflows. While
-both work and execute the same process, we recommend transitioning your scripts to the
-CLI-based method as we may remove support for legacy formats in the future.
+such bash script if it were ran ``./<script_name>``.
 
-Legacy Procflow (abi.static.Infrared.imagery_annotated.sh)
+Here is an example of the new CLI-based procflow,
+and how it compares to the - now legacy - procflows of old.
+
+New CLI-based Procflow (abi.static.Infrared.imagery_annotated)
+
+.. code-block:: bash
+
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
+        --reader_name abi_netcdf \
+        --product_name Infrared \
+        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
+        --output_formatter imagery_annotated \
+        --filename_formatter geoips_fname \
+        --resampled_read \
+        --logging_level info \
+        --sector_list goes_east
+
+Legacy Procflow (abi.static.Infrared.imagery_annotated)
 
 .. code-block:: bash
 
@@ -605,151 +579,121 @@ Legacy Procflow (abi.static.Infrared.imagery_annotated.sh)
         --resampled_read \
         --logging_level info \
         --sector_list goes_east
-    retval=$?
 
-    exit $retval
-
-New CLI-based Procflow (abi.static.Infrared.imagery_annotated.sh)
-
-.. code-block:: bash
-
-    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-        --reader_name abi_netcdf \
-        --product_name Infrared \
-        --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \
-        --output_formatter imagery_annotated \
-        --filename_formatter geoips_fname \
-        --resampled_read \
-        --logging_level info \
-        --sector_list goes_east
-    retval=$?
-
-    exit $retval
-
-As you can see, the only difference between the two formats is the first line and the
-``--procflow`` line. With the new CLI-based format, all you need to do is replace
+The only difference between the two examples above are the first line and the
+``--procflow`` line. With the new format, all you need to do update is replace
 ``run_procflow`` / ``data_fusion_procflow`` with ``geoips run <procflow_name>`` and
 remove the ``--procflow`` line. That's it!
 
-To execute the ``run`` command, just run a bash script via ``./path/to/script.sh``.
+test
+----
 
-.. _geoips_test:
+GeoIPS and GeoIPS packages implement tests and linters to
+confirm functionality, uniform syntax and interoperability.
 
-Test Command
-------------
+``geoips test`` can execute linting, and output / integration test scripts.
 
-:ref:`geoips test <geoips_test>`
+Checking code often is a good practice.
 
-GeoIPS, and other GeoIPS packages currently implement tests to ensure that they
-integrate together correctly, and that they each operate correctly at an atomic level.
-While more tests are needed to ensure that every piece of GeoIPS is working fine, we
-are able to get a general sense as to whether or not things are working or are broken,
-and where / why that is happening.
+test linting
+^^^^^^^^^^^^
 
-These tests are a very useful feature, however are not that easy to run in the current
-status of our codebase. To alleviate that issue, we've created a ``geoips test`` command
-which can execute linting, and output / integration test scripts. Together, these
-testing protocols ensure that our environment is working as expected.
+This command runs ``bandit``, ``black``, and ``flake8``.
 
-Shown below, we'll demonstrate how to test each of these protocols so that the user can
-easily ensure that what they're developing is working as expected. We recommend trying
-to develop in a test-driven-development (TDD) manner, so that you can check that your
-code is working as you develop it on the fly.
+.. note::
 
-.. _geoips_test_linting:
+    We may support more linters in the future.
 
-:ref:`geoips test linting <geoips_test_linting>`
+For example:
 
-``linting`` runs the main three linters that are supported by the main GeoIPS package.
-Those three linters are ``bandit``, ``black``, and ``flake8``. We may support more
-linters in the future, but as this documentation was written, those are the three in
-which we currently support.
+.. code-block:: bash
 
-To test that your code adheres to GeoIPS Linting protocols, run the command below.
+    geoips test linting # (defaults to 'geoips' package)
+    geoips test linting -p <package_name> # only runs tests in provided plugin package
 
-::
+test sector
+^^^^^^^^^^^
 
-    geoips test linting (defaults to 'geoips' package)
-    geoips test linting -p <package_name>
+This command produces a .png image depicting the area of interest covered by the sector
+including any coastlines contained in the sector.
 
-.. _geoips_test_sector:
+For example:
 
-:ref:`geoips test sector <geoips_test_sector>`
+.. code-block:: bash
 
-``sector`` produces a .png image based on the provided sector plugin name. This sector
-must be an entry within any Plugin Package's registered_plugins.(yaml/json) file. Once,
-you've created a new sector plugin, make sure to run ``geoips config create-registries``
-to get this sector added to your registry. Once added, you can run this command to
-produce an image of your sector to easily test whether or not it captures the region you
-expected and if the resolution of that sector is correct.
+    geoips test sector <sector_name>
 
-Optionally, you can overlay your sector over the ``global_cylindrical`` sector to get a
-better understanding of the geospatial domain of your plugin.
 
-To produce a sector image is quite simple. All you have to do is:
+An additional output directory can be specified with ``--outdir``. For example:
+.. code-block:: bash
 
-    * ``geoips test sector <sector_name>``
+    geoips test sector <sector_name> --outdir <output_directory_path>
 
-An additional output directory can be specified if you want the sector image to be saved
-in a different location.
+After creating a new sector plugin, run ``create_plugin_registries``
+to add the sector to your registry.
 
-    * ``geoips test sector <sector_name> --outdir <output_directory_path>``
+Once added, this command can produce an image to
+help confirm the region and resolution of that sector.
 
-Lastly, you can overlay a sector on the ``global_cylindrical`` grid if desired. This is
-useful for small sectors.
+You can overlay a sector on the ``global_cylindrical`` grid if desired.
+This is useful for small sectors. For example:
 
-    * ``geoips test sector <sector_name> --overlay``
+.. code-block:: bash
 
-For example, if you were to run ``geoips test sector canada``, the following image would
-be created at ``$GEOIPS_OUTDIRS/canada.png``.
+    geoips test sector canada --overlay
 
 .. image:: canada.png
    :width: 800
 
-.. _geoips_test_script:
-
-:ref:`geoips test script <geoips_test_script>`
+test script
+^^^^^^^^^^^
 
 ``script`` executes an output-based test script which will return a numerical value
-based on the output of the test. A 0 is a success, and any other number will denote what
-failed and why that occurred. The ``script`` command can also execute ``integration``
-tests (which are only supported in the 'geoips' package). These sorts of tests ensure
-that all new functionality of the main GeoIPS code integrate correctly and accurately.
+based on the output of the test.
 
-To run a test (bash) script, or run your integration tests, you must first place your
-integration / normal test scripts in the following file locations.
+A 0 is a success. Any non-zero number indicate a failure,
+and sometimes provide information on what kind of failure occurred.
 
-    * Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
-    * Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
+.. note::
 
-Once you've created your script in the appropriate location, follow the command below.
+    ``script`` only supports bash scripts ending in ``.sh``
 
-::
+For example:
 
-    geoips test script <script_name> (defaults to 'geoips' package)
+.. code-block:: bash
+
+    geoips test script <script_name> # (defaults to 'geoips' package)
+
+``script`` can execute integration tests in the 'geoips' package.
+
+For example:
+
+.. code-block:: bash
+
+    geoips test script --integration <script_name>
+
+To run a test script, or run your integration tests, you must first place your
+integration / normal test scripts in one of these file locations:
+
+* Output Test scripts: ``<package_name>/tests/scripts/<script_name>``
+* Integration Tests: ``<package_name>/tests/integration_tests/<script_name>``
+
+You can run test scripts in plugin packages by specifying the
+plugin package with ``-p`` or ``--package_name``. For example:
+
+.. code-block:: bash
+
+    geoips test script --package_name <package_name> <script_name>
     geoips test script -p <package_name> <script_name>
-    geoips test script --integration <script_name> (no '-p' as this is only supported for 'geoips' package)
 
-.. _geoips_tree:
+tree
+----
 
-Tree Command
-------------
+Only some GeoIPS CLI commands are exposed via ``geoips -h``.
 
-:ref:`geoips tree <geoips_tree>`
+``geoips tree`` lists all GeoIPS CLI commands in a tree-like fashion.
 
-The GeoIPS CLI provides a variety of commands which aren't necessarily easily exposed
-via ``geoips -h``. To improve this issue, we've added a ``geoips tree`` command which
-exposes all GeoIPS CLI commands in a tree-like fashion. This way, we can expose all
-commands that are available via the GeoIPS CLI, and expose the depth in which these
-commands exist.
-
-By displaying the commands in a depthwise structure, users can understand what commands
-are available and how they are called.
-
-If you just call ``geoips tree``, you'll get the full command tree in a non-colored,
-verbose output.
-
-The output of running ``geoips tree`` is shown below.
+For example, running ``geoips tree`` returns:
 
 .. code-block:: bash
 
@@ -814,53 +758,27 @@ The output of running ``geoips tree`` is shown below.
         geoips tree
         geoips validate
 
-``geoips tree`` additionaly provides optional arguments to filter the output of this
-command. Shown below are these optional arguments and descriptions of what each argument
-does.
+``geoips tree`` provides arguments to filter its output.
 
-* ``--color``
+* ``--color``: highlights output by depth
 
-  * The output of ``geoips tree`` might be a little hard to interpret. If you want the
-    output of ``geoips tree`` to be highlighted by depth, make sure to use the
-    ``--color`` flag. (Defaults to False)
+* ``--max-depth``: limits tree levels outputted. Defaults to two levels.
 
-* ``--max-depth``
+* ``--short-name``: return only literal command names
 
-  * How many levels of the tree we'd like to expose. Defaults to two levels, which is
-    shown above.
+validate
+--------
 
-* ``--short-name``
+``validate`` (or ``val``) runs interface defined validation-protocols on plugins.
 
-  * The output of ``geoips tree`` provides the full command string at each level. If you
-    just want the literal command name and every level, make sure to provide this flag.
-    (Defaults to False)
+.. note::
+    To list plugins available for validation, see ``geoips list plugins`` above.
 
-.. _geoips_validate:
+A plugin's full location path is needed to validate it.
 
-Validate Command
-----------------
+For example:
 
-:ref:`geoips validate <geoips_validate>`
+.. code-block:: bash
 
-GeoIPS runs off of plugins. While you can search the documentation and/or schemas
-defined for these plugins, this is not an easy way of telling whether or not the plugin
-you've created adheres to the GeoIPS protocols defined for each plugin. Every GeoIPS
-interface implements validation functionality for ensuring that the plugins that
-inherit from such interface work correctly. We make use of this validation functionality
-from the command line, so users can easily check whether or not the plugin they've
-created is valid.
-
-``validate`` (or ``val``) follows the interface defined validation-protocol for a
-certain plugin. To get a listing of plugins available for validation, run the command
-``geoips list plugins -p <package_name>``, where ``-p`` is an optional flag representing
-the package we want to list plugins from.
-
-To validate a plugin we will need the full path to the plugin you want validated. See
-an example of this shown below. Notice the use of aliases in case
-you want to use these commands in shorthand style.
-
-::
-
-    geoips val /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/geoips/geoips/plugins/yaml/products/abi.yaml
     geoips validate /full/path/to/<pkg_name>/<pkg_name>/plugins/<plugin_type>/<interface>/plugin.<ext>

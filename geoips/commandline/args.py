@@ -7,7 +7,7 @@ import argparse
 import logging
 from os.path import abspath, exists
 from os import getenv
-from json import loads as jloads
+from ast import literal_eval
 import isodate
 
 LOG = logging.getLogger(__name__)
@@ -287,7 +287,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--sector_adjuster_kwargs",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify sector_adjuster kwargs that should be used for
                             this sector_adjuster. Should be formatted as a json
                             dictionary string""",
@@ -470,7 +470,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--product_spec_override",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify product spec fields to override the default specifications.
                             Should be formatted as a json dictionary string""",
         )
@@ -502,7 +502,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--compare_paths_override",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""NOT YET IMPLEMENTED Specify dictionary of full paths to directories
                             (with <product> and <output> wildcards) containing
                             output products to compare with current outputs.
@@ -546,7 +546,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--filename_formatter_kwargs",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify filename format kwargs that should be used for
                             this filename_formatter. Should be formatted as a json
                             dictionary string""",
@@ -568,7 +568,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--metadata_filename_formatter_kwargs",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify filename format kwargs that should be used for
                             this metadata_filename_formatter.
                             Should be formatted as a json dictionary string""",
@@ -589,7 +589,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--output_formatter_kwargs",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify output format kwargs that should be used for this
                     output_formatter. should be formatted as a json dictionary string,
                     ie: '{"title_formatter": "tc_copyright", "title_copyright": "NRL"}'
@@ -611,7 +611,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--metadata_output_formatter_kwargs",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify output format kwargs that should be used for this metadata.
                     Should be formatted as a json dictionary string.""",
         )
@@ -638,7 +638,7 @@ def add_args(parser, arglist=None, legacy=False):
         procflow_group.add_argument(
             "--output_checker_kwargs",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Output Checker Keyword Arguments.
                     - These keyword arguments get passed through directly to the
                       outputs_match method on the output_checker plugin.
@@ -667,7 +667,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--reader_kwargs",
             nargs="?",
             default=None,
-            type=jloads,
+            type=literal_eval,
             help="""Specify reader kwargs that should be used for
                             this reader. Should be formatted as a json
                             dictionary string""",
@@ -803,7 +803,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--fuse_reader_kwargs",
             action="append",
             default=None,
-            type=jloads,
+            type=literal_eval,
             help="""Provide the reader kwargs for files passed under the
                     fuse_files flag. Should be formatted as a json dictionary string.
                     Only provide one json dict str to this flag.
@@ -897,7 +897,7 @@ def add_args(parser, arglist=None, legacy=False):
         prod_db_group.add_argument(
             "--product_db_writer_kwargs",
             default=None,
-            type=jloads,
+            type=literal_eval,
             help="""Provide the product db writer kwargs for the plugin passed under the
                     product_db_writer flag. Should be formatted as a json dictionary
                     string. Only provide one json dict str to this flag.""",
@@ -906,7 +906,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--product_db_writer_override",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify product database writer that should be used for each
                     available sector should be formatted as a json dictionary
                     string.""",
@@ -918,7 +918,7 @@ def add_args(parser, arglist=None, legacy=False):
             "--composite_output_kwargs_override",
             nargs="?",
             default={},
-            type=jloads,
+            type=literal_eval,
             help="""Specify product composite kwargs that should be used for each
                     available sector output. Should be formatted as a json dictionary
                     string.""",
