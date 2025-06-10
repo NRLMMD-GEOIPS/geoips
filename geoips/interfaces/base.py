@@ -3,6 +3,8 @@
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
+# cspell:ignore refjs
+
 import abc
 import yaml
 import inspect
@@ -200,7 +202,7 @@ class YamlPluginValidator:
 
         # This turned out to be too big of a change for now.
         # We should consider how to implement something like this while still being able
-        # to test the preceeding error in our unit tests. Currently, the error ourput by
+        # to test the preceding error in our unit tests. Currently, the error ourput by
         # `valicator.validate(plugin)` is being used for testing in the unit tests.
         #
         # See issue #303
@@ -308,7 +310,7 @@ class BaseInterface(abc.ABC):
     interface_type = None  # This is set by child classes
     rebuild_registries = PATHS["GEOIPS_REBUILD_REGISTRIES"]
     # Setting this attribute at the top level so it can be used by all methods.
-    # This can be overriden by setting them in child interface classes
+    # This can be overridden by setting them in child interface classes
     apiVersion = "geoips/v1"
 
     def __new__(cls):
