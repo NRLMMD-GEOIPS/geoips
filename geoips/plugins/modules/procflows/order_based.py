@@ -7,6 +7,7 @@ import logging
 # GeoIPS imports
 from geoips import interfaces
 from geoips.commandline.log_setup import setup_logging
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -35,7 +36,7 @@ def call(workflow, fnames, command_line_args=None):
 
     handled_interfaces = ["readers"]
     for step_id, step_def in wf_plugin.spec.steps.items():
-        interface = step_def.kind + "s"
+        interface = str(Lexeme(step_def.kind).plural)
 
         if interface not in handled_interfaces:
             LOG.interactive(
