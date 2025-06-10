@@ -650,6 +650,7 @@
         "stderr",
         "stdin",
         "stdout",
+        "subplg",
         "tmp",
         "ttt",
         "xyz",
