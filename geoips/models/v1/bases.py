@@ -196,6 +196,7 @@ class PluginModelMetadata(ModelMetaclass):
 
 
 class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
+# class PluginModel(FrozenModel):
     """Base Plugin model for all GeoIPS plugins.
 
     This should be used as the base class for all top-level
@@ -208,8 +209,9 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     """
 
     apiVersion: str = Field("geoips/v1", description="apiVersion")
-    _namespace: ClassVar[str | None] = None
 
+    _namespace: ClassVar[str | None] = None
+    # raise a warning
     interface: PythonIdentifier = Field(
         ...,
         description="""Name of the plugin's interface. Run geoips list interfaces to see

@@ -186,6 +186,7 @@ test = [
 ]
 debug = ["ipython"]
 
+# Why this is working ?
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
 

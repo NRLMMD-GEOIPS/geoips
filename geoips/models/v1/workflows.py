@@ -230,7 +230,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
             raise ValueError(
-                f"[!] Invalid plugin name '{plugin_name}'. \n\t"
+                f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
             )
 
