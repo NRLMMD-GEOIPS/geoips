@@ -1,0 +1,20 @@
+enhancement:
+- title: 'Create output_formatter for AWIPS2 Tiles'
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/modules/output_formatters/awips_tiled.py'
+    - 'docs/source/releases/latest/998-create-output_formatter-for-awips2-goesr-tiles.yaml'
+    - 'tests/scripts/abi.awips_tiled.netcdf.sh'
+    modified:
+    - ''
+  related-issue:
+    number: 998
+    repo_url: ''
+  date:
+    start: 'May 20, 2025'
+    finish: null
