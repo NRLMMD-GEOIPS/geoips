@@ -37,7 +37,9 @@ def validate_lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]
     return arg
 
 
-LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(validate_lat_lon_coordinate)]
+LatLonCoordinate = Annotated[
+    Tuple[float, float], AfterValidator(validate_lat_lon_coordinate)
+]
 
 
 class SectorProjection(PermissiveFrozenModel):
