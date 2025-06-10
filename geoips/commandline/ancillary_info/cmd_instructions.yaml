@@ -391,8 +391,8 @@ instructions:
   geoips_run_order_based:
     help_str: |
       Run the order_based process workflow (procflow). This procflow executes operations
-      in the order they are specified in the workflow plugin provided. This eventually
-      will be the only procflow GeoIPS supports.
+      in the order they are specified in the provided workflow plugin. Eventually, this
+      will be the only procflow supported by GeoIPS.
     usage_str: |
       To use, type `geoips run order_based -w <workflow> **<order_based_args>`.
     output_info:
