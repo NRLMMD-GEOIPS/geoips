@@ -28,7 +28,7 @@ class XYCoordinate(FrozenModel):
     y: float = Field(..., description="The y coordinate in projection units.")
 
 
-def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
+def validate_lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     """Validate a latitude and longitude coordinate."""
     if arg[0] < -90 or arg[0] > 90:
         raise ValueError("Latitude must be between -90 and 90")
@@ -37,7 +37,7 @@ def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     return arg
 
 
-LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
+LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(validate_lat_lon_coordinate)]
 
 
 class SectorProjection(PermissiveFrozenModel):
