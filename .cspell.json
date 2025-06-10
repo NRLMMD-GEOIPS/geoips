@@ -83,6 +83,7 @@
         "pyproject",
         "pypublicdecompwt",
         "pyresample",
+        "pyroCb",
         "pystac",
         "pytest",
         "pytests",
