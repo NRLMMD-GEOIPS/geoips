@@ -329,7 +329,7 @@ class AreaDefinitionSpec(FrozenModel):
         description=(
             "The size of the pixels in the sector in projection units. "
             "May be specified as a single float or a tuple of two floats "
-            "describing the resolution in the x and y directions separately."
+            "describing the resolution in the x and y directions separately. "
             "See the pyresample documentation for more information."
         ),
     )

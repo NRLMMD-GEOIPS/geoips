@@ -196,7 +196,6 @@ class PluginModelMetadata(ModelMetaclass):
 
 
 class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
-# class PluginModel(FrozenModel):
     """Base Plugin model for all GeoIPS plugins.
 
     This should be used as the base class for all top-level
