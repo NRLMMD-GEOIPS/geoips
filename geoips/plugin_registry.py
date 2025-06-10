@@ -396,7 +396,7 @@ class PluginRegistry:
         except ValueError:
             raise ValueError(f"Invalid apiVersion format: {api_version}")
 
-        interface = data["interface"]
+        interface = data.get("interface")
         if not interface:
             raise ValueError("Missing 'interface' field for plugin dispatch")
 
