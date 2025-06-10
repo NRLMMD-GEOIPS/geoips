@@ -6,6 +6,8 @@
 Runs the appropriate script based on the args provided.
 """
 
+from colorama import Fore, Style
+
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
@@ -136,6 +138,18 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         workflow = args.workflow
         obp = procflows.get_plugin("order_based")
         obp(workflow, args.filenames, args)
+        self._print_command_warning()
+
+    def _print_command_warning(self):
+        """Print a warning that this command is experimental and subject to change."""
+        print(
+            Fore.RED
+            + "\nWARNING: "
+            + Fore.YELLOW
+            + "`geoips run order_based` is experimental and is subject to change. This "
+            + "warning will be removed once this command is stable.\n"
+            + Style.RESET_ALL
+        )
 
 
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
