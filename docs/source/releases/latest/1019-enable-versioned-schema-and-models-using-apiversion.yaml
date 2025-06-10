@@ -45,6 +45,7 @@ feature:
     - 'tests/unit_tests/models/v1/workflows/test_workflow_step_definition_model.py'
     - 'tests/unit_tests/models/v1/workflows/test_workflows.py'
     modified:
+    - '.cspell.json'
     - 'geoips/interfaces/base.py'
     - 'geoips/interfaces/yaml_based/feature_annotators.py'
     - 'geoips/interfaces/yaml_based/workflows.py'
