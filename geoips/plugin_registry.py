@@ -445,7 +445,7 @@ class PluginRegistry:
         """
         try:
             registered_yaml_plugins = self.registered_plugins["yaml_based"]
-        except KeyError as e:
+        except KeyError:
             # Very likely could occur if registries haven't been built yet
             err_str = (
                 "No YAML-based plugins found. There likely have been no plugin "
