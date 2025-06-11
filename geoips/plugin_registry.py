@@ -460,7 +460,7 @@ class PluginRegistry:
             raise TypeError(
                 "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
                 f" value. Encountered this '{rebuild_registries}' instead."
-            ) from e
+            )
 
         interface_entry = registered_yaml_plugins[interface_obj.name]
         # This occurs for product plugins
