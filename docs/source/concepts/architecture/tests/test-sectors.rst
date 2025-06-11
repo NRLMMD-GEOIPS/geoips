@@ -1,7 +1,9 @@
 Test Sectors for GeoIPS
 =======================
 
-This document describes the naming conventions and implementation details for test sector plugins in GeoIPS.
+We use small, pre-determined test sectors for testing. 
+These sectors provide a variety of scene components 
+including coast and land, edge of geostationary disk, day/night/terminato features etc. 
 
 Naming Convention
 -----------------
