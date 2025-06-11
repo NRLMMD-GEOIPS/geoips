@@ -5,8 +5,6 @@ documentation:
     added:
     - 'docs/source/concepts/architecture/tests/test-sectors.rst'
     modified:
-    - '.cspell.json'
-    - '.gitignore'
     - 'docs/source/concepts/architecture/tests/index.rst'
   related-issue:
     number: 1034
