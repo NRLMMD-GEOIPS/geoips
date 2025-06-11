@@ -112,6 +112,15 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
     name = "order_based"
     command_classes = []
+    warning = (
+        Fore.RED
+        + "\nWARNING: "
+        + Fore.YELLOW
+        + "`geoips run order_based` is experimental and is subject to "
+        + "change. This warning will be removed once this command is "
+        + "stable.\n"
+        + Style.RESET_ALL
+    )
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
@@ -142,14 +151,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
     def _print_command_warning(self):
         """Print a warning that this command is experimental and subject to change."""
-        print(
-            Fore.RED
-            + "\nWARNING: "
-            + Fore.YELLOW
-            + "`geoips run order_based` is experimental and is subject to change. This "
-            + "warning will be removed once this command is stable.\n"
-            + Style.RESET_ALL
-        )
+        print(self.warning)
 
 
 class GeoipsRunSingleSource(GeoipsExecutableCommand):

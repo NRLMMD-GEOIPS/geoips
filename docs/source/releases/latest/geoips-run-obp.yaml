@@ -13,7 +13,9 @@ enhancement:
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructinos.yaml
       - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_run.py
+      - tests/unit_tests/commandline/test_geoips_run.py
   related-issue:
     number: null
     repo_url: ''
