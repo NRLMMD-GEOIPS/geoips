@@ -270,11 +270,11 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
             )
-        except AttributeError:
+        except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
                 f"Must be one of {get_interfaces(cls._namespace)}"
-            )
+            ) from e
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the future issue #906
         if "package" not in metadata:

@@ -282,13 +282,13 @@ class WorkflowStepDefinitionModel(FrozenModel):
             plugin_arguments_model = plugin_arguments_models[
                 plugin_arguments_model_name
             ]
-        except KeyError:
+        except KeyError as e:
             valid_models = ", ".join(plugin_arguments_models)
             raise ValueError(
                 f'The argument class/model "{plugin_arguments_model_name}" for'
                 f'the plugin kind "{plugin_kind}" is not defined. Valid available'
                 f"models are {valid_models}."
-            )
+            ) from e
             LOG.interactive(
                 "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
                 "lookup failed. Please report this to the GeoIPS development team",
