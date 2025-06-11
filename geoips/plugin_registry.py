@@ -395,7 +395,10 @@ class PluginRegistry:
         try:
             package_name, model_version = api_version.split("/")
         except ValueError:
-            raise ValueError(f"Invalid apiVersion format: {api_version}")
+            raise ValueError(
+                f"Invalid apiVersion format: {api_version}. "
+                f"Expected format: 'package_name/version'"
+            )
 
         interface = data.get("interface")
         if not interface:
