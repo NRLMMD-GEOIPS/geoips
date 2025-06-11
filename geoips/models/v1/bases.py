@@ -186,13 +186,12 @@ class PluginModelMetadata(ModelMetaclass):
     """
 
     def __new__(
-            mcs: Type["PluginModelMetadata"],
-            name: str,
-            bases: Tuple[type, ...],
-            namespace: Dict[str, Any],
-            **kwargs: Any
+        mcs: Type["PluginModelMetadata"],
+        name: str,
+        bases: Tuple[type, ...],
+        namespace: Dict[str, Any],
+        **kwargs: Any,
     ) -> type:
-
         """Instantiate a new PluginModelMetadata class."""
         cls = super().__new__(mcs, name, bases, namespace)
         # Set apiVersion if not already set
