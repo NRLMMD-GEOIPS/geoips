@@ -144,7 +144,7 @@ class PluginRegistry:
             for reg_path in self.registry_files:
                 try:
                     registry = self._load_registry(reg_path)
-                except FileNotFoundError:
+                except FileNotFoundError as e:
                     if PATHS["GEOIPS_REBUILD_REGISTRIES"]:
                         # This will be hit if we have this environment variable set to
                         # True
@@ -165,7 +165,7 @@ class PluginRegistry:
                             f"Plugin registry {reg_path} does not exist and "
                             "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
                             "create these files, run 'geoips config create-registries'."
-                        )
+                        ) from e
                 return_tuple = self._parse_registry(
                     self.interface_mapping, self.registered_plugins, registry
                 )
@@ -209,7 +209,7 @@ class PluginRegistry:
                 registry_files.append(
                     str(resources.files(pkg.value) / "registered_plugins.json")
                 )
-            except TypeError:
+            except TypeError as e:
                 raise PluginRegistryError(
                     f"resources.files('{pkg.value}') failed\n"
                     f"pkg {pkg}\n"
@@ -218,7 +218,7 @@ class PluginRegistry:
                     "and try again.\n"
                     "Note you will need to add a docstring to "
                     f"{pkg.value}/__init__.py in order for all tests to pass"
-                )
+                ) from e
         return registry_files
 
     @staticmethod
@@ -394,11 +394,11 @@ class PluginRegistry:
         # geoips_real_time/v1.
         try:
             package_name, model_version = api_version.split("/")
-        except ValueError:
+        except ValueError as e:
             raise ValueError(
                 f"Invalid apiVersion format: {api_version}. "
                 f"Expected format: 'package_name/version'"
-            )
+            ) from e
 
         interface = data.get("interface")
         if not interface:
@@ -445,7 +445,7 @@ class PluginRegistry:
         """
         try:
             registered_yaml_plugins = self.registered_plugins["yaml_based"]
-        except KeyError:
+        except KeyError as e:
             # Very likely could occur if registries haven't been built yet
             err_str = (
                 "No YAML-based plugins found. There likely have been no plugin "
@@ -460,7 +460,7 @@ class PluginRegistry:
             raise TypeError(
                 "Error: Argument 'rebuild_registries' was specified but isn't a boolean"
                 f" value. Encountered this '{rebuild_registries}' instead."
-            )
+            ) from e
 
         interface_entry = registered_yaml_plugins[interface_obj.name]
         # This occurs for product plugins
