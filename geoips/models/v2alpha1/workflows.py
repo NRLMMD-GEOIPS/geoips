@@ -7,17 +7,18 @@ Defines pydantic models related to Workflow plugins,
 including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 """
 
+from __future__ import annotations
+
 # Python Standard Libraries
 import logging
 from typing import Any, Dict, List
-
 
 # Third-Party Libraries
 from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.models.v2alpha1.bases import (
+from geoips.models.v1.bases import (
     PythonIdentifier,
     PluginModel,
     FrozenModel,
@@ -205,8 +206,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_plugin_name(
-        cls, model: "WorkflowStepDefinitionModel"
-    ) -> "WorkflowStepDefinitionModel":
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
         """
         Validate that a plugin with this name exists for the specified plugin kind.
 
@@ -240,8 +241,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_plugin_arguments(
-        cls, model: "WorkflowStepDefinitionModel"
-    ) -> "WorkflowStepDefinitionModel":
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
         """
         Validate and organize details for each step.
 

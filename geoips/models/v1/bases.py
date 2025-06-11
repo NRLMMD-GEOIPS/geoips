@@ -7,10 +7,11 @@ Intended for use by other base models.
 Other models defined here validate field types within child plugin models.
 """
 
+from __future__ import annotations
+
 # Python Standard Libraries
 import keyword
 import logging
-from __future__ import annotations
 from typing import Any, ClassVar, Dict, Union, Tuple, Type
 import warnings
 
