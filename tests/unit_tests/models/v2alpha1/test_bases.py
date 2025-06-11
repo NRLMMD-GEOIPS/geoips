@@ -12,7 +12,7 @@ import pytest
 from pydantic import Field, ValidationError
 
 # GeoIPS Libraries
-from geoips.pydantic import bases
+from geoips.models.v2alpha1 import bases
 
 
 @pytest.mark.parametrize(
@@ -116,6 +116,7 @@ def test_good_plugin_valid_instance(valid_plugin_data):
     plugin = bases.PluginModel(**valid_plugin_data)
 
     assert plugin.interface == valid_plugin_data["interface"]
+    assert plugin.test == valid_plugin_data["test"]
     assert plugin.family == valid_plugin_data["family"]
     assert plugin.name == valid_plugin_data["name"]
     assert plugin.docstring == valid_plugin_data["docstring"]

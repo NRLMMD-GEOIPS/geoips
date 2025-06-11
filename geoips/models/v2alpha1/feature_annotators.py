@@ -2,11 +2,17 @@
 
 from pydantic import Field
 
-from geoips.pydantic.bases import (
+from geoips.models.bases import (
     FrozenModel,
     PermissiveFrozenModel,
     PluginModel,
     ColorType,
+)
+
+MATPLOTLIB_COLOR_DOC = (
+    "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."
+    "For more info, see: "
+    "https://matplotlib.org/stable/users/explain/colors/colors.html"
 )
 
 
@@ -17,13 +23,7 @@ class CartopyFeature(PermissiveFrozenModel):
         ..., strict=True, description="Whether or not to enable this feature."
     )
     edgecolor: ColorType = Field(
-        None,
-        description=(
-            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) to "
-            "apply to the edges of the cartopy feature.\n"
-            "For more info, see: "
-            "https://matplotlib.org/stable/users/explain/colors/colors.html"
-        ),
+        None, description=f"{MATPLOTLIB_COLOR_DOC} Used for Cartopy feature edges."
     )
     # NOTE: Once we add land / ocean features, we'll need to add another field, labeled
     # facecolor.
@@ -50,12 +50,7 @@ class FeatureAnnotatorSpec(FrozenModel):
     )
     background: ColorType = Field(
         None,
-        description=(
-            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
-            "to apply to the background of your image.\n"
-            "For more info, see: "
-            "https://matplotlib.org/stable/users/explain/colors/colors.html"
-        ),
+        description=f"{MATPLOTLIB_COLOR_DOC} used for the background of the image.",
     )
 
 
@@ -66,8 +61,8 @@ class FeatureAnnotatorPluginModel(PluginModel):
         ...,
         description=(
             "Specification of how to apply cartopy features to your annotated imagery. "
-            "Works alongside matplotlib and cartopy to generate these features."
+            "Works alongside matplotlib and cartopy to generate these features. "
             "For more information, see: "
-            "https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html"  # NOQAx
+            "https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html"  # noqa : E501
         ),
     )
