@@ -566,7 +566,11 @@ class BaseYamlInterface(BaseInterface):
             plugin_name = pdata.get("name")
 
             if not plugin_family or not plugin_name:
-                raise ValueError(f"Missing required plugin fields: {pdata}")
+                raise ValueError(
+                    f"Missing required plugin fields. "
+                    f" Expected 'family' and 'name' got: family={plugin_family}, "
+                    f"name={plugin_name}. Full plugin data: {pdata}"
+                )
             if plugin_family not in family_list:
                 family_list.append(plugin_family)
                 plugin_ids[plugin_family] = []
