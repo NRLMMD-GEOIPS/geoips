@@ -61,7 +61,7 @@ class FeatureAnnotatorPluginModel(PluginModel):
         ...,
         description=(
             "Specification of how to apply cartopy features to your annotated imagery. "
-            "Works alongside matplotlib and cartopy to generate these features."
+            "Works alongside matplotlib and cartopy to generate these features. "
             "For more information, see: "
             "https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html"  # noqa : E501
         ),
