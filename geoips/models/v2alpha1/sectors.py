@@ -123,7 +123,7 @@ class SectorProjection(PermissiveFrozenModel):
             strict=True,
             ge=-90,
             le=90,
-            description=("First standard parallel."" *Defaults to 0.0.*"),
+            description=("First standard parallel." " *Defaults to 0.0.*"),
         ),
     ]
     lat_2: Annotated[
@@ -133,7 +133,7 @@ class SectorProjection(PermissiveFrozenModel):
             strict=True,
             ge=-90,
             le=90,
-            description=("Second standard parallel."" *Defaults to 0.0.*"),
+            description=("Second standard parallel." " *Defaults to 0.0.*"),
         ),
     ]
     lat_ts: Annotated[
