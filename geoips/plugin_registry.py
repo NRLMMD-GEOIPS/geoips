@@ -405,15 +405,19 @@ class PluginRegistry:
         try:
             module = import_module(f"{package_name}.models.{model_version}.{interface}")
         except ImportError as e:
-            raise ImportError(f"Could not import models from '{api_version}': {e}") from e
+            raise ImportError(
+                f"Could not import models from '{api_version}': {e}"
+            ) from e
 
         interface_base = str(Lexeme(interface).singular)
         model_name = f"{interface_base.title().replace('_', '')}PluginModel"
 
         try:
             model_class = getattr(module, model_name)
-        except AttributeError:
-            raise ValueError(f"Model '{model_name}' not found in '{api_version}'") from e
+        except AttributeError as e:
+            raise ValueError(
+                f"Model '{model_name}' not found in '{api_version}'"
+            ) from e
 
         return model_class.model_validate(data)
 
