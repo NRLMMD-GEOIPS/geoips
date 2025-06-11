@@ -11,7 +11,7 @@ enhancement:
   files:
     modified:
       - geoips/commandline/ancillary_info/alias_mapping.yaml
-      - geoips/commandline/ancillary_info/cmd_instructinos.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/commandline/commandline_interface.py
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_run.py

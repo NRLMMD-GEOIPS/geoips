@@ -147,10 +147,6 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         workflow = args.workflow
         obp = procflows.get_plugin("order_based")
         obp(workflow, args.filenames, args)
-        self._print_command_warning()
-
-    def _print_command_warning(self):
-        """Print a warning that this command is experimental and subject to change."""
         print(self.warning)
 
 
