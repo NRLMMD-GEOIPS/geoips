@@ -10,6 +10,7 @@ Other models defined here validate field types within child plugin models.
 # Python Standard Libraries
 import keyword
 import logging
+from __future__ import annotations
 from typing import Any, ClassVar, Dict, Union, Tuple, Type
 import warnings
 
@@ -186,7 +187,7 @@ class PluginModelMetadata(ModelMetaclass):
     """
 
     def __new__(
-        mcs: Type["PluginModelMetadata"],
+        mcs: Type[PluginModelMetadata],
         name: str,
         bases: Tuple[type, ...],
         namespace: Dict[str, Any],
@@ -214,9 +215,8 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     """
 
     apiVersion: str = Field("geoips/v1", description="apiVersion")
-
     _namespace: ClassVar[str | None] = None
-    # raise a warning
+
     interface: PythonIdentifier = Field(
         ...,
         description=(
@@ -241,7 +241,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     @model_validator(mode="before")
     def _derive_package_name(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+        cls: type[PluginModel], values: dict[str, str | int | float | None]
     ):
         """
         'package' value is derived by calling ``get_plugin_metadata()``.
@@ -317,7 +317,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     @model_validator(mode="before")
     def _set_description(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+        cls: type[PluginModel], values: dict[str, str | int | float | None]
     ):
         """
         Set ``description`` to first line of ``docstring`` field if not provided.
@@ -341,7 +341,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("description", mode="after")
-    def _validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
+    def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
 
