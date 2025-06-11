@@ -253,8 +253,15 @@ class GeoipsCommand(abc.ABC):
             self.cmd_instructions = parent.cmd_instructions
 
             try:
+                # Add custom logic for the 'order_based' command. This is the only
+                # command which has epilog text, which in this case, is a warning saying
+                # this procflow is in development and is subject to change at any time
+                if self.name == "order_based":
+                    epilog = self.warning
+                else:
+                    epilog = None
                 # If the command's name exists w/in the alias mapping, then
-                # add thoss aliases to the parser, otherwise just set it as an empty
+                # add those aliases to the parser, otherwise just set it as an empty
                 # list.
                 aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
                 # Attempt to create a sepate sub-parser for the specific command
@@ -271,6 +278,7 @@ class GeoipsCommand(abc.ABC):
                     usage=self.cmd_instructions["instructions"][self.combined_name][
                         "usage_str"
                     ],
+                    epilog=epilog,
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
