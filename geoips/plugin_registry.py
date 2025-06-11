@@ -413,7 +413,7 @@ class PluginRegistry:
         try:
             model_class = getattr(module, model_name)
         except AttributeError:
-            raise ValueError(f"Model '{model_name}' not found in '{api_version}'")
+            raise ValueError(f"Model '{model_name}' not found in '{api_version}'") from e
 
         return model_class.model_validate(data)
 
