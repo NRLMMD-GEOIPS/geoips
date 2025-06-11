@@ -405,7 +405,7 @@ class PluginRegistry:
         try:
             module = import_module(f"{package_name}.models.{model_version}.{interface}")
         except ImportError as e:
-            raise ImportError(f"Could not import models from '{api_version}': {e}")
+            raise ImportError(f"Could not import models from '{api_version}': {e}") from e
 
         interface_base = str(Lexeme(interface).singular)
         model_name = f"{interface_base.title().replace('_', '')}PluginModel"
