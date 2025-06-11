@@ -737,15 +737,6 @@ def _get_metadata_block_08(df, block_info):
         block_data["scan_shift_amount"][info_ind] = np.frombuffer(
             data[start + 2 : start + 6], dtype="float32"
         )
-        # try:
-        #     stop
-        # except NameError:
-        #     stop = True
-        # if stop:
-        #     from IPython import embed as shell
-
-        #     shell()
-        #     stop = False
         block_data["line_shift_amount"][info_ind] = np.frombuffer(
             data[start + 6 : start + 10], dtype="float32"
         )
