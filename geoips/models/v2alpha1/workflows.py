@@ -191,9 +191,6 @@ class WorkflowStepDefinitionModel(FrozenModel):
         # We did not switch to kind: Annotated[str, Field(pattern=kind_pattern)] due to
         # lack of user-friendly error reporting options in case of validation failure.
 
-        if not value:
-            raise ValueError("Invalid input: 'kind' cannot be empty.")
-
         valid_kinds = get_plugin_kinds()
 
         # raise error if the plugin kind is not valid
