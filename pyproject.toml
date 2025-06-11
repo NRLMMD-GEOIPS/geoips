@@ -26,7 +26,7 @@ include = ["**/*.txt", "**/*.py", "**/*.yaml"]
 enable = true
 vcs = "git"
 metadata = false # don't include local-version hash; date doesn't appear by deafult
-style = "pep440" # pep440 is deafult; can remove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
+style = "pep440" # pep440 is deafult; can rmeove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
 #style = "semver"
 #tag-branch = "feature-poetry"
 strict = false
@@ -186,7 +186,6 @@ test = [
 ]
 debug = ["ipython"]
 
-# Why this is working ?
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"
 
