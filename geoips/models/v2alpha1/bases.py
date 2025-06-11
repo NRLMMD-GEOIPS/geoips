@@ -212,8 +212,10 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     interface: PythonIdentifier = Field(
         ...,
-        description="""Name of the plugin's interface. Run geoips list interfaces to see
-        available options.""",
+        description=(
+            "Name of the plugin's interface. "
+            " Run geoips list interfaces to see available options."
+        ),
     )
     test: PythonIdentifier = Field(..., description="Testing for apiVersion v2")
     family: PythonIdentifier = Field(..., description="Family of the plugin.")

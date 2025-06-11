@@ -213,8 +213,10 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     # raise a warning
     interface: PythonIdentifier = Field(
         ...,
-        description="""Name of the plugin's interface. Run geoips list interfaces to see
-        available options.""",
+        description=(
+            "Name of the plugin's interface. "
+            " Run geoips list interfaces to see available options."
+        ),
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
     name: PythonIdentifier = Field(..., description="Plugin name.")
