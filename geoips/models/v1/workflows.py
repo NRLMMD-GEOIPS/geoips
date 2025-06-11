@@ -22,6 +22,7 @@ from geoips.models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
 )
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -47,8 +48,8 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
     """
     interface_name = plugin_kind
 
-    if not interface_name[:-1] == "s":
-        interface_name = plugin_kind + "s"
+    if not interface_name.endswith("s"):
+        interface_name = str(Lexeme(plugin_kind).plural)
 
     try:
         interface = getattr(interfaces, interface_name)
