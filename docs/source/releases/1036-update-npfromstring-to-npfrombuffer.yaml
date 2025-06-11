@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Change np.fromstring to np.frombuffer'
+  description: |
+    np.fromstring was removed from numpy in v2.3.0. The correct command is now
+    np.frombuffer. This PR just makes that update.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/ssmis_binary.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
