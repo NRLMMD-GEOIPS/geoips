@@ -97,10 +97,7 @@ class GeoipsCLI(GeoipsCommand):
         if "--warnings" in sys.argv:
             # One of the flags was found in the arguments provided
             warn_idx = max(
-                [
-                    idx if arg == "--warnings" else -1
-                    for idx, arg in enumerate(sys.argv)
-                ]
+                [idx if arg == "--warnings" else -1 for idx, arg in enumerate(sys.argv)]
             )
             # Make sure that the argument list is long enough for warning level to be
             # provided. It doesn't have to be correct, that validation will be done
@@ -112,7 +109,6 @@ class GeoipsCLI(GeoipsCommand):
                 sys.argv.pop(warn_idx)
                 sys.argv.insert(1, warn_level)
                 sys.argv.insert(1, flag)
-
 
         super().__init__(legacy=legacy)
 
