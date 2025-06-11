@@ -23,7 +23,7 @@ Components
 ~~~~~~~~~~
 
 * **satellite**: The satellite platform (e.g., goes16, himawari8)
-* **proj**: Projection type (e.g., eqc for equirectangular)
+* **proj**: Projection type (e.g., eqc for Equidistant Cylindrical (Plate Carrée) projection)
 * **res**: Resolution (e.g., 3km)
 * **edge|nadir**: Satellite view position
 * **day|night|term**: Illumination condition
