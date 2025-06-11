@@ -234,8 +234,8 @@ source_names = ["amsu-a_mhs"]
 # index: 15  16  17    18      19     20
 # freq: 89.,89.,157.,183.311,183.311,190.311
 
-AMSUA_CHANS = [f"AMSUA_CHAN{x+1}" for x in range(15)]
-MHS_CHANS = [f"Chan{x+1}_AT" for x in range(5)]
+AMSUA_CHANS = [f"AMSUA_CHAN{x + 1}" for x in range(15)]
+MHS_CHANS = [f"Chan{x + 1}_AT" for x in range(5)]
 
 CHAN_INDEX_MAP = {x: i for i, x in enumerate(AMSUA_CHANS + MHS_CHANS)}
 
