@@ -26,7 +26,7 @@ include = ["**/*.txt", "**/*.py", "**/*.yaml"]
 enable = true
 vcs = "git"
 metadata = false # don't include local-version hash; date doesn't appear by deafult
-style = "pep440" # pep440 is deafult; can rmeove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
+style = "pep440" # pep440 is deafult; can remove later on; used for : keeping 0.0.8 as the default install until 0.0.9 is out
 #style = "semver"
 #tag-branch = "feature-poetry"
 strict = false
@@ -92,6 +92,7 @@ satpy = "*"        # efficiency improvements >= 0.33.1
 scikit-image = "*" # Radius based center coverage checks
 alphashape = ">=1.3.1" # For masking scipy's griddata output
 tabulate = "*"     # Tables for the CLI
+tqdm = "*"         # Progress bars for CLI dataset installs
 colorama = "*"     # Easy terminal color codes
 pygrib = "*" # Reading GRIB model data
 hdf5plugin = "*" # Reading compressed netCDF FCI data. This installs required decomp plugins
@@ -194,6 +195,6 @@ list_available_plugins = "geoips.commandline.list_available_plugins:main"
 run_procflow = "geoips.commandline.commandline_interface:main"
 update_tc_tracks_database = "geoips.commandline.update_tc_tracks_database:main"
 xml_to_yaml_sector = "geoips.commandline.xml_to_yaml_sector:main"
-create_plugin_registries = "geoips.create_plugin_registries:main"
 expose = "geoips.geoips_utils:expose_geoips_commands"
 geoips = "geoips.commandline.commandline_interface:main"
+create_plugin_registries = "geoips.commandline.commandline_interface:main"
