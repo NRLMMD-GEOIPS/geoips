@@ -240,6 +240,35 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
+    @field_validator("apiVersion", mode="before")
+    def _validate_apiVersion(cls, value: str) -> str:
+        """
+        Validate the input for the 'apiVersion' field.
+
+        Ensure that the input value contains a version component, identified by the
+        presence of 'v/' (e.g., package_name/v1).
+
+        Parameters
+        ----------
+        value : str
+            The input string representing the API version.
+
+        Returns
+        -------
+        str
+            The validated API version string.
+
+        Raises
+        ------
+        ValueError
+            If the value does not contian '/v' to indicate a version.
+        """
+        if "/v" not in value:
+            raise ValueError(
+                "'{value}' must contain package name, separator /, and version name"
+            )
+        return value
+
     @model_validator(mode="before")
     def _derive_package_name(
         cls: type[PluginModel], values: dict[str, str | int | float | None]
