@@ -1,0 +1,16 @@
+enhancement:
+- title: Alphabetize command-line arguments in help output
+  description: Implemented a custom argument formatter that sorts command-line arguments alphabetically when displaying help messages. This improves readability of help text by presenting arguments in a consistent, predictable order.
+  files:
+    modified:
+    - geoips/commandline/geoips_command.py
+    - docs/source/concepts/architecture/index.rst
+    added:
+    - tests/unit_tests/commandline/test_help_sorting.py
+    - docs/source/concepts/architecture/command_line_interface.rst
+  related-issue:
+    number: 711
+    repo_url: https://github.com/NRLMMD-GEOIPS/geoips/
+  date:
+    start: null
+    finish: null

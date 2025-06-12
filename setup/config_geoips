@@ -39,7 +39,12 @@ export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
 
 # External package environment variables - without these environment variables set,
 # these packages will write to $HOME/.cache or $HOME/.local.
+#
+# GeoIPS generated cache files
+export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache
+# Cartopy shape files
 export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
+# Satpy geometry cache, etc.
 export SATPY_CACHE_DIR=$GEOIPS_OUTDIRS/scratch/satpy_cache
 export SATPY_TMP_DIR=$GEOIPS_OUTDIRS/scratch/satpy_tmp
 # Tell satpy to write cached files out to SATPY_CACHE_DIR
