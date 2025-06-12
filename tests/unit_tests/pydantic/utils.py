@@ -95,6 +95,8 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
     plugin via <interface>.get_plugin, this sometimes will cause errors due to different
     validation protocols.
 
+    TODO: Turn on a flag that just disables validation in 'get_plugin'
+
     Parameters
     ----------
     interface_name: str
@@ -137,6 +139,34 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
     yam["package"] = package
 
     return yam
+
+
+def retrieve_model(plugin):
+    """Retrieve the associated pydantic plugin model for the plugin provided.
+
+    Parameters
+    ----------
+    plugin: dict
+        - A dictionary representing a GeoIPS yaml plugin.
+
+    Returns
+    -------
+    model: geoips.pydantic.{interface} PluginModel
+        - The associated plugin model used to validate this plugin.
+    """
+    interface = plugin["interface"]
+    module = geoips_pydantic._modules[f"geoips.pydantic.{interface}"]
+    if "_" in interface:
+        int_split = interface.split("_")
+        interface = f"{int_split[0].title()}{int_split[1].title()}"
+    else:
+        interface = interface.title()
+    # Remove leading and trailing whitespace and remove the suffix 's' if it exists
+    # So, if we had 'sectors', it would become 'sector'
+    interface = interface.rstrip().removesuffix("s")
+    model = getattr(module, f"{interface}PluginModel")
+
+    return model
 
 
 def validate_good_plugin(good_plugin, plugin_model):
