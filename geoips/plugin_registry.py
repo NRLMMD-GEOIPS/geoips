@@ -17,22 +17,21 @@ more effectively cache plugins across all interfaces, and avoid reading
 in all plugins multiple times.
 """
 
-from importlib import util, metadata, resources
-from inspect import isclass
+from importlib import import_module, util, metadata, resources
+import json
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
-import json
-import pydantic
+from pydantic import BaseModel
 import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
 from geoips.errors import PluginError, PluginRegistryError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
-
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -145,7 +144,7 @@ class PluginRegistry:
             for reg_path in self.registry_files:
                 try:
                     registry = self._load_registry(reg_path)
-                except FileNotFoundError:
+                except FileNotFoundError as e:
                     if PATHS["GEOIPS_REBUILD_REGISTRIES"]:
                         # This will be hit if we have this environment variable set to
                         # True
@@ -166,7 +165,7 @@ class PluginRegistry:
                             f"Plugin registry {reg_path} does not exist and "
                             "GEOIPS_REBUILD_REGISTRIES isn't set to True. To manually "
                             "create these files, run 'geoips config create-registries'."
-                        )
+                        ) from e
                 return_tuple = self._parse_registry(
                     self.interface_mapping, self.registered_plugins, registry
                 )
@@ -210,7 +209,7 @@ class PluginRegistry:
                 registry_files.append(
                     str(resources.files(pkg.value) / "registered_plugins.json")
                 )
-            except TypeError:
+            except TypeError as e:
                 raise PluginRegistryError(
                     f"resources.files('{pkg.value}') failed\n"
                     f"pkg {pkg}\n"
@@ -219,7 +218,7 @@ class PluginRegistry:
                     "and try again.\n"
                     "Note you will need to add a docstring to "
                     f"{pkg.value}/__init__.py in order for all tests to pass"
-                )
+                ) from e
         return registry_files
 
     @staticmethod
@@ -359,6 +358,72 @@ class PluginRegistry:
 
         return metadata
 
+    def load_plugin(self, data: dict) -> BaseModel:
+        """
+        Dynamically load and validate pydantic models based on apiVersion and interface.
+
+        This method parses the `apiVersion` field from the input dictionary to
+        determine the package and pydantic model version to use. It then dynamically
+        imports the corresponding Pydantic model classes based on the `interface` field
+        to validate the input data.
+
+        Parameters
+        ----------
+        data : dict
+            Dictionary representing a plugin definition. Must include the `interface`
+            field. May optionally include `apiVersion`. If not present, "geoips/v1" is
+            assumed.
+
+        Returns
+        -------
+        BaseModel
+            A validated Pydantic model instance.
+
+        Raises
+        ------
+        ValueError
+            If `apiVersion` is improperly formatted or if `interface` field is missing.
+        ImportError
+            If the specified module for the given model version cannot be imported.
+        """
+        api_version = data.get("apiVersion", "geoips/v1")
+
+        # Split "package_name/model_version"
+        # Use package_name to select the appropriate package to search for the api.
+        # This way, we could access the api from geoips_real_time by using
+        # geoips_real_time/v1.
+        try:
+            package_name, model_version = api_version.split("/")
+        except ValueError as e:
+            raise ValueError(
+                f"Invalid apiVersion format: {api_version}. "
+                f"Expected format: 'package_name/version'"
+            ) from e
+
+        interface = data.get("interface")
+        if not interface:
+            raise ValueError("Missing 'interface' field for plugin dispatch")
+
+        # Construct module path and import
+        try:
+            module = import_module(f"{package_name}.models.{model_version}.{interface}")
+        except ImportError as e:
+            raise ImportError(
+                f"Could not import models from '{api_version}': {e}"
+            ) from e
+
+        interface_base = str(Lexeme(interface).singular)
+        model_name = f"{interface_base.title().replace('_', '')}PluginModel"
+
+        try:
+            model_class = getattr(module, model_name)
+        except AttributeError as e:
+            raise ValueError(
+                f"Model '{model_name}' not found in '{api_version}'"
+            ) from e
+
+        return model_class.model_validate(data)
+
     def get_yaml_plugin(self, interface_obj, name, rebuild_registries=None):
         """Get a YAML plugin by its name.
 
@@ -482,14 +547,12 @@ class PluginRegistry:
         plugin["abspath"] = abspath
         plugin["relpath"] = relpath
 
-        if isclass(interface_obj.validator) and issubclass(
-            pydantic.BaseModel, interface_obj.validator
-        ):
-            validated = interface_obj.validator(**plugin)
+        if getattr(interface_obj, "use_pydantic", False):
+            validated = self.load_plugin(plugin)
+            return validated
         else:
             validated = interface_obj.validator.validate(plugin)
-
-        return interface_obj._plugin_yaml_to_obj(name, validated)
+            return interface_obj._plugin_yaml_to_obj(name, validated)
 
     def get_yaml_plugins(self, interface_obj):
         """Retrieve all yaml plugin objects for this interface.

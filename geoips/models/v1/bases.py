@@ -7,10 +7,12 @@ Intended for use by other base models.
 Other models defined here validate field types within child plugin models.
 """
 
+from __future__ import annotations
+
 # Python Standard Libraries
 import keyword
 import logging
-from typing import ClassVar, Union, Tuple
+from typing import Any, ClassVar, Dict, Union, Tuple, Type
 import warnings
 
 # Third-Party Libraries
@@ -185,7 +187,13 @@ class PluginModelMetadata(ModelMetaclass):
     (non-strict) subclass of the metaclasses of all its bases
     """
 
-    def __new__(mcs, name, bases, namespace, **kwargs):
+    def __new__(
+        mcs: Type[PluginModelMetadata],
+        name: str,
+        bases: Tuple[type, ...],
+        namespace: Dict[str, Any],
+        **kwargs: Any,
+    ) -> type:
         """Instantiate a new PluginModelMetadata class."""
         cls = super().__new__(mcs, name, bases, namespace)
         # Set apiVersion if not already set
@@ -207,13 +215,15 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
-    apiVerson: ClassVar[str | None] = None
+    apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
 
     interface: PythonIdentifier = Field(
         ...,
-        description="""Name of the plugin's interface. Run geoips list interfaces to see
-        available options.""",
+        description=(
+            "Name of the plugin's interface. "
+            " Run geoips list interfaces to see available options."
+        ),
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
     name: PythonIdentifier = Field(..., description="Plugin name.")
@@ -230,9 +240,38 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     )
     abspath: str = Field(None, description="Absolute path to the plugin file.")
 
+    @field_validator("apiVersion", mode="before")
+    def _validate_apiVersion(cls, value: str) -> str:
+        """
+        Validate the input for the 'apiVersion' field.
+
+        Ensure that the input value contains a version component, identified by the
+        presence of 'v/' (e.g., package_name/v1).
+
+        Parameters
+        ----------
+        value : str
+            The input string representing the API version.
+
+        Returns
+        -------
+        str
+            The validated API version string.
+
+        Raises
+        ------
+        ValueError
+            If the value does not contian '/v' to indicate a version.
+        """
+        if "/v" not in value:
+            raise ValueError(
+                "'{value}' must contain package name, separator /, and version name"
+            )
+        return value
+
     @model_validator(mode="before")
     def _derive_package_name(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+        cls: type[PluginModel], values: dict[str, str | int | float | None]
     ):
         """
         'package' value is derived by calling ``get_plugin_metadata()``.
@@ -259,11 +298,11 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             metadata = getattr(ints, interface_name).get_plugin_metadata(
                 values.get("name")
             )
-        except AttributeError:
+        except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
                 f"Must be one of {get_interfaces(cls._namespace)}"
-            )
+            ) from e
         # the above exception handling would be further improved by checking the
         # existence of plugin registry in the future issue #906
         if "package" not in metadata:
@@ -308,7 +347,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     @model_validator(mode="before")
     def _set_description(
-        cls: type["PluginModel"], values: dict[str, str | int | float | None]
+        cls: type[PluginModel], values: dict[str, str | int | float | None]
     ):
         """
         Set ``description`` to first line of ``docstring`` field if not provided.
@@ -332,7 +371,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         return values
 
     @field_validator("description", mode="after")
-    def _validate_one_line_description(cls: type["PluginModel"], value: str) -> str:
+    def _validate_one_line_description(cls: type[PluginModel], value: str) -> str:
         """
         Validate that the description adheres to required single line standards.
 
