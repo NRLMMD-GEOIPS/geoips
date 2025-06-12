@@ -326,6 +326,30 @@ plugins from a certain GeoIPS package.
     geoips ls plugins
     geoips list plugins -p <package_name>
 
+.. _geoips_list_registries:
+
+:ref:`geoips list registries <geoips_list_registries>`
+
+``list registries`` retrieves a listing of all plugin_registries found within a given
+namespace. By default, this namespace is ``geoips.plugin_packages``, which refers to
+all plugin packages recognized by GeoIPS. Your package should almost always be
+registered to this namespace. Information included when calling this command is:
+
+    * GeoIPS Package
+    * JSON Path (absolute or relative)
+    * YAML Path (absolute or relative)
+
+By default, this command will output absolute paths. If desired, you can override that
+by providing the ``--relpath`` flag.
+
+To run this command, see below.
+
+::
+
+    geoips list registries
+    geoips list registries --relpath
+    geoips list registries --namespace <different_namespace>
+
 .. _geoips_list_scripts:
 
 :ref:`geoips list scripts <geoips_list_scripts>`
@@ -469,7 +493,8 @@ to develop the GeoIPS CLI.
 :ref:`geoips config install <geoips_config_install>`
 
 ``config install`` installs test datasets hosted on CIRA's NextCloud instance for
-testing implemented processing workflows. For a listing of test datasets available for
+testing implemented processing workflows. This command can install one, many, or all
+datasets hosted on NextCloud. For a listing of test datasets available for
 installation, run this command ``geoips list test-datasets``.
 
 To install a specific test dataset, run the command below.
@@ -478,7 +503,47 @@ To install a specific test dataset, run the command below.
 
     geoips cfg install test_data_clavrx
     geoips config install test_data_clavrx
+    geoips config install test_data_clavrx test_data_noaa_aws
+    geoips config install all
     geoips config install <test_dataset_name>
+
+.. _geoips_config_create-registries:
+
+:ref:`geoips config create-registries <geoips_config_create-registries>`
+
+``config create-registries`` is responsible for constructing plugin package's plugin
+registry files within a given namespace. By default this command is
+``geoips.plugin_packages``, which refers to all plugin packages registered under GeoIPS.
+These files are needed for GeoIPS to be able to properly locate and use your plugins. A
+.json file is used by default, however you can also create a .yaml file for easier
+viewing. When this command is ran, as long as ``--packages`` is not provided, GeoIPS
+will create registry files for every package found under the namespace given.
+You should never edit these files.
+
+To create plugin registries in one or more packages, run the command below.
+
+::
+
+    geoips config create-registries
+    geoips config create-registries --packages geoips geoips_clavrx
+    geoips config create-registries --save-type yaml
+    geoips config create-registries --namespace <different_namespace>
+
+.. _geoips_config_delete-registries:
+
+:ref:`geoips config delete-registries <geoips_config_delete-registries>`
+
+``config delete-registries`` is responsible for removing the plugin registry files
+constructed via the previous command. The same namespace logic is applied, as well as
+``--packages`` logic. If no registry files are found, nothing occurs.
+
+To delete plugin registry files in one or more packages, run the command below.
+
+::
+
+    geoips config delete-registries
+    geoips config delete-registries --packages geoips geoips_clavrx
+    geoips config delete-registries --namespace <different_namespace>
 
 .. _geoips_run:
 
@@ -609,10 +674,13 @@ To test that your code adheres to GeoIPS Linting protocols, run the command belo
 
 ``sector`` produces a .png image based on the provided sector plugin name. This sector
 must be an entry within any Plugin Package's registered_plugins.(yaml/json) file. Once,
-you've created a new sector plugin, make sure to run ``create_plugin_registries`` to get
-this sector added to your registry. Once added, you can run this command to produce an
-image of your sector to easily test whether or not it captures the region you expected
-and if the resolution of that sector is correct.
+you've created a new sector plugin, make sure to run ``geoips config create-registries``
+to get this sector added to your registry. Once added, you can run this command to
+produce an image of your sector to easily test whether or not it captures the region you
+expected and if the resolution of that sector is correct.
+
+Optionally, you can overlay your sector over the ``global_cylindrical`` sector to get a
+better understanding of the geospatial domain of your plugin.
 
 To produce a sector image is quite simple. All you have to do is:
 
@@ -622,6 +690,11 @@ An additional output directory can be specified if you want the sector image to 
 in a different location.
 
     * ``geoips test sector <sector_name> --outdir <output_directory_path>``
+
+Lastly, you can overlay a sector on the ``global_cylindrical`` grid if desired. This is
+useful for small sectors.
+
+    * ``geoips test sector <sector_name> --overlay``
 
 For example, if you were to run ``geoips test sector canada``, the following image would
 be created at ``$GEOIPS_OUTDIRS/canada.png``.
