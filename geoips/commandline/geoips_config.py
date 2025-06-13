@@ -245,7 +245,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 for m in tar:
                     if not abspath(join(download_dir, m.name)).startswith(download_dir):
                         raise SystemExit("Found unsafe filepath in tar, exiting now.")
-                    tar.extract(m, path=download_dir)
+                    tar.extract(m, path=download_dir, filter="tar")
                     progress.update(1)
 
 
