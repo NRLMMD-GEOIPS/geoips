@@ -53,7 +53,7 @@ valid_expected = [
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
-        tests/unit_tests/commandline/test_geoips_config_delete_registries.py"warnings": "print",
+        "warnings": "print",
     },
     # Dummy dict needed for registry rebuild
     {"empty": "dict"},

@@ -14,6 +14,9 @@ enhancement:
     modified:
     - 'geoips/commandline/commandline_interface.py'
     - 'geoips/commandline/geoips_command.py'
+    - 'tests/unit_tests/commandline/test_geoips_config_create_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_config_delete_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_list_registries.py'
   related-issue:
     number: null
     repo_url: ''
