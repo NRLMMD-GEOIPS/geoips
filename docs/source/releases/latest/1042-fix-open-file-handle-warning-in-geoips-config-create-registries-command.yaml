@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Fix unclosed file handle warnings'
+  description: 'Several file handles were not correctly closed. This closes them.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/create_plugin_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_config_create_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_config_delete_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_list_registries.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-07-13
+    finish: 2025-07-13
