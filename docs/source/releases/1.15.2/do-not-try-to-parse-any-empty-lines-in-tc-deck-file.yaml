@@ -13,8 +13,7 @@ bug fix:
     modified:
     - 'geoips/sector_utils/tc_tracks_database.py'
   related-issue:
-    number: null
-    repo_url: 'https://github.nrlmry.navy.mil/GEOIPS/geoips'
+    internal: GEOIPS#861
   date:
     start: 2025-04-11
     finish: 2025-04-11
