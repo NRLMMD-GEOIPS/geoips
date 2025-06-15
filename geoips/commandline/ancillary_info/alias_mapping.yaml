@@ -102,6 +102,8 @@ source-names:
   - src-names
 install:
   - inst
+install-github:
+  - inst-gh
 delete-registries:
   - del-reg
   - del-regs

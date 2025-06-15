@@ -48,8 +48,37 @@ instructions:
       registries for a subset of packages of the specified namespace, you can provide
       the -p (--packages) flag, which should be a list of one or more package names
       to create plugin registries for that fall under 'namespace'.
+      Install the appropriate test dataset and/or package based on the arguments
+      provided. To see a list of available test datasets for install, run
+      `geoips list test-datasets`.
+
     usage_str: |
       To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
+    output_info:
+      - Not Applicable
+  geoips_config_install-github:
+    help_str: |
+      Install the appropriate test dataset and/or package directly from a github
+      repository based on the arguments provided. Will install the github repository
+      $GEOIPS_REPO_URL/<repository_name>.
+      Repositories named test_data_* or realtime_outputs_* will be
+      cloned into $GEOIPS_TESTDATA_DIR.  All other repositories will be cloned into
+      $GEOIPS_PACKAGES_DIR.
+
+      Currently only test data installations are supported.
+    usage_str: |
+      To use, type `geoips config install-github <repository_name>`.
+    output_info:
+      - Not Applicable
+  geoips_config_install-github:
+    help_str: |
+      Install the appropriate test dataset directly from a github
+      repository based on the arguments provided. Will install the github repository
+      $GEOIPS_REPO_URL/<repository_name>.
+      Repositories named test_data_* or realtime_outputs_* will be
+      cloned into $GEOIPS_TESTDATA_DIR by default.
+    usage_str: |
+      To use, type `geoips config install-github <repository_name>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
