@@ -1,0 +1,22 @@
+bug fix:
+- title: 'Update test image output with minor differences'
+  description: |
+    * VIIRS has minor differences throughout image (speckled)
+    * DMW and MIMIC image edge differences
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
+    - tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
+    - tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-08
+    finish: 2025-06-08
+

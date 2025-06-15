@@ -43,11 +43,14 @@ def get_datetime_from_datetime64(dt64):
     -----
     Backwards compatible with numpy versions
     """
-    scale = 1e-9
-    if "[ns]" in dt64.dtype.name:
-        scale = 1e-9
-
-    return datetime.utcfromtimestamp(dt64.astype(int) * scale)
+    # Scaling issues resolved as of numpy 2.x.
+    # numpy < 2 appeared to think ALL datetime64 objects were of
+    # units nanoseconds, even if the dtype was seconds, so previously
+    # we used a hard coded scale factor of 1e-9 at all times. numpy 2
+    # appears to store the datetime64 object based on the specified
+    # units, so cash as datetime64[s], then int.
+    dt64_seconds = dt64.astype("datetime64[s]").astype(int)
+    return datetime.utcfromtimestamp(dt64_seconds)
 
 
 def get_min_from_xarray_time(xarray_obj, varname):

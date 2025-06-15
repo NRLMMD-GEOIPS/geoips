@@ -1,0 +1,56 @@
+bug fix:
+- title: 'Cast radius of influence to float when passing to interp_kd_tree'
+  description: |
+    With numpy 2.0 / netcdf upgrade, some readers now return np.float64 for radius of
+    influence.  Pyresample fails with
+
+    * TypeError radius_of_influence must be number
+
+    Cast to float within pyresample wrapper to avoid errors.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14
+- title: 'ssmi_binary numpy 2.x uint16 cast bug fix'
+  description: 'buffer values were overflowing due to uint8, cast as uint16'
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/ssmi_binary.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-10
+    finish: 2025-04-10
+- title: 'No longer support bug in datetime64 scaling'
+  description: |
+    This was a bug until numpy 2.x with improperly handling scaling factors for
+    numpy datetime64 objects.  It now appears to work correctly, so remove the hard
+    coded 1e-9 scaling factor.
+
+    I am honestly not exactly sure how this worked before, but changing the default
+    scaling from 1e-9 to 1 works now, and 1e-9 default scaling worked for numpy < 2.
+    My best guess is that the datetime64's were stored improperly with numpy < 2, so
+    when it thought it was units of seconds, it was actually units of nanoseconds, so
+    we always had to use the 1e-9 scale factor, regardless of whether it said it
+    was seconds or nanoseconds.
+  files:
+    modified:
+    - 'geoips/xarray_utils/time.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14

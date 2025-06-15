@@ -21,3 +21,10 @@ properties:
     type: string
   pad_area_definition:
     type: boolean
+  # Explicitly adding these for now - most likely as we move towards OBP, we will want
+  # to generalize this somehow, so we don't have a huge list of possibly non-related
+  # options.
+  pad_x_scale_factor:
+    type: number
+  pad_y_scale_factor:
+    type: number

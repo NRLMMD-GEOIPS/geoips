@@ -1,0 +1,30 @@
+cli:
+- title: 'Add geoips config install-github CLI command'
+  description: |
+    Currently this just calls $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh
+    test_data_github, but functionality can later be moved directly into the python. This will
+    allow us to update READMEs for consistency (geoips config install test_data_* for datasets
+    that are available on CIRA NEXCLOUD, geoips config install-github test_data_* for datasets
+    that are available at $GEOIPS_REPO_URL), and eventually deprecate the check_system_requirements.sh
+    command.
+
+    Note geoips config install and geoips config install-github can both be updated
+    in the future to support package installs as well, but for now leave a note in both
+    of their help functions noting that currently only test data installations are
+    supported.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/ancillary_info/cmd_instructions.yaml'
+    - 'geoips/commandline/geoips_config.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-05-16
+    finish: 2025-05-16

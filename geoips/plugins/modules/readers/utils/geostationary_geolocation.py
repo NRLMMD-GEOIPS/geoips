@@ -6,9 +6,11 @@
 import os
 import logging
 import numpy as np
+from pathlib import Path
 from pyresample import utils
 from pyresample.geometry import SwathDefinition
 from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour_info
+import zarr
 
 from geoips.errors import CoverageError
 from geoips.filenames.base_paths import PATHS as gpaths
@@ -42,12 +44,11 @@ except Exception:
 DONT_AUTOGEN_GEOLOCATION = False
 if os.getenv("DONT_AUTOGEN_GEOLOCATION"):
     DONT_AUTOGEN_GEOLOCATION = True
-GEOLOCDIR = os.path.join(gpaths["GEOIPS_OUTDIRS"], "longterm_files", "geolocation")
+
+STATIC_GEOLOCDIR = gpaths["GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC"]
 
 # default dynamic geoloc dir for NRL
-DYNAMIC_GEOLOCDIR = os.path.join(
-    gpaths["GEOIPS_OUTDIRS"], "longterm_files", "geolocation_dynamic"
-)
+DYNAMIC_GEOLOCDIR = gpaths["GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC"]
 
 READ_GEOLOCDIRS = []
 if os.getenv("READ_GEOLOCDIRS"):
@@ -60,27 +61,62 @@ class AutoGenError(Exception):
     pass
 
 
-def get_geolocation_cache_filename(pref, metadata, area_def=None):
-    """Set the location and filename format for the cached geolocation files.
+class CachedGeolocationIndexError(IndexError):
+    """Raise exception on cached geolocation IndexError."""
 
-    There is a separate filename format for satellite latlons and sector latlons
+    pass
 
-    Notes
-    -----
-    Changing geolocation filename format will force recreation of all
-    files, which can be problematic for large numbers of sectors.
+
+def check_geolocation_cache_backend(
+    cache_backend, supported_backends=("memmap", "zarr")
+):
+    """Check if requested geolocation cache backend is supported.
+
+    Perhaps this should be converted to a decorator later on?
+
+    Parameters
+    ----------
+    cache_backend : str
+        Library name used to create cached geolocation files (e.g. zarr or memmap)
+    supported_backends : list or tuple, optional
+        Supported cache backends, by default ("memmap", "zarr")
+
+    Raises
+    ------
+    ValueError
+        If cache_backend is not in supported_backends
     """
-    cache = os.path.join(GEOLOCDIR, metadata["platform_name"])
-    from geoips.sector_utils.utils import is_dynamic_sector
+    if cache_backend not in supported_backends:
+        raise ValueError(
+            f"Unsupported cache backend: {cache_backend}."
+            f" Supported cache backends: {supported_backends}"
+        )
 
-    if is_dynamic_sector(area_def):
-        cache = os.path.join(DYNAMIC_GEOLOCDIR, metadata["platform_name"])
-    if not os.path.isdir(cache):
-        try:
-            os.makedirs(cache)
-        except FileExistsError:
-            pass
 
+def construct_cache_filename(
+    pref, metadata, area_def=None, cache_backend="memmap", chunk_size=None
+):
+    """Construct a cached file name.
+
+    Parameters
+    ----------
+    pref : str
+        Prefix to identify type of cached data
+    metadata : dict
+        Top level metadata for dataset
+    area_def : pyresample.area_definition, optional
+        Area definition subsector of data, by default None
+    cache_backend : str, optional
+        Specify to use either numpy.memmao or zarray for cache, by default "memmap"
+    chunk_size : int, optional
+        zarray cache chunk size, by default None
+
+    Returns
+    -------
+    str
+        File name for cached data
+    """
+    check_geolocation_cache_backend(cache_backend)
     # In order to ensure consistency here, take a sha1 hash of the string representation
     #  of the dictionary values. hash is applied to the object itself, which appears to
     # not be consistent from one Python 3 run to the next.
@@ -102,6 +138,14 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
         metadata["num_lines"],
         metadata["num_samples"],
     )
+    if cache_backend != "memmap":
+        # Only replace whitespaces with a hyphen when not memmap to prevent regenerating
+        # any cached geolocation files
+        fname = fname.replace(" ", "-")
+
+    if chunk_size and cache_backend == "zarr":
+        # If chunking enabled, include the size in the file name
+        fname += f"_chunk{chunk_size}"
 
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
@@ -137,7 +181,102 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
     else:
         fname += "_{}".format(md_hash)
 
-    fname += ".dat"
+    if cache_backend == "memmap":
+        fname += ".dat"
+    elif cache_backend == "zarr":
+        fname += ".zarr"
+    return fname
+
+
+def get_data_cache_filename(
+    pref,
+    metadata,
+    area_def=None,
+    cache_backend="memmap",
+    chunk_size=None,
+    scan_datetime=None,
+):
+    """Get the full file path for a cached calibrated data file.
+
+    Parameters
+    ----------
+    pref : str
+        Prefix to identify type of cached data
+    metadata : dict
+        Top level metadata for dataset
+    area_def : pyresample.area_definition, optional
+        Area definition subsector of data, by default None
+    cache_backend : str, optional
+        Specify to use either numpy.memmao or zarray for cache, by default "memmap"
+    chunk_size : int, optional
+        zarray cache chunk size, by default None
+
+    Returns
+    -------
+    str
+       Full file path for cached data
+    """
+    cache_dir = os.path.join(
+        gpaths["GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA"],
+    )
+    if scan_datetime is not None:
+        pref += f"_{scan_datetime.strftime('%Y%m%dT%H%M%S.%fZ')}"
+    if not os.path.isdir(cache_dir):
+        try:
+            os.makedirs(cache_dir)
+        except FileExistsError:
+            pass
+    fname = construct_cache_filename(
+        pref,
+        metadata,
+        area_def=area_def,
+        cache_backend=cache_backend,
+        chunk_size=chunk_size,
+    )
+    return os.path.join(cache_dir, metadata["platform_name"], fname)
+
+
+def get_geolocation_cache_filename(
+    pref,
+    metadata,
+    area_def=None,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    solar_angles=False,
+):
+    """Set the location and filename format for the cached geolocation files.
+
+    There is a separate filename format for satellite latlons and sector latlons
+
+    Notes
+    -----
+    Changing geolocation filename format will force recreation of all
+    files, which can be problematic for large numbers of sectors.
+    """
+    if solar_angles:
+        cache = os.path.join(
+            gpaths["GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES"],
+            metadata["platform_name"],
+        )
+    else:
+        cache = os.path.join(STATIC_GEOLOCDIR, metadata["platform_name"])
+        from geoips.sector_utils.utils import is_dynamic_sector
+
+        if is_dynamic_sector(area_def):
+            cache = os.path.join(DYNAMIC_GEOLOCDIR, metadata["platform_name"])
+    if not os.path.isdir(cache):
+        try:
+            os.makedirs(cache)
+        except FileExistsError:
+            pass
+
+    fname = construct_cache_filename(
+        pref,
+        metadata,
+        area_def=area_def,
+        cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
+    )
 
     # Check alternative read-only directories (i.e. operational)
     for dirname in READ_GEOLOCDIRS:
@@ -148,7 +287,20 @@ def get_geolocation_cache_filename(pref, metadata, area_def=None):
     return os.path.join(cache, fname)
 
 
-def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
+def get_geolocation(
+    dt,
+    gmd,
+    fldk_lats,
+    fldk_lons,
+    BADVALS,
+    area_def=None,
+    resolution=None,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    cache_solar_angles=False,
+    scan_datetime=None,
+    resource_tracker=None,
+):
     """
     Gather and return the geolocation data for the input metadata.
 
@@ -165,13 +317,30 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
     This is because they actually change.
     This may be slow for full-disk images.
     """
+    check_geolocation_cache_backend(geolocation_cache_backend)
     adname = "None"
     if area_def:
         adname = area_def.area_id
 
+    if resolution:
+        adname += f"_{resolution}"
+
+    if resource_tracker is not None:
+        key = f"GETGEO: {adname}".replace("None", "ALL")
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
+
     try:
         fldk_sat_zen, fldk_sat_azm = get_satellite_angles(
-            gmd, fldk_lats, fldk_lons, BADVALS, area_def
+            gmd,
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            chunk_size=chunk_size,
+            resource_tracker=resource_tracker,
         )
     except AutoGenError:
         return False
@@ -179,7 +348,15 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
     # Determine which indicies will be needed for the input sector if there is one.
     if area_def is not None:
         try:
-            lines, samples = get_indexes(gmd, fldk_lats, fldk_lons, area_def)
+            lines, samples = get_indexes(
+                gmd,
+                fldk_lats,
+                fldk_lons,
+                area_def,
+                geolocation_cache_backend=geolocation_cache_backend,
+                chunk_size=chunk_size,
+                resource_tracker=resource_tracker,
+            )
         except AutoGenError:
             return False
 
@@ -187,6 +364,16 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
         # points. This may not be entirely appropriate, especially if we want to do
         # something better than nearest neighbor interpolation.
         shape = area_def.shape
+
+        # I'm not entirely sure why this happens from time to time, but sometimes the
+        # lines/samples are the correct size, but not the correct shape. I should really
+        # figure out the reason for this issue, but it's not entirely clear so in the
+        # mean time reshape here as needed.
+        if len(lines.shape) == 1 and lines.size == shape[0] * shape[1]:
+            LOG.warning("Reshaping lines and samples - should not have to do this...")
+            lines = np.reshape(lines, shape)
+            samples = np.reshape(samples, shape)
+
         index_mask = lines != -999
 
         lons = np.full(shape, -999.1)
@@ -194,14 +381,17 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
         sat_zen = np.full(shape, -999.1)
         sat_azm = np.full(shape, -999.1)
 
-        LOG.info("GETGEO Pulling lons from inds for %s", adname)
-        lons[index_mask] = fldk_lons[lines[index_mask], samples[index_mask]]
-        LOG.info("GETGEO Pulling lats from inds for %s", adname)
-        lats[index_mask] = fldk_lats[lines[index_mask], samples[index_mask]]
-        LOG.info("GETGEO Pulling sat_zen from inds for %s", adname)
-        sat_zen[index_mask] = fldk_sat_zen[lines[index_mask], samples[index_mask]]
-        LOG.info("GETGEO Pulling sat_azm from inds for %s", adname)
-        sat_azm[index_mask] = fldk_sat_azm[lines[index_mask], samples[index_mask]]
+        try:
+            LOG.info("GETGEO Pulling lons from inds for %s", adname)
+            lons[index_mask] = fldk_lons[lines[index_mask], samples[index_mask]]
+            LOG.info("GETGEO Pulling lats from inds for %s", adname)
+            lats[index_mask] = fldk_lats[lines[index_mask], samples[index_mask]]
+            LOG.info("GETGEO Pulling sat_zen from inds for %s", adname)
+            sat_zen[index_mask] = fldk_sat_zen[lines[index_mask], samples[index_mask]]
+            LOG.info("GETGEO Pulling sat_azm from inds for %s", adname)
+            sat_azm[index_mask] = fldk_sat_azm[lines[index_mask], samples[index_mask]]
+        except IndexError as resp:
+            raise CachedGeolocationIndexError(resp)
 
     else:
         lats = fldk_lats
@@ -211,10 +401,25 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
 
     # Get generator for solar zenith and azimuth angles
     LOG.info("GETGEO Must calculate solar zen/azm for sector %s", adname)
-    sun_zen, sun_azm = calculate_solar_angles(gmd, lats, lons, dt)
+    sun_zen, sun_azm = calculate_solar_angles(
+        gmd,
+        lats,
+        lons,
+        dt,
+        resource_tracker=resource_tracker,
+        area_def=area_def,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
+        cache_solar_angles=cache_solar_angles,
+        scan_datetime=scan_datetime,
+    )
     LOG.info("GETGEO Done calculating solar zen/azm for sector %s", adname)
     sun_zen = np.ma.masked_less_equal(sun_zen, -999.1)
     sun_azm = np.ma.masked_less_equal(sun_azm, -999.1)
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(
+            key=key, checkpoint=True, increment_key=True
+        )
 
     if area_def is not None:
         lons, lats = area_def.get_lonlats()
@@ -228,6 +433,10 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
         "solar_zenith_angle": np.ma.masked_less_equal(sun_zen, -999.1),
         "solar_azimuth_angle": np.ma.masked_less_equal(sun_azm, -999.1),
     }
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(
+            key=key, checkpoint=True, increment_key=True
+        )
 
     try:
         geolocation["Lines"] = np.array(lines)
@@ -235,16 +444,45 @@ def get_geolocation(dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def=None):
     except NameError:
         pass
 
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
+
     return geolocation
 
 
-def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
+def get_satellite_angles(
+    metadata,
+    lats,
+    lons,
+    BADVALS,
+    sect=None,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    resource_tracker=None,
+):
     """Get satellite angles."""
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
     # files, which can be problematic for large numbers of sectors
-    fname = get_geolocation_cache_filename("GEOSAT", metadata)
-    if not os.path.isfile(fname):
+    check_geolocation_cache_backend(geolocation_cache_backend)
+    fname = get_geolocation_cache_filename(
+        "GEOSAT",
+        metadata,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
+    )
+
+    if resource_tracker is not None:
+        key = "GEO SAT ANGLES: " + str(Path(fname).name)
+        if sect:
+            key += f"_{sect.area_id}"
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
+
+    if not Path(fname).exists():
         if sect is not None and DONT_AUTOGEN_GEOLOCATION and "tc2019" not in sect.name:
             msg = (
                 "GETGEO Requested NO AUTOGEN GEOLOCATION. "
@@ -269,6 +507,10 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
         beta = ne.evaluate("arccos(cos(deg2rad * (lats - sub_lat)) * cos(deg2rad * (lons - sub_lon)))")  # NOQA
         # fmt: on
         bad = lats == BADVALS["Off_Of_Disk"]
+        if resource_tracker is not None:
+            resource_tracker.track_resource_usage(
+                key=key, checkpoint=True, increment_key=True
+            )
 
         # Calculate satellite zenith angle
         LOG.debug("Calculating satellite zenith angle")
@@ -279,6 +521,10 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
             out=zen,
         )
         zen[bad] = BADVALS["Off_Of_Disk"]
+        if resource_tracker is not None:
+            resource_tracker.track_resource_usage(
+                key=key, checkpoint=True, increment_key=True
+            )
 
         # Sat azimuth
         LOG.debug("Calculating satellite azimuth angle")
@@ -290,37 +536,101 @@ def get_satellite_angles(metadata, lats, lons, BADVALS, sect=None):
         ne.evaluate("where(lats < sub_lat, 180.0 - azm, azm)", out=azm)
         ne.evaluate("where(azm < 0.0, 360.0 + azm, azm)", out=azm)
         azm[bad] = BADVALS["Off_Of_Disk"]
+        if resource_tracker is not None:
+            resource_tracker.track_resource_usage(
+                key=key, checkpoint=True, increment_key=True
+            )
 
         LOG.info("Done calculating satellite zenith and azimuth angles")
 
-        with open(fname, "w") as df:
-            zen.tofile(df)
-            azm.tofile(df)
+        if geolocation_cache_backend == "memmap":
+            LOG.info("Storing to %s", fname)
+            with open(fname, "w") as df:
+                zen.tofile(df)
+                azm.tofile(df)
+        elif geolocation_cache_backend == "zarr":
+            if chunk_size:
+                chunks = (chunk_size, chunk_size)
+            else:
+                chunks = None
+            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+            # NOTE zarr does NOT have a close method, so you can NOT use with context.
+            zf = zarr.open(fname, mode="w")
+            # Assume azm and zen shape and dtype are the same
+            kwargs = {
+                "shape": azm.shape,
+                "dtype": azm.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("azm", **kwargs)
+            zf.create_dataset("zen", **kwargs)
+            zf["azm"][:] = azm
+            zf["zen"][:] = zen
         # Possible switch to xarray based geolocation files, but we lose memmapping.
         # ds = xarray.Dataset({'zeniths':(['x','y'],zen),'azimuths':(['x','y'],azm)})
         # ds.to_netcdf(fname)
+    else:
+        if geolocation_cache_backend == "memmap":
+            # Create a memmap to the lat/lon file
+            # Nothing will be read until explicitly requested
+            # We are mapping this here so that the lats and lons are available when
+            # calculating satlelite angles
+            LOG.info(
+                "GETGEO memmap to {} : lat/lon file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
 
-    # Create a memmap to the lat/lon file
-    # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when
-    # calculating satlelite angles
-    LOG.info(
-        "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
-    )
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            offset = 8 * metadata["num_samples"] * metadata["num_lines"]
+            zen = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
+            if resource_tracker is not None:
+                resource_tracker.track_resource_usage(
+                    key=key, checkpoint=True, increment_key=True
+                )
+            azm = np.memmap(
+                fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+            )
+            if resource_tracker is not None:
+                resource_tracker.track_resource_usage(
+                    key=key, checkpoint=True, increment_key=True
+                )
+            # Possible switch to xarray based geolocation files, but we lose memmapping.
+            # saved_xarray = xarray.load_dataset(fname)
+            # zen = saved_xarray['zeniths'].to_masked_array()
+            # azm = saved_xarray['azimuths'].to_masked_array()
+        elif geolocation_cache_backend == "zarr":
+            LOG.info(
+                "GETGEO zarr to {} : azm/zen file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            # chunk_x, chunk_y = [int(x/100) for x in lats.shape]
+            # NOTE zarr does NOT have a close method, so you can NOT use with context.
+            zf = zarr.open(fname, mode="r")
+            azm = zf["azm"]
+            zen = zf["zen"]
 
-    shape = (metadata["num_lines"], metadata["num_samples"])
-    offset = 8 * metadata["num_samples"] * metadata["num_lines"]
-    zen = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
-    azm = np.memmap(fname, mode="r", dtype=np.float64, offset=offset, shape=shape)
-    # Possible switch to xarray based geolocation files, but we lose memmapping.
-    # saved_xarray = xarray.load_dataset(fname)
-    # zen = saved_xarray['zeniths'].to_masked_array()
-    # azm = saved_xarray['azimuths'].to_masked_array()
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
 
     return zen, azm
 
 
-def get_indexes(metadata, lats, lons, area_def):
+def get_indexes(
+    metadata,
+    lats,
+    lons,
+    area_def,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    resource_tracker=None,
+):
     """
     Return two 2-D arrays containing the X and Y indexes.
 
@@ -350,9 +660,22 @@ def get_indexes(metadata, lats, lons, area_def):
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
     # files, which can be problematic for large numbers of sectors
-    fname = get_geolocation_cache_filename("GEOINDS", metadata, area_def)
+    check_geolocation_cache_backend(geolocation_cache_backend)
+    fname = get_geolocation_cache_filename(
+        "GEOINDS",
+        metadata,
+        area_def,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=None,
+    )
 
-    if not os.path.isfile(fname):
+    if resource_tracker is not None:
+        key = "GEOINDS: " + str(Path(fname).name)
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
+
+    if not Path(fname).exists():
         if (
             area_def is not None
             and DONT_AUTOGEN_GEOLOCATION
@@ -462,58 +785,114 @@ def get_indexes(metadata, lats, lons, area_def):
                 fname, area_def.area_id
             )
         )
-        # Store indicies for sector
-        with open(str(fname), "w") as df:
-            lines.tofile(df)
-            samples.tofile(df)
-        # Store indicies for sector
-        # Possible switch to xarray based geolocation files, but we lose memmapping.
-        # ds = xarray.Dataset({'lines':(['x'],lines),'samples':(['x'],samples)})
-        # ds.to_netcdf(fname)
-
-    # Create a memmap to the lat/lon file
-    # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when calculating
-    # satlelite angles.
-    # LOG.info('GETGEO memmap to %s : inds file for %s, roi_factor %s, res_km %s',
-    #          fname, metadata['scene'], metadata['roi_factor'], metadata['res_km'])
-    # LOG.info('GETGEO memmap to %s : lat/lon file for %s, roi_factor %s, res_km %s',
-    #          fname, metadata['scene'], metadata['roi_factor'], metadata['res_km'])
-    LOG.info(
-        "GETGEO memmap to %s : inds file for %s, roi_factor %s",
-        fname,
-        metadata["scene"],
-        metadata["roi_factor"],
-    )
-    LOG.info(
-        "GETGEO memmap to %s : lat/lon file for %s, roi_factor %s",
-        fname,
-        metadata["scene"],
-        metadata["roi_factor"],
-    )
-    try:
+        if geolocation_cache_backend == "memmap":
+            # Store indicies for sector
+            with open(str(fname), "w") as df:
+                lines.tofile(df)
+                samples.tofile(df)
+            # Store indicies for sector
+            # Possible switch to xarray based geolocation files, but we lose memmapping.
+            # ds = xarray.Dataset({'lines':(['x'],lines),'samples':(['x'],samples)})
+            # ds.to_netcdf(fname)
+        elif geolocation_cache_backend == "zarr":
+            if chunk_size:
+                chunks = (chunk_size, chunk_size)
+            else:
+                chunks = None
+            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+            # NOTE zarr does NOT have a close method, so you can NOT use with context.
+            zf = zarr.open(fname, mode="w")
+            # Assume both arrays have the same shape and dtype
+            kwargs = {
+                "shape": lines.shape,
+                "dtype": lines.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("lines", **kwargs)
+            zf.create_dataset("samples", **kwargs)
+            zf["lines"][:] = lines
+            zf["samples"][:] = samples
+    else:
+        LOG.info(
+            "GETGEO to %s : inds file for %s, roi_factor %s",
+            fname,
+            metadata["scene"],
+            metadata["roi_factor"],
+        )
+        LOG.info(
+            "GETGEO to %s : lat/lon file for %s, roi_factor %s",
+            fname,
+            metadata["scene"],
+            metadata["roi_factor"],
+        )
         shape = area_def.shape
-        offset = 8 * shape[0] * shape[1]
-        LOG.info(
-            "GETGEO memmap from %s : lines for %s, shape %s",
-            fname,
-            metadata["scene"],
-            shape,
+        try:
+            if geolocation_cache_backend == "memmap":
+                # Create a memmap to the lat/lon file
+                # Nothing will be read until explicitly requested
+                # We are mapping this here so that the lats and lons are available when
+                # calculating satlelite angles.
+                # LOG.info(
+                #   'GETGEO memmap to %s : inds file for %s, roi_factor %s, res_km %s',
+                #   fname,
+                #   metadata['scene'],
+                #   metadata['roi_factor'],
+                #   metadata['res_km']
+                # )
+                # LOG.info(
+                #   'GETGEO memmap to %s : %s file for %s, roi_factor %s, res_km %s',
+                #    fname,
+                #   "lat/lon",
+                #   metadata['scene'],
+                #   metadata['roi_factor'],
+                #   metadata['res_km']
+                # )
+                offset = 8 * shape[0] * shape[1]
+                LOG.info(
+                    "GETGEO memmap from %s : lines for %s, shape %s",
+                    fname,
+                    metadata["scene"],
+                    shape,
+                )
+                lines = np.memmap(
+                    fname, mode="r", dtype=np.int64, offset=0, shape=shape
+                )
+                LOG.info(
+                    "GETGEO memmap from %s : samples for %s, offset %s",
+                    fname,
+                    metadata["scene"],
+                    offset,
+                )
+                samples = np.memmap(
+                    fname, mode="r", dtype=np.int64, offset=offset, shape=shape
+                )
+            elif geolocation_cache_backend == "zarr":
+                # Load lines/samples from pre-calculated zarr
+                LOG.info(
+                    "GETGEO zarr to {} : inds file for {}".format(
+                        fname, area_def.area_id
+                    )
+                )
+                # NOTE zarr does NOT have close method, so you can NOT use with context.
+                zf = zarr.open(fname, mode="r")
+                lines = zf["lines"]
+                samples = zf["samples"]
+                lines = np.reshape(lines, shape=shape)
+                samples = np.reshape(samples, shape=shape)
+        except ValueError as resp:
+            LOG.warning(
+                "Mismatched geolocation file size (Empty?  No coverage?  Or old "
+                "sector of different shape?"
+            )
+            raise CachedGeolocationIndexError(resp)
+
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
         )
-        lines = np.memmap(fname, mode="r", dtype=np.int64, offset=0, shape=shape)
-        LOG.info(
-            "GETGEO memmap from %s : samples for %s, offset %s",
-            fname,
-            metadata["scene"],
-            offset,
-        )
-        samples = np.memmap(fname, mode="r", dtype=np.int64, offset=offset, shape=shape)
-    except ValueError as resp:
-        LOG.warning(
-            "Mismatched geolocation file size (Empty?  No coverage?  Or old sector of "
-            "different shape?"
-        )
-        raise IndexError(resp)
+
     # Possible switch to xarray based geolocation files, but we lose memmapping.
     # saved_xarray = xarray.load_dataset(fname)
     # lines= saved_xarray['lines'].to_masked_array()
@@ -521,113 +900,231 @@ def get_indexes(metadata, lats, lons, area_def):
     return lines, samples
 
 
-def calculate_solar_angles(metadata, lats, lons, dt):
+def calculate_solar_angles(
+    metadata,
+    lats,
+    lons,
+    dt,
+    resource_tracker=None,
+    area_def=None,
+    geolocation_cache_backend=None,
+    chunk_size=None,
+    cache_solar_angles=False,
+    scan_datetime=None,
+):
     """Calculate solar angles."""
     # If debug is set to True, memory savings will be turned off in order to keep
     # all calculated results for inspection.
     # If set to False, variables will attempt to reuse memory when possible which
     # will result in some results being overwritten when no longer needed.
     debug = False
+    if area_def:
+        adname = area_def.area_id
+    else:
+        adname = "None"
+    if cache_solar_angles:
+        check_geolocation_cache_backend(geolocation_cache_backend)
+        prefix = "GEOSOL"
+        if scan_datetime is not None:
+            prefix += f"_{scan_datetime.strftime('%Y%m%dT%H%M%S.%fZ')}"
+        fname = get_geolocation_cache_filename(
+            prefix,
+            metadata,
+            area_def=area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            chunk_size=chunk_size,
+            solar_angles=True,
+        )
+        cache_exists = Path(fname).exists()
+    else:
+        cache_exists = False
 
     LOG.info("Calculating solar zenith and azimuth angles.")
+
+    if resource_tracker is not None:
+        key = f"GEO SOLAR ANGLES: {adname}_{lats.shape[0]}x{lats.shape[1]}".replace(
+            "None", "ALL"
+        )
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
 
     # Getting good value mask
     # good = lats > -999
     # good_lats = lats[good]
     # good_lons = lons[good]
+    if cache_solar_angles is False or (cache_solar_angles and cache_exists is False):
+        # Constants
+        pi = np.pi
+        pi2 = 2 * pi  # NOQA
+        num_lines = metadata["num_lines"]
+        num_samples = metadata["num_samples"]
+        shape = (num_lines, num_samples)  # NOQA
+        size = num_lines * num_samples  # NOQA
+        deg2rad = pi / 180.0  # NOQA
+        rad2deg = 180.0 / pi  # NOQA
 
-    # Constants
-    pi = np.pi
-    pi2 = 2 * pi  # NOQA
-    num_lines = metadata["num_lines"]
-    num_samples = metadata["num_samples"]
-    shape = (num_lines, num_samples)  # NOQA
-    size = num_lines * num_samples  # NOQA
-    deg2rad = pi / 180.0  # NOQA
-    rad2deg = 180.0 / pi  # NOQA
+        # Calculate any non-data dependent quantities
+        jday = float(dt.strftime("%j"))
+        a1 = (1.00554 * jday - 6.28306) * (pi / 180.0)
+        a2 = (1.93946 * jday - 23.35089) * (pi / 180.0)
+        et = -7.67825 * np.sin(a1) - 10.09176 * np.sin(a2)  # NOQA
 
-    # Calculate any non-data dependent quantities
-    jday = float(dt.strftime("%j"))
-    a1 = (1.00554 * jday - 6.28306) * (pi / 180.0)
-    a2 = (1.93946 * jday - 23.35089) * (pi / 180.0)
-    et = -7.67825 * np.sin(a1) - 10.09176 * np.sin(a2)  # NOQA
+        # Solar declination radians
+        LOG.debug("Calculating delta")
+        delta = deg2rad * 23.4856 * np.sin(np.deg2rad(0.9683 * jday - 78.00878))  # NOQA
 
-    # Solar declination radians
-    LOG.debug("Calculating delta")
-    delta = deg2rad * 23.4856 * np.sin(np.deg2rad(0.9683 * jday - 78.00878))  # NOQA
+        # Pre-generate sin and cos of latitude
+        LOG.debug("Calculating sin and cos")
+        sin_lat = ne.evaluate("sin(deg2rad * lats)")  # NOQA
+        cos_lat = ne.evaluate("cos(deg2rad * lats)")  # NOQA
 
-    # Pre-generate sin and cos of latitude
-    LOG.debug("Calculating sin and cos")
-    sin_lat = ne.evaluate("sin(deg2rad * lats)")  # NOQA
-    cos_lat = ne.evaluate("cos(deg2rad * lats)")  # NOQA
+        # Hour angle
+        LOG.debug("Initializing hour angle")
+        solar_time = dt.hour + dt.minute / 60.0 + dt.second / 3600.0  # NOQA
+        h_ang = ne.evaluate(
+            "deg2rad * ((solar_time + lons / 15.0 + et / 60.0 - 12.0) * 15.0)"
+        )
 
-    # Hour angle
-    LOG.debug("Initializing hour angle")
-    solar_time = dt.hour + dt.minute / 60.0 + dt.second / 3600.0  # NOQA
-    h_ang = ne.evaluate(
-        "deg2rad * ((solar_time + lons / 15.0 + et / 60.0 - 12.0) * 15.0)"
-    )
+        # Pre-allocate all required arrays
+        # This avoids having to allocate them again every time the generator is accessed
+        LOG.debug("Allocating arrays")
+        sun_elev = np.empty_like(h_ang)
 
-    # Pre-allocate all required arrays
-    # This avoids having to allocate them again every time the generator is accessed
-    LOG.debug("Allocating arrays")
-    sun_elev = np.empty_like(h_ang)
+        # Hour angle at all points in radians
+        LOG.debug("Calculating hour angle")
 
-    # Hour angle at all points in radians
-    LOG.debug("Calculating hour angle")
+        # Sun elevation
+        LOG.debug("Calculating sun elevation angle using sin and cos")
+        ne.evaluate(
+            "arcsin(sin_lat * sin(delta) + cos_lat * cos(delta) * cos(h_ang))",
+            out=sun_elev,
+        )  # NOQA
 
-    # Sun elevation
-    LOG.debug("Calculating sun elevation angle using sin and cos")
-    ne.evaluate(
-        "arcsin(sin_lat * sin(delta) + cos_lat * cos(delta) * cos(h_ang))", out=sun_elev
-    )  # NOQA
+        LOG.debug("Calculating caz")
+        # No longer need sin_lat and this saves 3.7GB
+        if not debug:
+            caz = sin_lat
+        else:
+            caz = np.empty_like(sin_lat)
+        ne.evaluate(
+            "-cos_lat * sin(delta) + sin_lat * cos(delta) * cos(h_ang) / cos(sun_elev)",
+            out=caz,
+        )  # NOQA
 
-    LOG.debug("Calculating caz")
-    # No longer need sin_lat and this saves 3.7GB
-    if not debug:
-        caz = sin_lat
+        LOG.debug("Calculating az")
+        # No longer need h_ang and this saves 3.7GB
+        if not debug:
+            az = h_ang
+        else:
+            az = np.empty_like(h_ang)
+        ne.evaluate("cos(delta) * sin(h_ang) / cos(sun_elev)", out=az)  # NOQA
+        # No longer need sin_lat and this saves 3.7GB
+        if not debug:
+            sun_azm = cos_lat
+        else:
+            sun_azm = np.empty_like(cos_lat)
+        ne.evaluate(
+            "where(az <= -1, -pi / 2.0, where(az > 1, pi / 2.0, arcsin(az)))",
+            out=sun_azm,
+        )
+
+        LOG.debug("Calculating solar zenith angle")
+        # No longer need sun_elev and this saves 3.7GB RAM
+        if not debug:
+            sun_zen = sun_elev
+        else:
+            sun_zen = np.empty_like(sun_elev)
+        ne.evaluate("90.0 - rad2deg * sun_elev", out=sun_zen)
+
+        LOG.debug("Calculating solar azimuth angle")
+        ne.evaluate(
+            "where(caz <= 0, pi - sun_azm,where(az <= 0, 2.0 * pi + sun_azm, sun_azm))",
+            out=sun_azm,
+        )
+        sun_azm += pi
+        ne.evaluate(
+            "where(sun_azm > 2.0 * pi, sun_azm - 2.0 * pi, sun_azm)", out=sun_azm
+        )
+        # ne.evaluate('where(caz <= 0, pi - sun_azm, sun_azm) + pi', out=sun_azm)
+        # ne.evaluate('rad2deg * where(sun_azm < 0, sun_azm + pi2, where(sun_azm >= pi2,
+        #                                                     sun_azm - pi2, sun_azm))',
+        #                                                                  out=sun_azm)
+        if cache_solar_angles:
+            if geolocation_cache_backend == "memmap":
+                LOG.info("Storing to %s", fname)
+                with open(fname, "w") as df:
+                    sun_zen.tofile(df)
+                    sun_azm.tofile(df)
+            elif geolocation_cache_backend == "zarr":
+                if chunk_size:
+                    chunks = (chunk_size, chunk_size)
+                else:
+                    chunks = None
+                LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+                # NOTE zarr does NOT have close method, so you can NOT use the context.
+                zf = zarr.open(fname, mode="w")
+                # Assume both arrays have the same shape and dtype
+                kwargs = {
+                    "shape": sun_azm.shape,
+                    "dtype": sun_azm.dtype,
+                }
+                # As of Python 3.11, can't pass chunks=None into create_dataset
+                if chunks:
+                    kwargs["chunks"] = chunks
+                zf.create_dataset("sun_azm", **kwargs)
+                zf.create_dataset("sun_zen", **kwargs)
+                zf["sun_azm"][:] = sun_azm
+                zf["sun_zen"][:] = sun_zen
+        LOG.info("Done calculating solar zenith and azimuth angles")
     else:
-        caz = np.empty_like(sin_lat)
-    ne.evaluate(
-        "-cos_lat * sin(delta) + sin_lat * cos(delta) * cos(h_ang) / cos(sun_elev)",
-        out=caz,
-    )  # NOQA
+        if geolocation_cache_backend == "memmap":
+            # Create a memmap to the lat/lon file
+            # Nothing will be read until explicitly requested
+            # We are mapping this here so that the lats and lons are available when
+            # calculating satlelite angles
+            LOG.info(
+                "GETGEO memmap to {} : lat/lon file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
 
-    LOG.debug("Calculating az")
-    # No longer need h_ang and this saves 3.7GB
-    if not debug:
-        az = h_ang
-    else:
-        az = np.empty_like(h_ang)
-    ne.evaluate("cos(delta) * sin(h_ang) / cos(sun_elev)", out=az)  # NOQA
-    # No longer need sin_lat and this saves 3.7GB
-    if not debug:
-        sun_azm = cos_lat
-    else:
-        sun_azm = np.empty_like(cos_lat)
-    ne.evaluate(
-        "where(az <= -1, -pi / 2.0, where(az > 1, pi / 2.0, arcsin(az)))", out=sun_azm
-    )
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            offset = 8 * metadata["num_samples"] * metadata["num_lines"]
+            sun_zen = np.memmap(
+                fname, mode="r", dtype=np.float64, offset=0, shape=shape
+            )
+            if resource_tracker is not None:
+                resource_tracker.track_resource_usage(
+                    key=key, checkpoint=True, increment_key=True
+                )
+            sun_azm = np.memmap(
+                fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+            )
+            if resource_tracker is not None:
+                resource_tracker.track_resource_usage(
+                    key=key, checkpoint=True, increment_key=True
+                )
+            # Possible switch to xarray based geolocation files, but we lose memmapping.
+            # saved_xarray = xarray.load_dataset(fname)
+            # zen = saved_xarray['zeniths'].to_masked_array()
+            # azm = saved_xarray['azimuths'].to_masked_array()
+        elif geolocation_cache_backend == "zarr":
+            LOG.info(
+                "GETGEO zarr to {} : sun_azm/sun_zen file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            # chunk_x, chunk_y = [int(x/100) for x in lats.shape]
+            # NOTE zarr does NOT have a close method, so you can NOT use with context.
+            zf = zarr.open(fname, mode="r")
+            sun_azm = zf["sun_azm"]
+            sun_zen = zf["sun_zen"]
 
-    LOG.debug("Calculating solar zenith angle")
-    # No longer need sun_elev and this saves 3.7GB RAM
-    if not debug:
-        sun_zen = sun_elev
-    else:
-        sun_zen = np.empty_like(sun_elev)
-    ne.evaluate("90.0 - rad2deg * sun_elev", out=sun_zen)
-
-    LOG.debug("Calculating solar azimuth angle")
-    ne.evaluate(
-        "where(caz <= 0, pi - sun_azm, where(az <= 0, 2.0 * pi + sun_azm, sun_azm))",
-        out=sun_azm,
-    )
-    sun_azm += pi
-    ne.evaluate("where(sun_azm > 2.0 * pi, sun_azm - 2.0 * pi, sun_azm)", out=sun_azm)
-    # ne.evaluate('where(caz <= 0, pi - sun_azm, sun_azm) + pi', out=sun_azm)
-    # ne.evaluate('rad2deg * where(sun_azm < 0, sun_azm + pi2, where(sun_azm >= pi2,
-    #                                                         sun_azm - pi2, sun_azm))',
-    #                                                                       out=sun_azm)
-    LOG.info("Done calculating solar zenith and azimuth angles")
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=key, increment_key=True
+        )
 
     return sun_zen, sun_azm

@@ -36,6 +36,11 @@ profiling/
 *.pstats
 
 ####################################################
+# Fortran specific .gitignore options:
+
+*.mod
+
+####################################################
 # Default auto-generated .gitignore options:
 
 # Byte-compiled / optimized / DLL files

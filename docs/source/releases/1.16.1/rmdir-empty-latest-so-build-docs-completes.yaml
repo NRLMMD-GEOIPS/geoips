@@ -1,0 +1,19 @@
+bug fix:
+- title: 'rmdir latest folder before running build docs'
+  description: |
+    If the latest folder is left over in a repository, build docs will fail.
+    Just remove the latest folder if it is empty.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/build_docs.sh'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04

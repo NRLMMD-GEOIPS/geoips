@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition_static
+name: Guam
+docstring: Guam
+metadata:
+  area: North
+  city: x
+  continent: Pacific
+  country: x
+  state: Guam
+  subarea: x
+spec:
+  area_id: Guam
+  description: Guam
+  projection:
+    a: 6371228.0
+    lat_0: 13.4443
+    lon_0: 144.7937
+    proj: eqc
+    units: m
+  resolution:
+  - 1000.0
+  - 1000.0
+  shape:
+    height: 1200
+    width: 1200
+  area_extent:
+    lower_left_xy: [-600000.0, -600000.0]
+    upper_right_xy: [600000.0, 600000.0]

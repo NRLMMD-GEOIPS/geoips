@@ -8,6 +8,7 @@ from datetime import datetime, timedelta
 import glob
 import logging
 import os
+from pathlib import Path
 
 # Third-Party Libraries
 import netCDF4 as ncdf
@@ -15,19 +16,22 @@ import numpy as np
 import xarray
 
 from geoips.interfaces import readers
+from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    check_geolocation_cache_backend,
     get_geolocation_cache_filename,
     get_geolocation,
 )
 
 LOG = logging.getLogger(__name__)
-try:
+
+with import_optional_dependencies(loglevel="info"):
+    """Attempt to import a package & print to LOG.info if the import fails."""
+    # If this reader is not installed on the system, don't fail alltogether,
+    # just skip this import. This reader will not work if the import fails
+    # and the package will have to be installed to process data of this type.
     import numexpr as ne
-except ImportError:
-    LOG.info(
-        "Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. "
-        "If you need it, install it."
-    )
+    import zarr
 
 nprocs = 6
 
@@ -112,16 +116,38 @@ Equations and code from GEO-KOMPSAT-2A Level 1B Data User Manual.
 """
 
 
-def latlon_from_lincol_geos(resolution, line, column, metadata):
+def latlon_from_lincol_geos(
+    resolution,
+    line,
+    column,
+    metadata,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    resource_tracker=None,
+):
     """Calculate latitude and longitude from array indices.
 
     Uses geostationary projection (likely won't work with extended local area files).
     Equations and code from GEO-KOMPSAT-2A Level 1B Data User Manual.
     """
-    fname = get_geolocation_cache_filename("GEOLL", metadata)
+    check_geolocation_cache_backend(geolocation_cache_backend)
+    fname = get_geolocation_cache_filename(
+        "GEOLL",
+        metadata,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
+    )
+    if resource_tracker is not None:
+        key = Path(fname).name
+        if metadata.get("area_id"):
+            key += f"_{metadata.get('area_id')}"
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
     if not os.path.isfile(fname):
         degtorad = 3.14159265358979 / 180.0
 
+        # Note metadata included directly in the data files is incorrect for
+        # some AMI data files.  These hard coded values are pulled from the
+        # manual for correct geolocation.
         if resolution == "HIGH":
             COFF = 11000.5
             CFAC = 8.170135561335742e7
@@ -185,14 +211,53 @@ def latlon_from_lincol_geos(resolution, line, column, metadata):
 
         nlat[np.where(np.isnan(nlat))] = -999.9
         nlon[np.where(np.isnan(nlon))] = -999.9
-        with open(fname, "w") as df:
-            nlat.tofile(df)
-            nlon.tofile(df)
-
-    shape = (metadata["num_lines"], metadata["num_samples"])
-    offset = 4 * metadata["num_samples"] * metadata["num_lines"]
-    nlat = np.memmap(fname, mode="r", dtype=np.float32, offset=0, shape=shape)
-    nlon = np.memmap(fname, mode="r", dtype=np.float32, offset=offset, shape=shape)
+        if geolocation_cache_backend == "memmap":
+            with open(fname, "w") as df:
+                nlat.tofile(df)
+                nlon.tofile(df)
+        elif geolocation_cache_backend == "zarr":
+            if chunk_size:
+                chunks = (chunk_size, chunk_size)
+            else:
+                chunks = None
+            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(fname, mode="w")
+            # Assume both arrays have the same shape and dtype
+            kwargs = {
+                "shape": nlat.shape,
+                "dtype": nlat.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("lats", **kwargs)
+            zf.create_dataset("lons", **kwargs)
+            zf["lats"][:] = nlat
+            zf["lons"][:] = nlon
+    else:
+        # Create memmap to the lat/lon file
+        # Nothing will be read until explicitly requested
+        # We are mapping this here so that the lats and lons are available when
+        # calculating satlelite angles
+        if geolocation_cache_backend == "memmap":
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            offset = 4 * metadata["num_samples"] * metadata["num_lines"]
+            nlat = np.memmap(fname, mode="r", dtype=np.float32, offset=0, shape=shape)
+            nlon = np.memmap(
+                fname, mode="r", dtype=np.float32, offset=offset, shape=shape
+            )
+        elif geolocation_cache_backend == "zarr":
+            LOG.info(
+                "GETGEO zarr to {} : lat/lon file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
+            zf = zarr.open(fname, mode="r")
+            nlat = zf["lats"]
+            nlon = zf["lons"]
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
 
     return (nlat, nlon)
 
@@ -533,7 +598,17 @@ def get_data(gvars, fname, rad=False, ref=False, bt=False):
     return data
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
+):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
 
@@ -553,6 +628,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Default=None, i.e., if not defined in the yaml file
+        * Defined in yaml file where variables and tuning parameters are set
 
     Returns
     -------
@@ -574,11 +652,23 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         chans,
         area_def,
         self_register,
+        roi=roi,
+        geolocation_cache_backend=geolocation_cache_backend,
+        cache_chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
     )
 
 
 def call_single_time(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -599,6 +689,21 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Passed in from Call function
+        * Default=None, i.e., if not defined in the yaml file
+        * Defined in yaml file where variables and tuning parameters are set
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
 
     Returns
     -------
@@ -613,6 +718,7 @@ def call_single_time(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    check_geolocation_cache_backend(geolocation_cache_backend)
     gvars = {}
     datavars = {}
     geo_metadata = {}
@@ -781,11 +887,23 @@ def call_single_time(
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
         i, j = np.meshgrid(i, j)
         (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-            resolution=self_register, column=i, line=j, metadata=geo_metadata[adname]
+            self_register,
+            j,
+            i,
+            geo_metadata[adname],
+            geolocation_cache_backend=geolocation_cache_backend,
+            resource_tracker=resource_tracker,
         )
 
         gvars[adname] = get_geolocation(
-            start_dt, geo_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+            start_dt,
+            geo_metadata[adname],
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            resource_tracker=resource_tracker,
         )
         if not gvars[adname]:
             LOG.error(
@@ -811,11 +929,22 @@ def call_single_time(
                 j = np.arange(0, geo_metadata[res]["num_samples"], dtype="f")
                 i, j = np.meshgrid(i, j)
                 (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
-                    resolution=res, column=i, line=j, metadata=geo_metadata[res]
+                    res,
+                    j,
+                    i,
+                    geo_metadata[res],
+                    geolocation_cache_backend=geolocation_cache_backend,
+                    resource_tracker=resource_tracker,
                 )
-
                 gvars[res] = get_geolocation(
-                    start_dt, geo_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
+                    start_dt,
+                    geo_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
+                    geolocation_cache_backend=geolocation_cache_backend,
+                    resource_tracker=resource_tracker,
                 )
             except IndexError as resp:
                 LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
@@ -832,6 +961,14 @@ def call_single_time(
         if chan not in file_info:
             continue
         LOG.info("Reading {}".format(chan))
+        if resource_tracker:
+            key = f"READ CHAN: ami_netcdf_chan_{chan}_{adname}"
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG",
+                verbose=False,
+                key=key,
+                show_log=False,
+            )
         chan_md = file_info[chan]
         for res, res_chans in DATASET_INFO.items():
             if chan in res_chans:
@@ -867,6 +1004,10 @@ def call_single_time(
             if dsname not in datavars:
                 datavars[dsname] = {}
             datavars[dsname][chan + typ] = val
+        if resource_tracker:
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG", verbose=False, key=key
+            )
 
     if area_def:
         for res in ["LOW", "MED", "HIGH"]:
@@ -918,22 +1059,27 @@ def call_single_time(
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
 
-        roi = 500
-        if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
-            roi = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
-            )
-            LOG.info("Trying area_def roi %s", roi)
-        for curr_res in geo_metadata.keys():
-            LOG.info(
-                "Trying metadata roi %s %s",
-                geo_metadata[curr_res]["res_km"] * 1000.0,
-                roi,
-            )
-            if geo_metadata[curr_res]["res_km"] * 1000.0 > roi:
-                roi = geo_metadata[curr_res]["res_km"] * 1000.0
-                LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
+        # if roi is not defined in yaml file, a default roi is applied
+        if roi is None:
+            roi = 500
+            if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
+                roi = max(
+                    xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                )
+                LOG.info("Trying area_def roi %s", roi)
+            for curr_res in geo_metadata.keys():
+                LOG.info(
+                    "Trying metadata roi %s %s",
+                    geo_metadata[curr_res]["res_km"] * 1000.0,
+                    roi,
+                )
+                if geo_metadata[curr_res]["res_km"] * 1000.0 > roi:
+                    roi = geo_metadata[curr_res]["res_km"] * 1000.0
+                    LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
         xobj.attrs["interpolation_radius_of_influence"] = roi
+        xobj.attrs["longitude_of_projection_origin"] = geo_metadata[curr_res][
+            "lon0"
+        ].round(5)
         xarray_objs[dsname] = xobj
         # At some point we may need to deconflict, but for now just use any of the
         # dataset attributes as the METADATA dataset

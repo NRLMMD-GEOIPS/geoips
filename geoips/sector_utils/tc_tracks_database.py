@@ -149,7 +149,10 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
             )
             return []
 
-    lines = open(tc_trackfilename, "r").readlines()
+    with open(tc_trackfilename, "r") as f:
+        lines = f.readlines()
+    # Remove any empty lines:
+    lines = [x for x in lines if re.search(r"[a-zA-Z0-9]", x.strip())]
     # Remove any whitespace from the loaded deck file lines - otherwise will fail
     # parsing datetime information downstream
     lines = [x.replace(" ", "") for x in lines]

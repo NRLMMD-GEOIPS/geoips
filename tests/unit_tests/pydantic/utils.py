@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Generic testing utilities used for pydantic unit testing."""
 
 # from collections import UserDict

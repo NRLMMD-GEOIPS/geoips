@@ -1,0 +1,73 @@
+interface: products
+family: list
+name: aws
+docstring: |
+  AWS: Arctic Weather Satellite cross-track scanning Microwave Radiometer(MWR). 19 channels in freq 50-325 GHz, four feedhorns and for receivers.
+
+  Used on
+  AWS: Arctic Weather Satellite launched by ESA focused on Arctical obs. Non-sun-synchronous.
+  
+  The AWS product_inputs configuration, which produces 50, 89, 165, 180, 325 products. 
+spec:
+  products:
+    - name: TB89
+      source_names: [mwr]
+      docstring: |
+        MWR at 89 GHz, used for cloud detection based radiation suppression due to scattering effect from ice particles 
+        (deep precipitating clouds), most useful for presentation of strong convective clouds resulting in low TBs.
+      product_defaults: 89H
+      spec:
+        variables: ["chan9", "latitude", "longitude"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 20000
+    - name: TB50
+      source_names: [mwr]
+      docstring: |
+        MWR at 50.3 GHz, used for temperature sounding
+      product_defaults: 37H
+      spec:
+        variables: ["chan1", "latitude", "longitude"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 20000
+    - name: TB165
+      source_names: [mwr]
+      docstring: |
+        MWR at 165.5 GHz, used for window and humidity sounding
+      product_defaults: 165H
+      spec:
+        variables: ["chan10", "latitude", "longitude"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 20000
+    - name: TB180
+      source_names: [mwr]
+      docstring: |
+        MWR at 180.31 GHz, used for humidity sounding
+      product_defaults: 183H
+      spec:
+        variables: ["chan13", "latitude", "longitude"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 20000
+    - name: TB325-1
+      source_names: [mwr]
+      docstring: |
+        MWR at 325.15 +- 1.2 GHz, used for humidity sounding and cloud detection
+      product_defaults: 89H
+      spec:
+        variables: ["chan16", "latitude", "longitude"]
+        interpolator:
+          plugin:
+            name: interp_gauss
+            arguments:
+              sigmaval: 20000

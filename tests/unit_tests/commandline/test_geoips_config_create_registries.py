@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test module for the CLI command 'geoips config create-registries'."""
 
 import pytest

@@ -12,6 +12,7 @@ bug fix:
     modified:
     - 'setup/config_geoips'
   related-issue:
+    internal: GEOIPS#775
     number: 775
     repo_url: 'geoips'
   date:

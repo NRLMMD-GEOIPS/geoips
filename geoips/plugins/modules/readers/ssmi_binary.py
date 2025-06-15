@@ -171,7 +171,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         return buf[p]
 
     def V2(p):
-        return 256 * buf[p] + buf[p + 1]
+        # With numpy 2.x upgrade, these buffers were uint8, which overflowed.
+        # This made it work.
+        return 256 * np.uint16(buf[p]) + np.uint16(buf[p + 1])
 
     def V4(p):
         return 256 * (256 * (256 * buf[p] + buf[p + 1]) + buf[p + 2]) + buf[p + 3]

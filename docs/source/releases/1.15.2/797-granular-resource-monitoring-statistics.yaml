@@ -1,0 +1,43 @@
+enhancement:
+- title: 'Track resource usage at checkpoints, add zarr hooks to geostationary readers'
+  description: |
+    Add new "track_resource_usage" and "checkpoint_usage_stats" methods to the
+    memusg.PidLog class. The "track_resource_usage" method allows for more detailed
+    profiling of resource usage statistics at specified checkpoints in a procflow. The
+    "checkpoint_usage_stats" method returns a dictionary of each checkpoint with the
+    recorded resource usage statistics. These detailed resource usage statistics can be
+    written to the database if both `--product_db` and `--store_checkpoint_statistics`
+    are passed to the procflow.These checkpoints are currently limited to the
+    config_based procflow, and in geostationary readers (including
+    readers.geostationary_geolocation).
+
+    Also updated the ewsg_netcdf, ahi_hsd, ami_netcdf, and seviri_hrit readers to
+    include hooks for toggling between using memmap or zarr as the backend for storing
+    pre-calcuated geostationary geolocation data. (Note the ewsg_netcdf reader has the
+    hooks, but the settings are not actively used. Added for consistency with the other
+    geostationary readers.)
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/args.py'
+    - 'geoips/plugins/modules/procflows/config_based.py'
+    - 'geoips/plugins/modules/readers/abi_l2_netcdf.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
+    - 'geoips/plugins/modules/readers/fci_netcdf.py'
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+    - 'geoips/utils/memusg.py'
+  related-issue:
+    number: 797
+    repo_url: GEOIPS
+  date:
+    start: 2025-03-26
+    finish: 2025-04-29

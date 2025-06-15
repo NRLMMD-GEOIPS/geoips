@@ -93,7 +93,10 @@ def call(
         vars_to_interp,
         area_def,
         data_box_definition,
-        input_xarray.interpolation_radius_of_influence,
+        # Cast to float, in case the reader returns np.float64, etc (which pyresample
+        # does not like).  Pyresample requires a "number":
+        # TypeError: radius_of_influence must be number
+        float(input_xarray.interpolation_radius_of_influence),
         interp_type="gauss",
         sigmas=sigmaval,
         **kd_kwargs,

@@ -1,0 +1,73 @@
+bug fix:
+- title: 'Use realpath for repopath in build_docs.sh'
+  description: |
+    sphinx build fails on fortran library docstrings without realpath.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/build_docs.sh'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-08
+    finish: 2025-06-08
+- title: 'Do not include trailing underscore in release notes'
+  description: |
+    Remove trailing underscore from GEOIPS in release note.
+    sphinx thinks the trailing underscore is a link, and fails
+    because it is not defined.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/releases/1.15.2/update-geolocation-paths-to-include-geoips.yaml'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04
+- title: 'Combine and remove errant leading space in arctic weather satellite docstrings'
+  description: |
+    Leading spaces in the SECOND docstring table resulted in unexpected indent for sphinx.
+    Combine docstrings for clarity, remove unnecessary content, and remove extra leading
+    spaces.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/aws_netcdf.py'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04
+- title: 'Add modified file to auto-populate brassy changelog release note'
+  description: |
+    If all file lists are empty, sphinx will fail.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/releases/1.16.0/865-auto-populate-repo-url-and-start-date-for-brassy-changelogs.yaml'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04

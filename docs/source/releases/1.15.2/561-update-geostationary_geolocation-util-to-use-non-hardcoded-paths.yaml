@@ -1,0 +1,21 @@
+enhancement:
+- title: 'Use base_paths to control output of geostationary geolocation files'
+  description: |
+    Use PREGENERATED_STATIC_GEOLOCATION and PREGENERATED_DYNAMIC_GEOLOCATION variables
+    to control output location.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  related-issue:
+    number: 561
+    repo_url: GEOIPS/geoips
+  date:
+    start: 2025-03-22
+    finish: 2025-03-22

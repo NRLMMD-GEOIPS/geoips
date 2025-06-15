@@ -8,7 +8,6 @@ This algorithm expects one model variable/channel for a single channel image.
 import logging
 import numpy as np
 import xarray as xr
-from pandas import to_datetime
 
 LOG = logging.getLogger(__name__)
 
@@ -24,7 +23,7 @@ def call(
     output_data_range=None,
     pressure_level_range=1000,
     pressure_key=None,
-    time_key="atime",
+    time_key="time",
     time_fcst=-1,
     min_outbounds="crop",
     max_outbounds="crop",
@@ -104,6 +103,7 @@ def call(
 
     # grid geo (lat/lon), interps expect gridded geos
     if grid_geo:
+        LOG.interactive("Gridding geo values")
         lat, lon = np.meshgrid(
             xobj["latitude"].values, xobj["longitude"].values, indexing="ij"
         )
@@ -112,8 +112,4 @@ def call(
 
     xobj[invar] = idx_data
     xobj[product_name] = idx_data
-    # update for proper title
-    xobj.attrs["start_datetime"] = to_datetime(xobj[time_key].values[time_fcst])
-    # print(xobj)
-    # raise
     return xobj

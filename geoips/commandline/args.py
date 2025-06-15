@@ -911,6 +911,12 @@ def add_args(parser, arglist=None, legacy=False):
                     available sector should be formatted as a json dictionary
                     string.""",
         )
+        prod_db_group.add_argument(
+            "--store_checkpoint_statistics",
+            action="store_true",
+            help="""Store the tracked resource usage statistics for each checkpoint to
+                    the backend database.""",
+        )
 
     composite_group = parser.add_argument_group(title="Image composite kwargs")
     if arglist is None or "composite_output_kwargs_override" in arglist:

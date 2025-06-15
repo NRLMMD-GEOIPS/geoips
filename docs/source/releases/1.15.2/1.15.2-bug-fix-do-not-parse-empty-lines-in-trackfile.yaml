@@ -1,0 +1,17 @@
+bug fix:
+- title: 'Do not try to parse any empty lines in TC deck file'
+  description: |
+    Use regex to skip any lines in a deck file that do not have any
+    alpha-numeric characters, which implies the line is empty.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/sector_utils/tc_tracks_database.py'
+  date:
+    start: 2025-04-11
+    finish: 2025-04-11

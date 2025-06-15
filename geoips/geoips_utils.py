@@ -159,6 +159,7 @@ def copy_standard_metadata(orig_xarray, dest_xarray, extra_attrs=None, force=Tru
         "sample_distance_km",
         "interpolation_radius_of_influence",
         "area_definition",
+        "longitude_of_projection_origin",
     ]
     if extra_attrs is not None:
         attrs += extra_attrs

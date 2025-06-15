@@ -1,0 +1,15 @@
+documentation:
+- title: Update upcoming and tagged versions
+  description: |
+
+    * Tagged version: 1.15.3
+    * Upcoming version: 1.16.2
+  files:
+    modified:
+    - .github/versions/tagged_version
+    - .github/versions/upcoming_version
+  date:
+    start: 2025-05-22
+    finish: 2025-05-22
+  related-issue:
+    internal: GEOIPS#861 - 1.15.3 updates

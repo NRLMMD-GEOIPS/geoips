@@ -1,0 +1,29 @@
+interface: sectors
+family: area_definition_static
+name: Hawaii
+docstring: Hawaii
+metadata:
+  area: North
+  city: x
+  continent: Pacific
+  country: x
+  state: Hawaii
+  subarea: x
+spec:
+  area_id: Hawaii
+  description: Hawaii
+  projection:
+    a: 6371228.0
+    lat_0: 20.5
+    lon_0: -157.5
+    proj: stere
+    units: m
+  resolution:
+  - 750.0
+  - 750.0
+  shape:
+    height: 2150
+    width: 2150
+  area_extent:
+    lower_left_xy: [-806250.0, -806250.0]
+    upper_right_xy: [806250.0, 806250.0]

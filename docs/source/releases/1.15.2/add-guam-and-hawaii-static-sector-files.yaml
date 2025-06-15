@@ -1,0 +1,20 @@
+enhancement:
+- title: 'Add Guam and Hawaii static sectors to main geoips repo'
+  description: |
+    Static sectors covering Guam and Hawaii.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/sectors/static/guam.yaml'
+    - 'geoips/plugins/yaml/sectors/static/hawaii.yaml'
+    modified:
+    - ''
+  related-issue:
+    number: 818
+    repo_url: '/GEOIPS/geoips'
+  date:
+    start: 2025-04-11
+    finish: 2025-04-11

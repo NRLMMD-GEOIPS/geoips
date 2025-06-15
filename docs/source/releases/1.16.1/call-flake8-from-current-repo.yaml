@@ -1,0 +1,14 @@
+release updates:
+- title: 'Ensure check_code.sh calls flake8 from the current repository'
+  description: |
+    flake8 uses the .flake8 config from the CWD, not from the path you are calling it
+    on, so ensure we cd to the current repository from check_code.sh before calling
+    flake8
+  files:
+    modified:
+    - 'tests/utils/check_code.sh'
+  date:
+    start: 2025-06-09
+    finish: 2025-06-09
+  related-issue:
+      internal: GEOIPS#861

@@ -8,6 +8,7 @@ import logging
 import os
 from glob import glob
 from datetime import datetime, timedelta
+from pathlib import Path
 
 # Third-Party Libraries
 import numpy as np
@@ -17,6 +18,8 @@ import xarray
 from geoips.interfaces import readers
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    check_geolocation_cache_backend,
+    get_data_cache_filename,
     get_geolocation_cache_filename,
     get_geolocation,
     AutoGenError,
@@ -35,6 +38,7 @@ with import_optional_dependencies(loglevel="info"):
     # and the package will have to be installed to process data of this type.
     import netCDF4 as ncdf
     import numexpr as ne
+    import zarr
 
 interface = "readers"
 family = "standard"
@@ -355,18 +359,36 @@ def _get_metadata(df, fname, **kwargs):
     return metadata
 
 
-def get_latitude_longitude(metadata, BADVALS, sect=None):
+def get_latitude_longitude(
+    metadata,
+    BADVALS,
+    sect=None,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    resource_tracker=None,
+):
     """
     Get latitudes and longitudes.
 
     This routine accepts a dictionary containing metadata as read from a NCDF4
     format file, and returns latitudes and longitudes for a full disk.
     """
+    check_geolocation_cache_backend(geolocation_cache_backend)
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
     # files, which can be problematic for large numbers of sectors
-    fname = get_geolocation_cache_filename("GEOLL", metadata)
-    if not os.path.isfile(fname):
+    fname = get_geolocation_cache_filename(
+        "GEOLL",
+        metadata,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
+    )
+    if resource_tracker is not None:
+        key = Path(fname).name
+        if sect:
+            key += f"_{sect.area_id}"
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
+    if not Path(fname).exists():
         if sect is not None and DONT_AUTOGEN_GEOLOCATION and "tc2019" not in sect.name:
             msg = (
                 f"GETGEO Requested NO AUTOGEN GEOLOCATION. "
@@ -447,9 +469,30 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         lons[~good_mask] = BADVALS["Off_Of_Disk"]
         LOG.info("Done calculating latitudes and longitudes")
 
-        with open(fname, "w") as df:
-            lats.tofile(df)
-            lons.tofile(df)
+        if geolocation_cache_backend == "memmap":
+            with open(fname, "w") as df:
+                lats.tofile(df)
+                lons.tofile(df)
+        elif geolocation_cache_backend == "zarr":
+            if chunk_size:
+                chunks = (chunk_size, chunk_size)
+            else:
+                chunks = None
+            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(fname, mode="w")
+            # Assume both arrays have the same shape and dtype
+            kwargs = {
+                "shape": lats.shape,
+                "dtype": lats.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("lats", **kwargs)
+            zf.create_dataset("lons", **kwargs)
+            zf["lats"][:] = lats
+            zf["lons"][:] = lons
         # # Possible switch to xarray based geolocation files, but we lose memmapping.
         # ds = xarray.Dataset(
         #     {
@@ -458,23 +501,34 @@ def get_latitude_longitude(metadata, BADVALS, sect=None):
         #         }
         #     )
         # ds.to_netcdf(fname)
-
-    # Create memmap to the lat/lon file
-    # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when
-    # calculating satlelite angles
-    LOG.info(
-        "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["scene"])
-    )
-
-    shape = (metadata["num_lines"], metadata["num_samples"])
-    offset = 8 * metadata["num_samples"] * metadata["num_lines"]
-    lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
-    lons = np.memmap(fname, mode="r", dtype=np.float64, offset=offset, shape=shape)
+    else:
+        # Create memmap to the lat/lon file
+        # Nothing will be read until explicitly requested
+        # We are mapping this here so that the lats and lons are available when
+        # calculating satlelite angles
+        if geolocation_cache_backend == "memmap":
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            offset = 8 * metadata["num_samples"] * metadata["num_lines"]
+            lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
+            lons = np.memmap(
+                fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+            )
+        elif geolocation_cache_backend == "zarr":
+            LOG.info(
+                "GETGEO zarr to {} : lat/lon file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(fname, mode="r")
+            lats = zf["lats"]
+            lons = zf["lons"]
     # Possible switch to xarray based geolocation files, but we lose memmapping
     # saved_xarray = xarray.load_dataset(fname)
     # lons = saved_xarray['longitude'].to_masked_array()
     # lats = saved_xarray['latitude'].to_masked_array()
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
 
     return lats, lons
 
@@ -511,52 +565,18 @@ def _get_geolocation_metadata(metadata):
     return geomet
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
-    """
-    Read ABI NetCDF data from a list of filenames.
-
-    Parameters
-    ----------
-    fnames : list
-        * List of strings, full paths to files
-    metadata_only : bool, default=False
-        * Return before actually reading data if True
-    chans : list of str, default=None
-        * List of desired channels (skip unneeded variables as needed).
-        * Include all channels if None.
-    area_def : pyresample.AreaDefinition, default=None
-        * Specify region to read
-        * Read all data if None.
-    self_register : str or bool, default=False
-        * register all data to the specified dataset id (as specified in the
-          return dictionary keys).
-        * Read multiple resolutions of data if False.
-
-    Returns
-    -------
-    dict of xarray.Datasets
-        * dictionary of xarray.Dataset objects with required Variables and
-          Attributes.
-        * Dictionary keys can be any descriptive dataset ids.
-
-    See Also
-    --------
-    :ref:`xarray_standards`
-        Additional information regarding required attributes and variables
-        for GeoIPS-formatted xarray Datasets.
-    """
-    return readers.read_data_to_xarray_dict(
-        fnames,
-        call_single_time,
-        metadata_only,
-        chans,
-        area_def,
-        self_register,
-    )
-
-
-def call_single_time(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    cache_data=False,
+    cache_solar_angles=False,
+    resource_tracker=None,
+    roi=None,
 ):
     """
     Read ABI NetCDF data from a list of filenames.
@@ -577,6 +597,9 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Default=None, i.e., if not defined in the yaml file.
+        * Defined in yaml file where variables and tuning parameters are set.
 
     Returns
     -------
@@ -591,6 +614,85 @@ def call_single_time(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+    check_geolocation_cache_backend(geolocation_cache_backend)
+    return readers.read_data_to_xarray_dict(
+        fnames,
+        call_single_time,
+        metadata_only,
+        chans,
+        area_def,
+        self_register,
+        geolocation_cache_backend=geolocation_cache_backend,
+        cache_chunk_size=cache_chunk_size,
+        cache_data=cache_data,
+        cache_solar_angles=cache_solar_angles,
+        resource_tracker=resource_tracker,
+        roi=roi,
+    )
+
+
+def call_single_time(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    cache_data=False,
+    cache_solar_angles=False,
+    resource_tracker=None,
+    roi=None,
+):
+    """
+    Read ABI NetCDF data from a list of filenames.
+
+    Parameters
+    ----------
+    fnames : list
+        * List of strings, full paths to files
+    metadata_only : bool, default=False
+        * Return before actually reading data if True
+    chans : list of str, default=None
+        * List of desired channels (skip unneeded variables as needed).
+        * Include all channels if None.
+    area_def : pyresample.AreaDefinition, default=None
+        * Specify region to read
+        * Read all data if None.
+    self_register : str or bool, default=False
+        * register all data to the specified dataset id (as specified in the
+          return dictionary keys).
+        * Read multiple resolutions of data if False.
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Passed in from Call function.
+        * Default=None, i.e., if not defined in the yaml file.
+        * Defined in yaml file where variables and tuning parameters are set.
+
+    Returns
+    -------
+    dict of xarray.Datasets
+        * dictionary of xarray.Dataset objects with required Variables and
+          Attributes.
+        * Dictionary keys can be any descriptive dataset ids.
+
+    See Also
+    --------
+    :ref:`xarray_standards`
+        Additional information regarding required attributes and variables
+        for GeoIPS-formatted xarray Datasets.
+    """
+    check_geolocation_cache_backend(geolocation_cache_backend)
     gvars = {}
     datavars = {}
     standard_metadata = {}
@@ -685,6 +787,17 @@ def call_single_time(
         os.path.basename(fname) for fname in fnames
     ]
 
+    # additional metadata
+    xarray_obj.attrs["latitude_of_projection_origin"] = all_metadata[fname][
+        "projection"
+    ]["latitude_of_projection_origin"]
+    xarray_obj.attrs["longitude_of_projection_origin"] = all_metadata[fname][
+        "projection"
+    ]["longitude_of_projection_origin"]
+    xarray_obj.attrs["perspective_point_height"] = all_metadata[fname]["projection"][
+        "perspective_point_height"
+    ]
+
     # G16 -> goes-16
     xarray_obj.attrs["platform_name"] = highest_md["file_info"]["platform_ID"].replace(
         "G", "goes-"
@@ -767,10 +880,24 @@ def call_single_time(
         # Get just the metadata we need
         standard_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
         fldk_lats, fldk_lons = get_latitude_longitude(
-            standard_metadata[adname], BADVALS, area_def
+            standard_metadata[adname],
+            BADVALS,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            chunk_size=cache_chunk_size,
+            resource_tracker=resource_tracker,
         )
         gvars[adname] = get_geolocation(
-            sdt, standard_metadata[adname], fldk_lats, fldk_lons, BADVALS, area_def
+            sdt,
+            standard_metadata[adname],
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            cache_solar_angles=cache_solar_angles,
+            scan_datetime=sdt,
+            resource_tracker=resource_tracker,
         )
         if not gvars[adname]:
             LOG.error(
@@ -788,10 +915,25 @@ def call_single_time(
                 # Get just the metadata we need
                 standard_metadata[res] = _get_geolocation_metadata(res_md[res])
                 fldk_lats, fldk_lons = get_latitude_longitude(
-                    standard_metadata[res], BADVALS, area_def
+                    standard_metadata[res],
+                    BADVALS,
+                    area_def,
+                    geolocation_cache_backend=geolocation_cache_backend,
+                    chunk_size=cache_chunk_size,
+                    resource_tracker=resource_tracker,
                 )
                 gvars[res] = get_geolocation(
-                    sdt, standard_metadata[res], fldk_lats, fldk_lons, BADVALS, area_def
+                    sdt,
+                    standard_metadata[res],
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
+                    geolocation_cache_backend=geolocation_cache_backend,
+                    chunk_size=cache_chunk_size,
+                    cache_solar_angles=cache_solar_angles,
+                    scan_datetime=sdt,
+                    resource_tracker=resource_tracker,
                 )
             except ValueError as resp:
                 LOG.error(
@@ -822,6 +964,14 @@ def call_single_time(
         if chan not in file_info:
             continue
         LOG.info("Reading {}".format(chan))
+        if resource_tracker:
+            key = f"READ CHAN: abi_netcdf_chan_{chan}_{adname}"
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG",
+                verbose=False,
+                key=key,
+                show_log=False,
+            )
         chan_md = file_info[chan]
         for res, res_chans in DATASET_INFO.items():
             if chan in res_chans:
@@ -846,14 +996,40 @@ def call_single_time(
             ref = True
         if "BT" in types:
             bt = True
+        cache_name_prefix = f"ABI_CHAN{chan}"
         if self_register:
-            data = get_data(chan_md, gvars[adname], rad, ref, bt)
+            data = get_data(
+                chan_md,
+                gvars[adname],
+                rad,
+                ref,
+                bt,
+                cache_data=cache_data,
+                cache_name_prefix=cache_name_prefix,
+                scan_datetime=sdt,
+                standard_metadata=standard_metadata[adname],
+            )
         else:
-            data = get_data(chan_md, gvars[res], rad, ref, bt)
+            data = get_data(
+                chan_md,
+                gvars[res],
+                rad,
+                ref,
+                bt,
+                cache_data=cache_data,
+                cache_name_prefix=cache_name_prefix,
+                scan_datetime=sdt,
+                area_def=area_def,
+                standard_metadata=standard_metadata[res],
+            )
         for typ, val in data.items():
             if dsname not in datavars:
                 datavars[dsname] = {}
             datavars[dsname][chan + typ] = val
+        if resource_tracker:
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG", verbose=False, key=key
+            )
 
     # This needs to be fixed:
     #   remove any unneeded datasets from datavars and gvars
@@ -947,17 +1123,20 @@ def call_single_time(
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
 
-        roi = 500
-        roi_factor = 5
-        if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
-            roi = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
-            )
-            LOG.info("Trying area_def roi %s", roi)
-        for curr_res in standard_metadata.keys():
-            if standard_metadata[curr_res]["res_km"] * 1000.0 * roi_factor > roi:
-                roi = standard_metadata[curr_res]["res_km"] * 1000.0 * roi_factor
-                LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
+        # if roi is not defined in yaml file, a default roi is applied
+        if roi is None:
+            roi = 500
+            roi_factor = 5
+            if hasattr(xobj, "area_definition") and xobj.area_definition is not None:
+                roi = max(
+                    xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                )
+                LOG.info("Trying area_def roi %s", roi)
+            for curr_res in standard_metadata.keys():
+                if standard_metadata[curr_res]["res_km"] * 1000.0 * roi_factor > roi:
+                    roi = standard_metadata[curr_res]["res_km"] * 1000.0 * roi_factor
+                    LOG.info("Trying standard_metadata[%s] %s", curr_res, roi)
+
         xobj.attrs["interpolation_radius_of_influence"] = roi
         LOG.info(f"Using roi {roi}")
         xarray_objs[dsname] = xobj
@@ -987,18 +1166,148 @@ def get_band_metadata(all_metadata):
     return bandmetadata
 
 
-def get_data(md, gvars, rad=False, ref=False, bt=False):
+def get_cached_radiance(
+    full_disk,
+    line_inds,
+    sample_inds,
+    md,
+    gvars,
+    cache_name_prefix=None,
+    chunk_size=None,
+    scan_datetime=None,
+    area_def=None,
+    standard_metadata=None,
+):
     """Read data for a full channel's worth of files."""
-    # Coordinate arrays for reading
-    if "Lines" in gvars and "Samples" in gvars:
-        full_disk = False
-        line_inds = gvars["Lines"]
-        sample_inds = gvars["Samples"]
+    full_disk_rad_cache = get_data_cache_filename(
+        cache_name_prefix + "RAD",
+        standard_metadata,
+        None,
+        "zarr",
+        chunk_size,
+        scan_datetime,
+    )
+    if chunk_size:
+        chunks = (chunk_size, chunk_size)
     else:
-        full_disk = True
+        chunks = None
+    if not Path(full_disk_rad_cache).exists():
+        LOG.info("Converting netCDF to zarray")
+        LOG.info("GETDATACACHE to %s", full_disk_rad_cache)
+        with xarray.open_dataset(md["path"]) as ds:
+            ds.to_zarr(
+                full_disk_rad_cache,
+                mode="w",
+                consolidated=True,
+                encoding={
+                    "Rad": {"chunks": chunks, "_FillValue": -999.0},
+                    "DQF": {"chunks": chunks, "_FillValue": 255},
+                },
+            )
+        LOG.info("Done converting netCDF to zarray")
+    # This leads to redundant I/O, but should be OK. Makes thing easier rather than
+    # trying to juggle either an xarray object or zarray object.
+    LOG.info("GETDATACACHE from %s", full_disk_rad_cache)
+    # zarr does NOT have a close method, so you can NOT use the with context.
+    zf = zarr.open(full_disk_rad_cache, mode="r")
+    rad_data = zf["Rad"]
+    qf = zf["DQF"]
+    if not full_disk:
+        sector_rad_cache = get_data_cache_filename(
+            cache_name_prefix + "RAD",
+            standard_metadata,
+            area_def,
+            "zarr",
+            chunk_size,
+            scan_datetime,
+        )
+        if not Path(sector_rad_cache).exists():
+            rad_data = rad_data[line_inds, sample_inds]
+            qf = qf[line_inds, sample_inds]
+            LOG.info("GETDATACACHE to %s", sector_rad_cache)
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(sector_rad_cache, mode="w")
+            # Assume both arrays have the same shape and dtype
+            kwargs = {
+                "shape": rad_data.shape,
+                "dtype": rad_data.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("Rad", **kwargs)
+            zf.create_dataset("DQF", **kwargs)
+            zf["Rad"][:] = rad_data
+            zf["DQF"][:] = qf
+        else:
+            LOG.info("GETDATACACHE from %s", sector_rad_cache)
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(sector_rad_cache, mode="r")
+            rad_data = zf["Rad"]
+            qf = zf["DQF"]
+    else:
+        # Here we need to determine which indexes to read based on the size of the
+        # input geolocation data.  We assume that the geolocation data and the
+        # variable data cover the same domain, just at a different resolution.
+        geoloc_shape = np.array(gvars["solar_zenith_angle"].shape, dtype=np.float64)
+        data_shape = np.array(rad_data.shape, dtype=np.float64)
+        # If the geolocation shape matches the data shape, just read the data
+        if np.all(geoloc_shape == data_shape):
+            rad_data = np.float64(rad_data)
+            # qf = qf
+        # Upscaling data to match geolocation shape
+        elif np.all(np.maximum(geoloc_shape, data_shape) == geoloc_shape):
+            # Data shape is smaller, so it is the denominator
+            zoom_factor, remainder = np.divmod(geoloc_shape, data_shape)
+            # Ensure that all elements of the zoom factor are whole numbers
+            if np.any(remainder):
+                raise ValueError(
+                    "Zoom factor is not a whole number.  "
+                    "This section of code needs to be reexamined."
+                )
+            # Ensure that all elements of the zoom factor are equal
+            if not np.all(zoom_factor == zoom_factor[0]):
+                raise ValueError(
+                    "Zoom factor must be equal for both dimensions.  "
+                    "This section of code needs to be reexamined."
+                )
+            # Perform the actual zoom
+            zoom_factor = zoom_factor.astype(np.int)
+            rad_data = zoom(np.float64(rad_data), zoom_factor[0], order=0)
+            qf = zoom(qf, zoom_factor[0], order=0)
+        # Downscaling data to match geolocation shape
+        elif np.all(np.maximum(geoloc_shape, data_shape) == data_shape):
+            # Geoloc shape is smaller, so it is the denominator
+            zoom_factor, remainder = np.divmod(data_shape, geoloc_shape)
+            # Ensure that all elements of the zoom factor are whole numbers
+            if np.any(remainder):
+                raise ValueError(
+                    "Zoom factor is not a whole number.  "
+                    "This section of code needs to be reexamined."
+                )
+            # Ensure that all elements of the zoom factor are equal
+            if not np.all(zoom_factor == zoom_factor[0]):
+                raise ValueError(
+                    "Zoom factor must be equal for both dimensions.  "
+                    "This section of code needs to be reexamined."
+                )
+            # Perform the actual subsampling
+            LOG.info("Before zoom")
+            zoom_factor = zoom_factor.astype(np.int)
+            rad_data = np.float64(rad_data[:: zoom_factor[0], :: zoom_factor[0]])
+            qf = qf[:: zoom_factor[0], :: zoom_factor[0]]
+            LOG.info("After zoom")
+        else:
+            raise ValueError(
+                "Zoom factor cannot be computed.  "
+                "All either both dimensions of geolocation data must be "
+                "larger than the data dimensions or vice versa."
+            )
+    return np.float64(rad_data), np.float64(qf)
 
-    band_num = md["var_info"]["band_id"]
 
+def read_netcdf_radiance(full_disk, line_inds, sample_inds, md, gvars):
+    """Read data for a full channel's worth of files."""
     # Read radiance data for channel
     # For some reason, netcdf4 does not like it if you pass a bunch of indexes.
     # It is very slow and creates memory errors if there are too many.
@@ -1081,7 +1390,298 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
                     "All either both dimensions of geolocation data must be "
                     "larger than the data dimensions or vice versa."
                 )
+    return rad_data, qf
 
+
+def convert_radiance_to_reflectance(
+    radiance, solar_zenith_angle, calibration_metadata, bad_data_mask
+):
+    """Convert radiance to reflectance.
+
+    Parameters
+    ----------
+    radiance : numpy.masked_array
+        Observed radiances
+    solar_zenith_angle : numpy.array
+        Calculated solar angles for each radiance pixel
+    calibration_metadata : dict
+        Dictionary holding the kappa0 constant used when converting radiance to BT
+    bad_data_mask : numpy.array
+        Bool array where bad data are masked
+
+    Returns
+    -------
+    numpy.array
+        Calibrated reflectances
+    """
+    # Get the radiance data
+    # Have to do this when using numexpr
+    rad_data = radiance[~bad_data_mask]  # NOQA
+
+    k0 = calibration_metadata["kappa0"]  # NOQA
+    sun_zenith = solar_zenith_angle[~bad_data_mask]  # NOQA
+    # zoom_info = (
+    #     np.array(rad_data.shape, dtype=np.float) /
+    #     np.array(sun_zenith.shape, dtype=np.float
+    # )
+    # if zoom_info[0] == zoom_info[1] and int(zoom_info[0]) == zoom_info[0]:
+    #     if zoom_info[0] > 1 and int(zoom_info[0]) == zoom_info[0]:
+    #         sun_zenith = zoom(sun_zenith, zoom_info[0])
+    #     elif zoom_info[0] < 1 and int(zoom_info[0]**-1) == zoom_info[0]**-1:
+    #         sun_zenith = sun_zenith[::zoom_info[0]**-1, :: zoom_info[0]**-1]
+    #     elif zoom_info[0] == 1:
+    #         pass
+    #     else:
+    #         ValueError('Inappropriate zoom level calculated.')
+    # else:
+    #     ValueError('Inappropriate zoom level calculated.')
+
+    deg2rad = np.pi / 180.0  # NOQA
+    # NOTE:: ABI docs suggest doing solar zenith angle correction here, but
+    #        since some algorithms (e.g. Fire-Temperature RGB) required uncorrected
+    #        data, we will not do this here, instead leaving it to the algorithm
+    #        developer to handle.
+    ref = ne.evaluate("k0 * rad_data")
+    return ref
+
+
+def get_cached_reflectance(
+    radiance,
+    solar_zenith_angle,
+    calibration_metadata,
+    bad_data_mask,
+    cache_name_prefix=None,
+    chunk_size=None,
+    scan_datetime=None,
+    area_def=None,
+    standard_metadata=None,
+):
+    """Create or load cached zarray of reflectance data.
+
+    Loads zarray file if cache exists, otherwise calls convert_radiance_to_reflectance
+    to calculate the reflectances then stores to zarray.
+
+    Parameters
+    ----------
+    radiance : numpy.masked_array
+        Observed radiances
+    solar_zenith_angle : numpy.array
+        Calculated solar angles for each radiance pixel
+    calibration_metadata : dict
+        Dictionary holding the kappa0 constant used when converting radiance to BT
+    bad_data_mask : numpy.array
+        Bool array where bad data are masked
+    cache_name_prefix : str, optional
+        Cache file name prefix, by default None
+    chunk_size : int, optional
+        Chunk size of zarray, by default None
+    scan_datetime : datetime, optional
+        Scan start time of observation, by default None
+    area_def : pyresample.area_definition, optional
+        Area definition subsector, by default None
+    standard_metadata : dict, optional
+        High level metadata for dataset, by default None
+
+    Returns
+    -------
+    array
+        Calibrated reflectances
+    """
+    ref_cache = get_data_cache_filename(
+        cache_name_prefix + "REF",
+        standard_metadata,
+        area_def,
+        "zarr",
+        chunk_size,
+        scan_datetime,
+    )
+    if Path(ref_cache).exists():
+        LOG.info("GETDATACACHE from %s", ref_cache)
+        # zarr does NOT have a close method, so you can NOT use the with context.
+        zf = zarr.open(ref_cache, mode="r")
+        ref = zf["Ref"]
+    else:
+        if chunk_size:
+            chunks = (chunk_size, chunk_size)
+        else:
+            chunks = None
+        LOG.info("GETDATACACHE to %s", ref_cache)
+        ref = convert_radiance_to_reflectance(
+            radiance, solar_zenith_angle, calibration_metadata, bad_data_mask
+        )
+        kwargs = {
+            "shape": ref.shape,
+            "dtype": ref.dtype,
+        }
+        # zarr does NOT have a close method, so you can NOT use the with context.
+        zf = zarr.open(ref_cache, mode="w")
+        # As of Python 3.11, can't pass chunks=None into create_dataset
+        if chunks:
+            kwargs["chunks"] = chunks
+        zf.create_dataset("Ref", **kwargs)
+        zf["Ref"][:] = ref
+    return ref
+
+
+def convert_radiance_to_brightness_temperature(
+    radiance, calibration_metadata, bad_data_mask
+):
+    """Convert radiance to brightness temperature.
+
+    Parameters
+    ----------
+    radiance : numpy.masked_array
+        Observed radiances
+    calibration_metadata : dict
+        Dictionary holding the planck_fk1, planck_fk2, planck_bc1, and planck_bc2
+        constants that are used for converting radiance to BT
+    bad_data_mask : numpy.array
+        Bool array where bad data are masked
+
+    Returns
+    -------
+    numpy.array
+        Calibrated brightness temperatures
+    """
+    # Get the radiance data
+    # Have to do this when using numexpr
+    rad_data = radiance[~bad_data_mask]  # NOQA
+
+    # Sometimes negative values occur due to oddities in calibration
+    # These break the conversion to BT
+    # Since these values are likely caused by very dark (cold) scenes
+    #   that are below the sensor's sensitivity and we are not interested in
+    #   having bad data scattered throughout the imager, we will set this
+    #   to a very small value
+    rad_data[rad_data <= 0] = 0.001
+
+    fk1 = calibration_metadata["planck_fk1"]  # NOQA
+    fk2 = calibration_metadata["planck_fk2"]  # NOQA
+    bc1 = calibration_metadata["planck_bc1"]  # NOQA
+    bc2 = calibration_metadata["planck_bc2"]  # NOQA
+
+    bt = ne.evaluate("(fk2 / log(fk1 / rad_data + 1) - bc1) / bc2")
+    return bt
+
+
+def get_cached_brightness_temperature(
+    radiance,
+    calibration_metadata,
+    bad_data_mask,
+    cache_name_prefix=None,
+    chunk_size=None,
+    scan_datetime=None,
+    area_def=None,
+    standard_metadata=None,
+):
+    """Create or load cached zarray of brightness temperature data.
+
+    Loads zarray file if cache exists, otherwise calls
+    convert_radiance_to_brightness_temperature to calculate the reflectances then stores
+    to zarray.
+
+    Parameters
+    ----------
+    radiance : numpy.masked_array
+        Observed radiances
+    calibration_metadata : dict
+        Dictionary holding the planck_fk1, planck_fk2, planck_bc1, and planck_bc2
+        constants that are used for converting radiance to BT
+    bad_data_mask : numpy.array
+        Bool array where bad data are masked
+    cache_name_prefix : str, optional
+        Cache file name prefix, by default None
+    chunk_size : int, optional
+        Chunk size of zarray, by default None
+    scan_datetime : datetime, optional
+        Scan start time of observation, by default None
+    area_def : pyresample.area_definition, optional
+        Area definition subsector, by default None
+    standard_metadata : dict, optional
+        High level metadata for dataset, by default None
+
+    Returns
+    -------
+    array
+        Calibrated brightness temperatures
+    """
+    ref_cache = get_data_cache_filename(
+        cache_name_prefix + "BT",
+        standard_metadata,
+        area_def,
+        "zarr",
+        chunk_size,
+        scan_datetime,
+    )
+    if Path(ref_cache).exists():
+        LOG.info("GETDATACACHE from %s", ref_cache)
+        # zarr does NOT have a close method, so you can NOT use the with context.
+        zf = zarr.open(ref_cache, mode="r")
+        bt = zf["BT"]
+    else:
+        if chunk_size:
+            chunks = (chunk_size, chunk_size)
+        else:
+            chunks = None
+        LOG.info("GETDATACACHE to %s", ref_cache)
+        bt = convert_radiance_to_brightness_temperature(
+            radiance, calibration_metadata, bad_data_mask
+        )
+        # zarr does NOT have a close method, so you can NOT use the with context.
+        zf = zarr.open(ref_cache, mode="w")
+        kwargs = {
+            "shape": bt.shape,
+            "dtype": bt.dtype,
+        }
+        # As of Python 3.11, can't pass chunks=None into create_dataset
+        if chunks:
+            kwargs["chunks"] = chunks
+        zf.create_dataset("BT", **kwargs)
+        zf["BT"][:] = bt
+    return bt
+
+
+def get_data(
+    md,
+    gvars,
+    rad=False,
+    ref=False,
+    bt=False,
+    cache_data=False,
+    cache_name_prefix=None,
+    chunk_size=None,
+    scan_datetime=None,
+    area_def=None,
+    standard_metadata=None,
+):
+    """Read data for a full channel's worth of files."""
+    # Coordinate arrays for reading
+    if "Lines" in gvars and "Samples" in gvars:
+        full_disk = False
+        line_inds = gvars["Lines"]
+        sample_inds = gvars["Samples"]
+    else:
+        full_disk = True
+
+    band_num = md["var_info"]["band_id"]
+
+    if cache_data:
+        rad_data, qf = get_cached_radiance(
+            full_disk,
+            line_inds.copy(),
+            sample_inds.copy(),
+            md,
+            gvars,
+            cache_name_prefix=cache_name_prefix,
+            chunk_size=chunk_size,
+            scan_datetime=scan_datetime,
+            area_def=area_def,
+            standard_metadata=standard_metadata,
+        )
+    else:
+        rad_data, qf = read_netcdf_radiance(
+            full_disk, line_inds, sample_inds, md, gvars
+        )
     data = {"Rad": rad_data}
     # Originally was using -1, but this is a uint8 and set to 255 for off of disk
     data["Rad"][np.where(qf == 255)] = BADVALS["Off_Of_Disk"]
@@ -1102,41 +1702,30 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
             raise ValueError(
                 "Unable to calculate reflectances for band #{0}".format(band_num)
             )
-
-        # Get the radiance data
-        # Have to do this when using numexpr
-        rad_data = data["Rad"][~bad_data_mask]  # NOQA
-
         # If we don't need radiances, then reuse the memory
         if not rad:
             data["Ref"] = data.pop("Rad")
+            radiance = data["Ref"]
         else:
             data["Ref"] = np.empty_like(data["Rad"])
-
-        k0 = md["var_info"]["kappa0"]  # NOQA
-        sun_zenith = gvars["solar_zenith_angle"][~bad_data_mask]  # NOQA
-        # zoom_info = (
-        #     np.array(rad_data.shape, dtype=np.float) /
-        #     np.array(sun_zenith.shape, dtype=np.float
-        # )
-        # if zoom_info[0] == zoom_info[1] and int(zoom_info[0]) == zoom_info[0]:
-        #     if zoom_info[0] > 1 and int(zoom_info[0]) == zoom_info[0]:
-        #         sun_zenith = zoom(sun_zenith, zoom_info[0])
-        #     elif zoom_info[0] < 1 and int(zoom_info[0]**-1) == zoom_info[0]**-1:
-        #         sun_zenith = sun_zenith[::zoom_info[0]**-1, :: zoom_info[0]**-1]
-        #     elif zoom_info[0] == 1:
-        #         pass
-        #     else:
-        #         ValueError('Inappropriate zoom level calculated.')
-        # else:
-        #     ValueError('Inappropriate zoom level calculated.')
-
-        deg2rad = np.pi / 180.0  # NOQA
-        # NOTE:: ABI docs suggest doing solar zenith angle correction here, but
-        #        since some algorithms (e.g. Fire-Temperature RGB) required uncorrected
-        #        data, we will not do this here, instead leaving it to the algorithm
-        #        developer to handle.
-        data["Ref"][~bad_data_mask] = ne.evaluate("k0 * rad_data")
+            radiance = data["Rad"]
+        if cache_data:
+            ref = get_cached_reflectance(
+                radiance,
+                gvars["solar_zenith_angle"],
+                md["var_info"],
+                bad_data_mask,
+                cache_name_prefix=cache_name_prefix,
+                chunk_size=chunk_size,
+                scan_datetime=scan_datetime,
+                area_def=area_def,
+                standard_metadata=standard_metadata,
+            )
+        else:
+            ref = convert_radiance_to_reflectance(
+                radiance, gvars["solar_zenith_angle"], md["var_info"], bad_data_mask
+            )
+        data["Ref"][~bad_data_mask] = ref
 
     if bt:
         if band_num not in range(7, 17):
@@ -1145,33 +1734,31 @@ def get_data(md, gvars, rad=False, ref=False, bt=False):
                     band_num
                 )
             )
-
-        # Get the radiance data
-        # Have to do this when using numexpr
-        rad_data = data["Rad"][~bad_data_mask]
-
-        # Sometimes negative values occur due to oddities in calibration
-        # These break the conversion to BT
-        # Since these values are likely caused by very dark (cold) scenes
-        #   that are below the sensor's sensitivity and we are not interested in
-        #   having bad data scattered throughout the imager, we will set this
-        #   to a very small value
-        rad_data[rad_data <= 0] = 0.001
-
         # If we don't need radiances, then reuse the memory
         if not rad:
             data["BT"] = data.pop("Rad")
+            radiance = data["BT"]
         else:
             data["BT"] = np.empty_like(data["Rad"])
+            radiance = data["Rad"]
 
-        fk1 = md["var_info"]["planck_fk1"]  # NOQA
-        fk2 = md["var_info"]["planck_fk2"]  # NOQA
-        bc1 = md["var_info"]["planck_bc1"]  # NOQA
-        bc2 = md["var_info"]["planck_bc2"]  # NOQA
+        if cache_data:
+            bt = get_cached_brightness_temperature(
+                radiance,
+                md["var_info"],
+                bad_data_mask,
+                cache_name_prefix=cache_name_prefix,
+                chunk_size=chunk_size,
+                scan_datetime=scan_datetime,
+                area_def=area_def,
+                standard_metadata=standard_metadata,
+            )
+        else:
+            bt = convert_radiance_to_brightness_temperature(
+                radiance, md["var_info"], bad_data_mask
+            )
 
-        data["BT"][~bad_data_mask] = ne.evaluate(
-            "(fk2 / log(fk1 / rad_data + 1) - bc1) / bc2"
-        )
+        data["BT"][~bad_data_mask] = bt
 
     # latitude is sometimes fully specified from area_def... So does not
     # relate to actual masked data..

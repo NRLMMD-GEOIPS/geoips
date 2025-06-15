@@ -1,0 +1,19 @@
+bug fix:
+- title: 'Update TC tracks database when passing one deck file at commandline'
+  description: |
+    Check if length of sys.argv is greater than OR equal to two. Otherwise
+    script would ignore a single deck file if passed at the commandline.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/update_tc_tracks_database.py'
+  related-issue:
+    internal: GEOIPS#54
+  date:
+    start: 2025-05-23
+    finish: 2025-06-03

@@ -1,0 +1,47 @@
+enhancement:
+- title: 'Implement additional caching options for ABI geostationary reader'
+  description: |
+    Add support for optionally caching solar angle calculations in either memmap or
+    zarray format. Solar angle calculations are stored under a "short term" directory,
+    so any files under that directory can be subject to aggressive scrubbing without the
+    worry of deleting "long term" caches (e.g. lat/lon/sat_azimuth/sat_zenith).
+
+    In addition to the optional solar angle caching, the abi_netcdf reader was updated
+    to support the optional caching of both radiance and calibrated data. The abi_satpy
+    and ahi_satpy readers are considerably faster, likely due to the caching of both the
+    solar angles and the data itself.
+
+    The environment variables that control the cache location have been standardized
+    under base_paths.py, and are assigned the following names:
+    GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC,
+    GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC,
+    GEOIPS_DATA_CACHE_DIR_SHORTERM_GEOLOCATION_SOLAR_ANGLES,
+    GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA,
+    SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA,
+    SATPY_DATA_CACHE_DIR_SHORTERM_GEOLOCATION_SOLAR_ANGLES.
+
+    The variables above use derived paths from either GEOIPS_DATA_CACHE_DIR or
+    SATPY_DATA_CACHE_DIR, which can both be set in the config_geoips script. Presently,
+    both of those paths will default to $GEOIPS_OUTDIRS/cache/geoips and
+    $GEOIPS_OUTDIRS/cache/satpy, respectively.
+
+    Add new config based test script for processing ABI visible and Infrared data while
+    using the solar angle and data caching options.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/scripts/abi.config_based_output_full_zarr_cache_backend.sh'
+    - 'tests/yaml_configs/abi_test_full_zarr_cache_backend.yaml'
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'setup/config_geoips'
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    internal: GEOIPS#852 caching options
+  date:
+    start: 2025-05-12
+    finish: 2025-05-14

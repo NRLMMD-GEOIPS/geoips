@@ -1,0 +1,19 @@
+enhancement:
+- title: 'Auto populate repo url and start date for brassy changelogs'
+  description: |
+    Set the start date to the current date, and populate the repo_url with
+    $GEOIPS_REPO_URL if it is set.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_release'
+  related-issue:
+    internal: GEOIPS#865
+  date:
+    start: 2025-05-23
+    finish: 2025-05-23

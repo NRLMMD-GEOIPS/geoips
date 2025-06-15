@@ -15,8 +15,7 @@ refactor:
     - 'setup/config_geoips'
     - 'setup/bash_setup/color_prompt'
   related-issue:
-    number: 753
-    repo_url: 'GEOIPS/geoips'
+    internal: GEOIPS#753 - version release
   date:
     start: 2025-03-19
     finish: 2025-03-19

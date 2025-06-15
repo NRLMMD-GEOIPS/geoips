@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Update geostationary readers for appropriate Python 3.11 zarr usage'
+  description: |
+    * Remove with context - zarr no longer has a "close" method, so you can't use with
+    * Only pass chunks in if not None - create_dataset method fails if chunks is passed in as None
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - geoips/plugins/modules/readers/abi_netcdf.py
+    - geoips/plugins/modules/readers/ahi_hsd.py
+    - geoips/plugins/modules/readers/ami_netcdf.py
+    - geoips/plugins/modules/readers/fci_netcdf.py
+    - geoips/plugins/modules/readers/seviri_hrit.py
+    - geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04

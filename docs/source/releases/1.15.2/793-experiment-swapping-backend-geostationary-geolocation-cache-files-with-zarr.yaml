@@ -1,0 +1,31 @@
+enhancement:
+- title: 'Add support for using zarray for geolocation cache'
+  description: |
+    Update the ABI reader and geolocation utils to support saving the pre-generated
+    geolocation cache in either numpy.memmap or zarray. The default behavior is to keep
+    using numpy.memmap, but the new geolocation_cache_backend allows users to toggle
+    between "memmap" or "zarr".
+
+    Also updated the readers interface to pass kwargs to the reader when using the
+    read_data_to_xarray_dict and call_files_and_get_top_level_metadata ReadersInterface
+    methods.
+
+    Add test scripts for ABI zarray geolocation cache backend.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/scripts/abi.config_based_output_low_memory_zarr_backend.sh'
+    - 'tests/yaml_configs/abi_test_low_memory_zarr_cache_backend.yaml'
+    modified:
+    - 'geoips/interfaces/module_based/readers.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  related-issue:
+    number: 793
+    repo_url: GEOIPS
+  date:
+    start: 2025-03-22
+    finish: 2025-04-09

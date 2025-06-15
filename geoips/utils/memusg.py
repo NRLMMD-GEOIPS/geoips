@@ -11,10 +11,11 @@ import resource
 import threading
 from ast import literal_eval
 from sys import argv
-from datetime import datetime
+from datetime import datetime, timezone
 import platform
 
 # Installed libraires
+from collections import defaultdict
 import pandas as pd
 
 # Geoips libraries
@@ -122,14 +123,18 @@ class PidLog:
     def track_pids(self):
         """Track pids and create a dict of values."""
         self.usage_dict = {
-            "cpu_percent": [],
-            "thread_count": [],
-            "unique_set_size": [],
-            "res_set_size": [],
-            "utc_datetime": [],
+            "overall": {
+                "cpu_percent": [],
+                "thread_count": [],
+                "unique_set_size": [],
+                "res_set_size": [],
+                "utc_datetime": [],
+            },
+            "checkpoints": {},
         }
+
         if platform.system() == "Linux":
-            self.usage_dict["cpu_count"] = []
+            self.usage_dict["overall"]["cpu_count"] = []
 
         while self.pid_bool:
 
@@ -164,13 +169,13 @@ class PidLog:
                     continue
 
             dtime = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
-            self.usage_dict["cpu_percent"].append(cpu_per)
+            self.usage_dict["overall"]["cpu_percent"].append(cpu_per)
             if platform.system() == "Linux":
-                self.usage_dict["cpu_count"].append(len(set(tmp_cpu)))
-            self.usage_dict["thread_count"].append(thrd_cnt)
-            self.usage_dict["unique_set_size"].append(uss_tmp)
-            self.usage_dict["res_set_size"].append(rss_tmp)
-            self.usage_dict["utc_datetime"].append(dtime)
+                self.usage_dict["overall"]["cpu_count"].append(len(set(tmp_cpu)))
+            self.usage_dict["overall"]["thread_count"].append(thrd_cnt)
+            self.usage_dict["overall"]["unique_set_size"].append(uss_tmp)
+            self.usage_dict["overall"]["res_set_size"].append(rss_tmp)
+            self.usage_dict["overall"]["utc_datetime"].append(dtime)
 
         return
 
@@ -194,9 +199,9 @@ class PidLog:
             self.logstr,
         )
 
-        if len(self.usage_dict["unique_set_size"]) > 0:
-            ram_usg = max(self.usage_dict["unique_set_size"])
-            highest = max(self.usage_dict["res_set_size"])
+        if len(self.usage_dict["overall"]["unique_set_size"]) > 0:
+            ram_usg = max(self.usage_dict["overall"]["unique_set_size"])
+            highest = max(self.usage_dict["overall"]["res_set_size"])
         else:
             ram_usg = 0
             highest = 0
@@ -224,6 +229,255 @@ class PidLog:
 
         return usage_dict
 
+    def track_resource_usage(
+        self,
+        logstr="",
+        verbose=False,
+        key=None,
+        show_log=True,
+        checkpoint=False,
+        increment_key=True,
+    ):
+        """Record resouce usage for a given processing marker in GeoIPS.
+
+        Parameters
+        ----------
+        logstr : str, optional
+            String to include at the start of the log message, by default ""
+        verbose : bool, optional
+            Print the full resource usage statistics dict to stdout, by default False
+        key : str, optional
+            Unique name of marker to record statistics, by default None
+            A marker can be categorized as part of a group when using ":" in the
+            marker name (e.g "FOO: BAR"). This is used in the checkpoint_usage_stats
+            method, where markers will have a "checkpoint_group" key in their resource
+            usage statistics dictionary holding the name of the group.
+            (e.g. stats["BAR"]["checkpoint_group"] == "FOO")
+        show_log : bool, optional
+            Use LOG.info to print the current memory usage, by default True
+        checkpoint : bool, optional
+            Re-use a marker key to record more detailed profiling of resource usage in
+            terms of both timing and maximum memory usage, by default False
+        increment_key : bool, optional
+            Append the number of times marker is re-used to the key, by default True
+            Marker names should be unique, and should at minimum hold the start/end
+            resource usage for the marker. If a marker is re-used and increment_key is
+            False, a KeyError is raised. If increment_key is True and the marker has
+            both start/end stats, a number is automatically appended to the key name.
+            This number represents how many times a marker has been re-used. For
+            example: "FOO: BAR" -> "FOO: BAR(1)": -> "FOO: BAR(2)"
+            (Note: "FOO: BAR(2)" is only created if "FOO: BAR(1)" has start/end stats)
+
+        Returns
+        -------
+        dict
+            Resource usage statistics for checkpoint
+
+        Raises
+        ------
+        KeyError
+            Duplicate key is discovered and increment_key is False
+        """
+        usage_dict = {}
+        vmem_percent = psutil.virtual_memory().percent
+        swap_percent = psutil.swap_memory().percent
+
+        overall_usage_dict = self.usage_dict["overall"]
+        if len(overall_usage_dict["unique_set_size"]) > 0:
+            # Take the latest value under the tracked resource dict - this might be
+            # a problematic approach...
+            last_stat = {x: y[-1] for x, y in overall_usage_dict.items()}
+            dt = datetime.strptime(last_stat["utc_datetime"], "%Y%m%d_%H%M%S_%f")
+        else:
+            last_stat = {x: 0 for x in overall_usage_dict.keys()}
+            dt = datetime.now(timezone.utc)
+            last_stat["utc_datetime"] = dt.strftime("%Y%m%d_%H%M%S_%f")
+
+        gran_usg_dict = self.usage_dict["checkpoints"]
+        if key not in gran_usg_dict:
+            LOG.info(f"New tracker {key}")
+            gran_usg_dict[key] = defaultdict(list)
+            elapsed_time = 0
+            total_runtime = 0
+        elif len(overall_usage_dict["utc_datetime"]) == 0:
+            LOG.warning(
+                f"UNEXPECTED ERROR IN RESOURCE TRACKING {key}: "
+                "No overall usage defined, starting over with tracking :shrug:\n"
+                f"gran_usg_dict[{key}] = {gran_usg_dict.get(key)}\n"
+                f"overall_usage_dict: \n{overall_usage_dict}"
+            )
+            gran_usg_dict[key] = defaultdict(list)
+            elapsed_time = 0
+            total_runtime = 0
+        else:
+            start_dt = datetime.strptime(
+                overall_usage_dict["utc_datetime"][0], "%Y%m%d_%H%M%S_%f"
+            )
+            prior_dt = datetime.strptime(
+                gran_usg_dict[key]["utc_datetime"][-1], "%Y%m%d_%H%M%S_%f"
+            )
+            total_runtime = (dt - start_dt).total_seconds()
+            elapsed_time = (dt - prior_dt).total_seconds()
+
+        # Check if this key is being re-used. Arrays should at maximum length of 2:
+        if (
+            len(gran_usg_dict[key]["unique_set_size"]) == 2
+            and checkpoint is False
+            and increment_key is False
+        ):
+            raise KeyError(f"Usage key '{key}' already exists and is of length 2")
+        elif len(gran_usg_dict[key]["unique_set_size"]) == 2 and increment_key:
+            orig_key = key
+            inc_keys = [x for x in gran_usg_dict.keys() if key in x]
+            for inc_num, ikey in enumerate(inc_keys, 1):
+                if gran_usg_dict[ikey]["unique_set_size"] == 2:
+                    continue
+                elif len(gran_usg_dict[ikey]["unique_set_size"]) < 2:
+                    key = ikey
+                    break
+            else:
+                key = f"{key}({inc_num})"
+            if key not in gran_usg_dict:
+                gran_usg_dict[key] = defaultdict(list)
+                elapsed_time = 0
+                total_runtime = 0
+            LOG.warning(
+                "Usage key '%s' already exists and is of length 2. increment_keys "
+                "is True, so will instead use '%s'.",
+                orig_key,
+                key,
+            )
+
+        if checkpoint and len(gran_usg_dict[key]["unique_set_size"]) == 0:
+            LOG.warning(
+                "Flagged %s as checkpoint, but found no stats. Likely this is not "
+                "a true checkpoint. Considering this the start of resource tracking.",
+                key,
+            )
+            checkpoint = False
+
+        if checkpoint:
+            # Use sub-checkpoints to track highest memory usage
+            if "subcheck" not in gran_usg_dict[key]:
+                gran_usg_dict[key]["subcheck"] = defaultdict(list)
+            for stat, val in last_stat.items():
+                gran_usg_dict[key]["subcheck"][stat].append(val)
+            return
+
+        # Track the resource statistics for this checkpoint
+        for stat, val in last_stat.items():
+            gran_usg_dict[key][stat].append(val)
+        # Also track the elapsed time of the checkpoint, and the total run time
+        gran_usg_dict[key]["elapsed_time"].append(elapsed_time)
+        gran_usg_dict[key]["total_runtime"].append(total_runtime)
+        gran_usg_dict[key]["datetime"].append(dt)
+        # Grab the highest value for all statistics
+        if "subcheck" in gran_usg_dict[key]:
+            all_stats = {
+                stat: gran_usg_dict[key][stat] + gran_usg_dict[key]["subcheck"][stat]
+                for stat in overall_usage_dict.keys()
+            }
+        else:
+            all_stats = gran_usg_dict[key]
+        max_stat = {
+            stat: max(vals)
+            for stat, vals in all_stats.items()
+            if "datetime" not in stat and "max_" not in stat
+        }
+
+        for stat, val in max_stat.items():
+            gran_usg_dict[key][f"max_{stat}"] = val
+
+        ram_usg = max_stat["unique_set_size"]
+        highest = max_stat["res_set_size"]
+        if show_log and not checkpoint:
+            LOG.info(
+                "%s: virtual perc: %s on %s %s",
+                key,
+                str(vmem_percent),
+                str(socket.gethostname()),
+                self.logstr,
+            )
+            LOG.info(
+                "%s: swap perc:    %s on %s %s",
+                key,
+                str(swap_percent),
+                str(socket.gethostname()),
+                self.logstr,
+            )
+            LOG.info(
+                "%s: highest ram:    %s on %s %s",
+                key,
+                str(ram_usg),
+                str(socket.gethostname()),
+                self.logstr,
+            )
+            LOG.info(
+                "%s: highest rss:      %s on %s %s",
+                key,
+                str(highest),
+                str(socket.gethostname()),
+                self.logstr,
+            )
+            LOG.info(
+                "%s: elapsed runtime (seconds):    %s on %s %s",
+                key,
+                str(elapsed_time),
+                str(socket.gethostname()),
+                self.logstr,
+            )
+
+            if verbose:
+                usage_dict = self.print_resource_usage()
+
+        usage_dict["memusg_virtual"] = vmem_percent
+        usage_dict["memusg_swap"] = swap_percent
+        usage_dict["memusg_highest"] = highest
+        usage_dict["elapsed_runtime"] = elapsed_time
+        usage_dict["total_procflow_runtime"] = total_runtime
+
+        return usage_dict
+
+    def checkpoint_usage_stats(self):
+        """Return organized dictionary of stats from track_resource_usage.
+
+        Returns
+        -------
+        dict
+            Resource usage statistics for markers/checkpoints recorded by the
+            track_resource_usage method. Dictionary is ordered by the markers passed to
+            track_resource_usage. Each key in the return dictionary will hold a
+            dictionary of the resource usage statistics. If a group is specified in the
+            marker name (e.g. "FOO: BAR"), the return dictionary will have a "BAR" key,
+            and will have a "checkpoint_group" key in the corresponding resource usage
+            dictionary with a value of "FOO".
+        """
+        checkpoint_usage_stats = {}
+        exclude_stats = [
+            "max_elapsed_time",
+            "max_total_runtime",
+            "utc_datetime",
+            "subcheck",
+        ]
+        for check_name, check_stats in self.usage_dict["checkpoints"].items():
+            checkpoint_usage_stats[check_name] = {}
+            if ": " in check_name:
+                group = check_name.split(": ")[0]
+                checkpoint_usage_stats[check_name]["checkpoint_group"] = group
+            for stat, val in check_stats.items():
+                if stat in exclude_stats:
+                    continue
+                elif stat in ["elapsed_time"]:
+                    checkpoint_usage_stats[check_name][stat] = val[-1]
+                elif "max_" in stat:
+                    checkpoint_usage_stats[check_name][stat] = val
+                else:
+                    if stat == "datetime":
+                        stat = f"checkpoint_{stat}"
+                    checkpoint_usage_stats[check_name][f"{stat}_start"] = val[0]
+                    checkpoint_usage_stats[check_name][f"{stat}_stop"] = val[-1]
+        return checkpoint_usage_stats
+
     def print_resource_usage(self):
         """Print verbose resource usage, using "resource" package."""
         usage_dict = {}
@@ -243,23 +497,23 @@ class PidLog:
                 usage_dict[name] = getattr(usage, name)
         except NameError:
             LOG.info("resource not defined")
-        usage_dict["ru_cpuusg"] = max(self.usage_dict["cpu_percent"])  # [-1]
-        usage_dict["ru_threads"] = max(self.usage_dict["thread_count"])
+        usage_dict["ru_cpuusg"] = max(self.usage_dict["overall"]["cpu_percent"])  # [-1]
+        usage_dict["ru_threads"] = max(self.usage_dict["overall"]["thread_count"])
         if platform.system() == "Linux":
-            usage_dict["ru_cpucnt"] = max(self.usage_dict["cpu_count"])
-        usage_dict["ru_uss"] = self.usage_dict["unique_set_size"][-1]
-        usage_dict["ru_maxuss"] = max(self.usage_dict["unique_set_size"])
+            usage_dict["ru_cpucnt"] = max(self.usage_dict["overall"]["cpu_count"])
+        usage_dict["ru_uss"] = self.usage_dict["overall"]["unique_set_size"][-1]
+        usage_dict["ru_maxuss"] = max(self.usage_dict["overall"]["unique_set_size"])
         LOG.info(
             "RESOURCE "
             + self.logstr
             + " Max. User Set Size (RAM) = "
-            + str(max(self.usage_dict["unique_set_size"]))
+            + str(max(self.usage_dict["overall"]["unique_set_size"]))
         )
         LOG.info(
             "RESOURCE "
             + self.logstr
             + " Max. CPU % Usage = "
-            + str(max(self.usage_dict["cpu_percent"]))
+            + str(max(self.usage_dict["overall"]["cpu_percent"]))
         )
         return usage_dict
 
@@ -272,14 +526,14 @@ class PidLog:
     def save_csv(self):
         """Save a csv file to output."""
         usg_dict = {
-            "Time [UTC]": self.usage_dict["utc_datetime"],
-            "CPU Percent": self.usage_dict["cpu_percent"],
-            "Thread Count": self.usage_dict["thread_count"],
-            "USS [RAM bytes]": self.usage_dict["unique_set_size"],
-            "RSS [bytes]": self.usage_dict["res_set_size"],
+            "Time [UTC]": self.usage_dict["overall"]["utc_datetime"],
+            "CPU Percent": self.usage_dict["overall"]["cpu_percent"],
+            "Thread Count": self.usage_dict["overall"]["thread_count"],
+            "USS [RAM bytes]": self.usage_dict["overall"]["unique_set_size"],
+            "RSS [bytes]": self.usage_dict["overall"]["res_set_size"],
         }
         if platform.system() == "Linux":
-            usg_dict["CPU Count"] = self.usage_dict["cpu_count"]
+            usg_dict["CPU Count"] = self.usage_dict["overall"]["cpu_count"]
         df = pd.DataFrame(usg_dict)
 
         outdir = os.path.join(gpaths["GEOIPS_OUTDIRS"], "memory_logs")

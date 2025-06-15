@@ -1,0 +1,38 @@
+bug fix:
+- title: 'Allow non-bash scripts in test_integration.py'
+  description: |
+    Previously explicitly called bash $script_name, update test_integration to call
+    with "bash" if .sh in the script name, else just call the full line directly.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14
+- title: 'Allow another level in uncompress_test_data.sh'
+  description: |
+    Ensure all files get extracted.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/uncompress_test_data.sh'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14

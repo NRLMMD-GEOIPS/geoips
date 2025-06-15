@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: meteosat_eu
+docstring: "Full disk sector for Meteosat centered at Longitude 0"
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: Meteosat-Europe
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: meteosat_eu
+  description: Meteosat coverage centered at Longitude 0
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 0
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 2000
+    width: 2000
+  area_extent:
+    lower_left_xy: [-10000000, -10000000]
+    upper_right_xy: [10000000, 10000000]

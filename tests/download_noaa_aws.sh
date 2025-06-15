@@ -16,7 +16,7 @@ if [[ $OSTYPE == 'darwin'* ]]; then
 fi
 
 bad_command=0
-if [[ "$7" == "" && -z "$GEOIPS_TESTDATA_DIR" ]]; then
+if [[ "$7" == "" && -z "$GEOIPS_OUTDIRS" ]]; then
     bad_command=1
 fi
 
@@ -38,7 +38,7 @@ if [[ "$1" == "" || "$bad_command" == "1" ]]; then
     echo "        jpss"
     echo "    testdata_dir: "
     echo "        if 'default' or not specified, defaults to: "
-    echo "       \$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/<satellite>/<YYYYmmdd>/<HHMN>"
+    echo "       \$GEOIPS_OUTDIRS/noaa_aws_downloads/data/<satellite>/<YYYYmmdd>/<HHMN>"
     echo "    rclone_conf: "
     echo "        if 'default' or not specified, defaults to:"
     echo "        \$GEOIPS_PACKAGES_DIR/geoips/setup/rclone_setup/rclone.conf"
@@ -71,7 +71,7 @@ mn=$6
 jday=`$date_cmd -u -d "$yyyy-$mm-$dd $hh:$mn:00" +%j`
 
 if [[ "$7" == "" || "$7" == "default" ]]; then
-    testdata_dir="$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/$satellite/$yyyy$mm$dd/$hh$mn"
+    testdata_dir="$GEOIPS_OUTDIRS/noaa_aws_downloads/data/$satellite/$yyyy$mm$dd/$hh$mn"
 else
     testdata_dir="$7"
 fi

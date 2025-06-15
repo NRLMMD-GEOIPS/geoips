@@ -68,7 +68,7 @@ def convert_uv_to_kts(xr_df):
     return xr_df
 
 
-def press_grb_to_xr(grb_obj, custom_pressure_name="unk_pres"):
+def press_grb_to_xr(grb_obj, custom_pressure_name="unk_pres", coord_flag=False):
     """Convert pressure grb values to xarray.Dataset.
 
     Parameters
@@ -103,18 +103,31 @@ def press_grb_to_xr(grb_obj, custom_pressure_name="unk_pres"):
             pres_dim = custom_pressure_name
             upres = tmp_press_lvls
             unq_pres = True
+        if coord_flag:
+            varlist[key] = xr.DataArray(
+                data=[j.values for j in grb_obj if j["name"] == i],
+                coords={
+                    pres_dim: tmp_press_lvls,
+                    "latitude": lats[:, 0],
+                    "longitude": lons[0],
+                },
+                attrs=data_attrs,
+            )
 
-        varlist[key] = xr.DataArray(
-            data=[j.values for j in grb_obj if j["name"] == i],
-            dims=(pres_dim, "xi", "yi"),
-            attrs=data_attrs,
-        )
+        else:
+            varlist[key] = xr.DataArray(
+                data=[j.values for j in grb_obj if j["name"] == i],
+                dims=(pres_dim, "xi", "yi"),
+                attrs=data_attrs,
+            )
 
-    varlist["latitude"] = xr.DataArray(lats, dims=("xi", "yi"))
-    varlist["longitude"] = xr.DataArray(lons, dims=("xi", "yi"))
+    if not coord_flag:
+        varlist["latitude"] = xr.DataArray(lats, dims=("xi", "yi"))
+        varlist["longitude"] = xr.DataArray(lons, dims=("xi", "yi"))
+
     if unq_pres:
         varlist[custom_pressure_name] = xr.DataArray(upres, dims=(custom_pressure_name))
-    else:
+    elif not coord_flag:
         varlist["coarse_press"] = xr.DataArray(cpres, dims=("coarse_press"))
         varlist["fine_press"] = xr.DataArray(fpres, dims=("fine_press"))
 
@@ -123,7 +136,7 @@ def press_grb_to_xr(grb_obj, custom_pressure_name="unk_pres"):
     return xr_dset
 
 
-def surf_grb_to_xr(grb_obj):
+def surf_grb_to_xr(grb_obj, coord_flag=False):
     """Convert surface grb values to xarray.Dataset.
 
     Parameters
@@ -144,19 +157,26 @@ def surf_grb_to_xr(grb_obj):
         tmp_key = "_".join(i.name.lower().split(" "))
 
         data_attrs = {k: i[k] for k in surf_attrs}
+        if coord_flag:
 
-        varlist[tmp_key] = xr.DataArray(
-            data=i.values, dims=("xi", "yi"), attrs=data_attrs
-        )
-
-    varlist["latitude"] = xr.DataArray(lats, dims=("xi", "yi"))
-    varlist["longitude"] = xr.DataArray(lons, dims=("xi", "yi"))
+            varlist[tmp_key] = xr.DataArray(
+                data=i.values,
+                coords={"latitude": lats[:, 0], "longitude": lons[0]},
+                attrs=data_attrs,
+            )
+        else:
+            varlist[tmp_key] = xr.DataArray(
+                data=i.values, dims=("xi", "yi"), attrs=data_attrs
+            )
+    if not coord_flag:
+        varlist["latitude"] = xr.DataArray(lats, dims=("xi", "yi"))
+        varlist["longitude"] = xr.DataArray(lons, dims=("xi", "yi"))
 
     xr_dset = xr.Dataset(varlist)
     return xr_dset
 
 
-def read_atmos(filenames):
+def read_atmos(filenames, coord_flag=False):
     """Read gfs files.
 
     Parameters
@@ -179,17 +199,17 @@ def read_atmos(filenames):
 
         # Pressure
         tmp_pres = pg_frame.select(typeOfLevel="isobaricInhPa")
-        xr_pres = press_grb_to_xr(tmp_pres)
+        xr_pres = press_grb_to_xr(tmp_pres, coord_flag=coord_flag)
 
         xr_pres = convert_uv_to_kts(xr_pres)
 
         # Surface
         tmp_surf = pg_frame.select(name=surface_vars, typeOfLevel="surface")
-        surface_xr = surf_grb_to_xr(tmp_surf)
+        surface_xr = surf_grb_to_xr(tmp_surf, coord_flag=coord_flag)
 
         # Single Layer, is ok to considerd as surface (slab)
         tmp_sl = pg_frame.select(typeOfLevel="atmosphereSingleLayer")
-        single_atm_xr = surf_grb_to_xr(tmp_sl)
+        single_atm_xr = surf_grb_to_xr(tmp_sl, coord_flag=coord_flag)
 
         xr_list["gfs_pressure"].append(xr_pres)
         xr_list["gfs_surface"].append(surface_xr)
@@ -198,8 +218,12 @@ def read_atmos(filenames):
         # track the analysis and valid forcast date
         base_time.append(tmp_sl[0].analDate)
         fcst_time.append(tmp_sl[0].validDate)
+    if coord_flag:
+        tdim = "time"
+    else:
+        tdim = "atime"
+    tvar = xr.DataArray(base_time, dims=(tdim))
 
-    tvar = xr.DataArray(base_time, dims=("atime"))
     bname = list(map(basename, filenames))
     res = float(".".join(bname[0].split(".")[3].split("p"))) * 111
 
@@ -216,18 +240,19 @@ def read_atmos(filenames):
 
     for k in xr_list.keys():
         xr_list[k] = xr.concat(xr_list[k], tvar)
-        xr_list[k]["forcast_time"] = xr.DataArray(fcst_time, dims=("atime"))
+        xr_list[k]["forcast_time"] = xr.DataArray(fcst_time, dims=(tdim))
         xr_list[k] = xr_list[k].assign_attrs(xr_attrs)
-        # fix lat lon shape (fix upstream)
-        xr_list[k]["latitude"] = xr_list[k]["latitude"][0]
-        # if np.any(xr_list[k]['longitude'][0] > 180):
-        xr_list[k]["longitude"] = xr_list[k]["longitude"][0]
-        xr_list[k] = xr_list[k].transpose("xi", "yi", ...)
+        if coord_flag:
+            xr_list[k] = xr_list[k].transpose("latitude", "longitude", ...)
+        else:
+            xr_list[k]["latitude"] = xr_list[k]["latitude"][0]
+            xr_list[k]["longitude"] = xr_list[k]["longitude"][0]
+            xr_list[k] = xr_list[k].transpose("xi", "yi", ...)
 
     return xr_list
 
 
-def read_wave(filenames):
+def read_wave(filenames, coord_flag=False):
     """Read gfswave products."""
     LOG.info("Reading gfswave")
     xr_list = {"wave_surface": [], "wave_seq": []}
@@ -239,20 +264,25 @@ def read_wave(filenames):
 
         # Surface
         tmp_surf = pg_frame.select(typeOfLevel="surface")
-        surface_xr = surf_grb_to_xr(tmp_surf)
+        surface_xr = surf_grb_to_xr(tmp_surf, coord_flag=coord_flag)
 
         # sequence data
         tmp_seq = pg_frame.select(typeOfLevel="orderedSequenceData")
         # this is equal to levels
-        seq_xr = press_grb_to_xr(tmp_seq, custom_pressure_name="wave_seq")
+        seq_xr = press_grb_to_xr(
+            tmp_seq, coord_flag=coord_flag, custom_pressure_name="wave_seq"
+        )
 
         xr_list["wave_seq"].append(seq_xr)
         xr_list["wave_surface"].append(surface_xr)
 
         base_time.append(tmp_seq[0].analDate)
         fcst_time.append(tmp_seq[0].validDate)
-
-    tvar = xr.DataArray(base_time, dims=("atime"))
+    if coord_flag:
+        tdim = "time"
+    else:
+        tdim = "atime"
+    tvar = xr.DataArray(base_time, dims=(tdim))
     bname = list(map(basename, filenames))
     res = float(".".join(bname[0].split(".")[3].split("p"))) * 111
 
@@ -269,18 +299,26 @@ def read_wave(filenames):
 
     for k in xr_list.keys():
         xr_list[k] = xr.concat(xr_list[k], tvar)
-        xr_list[k]["forcast_time"] = xr.DataArray(fcst_time, dims=("atime"))
+        xr_list[k]["forcast_time"] = xr.DataArray(fcst_time, dims=(tdim))
         xr_list[k] = xr_list[k].assign_attrs(xr_attrs)
-        # fix lat lon shape (fix upstream)
-        xr_list[k]["latitude"] = xr_list[k]["latitude"][0]
-        # if np.any(xr_list[k]['longitude'][0] > 180):
-        xr_list[k]["longitude"] = xr_list[k]["longitude"][0]
-        xr_list[k] = xr_list[k].transpose("xi", "yi", ...)
+        if coord_flag:
+            xr_list[k] = xr_list[k].transpose("latitude", "longitude", ...)
+        else:
+            xr_list[k]["latitude"] = xr_list[k]["latitude"][0]
+            xr_list[k]["longitude"] = xr_list[k]["longitude"][0]
+            xr_list[k] = xr_list[k].transpose("xi", "yi", ...)
 
     return xr_list
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    coord_flag=False,
+):
     """Read GFS GRIB data.
 
     Parameters
@@ -302,6 +340,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    coord_flag : bool, default=False
+        * Setup geolocation and temporal values as coordinates
+        * Useful for data fusion
 
     Returns
     -------
@@ -344,10 +385,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         raise FileExistsError(
             "Multiple file types given, please feed in one gfs file type."
         )
+
     if "gfs" in gfs_type:
-        xr_array = read_atmos(fnames)
+        xr_array = read_atmos(fnames, coord_flag=coord_flag)
     elif "gfswave" in gfs_type:
-        xr_array = read_wave(fnames)
+        xr_array = read_wave(fnames, coord_flag=coord_flag)
 
     xr_array["METADATA"] = tmp_xr
 

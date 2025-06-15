@@ -1,0 +1,22 @@
+bug fix:
+- title: 'Add GEOIPS prefix to the PREGENERATED geolocation env vars'
+  description: |
+    By standard, always prefix geoips env vars with GEOIPS, so include it in these
+    new ones.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - geoips/filenames/base_paths.py
+    - geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+    - setup/bash_setup/color_prompt
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-04-25
+    finish: 2025-04-25

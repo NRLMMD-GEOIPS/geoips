@@ -1,0 +1,140 @@
+enhancement:
+- title: 'Add comments to aws reader and delete annotated images'
+  description: |
+    Comments on channels assigments to four grups and spare variables for quality controls are added to 
+    arctic weather satellite (aws) reader. 
+    Ten annotated test images are deleted because their clean images are available.
+    Ten run scripts are updated by deleting two lines of metadata filename and output.
+  files:
+    deleted:
+    - 'tests/outputs/aws.TB165/20250416.142818.aws.mwr.TB165.global.24p51.noaa.20p0.png'
+    - 'tests/outputs/aws.TB180/20250416.142818.aws.mwr.TB180.global.24p51.noaa.20p0.png'
+    - 'tests/outputs/aws.TB325-1/20250416.142818.aws.mwr.TB325-1.global.24p42.noaa.20p0.png'
+    - 'tests/outputs/aws.TB50/20250416.142818.aws.mwr.TB50.global.28p06.noaa.20p0.png'
+    - 'tests/outputs/aws.TB89/20250416.142818.aws.mwr.TB89.global.28p05.noaa.20p0.png'
+    - 'tests/outputs/aws.tc.TB165/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0.png'
+    - 'tests/outputs/aws.tc.TB180/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0.png'
+    - 'tests/outputs/aws.tc.TB325-1/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0.png'
+    - 'tests/outputs/aws.tc.TB50/20250428_114913_WP992025_mwr_aws_TB50_15kts_66p51_1p0.png'
+    - 'tests/outputs/aws.tc.TB89/20250428_114913_WP992025_mwr_aws_TB89_15kts_54p29_1p0.png'
+    - 'tests/scripts/aws_single_chan.sh'
+    - 'tests/test_aws_all.sh'
+    - 'tests/test_aws_tc_all.sh'
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/aws_netcdf.py'
+    - 'docs/source/releases/latest/836-add-arctic-weather-satellite-reader.yaml'
+    - 'tests/scripts/aws_TB165.imagery_clean.sh'
+    - 'tests/scripts/aws_TB180.imagery_clean.sh'
+    - 'tests/scripts/aws_TB325-1.imagery_clean.sh'
+    - 'tests/scripts/aws_TB50.imagery_clean.sh'
+    - 'tests/scripts/aws_TB89.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB165.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB180.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB325-1.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB50.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB89.imagery_clean.sh'
+  related-issue:
+    number: 816
+    repo_url: GEOIPS
+  date:
+    start: 2025-05-05
+    finish: 2025-05-05
+- title: 'update aws reader and clean imagery'
+  description: |
+    arctic weather satellite (aws) reader is updated for clarity. 
+    five clean images for an invest case (WP992025) are added.
+    five clean images for obe aws orbital file are added.
+    These 10 run scripts are added in test_integration.py
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/scripts/aws_TB165.imagery_clean.sh'
+    - 'tests/scripts/aws_TB180.imagery_clean.sh'
+    - 'tests/scripts/aws_TB325-1.imagery_clean.sh'
+    - 'tests/scripts/aws_TB50.imagery_clean.sh'
+    - 'tests/scripts/aws_TB89.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB165.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB180.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB325-1.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB50.imagery_clean.sh'
+    - 'tests/scripts/aws_tc_TB89.imagery_clean.sh'
+    - 'tests/outputs/aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB165.global.24p51.noaa.20p0.png'
+    - 'tests/outputs/aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB180.global.24p51.noaa.20p0.png'
+    - 'tests/outputs/aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB325-1.global.24p42.noaa.20p0.png'
+    - 'tests/outputs/aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB50.global.29p01.noaa.20p0.png'
+    - 'tests/outputs/aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB89.global.28p70.noaa.20p0.png'
+    - 'tests/outputs/aws.tc.TB165.imagery_clean/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0-clean.png'
+    - 'tests/outputs/aws.tc.TB180.imagery_clean/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0-clean.png'
+    - 'tests/outputs/aws.tc.TB325-1.imagery_clean/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0-clean.png'
+    - 'tests/outputs/aws.tc.TB50.imagery_clean/20250428_114913_WP992025_mwr_aws_TB50_15kts_69p30_1p0-clean.png'
+    - 'tests/outputs/aws.tc.TB89.imagery_clean/20250428_114913_WP992025_mwr_aws_TB89_15kts_54p66_1p0-clean.png'
+    modified:
+    - 'geoips/plugins/modules/readers/aws_netcdf.py'
+    - 'tests/integration_tests/test_integration.py'
+    - 'docs/source/releases/latest/836-add-arctic-weather-satellite-reader.yaml'
+  related-issue:
+    number: 816
+    repo_url: '/GEOIPS/geoips'
+  date:
+    start: 2025-05-01
+    finish: 2025-05-01
+- title: 'Add Arctic Weather Satellite text data for TC products'
+  description: |
+    One arctic weather satellite (aws) orbital file is added to create 
+    five test TC images for an invest case (WP992025).
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/scripts/aws_tc_annotated.sh'
+    - 'tests/test_aws_tc_all.sh'
+    - 'tests/outputs/aws.tc.TB165/20250428_114913_WP992025_mwr_aws_TB165_15kts_43p06_1p0.png'
+    - 'tests/outputs/aws.tc.TB180/20250428_114913_WP992025_mwr_aws_TB180_15kts_43p06_1p0.png'
+    - 'tests/outputs/aws.tc.TB325-1/20250428_114913_WP992025_mwr_aws_TB325-1_15kts_48p36_1p0.png'
+    - 'tests/outputs/aws.tc.TB50/20250428_114913_WP992025_mwr_aws_TB50_15kts_66p51_1p0.png'
+    - 'tests/outputs/aws.tc.TB89/20250428_114913_WP992025_mwr_aws_TB89_15kts_54p29_1p0.png'
+    modified:
+    - 'tests/scripts/aws_single_chan.sh'
+    - 'docs/source/releases/latest/836-add-arctic-weather-satellite-reader.yaml'
+  related-issue:
+    number: 816
+    repo_url: '/GEOIPS/geoips'
+  date:
+    start: 2025-04-29
+    finish: 2025-04-29
+- title: 'Add AWS reader and test products'
+  description: |
+    a new reader for arctic weather satellite (aws) level-1 data is added.
+    Five test images are created.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/836-add-arctic-weather-satellite-reader.yaml'
+    - 'geoips/plugins/yaml/products/aws.yaml'
+    - 'tests/outputs/aws.TB165/20250416.142818.aws.mwr.TB165.global.24p51.noaa.20p0.png'
+    - 'tests/outputs/aws.TB180/20250416.142818.aws.mwr.TB180.global.24p51.noaa.20p0.png'
+    - 'tests/outputs/aws.TB325-1/20250416.142818.aws.mwr.TB325-1.global.24p42.noaa.20p0.png'
+    - 'tests/outputs/aws.TB50/20250416.142818.aws.mwr.TB50.global.28p06.noaa.20p0.png'
+    - 'tests/outputs/aws.TB89/20250416.142818.aws.mwr.TB89.global.28p05.noaa.20p0.png'
+    - 'tests/scripts/aws_single_chan.sh'
+    - 'tests/test_aws_all.sh'
+    modified:
+    - 'geoips/plugins/modules/readers/aws_netcdf.py'
+  related-issue:
+    number: 816
+    repo_url: '/GEOIPS/geoips'
+  date:
+    start: 2025-04-25
+    finish: 2025-04-25

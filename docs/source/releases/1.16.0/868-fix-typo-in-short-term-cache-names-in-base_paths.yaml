@@ -1,0 +1,20 @@
+bug fix:
+- title: 'Fix typo in short term cache geolocation variable names'
+  description: |
+    Replace instances of CACHE_DIR_SHORTERM_GEOLOCATION with
+    CACHE_DIR_SHORTTERM_GEOLOCATION
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  related-issue:
+    internal: GEOIPS#868
+  date:
+    start: 2025-05-28
+    finish: 2025-05-28

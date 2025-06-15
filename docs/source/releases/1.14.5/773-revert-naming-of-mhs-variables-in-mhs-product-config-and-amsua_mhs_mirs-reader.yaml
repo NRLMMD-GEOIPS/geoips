@@ -16,6 +16,7 @@ bug fix:
     - 'geoips/plugins/modules/readers/amsua_mhs_mirs.py'
     - 'geoips/plugins/yaml/products/mhs.yaml'
   related-issue:
+    internal: GEOIPS#773
     number: 773
     repo_url: 'geoips'
   date:

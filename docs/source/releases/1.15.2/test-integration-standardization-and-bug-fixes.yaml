@@ -1,0 +1,112 @@
+testing:
+- title: 'Raise more informative error for json schema plugin ValidationError'
+  description: |
+    I believe this will still work as long as the original error is included as
+    str(err) within the output.  Previously the original error was not included,
+    and the unit tests would fail because they are looking for a specific string
+    within the error contents.
+  files:
+    modified:
+    - 'geoips/interfaces/base.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-11
+    finish: 2025-04-11
+- title: 'Standardize base, full, and system pytest markers for better test separation'
+  description: |
+    * Remove all unit tests and test interfaces from check_code. This ensures check_code
+      operates on the current repo only, and does not apply long-running pytests
+      (unit tests/long) or checks that operate on all installed plugins (test_interfaces)
+    * Add "system" pytest marker for integration tests that span multiple plugin repos.
+      No tests that operate on any additional plugin repositories should be included
+      in the "base", "full", or "extra" pytest markers.
+
+      * "base" pytest marker intended to be a fast-running basic test of the CURRENT
+        repos functionality
+      * "full" pytest marker intended to be a complete test of the current repos
+        functionality, but should not operate on any other repositories.
+      * "extra" pytest marker operates only on the current repo, but includes
+        non-standard or non-required tests.
+      * "realtime" pytest marker allows testing specifically real-time functionality,
+        currently unused but could be implemented for realtime processing tests.
+    * Separate base_install.sh, full_install.sh, and system_install.sh to match
+      functionality in base, full, and system markers.
+  files:
+    modified:
+    - 'tests/utils/check_code.sh'
+    - 'tests/integration_tests/test_integration.py'
+    - 'pytest.ini'
+    - 'tests/integration_tests/base_install.sh'
+    - 'tests/integration_tests/full_install.sh'
+    added:
+    - 'tests/integration_tests/system_install.sh'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-11
+    finish: 2025-04-11
+- title: 'tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.'
+  description: |
+    Allow consistent operation on all repos. Also move logs to consistent locations
+    for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.
+
+    * $GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs
+    * $GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh
+    * $GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh
+  files:
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+    - 'setup/check_system_requirements.sh'
+    - 'tests/utils/test_all_pre.sh'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-11
+    finish: 2025-04-11
+bug fix:
+- title: 'Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema'
+  description: |
+    * For now, explicitly add any new YAML product fields to schema
+    * We may want to generalize this for OBP, but keep things explicit to better track
+      what/how we are implementing things now.
+  files:
+    modified:
+    - 'geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml'
+    - 'geoips/schema/product_defaults/specs/interpolator.yaml'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-11
+    finish: 2025-04-11
+- title: 'Remove unused geoips_get, add 1.15.2 environment files'
+  description: |
+    * Remove geoips/commandline/geoips_get.py - keeps returning in public merges.
+    * Add 1.15.2 environment files
+  files:
+    deleted:
+    - 'geoips/commandline/geoips_get.py'
+    added:
+    - 'environments/mamba_base_package_list_1.15.2_20250409.yml'
+    - 'environments/pip_base_requirements_1.15.2_20250409.txt'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-10
+    finish: 2025-04-10
+- title: 'ssmi_binary numpy 2.x uint16 cast bug fix'
+  description: 'buffer values were overflowing due to uint8, cast as uint16'
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/ssmi_binary.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-10
+    finish: 2025-04-10

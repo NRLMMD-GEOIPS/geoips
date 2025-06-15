@@ -1,0 +1,27 @@
+enhancement:
+- title: 'Additional metadata for geostationary readers.'
+  description: |
+    Added additional metadata for geostationary readers.
+    Created dmw multi level clean output formatter for
+    data fusion overlays. Created global windspeed colormaps.
+    Modified imagery_annotated to take in kwargs for plotting 
+    different variables other than product name.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level_clean.py'
+    - 'geoips/plugins/modules/colormappers/winds/global_winds_transitions.py'
+    modified:
+    - 'geoips/geoips_utils.py'
+    - 'geoips/plugins/modules/output_formatters/imagery_annotated.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

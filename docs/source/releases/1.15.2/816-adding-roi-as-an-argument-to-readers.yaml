@@ -1,0 +1,25 @@
+enhancement:
+- title: 'Add ROI into GeoSatellite sensor readers'
+  description: |
+    ROI variable as radius of influence is added into abi, ahi, ami,
+    ewsg and seviri readers for flexibility of tuning interpelation.
+    ROI is defined in the procflow yaml.  Default ROI is used in readers 
+    if ROI is not defined.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/816-adding-roi-as-an-argument-to-readers.yaml'
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'geoips/plugins/modules/readers/ewsg_netcdf.py'
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'
+  related-issue:
+    number: 794
+  date:
+    start: 2025-04-15
+    finish: 2025-04-15
