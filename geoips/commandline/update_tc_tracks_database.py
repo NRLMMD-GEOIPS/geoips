@@ -12,7 +12,7 @@ def main():
     LOG = setup_logging()
     from geoips.sector_utils.tc_tracks_database import check_db
 
-    if len(sys.argv) > 2:
+    if len(sys.argv) >= 2:
         LOG.info("Calling with arg %s", sys.argv[1:])
         check_db(sys.argv[1:])
     else:

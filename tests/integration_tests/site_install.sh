@@ -1,4 +1,9 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 #!/bin/bash
+
+echo "GEOIPS_MODIFIED_BRANCH: $GEOIPS_MODIFIED_BRANCH"
 
 test_exit=""
 install_script=""
@@ -10,7 +15,7 @@ if [[ "$1" == "include_reference_repos" ]]; then
     include_reference_repos="true"
 fi
 
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_system
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_site
 # Includes test_data_amsr2 and geoips repo
 . $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
 # Includes cartopy shapefiles, .vscode repo, and all single-sensor test data repos

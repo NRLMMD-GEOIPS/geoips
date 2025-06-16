@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Use GEOIPS_TESTDATA_DIR vs GEOIPS_PACKAGES_DIR in viirs test script call.'
+  description: |
+    How did we not catch this earlier?
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/scripts/viirs.static.visible.imagery_clean.sh'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04

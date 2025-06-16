@@ -51,7 +51,7 @@ changelog:
         - "documentation"
     - title: Changes During Release Process
       labels:
-        - "Version Release"
+        - "version release"
     - title: Developmental Updates
       labels:
         - "dev update"

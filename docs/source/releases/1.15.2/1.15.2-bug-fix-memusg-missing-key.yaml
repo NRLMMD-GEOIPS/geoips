@@ -1,0 +1,19 @@
+bug fix:
+- title: 'Ensure overall_usage_dict exists before accessing it'
+  description: |
+    I have no idea why this wasn't working.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/utils/memusg.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-05-07
+    finish: 2025-05-07
