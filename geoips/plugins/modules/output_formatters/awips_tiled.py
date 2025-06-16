@@ -15,6 +15,7 @@ import logging
 from pathlib import Path
 from datetime import datetime, timedelta
 import numpy as np
+import satpy.scene
 import xarray as xr
 from geoips.xarray_utils.time import (
     get_min_from_xarray_time,
@@ -30,12 +31,14 @@ from IPython import embed as shell
 LOG = logging.getLogger(__name__)
 
 interface = "output_formatters"
-family = "xrdict_to_outlist"
+family = "xrdict_area_product_to_outlist"  # "xrdict_to_outlist"
 name = "awips_tiled"
 
 
 def call(
     xarray_dict,
+    area_def,
+    product_name,
     working_directory=geoips_variables["GEOIPS_OUTDIRS"],
 ):
     """Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.
@@ -53,3 +56,6 @@ def call(
     utc_date_format = "%Y-%m-%d %H:%M:%S UTC"
     success_outputs = []
     shell()
+
+    scn = satpy.Scene()
+    scn["xyz"] = xarray_dict["xyz"]
