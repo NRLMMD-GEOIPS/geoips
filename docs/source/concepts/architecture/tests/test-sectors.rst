@@ -27,7 +27,7 @@ Components
 * **satellite**: The satellite platform (e.g., goes16, himawari8)
 * **proj**: Projection type (e.g., eqc for Equidistant Cylindrical (Plate Carrée) projection)
 * **res**: Resolution (e.g., 3km)
-* **edge|nadir**: Satellite view position
+* **edge|nadir**: Satellite view position (if not edge of scan or directly nadir, just omit)
 * **day|night|terminator**: Illumination condition
 * **tc|ar|volc**: Optional field for special event types:
   * tc: Tropical Cyclone
