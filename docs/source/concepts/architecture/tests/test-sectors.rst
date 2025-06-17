@@ -28,7 +28,7 @@ Components
 * **proj**: Projection type (e.g., eqc for Equidistant Cylindrical (Plate Carrée) projection)
 * **res**: Resolution (e.g., 3km)
 * **edge|nadir**: Satellite view position
-* **day|night|term**: Illumination condition
+* **day|night|terminator**: Illumination condition
 * **tc|ar|volc**: Optional field for special event types:
   * tc: Tropical Cyclone
   * ar: Atmospheric River
@@ -44,13 +44,13 @@ Implementation Notes
   for sorting/searching
 * Custom sorting of plugins can be implemented within the CLI based on plugin metadata
 * The current plugin name format was chosen to provide reasonable default sorting order
-
-File Naming Requirements
-------------------------
-
 * Filenames for individual test sector plugins do NOT have to match the plugin names (to avoid excessively long
   filenames on disk)
-* For now, the following fields must be manually updated to match exactly:
+
+File Metadata Notes
+-------------------
+
+* For now, the following file metadata fields must be manually updated to match exactly:
   * ``area_id`` and ``name`` must match the plugin name
   * ``description`` and ``docstring`` must match each other
 
