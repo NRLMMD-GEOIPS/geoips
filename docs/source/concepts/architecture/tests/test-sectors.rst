@@ -12,7 +12,7 @@ Test sector plugin names follow this format:
 
 .. code-block::
 
-   test_<satellite>_<proj>_<res>_<edge|nadir>_<day|night|term>_<OPTIONAL:tc|ar|volc>_<YYYYMMDDTHHMMZ>.yaml
+   test_<satellite>_<proj>_<res>_<edge|nadir>_<day|night|terminator>_<OPTIONAL:tc|ar|volc>_<YYYYMMDDTHHMMZ>.yaml
 
 Example
 ~~~~~~~
