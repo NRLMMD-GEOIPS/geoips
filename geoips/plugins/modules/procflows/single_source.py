@@ -1046,12 +1046,12 @@ def pad_area_definition(
         # Get an extra 50% size for TCs so we can handle recentering and not have
         # missing data. --larger area for possibly moved center for vis/ir backgrounds
         # Default to 1.5x padding
-        num_lines = int(area_def.y_size * y_scale_factor)
-        num_samples = int(area_def.x_size * x_scale_factor)
+        num_lines = int(area_def.height * y_scale_factor)
+        num_samples = int(area_def.width * x_scale_factor)
         # Need full swath width for AMSU-B and MHS. Need a better solution for this.
         if source_name is not None and source_name in ["amsu-b", "mhs"]:
-            num_lines = int(area_def.y_size * 1)
-            num_samples = int(area_def.x_size * 5)
+            num_lines = int(area_def.height * 1)
+            num_samples = int(area_def.width * 5)
 
         # TC sectors have center lat and center lon defined within the sector_info
         # For other sectors, use lat_0 and lon_0 from proj_dict
