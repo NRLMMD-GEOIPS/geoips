@@ -42,7 +42,9 @@ def test_good_feature_annotator(good_feature_annotator):
     validate_good_plugin(good_feature_annotator, FeatureAnnotatorPluginModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
+@pytest.mark.parametrize(
+    "test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys())
+)
 def test_bad_feature_annotator_plugins(good_feature_annotator, test_tup):
     """Perform validation on feature_annotator plugins, including failing cases.
 

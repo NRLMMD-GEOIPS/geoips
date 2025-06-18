@@ -53,7 +53,9 @@ def test_good_sector(good_sector):
     validate_good_plugin(good_sector, SectorPluginModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
+@pytest.mark.parametrize(
+    "test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys())
+)
 def test_bad_sector_plugins(good_sector, test_tup):
     """Perform validation on static sector plugins, including failing cases.
 
@@ -68,7 +70,9 @@ def test_bad_sector_plugins(good_sector, test_tup):
     validate_bad_plugin(good_sector, test_tup, SectorPluginModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases_neutral.values(), ids=list(test_cases_neutral.keys()))
+@pytest.mark.parametrize(
+    "test_tup", test_cases_neutral.values(), ids=list(test_cases_neutral.keys())
+)
 def test_neutral_sector_plugins(good_sector, test_tup):
     """Perform validation on static sector plugins, including failing cases.
 

@@ -54,7 +54,9 @@ def test_good_reader_arguments_model_instance(good_reader_arguments_instance):
     validate_good_plugin(good_reader_arguments_instance, workflows.ReaderArgumentsModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
+@pytest.mark.parametrize(
+    "test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys())
+)
 def test_bad_reader_arguments_instance(good_reader_arguments_instance, test_tup):
     """Perform validation on Reader plugins, including failing cases.
 

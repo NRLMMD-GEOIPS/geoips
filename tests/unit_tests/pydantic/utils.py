@@ -67,14 +67,14 @@ def load_test_cases(interface_name, test_type):
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    if test_type=="bad":
+    if test_type == "bad":
         fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_bad.yaml"
         if not os.path.exists(fpath):
             raise FileNotFoundError(
                 f"Error: No test cases file could be found. Expected {fpath} but it did not"
                 " exist. Please create this file and rerun your tests."
             )
-    elif test_type=="neutral":
+    elif test_type == "neutral":
         fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_neutral.yaml"
         if not os.path.exists(fpath):
             raise FileNotFoundError(
