@@ -25,6 +25,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "print",
     },
     {
         "log_level": "interactive",
@@ -34,6 +35,7 @@ valid_expected = [
         "columns": ["package", "json"],
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "print",
     },
     {
         "log_level": "interactive",
@@ -43,6 +45,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "print",
     },
     {
         "log_level": "interactive",
@@ -52,6 +55,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "print",
     },
     {
         "log_level": "interactive",
@@ -61,6 +65,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": True,
+        "warnings": "print",
     },
     {
         "log_level": "interactive",
@@ -70,6 +75,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": True,
+        "warnings": "print",
     },
 ]
 invalid_args = [
