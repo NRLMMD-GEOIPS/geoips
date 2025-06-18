@@ -6,8 +6,9 @@ deprecation:
     update those calls to area_def.x_size -> area_def.width and
     area_def.y_size -> area_def.height. This PR does just that.
 
-    The same thing goes for area_def.name. It was recommended we update any call
-    matching that pattern to area_def.description instead. The functionality of these
+    The same thing goes for area_def.name and area_def.proj4_string. It was recommended
+    we update any call matching area_def.name to area_def.description and
+    area_def.proj4_string to area_def.proj_str instead. The functionality of these
     attributes are exactly the same.
   files:
     modified:
