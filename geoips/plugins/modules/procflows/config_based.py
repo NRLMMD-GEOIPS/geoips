@@ -725,19 +725,19 @@ def get_area_defs_from_available_sectors(
     Returns
     -------
     dict
-        Dictionary of required area_defs, with area_def.name as the dictionary
+        Dictionary of required area_defs, with area_def.description as the dictionary
         keys. Based on YAML config-specified available_sectors, and command
         line args
 
     Notes
     -----
-    * Each area_def.name key has one or more "sector_types" associated with it.
+    * Each area_def.description key has one or more "sector_types" associated with it.
     * Each sector_type dictionary contains the actual "requested_sector_dict"
       from the YAML config, and the actual AreaDefinition object that was
       returned.
 
-        * ``area_defs[area_def.name][sector_type]['requested_sector_dict']``
-        * ``area_defs[area_def.name][sector_type]['area_def']``
+        * ``area_defs[area_def.description][sector_type]['requested_sector_dict']``
+        * ``area_defs[area_def.description][sector_type]['area_def']``
     """
     area_defs = {}
 
@@ -792,16 +792,16 @@ def get_area_defs_from_available_sectors(
             # sector_types attached to it. Ie, we may have different sizes/resolutions
             # for the same region, so we want a dictionary of sector_types
             # within the dictionary of area_defs
-            if area_def.name not in area_defs:
+            if area_def.description not in area_defs:
                 # Store the actual sector_dict and area_def in the dictionary
-                area_defs[area_def.name] = {
+                area_defs[area_def.description] = {
                     sector_type: {
                         "requested_sector_dict": sector_dict,
                         "area_def": area_def,
                     }
                 }
             else:
-                area_defs[area_def.name][sector_type] = {
+                area_defs[area_def.description][sector_type] = {
                     "requested_sector_dict": sector_dict,
                     "area_def": area_def,
                 }
@@ -1259,7 +1259,7 @@ def call(fnames, command_line_args=None):
             if len(pad_sect_xarrays) == 0:
                 LOG.interactive(
                     "SKIPPING no pad_area_def pad_sect_xarrays returned for %s",
-                    area_def.name,
+                    area_def.description,
                 )
                 continue
 
@@ -1277,7 +1277,7 @@ def call(fnames, command_line_args=None):
             ):
                 LOG.interactive(
                     "SKIPPING duplicate area_def, out of time range, for %s",
-                    area_def.name,
+                    area_def.description,
                 )
                 continue
 
@@ -1390,7 +1390,7 @@ def call(fnames, command_line_args=None):
                     if len(sect_xarrays) == 0:
                         LOG.interactive(
                             "SKIPPING no area_def sect_xarrays returned for %s",
-                            area_def.name,
+                            area_def.description,
                         )
                         continue
                     if (
@@ -1464,7 +1464,8 @@ def call(fnames, command_line_args=None):
             # we will not sector
             if area_def.sector_type not in ["reader_defined", "self_register"]:
                 LOG.interactive(
-                    "Sectoring self register xarrays for area_def '%s'", area_def.name
+                    "Sectoring self register xarrays for area_def '%s'",
+                    area_def.description,
                 )
                 if presector_data:
                     # window start/end time override hours before/after sector time.
@@ -1489,7 +1490,8 @@ def call(fnames, command_line_args=None):
             # - ensure we also skip no coverage for sect_xarrays
             if len(sect_xarrays) == 0:
                 LOG.interactive(
-                    "SKIPPING no area_def sect_xarrays returned for %s", area_def.name
+                    "SKIPPING no area_def sect_xarrays returned for %s",
+                    area_def.description,
                 )
                 continue
 

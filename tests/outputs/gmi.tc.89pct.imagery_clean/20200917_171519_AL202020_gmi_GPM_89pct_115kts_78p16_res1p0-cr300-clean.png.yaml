@@ -8,8 +8,8 @@ bounding_box:
   minlon: -59.99502596032628
   pixel_height_m: 1000.0
   pixel_width_m: 1000.0
-  proj4_string: +proj=eqc +lat_ts=0 +lat_0=19.7 +lon_0=-53.7 +x_0=0 +y_0=0 +R=6371228
-    +units=m +no_defs +type=crs
+  proj4_string: +R=6371228 +lat_0=19.7 +lat_ts=0 +lon_0=-53.7 +no_defs +proj=eqc +type=crs
+    +units=m +x_0=0 +y_0=0
 clat: 19.7
 clon: -53.7
 deck_line: AL, 20, 2020091718,   , BEST,   0, 197N,  537W, 115,  948, HU,  34, NEQ,  200,  150,   90,  180,

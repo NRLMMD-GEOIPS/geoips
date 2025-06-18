@@ -77,8 +77,8 @@ def call(
     if clean_fname:
         # Create matplotlib figure and main axis, where the main image will be plotted
         fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            area_def.x_size,
-            area_def.y_size,
+            area_def.width,
+            area_def.height,
             area_def,
             noborder=True,
             frame_clr=frame_clr,
@@ -105,8 +105,8 @@ def call(
 
     # Create matplotlib figure and main axis, where the main image will be plotted
     fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-        area_def.x_size,
-        area_def.y_size,
+        area_def.width,
+        area_def.height,
         area_def,
         existing_mapobj=mapobj,
         noborder=False,
@@ -164,7 +164,7 @@ def call(
         title_copyright=title_copyright,
         title_formatter=title_formatter,
     )
-    set_title(main_ax, title_string, area_def.y_size)
+    set_title(main_ax, title_string, area_def.height)
 
     if mpl_colors_info["colorbar"] is True:
         # Create the colorbar to match the mpl_colors
