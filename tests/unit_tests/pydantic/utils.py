@@ -71,15 +71,15 @@ def load_test_cases(interface_name, test_type):
         fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_bad.yaml"
         if not os.path.exists(fpath):
             raise FileNotFoundError(
-                f"Error: No test cases file could be found. Expected {fpath} but it did not"
-                " exist. Please create this file and rerun your tests."
+                f"Error: No test cases file could be found. Expected {fpath} but it "
+                "did not exist. Please create this file and rerun your tests."
             )
     elif test_type == "neutral":
         fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_neutral.yaml"
         if not os.path.exists(fpath):
             raise FileNotFoundError(
-                f"Error: No test cases file could be found. Expected {fpath} but it did not"
-                " exist. Please create this file and rerun your tests."
+                f"Error: No test cases file could be found. Expected {fpath} but it "
+                "did not exist. Please create this file and rerun your tests."
             )
 
     with open(fpath, "r") as fo:
@@ -316,7 +316,6 @@ def validate_neutral_plugin(good_plugin, test_tup, plugin_model):
     plugin_model: instance or child of geoips.pydantic.bases.PluginModel
         - The pydantic-based model used to validate this plugin.
     """
-
     key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
 
     neutral_plugin = deepcopy(good_plugin)
