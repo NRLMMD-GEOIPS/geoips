@@ -122,7 +122,7 @@ class ParentParsers:
     geoips_parser.add_argument(
         "--warnings",
         type=str,
-        default="print",
+        default=os.getenv("GEOIPS_WARNING_LEVEL", "hide"),
         choices=["hide", "print", "error"],
         help="Set the warning level for the CLI.",
     )
@@ -344,7 +344,7 @@ class GeoipsCommand(abc.ABC):
         independent_parser.add_argument(
             "--warnings",
             type=str,
-            default="print",
+            default=os.getenv("GEOIPS_WARNING_LEVEL", "hide"),
             choices=["hide", "print", "error"],
         )
         # Parse now, as we'll use logging among all of the child command classes
