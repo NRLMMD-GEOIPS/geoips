@@ -99,7 +99,7 @@ def update_sector_info_with_default_metadata(
     sector_info["bounding_box"]["pixel_height_m"] = area_def.pixel_size_y
     sector_info["bounding_box"]["image_width"] = area_def.width
     sector_info["bounding_box"]["image_height"] = area_def.height
-    sector_info["bounding_box"]["proj4_string"] = area_def.proj4_string
+    sector_info["bounding_box"]["proj4_string"] = area_def.proj_str
 
     if product_filename:
         sector_info["product_filename"] = replace_geoips_paths(product_filename)
