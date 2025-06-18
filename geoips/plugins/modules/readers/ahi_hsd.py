@@ -4,7 +4,7 @@
 """Advanced Himawari Imager Data Reader."""
 
 # Python Standard Libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from glob import glob
 import logging
 import os
@@ -457,24 +457,24 @@ def _get_metadata_block_01(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "basic_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["num_headers"] = np.fromstring(data[3:5], dtype="uint16")[0]
-    block_data["byte_order"] = np.fromstring(data[5:6], dtype="uint8")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["num_headers"] = np.frombuffer(data[3:5], dtype="uint16")[0]
+    block_data["byte_order"] = np.frombuffer(data[5:6], dtype="uint8")[0]
     block_data["satellite_name"] = data[6:22].decode("ascii").replace("\x00", "")
     block_data["processing_center"] = data[22:38].decode("ascii").replace("\x00", "")
     block_data["ob_area"] = data[38:42].decode("ascii").replace("\x00", "")
     block_data["other_ob_info"] = data[42:44].decode("ascii").replace("\x00", "")
-    block_data["ob_timeline"] = np.fromstring(data[44:46], dtype="uint16")[0]
-    block_data["ob_start_time"] = np.fromstring(data[46:54], dtype="float64")[0]
-    block_data["ob_end_time"] = np.fromstring(data[54:62], dtype="float64")[0]
-    block_data["creation_time"] = np.fromstring(data[62:70], dtype="float64")[0]
-    block_data["total_header_length"] = np.fromstring(data[70:74], dtype="uint32")[0]
-    block_data["total_data_length"] = np.fromstring(data[74:78], dtype="uint32")[0]
-    block_data["quality_flag_1"] = np.fromstring(data[78:79], dtype="uint8")[0]
-    block_data["quality_flag_2"] = np.fromstring(data[79:80], dtype="uint8")[0]
-    block_data["quality_flag_3"] = np.fromstring(data[80:81], dtype="uint8")[0]
-    block_data["quality_flag_4"] = np.fromstring(data[81:82], dtype="uint8")[0]
+    block_data["ob_timeline"] = np.frombuffer(data[44:46], dtype="uint16")[0]
+    block_data["ob_start_time"] = np.frombuffer(data[46:54], dtype="float64")[0]
+    block_data["ob_end_time"] = np.frombuffer(data[54:62], dtype="float64")[0]
+    block_data["creation_time"] = np.frombuffer(data[62:70], dtype="float64")[0]
+    block_data["total_header_length"] = np.frombuffer(data[70:74], dtype="uint32")[0]
+    block_data["total_data_length"] = np.frombuffer(data[74:78], dtype="uint32")[0]
+    block_data["quality_flag_1"] = np.frombuffer(data[78:79], dtype="uint8")[0]
+    block_data["quality_flag_2"] = np.frombuffer(data[79:80], dtype="uint8")[0]
+    block_data["quality_flag_3"] = np.frombuffer(data[80:81], dtype="uint8")[0]
+    block_data["quality_flag_4"] = np.frombuffer(data[81:82], dtype="uint8")[0]
     block_data["file_format_version"] = data[82:114].decode("ascii").replace("\x00", "")
     block_data["file_name"] = data[114:242].decode("ascii").replace("\x00", "")
     block_data["spare"] = data[242:282].decode("ascii").replace("\x00", "")
@@ -499,12 +499,12 @@ def _get_metadata_block_02(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "data_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["bits_per_pixel"] = np.fromstring(data[3:5], dtype="uint16")[0]
-    block_data["num_samples"] = np.fromstring(data[5:7], dtype="uint16")[0]
-    block_data["num_lines"] = np.fromstring(data[7:9], dtype="uint16")[0]
-    block_data["compression_flag"] = np.fromstring(data[9:10], dtype="uint8")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["bits_per_pixel"] = np.frombuffer(data[3:5], dtype="uint16")[0]
+    block_data["num_samples"] = np.frombuffer(data[5:7], dtype="uint16")[0]
+    block_data["num_lines"] = np.frombuffer(data[7:9], dtype="uint16")[0]
+    block_data["compression_flag"] = np.frombuffer(data[9:10], dtype="uint8")[0]
     block_data["spare"] = data[10:50].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -527,34 +527,34 @@ def _get_metadata_block_03(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "projection_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["sub_lon"] = np.fromstring(data[3:11], dtype="float64")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["sub_lon"] = np.frombuffer(data[3:11], dtype="float64")[0]
     # Column sclaing factor
-    block_data["CFAC"] = np.fromstring(data[11:15], dtype="uint32")[0]
+    block_data["CFAC"] = np.frombuffer(data[11:15], dtype="uint32")[0]
     # Line scaling factor
-    block_data["LFAC"] = np.fromstring(data[15:19], dtype="uint32")[0]
+    block_data["LFAC"] = np.frombuffer(data[15:19], dtype="uint32")[0]
     # Column offset
-    block_data["COFF"] = np.fromstring(data[19:23], dtype="float32")[0]
+    block_data["COFF"] = np.frombuffer(data[19:23], dtype="float32")[0]
     # Line offset
-    block_data["LOFF"] = np.fromstring(data[23:27], dtype="float32")[0]
+    block_data["LOFF"] = np.frombuffer(data[23:27], dtype="float32")[0]
     # Distance to earth's center
-    block_data["earth_to_sat_radius"] = np.fromstring(data[27:35], dtype="float64")[0]
+    block_data["earth_to_sat_radius"] = np.frombuffer(data[27:35], dtype="float64")[0]
     # Radius of earth at equator
-    block_data["equator_radius"] = np.fromstring(data[35:43], dtype="float64")[0]
+    block_data["equator_radius"] = np.frombuffer(data[35:43], dtype="float64")[0]
     # Radius of earth at pole
-    block_data["pole_radius"] = np.fromstring(data[43:51], dtype="float64")[0]
+    block_data["pole_radius"] = np.frombuffer(data[43:51], dtype="float64")[0]
     # (R_eq**2 - R_pol**2)/R_eq**2
-    block_data["r1"] = np.fromstring(data[51:59], dtype="float64")[0]
+    block_data["r1"] = np.frombuffer(data[51:59], dtype="float64")[0]
     # R_pol**2/R_eq**2
-    block_data["r2"] = np.fromstring(data[59:67], dtype="float64")[0]
+    block_data["r2"] = np.frombuffer(data[59:67], dtype="float64")[0]
     # R_eq**2/R_pol**2
-    block_data["r3"] = np.fromstring(data[67:75], dtype="float64")[0]
+    block_data["r3"] = np.frombuffer(data[67:75], dtype="float64")[0]
     # Coefficient for S_d(R_s**2 - R_eq**2)
-    block_data["Sd_coeff"] = np.fromstring(data[75:83], dtype="float64")[0]
-    block_data["resampling_types"] = np.fromstring(data[83:85], dtype="uint16")[0]
-    block_data["resampling_size"] = np.fromstring(data[85:87], dtype="uint16")[0]
-    block_data["spare"] = np.fromstring(data[87:127], dtype="uint16")
+    block_data["Sd_coeff"] = np.frombuffer(data[75:83], dtype="float64")[0]
+    block_data["resampling_types"] = np.frombuffer(data[83:85], dtype="uint16")[0]
+    block_data["resampling_size"] = np.frombuffer(data[85:87], dtype="uint16")[0]
+    block_data["spare"] = np.frombuffer(data[87:127], dtype="uint16")
 
     return block_data
 
@@ -576,19 +576,19 @@ def _get_metadata_block_04(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "navigation_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["nav_info_time"] = np.fromstring(data[3:11], dtype="float64")[0]
-    block_data["SSP_lon"] = np.fromstring(data[11:19], dtype="float64")[0]
-    block_data["SSP_lat"] = np.fromstring(data[19:27], dtype="float64")[0]
-    block_data["earthcenter_to_sat_dist"] = np.fromstring(data[27:35], dtype="float64")[
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["nav_info_time"] = np.frombuffer(data[3:11], dtype="float64")[0]
+    block_data["SSP_lon"] = np.frombuffer(data[11:19], dtype="float64")[0]
+    block_data["SSP_lat"] = np.frombuffer(data[19:27], dtype="float64")[0]
+    block_data["earthcenter_to_sat_dist"] = np.frombuffer(data[27:35], dtype="float64")[
         0
     ]
-    block_data["nadir_lon"] = np.fromstring(data[35:43], dtype="float64")[0]
-    block_data["nadir_lat"] = np.fromstring(data[43:51], dtype="float64")[0]
-    block_data["sun_pos"] = np.fromstring(data[51:75], dtype="float64")
-    block_data["moon_pos"] = np.fromstring(data[75:99], dtype="float64")
-    block_data["spare"] = np.fromstring(data[99:139], dtype="float64")
+    block_data["nadir_lon"] = np.frombuffer(data[35:43], dtype="float64")[0]
+    block_data["nadir_lat"] = np.frombuffer(data[43:51], dtype="float64")[0]
+    block_data["sun_pos"] = np.frombuffer(data[51:75], dtype="float64")
+    block_data["moon_pos"] = np.frombuffer(data[75:99], dtype="float64")
+    block_data["spare"] = np.frombuffer(data[99:139], dtype="float64")
 
     return block_data
 
@@ -610,29 +610,29 @@ def _get_metadata_block_05(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "calibration_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["band_number"] = np.fromstring(data[3:5], dtype="uint16")[0]
-    block_data["cent_wavelenth"] = np.fromstring(data[5:13], dtype="float64")[0]
-    block_data["valid_bits_per_pixel"] = np.fromstring(data[13:15], dtype="uint16")[0]
-    block_data["count_badval"] = np.fromstring(data[15:17], dtype="uint16")[0]
-    block_data["count_outside_scan"] = np.fromstring(data[17:19], dtype="uint16")[0]
-    block_data["gain"] = np.fromstring(data[19:27], dtype="float64")[0]
-    block_data["offset"] = np.fromstring(data[27:35], dtype="float64")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["band_number"] = np.frombuffer(data[3:5], dtype="uint16")[0]
+    block_data["cent_wavelenth"] = np.frombuffer(data[5:13], dtype="float64")[0]
+    block_data["valid_bits_per_pixel"] = np.frombuffer(data[13:15], dtype="uint16")[0]
+    block_data["count_badval"] = np.frombuffer(data[15:17], dtype="uint16")[0]
+    block_data["count_outside_scan"] = np.frombuffer(data[17:19], dtype="uint16")[0]
+    block_data["gain"] = np.frombuffer(data[19:27], dtype="float64")[0]
+    block_data["offset"] = np.frombuffer(data[27:35], dtype="float64")[0]
     if block_data["band_number"] in range(7, 17):
-        block_data["c0"] = np.fromstring(data[35:43], dtype="float64")[0]
-        block_data["c1"] = np.fromstring(data[43:51], dtype="float64")[0]
-        block_data["c2"] = np.fromstring(data[51:59], dtype="float64")[0]
-        block_data["C0"] = np.fromstring(data[59:67], dtype="float64")[0]
-        block_data["C1"] = np.fromstring(data[67:75], dtype="float64")[0]
-        block_data["C2"] = np.fromstring(data[75:83], dtype="float64")[0]
-        block_data["speed_of_light"] = np.fromstring(data[83:91], dtype="float64")[0]
-        block_data["planck_const"] = np.fromstring(data[91:99], dtype="float64")[0]
-        block_data["boltz_const"] = np.fromstring(data[99:107], dtype="float64")[0]
-        # block_data['spare'] = np.fromstring(data[107:147], dtype='float64')
+        block_data["c0"] = np.frombuffer(data[35:43], dtype="float64")[0]
+        block_data["c1"] = np.frombuffer(data[43:51], dtype="float64")[0]
+        block_data["c2"] = np.frombuffer(data[51:59], dtype="float64")[0]
+        block_data["C0"] = np.frombuffer(data[59:67], dtype="float64")[0]
+        block_data["C1"] = np.frombuffer(data[67:75], dtype="float64")[0]
+        block_data["C2"] = np.frombuffer(data[75:83], dtype="float64")[0]
+        block_data["speed_of_light"] = np.frombuffer(data[83:91], dtype="float64")[0]
+        block_data["planck_const"] = np.frombuffer(data[91:99], dtype="float64")[0]
+        block_data["boltz_const"] = np.frombuffer(data[99:107], dtype="float64")[0]
+        # block_data['spare'] = np.frombuffer(data[107:147], dtype='float64')
     else:
-        block_data["c_prime"] = np.fromstring(data[35:43], dtype="float64")[0]
-        block_data["spare"] = np.fromstring(data[43:147], dtype="float64")
+        block_data["c_prime"] = np.frombuffer(data[35:43], dtype="float64")[0]
+        block_data["spare"] = np.frombuffer(data[43:147], dtype="float64")
 
     return block_data
 
@@ -654,19 +654,19 @@ def _get_metadata_block_06(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "intercalibration_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
     # Global Space-based Inter-Calibration System (GSICS) calibration coefficients
-    block_data["GSICS_intercept"] = np.fromstring(data[3:11], dtype="float64")[0]
-    block_data["GSICS_slope"] = np.fromstring(data[11:19], dtype="float64")[0]
-    block_data["GSICS_quadratic"] = np.fromstring(data[19:27], dtype="float64")[0]
-    block_data["radiance_bias"] = np.fromstring(data[27:35], dtype="float64")[0]
-    block_data["bias_uncert"] = np.fromstring(data[35:43], dtype="float64")[0]
-    block_data["standard_radiance"] = np.fromstring(data[43:51], dtype="float64")[0]
-    block_data["GSICS_valid_start"] = np.fromstring(data[51:59], dtype="float64")[0]
-    block_data["GSICS_valid_end"] = np.fromstring(data[59:67], dtype="float64")[0]
-    block_data["GSICS_upper_limit"] = np.fromstring(data[67:71], dtype="float32")[0]
-    block_data["GSICS_lower_limit"] = np.fromstring(data[71:75], dtype="float32")[0]
+    block_data["GSICS_intercept"] = np.frombuffer(data[3:11], dtype="float64")[0]
+    block_data["GSICS_slope"] = np.frombuffer(data[11:19], dtype="float64")[0]
+    block_data["GSICS_quadratic"] = np.frombuffer(data[19:27], dtype="float64")[0]
+    block_data["radiance_bias"] = np.frombuffer(data[27:35], dtype="float64")[0]
+    block_data["bias_uncert"] = np.frombuffer(data[35:43], dtype="float64")[0]
+    block_data["standard_radiance"] = np.frombuffer(data[43:51], dtype="float64")[0]
+    block_data["GSICS_valid_start"] = np.frombuffer(data[51:59], dtype="float64")[0]
+    block_data["GSICS_valid_end"] = np.frombuffer(data[59:67], dtype="float64")[0]
+    block_data["GSICS_upper_limit"] = np.frombuffer(data[67:71], dtype="float32")[0]
+    block_data["GSICS_lower_limit"] = np.frombuffer(data[71:75], dtype="float32")[0]
     block_data["GSICS_filename"] = data[75:203].decode("ascii").replace("\x00", "")
     block_data["spare"] = data[203:259].decode("ascii").replace("\x00", "")
 
@@ -690,11 +690,11 @@ def _get_metadata_block_07(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "segment_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["num_segments"] = np.fromstring(data[3:4], dtype="uint8")[0]
-    block_data["segment_number"] = np.fromstring(data[4:5], dtype="uint8")[0]
-    block_data["segment_first_line"] = np.fromstring(data[5:7], dtype="uint16")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["num_segments"] = np.frombuffer(data[3:4], dtype="uint8")[0]
+    block_data["segment_number"] = np.frombuffer(data[4:5], dtype="uint8")[0]
+    block_data["segment_first_line"] = np.frombuffer(data[5:7], dtype="uint16")[0]
     block_data["spare"] = data[7:47].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -717,27 +717,27 @@ def _get_metadata_block_08(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "navigation_correction_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["center_scan_of_rotation"] = np.fromstring(data[3:7], dtype="float32")[0]
-    block_data["center_line_of_rotation"] = np.fromstring(data[7:11], dtype="float32")[
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["center_scan_of_rotation"] = np.frombuffer(data[3:7], dtype="float32")[0]
+    block_data["center_line_of_rotation"] = np.frombuffer(data[7:11], dtype="float32")[
         0
     ]
-    block_data["rotation_correction"] = np.fromstring(data[11:19], dtype="float64")[0]
-    block_data["num_correction_info"] = np.fromstring(data[19:21], dtype="uint16")[0]
+    block_data["rotation_correction"] = np.frombuffer(data[11:19], dtype="float64")[0]
+    block_data["num_correction_info"] = np.frombuffer(data[19:21], dtype="uint16")[0]
 
     start = 21
     block_data["line_num_after_rotation"] = np.empty(block_data["num_correction_info"])
     block_data["scan_shift_amount"] = np.empty(block_data["num_correction_info"])
     block_data["line_shift_amount"] = np.empty(block_data["num_correction_info"])
     for info_ind in range(0, block_data["num_correction_info"]):
-        block_data["line_num_after_rotation"][info_ind] = np.fromstring(
+        block_data["line_num_after_rotation"][info_ind] = np.frombuffer(
             data[start : start + 2], dtype="uint16"
-        )
-        block_data["scan_shift_amount"][info_ind] = np.fromstring(
+        )[0]
+        block_data["scan_shift_amount"][info_ind] = np.frombuffer(
             data[start + 2 : start + 6], dtype="float32"
         )
-        block_data["line_shift_amount"][info_ind] = np.fromstring(
+        block_data["line_shift_amount"][info_ind] = np.frombuffer(
             data[start + 6 : start + 10], dtype="float32"
         )
         start += 10
@@ -763,18 +763,18 @@ def _get_metadata_block_09(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "observation_time_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["num_ob_times"] = np.fromstring(data[3:5], dtype="uint16")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["num_ob_times"] = np.frombuffer(data[3:5], dtype="uint16")[0]
 
     start = 5
     block_data["ob_time_line_number"] = np.empty(block_data["num_ob_times"])
     block_data["ob_time"] = np.empty(block_data["num_ob_times"])
     for info_ind in range(0, block_data["num_ob_times"]):
-        block_data["ob_time_line_number"][info_ind] = np.fromstring(
+        block_data["ob_time_line_number"][info_ind] = np.frombuffer(
             data[start : start + 2], dtype="uint16"
         )
-        block_data["ob_time"][info_ind] = np.fromstring(
+        block_data["ob_time"][info_ind] = np.frombuffer(
             data[start + 2 : start + 10], dtype="float64"
         )
         start += 10
@@ -800,19 +800,19 @@ def _get_metadata_block_10(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "error_information"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
-    block_data["num_err_info_data"] = np.fromstring(data[3:5], dtype="uint16")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
+    block_data["num_err_info_data"] = np.frombuffer(data[3:5], dtype="uint16")[0]
 
     start = 5
     block_data["err_line_number"] = np.array([])
     block_data["num_err_per_line"] = np.array([])
     for info_ind in range(0, block_data["num_err_info_data"]):
         block_data["err_line_number"].append(
-            np.fromstring(data[start : start + 2], dtype="uint16")
+            np.frombuffer(data[start : start + 2], dtype="uint16")
         )
         block_data["num_err_per_line"].append(
-            np.fromstring(data[start + 2 : start + 4], dtype="uint16")
+            np.frombuffer(data[start + 2 : start + 4], dtype="uint16")
         )
         start += 4
     block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
@@ -837,8 +837,8 @@ def _get_metadata_block_11(df, block_info):
     # Create dictionary for this block
     block_data = {}
     block_data["block_name"] = "spare"
-    block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
-    block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
+    block_data["block_num"] = np.frombuffer(data[0:1], dtype="uint8")[0]
+    block_data["block_length"] = np.frombuffer(data[1:3], dtype="uint16")[0]
     block_data["spare"] = data[3:259].decode("ascii").replace("\x00", "")
 
     return block_data
@@ -1034,7 +1034,7 @@ def call_single_time(
     process_datetimes = {}
     LOG.debug("AHI reader test_arg: %s", test_arg)
     print_mem_usage("MEMUSG", verbose=False)
-    process_datetimes["overall_start"] = datetime.utcnow()
+    process_datetimes["overall_start"] = datetime.now(timezone.utc)
     gvars = {}
     datavars = {}
     adname = "undefined"
@@ -1053,6 +1053,7 @@ def call_single_time(
     # Get metadata for all input data files
     all_metadata = {}
     for fname in fnames:
+        LOG.debug("Processing file %s", fname)
         if chans:
             gotone = False
             for chan in chans:
@@ -1405,7 +1406,7 @@ def call_single_time(
     LOG.info("")
 
     print_mem_usage("MEMUSG", verbose=False)
-    process_datetimes["overall_end"] = datetime.utcnow()
+    process_datetimes["overall_end"] = datetime.now(timezone.utc)
     from geoips.geoips_utils import output_process_times
 
     output_process_times(process_datetimes, job_str="AHI HSD Reader")
@@ -1503,7 +1504,6 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         # # Determine dimension sizes
         # lines = []
         # samples = []
-        # shell()
         # for seg, smd in md.items():
         #     lines.append(smd['num_lines'])
         #     samples.append(smd['num_samples'])

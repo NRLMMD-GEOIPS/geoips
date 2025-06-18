@@ -134,22 +134,22 @@ def read_ssmis_data_file(fname, metadata_only=False):
     f1 = open(fname, "rb")
 
     # READ HEARDER
-    sw_rev = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()[0]  # NOQA
-    endian, fileid = np.fromstring(
+    sw_rev = np.frombuffer(f1.read(2), dtype=np.dtype("short")).byteswap()[0]  # NOQA
+    endian, fileid = np.frombuffer(
         f1.read(2), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
-    rev = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
-    year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
-    jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
-    hour, minu = np.fromstring(f1.read(2), dtype=np.dtype("int8")).byteswap()
-    satid, nsdr = np.fromstring(f1.read(4), dtype=np.dtype("short")).byteswap()
-    spare1, spare2, spare3 = np.fromstring(  # NOQA
+    rev = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()
+    year = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()
+    jday = np.frombuffer(f1.read(2), dtype=np.dtype("short")).byteswap()
+    hour, minu = np.frombuffer(f1.read(2), dtype=np.dtype("int8")).byteswap()
+    satid, nsdr = np.frombuffer(f1.read(4), dtype=np.dtype("short")).byteswap()
+    spare1, spare2, spare3 = np.frombuffer(  # NOQA
         f1.read(3), dtype=np.dtype("int8")
     ).byteswap()
-    proc_stat_flags = np.fromstring(  # NOQA
+    proc_stat_flags = np.frombuffer(  # NOQA
         f1.read(1), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
-    spare4 = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
+    spare4 = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
     # Need to set up time to be read in by the metadata (year and jday are arrays)
     time = "%04d%03d%02d%02d" % (year[0], jday[0], hour, minu)  # NOQA
     nbytes = 28  # bytes that have been read in
@@ -158,7 +158,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         nbytes % 512
     )  # skip nfiller bytes so that the scan header will start at the 513th byte of
     # the data records,
-    filler_bytes = np.fromstring(
+    filler_bytes = np.frombuffer(
         f1.read(nfiller), dtype=np.dtype("int8")
     ).byteswap()  # NOQA
 
@@ -190,37 +190,37 @@ def read_ssmis_data_file(fname, metadata_only=False):
         nbytes = 0
 
         # SCAN HEADER
-        syncword = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
-        scan_year = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()
-        scan_jday = np.fromstring(f1.read(2), dtype=np.dtype("short")).byteswap()
-        scan_hour, scan_minu = np.fromstring(
+        syncword = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
+        scan_year = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()
+        scan_jday = np.frombuffer(f1.read(2), dtype=np.dtype("short")).byteswap()
+        scan_hour, scan_minu = np.frombuffer(
             f1.read(2), dtype=np.dtype("int8")
         ).byteswap()
-        scan = np.fromstring(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
-        nscan_imager, nscan_enviro, nscan_las, nscan_uas = np.fromstring(
+        scan = np.frombuffer(f1.read(4), dtype=np.dtype("int32")).byteswap()  # NOQA
+        nscan_imager, nscan_enviro, nscan_las, nscan_uas = np.frombuffer(
             f1.read(4), dtype=np.dtype("int8")
         ).byteswap()
-        start_scantime_imager = np.fromstring(
+        start_scantime_imager = np.frombuffer(
             f1.read(112), dtype=np.dtype("int32")
         ).byteswap()
-        scenecounts_imager = np.fromstring(
+        scenecounts_imager = np.frombuffer(
             f1.read(28), dtype=np.dtype("uint8")
         ).byteswap()
-        start_scantime_enviro = np.fromstring(
+        start_scantime_enviro = np.frombuffer(
             f1.read(96), dtype=np.dtype("int32")
         ).byteswap()
-        scenecounts_enviro = np.fromstring(
+        scenecounts_enviro = np.frombuffer(
             f1.read(24), dtype=np.dtype("uint8")
         ).byteswap()
-        start_scantime_las = np.fromstring(
+        start_scantime_las = np.frombuffer(
             f1.read(32), dtype=np.dtype("int32")
         ).byteswap()
-        scenecounts_las = np.fromstring(f1.read(8), dtype=np.dtype("uint8")).byteswap()
-        start_scantime_uas = np.fromstring(
+        scenecounts_las = np.frombuffer(f1.read(8), dtype=np.dtype("uint8")).byteswap()
+        start_scantime_uas = np.frombuffer(
             f1.read(16), dtype=np.dtype("int32")
         ).byteswap()
-        scenecounts_uas = np.fromstring(f1.read(4), dtype=np.dtype("uint8")).byteswap()
-        spare = np.fromstring(f1.read(20), dtype=np.dtype("int32")).byteswap()  # NOQA
+        scenecounts_uas = np.frombuffer(f1.read(4), dtype=np.dtype("uint8")).byteswap()
+        spare = np.frombuffer(f1.read(20), dtype=np.dtype("int32")).byteswap()  # NOQA
         nbytes += 360  # total bytes of the scan header
         # nscan0 = scan - 1  # number of scans
 
@@ -380,10 +380,10 @@ def read_ssmis_data_file(fname, metadata_only=False):
                 LOG.info("value of imager scan is %s", ii)
                 continue
             for jj in range(scenecounts_imager[ii]):
-                imager_lat, imager_lon, imager_scene = np.fromstring(
+                imager_lat, imager_lon, imager_scene = np.frombuffer(
                     f1.read(6), dtype=np.dtype("short")
                 ).byteswap()
-                imager_surf, imager_rain = np.fromstring(
+                imager_surf, imager_rain = np.frombuffer(
                     f1.read(2), dtype=np.dtype("int8")
                 ).byteswap()
                 (
@@ -393,7 +393,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     imager_ch11,
                     imager_ch17,
                     imager_ch18,
-                ) = np.fromstring(f1.read(12), dtype=np.dtype("short")).byteswap()
+                ) = np.frombuffer(f1.read(12), dtype=np.dtype("short")).byteswap()
                 nbytes += 20
                 # k = 180 * (nscan0 + ii) + jj
                 lat = 0.01 * imager_lat
@@ -487,10 +487,10 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     LOG.info("value of enviro odd scan is %s", ii)
                     continue
                 for jj in range(scenecounts_enviro[ii]):
-                    enviroodd_lat, enviroodd_lon, enviroodd_scene = np.fromstring(
+                    enviroodd_lat, enviroodd_lon, enviroodd_scene = np.frombuffer(
                         f1.read(6), dtype=np.dtype("short")
                     ).byteswap()
-                    enviroodd_seaice, enviroodd_surf = np.fromstring(
+                    enviroodd_seaice, enviroodd_surf = np.frombuffer(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
                     (
@@ -505,11 +505,11 @@ def read_ssmis_data_file(fname, metadata_only=False):
                         enviroodd_ch18_5x5,
                         enviroodd_ch17_5x4,
                         enviroodd_ch18_5x4,
-                    ) = np.fromstring(f1.read(22), dtype=np.dtype("short")).byteswap()
-                    enviroodd_rain1, enviroodd_rain2 = np.fromstring(
+                    ) = np.frombuffer(f1.read(22), dtype=np.dtype("short")).byteswap()
+                    enviroodd_rain1, enviroodd_rain2 = np.frombuffer(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
-                    edr_bitflags = np.fromstring(  # NOQA
+                    edr_bitflags = np.frombuffer(  # NOQA
                         f1.read(4), dtype=np.dtype("int32")
                     ).byteswap()
                     nbytes += 36
@@ -550,10 +550,10 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     LOG.info("value of enviro even scan is %s", ii)
                     continue
                 for jj in range(scenecounts_enviro[ii]):
-                    enviroeven_lat, enviroeven_lon, enviroeven_scene = np.fromstring(
+                    enviroeven_lat, enviroeven_lon, enviroeven_scene = np.frombuffer(
                         f1.read(6), dtype=np.dtype("short")
                     ).byteswap()
-                    enviroeven_seaice, enviroeven_surf = np.fromstring(
+                    enviroeven_seaice, enviroeven_surf = np.frombuffer(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
                     (
@@ -562,7 +562,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
                         enviroeven_ch14,
                         enviroeven_ch15,
                         enviroeven_ch16,
-                    ) = np.fromstring(f1.read(10), dtype=np.dtype("short")).byteswap()
+                    ) = np.frombuffer(f1.read(10), dtype=np.dtype("short")).byteswap()
                     nbytes += 18
                     lat = 0.01 * enviroeven_lat
                     lon = 0.01 * enviroeven_lon
@@ -684,11 +684,11 @@ def read_ssmis_data_file(fname, metadata_only=False):
                         las_ch24_3x3,
                         las_height_1000mb,
                         las_surf,
-                    ) = np.fromstring(f1.read(34), dtype=np.dtype("short")).byteswap()
-                    las_tqflag, las_hqflag = np.fromstring(
+                    ) = np.frombuffer(f1.read(34), dtype=np.dtype("short")).byteswap()
+                    las_tqflag, las_hqflag = np.frombuffer(
                         f1.read(2), dtype=np.dtype("int8")
                     ).byteswap()
-                    las_terrain, las_scene = np.fromstring(
+                    las_terrain, las_scene = np.frombuffer(
                         f1.read(4), dtype=np.dtype("short")
                     ).byteswap()
                 except Exception as resp:
@@ -817,8 +817,8 @@ def read_ssmis_data_file(fname, metadata_only=False):
                     uas_ch24_6x6,
                     uas_scene,
                     uas_tqflag,
-                ) = np.fromstring(f1.read(20), dtype=np.dtype("short")).byteswap()
-                uas_field, uas_bdotk2 = np.fromstring(
+                ) = np.frombuffer(f1.read(20), dtype=np.dtype("short")).byteswap()
+                uas_field, uas_bdotk2 = np.frombuffer(
                     f1.read(8), dtype=np.dtype("int32")
                 ).byteswap()
                 nbytes += 28
@@ -883,7 +883,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
         )  # nfiller bytes to be skipped so that the next scan header will start at
         # the 513th byte.
         try:
-            filler_bytes = np.fromstring(  # NOQA
+            filler_bytes = np.frombuffer(  # NOQA
                 f1.read(nfiller), dtype=np.dtype("int8")
             ).byteswap()[0]
         except Exception as resp:
