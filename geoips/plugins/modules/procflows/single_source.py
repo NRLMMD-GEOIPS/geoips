@@ -1515,10 +1515,10 @@ def get_area_defs_from_command_line_args(
             setattr(area_def, "name", area_def.sector_type)
 
         if not hasattr(area_def, "area_id"):
-            setattr(area_def, "area_id", area_def.description)
+            setattr(area_def, "area_id", area_def.sector_type)
 
         if not hasattr(area_def, "description"):
-            setattr(area_def, "description", area_def.description)
+            setattr(area_def, "description", area_def.sector_type)
 
         # Add it to the list
         area_defs += [area_def]
