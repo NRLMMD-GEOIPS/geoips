@@ -1,10 +1,14 @@
 deprecation:
-- title: 'Update deprecated area_def.x-y_size calls.'
+- title: 'Update deprecated area_def.x-y_size and area_def.name calls.'
   description: |
     There were a few PendingDeprecationWarnings raised for any area_def.x_size or
     area_def.y_size attribute accesses in GeoIPS source code. It was recommended we
     update those calls to area_def.x_size -> area_def.width and
     area_def.y_size -> area_def.height. This PR does just that.
+
+    The same thing goes for area_def.name. It was recommended we update any call
+    matching that pattern to area_def.description instead. The functionality of these
+    attributes are exactly the same.
   files:
     modified:
       - geoips/plugins/modules/output_formatters/full_disk_image.py
@@ -13,9 +17,14 @@ deprecation:
       - geoips/plugins/modules/output_formatters/imagery_windbarbs.py
       - geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level.py
       - geoips/plugins/modules/output_formatters/metadata_default.py
+      - geoips/plugins/modules/procflows/config_based.py
       - geoips/plugins/modules/procflows/single_source.py
       - geoips/plugins/modules/readers/abi_l2_netcdf.py
+      - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/sector_utils/tc_tracks.py
+      - geoips/sector_utils/utils.py
       - geoips/sector_utils/yaml_utils.py
+      - geoips/xarray_utils/data.py
   related-issue:
     number: null
     repo_url: ''
