@@ -48,7 +48,7 @@ def call(
     if fig is None and main_ax is None and mapobj is None:
         # Create matplotlib figure and main axis, where the main image will be plotted
         fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            area_def.x_size, area_def.y_size, area_def, noborder=True
+            area_def.width, area_def.height, area_def, noborder=True
         )
 
     # Plot the actual data on a map

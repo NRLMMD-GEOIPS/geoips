@@ -198,7 +198,7 @@ def set_tc_coverage_check_area_def(area_def, width_degrees=8, height_degrees=8):
     )
     covg_area_def = copy_sector_info(area_def, covg_area_def)
 
-    LOG.info("  Coverage area definition: %s", covg_area_def.name)
+    LOG.info("  Coverage area definition: %s", covg_area_def.description)
     LOG.info(
         "  Coverage sector info: clat: %s clon: %s",
         covg_area_def.sector_info["clat"],
@@ -416,11 +416,16 @@ def get_static_area_defs_for_xarray(xarray_obj, sectorlist):
 
     ret_area_defs = []
     for area_def in area_defs:
-        if area_def.name not in [curr_area_def.name for curr_area_def in ret_area_defs]:
-            LOG.info("Including area_def %s in return list", area_def.name)
+        if area_def.description not in [
+            curr_area_def.description for curr_area_def in ret_area_defs
+        ]:
+            LOG.info("Including area_def %s in return list", area_def.description)
             ret_area_defs += [area_def]
         else:
-            LOG.info("area_def %s already in return list, not including", area_def.name)
+            LOG.info(
+                "area_def %s already in return list, not including",
+                area_def.description,
+            )
 
     return ret_area_defs
 
@@ -534,12 +539,17 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
         if not is_requested_aid_type(area_def, aid_type):
             LOG.debug(
                 "area_def %s aid_type %s not requested, not including",
-                area_def.name,
+                area_def.description,
                 area_def.sector_info["aid_type"],
             )
             continue
-        elif area_def.name in [curr_area_def.name for curr_area_def in ret_area_defs]:
-            LOG.info("area_def %s already in return list, not including", area_def.name)
+        elif area_def.description in [
+            curr_area_def.description for curr_area_def in ret_area_defs
+        ]:
+            LOG.info(
+                "area_def %s already in return list, not including",
+                area_def.description,
+            )
             continue
         else:
             kept_one = False
@@ -554,8 +564,8 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                     kept_one = True
                     LOG.info(
                         "Including area_def %s in return list, NOT including %s",
-                        other_area_def.name,
-                        area_def.name,
+                        other_area_def.description,
+                        area_def.description,
                     )
                     ret_area_defs += [other_area_def]
                 if (
@@ -567,8 +577,8 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                     LOG.info(
                         "Including area_def %s in return list, NOT including %s, "
                         "invest_storm_id defined",
-                        other_area_def.name,
-                        area_def.name,
+                        other_area_def.description,
+                        area_def.description,
                     )
                     ret_area_defs += [other_area_def]
 
@@ -576,12 +586,12 @@ def remove_duplicate_storm_positions(area_defs, aid_type=None):
                 ret_area_defs += [area_def]
                 LOG.debug(
                     "Including area_def %s in return list, track type %s",
-                    area_def.name,
+                    area_def.description,
                     area_def.sector_info["aid_type"],
                 )
             elif not kept_one:
                 ret_area_defs += [area_def]
-                LOG.info("Including area_def %s in return list", area_def.name)
+                LOG.info("Including area_def %s in return list", area_def.description)
 
     return ret_area_defs
 
@@ -599,14 +609,14 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
             ):
                 LOG.debug(
                     "AREA_DEF LIST REPLACING %s with area_def %s",
-                    ret_area_def_ids[area_def.area_id].name,
-                    area_def.name,
+                    ret_area_def_ids[area_def.area_id].description,
+                    area_def.description,
                 )
                 ret_area_def_ids[area_def.area_id] = area_def
         else:
             LOG.warning(
                 "AREA_DEF LIST REPLACING Multiple identical sectors - using latest %s",
-                area_def.name,
+                area_def.description,
             )
             ret_area_def_ids[area_def.area_id] = area_def
 
@@ -626,7 +636,7 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #             if not sects:
 #                 LOG.info('AREA_DEF LIST NO COVERAGE not adding sector')
 #             else:
-#                 LOG.info('AREA_DEF LIST ADDING area_def %s', area_def.name)
+#                 LOG.info('AREA_DEF LIST ADDING area_def %s', area_def.description)
 #                 ret_area_def_ids[area_def.area_id] = area_def
 #                 ret_area_def_sects[area_def.area_id] = sects[0]
 #         elif is_dynamic_sector(area_def):
@@ -641,13 +651,13 @@ def filter_area_defs_actual_time(area_defs, actual_datetime):
 #
 #                 LOG.info('AREA_DEF LIST REPLACING %s with area_def %s',
 #                          ret_area_def_ids[area_def.area_id].name,
-#                          area_def.name)
+#                          area_def.description)
 #                 ret_area_def_ids[area_def.area_id] = area_def
 #                 ret_area_def_sects[area_def.area_id] = sects[0]
 #
 #         else:
 #             LOG.warning('AREA_DEF LIST REPLACING Multiple identical sectors - using
-#                         latest %s', area_def.name)
+#                         latest %s', area_def.description)
 #             ret_area_def_ids[area_def.area_id] = area_def
 #
 #     return ret_area_def_ids.values()

@@ -216,8 +216,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             continue
         if area_def and ll_mask is not None:
             coords = dict(xarray.coords)
-            coords["x"] = range(area_def.x_size)
-            coords["y"] = range(area_def.y_size)
+            coords["x"] = range(area_def.width)
+            coords["y"] = range(area_def.height)
             area_dataset = xr.Dataset(coords=coords)
             area_dataset.attrs = xarray.attrs
             lines = geo["Lines"]
