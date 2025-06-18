@@ -1,3 +1,4 @@
+#cspell:ignore ~ocal
 docstring_missing_period:
   key: docstring
   val: Local Area Sector for GeoKompsat (Korea)
