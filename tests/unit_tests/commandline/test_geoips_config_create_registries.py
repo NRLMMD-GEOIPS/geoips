@@ -33,7 +33,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": None,
         "save_type": "json",
-        "warnings": "print",
+        "warnings": "hide",
     },
     {
         "log_level": "interactive",
@@ -41,7 +41,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": None,
         "save_type": "yaml",
-        "warnings": "print",
+        "warnings": "hide",
     },
     {
         "log_level": "interactive",
@@ -49,7 +49,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
         "save_type": "json",
-        "warnings": "print",
+        "warnings": "hide",
     },
     {
         "log_level": "interactive",
@@ -57,7 +57,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": None,
         "save_type": "json",
-        "warnings": "print",
+        "warnings": "hide",
     },
     {
         "log_level": "interactive",
@@ -65,7 +65,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
         "save_type": "json",
-        "warnings": "print",
+        "warnings": "hide",
     },
 ]
 invalid_args = [
