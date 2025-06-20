@@ -30,7 +30,7 @@ if [[ -z "$GEOIPS_OUTDIRS" || \
     exit 1
 fi
 
-install_log=$GEOIPS_OUTDIRS/logs/`date -u +%Y%m%d.%H%M%S`_install.log
+install_log=$GEOIPS_OUTDIRS/logs/install/`date -u +%Y%m%d.%H%M%S`_install.log
 mkdir -p `dirname $install_log`
 echo ""
 echo "Install log: $install_log"
@@ -43,6 +43,11 @@ fi
 
 # Requirements to run the full suite of open source geoips tests
 if [[ "$1" == "geoips_full" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
+fi
+
+# Requirements to run the open source geoips site implementation (all repos)
+if [[ "$1" == "geoips_site" ]]; then
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gcc
     . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh gfortran
@@ -389,7 +394,7 @@ if [[ "$1" == "test_data" || "$1" == "test_data_github" ]]; then
                 exit 1
             fi
             # if only one match was found, this was the installed dataset and we are good
-            # to rename the top folder of it to test_data_name. This way full_install.sh will
+            # to rename the top folder of it to test_data_name. This way site_install.sh will
             # not download the data again as it's able to identify that it's installed.
             folder_name=$(echo "$matching_folders")
             if [[ "$folder_name" != "$test_data_name" ]]; then
