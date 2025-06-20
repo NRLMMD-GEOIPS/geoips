@@ -11,5 +11,8 @@ if [[ "$1" == "exit_on_missing" ]]; then
 fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_base
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data test_data_amsr2 $test_exit $install_script
-create_plugin_registries
+# If you already have a .gitconfig, this won't do anything.
+# Gives some reasonable defaults if you don't have one.
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh set_gitconfig
+geoips config install test_data_amsr2
+geoips config create-registries

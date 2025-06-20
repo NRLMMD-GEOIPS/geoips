@@ -196,6 +196,8 @@ class GeoipsCommand(abc.ABC):
                 # among specific commands, or subsets of commands. For now, this works
                 if self.name == "install" and self.parent.name == "config":
                     break
+                if self.name == "install-github" and self.parent.name == "config":
+                    break
                 self.parent_parsers.insert(
                     0,
                     getattr(ParentParsers, f"{curr_parent.name}_parser"),
