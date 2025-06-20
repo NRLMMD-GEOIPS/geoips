@@ -10,7 +10,7 @@ from tests.unit_tests.pydantic.utils import (
     load_test_cases,
     load_geoips_yaml_plugin,
     validate_bad_plugin,
-    validate_good_plugin,
+    validate_base_plugin,
 )
 
 interface = "feature_annotators"
@@ -39,7 +39,7 @@ def test_good_feature_annotator(good_feature_annotator):
     good_feature_annotator: dict
         - A dictionary representing a valid feature annotator plugin.
     """
-    validate_good_plugin(good_feature_annotator, FeatureAnnotatorPluginModel)
+    validate_base_plugin(good_feature_annotator, FeatureAnnotatorPluginModel)
 
 
 @pytest.mark.parametrize(

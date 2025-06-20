@@ -148,17 +148,17 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
     return yam
 
 
-def validate_good_plugin(good_plugin, plugin_model):
+def validate_base_plugin(base_plugin, plugin_model):
     """Assert that a well formatted plugin is valid.
 
     Parameters
     ----------
-    good_plugin: dict
+    base_plugin: dict
         - A dictionary representing a valid plugin.
     plugin_model: instance or child of geoips.pydantic.bases.PluginModel
         - The pydantic-based model used to validate this plugin.
     """
-    plugin_model(**good_plugin)
+    plugin_model(**base_plugin)
 
 
 def _validate_test_tup_keys(test_tup: dict) -> tuple:
@@ -239,7 +239,7 @@ def _attempt_to_associate_model_with_error(
     return errors[-1]
 
 
-def validate_bad_plugin(good_plugin, test_tup, plugin_model):
+def validate_bad_plugin(base_plugin, test_tup, plugin_model):
     """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
 
     Current supported plugins include readers and sectors. More to come in the future,
@@ -248,7 +248,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
 
     Parameters
     ----------
-    good_plugin: dict
+    base_plugin: dict
         - A dictionary representing a plugin that is valid.
     test_tup:
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
@@ -258,7 +258,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     """
     key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
 
-    bad_plugin = deepcopy(good_plugin)
+    bad_plugin = deepcopy(base_plugin)
     bad_plugin[key] = val
 
     # ValidationErrors won't occur for these fields at the moment.
@@ -299,7 +299,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
         assert False, f"Expected ValidationError for key '{key}', but none was raised."
 
 
-def validate_neutral_plugin(good_plugin, test_tup, plugin_model):
+def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
     """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
 
     Current supported plugins include readers and sectors. More to come in the future,
@@ -308,7 +308,7 @@ def validate_neutral_plugin(good_plugin, test_tup, plugin_model):
 
     Parameters
     ----------
-    good_plugin: dict
+    base_plugin: dict
         - A dictionary representing a plugin that is valid.
     test_tup:
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
@@ -318,7 +318,7 @@ def validate_neutral_plugin(good_plugin, test_tup, plugin_model):
     """
     key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
 
-    neutral_plugin = deepcopy(good_plugin)
+    neutral_plugin = deepcopy(base_plugin)
     neutral_plugin[key] = val
 
     if warn_match:

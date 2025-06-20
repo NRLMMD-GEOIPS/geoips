@@ -11,7 +11,7 @@ from tests.unit_tests.pydantic.utils import (
     PathDict,
     load_test_cases,
     validate_bad_plugin,
-    validate_good_plugin,
+    validate_base_plugin,
     validate_neutral_plugin,
 )
 
@@ -50,7 +50,7 @@ def test_good_sector(good_sector):
     good_sector: dict
         - A dictionary representing a valid sector plugin.
     """
-    validate_good_plugin(good_sector, SectorPluginModel)
+    validate_base_plugin(good_sector, SectorPluginModel)
 
 
 @pytest.mark.parametrize(
