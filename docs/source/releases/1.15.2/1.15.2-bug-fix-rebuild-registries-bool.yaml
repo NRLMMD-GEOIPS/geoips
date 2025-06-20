@@ -1,0 +1,19 @@
+bug fix:
+- title: 'Ensure GEOIPS_REBUILD_REGISTRIES is properly set as a bool'
+  description: |
+    Allow 0, false, or False for setting in environment.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/filenames/base_paths.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14

@@ -82,6 +82,7 @@ spec:
             arguments:
               gamma_list: [1.06]
               satellite_zenith_angle_cutoff: 80
+              sun_zen_correction: false
         colormapper:
           plugin:
             name: matplotlib_linear_norm

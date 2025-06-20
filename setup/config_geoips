@@ -44,9 +44,11 @@ export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
 export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache
 # Cartopy shape files
 export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
-# Satpy geometry cache, etc.
-export SATPY_CACHE_DIR=$GEOIPS_OUTDIRS/scratch/satpy_cache
-export SATPY_TMP_DIR=$GEOIPS_OUTDIRS/scratch/satpy_tmp
+export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache/geoips
+export GEOIPS_DATA_CACHE_DIR=$GEOIPS_OUTDIRS/cache/geoips
+export SATPY_DATA_CACHE_DIR=$GEOIPS_OUTDIRS/cache/satpy
+export SATPY_CACHE_DIR=$SATPY_DATA_CACHE_DIR/longterm/geolocation
+export SATPY_TMP_DIR=$SATPY_DATA_CACHE_DIR/shortterm/tmp
 # Tell satpy to write cached files out to SATPY_CACHE_DIR
 export SATPY_CACHE_LONLATS=True
 export SATPY_CACHE_SENSOR_ANGLES=True
@@ -95,6 +97,12 @@ create_brassy_changelog(){
             brassy -t
             mv $brassy_yaml $docs_dir
             echo "Created: $docs_dir/$brassy_yaml"
+            if [[ "$GEOIPS_REPO_URL" ]]; then
+                repo_url=$GEOIPS_REPO_URL/geoips
+                cdate=$(date +"%Y-%m-%d")
+                sed -i "s|repo_url: ''|repo_url: '$repo_url'|g" $docs_dir/$brassy_yaml
+                sed -i "s|start: null|start: $cdate|g" $docs_dir/$brassy_yaml
+            fi
         else
             echo "Changelog already exists: $docs_dir/$brassy_yaml"
         fi
@@ -102,3 +110,11 @@ create_brassy_changelog(){
         echo "Not in a geoips git repo!"
     fi
 }
+# Don't accidentally run pytest directly and lose all the log output...
+alias pytest="""
+echo '\\pytest to run pytest directly.'
+echo 'ARE YOU SURE YOU WANT TO RUN PYTEST DIRECTLY AND NOT WITH'
+echo '$GEOIPS/tests/utils/interactive_pytest.sh ?'
+echo 'Can also do'
+echo '\\pytest | tee -ai $GEOIPS_OUTDIRS/logs/pytests_manual/`date -u +%Y%m%d.%H%M%S`.pytest.log'
+"""
