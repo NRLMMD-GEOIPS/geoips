@@ -1,0 +1,15 @@
+bug fix:
+- title: 'Restore non-editable installability.'
+  description: 'Move test-data-urls file into GeoIPS repo to fix a breaking change to non-editable installs.'
+  files:
+    added:
+    - 'geoips/commandline/ancillary_info/test-data-urls.yaml'
+    modified:
+    - 'geoips/commandline/ancillary_info/test_data.py'
+    - 'setup/download_test_data.py'
+  related-issue:
+    number: 1025
+    repo_url: ''
+  date:
+    start: null
+    finish: null
