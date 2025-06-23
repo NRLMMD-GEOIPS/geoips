@@ -87,11 +87,11 @@ def load_test_cases(interface_name, test_type):
 
     for id, val in test_cases.items():
         for key in list(val.keys()):
-            if key not in ("key", "val", "cls", "err_str", "warn_match"):
+            if key not in ("description", "key", "val", "cls", "err_str", "warn_match"):
                 error = (
                     f"ERROR: test_case '{id}' has item with key '{key}' which is an "
                     "invalid test case key. We only support the full set of keys "
-                    "[key, val, cls, err_str / warn_match] at this moment."
+                    "[description, key, val, cls, err_str / warn_match] at this moment."
                 )
                 raise RuntimeError(error)
     return test_cases
