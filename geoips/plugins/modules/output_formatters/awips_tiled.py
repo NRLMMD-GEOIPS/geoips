@@ -26,12 +26,12 @@ from geoips.filenames.base_paths import PATHS as geoips_variables
 import satpy
 
 # TODO: Remove the following import before pushing
-from IPython import embed as shell
+from ipdb import set_trace as breakpoint
 
 LOG = logging.getLogger(__name__)
 
 interface = "output_formatters"
-family = "xrdict_area_product_to_outlist"  # "xrdict_to_outlist"
+family = "xrdict_area_product_to_outlist"
 name = "awips_tiled"
 
 
@@ -55,7 +55,9 @@ def call(
     working_dir = Path(working_directory)
     utc_date_format = "%Y-%m-%d %H:%M:%S UTC"
     success_outputs = []
-    shell()
+
+    ## DEBUGGING
+    breakpoint()
 
     scn = satpy.Scene()
     scn["xyz"] = xarray_dict["xyz"]
