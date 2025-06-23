@@ -1065,7 +1065,8 @@ def call_single_time(
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(open(fname, "rb"))
+            with open(fname, "rb") as file_stream:
+                all_metadata[fname] = _get_metadata(file_stream)
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             if ".bz2" in fname:
