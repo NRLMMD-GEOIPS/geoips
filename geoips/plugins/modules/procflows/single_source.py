@@ -1346,6 +1346,8 @@ def plot_data(
                 output_plugin.family,
                 output_plugin.name,
             )
+            if fused_xarray_dict == None:
+                fused_xarray_dict = alg_xarray
             output_products = output_plugin(
                 xarray_dict=fused_xarray_dict,
                 area_def=area_def,

@@ -1,0 +1,14 @@
+bug fix:
+- title: 'Fixing error with output_formatter family xarray_area_product_to_outlist'
+  description: 'When an output_formatter plugin with the family xarray_area_product_to_outlist is invoked, it passes the variable fused_xarray_dict which is still set to None'
+  files:
+    added:
+    - 'docs/source/releases/latest/1066-output_formatter-family-xarray_area_product_to_outlist-error.yaml'
+    modified:
+    - '/local/home/coleman/geoips/geoips/geoips/plugins/modules/procflows/single_source.py'
+  related-issue:
+    number: 1066
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2025/06/23
+    finish: today
