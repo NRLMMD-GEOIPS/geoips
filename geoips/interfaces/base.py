@@ -198,25 +198,28 @@ class YamlPluginValidator:
                 f"\nin interface '{plugin['interface']}'"
             ) from err
 
-        # This turned out to be too big of a change for now.
-        # We should consider how to implement something like this while still being able
-        # to test the preceeding error in our unit tests. Currently, the error ourput by
-        # `valicator.validate(plugin)` is being used for testing in the unit tests.
+        # The error ourput by `validator.validate(plugin)` is being used for testing
+        # in the unit tests. str(err) MUST be included in the raised exception string
+        # to ensure unit tests continue to pass.
         #
         # See issue #303
-        validator.validate(plugin)
-        # try:
-        #     validator.validate(plugin)
-        # except ValidationError as err:
-        #     try:
-        #         raise ValidationError(
-        #             f"Failed to validate \"{plugin['name']}\" plugin "
-        #             f"for the \"{plugin['interface']}\" interface"
-        #         ) from err
-        #     except (KeyError, TypeError):
-        #         raise ValidationError(
-        #             f'Failed to validate plugin using the "{validator_id}" schema'
-        #         ) from err
+        try:
+            validator.validate(plugin)
+        except ValidationError as err:
+            try:
+                raise ValidationError(
+                    f"{str(err)}: "
+                    "\nFailed to validate plugin with json schema"
+                    f"\non plugin '{str(plugin.get('name'))}'"
+                    f"\nfrom package '{str(plugin.get('package'))}' "
+                    f"\nwithin interface '{str(plugin.get('interface'))}' "
+                    f"\nat '{str(plugin.get('abspath'))}'"
+                ) from err
+            except (KeyError, TypeError):
+                raise ValidationError(
+                    f"{str(err)}: Failed to validate plugin using the "
+                    f'"{validator_id}" schema'
+                ) from err
 
         if "family" in plugin and plugin["family"] == "list":
             plugin = self.validate_list(plugin)
@@ -548,7 +551,13 @@ class BaseYamlInterface(BaseInterface):
             return False
 
     def test_interface(self):
-        """Test interface method."""
+        """Test interface method.
+
+        Note this is currently only called via the
+        tests/utils/test_interfaces.py script (which is
+        not a valid pytest script, but called directly
+        via the command line.
+        """
         plugins = self.get_plugins()
         all_valid = self.plugins_all_valid()
         family_list = []
@@ -736,6 +745,12 @@ class BaseModuleInterface(BaseInterface):
         Return values should be as specified below, but are not programmatically
         verified.
 
+        Note this is currently only called via the
+        tests/utils/test_interfaces.py script (which is
+        not a valid pytest script, but called directly
+        via the command line), via the test_interface
+        method within this base interface.
+
         Parameters
         ----------
         plugin : PluginObject
@@ -769,15 +784,17 @@ class BaseModuleInterface(BaseInterface):
         arg_list = []
         kwarg_list = []
         kwarg_defaults_list = []
-        for param in sig.parameters.values():
+        for param_key, param_value in sig.parameters.items():
             # kwargs are identified by a default value - parameter will include "="
-            if "=" in str(param):
-                kwarg, default_value = str(param).split("=")
-                kwarg_list += [kwarg]
+            if "=" in str(param_value):
+                # This is kwarg = default, splitting on = and taking the second
+                # value only.
+                default_value = str(param_value).split("=")[-1]
+                kwarg_list += [str(param_key)]
                 kwarg_defaults_list += [default_value]
             # If there is no "=", then it is a positional parameter
             else:
-                arg_list += [str(param)]
+                arg_list += [str(param_key)]
 
         for expected_arg in expected_args:
             if expected_arg not in arg_list:

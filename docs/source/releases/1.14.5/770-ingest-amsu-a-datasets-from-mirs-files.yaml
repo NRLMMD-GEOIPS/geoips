@@ -49,6 +49,7 @@ bug fix:
     - 'tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_mhs_metop-a_183-3H_115kts_100p00_1p0.png.yaml'
     - 'tests/scripts/mhs_mirs.tc.183-3H.imagery_annotated.sh'
   related-issue:
+    internal: GEOIPS#770
     number: 770
     repo_url: 'geoips'
   date:

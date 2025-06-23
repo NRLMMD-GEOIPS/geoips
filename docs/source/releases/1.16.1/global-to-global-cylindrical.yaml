@@ -1,0 +1,38 @@
+bug fix:
+- title: 'Renamed all remaining test scripts and output from global to global-cylindrical'
+  description: 'Missed these.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB165.global.24p51.noaa.20p0.png -> aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB165.global_cylindrical.24p51.noaa.20p0.png
+    - aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB180.global.24p51.noaa.20p0.png -> aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB180.global_cylindrical.24p51.noaa.20p0.png
+    - aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB325-1.global.24p42.noaa.20p0.png -> aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB325-1.global_cylindrical.24p42.noaa.20p0.png
+    - aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB50.global.29p01.noaa.20p0.png -> aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB50.global_cylindrical.29p01.noaa.20p0.png
+    - aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB89.global.28p70.noaa.20p0.png -> aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB89.global_cylindrical.28p70.noaa.20p0.png
+    - fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p09.EUMETSAT.20p0.png -> fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global_cylindrical.26p09.EUMETSAT.20p0.png
+    - mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global.83p60.cimss.20p0.png -> mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
+    - seviri.Convective_Storms.imagery_clean/20200404.080000.msg-1.seviri.Convective_Storms.global.22p76.nesdisstar.20p0.png -> seviri.Convective_Storms.imagery_clean/20200404.080000.msg-1.seviri.Convective_Storms.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Day_Microphys_Summer.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Summer.global.22p76.nesdisstar.20p0.png -> seviri.Day_Microphys_Summer.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Summer.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Day_Microphys_Winter.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Winter.global.22p76.nesdisstar.20p0.png -> seviri.Day_Microphys_Winter.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Winter.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Day_Solar.imagery_clean/20200404.080000.msg-1.seviri.Day_Solar.global.22p76.nesdisstar.20p0.png -> seviri.Day_Solar.imagery_clean/20200404.080000.msg-1.seviri.Day_Solar.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global.22p76.nesdisstar.20p0.png -> seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust_RGB.global.22p76.nesdisstar.20p0.png -> seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust_RGB.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global.22p76.nesdisstar.20p0.png -> seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural_Color.global.22p76.nesdisstar.20p0.png -> seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural_Color.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Night_Microphys.imagery_clean/20240327.010000.msg-3.seviri.Night_Microphys.global.22p76.nesdisstar.20p0.png -> seviri.Night_Microphys.imagery_clean/20240327.010000.msg-3.seviri.Night_Microphys.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.Volcanic_Ash.imagery_clean/20200404.080000.msg-1.seviri.Volcanic_Ash.global.22p76.nesdisstar.20p0.png -> seviri.Volcanic_Ash.imagery_clean/20200404.080000.msg-1.seviri.Volcanic_Ash.global_cylindrical.22p76.nesdisstar.20p0.png
+    - seviri.airmass.imagery_clean/20200404.080000.msg-1.seviri.airmass.global.22p76.nesdisstar.20p0.png -> seviri.airmass.imagery_clean/20200404.080000.msg-1.seviri.airmass.global_cylindrical.22p76.nesdisstar.20p0.png
+    added:
+    - ''
+    modified:
+    - tests/scripts/aws_TB165.imagery_clean.sh
+    - tests/scripts/aws_TB180.imagery_clean.sh
+    - tests/scripts/aws_TB325-1.imagery_clean.sh
+    - tests/scripts/aws_TB50.imagery_clean.sh
+    - tests/scripts/aws_TB89.imagery_clean.sh
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-08

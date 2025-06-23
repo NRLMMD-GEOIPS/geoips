@@ -21,6 +21,7 @@ spec:
               max_outbounds: crop
               pressure_key: 'fine_press'
               time_fcst: -1
+              time_key: 'atime'
 
     - name: Model-WaveHeight
       source_names: [gfs]
@@ -29,3 +30,8 @@ spec:
       product_defaults: model_waves
       spec:
         variables: ["significant_height_of_combined_wind_waves_and_swell"]
+        algorithm:
+          plugin:
+            name: model_channel
+            arguments:
+              time_key: 'atime'
