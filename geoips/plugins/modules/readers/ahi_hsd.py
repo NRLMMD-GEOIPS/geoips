@@ -3,6 +3,9 @@
 
 """Advanced Himawari Imager Data Reader."""
 
+# cspell:ignore BADVALS, FLDK, GEOLL, GSICS, adname, calib, cfac, currchan, dsname
+# cspell:ignore sclunit, nprocs, gvars, nseg, segs
+
 # Python Standard Libraries
 from datetime import datetime, timedelta
 from glob import glob
@@ -386,7 +389,7 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
     # Create a memmap to the lat/lon file
     # Nothing will be read until explicitly requested
     # We are mapping this here so that the lats and lons are available when
-    # calculating satlelite angles
+    # calculating satellite angles
     LOG.info(
         "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["ob_area"])
     )
@@ -530,7 +533,7 @@ def _get_metadata_block_03(df, block_info):
     block_data["block_num"] = np.fromstring(data[0:1], dtype="uint8")[0]
     block_data["block_length"] = np.fromstring(data[1:3], dtype="uint16")[0]
     block_data["sub_lon"] = np.fromstring(data[3:11], dtype="float64")[0]
-    # Column sclaing factor
+    # Column scaling factor
     block_data["CFAC"] = np.fromstring(data[11:15], dtype="uint32")[0]
     # Line scaling factor
     block_data["LFAC"] = np.fromstring(data[15:19], dtype="uint32")[0]
@@ -901,7 +904,7 @@ def _check_file_consistency(metadata):
     If any differ, returns False.
     """
     # Checks start dates without comparing times.
-    # Times are uncomparable using this field, but are compared below using ob_timeline.
+    # Times are incomparable using this field, but are compared below using ob_timeline.
     start_dates = [
         int(metadata[fname]["block_01"]["ob_start_time"]) for fname in metadata.keys()
     ]
@@ -923,7 +926,7 @@ def _check_file_consistency(metadata):
     for block in members_to_check.keys():
         for field in members_to_check[block].keys():
             member_vals = [metadata[fname][block][field] for fname in metadata.keys()]
-            # This tests to be sure that all elemnts in member_vals are equal
+            # This tests to be sure that all elements in member_vals are equal
             # If they aren't all equal, then return False
             if member_vals[1:] != member_vals[:-1]:
                 return False
