@@ -736,13 +736,13 @@ def _get_metadata_block_08(df, block_info):
     for info_ind in range(0, block_data["num_correction_info"]):
         block_data["line_num_after_rotation"][info_ind] = np.fromstring(
             data[start : start + 2], dtype="uint16"
-        )
+        )[0]
         block_data["scan_shift_amount"][info_ind] = np.fromstring(
             data[start + 2 : start + 6], dtype="float32"
-        )
+        )[0]
         block_data["line_shift_amount"][info_ind] = np.fromstring(
             data[start + 6 : start + 10], dtype="float32"
-        )
+        )[0]
         start += 10
     block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
 
@@ -776,10 +776,10 @@ def _get_metadata_block_09(df, block_info):
     for info_ind in range(0, block_data["num_ob_times"]):
         block_data["ob_time_line_number"][info_ind] = np.fromstring(
             data[start : start + 2], dtype="uint16"
-        )
+        )[0]
         block_data["ob_time"][info_ind] = np.fromstring(
             data[start + 2 : start + 10], dtype="float64"
-        )
+        )[0]
         start += 10
     block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
 
