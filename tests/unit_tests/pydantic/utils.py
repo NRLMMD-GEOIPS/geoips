@@ -7,6 +7,7 @@ import os
 import pytest
 from copy import deepcopy
 from pydantic import ValidationError
+from pydantic import BaseModel
 import yaml
 
 from geoips import interfaces
@@ -51,6 +52,15 @@ class PathDict(dict):
             dict.__setitem__(self, key, value)
 
 
+# class TestCaseModel(BaseModel):
+#     """ Validate keys and values of the YAML-based test case inputs."""
+#     descriptin: str
+#     key: str
+#     val: any
+#     cls: object
+#     err_str: str
+
+
 def load_test_cases(interface_name, test_type):
     """Load a set of test cases used to validate pydantic model(s).
 
@@ -67,22 +77,23 @@ def load_test_cases(interface_name, test_type):
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    if test_type == "bad":
-        fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_bad.yaml"
-        if not os.path.exists(fpath):
-            raise FileNotFoundError(
-                f"Error: No test cases file could be found. Expected {fpath} but it "
-                "did not exist. Please create this file and rerun your tests."
-            )
-    elif test_type == "neutral":
-        fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases_neutral.yaml"
-        if not os.path.exists(fpath):
-            raise FileNotFoundError(
-                f"Error: No test cases file could be found. Expected {fpath} but it "
-                "did not exist. Please create this file and rerun your tests."
-            )
 
-    with open(fpath, "r") as fo:
+    if test_type not in ("bad", "neutral"):
+        raise ValueError(f"Unsupported test type: {test_type}")
+
+
+    from pathlib import Path
+    fname = f"test_cases_{test_type}.yaml"
+    base_dir = Path(__file__).parent
+    fpath = base_dir / interface_name / fname
+
+    if not fpath.exists():
+        raise FileNotFoundError(
+            f"Error: No test cases file could be found. Expected {fpath} but it "
+            "did not exist. Please create this file and rerun your tests."
+        )
+
+    with fpath.open("r") as fo:
         test_cases = yaml.safe_load(fo)
 
     for id, val in test_cases.items():
