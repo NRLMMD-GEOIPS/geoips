@@ -1,0 +1,22 @@
+testing:
+- title: 'Provide more informative integration pytest output when running with -s'
+  description: |
+    Output reference environment variables (like OUTPUT_CHECKER_THRESHOLD_IMAGE), and the full
+    copy pasteable command line call for each test script. Remove some other print statements.
+    Should determine if there is some concept of logging levels in pytests (using geoips
+    setup_logging did not appear to immediately work with initial tests).
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-05-16
+    finish: 2025-05-16

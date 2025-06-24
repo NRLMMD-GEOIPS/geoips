@@ -85,7 +85,17 @@ name = "ewsg_netcdf"
 source_names = ["gvar"]
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
+):
     """Read EWS-G data in netcdf4 format.
 
     Parameters
@@ -108,6 +118,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Default=None, i.e., if not defined in the yaml file
+        * Defined in yaml file where variables and tuning parameters are set
 
     Returns
     -------
@@ -129,11 +142,23 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         chans,
         area_def,
         self_register,
+        roi=roi,
+        geolocation_cache_backend=geolocation_cache_backend,
+        cache_chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
     )
 
 
 def call_single_time(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
 ):
     """Read EWS-G data in netcdf4 format for one or more files.
 
@@ -157,6 +182,24 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Passed in from Call function
+        * Default=None, i.e., if not defined in the yaml file
+        * Defined in yaml file where variables and tuning parameters are set
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+        * Not currently used, since these files have all required geolocation data in
+          the netCDF file.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+        * Not currently used, since geolocation_cache_backend is currently not used.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
 
     Returns
     -------
@@ -289,7 +332,10 @@ def call_single_time(
         # MTIFs need to be "prettier" for PMW products, so 2km resolution for
         # final image
         xarray_ewsg.attrs["sample_distance_km"] = 2
-        xarray_ewsg.attrs["interpolation_radius_of_influence"] = 3000
+        if roi is not None:
+            xarray_ewsg.attrs["interpolation_radius_of_influence"] = roi
+        else:
+            xarray_ewsg.attrs["interpolation_radius_of_influence"] = 3000
         # Just return the metadata
         if metadata_only:
             # close the files
@@ -300,6 +346,16 @@ def call_single_time(
 
         # for varname in ncdf_file.variables.keys():
         for var in VARLIST:
+            if resource_tracker:
+                key = f"READ CHAN: abi_netcdf_chan_{var}"
+                if area_def:
+                    key += f"_{area_def.area_id}"
+                resource_tracker.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=key,
+                    show_log=False,
+                )
             varname = var
             data = ncdf_file[varname]
             # masked_data=np.ma.masked_equal(
@@ -323,6 +379,10 @@ def call_single_time(
             if varname in ["gvar_ch2", "gvar_ch4", "gvar_ch6"]:
                 xarray_ewsg[varname] = xarray_ewsg[varname] + 273.15
                 xarray_ewsg[varname].attrs["units"] = "Kelvin"
+            if resource_tracker:
+                resource_tracker.track_resource_usage(
+                    logstr="MEMUSG", verbose=False, key=key
+                )
 
         # close the files
         ncdf_file.close()
