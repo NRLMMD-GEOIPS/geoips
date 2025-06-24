@@ -207,19 +207,27 @@ class YamlPluginValidator:
             validator.validate(plugin)
         except ValidationError as err:
             try:
+                plg_name = plugin.get("name")
+                plg_pkg = plugin.get("package")
+                plg_interface = plugin.get("interface")
+                plg_abspath = plugin.get("abspath")
+            except AttributeError:
                 raise ValidationError(
-                    f"{str(err)}: "
-                    "\nFailed to validate plugin with json schema"
-                    f"\non plugin '{str(plugin.get('name'))}'"
-                    f"\nfrom package '{str(plugin.get('package'))}' "
-                    f"\nwithin interface '{str(plugin.get('interface'))}' "
-                    f"\nat '{str(plugin.get('abspath'))}'"
-                ) from err
+                    f"{str(err)}: No 'get()' method found on plugin object."
+                )
             except (KeyError, TypeError):
                 raise ValidationError(
                     f"{str(err)}: Failed to validate plugin using the "
                     f'"{validator_id}" schema'
                 ) from err
+            raise ValidationError(
+                f"{str(err)}: "
+                "\nFailed to validate plugin with json schema"
+                f"\non plugin '{plg_name}'"
+                f"\nfrom package '{plg_pkg}' "
+                f"\nwithin interface '{plg_interface}' "
+                f"\nat '{plg_abspath}'"
+            ) from err
 
         if "family" in plugin and plugin["family"] == "list":
             plugin = self.validate_list(plugin)
