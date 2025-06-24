@@ -7,7 +7,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_mtg_fci_day/data/mt1_fdhsi_20240113_1150/* \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W_XX-*.nc \
              --reader_name fci_netcdf \
              --product_name Infrared \
              --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/fci.unprojected_image.<product>" \
