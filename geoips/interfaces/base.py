@@ -214,11 +214,14 @@ class YamlPluginValidator:
             except AttributeError:
                 raise ValidationError(
                     f"{str(err)}: No 'get()' method found on plugin object."
-                )
-            except (KeyError, TypeError):
+                ) from err
+            except KeyError:
+                missing_keys = []
+                for key in ["name", "package", "interface", "abspath"]:
+                    if key not in plugin:
+                        missing_keys.append(key)
                 raise ValidationError(
-                    f"{str(err)}: Failed to validate plugin using the "
-                    f'"{validator_id}" schema'
+                    f"{str(err)}: Plugin missing required keys: {missing_keys}."
                 ) from err
             raise ValidationError(
                 f"{str(err)}: "
