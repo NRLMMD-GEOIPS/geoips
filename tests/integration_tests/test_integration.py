@@ -47,7 +47,6 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh",
-    "$geoips_repopath/tests/scripts/amsua_mhs_mirs.tc.rainrate.imagery.sh",
     "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh",
@@ -117,6 +116,7 @@ multi_repo_integ_test_calls = [
 
 # Test scripts that require test datasets with limited availability.
 limited_data_integ_test_calls = [
+    "$geoips_repopath/tests/scripts/amsua_mhs_mirs.tc.rainrate.imagery.sh",
     "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
@@ -313,7 +313,7 @@ def test_integ_base_test_script(base_setup: None, script: str):
 @pytest.mark.spans_multiple_packages
 @pytest.mark.integration
 @pytest.mark.parametrize("script", multi_repo_integ_test_calls)
-def test_integ_multi_repo_script(site_setup: None, script: str):
+def test_integ_multi_repo_script(script: str):
     """
     Run integration test scripts by executing specified shell commands.
 
