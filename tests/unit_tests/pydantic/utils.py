@@ -8,11 +8,11 @@ from importlib.resources import files
 from pathlib import Path
 import pytest
 from copy import deepcopy
+from typing import Any, Tuple, Type
 import warnings
 import yaml
 
 from pydantic import BaseModel, Field, model_validator, ValidationError
-from typing import Any
 
 from geoips import interfaces
 from geoips import pydantic as geoips_pydantic
@@ -89,7 +89,7 @@ class TestCaseModel(BaseModel):
         return values
 
 
-def load_test_cases(interface_name, test_type):
+def load_test_cases(interface_name: str, test_type: str) -> dict:
     """Load a set of test cases used to validate pydantic model(s).
 
     This can either be a top level model, such as SectorPluginModel, or a component
@@ -99,6 +99,8 @@ def load_test_cases(interface_name, test_type):
     ----------
     interface_name: str
         - The name of the interface that's going to be tested.
+    test_type: str
+        - The category of the test cases to load - either "bad" or "neutral".
 
     Returns
     -------
@@ -133,7 +135,7 @@ def load_test_cases(interface_name, test_type):
     return validated_test_cases
 
 
-def load_geoips_yaml_plugin(interface_name, plugin_name):
+def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
     """Load a GeoIPS YAML plugin via yaml.safe_load, not interface.get_plugin.
 
     This will be used until we convert all of our schema to pydantic. If we load a
@@ -185,7 +187,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
     return yam
 
 
-def _validate_test_tup_keys(test_tup: TestCaseModel) -> tuple:
+def _validate_test_tup_keys(test_tup: TestCaseModel) -> Tuple[str, Any, str, str]:
     """Ensure test_tup contains either 'err_str' or 'warn_match', and extract values.
 
     Parameters
@@ -195,10 +197,8 @@ def _validate_test_tup_keys(test_tup: TestCaseModel) -> tuple:
             - 'key' (str): Path to the attribute being mutated.
             - 'val' (any): The value to set for the given key.
             - 'cls' (str): The name of the model expected to fail.
-            - 'err_str' (str, optional): Expected error message fragment for the
+            - 'err_str' (str): Expected error message fragment for the
                 ValidationError.
-            - 'warn_match' (str, optional): Expected warning message fragment if a
-                warning is tested.
 
     Returns
     -------
@@ -257,7 +257,7 @@ def _attempt_to_associate_model_with_error(
     return errors[-1]
 
 
-def validate_base_plugin(base_plugin, plugin_model):
+def validate_base_plugin(base_plugin: dict, plugin_model: Type):
     """Run a base test to assert that a well-formatted plugin is valid.
 
     Parameters
@@ -270,7 +270,9 @@ def validate_base_plugin(base_plugin, plugin_model):
     plugin_model(**base_plugin)
 
 
-def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
+def validate_neutral_plugin(
+    base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: type
+):
     """Run a neutral test to check for expected FutureWarnings in a plugin.
 
     Parameters
@@ -294,7 +296,9 @@ def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
         return
 
 
-def validate_bad_plugin(base_plugin, test_tup, plugin_model):
+def validate_bad_plugin(
+    base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: Type
+):
     """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
 
     Current supported plugins include readers and sectors. More to come in the future,
