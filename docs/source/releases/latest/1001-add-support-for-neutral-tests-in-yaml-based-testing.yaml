@@ -16,7 +16,6 @@ enhancement:
     - 'tests/unit_tests/pydantic/sectors/test_cases_neutral.yaml'
     - 'tests/unit_tests/pydantic/workflows/test_cases_bad.yaml'
     - 'tests/unit_tests/pydantic/workflows/test_cases_neutral.yaml'
-    - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model1.py'
     modified:
     - 'geoips/pydantic/sectors.py'
     - 'tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py'
