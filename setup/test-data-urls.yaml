@@ -17,8 +17,8 @@ test_data_urls:
   test_data_gpm: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0.tgz"
   # test_data_hy2: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
   test_data_modis: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_modis_1.14.5_github.com.tgz"
-  test_data_mtg_fci_day: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
-  test_data_multi_scan_times: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
+  # test_data_mtg_fci_day: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
+  test_data_multi_scan_times: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_multi_scan_times.tgz"
   test_data_noaa_aws: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_noaa_aws_1.15.3_github.com.tgz"
   test_data_ngfs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ngfs_1.15.3_github.com.tgz"
   test_data_pyrocb: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_pyrocb_1.15.3_github.com.tgz"
