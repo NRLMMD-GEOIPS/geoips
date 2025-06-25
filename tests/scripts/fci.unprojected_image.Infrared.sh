@@ -14,8 +14,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_fci/data/20250623/1200/W
              --output_formatter unprojected_image \
              --output_formatter_kwargs '{"x_size": "1000","y_size": "1000"}' \
              --filename_formatter geoips_fname, \
-             --reader_kwargs '{"self_register": true}' \
-             --self_register_dataset FULL_DISK \
+             --self_register_dataset LOW \
              --self_register_source fci \
              --filename_formatter geoips_fname
 
