@@ -33,6 +33,7 @@
         "UCAR",
         "Wimmers",
         "geokompsat",
+	"nesdisstar",
         "nrlmry",
         "nrlmmd",
         // Libraries / Tools
@@ -328,6 +329,7 @@
         "AIRS",
         "ALOS",
         "AMSU",
+	"AMSUB",
         "ASCAT",
         "ATMS",
         "AVHRR",
