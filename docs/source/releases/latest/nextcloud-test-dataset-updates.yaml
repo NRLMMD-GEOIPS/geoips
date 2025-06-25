@@ -1,0 +1,19 @@
+testing:
+- title: 'Nextcloud test dataset updates.'
+  description: |
+    With the recent release of brand new and/or updated test datasets coming from
+    internal NRL, we needed to update our public hosting of datasets to match these
+    changes. The data has since been transferred over, and we need to reflect this
+    within our code base so the CLI can properly install the new datasets. This was a
+    simple update to test-data-urls.yaml, based on a script I wrote to detect unique
+    test datasets being used within plugin packages.
+  files:
+    modified:
+      - setup/test-data-urls.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 06/24/25
+    finish: 06/25/25
+
