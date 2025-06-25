@@ -109,8 +109,8 @@ full_integ_test_calls = [
 
 # Test scripts spanning multiple repositories / geoips plugins.
 multi_repo_integ_test_calls = [
-    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
     "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
+    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
 ]
 
 # Test scripts that require test datasets with limited availability.
@@ -313,7 +313,7 @@ def test_integ_base_test_script(base_setup: None, script: str):
 @pytest.mark.spans_multiple_packages
 @pytest.mark.integration
 @pytest.mark.parametrize("script", multi_repo_integ_test_calls)
-def test_integ_multi_repo_script(script: str):
+def test_integ_multi_repo_script(full_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 
