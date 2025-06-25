@@ -1,0 +1,19 @@
+actions:
+- title: 'Copy the pip base requirements to requirements.txt'
+  description: |
+    Use the base requirements as the default.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/getting-started/installing/linux_with_conda.rst'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-25
+    finish: 2025-04-25

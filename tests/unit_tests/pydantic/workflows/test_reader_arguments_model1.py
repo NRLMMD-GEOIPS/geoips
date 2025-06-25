@@ -16,7 +16,7 @@ from tests.unit_tests.pydantic.utils import (
     PathDict,
     load_test_cases,
     validate_bad_plugin,
-    validate_good_plugin,
+    validate_base_plugin,
     validate_neutral_plugin,
 )
 
@@ -28,16 +28,16 @@ good_yaml = yaml.safe_load(
     open(str(files("geoips") / "plugins/yaml/workflows/read_test.yaml"), mode="r")
 )
 
-good_yaml["abspath"] = str(files("geoips") / "plugins/yaml/workflows/read_test.yaml")
-good_yaml["relpath"] = "plugins/yaml/workflows/read_test.yaml"
-good_yaml["package"] = "geoips"
+base_yaml["abspath"] = str(files("geoips") / "plugins/yaml/workflows/read_test.yaml")
+base_yaml["relpath"] = "plugins/yaml/workflows/read_test.yaml"
+base_yaml["package"] = "geoips"
 
 
 @pytest.fixture
 def good_reader_arguments_instance():
     """Return a consistent dictionary that is a valid GeoIPS sector plugin."""
     # Make the loading code only occur once, return a copy every time
-    return PathDict(deepcopy(good_yaml))
+    return PathDict(deepcopy(base_yaml))
 
 
 @pytest.mark.parametrize(
@@ -53,10 +53,12 @@ def test_good_reader_arguments_model_instance(good_reader_arguments_instance):
     good_sector: dict
         - A dictionary representing a valid sector plugin.
     """
-    validate_good_plugin(good_reader_arguments_instance, workflows.ReaderArgumentsModel)
+    validate_base_plugin(good_reader_arguments_instance, workflows.ReaderArgumentsModel)
 
 
-@pytest.mark.parametrize("test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys()))
+@pytest.mark.parametrize(
+    "test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys())
+)
 def test_bad_reader_arguments_instance(good_reader_arguments_instance, test_tup):
     """Perform validation on reader plugins with known failing cases.
 

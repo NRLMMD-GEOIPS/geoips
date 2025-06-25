@@ -8,6 +8,7 @@ Various configuration-based commands for setting up your geoips environment.
 
 from os import listdir, environ, remove
 from os.path import abspath, join
+import subprocess
 import requests
 import tempfile
 
@@ -249,12 +250,57 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                     progress.update(1)
 
 
+class GeoipsConfigInstallGithub(GeoipsExecutableCommand):
+    """Config Command Class for installing packages/data.
+
+    Supports installation of packages and test data needed for testing and/or running
+    your GeoIPS environment via github repositories.
+    """
+
+    name = "install-github"
+    command_classes = []
+
+    def add_arguments(self):
+        """Add arguments to the config-subparser for the Config Command."""
+        self.parser.add_argument(
+            "test_dataset_name",
+            type=str.lower,
+            help="GeoIPS Test Dataset to Install from GitHub repository.",
+        )
+
+    def __call__(self, args):
+        """Run the `geoips config install-github <test_dataset_name>` command.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through
+        """
+        test_dataset_name = args.test_dataset_name
+        print(
+            f"Running check_system_requirements.sh test_data_github {test_dataset_name}"
+        )
+        call_list = [
+            "bash",
+            join(
+                environ.get("GEOIPS_PACKAGES_DIR"),
+                "geoips",
+                "setup",
+                "check_system_requirements.sh",
+            ),
+            "test_data_github",
+            test_dataset_name,
+        ]
+        subprocess.call(call_list)
+
+
 class GeoipsConfig(GeoipsCommand):
     """Config top-level command for configuring your GeoIPS environment."""
 
     name = "config"
     command_classes = [
         GeoipsConfigInstall,
+        GeoipsConfigInstallGithub,
         GeoipsConfigCreateRegistries,
         GeoipsConfigDeleteRegistries,
     ]
