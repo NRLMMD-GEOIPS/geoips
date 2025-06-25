@@ -3,7 +3,6 @@
 
 """Generic testing utilities used for pydantic unit testing."""
 
-# from collections import UserDict
 import logging
 from importlib.resources import files
 from pathlib import Path
@@ -75,7 +74,7 @@ class TestCaseModel(BaseModel):
     val: Any = Field(..., description="The value to set for the given key.")
     cls: object = Field(..., description="The name of the model expected to fail.")
     err_str: str = Field(
-        None, description="Expected error message fragment for the ValidationError."
+        ..., description="Expected error message fragment for the ValidationError."
     )
 
     @model_validator(mode="before")
@@ -127,7 +126,6 @@ def load_test_cases(interface_name, test_type):
         try:
             raw_test_case["test_case_id"] = test_case_id
             validated_test_case = TestCaseModel(**raw_test_case)
-            print("test case \t", validated_test_case)
             validated_test_cases[test_case_id] = validated_test_case
         except ValidationError as e:
             raise RuntimeError(f"Invalid test case '{test_case_id}': {e}")
@@ -171,6 +169,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
+    print("relpaht \t", relpath)
     abspath = str(files("geoips") / relpath)
     package = "geoips"
 
@@ -272,11 +271,7 @@ def validate_base_plugin(base_plugin, plugin_model):
 
 
 def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
-    """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
-
-    Current supported plugins include readers and sectors. More to come in the future,
-    and this function might change because of that. This is a beta method for the time
-    being.
+    """Validate neutral tests such as future and log warnings for any GeoIPS plugin.
 
     Parameters
     ----------
