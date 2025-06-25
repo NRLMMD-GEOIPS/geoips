@@ -258,7 +258,7 @@ def _attempt_to_associate_model_with_error(
 
 
 def validate_base_plugin(base_plugin, plugin_model):
-    """Assert that a well formatted plugin is valid.
+    """Run a base test to assert that a well-formatted plugin is valid.
 
     Parameters
     ----------
@@ -271,7 +271,7 @@ def validate_base_plugin(base_plugin, plugin_model):
 
 
 def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
-    """Validate neutral tests such as future and log warnings for any GeoIPS plugin.
+    """Run a neutral test to check for expected FutureWarnings in a plugin.
 
     Parameters
     ----------
