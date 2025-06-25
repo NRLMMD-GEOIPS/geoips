@@ -14,7 +14,7 @@ test_data_urls:
   test_data_geocolor: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_geocolor.tgz"
   test_data_geokompsat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_geokompsat_1.15.3_github.com.tgz"
   test_data_gfs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gfs_1.15.3_github.com.tgz"
-  test_data_gpm: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0.tgz"
+  test_data_gpm: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0_github.com.tgz"
   # test_data_hy2: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
   test_data_modis: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_modis_1.14.5_github.com.tgz"
   # test_data_mtg_fci_day: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
@@ -23,10 +23,10 @@ test_data_urls:
   test_data_ngfs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ngfs_1.15.3_github.com.tgz"
   test_data_pyrocb: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_pyrocb_1.15.3_github.com.tgz"
   # test_data_saphir: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
-  test_data_sar: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2.tgz"
-  test_data_scat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3.tgz"
+  test_data_sar: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2_github.com.tgz"
+  test_data_scat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3_github.com.tgz"
   test_data_seviri: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_seviri_1.16.1_github.com.tgz"
-  test_data_smap: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0.tgz"
+  test_data_smap: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0_github.com.tgz"
   test_data_smos: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smos_1.15.3_github.com.tgz"
   # test_data_ssmi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
   # test_data_ssmis: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
