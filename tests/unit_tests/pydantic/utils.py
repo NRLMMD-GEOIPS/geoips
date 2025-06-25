@@ -83,8 +83,8 @@ class TestCaseModel(BaseModel):
     def _warn_if_missing_description(cls, values):
         if "description" not in values:
             warnings.warn(
-                f"Test case '{values.get('test_case_id', '[unknown]')}' is missing "
-                f"description.",
+                f"Test case '{values.get('test_case_id', '[unknown]')}' is missing a"
+                f"description. This warning will become an error in GeoIPS 1.18.",
                 UserWarning,
             )
         return values
