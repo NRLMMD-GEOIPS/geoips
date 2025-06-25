@@ -70,7 +70,8 @@ class TestCaseModel(BaseModel):
         if "description" not in values:
             warnings.warn(
                 f"Test case '{values.get('test_case_id', '[unknown]')}' is missing "
-                f"description.", UserWarning
+                f"description.",
+                UserWarning,
             )
         return values
 
