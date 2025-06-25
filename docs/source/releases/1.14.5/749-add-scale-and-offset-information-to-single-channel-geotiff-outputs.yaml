@@ -100,37 +100,3 @@ bug fix:
     date:
       start: 2025-01-30
       finish: 2025-01-30
-documentation:
-  - title: ""
-    description: ""
-    files:
-      deleted:
-        - ""
-      moved:
-        - ""
-      added:
-        - ""
-      modified:
-        - ""
-    related-issue:
-      number: null
-    date:
-      start: null
-      finish: null
-continuous integration:
-  - title: ""
-    description: ""
-    files:
-      deleted:
-        - ""
-      moved:
-        - ""
-      added:
-        - ""
-      modified:
-        - ""
-    related-issue:
-      number: null
-    date:
-      start: null
-      finish: null
