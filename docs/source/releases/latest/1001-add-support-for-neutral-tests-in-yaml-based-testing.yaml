@@ -1,6 +1,6 @@
 enhancement:
 - title: 'Add support for neutral tests in YAML-based testing'
-  description: 'Enhances YAML-based testing by adding support for neutral tests such as FutureWarnings, edge-cases, and log emissions.'
+  description: 'Enhances YAML-based testing by adding support for neutral tests and pydantic validation.'
   files:
     deleted:
     - 'tests/unit_tests/pydantic/feature_annotators/test_cases.yaml'
@@ -14,12 +14,11 @@ enhancement:
     - 'tests/unit_tests/pydantic/sectors/test_cases_bad.yaml'
     - 'tests/unit_tests/pydantic/sectors/test_cases_neutral.yaml'
     modified:
-    - 'geoips/pydantic/sectors.py'
     - 'tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py'
     - 'tests/unit_tests/pydantic/sectors/test_sectors.py'
     - 'tests/unit_tests/pydantic/utils.py'
   related-issue:
-    number: 982
+    number: 1065, 1069, 1072
     repo_url: ''
   date:
     start: null
