@@ -58,14 +58,25 @@ class PathDict(dict):
 
 
 class TestCaseModel(BaseModel):
-    """Validate keys and values of the YAML-based test case inputs."""
+    """YAML-based test case input model validation.
 
-    test_case_id: str
-    description: str = Field(None, description="Comment about the test")
-    key: str
-    val: Any
-    cls: object
-    err_str: str
+    This pydantic model validates the structure of test case inputs defined in YAML. It
+    ensures that required keys and value types are correctly specified for each test
+    case.
+    """
+
+    test_case_id: str = Field(
+        ..., description="Unique identifier for the individual test case."
+    )
+    description: str = Field(
+        None, description="Short description of the test case and its purpose."
+    )
+    key: str = Field(..., description="Path to the attribute being mutated.")
+    val: Any = Field(..., description="The value to set for the given key.")
+    cls: object = Field(..., description="The name of the model expected to fail.")
+    err_str: str = Field(
+        None, description="Expected error message fragment for the ValidationError."
+    )
 
     @model_validator(mode="before")
     @classmethod
