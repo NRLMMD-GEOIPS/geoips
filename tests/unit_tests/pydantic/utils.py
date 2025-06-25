@@ -260,6 +260,34 @@ def validate_base_plugin(base_plugin, plugin_model):
     plugin_model(**base_plugin)
 
 
+def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
+    """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
+
+    Current supported plugins include readers and sectors. More to come in the future,
+    and this function might change because of that. This is a beta method for the time
+    being.
+
+    Parameters
+    ----------
+    base_plugin: dict
+        - A dictionary representing a plugin that is valid.
+    test_tup:
+        - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
+          used to run and validate tests.
+    plugin_model: instance or child of geoips.pydantic.bases.PluginModel
+        - The pydantic-based model used to validate this plugin.
+    """
+    key, val, failing_model, err_str = _validate_test_tup_keys(test_tup)
+
+    neutral_plugin = deepcopy(base_plugin)
+    neutral_plugin[key] = val
+
+    if err_str:
+        with pytest.warns(FutureWarning, match=err_str):
+            plugin_model(**neutral_plugin)
+        return
+
+
 def validate_bad_plugin(base_plugin, test_tup, plugin_model):
     """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
 
@@ -318,31 +346,3 @@ def validate_bad_plugin(base_plugin, test_tup, plugin_model):
             ), f"Expected error message to match: \n {err_str} \n Got:\n{err_msg}"
     else:
         assert False, f"Expected ValidationError for key '{key}', but none was raised."
-
-
-def validate_neutral_plugin(base_plugin, test_tup, plugin_model):
-    """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
-
-    Current supported plugins include readers and sectors. More to come in the future,
-    and this function might change because of that. This is a beta method for the time
-    being.
-
-    Parameters
-    ----------
-    base_plugin: dict
-        - A dictionary representing a plugin that is valid.
-    test_tup:
-        - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
-          used to run and validate tests.
-    plugin_model: instance or child of geoips.pydantic.bases.PluginModel
-        - The pydantic-based model used to validate this plugin.
-    """
-    key, val, failing_model, err_str = _validate_test_tup_keys(test_tup)
-
-    neutral_plugin = deepcopy(base_plugin)
-    neutral_plugin[key] = val
-
-    if err_str:
-        with pytest.warns(FutureWarning, match=err_str):
-            plugin_model(**neutral_plugin)
-        return
