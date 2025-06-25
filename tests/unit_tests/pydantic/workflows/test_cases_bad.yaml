@@ -1,15 +1,7 @@
-# default_values_area_def:
-#   key: area_def
-#   val: None
-#   cls: ReaderArgumentsModel
-#   err_str: Default value for area_def is incorrect
 default_values_variables:
   key: variables
   val: "hello"
-  # val: ["hello"]
-  # val: []
   cls: ReaderArgumentsModel
-  # err_type: ValidationError
   err_str: Input should be a valid list
 # default_values_metadata_only:
 #   key: spec/steps/reader/arguments/metadata_only
