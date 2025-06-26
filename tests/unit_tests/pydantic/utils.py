@@ -117,7 +117,7 @@ def load_test_cases(interface_name: str, test_type: str) -> dict:
     if not fpath.exists():
         raise FileNotFoundError(
             f"Error: No test cases file could be found. Expected {fpath} but it "
-            "did not exist. Please create this file and rerun your tests."
+            "does not exist. Please create this file and rerun your tests."
         )
 
     with fpath.open("r") as fo:
