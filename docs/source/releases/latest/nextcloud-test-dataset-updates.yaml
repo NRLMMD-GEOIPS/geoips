@@ -10,10 +10,15 @@ testing:
 
     Additionally, this PR fixes a small bug in the 'geoips config install' command where
     'all' wasn't working properly.
+
+    Finally, this PR added test datasets for saphir and cygnss. When calling the test
+    scripts for these datasets, it was found that cygnss' compare image was out of date
+    and needed updating.
   files:
     modified:
       - geoips/commandline/geoips_config.yaml
       - setup/test-data-urls.yaml
+      - tests/outputs/cygnss.tc.windspeed.imagery_clean/20240125_060307_SH062024_cygnss_cygnss_windspeed_80kts_6p22_1p0-clean.png
   related-issue:
     number: null
     repo_url: ''
