@@ -18,7 +18,7 @@ enhancement:
     - 'tests/unit_tests/pydantic/sectors/test_sectors.py'
     - 'tests/unit_tests/pydantic/utils.py'
   related-issue:
-    number: 1065, 1069, 1072
+    number: 1075
     repo_url: ''
   date:
     start: null
