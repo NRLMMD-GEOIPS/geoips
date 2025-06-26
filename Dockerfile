@@ -117,7 +117,7 @@ FROM build AS test_base
 
 # Install only test + doc extras and no external plugins (minimal test environment)
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
-    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.10/site-packages/coverage.pth
+    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
 
 ###############################################################################
 #                          FULL TEST STAGE
@@ -125,7 +125,7 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
 FROM full_build AS test_full
 
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
-    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.10/site-packages/coverage.pth
+    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
 # See https://coverage.readthedocs.io/en/coverage-5.1/subprocess.html#measuring-sub-processes
 # for more info on how this helps measure coverage of subprocess-based tests
 
@@ -137,7 +137,7 @@ ENTRYPOINT ["pytest"]
 FROM system_build AS test_system
 
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
-    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.10/site-packages/coverage.pth
+    && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
 # See https://coverage.readthedocs.io/en/coverage-5.1/subprocess.html#measuring-sub-processes
 # for more info on how this helps measure coverage of subprocess-based tests
 
