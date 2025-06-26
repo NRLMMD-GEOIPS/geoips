@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Pydantic base models for GeoIPS.
 
 Intended for use by other base models.

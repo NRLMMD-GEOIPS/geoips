@@ -111,8 +111,19 @@ def initialize_paths():
         "GEOIPS_REBUILD_REGISTRIES",
         True,
     )
+    paths["GEOIPS_DATA_CACHE_DIR"] = get_env_var(
+        "GEOIPS_DATA_CACHE_DIR",
+        os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "geoips"),
+    )
+    paths["SATPY_DATA_CACHE_DIR"] = get_env_var(
+        "SATPY_DATA_CACHE_DIR", os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "satpy")
+    )
     # Convert the string to a bool
     if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
+        paths["GEOIPS_REBUILD_REGISTRIES"] = False
+    if paths["GEOIPS_REBUILD_REGISTRIES"] == "False":
+        paths["GEOIPS_REBUILD_REGISTRIES"] = False
+    if paths["GEOIPS_REBUILD_REGISTRIES"] == "false":
         paths["GEOIPS_REBUILD_REGISTRIES"] = False
 
     # Identify defaults for global GeoIPS variables.  The actual values for
@@ -148,6 +159,11 @@ def initialize_paths():
         "GEOIPS_LOGGING_LEVEL": "interactive",
     }
 
+    # Long variables names to avoid black and flake8 conflicts.
+    # flake8 was flagging for long lines, but black was not correcting them.
+    # If someone can figure out how to get flake8 and black to play nicely with that
+    # line, please resolve!
+    dyn_geo_var = "GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION"
     # Identify the defaults for relative path-based environment variables,
     # these paths default to locations under base paths set above.
     # The actual variables will be set using get_env_var below.
@@ -167,6 +183,10 @@ def initialize_paths():
             "GEOTIFF_IMAGERY_PATH": "preprocessed/geotiff_imagery",
             "FINAL_DATA_PATH": "preprocessed/final",
             "PREGENERATED_GEOLOCATION_PATH": "preprocessed/geolocation",
+            # Used in geostationary_geolocation - use longterm_files
+            # for now to maintain backwards compatibility
+            "GEOIPS_PREGENERATED_STATIC_GEOLOCATION": "longterm_files/geolocation",
+            dyn_geo_var: "longterm_files/geolocation_dynamic",
             # Scratch Directories
             "SCRATCH": "scratch",
             "LOCALSCRATCH": "scratch",
@@ -184,6 +204,28 @@ def initialize_paths():
             # Tropical Cyclone Paths
             "TC_DECKS_DB": "longterm_files/tc/tc_decks.db",
             "TC_DECKS_DIR": "longterm_files/tc/decks",
+        },
+        paths["GEOIPS_DATA_CACHE_DIR"]: {
+            "GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC": (
+                "longterm/geolocation/dynamic"
+            ),
+            "GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC": (
+                "longterm/geolocation/static"
+            ),
+            "GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES": (
+                "shortterm/geolocation/solar"
+            ),
+            "GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA": (
+                "shortterm/calibrated_data"
+            ),
+        },
+        paths["SATPY_DATA_CACHE_DIR"]: {
+            "SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA": (
+                "shortterm/calibrated_data"
+            ),
+            "SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES": (
+                "shortterm/geolocation/solar"
+            ),
         },
         paths["BASE_PATH"]: {
             "TC_TEMPLATE": "plugins/yaml/sectors/dynamic/tc_web_template.yaml",
