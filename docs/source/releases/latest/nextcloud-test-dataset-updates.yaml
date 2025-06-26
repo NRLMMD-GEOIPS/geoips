@@ -18,6 +18,7 @@ testing:
     modified:
       - geoips/commandline/geoips_config.yaml
       - setup/test-data-urls.yaml
+      - tests/integration_tests/test_integration.py
       - tests/outputs/cygnss.tc.windspeed.imagery_clean/20240125_060307_SH062024_cygnss_cygnss_windspeed_80kts_6p22_1p0-clean.png
   related-issue:
     number: null
