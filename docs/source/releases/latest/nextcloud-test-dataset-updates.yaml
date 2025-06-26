@@ -7,8 +7,12 @@ testing:
     within our code base so the CLI can properly install the new datasets. This was a
     simple update to test-data-urls.yaml, based on a script I wrote to detect unique
     test datasets being used within plugin packages.
+
+    Additionally, this PR fixes a small bug in the 'geoips config install' command where
+    'all' wasn't working properly.
   files:
     modified:
+      - geoips/commandline/geoips_config.yaml
       - setup/test-data-urls.yaml
   related-issue:
     number: null
