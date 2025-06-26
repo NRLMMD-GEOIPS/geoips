@@ -122,9 +122,13 @@ class ParentParsers:
     geoips_parser.add_argument(
         "--warnings",
         type=str,
-        default="print",
-        choices=["hide", "print", "error"],
-        help="Set the warning level for the CLI.",
+        default=os.getenv("GEOIPS_WARNING_LEVEL", "ignore"),
+        choices=["default", "error", "ignore", "always", "module", "once"],
+        help=(
+            "Set the warning level for the CLI. See the warnings module documentation "
+            "for more information: "
+            "https://docs.python.org/3/library/warnings.html#warning-filter"
+        ),
     )
 
     list_parser = argparse.ArgumentParser(
@@ -344,23 +348,19 @@ class GeoipsCommand(abc.ABC):
         independent_parser.add_argument(
             "--warnings",
             type=str,
-            default="print",
-            choices=["hide", "print", "error"],
+            default=os.getenv("GEOIPS_WARNING_LEVEL", "ignore"),
+            choices=["default", "error", "ignore", "always", "module", "once"],
         )
         # Parse now, as we'll use logging among all of the child command classes
         known_args, _ = independent_parser.parse_known_args()  # NOQA
+
+        # Set up warning level
+        warnings.simplefilter(known_args.warnings)
 
         # Set up logging based on the log level provided or defaulted to
         log_level = known_args.log_level
         LOG = setup_logging(logging_level=log_level.upper())
 
-        # Set up warning level
-        if known_args.warnings == "hide":
-            warnings.simplefilter("ignore")
-        elif known_args.warnings == "print":
-            warnings.simplefilter("default")
-        elif known_args.warnings == "error":
-            warnings.simplefilter("error")
         return LOG
 
     @property
