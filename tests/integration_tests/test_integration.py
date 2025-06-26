@@ -81,6 +81,7 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/modis.Infrared.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/seviri.WV-Upper.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/seviri.airmass.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/seviri.Convective_Storms.imagery_clean.sh",
@@ -121,7 +122,6 @@ limited_data_integ_test_calls = [
     "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/mhs_mirs.tc.183-3H.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/ssmi.tc.37pct.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ssmis.color91.unprojected_image.sh",
 ]
