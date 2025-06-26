@@ -7,9 +7,19 @@ testing:
     within our code base so the CLI can properly install the new datasets. This was a
     simple update to test-data-urls.yaml, based on a script I wrote to detect unique
     test datasets being used within plugin packages.
+
+    Additionally, this PR fixes a small bug in the 'geoips config install' command where
+    'all' wasn't working properly.
+
+    Finally, this PR added test datasets for saphir and cygnss. When calling the test
+    scripts for these datasets, it was found that cygnss' compare image was out of date
+    and needed updating.
   files:
     modified:
+      - geoips/commandline/geoips_config.yaml
       - setup/test-data-urls.yaml
+      - tests/integration_tests/test_integration.py
+      - tests/outputs/cygnss.tc.windspeed.imagery_clean/20240125_060307_SH062024_cygnss_cygnss_windspeed_80kts_6p22_1p0-clean.png
   related-issue:
     number: null
     repo_url: ''

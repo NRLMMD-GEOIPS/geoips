@@ -71,6 +71,7 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/aws_tc_TB180.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/aws_tc_TB325-1.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/cli_dummy_script.sh",
+    "$geoips_repopath/tests/scripts/cygnss.tc.windspeed.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/fci.static.Visible.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/fci.unprojected_image.Infrared.sh",
     "$geoips_repopath/tests/scripts/gfs.static.windspeed.imagery_clean.sh",
@@ -82,6 +83,7 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/modis.Infrared.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh",
+    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/seviri.WV-Upper.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/seviri.airmass.imagery_clean.sh",
@@ -119,7 +121,6 @@ multi_repo_integ_test_calls = [
 limited_data_integ_test_calls = [
     "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/ssmi.tc.37pct.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ssmis.color91.unprojected_image.sh",
 ]
