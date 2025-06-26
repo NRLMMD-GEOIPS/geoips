@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Testing module for Pydantic SectorPluginModel."""
 
 from copy import deepcopy
@@ -18,9 +21,9 @@ interface = "sectors"
 
 
 test_cases = load_test_cases(interface)
-good_yaml = yaml.safe_load(
-    open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), mode="r")
-)
+with open(str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml"), "r") as fo:
+    good_yaml = yaml.safe_load(fo)
+
 good_yaml["abspath"] = str(files("geoips") / "plugins/yaml/sectors/static/korea.yaml")
 good_yaml["relpath"] = "plugins/yaml/sectors/static/korea.yaml"
 good_yaml["package"] = "geoips"

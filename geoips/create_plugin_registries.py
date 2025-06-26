@@ -14,7 +14,7 @@ created at the top level package directory for each plugin package.
 
 import warnings
 import yaml
-from importlib import metadata, resources, util
+from importlib import metadata, resources, util, import_module
 from inspect import signature
 from os.path import (
     basename,
@@ -22,14 +22,12 @@ from os.path import (
     split,
     splitext,
     exists,
-    join as osjoin,
-    relpath as osrelpath,
+    join as os_join,
+    relpath as os_relpath,
 )
 from os import remove
 import re
-import sys
 import logging
-from geoips.commandline.log_setup import setup_logging
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
 import json
@@ -238,9 +236,9 @@ def registry_sanity_check(plugin_packages, save_type):
                                                 You can't have two products of the same
                                                 interface [{}] with the same
                                                 plugin name [{}] found under
-                                                subplg name [{}]
+                                                sub_plg name [{}]
                                                 relpath: {}
-                                                subplg relpath: {}\n""".format(
+                                                sub_plg relpath: {}\n""".format(
                                                 comp_pkg.value,
                                                 pkg.value,
                                                 interface,
@@ -309,18 +307,18 @@ def write_registered_plugins(pkg_dir, plugins, save_type):
     No returns, file written to `pkg_dir`
     """
     if save_type == "yaml":
-        reg_plug_abspath = osjoin(pkg_dir, "registered_plugins.yaml")
+        reg_plug_abspath = os_join(pkg_dir, "registered_plugins.yaml")
         with open(reg_plug_abspath, "w") as plugin_registry:
             LOG.interactive("Writing %s", reg_plug_abspath)
             yaml.safe_dump(plugins, plugin_registry, default_flow_style=False)
     else:
-        reg_plug_abspath = osjoin(pkg_dir, "registered_plugins.json")
+        reg_plug_abspath = os_join(pkg_dir, "registered_plugins.json")
         with open(reg_plug_abspath, "w") as plugin_registry:
             LOG.interactive("Writing %s", reg_plug_abspath)
             json.dump(plugins, plugin_registry, indent=4)
 
 
-def create_plugin_registries(plugin_packages, save_type):
+def create_plugin_registries(plugin_packages, save_type, namespace):
     """Generate all plugin paths associated with every installed GeoIPS packages.
 
     These paths include schema plugins, module_based plugins
@@ -336,6 +334,10 @@ def create_plugin_registries(plugin_packages, save_type):
         [EntryPoint(name='geoips', value='geoips', group='geoips.plugin_packages'), ...]
     save_type: str
         The file format to save to [json, yaml]
+    namespace: str
+        Namespace that your plugin packages fall under. The argument parser defaults
+        this value to 'geoips.plugin_packages', but a user can create separate
+        namespaces if developing interfaces outside of the main GeoIPS package.
     """
     # It appears when there is *.egg-info directory, it picks that package up
     # twice in the list.  If the same package path exists twice, only keep one
@@ -346,7 +348,7 @@ def create_plugin_registries(plugin_packages, save_type):
     # so we do not need to worry about saving the "wrong" package here.
     # We are actually looping through all the files in each package, so
     # we do not have an entry point for every plugin, just a single entry
-    # point for each plugin packge.
+    # point for each plugin package.
     for ep in plugin_packages:
         pkg_dir = str(resources.files(ep.value))
         if pkg_dir not in pkg_dirs:
@@ -396,10 +398,10 @@ def create_plugin_registries(plugin_packages, save_type):
         # type (ie, yaml based, text based, and module based plugins, and
         # in the future potentially schema)
         plugin_paths = {
-            "yamls": sorted(yaml_files),
+            "yaml": sorted(yaml_files),
             "text": text_files,
             # "schemas": schema_yamls,
-            "pyfiles": python_files,
+            "py_files": python_files,
         }
         # `plugins` is passed by reference and populated with all YAML, text, and
         # python plugins found within the current plugin package `package`.
@@ -408,7 +410,9 @@ def create_plugin_registries(plugin_packages, save_type):
         # If any errors are found, append the error message string to the current
         # error_message.  Do not raise an exception until all plugins have been
         # read in, so we can collect and report on all errors at once.
-        error_message += parse_plugin_paths(plugin_paths, package, pkg_dir, plugins)
+        error_message += parse_plugin_paths(
+            plugin_paths, package, pkg_dir, plugins, namespace
+        )
         LOG.debug("Available Plugin Types:\n" + str(plugins.keys()))
         LOG.debug(
             "Available YAML Plugin Interfaces:\n" + str(plugins["yaml_based"].keys())
@@ -425,7 +429,7 @@ def create_plugin_registries(plugin_packages, save_type):
         # Remove all registries to prevent running geoips with an incomplete
         # or corrupt set of plugins.  Force user to resolve errors before
         # proceeding.
-        remove_registries(metadata.entry_points(group="geoips.plugin_packages"))
+        remove_registries(metadata.entry_points(group=namespace))
         # Now raise the error, including the error message with output
         # from every failed plugin/file during the attempted registry process.
         raise PluginRegistryError(error_message)
@@ -435,7 +439,7 @@ def create_plugin_registries(plugin_packages, save_type):
     registry_sanity_check(unique_package_entry_points, save_type)
 
 
-def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
+def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
     """Parse the plugin_paths provided from the current installed GeoIPS package.
 
     Then, add them to the plugins dictionary based on the path of the plugin.
@@ -452,6 +456,10 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
         The path to the current GeoIPS package (for determining relative paths)
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
+    namespace: str
+        Namespace that your plugin packages fall under. The argument parser defaults
+        this value to 'geoips.plugin_packages', but a user can create separate
+        namespaces if developing interfaces outside of the main GeoIPS package.
 
     Returns
     -------
@@ -470,12 +478,12 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
         for filepath in plugin_paths[plugin_type]:
             filepath = str(filepath)
             # Path relative to the package directory
-            relpath = osrelpath(filepath, start=package_dir)
+            relpath = os_relpath(filepath, start=package_dir)
             # plugins is passed by reference, so any new plugins found
             # are added to the plugins dictionary and retained throughout.
-            if plugin_type == "yamls":  # yaml based plugins
+            if plugin_type == "yaml":  # yaml based plugins
                 error_message += add_yaml_plugin(
-                    filepath, relpath, package, plugins["yaml_based"]
+                    filepath, relpath, package, plugins["yaml_based"], namespace
                 )
             # Ensure we append any errors to the error_message as we go.
             # Exception will not be raised until the very end, when we
@@ -499,7 +507,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins):
     return error_message
 
 
-def add_yaml_plugin(filepath, relpath, package, plugins):
+def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
     """Add the yaml plugin associated with the filepaths and package to plugins.
 
     Parameters
@@ -512,6 +520,10 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
         The current GeoIPS package being parsed
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
+    namespace: str
+        Namespace that your plugin packages fall under. The argument parser defaults
+        this value to 'geoips.plugin_packages', but a user can create separate
+        namespaces if developing interfaces outside of the main GeoIPS package.
 
     Returns
     -------
@@ -534,7 +546,11 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                 f"""No 'interface' level in '{filepath}'.
                     Ensure all required metadata is included."""
             )
-        interface_module = getattr(geoips.interfaces, f"{interface_name}")
+        if namespace != "geoips.plugin_packages":
+            mod = import_module(package)
+            interface_module = getattr(mod.interfaces, f"{interface_name}")
+        else:
+            interface_module = getattr(geoips.interfaces, f"{interface_name}")
 
         if interface_name not in plugins.keys():
             plugins[interface_name] = {}
@@ -613,7 +629,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                     # second pass in the plugin registry creation to fill in the
                     # nulls (but we will not worry about that yet)
                     # if not docstring or not family:
-                    #     # if the yaml_subplg doesn't include a docstring, grab its
+                    #     # if the yaml_sub_plg doesn't include a docstring, grab its
                     #     # product_defaults docstring
                     #     if (
                     #         "product_defaults" not in plugins
@@ -631,7 +647,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
                     #         if not family:
                     #             family = plugins["product_defaults"][pd]["family"]
                     plugins[interface_name][subplg_source][subplg_product] = {
-                        "docstring": format_docstring(docstring),
+                        "docstring": str(format_docstring(docstring)),
                         "family": family,
                         "interface": interface_module.name,
                         "package": plugin["package"],
@@ -650,14 +666,25 @@ def add_yaml_plugin(filepath, relpath, package, plugins):
             # Since this is not a product plugin, we can ensure that these top-level
             # attributes should exist. Don't include product_defaults or source_names in
             # this info, because it doesn't apply to this type of plugin.
-            plugins[interface_name][plugin["name"]] = {
-                "docstring": format_docstring(plugin["docstring"]),
-                "family": plugin["family"],
-                "interface": plugin["interface"],
-                "package": package,
-                "plugin_type": "yaml_based",
-                "relpath": relpath,
-            }
+            if "docstring" not in plugin:
+                error_message += f"""
+                Error with package '{plugin["package"]}':
+                    docstring or family not defined in product
+                    Must specify docstring and family in either product
+                    or product_defaults.
+                    interface '{plugin["interface"]}'
+                    plugin name '{plugin["name"]}'
+                    pkg relpath: '{relpath}'\n"""
+
+            else:
+                plugins[interface_name][plugin["name"]] = {
+                    "docstring": format_docstring(plugin["docstring"]),
+                    "family": plugin["family"],
+                    "interface": plugin["interface"],
+                    "package": package,
+                    "plugin_type": "yaml_based",
+                    "relpath": relpath,
+                }
     return error_message
 
 
@@ -914,40 +941,15 @@ def get_parser():
         default=None,
         help="Package name to create registries for. If not specified, run on all.",
     )
+    parser.add_argument(
+        "-n",
+        "--namespace",
+        type=str,
+        default="geoips.plugin_packages",
+        help=(
+            "Namespace that your plugin packages fall under. Defaults to geoips, but a "
+            "user can create separate namespaces if developing interfaces outside of "
+            "the main GeoIPS package."
+        ),
+    )
     return parser
-
-
-def main():
-    """Generate all available plugins from all installed GeoIPS packages.
-
-    After all plugins have been generated, they are written to registered_plugins.yaml
-    containing a dictionary of all the registered GeoIPS plugins. Keys in this
-    dictionary are the interface names, following by each plugin name.
-
-    Parameters
-    ----------
-    args: list
-        List of strings representing the arguments provided via command line.
-    """
-    parser = get_parser()
-
-    ARGS = parser.parse_args()
-    save_type = ARGS.save_type
-    package_name = ARGS.package_name
-
-    LOG = setup_logging(logging_level="INTERACTIVE")
-    # Note: Python 3.9 appears to return duplicates when installed with setuptools.
-    # These are filtered within the create_plugin_registries function.
-    plugin_packages = metadata.entry_points(group="geoips.plugin_packages")
-    if package_name:
-        for plugin_package in plugin_packages:
-            if plugin_package.name == package_name:
-                use_plugin_package = plugin_package
-        plugin_packages = [use_plugin_package]
-    LOG.debug(plugin_packages)
-    create_plugin_registries(plugin_packages, save_type)
-    sys.exit(0)
-
-
-if __name__ == "__main__":
-    main()

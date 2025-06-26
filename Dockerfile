@@ -1,7 +1,7 @@
 ###############################################################################
 #                              BASE STAGE
 ###############################################################################
-FROM python:3.10-slim-bullseye AS base
+FROM python:3.11-slim-bullseye AS base
 
 # Avoid interactive prompts
 ARG DEBIAN_FRONTEND=noninteractive

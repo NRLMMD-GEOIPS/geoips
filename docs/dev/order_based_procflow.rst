@@ -1,8 +1,7 @@
 .. dropdown:: Distribution Statement
 
- | # # # This source code is protected under the license referenced at
+ | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
-
 
 Order-Based Procflow
 ====================
@@ -38,9 +37,14 @@ Important Fields
 
 A few of the important field definitions from the product definition file are:
 
-* ``step`` (required): A top-level plugin in the computational sequence.
-* ``type`` (private): A private variable intended for internal use.
-* ``name`` (required): The name of the plugin for the ``step`` type.
+* ``steps`` (required): A dictionary mapping from step ID (a unique
+  identifier) to each plugin step definition.
+* ``step_id`` (required within steps): The unique name for each step. It must
+  be a valid Python identifier. The step_id serves as the dictionary key under
+  steps and distinguishes each step within the workflow.
+* ``kind`` (required): Specifies the type of plugin.
+* ``name`` (required): The plugin's name corresponding to the specified
+  ``kind``.
 * ``arguments`` (required): Accepts a list of arguments validated against the
   plugin's call signature. This field can also include other nested-level
   plugins (steps) when required.
@@ -54,12 +58,11 @@ The code block below demonstrates the syntax of a sample step definition:
 
     spec:
       steps:
-        - step:     # beginning of first step
-            # private, for internal use only
-            type:  <type_name>        #takes the value of step / plugin type
-            name:  <plugin_name>
-            arguments: {}
-        - step:     # beginning of second step
+        step_id:     # unique step identifier for this step
+          kind:  <kind_name>        # plugin kind such as reader
+          name:  <plugin_name>      # specific plugin name
+          arguments: {}
+        step_id:     # unique step identifier for second step
 
 
 Example
@@ -72,7 +75,8 @@ step:
 
     spec:
       steps:
-      - reader:
+        reader_1:
+          kind: reader
           name: abi_netcdf
           arguments:
             area_def: None
@@ -105,29 +109,35 @@ Output Formatter step in the code block below includes two additional plugins,
     package: geoips
     spec:
       steps:
-        - reader:
-            name: abi_netcdf
-            arguments:
-            area_def: None
-            metadata_only: False
-            self_register: [None]
-            variables: ['B14BT']
-        - algorithm:
-            name: single_channel
-            arguments:
-            output_data_range: [-90.0, 30.0]
-        - interpolator:
-            name: interp_nearest
-        - output_formatter:
-            name: imagery_annotated
-            arguments:
-            colormapper:
-                name: Infrared
-                arguments:
+        reader_1:
+          kind: reader
+          name: abi_netcdf
+          arguments:
+          area_def: None
+          metadata_only: False
+          self_register: [None]
+          variables: ['B14BT']
+        algorithm_1:
+          kind: alogrithm
+          name: single_channel
+          arguments:
+          output_data_range: [-90.0, 30.0]
+        interpolator_1:
+          kind: interpolator
+          name: interp_nearest
+        output_formatter_1:
+          kind: output_formatter
+          name: imagery_annotated
+          arguments:
+          colormapper_1:
+              kind: colormapper
+              name: Infrared
+              arguments:
                 data_range: [-90.0, 30.0]
-            filename_formatter:
-                name: geoips_fname
-                arguments:
+          filename_formatter_1:
+              kind: filename_formatter
+              name: geoips_fname
+              arguments:
                 suffix: ".png"
 
 The code block above demonstrates a valid example of a product definition for

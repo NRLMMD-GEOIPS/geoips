@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Processing workflow for order based data source processing."""
 
 # Python Standard Libraries
@@ -35,16 +38,13 @@ def call(workflow, fnames, command_line_args=None):
     wf = WorkflowPluginModel(**wf_plugin)
 
     handled_interfaces = ["readers"]
-    for step in wf.spec.steps:
-        step_def = step.definition
-        #  Tab spaces and newline escape sequences will be removed later.
-        #  I added them for formatting purposes and the reviewer's convenience.
-        #  The severity level will eventually be moved to info.
-        interface = step_def.type + "s"
+    for step_id, step_def in wf.spec.steps.items():
+        interface = step_def.kind + "s"
 
         if interface not in handled_interfaces:
             LOG.interactive(
-                "Skipping unhandled interface '%s'. Would have called the '%s' plugin.",
+                "⚠️ Skipping unhandled interface '%s'. Would have called the '%s'"
+                "plugin.",
                 interface,
                 step_def.name,
             )
@@ -52,11 +52,13 @@ def call(workflow, fnames, command_line_args=None):
         else:
             plg = getattr(interfaces, interface, None).get_plugin(step_def.name)
             LOG.interactive(
-                "Calling '%s' '%s' plugin with the following arguments: \n\t'%s'",
+                "Beginning Step: '%s', plugin_kind: '%s', plugin_name:'%s'.",
+                step_id,
+                step_def.kind,
                 step_def.name,
-                step_def.type,
-                step_def.arguments,
             )
+            LOG.info("Arguments: '%s'", step_def.arguments)
+
             if interface == "readers":
                 # TEMPORARY FIX: Remove when all readers are updated to accept
                 # "variables"
@@ -67,12 +69,13 @@ def call(workflow, fnames, command_line_args=None):
             else:
                 data = plg(data, **step_def.arguments)
             LOG.interactive(
-                "Finished '%s' '%s' plugin.",
+                "Completed Step: step_id: '%s', plugin_kind: '%s', plugin_name: '%s'.",
+                step_id,
                 step_def.name,
-                step_def.type,
+                step_def.kind,
             )
 
-    LOG.interactive(f"The workflow '{workflow}' has finished processing.")
+    LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 
 
 if __name__ == "__main__":

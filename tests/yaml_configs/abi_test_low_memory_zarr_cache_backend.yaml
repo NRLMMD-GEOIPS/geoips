@@ -1,0 +1,55 @@
+output_config_type: single_source
+reader_name: abi_netcdf
+filenames: !ENV ${GEOIPS_TESTDATA_DIR}/test_data_noaa_aws/data/goes16/20200918/1950/*
+resampled_read: True
+reader_kwargs:
+  geolocation_cache_backend: zarr
+
+available_sectors:
+  static:
+    sector_list:
+      - goes_east
+  tc:
+    trackfile_parser: bdeck_parser
+    trackfiles:
+      - !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/sectors/tc_bdecks/bal202020.dat
+    tc_spec_template: tc_web
+
+outputs:
+  static:
+    requested_sector_type: static
+    output_formatter: imagery_annotated
+    filename_formatters: ["geoips_fname"]
+    remove_duplicates: null
+    product_names:
+      - Infrared
+    product_spec_override:
+      all:
+        exclude_platforms:
+          - goes-17
+    minimum_coverage: 25
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated.low_memory
+  tc:
+    requested_sector_type: tc
+    output_formatter: imagery_annotated
+    filename_formatters: ["tc_fname"]
+    metadata_filename_formatters:
+      tc_fname: metadata_default_fname
+    metadata_output_formatter: metadata_default
+    remove_duplicates: null
+    product_names:
+      - IR-BD
+      - Infrared
+    product_spec_override:
+      IR_BD:
+        exclude_platforms:
+          - goes-17
+      Infrared:
+        include_platforms:
+          - goes-16
+    minimum_coverages:
+      all: 100
+      IR-BD: 0
+    feature_annotator: tc_pmw
+    gridline_annotator: tc_pmw
+    compare_path: !ENV ${GEOIPS_PACKAGES_DIR}/geoips/tests/outputs/abi.<output>.<product>.imagery_annotated.low_memory

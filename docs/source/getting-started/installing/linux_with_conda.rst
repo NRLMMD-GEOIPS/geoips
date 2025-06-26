@@ -8,7 +8,7 @@
 Conda-based Installation for Linux
 **********************************
 
-Using a fresh Mini/Anaconda Python 3.9+ Environment is the easiest way to
+Using a fresh Mini/Anaconda Python 3.11+ Environment is the easiest way to
 get geoips up and running.
 
 Complete Local conda-based GeoIPS Installation
@@ -94,7 +94,8 @@ but this command will ensure that for everyone.
     # Note geos no longer required for cartopy >= 0.22
     # openblas / gcc required for recenter_tc / akima build.
     # git required for -C commands
-    mamba create -y -n geoips -c conda-forge python=3.10 gcc gxx openblas git
+    # libgit2 sometimes required for brassy
+    mamba create -y -n geoips -c conda-forge python=3.11 gcc gxx openblas git libgit2
     conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 **Note:** You will need to run ``conda activate geoips``
@@ -117,11 +118,10 @@ To test your installation you will need to download test data,
 and run integration tests:
 
 - ``base_install.sh`` will clone repositories containing test data.
-- ``create_plugin_registries`` will identify and register all available plugins
-  from all geoips plugin packages, for run-time execution.
-- ``test_installation.py`` will run a few integration tests to ensure that your
-  installation is working correctly. For more information on running test_installation.py
-  please see https://github.com/NRLMMD-GEOIPS/geoips/blob/942ef8e7d66a163fa7feba9e1f17a95d3ba83b63/docs/dev/integration_tests.rst#L114
+- ``pytest -m "integration and base"`` will run the base geoips integration tests
+  to confirm installation is working correctly.  For more information on running
+  pytest-based integration tests, please see
+  https://github.com/NRLMMD-GEOIPS/geoips/blob/942ef8e7d66a163fa7feba9e1f17a95d3ba83b63/docs/dev/integration_tests.rst#L114
 
 .. code:: bash
 
@@ -183,3 +183,8 @@ base_test.sh returns 0!  Not required.
 
   $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment \
     $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERSION}_`date -u +%Y%m%d`.yml
+
+  # Copy the base pip requirements to requirements.txt, for good measure
+  cp \
+    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERSION}_`date -u +%Y%m%d`.txt \
+    $GEOIPS_PACKAGES_DIR/geoips/environments/requirements.txt

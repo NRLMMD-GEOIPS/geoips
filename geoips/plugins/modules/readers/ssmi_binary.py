@@ -82,7 +82,7 @@ source_names = ["ssmi"]
 # variables are needed in this for moving through the binary file correctly.
 
 
-def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=False):
+def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read SSMI FNMOC Binary Data.
 
     Parameters
@@ -171,7 +171,9 @@ def call(fnames, metadata_only=False, chans=False, area_def=None, self_register=
         return buf[p]
 
     def V2(p):
-        return 256 * buf[p] + buf[p + 1]
+        # With numpy 2.x upgrade, these buffers were uint8, which overflowed.
+        # This made it work.
+        return 256 * np.uint16(buf[p]) + np.uint16(buf[p + 1])
 
     def V4(p):
         return 256 * (256 * (256 * buf[p] + buf[p + 1]) + buf[p + 2]) + buf[p + 3]
