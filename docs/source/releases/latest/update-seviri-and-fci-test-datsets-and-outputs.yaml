@@ -19,8 +19,10 @@ bug fix:
 continuous integration:
 - title: 'Update input data and output imagery'
   description: |
-    Update input data and output imagery for FCI and SEVIRI. Additionally,
-    move AMSUB tests to limited_dataset_availability tests.
+    Update input data and output imagery for FCI and SEVIRI.
+    Update output image for ami.tc.WV.geotiff.sh.
+    Move AMSUB tests to limited_dataset_availability tests.
+    Disable viirs.static.visible.imagery_clean.sh until issue 1076 is solved.
   files:
     deleted:
     - 'tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global_cylindrical.26p09.EUMETSAT.20p0.png'
