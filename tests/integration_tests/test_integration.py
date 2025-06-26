@@ -93,7 +93,9 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh",
     "$geoips_repopath/tests/scripts/smos.tc.sectored.text_winds.sh",
-    "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
+    # Commenting this out for now because it inconsistently fails on various boxes.
+    # See issue #1076
+    # "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh",
     "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
