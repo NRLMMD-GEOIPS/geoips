@@ -120,6 +120,11 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
     && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
 
 ###############################################################################
+#   TEMPORARY FOR CI TESTING - DELETE AFTER UPDATING CI TO USE test_base
+###############################################################################
+FROM test_base AS doclinttest
+
+###############################################################################
 #                          FULL TEST STAGE
 ###############################################################################
 FROM full_build AS test_full
@@ -158,6 +163,7 @@ FROM build AS production
 
 USER root
 
+# I'm not sure if this actually achieves the goal...
 # Remove unnecessary files for smaller production image
 RUN cd "$GEOIPS_PACKAGES_DIR/geoips" \
     && rm -rf \
