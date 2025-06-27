@@ -39,6 +39,10 @@ export GEOIPS_TESTDATA_DIR=$GEOIPS_BASEDIR/test_data
 
 # External package environment variables - without these environment variables set,
 # these packages will write to $HOME/.cache or $HOME/.local.
+#
+# GeoIPS generated cache files
+export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache
+# Cartopy shape files
 export CARTOPY_DATA_DIR=$GEOIPS_DEPENDENCIES_DIR/CARTOPY_DATA_DIR
 export GEOIPS_CACHE_DIR=$GEOIPS_OUTDIRS/cache/geoips
 export GEOIPS_DATA_CACHE_DIR=$GEOIPS_OUTDIRS/cache/geoips
