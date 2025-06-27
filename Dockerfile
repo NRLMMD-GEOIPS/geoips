@@ -124,8 +124,13 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
 ###############################################################################
 FROM test_base AS doclinttest
 
+USER root
+
 RUN mkdir -p /__w /__e /__t /github && \
     chmod -R 777 /__w /__e /__t /github /tmp # For github actions
+
+# Switch back to non-root for runtime
+USER ${USER}
 
 ###############################################################################
 #                          FULL TEST STAGE
