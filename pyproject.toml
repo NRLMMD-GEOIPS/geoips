@@ -64,7 +64,7 @@ matplotlib = ">=3.7.0" # Base requirement works, version specific to test output
 # >= 1.7.0 reasonably DOES seg fault without properly closing netcdf files.
 netcdf4 = ">1.7.0"    # Base requirement >= 1.7.0 works without reader seg faults
 # Note there was a version of numpy 2.x that broke masked datetime64 arrays in smap.
-numpy = ">=2.2.4"      # Base requirement >=2.2.4 works
+numpy = ">=2.2.4,<2.3.0"      # Base requirement >=2.2.4 works
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement

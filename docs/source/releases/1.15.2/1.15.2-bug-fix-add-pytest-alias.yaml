@@ -1,0 +1,19 @@
+bug fix:
+- title: "Add pytest alias to ensure the user doesn't want to track their pytest output"
+  description: |
+    Just a reminder.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-05-07
+    finish: 2025-05-07

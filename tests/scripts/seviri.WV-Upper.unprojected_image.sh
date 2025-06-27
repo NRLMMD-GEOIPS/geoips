@@ -3,16 +3,7 @@
 
 #!/bin/bash
 
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-_________-EPI______-202312110800-__ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-_________-PRO______-202312110800-__ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000001___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000002___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000003___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000004___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000005___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000006___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000007___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000008___-202312110800-C_ \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/1200/H-000-MSG3* \
              --reader_name seviri_hrit \
              --product_name WV-Upper \
              --output_formatter unprojected_image \

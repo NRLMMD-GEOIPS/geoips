@@ -855,6 +855,7 @@ def call(fnames, command_line_args=None):
         "window_end_time",
         "product_db",
         "product_db_writer_override",
+        "store_checkpoint_statistics",
         "output_file_list_fname",
     ]
 
@@ -896,6 +897,7 @@ def call(fnames, command_line_args=None):
         reader_kwargs = config_dict.get("reader_kwargs")
     if not reader_kwargs:
         reader_kwargs = {}
+    reader_kwargs["resource_tracker"] = pid_track
     if command_line_args.get("no_presectoring"):
         presector_data = not command_line_args["no_presectoring"]
     elif "no_presectoring" in config_dict:
@@ -979,8 +981,10 @@ def call(fnames, command_line_args=None):
 
     if command_line_args.get("product_db"):
         product_db = command_line_args["product_db"]
+        store_checkpoint_stats = command_line_args["store_checkpoint_statistics"]
     elif "product_db" in config_dict:
         product_db = config_dict["product_db"]
+        store_checkpoint_stats = config_dict.get("store_checkpoint_statistics", False)
 
     else:
         product_db = False
@@ -1024,12 +1028,14 @@ def call(fnames, command_line_args=None):
         if not getenv("GEOIPS_DB_URI"):
             raise ValueError("Need to set both $GEOIPS_DB_URI")
 
-    pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
+    pid_track.track_resource_usage(logstr="MEMUSG", verbose=False, key="READ METADATA")
     reader_plugin = readers.get_plugin(config_dict["reader_name"])
     LOG.interactive(
         "Reading metadata from datasets using reader '%s'...", reader_plugin.name
     )
+    reader_kwargs = remove_unsupported_kwargs(reader_plugin, reader_kwargs)
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
+    pid_track.track_resource_usage(logstr="MEMUSG", verbose=False, key="READ METADATA")
     source_name = xobjs["METADATA"].source_name
 
     if not produce_current_time(config_dict, xobjs["METADATA"], output_dict_keys=None):
@@ -1051,10 +1057,15 @@ def call(fnames, command_line_args=None):
         resampled_read = True
 
     if not resampled_read and not sectored_read:
-        pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
+        pid_track.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key="READ FULL DATASET"
+        )
         LOG.interactive("Reading full dataset using reader '%s'...", reader_plugin.name)
         xobjs = reader_plugin(
             fnames, metadata_only=False, chans=variables, **reader_kwargs
+        )
+        pid_track.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key="READ FULL DATASET"
         )
 
     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
@@ -1088,6 +1099,11 @@ def call(fnames, command_line_args=None):
     area_def_num = 0
     # Loop through each template - register the data once for each template/area_def
     for area_def_id in area_defs:
+        # This is used for tracking resource usage. Remove whitespace for cleaner key
+        adef_key = area_def_id.replace(" ", "-")
+        pid_track.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=f"AREA DEF: {adef_key}"
+        )
         area_def_num = area_def_num + 1
 
         LOG.interactive(
@@ -1102,6 +1118,11 @@ def call(fnames, command_line_args=None):
         # shape / resolution, so we only want to reproject once for each sector_type
         sector_type_num = 0
         for sector_type in area_defs[area_def_id]:
+            pid_track.track_resource_usage(
+                logstr="MEMUSG",
+                verbose=False,
+                key=f"SECTOR TYPE: {adef_key};{sector_type}",
+            )
             sector_type_num = sector_type_num + 1
             # Rather than solely relying on the metadata to obtain the source_name,
             # check the source name for all datasets. We cannot guarantee the
@@ -1132,7 +1153,11 @@ def call(fnames, command_line_args=None):
             # If we read separately for each sector (geostationary), then must set
             # xobjs within area_def loop
             if sectored_read:
-                pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"SECTORED READ: {adef_key};{sector_type}",
+                )
                 # This will return potentially multiple sectored datasets of different
                 # shapes/resolutions. Note currently get_sectored_read and
                 # get_resampled_read are identical, because we have no
@@ -1150,10 +1175,19 @@ def call(fnames, command_line_args=None):
                     fnames,
                     curr_variables,
                 )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"SECTORED READ: {adef_key};{sector_type}",
+                )
                 if not xobjs:
                     continue
             if resampled_read:
-                pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"RESAMPLED READ: {adef_key};{sector_type}",
+                )
                 # This will return one resampled dataset
                 # Note currently get_sectored_read and get_resampled_read are identical,
                 # because we have no sectored_read based readers.
@@ -1169,6 +1203,11 @@ def call(fnames, command_line_args=None):
                     reader_kwargs,
                     fnames,
                     curr_variables,
+                )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"RESAMPLED READ: {adef_key};{sector_type}",
                 )
                 if not xobjs:
                     continue
@@ -1228,6 +1267,11 @@ def call(fnames, command_line_args=None):
             if area_def.sector_type not in ["reader_defined", "self_register"]:
                 if presector_data:
                     LOG.interactive("Sectoring xarrays, drop=True")
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PRESECTOR DATA: {adef_key};{sector_type}",
+                    )
                     # window start/end time override hours before/after sector time.
                     pad_sect_xarrays = sector_xarrays(
                         xobjs,
@@ -1238,6 +1282,11 @@ def call(fnames, command_line_args=None):
                         drop=True,
                         window_start_time=window_start_time,
                         window_end_time=window_end_time,
+                    )
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PRESECTOR DATA: {adef_key};{sector_type}",
                     )
                 else:
                     pad_sect_xarrays = xobjs
@@ -1286,6 +1335,11 @@ def call(fnames, command_line_args=None):
             if bg_files and requires_bg(config_dict["outputs"], sector_type):
                 # If we haven't created the bg_alg_xarray for the current sector_type
                 # yet, process it and add to the dictionary
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"READ BACKGROUND: {adef_key};{sector_type}",
+                )
                 if sector_type not in bg_alg_xarrays:
                     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
                     bg_pad_sect_xarrays = None
@@ -1334,6 +1388,11 @@ def call(fnames, command_line_args=None):
                             bg_prod_plugin,
                             resampled_read=bg_resampled_read,
                         )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"READ BACKGROUND: {adef_key};{sector_type}",
+                )
             pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
 
             # Must adjust the area definition AFTER sectoring xarray (to get valid
@@ -1349,6 +1408,11 @@ def call(fnames, command_line_args=None):
                 LOG.info("\n\n\n\nAdjusting Area Definition: %s", sector_adjuster)
                 LOG.info(
                     "\n\n\n\nBEFORE ADJUSTMENT area definition: %s\n\n\n\n", area_def
+                )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"SECTOR ADJUSTER: {adef_key};{sector_type}",
                 )
                 sect_adj_plugin = sector_adjusters.get_plugin(sector_adjuster)
                 # Use normal size sectored xarray when running sector_adjuster, not
@@ -1455,6 +1519,11 @@ def call(fnames, command_line_args=None):
                 LOG.info(
                     "\n\n\n\nAFTER ADJUSTMENT area definition: %s\n\n\n\n", area_def
                 )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"SECTOR ADJUSTER: {adef_key};{sector_type}",
+                )
 
             pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
             # The exact sectored arrays, without padding.
@@ -1466,6 +1535,11 @@ def call(fnames, command_line_args=None):
                 LOG.interactive(
                     "Sectoring self register xarrays for area_def '%s'",
                     area_def.description,
+                )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"SECTOR SELF REGISTERED: {adef_key};{sector_type}",
                 )
                 if presector_data:
                     # window start/end time override hours before/after sector time.
@@ -1481,6 +1555,11 @@ def call(fnames, command_line_args=None):
                     )
                 else:
                     sect_xarrays = pad_sect_xarrays
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"SECTOR SELF REGISTERED: {adef_key};{sector_type}",
+                )
             else:
                 sect_xarrays = pad_sect_xarrays
 
@@ -1502,6 +1581,11 @@ def call(fnames, command_line_args=None):
             output_num = 0
             required_outputs = get_required_outputs(config_dict, sector_type)
             for output_type, output_dict in required_outputs.items():
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"OUTPUT TYPE: {adef_key};{sector_type};{output_type}",
+                )
                 if not produce_current_time(
                     config_dict, xobjs["METADATA"], output_dict_keys=[output_type]
                 ):
@@ -1563,6 +1647,12 @@ def call(fnames, command_line_args=None):
                             f"Plugin [{product_name}] doesn't exist under source names"
                             "{all_source_names}"
                         )
+                    rkey_base = f"{adef_key};{sector_type};{output_type};{product_name}"
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PRODUCT: {rkey_base}",
+                    )
                     LOG.info("\n\n\n\nAll area_def_ids: %s", area_defs.keys())
                     LOG.info(
                         "\n\n\n\nAll sector_types: %s", area_defs[area_def_id].keys()
@@ -1622,12 +1712,22 @@ def call(fnames, command_line_args=None):
                         "Processing sectored data products for product '%s'",
                         prod_plugin.name,
                     )
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PROCESS SECTORED DATA: {rkey_base}",
+                    )
                     curr_output_products = process_sectored_data_output(
                         pad_sect_xarrays,
                         product_variables,
                         prod_plugin,
                         output_dict,
                         area_def=area_def,
+                    )
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PROCESS SECTORED DATA: {rkey_base}",
                     )
                     # If the current product required sectored data processing, skip the
                     # rest of the loop
@@ -1659,6 +1759,11 @@ def call(fnames, command_line_args=None):
                     output_formatter = get_output_formatter(output_dict)
                     output_fmt_plugin = output_formatters.get_plugin(output_formatter)
 
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"GET ALGORITHM XARRAY: {rkey_base}",
+                    )
                     if output_fmt_plugin.family == "xarray_data":
                         # If we're saving out intermediate data file, write out
                         # pad_area_def.
@@ -1734,6 +1839,11 @@ def call(fnames, command_line_args=None):
                             )
                         alg_xarray = alg_xarrays[product_name]
 
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"GET ALGORITHM XARRAY: {rkey_base}",
+                    )
                     covg_plugin = get_covg_from_product(
                         prod_plugin,
                         covg_field="image_production_coverage_checker",
@@ -1815,6 +1925,11 @@ def call(fnames, command_line_args=None):
                         continue
                     composite_kwargs = output_dict.get("composite_kwargs", {})
                     if composite_kwargs.get("composite_products"):
+                        pid_track.track_resource_usage(
+                            logstr="MEMUSG",
+                            verbose=False,
+                            key=f"COMPOSITE: {rkey_base}",
+                        )
                         if not product_db:
                             LOG.interactive(
                                 "Product database disabled, cannot create composite"
@@ -1878,6 +1993,11 @@ def call(fnames, command_line_args=None):
                             LOG.info("Composite coverage: %s", comp_covg)
                         else:
                             LOG.info("No files to create composite!")
+                        pid_track.track_resource_usage(
+                            logstr="MEMUSG",
+                            verbose=False,
+                            key=f"COMPOSITE: {rkey_base}",
+                        )
 
                     plot_data_kwargs = get_output_formatter_kwargs(
                         output_dict,
@@ -1898,12 +2018,22 @@ def call(fnames, command_line_args=None):
                             bg_alg_xarrays[sector_type], alg_xarray
                         )
 
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PLOT DATA: {rkey_base}",
+                    )
                     curr_products = plot_data(
                         output_dict,
                         alg_xarray,
                         area_def,
                         prod_plugin,
                         plot_data_kwargs,
+                    )
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PLOT DATA: {rkey_base}",
                     )
 
                     if curr_products:
@@ -1941,6 +2071,24 @@ def call(fnames, command_line_args=None):
 
                     process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
                     num_jobs += 1
+                    pid_track.track_resource_usage(
+                        logstr="MEMUSG",
+                        verbose=False,
+                        key=f"PRODUCT: {rkey_base}",
+                    )
+                pid_track.track_resource_usage(
+                    logstr="MEMUSG",
+                    verbose=False,
+                    key=f"OUTPUT TYPE: {adef_key};{sector_type};{output_type}",
+                )
+            pid_track.track_resource_usage(
+                logstr="MEMUSG",
+                verbose=False,
+                key=f"SECTOR TYPE: {adef_key};{sector_type}",
+            )
+        pid_track.track_resource_usage(
+            logstr="MEMUSG", verbose=False, key=f"AREA DEF: {adef_key}"
+        )
 
     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
     process_datetimes["overall_end"] = datetime.utcnow()
@@ -2069,7 +2217,11 @@ def call(fnames, command_line_args=None):
             sector_type = "dynamic_tc"
         else:
             sector_type = "static"
-
+        procflow_id = pid_track.own_pid
+        if store_checkpoint_stats:
+            checkpoint_stats = pid_track.checkpoint_usage_stats()
+        else:
+            checkpoint_stats = None
         write_stats_to_database(
             procflow_name="config_based",
             platform=xobjs["METADATA"].platform_name.lower(),
@@ -2081,6 +2233,9 @@ def call(fnames, command_line_args=None):
             num_products_created=num_products,
             num_products_deleted=len(removed_products),
             resource_usage_dict=mem_usage_stats,
+            output_config=command_line_args["output_config"],
+            procflow_id=procflow_id,
+            checkpoints_resource_usage_dict=checkpoint_stats,
         )
     else:
         LOG.interactive("NO PRODDB GEOIPS_VERS {}".format(geoips_version))
