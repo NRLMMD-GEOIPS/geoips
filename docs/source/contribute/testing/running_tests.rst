@@ -394,6 +394,100 @@ Filter specific warnings::
 
     pytest -W ignore::DeprecationWarning
 
+Managing Pytest Output and Logging
+---------------------------------------------
+
+Pytest can generate substantial output, especially when running comprehensive test suites with verbose logging.
+This section covers techniques for capturing, redirecting, and managing pytest output effectively.
+
+**Redirecting Output to Files**
+
+Capture all pytest output to a file::
+
+    pytest > test_results.txt 2>&1
+
+Separate stdout and stderr::
+
+    pytest > test_output.txt 2> test_errors.txt
+
+Append to existing log files::
+
+    pytest >> test_log.txt 2>&1
+
+Capture only test results (suppress pytest's own output)::
+
+    pytest -q > results.txt 2>&1
+
+Create timestamped log files::
+
+    pytest > "test_$(date +%Y%m%d_%H%M%S).log" 2>&1
+
+Control pytest verbosity levels::
+
+    pytest -v > verbose_output.txt          # Standard verbose
+    pytest -vv > extra_verbose_output.txt   # Extra verbose
+    pytest -q > quiet_output.txt            # Minimal output
+
+Filter output by test outcomes::
+
+    pytest -ra > all_summary.txt            # All test summary info
+    pytest -rf > failures_only.txt          # Only failures and errors
+    pytest -rs > skipped_tests.txt          # Only skipped tests
+
+Enable live logging to see real-time output::
+
+    pytest --log-cli-level=INFO > test_with_logs.txt 2>&1
+
+Capture logs at different levels::
+
+    pytest --log-level=DEBUG > debug_logs.txt 2>&1
+    pytest --log-level=WARNING > warning_logs.txt 2>&1
+
+Configure log format for file output::
+
+    pytest --log-cli-format="%(asctime)s [%(levelname)s] %(message)s" > formatted_logs.txt 2>&1
+
+Use progress indicators for long-running tests::
+
+    pytest --tb=line -q | tee progress.log
+
+Rotate logs by test session::
+
+    pytest > "session_$(date +%s).log" 2>&1
+
+Split output by test categories::
+
+    pytest -m "base" > base_tests.log 2>&1
+    pytest -m "integration" > integration_tests.log 2>&1
+
+**Output Size Management**
+
+Limit traceback length to reduce file size::
+
+    pytest --tb=short > compact_results.txt 2>&1
+    pytest --tb=no > minimal_results.txt 2>&1
+
+Compress output files automatically::
+
+    pytest 2>&1 | gzip > test_results.gz
+
+**Real-time Monitoring**
+
+Monitor test progress in real-time::
+
+    pytest | tee test_output.txt
+
+Follow log files during test execution::
+
+    pytest > test.log 2>&1 &
+    tail -f test.log
+
+Run multiple test configurations with separate logs::
+
+    pytest -m "base" > base.log 2>&1
+    pytest -m "integration" > integration.log 2>&1
+    pytest -m "full" > full.log 2>&1
+
 Multi-Package Coverage Example
 ------------------------------
 
