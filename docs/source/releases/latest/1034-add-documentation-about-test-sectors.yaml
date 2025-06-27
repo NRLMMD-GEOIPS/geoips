@@ -1,0 +1,14 @@
+documentation:
+- title: 'Add test sector documentation'
+  description: 'This adds documentation for the up-and-coming small test sectors for integration tests.'
+  files:
+    added:
+    - 'docs/source/concepts/architecture/tests/test-sectors.rst'
+    modified:
+    - 'docs/source/concepts/architecture/tests/index.rst'
+  related-issue:
+    number: 1034
+    repo_url: ''
+  date:
+    start: null
+    finish: null
