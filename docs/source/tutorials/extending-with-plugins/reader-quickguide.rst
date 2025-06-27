@@ -36,7 +36,7 @@ Xarray Standard Attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~
 **Required Attributes**
 
-- ``source_name``: Identifier used by products
+- ``source_name``: Identifier used by downstream plugins
 - ``platform_name``: Data platform
 - ``data_provider``: Source of the data
 - ``start_datetime``: Time of first observation
@@ -76,7 +76,7 @@ Example Usage
    # Direct invocation
    from geoips.interfaces import readers
    reader_name = "my_reader_name"
-   data = readers.get_plugin(reader_name)
+   reader = readers.get_plugin(reader_name)
 
 Reader Parameters
 -----------------
