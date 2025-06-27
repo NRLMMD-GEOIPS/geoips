@@ -104,7 +104,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             "test_dataset_names",
             type=str.lower,
             nargs="+",
-            choices=list(test_dataset_dict.keys()),
+            choices=list(test_dataset_dict.keys()) + ["all"],
             help=(
                 "Names of the GeoIPS test datasets to install. If 'all' is specified, "
                 "GeoIPS will install all test datasets hosted on NextCloud. 'all' "
