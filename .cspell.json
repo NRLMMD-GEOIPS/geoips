@@ -671,11 +671,13 @@
         "subplg",
         "tmp",
         "ttt",
+        "volc", // volcano
         "xyz",
         "yyyy",
         "yyyyddd",
         "yyyyjjj",
         "yyyyjjjhhmn",
+        "YYYYMMDDTHHMMZ",
         "yyyymmdd",
         "zzz",
     ],

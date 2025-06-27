@@ -1,0 +1,26 @@
+enhancement:
+- title: 'Add --warnings option to the CLI'
+  description: |
+    Add a --warnings option to the CLI to allow controlling
+    behavior when warnings are encountered. Can be set to
+    hide, print, or raise an error on warnings.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/commandline_interface.py'
+    - 'geoips/commandline/geoips_command.py'
+    - 'geoips/commandline/geoips_test.py'
+    - 'tests/unit_tests/commandline/test_geoips_config_create_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_config_delete_registries.py'
+    - 'tests/unit_tests/commandline/test_geoips_list_registries.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-07-11
+    finish: 2025-07-11

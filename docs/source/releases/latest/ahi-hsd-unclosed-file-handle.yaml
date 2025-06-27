@@ -1,0 +1,16 @@
+deprecation:
+- title: 'Fix ahi_hsd warnings'
+  description: |
+    Simple PR which addresses warnings raised via the ahi_hsd reader. The changes made
+    in this PR address an unclosed file handler and multiple instances where
+    n-dimensional arrays were cast to a scalar value, which will be deprecated in the
+    future. No functional changes were made.
+  files:
+    modified:
+      - geoips/plugins/modules/readers/ahi_hsd.py
+  related-issue:
+    number: 1054, 1056
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 06/23/2025
+    finish: 06/23/2025
