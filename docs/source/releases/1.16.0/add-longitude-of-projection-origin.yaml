@@ -1,0 +1,25 @@
+enhancement:
+- title: 'Add longitude of projection origin metadata to AMI and SEVIRI readers.'
+  description: |
+    To support algorithms requiring knowledge of the longitude of projection origin,
+    add this as a supported (but not required) piece of metadata to the AMI and
+    SEVIRI readers. Additionally added optional kwargs for the GFS reader to 
+    support coordinate setup.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'geoips/plugins/modules/readers/seviri_hrit.py'
+    - 'geoips/plugins/modules/readers/gfs_grib.py'
+  related-issue:
+    number: null
+    repo_url: null
+  date:
+    start: 2025-05-15
+    finish: 2025-05-28
+
