@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Lightweight helper for treating singular and plural spellings as equivalent.
 
 A drop‑in str subclass that normalizes English nouns so that their

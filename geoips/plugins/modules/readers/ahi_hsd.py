@@ -10,6 +10,7 @@ import logging
 import os
 import re
 from struct import unpack
+from pathlib import Path
 
 # Third-Party Libraries
 import numpy as np
@@ -21,15 +22,18 @@ from geoips.interfaces import readers
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    check_geolocation_cache_backend,
     get_geolocation_cache_filename,
     get_geolocation,
 )
+from geoips.geoips_utils import output_process_times
 
 LOG = logging.getLogger(__name__)
 
 with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
+    import zarr
 
 try:
     nprocs = 6
@@ -214,7 +218,14 @@ def _get_geolocation_metadata(metadata):
     return geomet
 
 
-def get_latitude_longitude(metadata, BADVALS, area_def=None):
+def get_latitude_longitude(
+    metadata,
+    BADVALS,
+    area_def=None,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    resource_tracker=None,
+):
     """
     Get latitudes and longitudes.
 
@@ -228,11 +239,22 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
     then finally, look at the single-command statements that are currently being
     used.
     """
+    check_geolocation_cache_backend(geolocation_cache_backend)
     # If the filename format needs to change for the pre-generated geolocation
     # files, please discuss prior to changing.  It will force recreation of all
     # files, which can be problematic for large numbers of sectors
-    fname = get_geolocation_cache_filename("GEOLL", metadata)
-    if not os.path.isfile(fname):
+    fname = get_geolocation_cache_filename(
+        "GEOLL",
+        metadata,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
+    )
+    if resource_tracker is not None:
+        key = Path(fname).name
+        if area_def:
+            key += f"_{area_def.area_id}"
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
+    if not Path(fname).exists():
         if (
             area_def is not None
             and DONT_AUTOGEN_GEOLOCATION
@@ -375,30 +397,65 @@ def get_latitude_longitude(metadata, BADVALS, area_def=None):
         lons[lons > 180.0] -= 360
         LOG.debug("Done calculating latitudes and longitudes")
 
-        with open(fname, "w") as df:
-            lats.tofile(df)
-            lons.tofile(df)
+        if geolocation_cache_backend == "memmap":
+            with open(fname, "w") as df:
+                lats.tofile(df)
+                lons.tofile(df)
+        elif geolocation_cache_backend == "zarr":
+            if chunk_size:
+                chunks = (chunk_size, chunk_size)
+            else:
+                chunks = None
+            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(fname, mode="w")
+            # Assume both arrays have the same shape and dtype
+            kwargs = {
+                "shape": lats.shape,
+                "dtype": lats.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("lats", **kwargs)
+            zf.create_dataset("lons", **kwargs)
+            zf["lats"][:] = lats
+            zf["lons"][:] = lons
         # Switch to xarray based geolocation files
         # ds = xarray.Dataset({'latitude':(['x','y'],lats),
         #                      'longitude':(['x','y'],lons)})
         # ds.to_netcdf(fname)
+    else:
+        if geolocation_cache_backend == "memmap":
+            # Create a memmap to the lat/lon file
+            # Nothing will be read until explicitly requested
+            # We are mapping this here so that the lats and lons are available when
+            # calculating satlelite angles
+            LOG.info(
+                "GETGEO memmap to {} : lat/lon file for {}".format(
+                    fname, metadata["ob_area"]
+                )
+            )
+            shape = (metadata["num_lines"], metadata["num_samples"])
+            offset = 8 * metadata["num_samples"] * metadata["num_lines"]
+            lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
+            lons = np.memmap(
+                fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+            )
+        elif geolocation_cache_backend == "zarr":
+            LOG.info(
+                "GETGEO zarr to {} : lat/lon file for {}".format(
+                    fname, metadata["scene"]
+                )
+            )
+            zf = zarr.open(fname, mode="r")
 
-    # Create a memmap to the lat/lon file
-    # Nothing will be read until explicitly requested
-    # We are mapping this here so that the lats and lons are available when
-    # calculating satlelite angles
-    LOG.info(
-        "GETGEO memmap to {} : lat/lon file for {}".format(fname, metadata["ob_area"])
-    )
-
-    shape = (metadata["num_lines"], metadata["num_samples"])
-    offset = 8 * metadata["num_samples"] * metadata["num_lines"]
-    lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
-    lons = np.memmap(fname, mode="r", dtype=np.float64, offset=offset, shape=shape)
     # Switch to xarray based geolocation files
     # saved_xarray = xarray.load_dataset(fname)
     # lons = saved_xarray['longitude'].to_masked_array()
     # lats = saved_xarray['latitude'].to_masked_array()
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
 
     return lats, lons
 
@@ -946,6 +1003,10 @@ def call(
     area_def=None,
     self_register=False,
     test_arg="AHI Default Test Arg",
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
 ):
     """
     Read AHI HSD data data from a list of filenames.
@@ -966,6 +1027,9 @@ def call(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Default=None, i.e., if not defined in the yaml file.
+        * Defined in yaml file where variables and tuning parameters are set.
 
     Returns
     -------
@@ -987,6 +1051,10 @@ def call(
         chans,
         area_def,
         self_register,
+        roi=roi,
+        geolocation_cache_backend=geolocation_cache_backend,
+        cache_chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
     )
 
 
@@ -997,6 +1065,10 @@ def call_single_time(
     area_def=None,
     self_register=False,
     test_arg="AHI Default Test Arg",
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
 ):
     """
     Read AHI HSD data data from a list of filenames.
@@ -1017,6 +1089,21 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Passed in from Call function.
+        * Default=None, i.e., if not defined in the yaml file.
+        * Defined in yaml file where variables and tuning parameters are set.
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
 
     Returns
     -------
@@ -1207,9 +1294,24 @@ def call_single_time(
         LOG.info("")
         LOG.info("Getting geolocation information for adname %s.", adname)
         gmd = _get_geolocation_metadata(res_md[self_register])
-        fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
+        fldk_lats, fldk_lons = get_latitude_longitude(
+            gmd,
+            BADVALS,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            chunk_size=cache_chunk_size,
+            resource_tracker=resource_tracker,
+        )
         gvars[adname] = get_geolocation(
-            start_dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
+            start_dt,
+            gmd,
+            fldk_lats,
+            fldk_lons,
+            BADVALS,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            chunk_size=cache_chunk_size,
+            resource_tracker=resource_tracker,
         )
         if not gvars[adname]:
             LOG.error(
@@ -1230,9 +1332,24 @@ def call_single_time(
             )
             try:
                 gmd = _get_geolocation_metadata(res_md[res])
-                fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
+                fldk_lats, fldk_lons = get_latitude_longitude(
+                    gmd,
+                    BADVALS,
+                    area_def,
+                    geolocation_cache_backend=geolocation_cache_backend,
+                    chunk_size=cache_chunk_size,
+                    resource_tracker=resource_tracker,
+                )
                 gvars[res] = get_geolocation(
-                    start_dt, gmd, fldk_lats, fldk_lons, BADVALS, area_def
+                    start_dt,
+                    gmd,
+                    fldk_lats,
+                    fldk_lons,
+                    BADVALS,
+                    area_def,
+                    geolocation_cache_backend=geolocation_cache_backend,
+                    chunk_size=cache_chunk_size,
+                    resource_tracker=resource_tracker,
                 )
             except IndexError as resp:
                 LOG.exception("SKIPPING apparently no coverage or bad geolocation file")
@@ -1247,6 +1364,14 @@ def call_single_time(
         if chan not in file_info.keys():
             continue
         LOG.info("Reading %s", chan)
+        if resource_tracker:
+            key = f"READ CHAN: ahi_hsd_chan_{chan}_{adname}"
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG",
+                verbose=False,
+                key=key,
+                show_log=False,
+            )
         chan_md = file_info[chan]
         for res, res_chans in DATASET_INFO.items():
             if chan in res_chans:
@@ -1299,6 +1424,10 @@ def call_single_time(
             if dsname not in datavars:
                 datavars[dsname] = {}
             datavars[dsname][chan + typ] = val
+        if resource_tracker:
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG", verbose=False, key=key
+            )
 
     # This needs to be fixed:
     #   remove any unneeded datasets from datavars and gvars
@@ -1396,8 +1525,18 @@ def call_single_time(
         # else:
         #     xobj.attrs['interpolation_radius_of_influence'] = 2000
         # Make this a fixed 3000 (1.5 * lowest resolution data) - may want to
-        # adjust for different channels.
-        xobj.attrs["interpolation_radius_of_influence"] = 3000
+        # adjust for different channels
+
+        # set up a flexible roi, defined in yaml file
+        # default value: roi = 3000
+        if roi is not None:
+            xobj.attrs["interpolation_radius_of_influence"] = roi
+        else:
+            xobj.attrs["interpolation_radius_of_influence"] = 3000
+
+        # technically buried in the geo headers, but this is s1mple
+        xobj.attrs["longitude_of_projection_origin"] = 140.67
+
         xarray_objs[dsname] = xobj
         # May need to deconflict / combine at some point, but for now just use
         # attributes from any one of the datasets as the METADATA dataset
@@ -1406,8 +1545,7 @@ def call_single_time(
     LOG.info("")
 
     print_mem_usage("MEMUSG", verbose=False)
-    process_datetimes["overall_end"] = datetime.now(timezone.utc)
-    from geoips.geoips_utils import output_process_times
+    process_datetimes["overall_end"] = datetime.utcnow()
 
     output_process_times(process_datetimes, job_str="AHI HSD Reader")
     return xarray_objs

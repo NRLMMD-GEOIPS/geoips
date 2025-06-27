@@ -36,6 +36,7 @@ class ReadersInterface(BaseModuleInterface):
         chans=None,
         area_def=None,
         self_register=False,
+        **kwargs
     ):
         """Read in data potentially from multiple scan times into an xarray dict.
 
@@ -171,6 +172,7 @@ class ReadersInterface(BaseModuleInterface):
             chans,
             area_def,
             self_register,
+            **kwargs
         )
         return dict_xarrays
 
@@ -231,6 +233,7 @@ class ReadersInterface(BaseModuleInterface):
         chans=None,
         area_def=None,
         self_register=False,
+        **kwargs
     ):
         """
         Read in data from a list of filenames.
@@ -282,6 +285,7 @@ class ReadersInterface(BaseModuleInterface):
                 chans=chans,
                 area_def=area_def,
                 self_register=self_register,
+                **kwargs
             )
             for (
                 dname,

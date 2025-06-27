@@ -1,0 +1,17 @@
+testing:
+- title: 'Update download_noaa_aws.sh script to write to GEOIPS_OUTDIRS'
+  description: |
+    Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
+    Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
+    will now be a static test data repository of datasets originally downloaded from
+    NOAA AWS, and dynamically/interactively downloaded datasets will be written to
+    $GEOIPS_OUTDIRS by default.
+  files:
+    modified:
+    - 'tests/download_noaa_aws.sh'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14
