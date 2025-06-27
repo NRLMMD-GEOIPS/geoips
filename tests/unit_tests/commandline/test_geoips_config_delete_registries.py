@@ -35,24 +35,28 @@ valid_expected = [
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": None,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": None,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
+        "warnings": "ignore",
     },
     # Dummy dict needed for registry rebuild
     {"empty": "dict"},
