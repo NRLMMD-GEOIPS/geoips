@@ -1,0 +1,28 @@
+bug fix:
+- title: 'Update arctic weather satellite sector path and test data repo path'
+  description: |
+    * Use test_data_arctic_weather_satellite rather than test_data_ArcticWS
+    * Use bwp992025.dat in geoips repo rather than bwp992025.2025042800.dat in test data repo.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'tests/sectors/tc_bdecks/bwp992025.dat'
+    modified:
+    - tests/scripts/aws_TB165.imagery_clean.sh
+    - tests/scripts/aws_TB180.imagery_clean.sh
+    - tests/scripts/aws_TB325-1.imagery_clean.sh
+    - tests/scripts/aws_TB50.imagery_clean.sh
+    - tests/scripts/aws_TB89.imagery_clean.sh
+    - tests/scripts/aws_tc_TB165.imagery_clean.sh
+    - tests/scripts/aws_tc_TB180.imagery_clean.sh
+    - tests/scripts/aws_tc_TB325-1.imagery_clean.sh
+    - tests/scripts/aws_tc_TB50.imagery_clean.sh
+    - tests/scripts/aws_tc_TB89.imagery_clean.sh
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-04
+    finish: 2025-06-04
