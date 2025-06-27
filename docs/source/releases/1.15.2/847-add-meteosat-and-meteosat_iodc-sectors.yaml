@@ -1,0 +1,22 @@
+enhancement:
+- title: 'Add new sectors for full disk meteosat products'
+  description: |
+    Add new meteosat and meteosat_iodc sectors that cover the full disk imagery of 
+    meteosat satellites centered at 0deg and 45.5deg, respectively
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/sectors/static/meteosat_eu.yaml'
+    - 'geoips/plugins/yaml/sectors/static/meteosat_iodc.yaml'
+    modified:
+    - ''
+  related-issue:
+    number: 847
+    repo_url: '/GEOIPS/geoips'
+  date:
+    start: 2025-05-09
+    finish: 2025-05-09
+

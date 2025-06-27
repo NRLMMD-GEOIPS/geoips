@@ -1,0 +1,30 @@
+interface: sectors
+family: area_definition_static
+name: meteosat_iodc
+docstring: "Full disk sector for Meteosat centered at Longitude 45.5"
+metadata:
+  region:
+    continent: Global
+    country: x
+    area: Meteosat-Indian-Ocean
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: meteosat_iodc
+  description: Meteosat coverage centered at Longitude 45.5
+  projection:
+    a: 6371228.0
+    lat_0: 0
+    lon_0: 45.5
+    proj: eqc
+    units: m
+  resolution:
+    - 10000
+    - 10000
+  shape:
+    height: 2000
+    width: 2000
+  area_extent:
+    lower_left_xy: [-10000000, -10000000]
+    upper_right_xy: [10000000, 10000000]
