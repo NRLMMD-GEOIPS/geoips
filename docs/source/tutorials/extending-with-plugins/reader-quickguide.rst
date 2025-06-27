@@ -69,7 +69,7 @@ Example Usage
 .. code-block:: bash
 
    # Command line usage
-   --reader_name my_reader_name
+   geoips run --reader_name my_reader_name
 
 .. code-block:: python
 
