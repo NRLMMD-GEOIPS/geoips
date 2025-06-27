@@ -19,7 +19,6 @@ from shutil import get_terminal_size
 
 from colorama import Fore, Style
 from tabulate import tabulate
-import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
@@ -509,7 +508,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
     def __init__(self, LOG, parent=None, legacy=False):
         """Initialize GeoipsExecutableCommand.
 
-        This is a child of GeoipsCommand and will invoke the functionaly of
+        This is a child of GeoipsCommand and will invoke the functionality of
         GeoipsCommand __init__ func alongside additional logic needed to set up
         executable-based commands. This will instantiate each subcommand class with a
         parser and point towards the correct default function to call if that subcommand
@@ -534,7 +533,7 @@ class GeoipsExecutableCommand(GeoipsCommand):
               suppressing or displaying help information for '--procflow'.
         """
         super().__init__(LOG=LOG, parent=parent, legacy=legacy)
-        # Since this class is exectuable (ie. not the cli, top-level list...),
+        # Since this class is executable (ie. not the cli, top-level list...),
         # add available arguments for that command and set that function to
         # the command's executable function (__call__) if that command is called.
         self.add_arguments()
@@ -581,23 +580,26 @@ class GeoipsExecutableCommand(GeoipsCommand):
         plugin_entry: dict
             - The dictionary of info for a certain plugin in the plugin registry.
         """
-        yaml_text = yaml.dump(dict_entry, default_flow_style=False)
+        raw_text = [f"{key}: {val}" for key, val in dict_entry.items()]
         print()
-        for line in yaml_text.split("\n"):
-            # Color the keys in cyan and values in yellow
-            if ":" in line:
-                key, value = line.split(":", 1)
-                key = key.title().replace("_", " ")
-                if key in ["Package", "Geoips Package"]:
-                    key = "GeoIPS Package"
-                elif key == "Relpath":
-                    key = "Relative Path"
-                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
-                print(formatted_line)
-            else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
-                print(formatted_line)
+        for entry in raw_text:
+            for idx, line in enumerate(entry.split("\n")):
+                # Color the keys in cyan and values in yellow
+                # idx == 0 means this is the actual key. Ignore any entry with : after
+                # idx == 0
+                if ":" in line and idx == 0:
+                    key, value = line.split(":", 1)
+                    key = key.title().replace("_", " ")
+                    if key in ["Package", "Geoips Package"]:
+                        key = "GeoIPS Package"
+                    elif key == "Relpath":
+                        key = "Relative Path"
+                    formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
+                    formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+                    print(formatted_line)
+                else:
+                    formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                    print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):
         """Retrieve the correct plugin registry given interface and package name.

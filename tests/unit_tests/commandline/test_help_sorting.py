@@ -7,7 +7,7 @@ import argparse
 
 # Odd import done to prevent re-doc of imported class
 # which causes a sphinx error :')
-from geoips.commandline.geoips_command import AlphabeticalHelpFormatter
+from geoips.commandline.geoips_command import CustomHelpFormatter
 
 
 class TestAlphabeticalHelpFormatter:
@@ -32,7 +32,7 @@ class TestAlphabeticalHelpFormatter:
         - Positional arguments
         - Arguments with multiple aliases
         """
-        parser = argparse.ArgumentParser(formatter_class=AlphabeticalHelpFormatter)
+        parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
 
         # Add arguments in non-alphabetical order with various types
         parser.add_argument("-z", "--zeta", help="Zeta option")
@@ -56,7 +56,7 @@ class TestAlphabeticalHelpFormatter:
 
         Ensures alphabetical ordering based on first option string.
         """
-        parser = argparse.ArgumentParser(formatter_class=AlphabeticalHelpFormatter)
+        parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
 
         # Add arguments with multiple option strings and aliases
         parser.add_argument("-z", "--zeta", "--zebra", help="Zeta option")
@@ -77,7 +77,7 @@ class TestAlphabeticalHelpFormatter:
 
         Verifies alphabetical ordering of positional arguments.
         """
-        parser = argparse.ArgumentParser(formatter_class=AlphabeticalHelpFormatter)
+        parser = argparse.ArgumentParser(formatter_class=CustomHelpFormatter)
 
         # Add positional arguments
         parser.add_argument("zeta", help="Zeta argument")

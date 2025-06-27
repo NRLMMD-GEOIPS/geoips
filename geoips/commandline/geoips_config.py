@@ -17,6 +17,7 @@ from tqdm import tqdm
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.geoips_utils import get_remote_file_size
 from geoips.plugin_registry import PluginRegistry
 
 
@@ -117,6 +118,13 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             default=self.geoips_testdata_dir,
             help="The full path to the directory you want to install this data to.",
         )
+        self.parser.add_argument(
+            "-f",
+            "--force",
+            default=False,
+            action="store_true",
+            help="Force the install to occur regardless of other factors.",
+        )
 
     def __call__(self, args):
         """Run the `geoips config install <test_dataset_names> -o <outdir>` command.
@@ -128,6 +136,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         test_dataset_names = args.test_dataset_names
         outdir = args.outdir
+        force_install = args.force
 
         if len(test_dataset_names) > 1 and "all" in test_dataset_names:
             self.parser.error(
@@ -147,24 +156,38 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
         for test_dataset_name in install_dataset_names:
             test_dataset_url = test_dataset_dict[test_dataset_name]
-            if any([test_dataset_name in fol for fol in listdir(outdir)]):
+            if (
+                any([test_dataset_name in fol for fol in listdir(outdir)])
+                and not force_install
+            ):
                 print(
                     f"Test dataset '{test_dataset_name}' already exists under "
                     f"'{join(outdir, test_dataset_name)}*/'. See that "
                     "location for the contents of the test dataset."
                 )
             else:
-                print(
-                    f"Installing {test_dataset_name} test dataset. This may take a "
-                    "while..."
-                )
-                self.download_extract_test_data(test_dataset_url, outdir)
-                out_str = (
-                    f"Test dataset '{test_dataset_name}' has been installed under "
-                    f"{outdir}/{test_dataset_name}/"
-                )
-                # Print the output of the command.
-                print(out_str)
+                file_size = get_remote_file_size(test_dataset_url)
+                do_install = "N"
+                if not force_install:
+                    do_install = input(
+                        f"Remote compressed file size is {file_size} in size. The "
+                        "uncompressed file size will likely be larger.\nAre you sure "
+                        "you want to install it? [y/N]. "
+                    )
+                if do_install.lower() == "y" or force_install:
+                    print(
+                        f"Installing {test_dataset_name} test dataset. This may take a "
+                        "while..."
+                    )
+                    self.download_extract_test_data(test_dataset_url, outdir)
+                    out_str = (
+                        f"Test dataset '{test_dataset_name}' has been installed under "
+                        f"{outdir}/{test_dataset_name}/"
+                    )
+                    # Print the output of the command.
+                    print(out_str)
+                else:
+                    print(f"Skipping installation of {test_dataset_name}.")
 
     def download_extract_test_data(self, url, download_dir):
         """Download the specified URL and write it to the corresponding download_dir.

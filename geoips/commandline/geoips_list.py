@@ -13,6 +13,7 @@ from os import listdir
 from os.path import basename, exists
 import sys
 
+import numpy as np
 from tabulate import tabulate
 
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
@@ -21,7 +22,7 @@ from geoips.commandline.geoips_command import (
     GeoipsCommand,
     GeoipsExecutableCommand,
 )
-from geoips.geoips_utils import is_editable
+from geoips.geoips_utils import is_editable, get_remote_file_size
 from geoips import interfaces
 
 
@@ -361,8 +362,13 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
         if args.package_name != "all":
             self.parser.error("Error: '-p' flag is not supported for this command")
         dataset_info = []
-        default_headers = {"data_host": "Data Host", "dataset_name": "Dataset Name"}
+        default_headers = {
+            "data_host": "Data Host",
+            "dataset_name": "Dataset Name",
+            "size": "Size",
+        }
         headers = self._get_headers_by_command(args, default_headers)
+        file_sizes = []
         for test_dataset_name in list(test_dataset_dict.keys()):
             dataset_entry = []
             for header in list(headers.keys()):
@@ -370,7 +376,27 @@ class GeoipsListTestDatasets(GeoipsExecutableCommand):
                     dataset_entry.append("io.cira.colostate.edu")
                 elif header == "dataset_name":
                     dataset_entry.append(test_dataset_name)
+                elif header == "size":
+                    # Add a human readable string of the size of the file
+                    dataset_entry.append(
+                        get_remote_file_size(test_dataset_dict[test_dataset_name])
+                    )
+                    # Track the file size in bytes of each file
+                    file_sizes.append(
+                        get_remote_file_size(
+                            test_dataset_dict[test_dataset_name], in_bytes=True
+                        )
+                    )
             dataset_info.append(dataset_entry)
+        if "size" in headers:
+            # Sort in order of largest file to smallest file
+            # Need to convert to np arrays to get argsort to work
+            dataset_info = np.array(dataset_info)
+            file_sizes = np.array(file_sizes)
+            sorted_idxs = np.argsort(file_sizes * -1)
+            # Multiply by -1 to get the array sorted by largest to smallest
+            dataset_info = dataset_info[sorted_idxs]
+
         print("-" * len("Available Test Datasets"))
         print("Available Test Datasets")
         print("-" * len("Available Test Datasets"))
@@ -399,7 +425,7 @@ class GeoipsListInterfaces(GeoipsExecutableCommand):
     command_classes = []
 
     def add_arguments(self):
-        """Add arguments to the list-suparser for the List Interfaces Command."""
+        """Add arguments to the list-subparser for the List Interfaces Command."""
         self.parser.add_argument(
             "--implemented",
             "-i",
