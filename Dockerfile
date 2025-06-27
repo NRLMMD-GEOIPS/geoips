@@ -124,8 +124,7 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
 ###############################################################################
 FROM test_base AS doclinttest
 
-RUN RUN python -m pip install --no-cache-dir -e .[doc,lint,test] \
-    && create_plugin_registries
+RUN RUN python -m pip install --no-cache-dir -e ".[doc,lint,test]"
 
 USER root
 
