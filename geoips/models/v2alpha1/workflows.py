@@ -1,4 +1,4 @@
-# # # This source code is subject to the license referenced at
+# # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Workflow plugin models.
@@ -6,6 +6,8 @@
 Defines pydantic models related to Workflow plugins,
 including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 """
+
+from __future__ import annotations
 
 # Python Standard Libraries
 import logging
@@ -16,12 +18,13 @@ from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.bases import (
+from geoips.models.v2alpha1.bases import (
     PythonIdentifier,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
 )
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -47,8 +50,8 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
     """
     interface_name = plugin_kind
 
-    if not interface_name[:-1] == "s":
-        interface_name = plugin_kind + "s"
+    if not interface_name.endswith("s"):
+        interface_name = str(Lexeme(plugin_kind).plural)
 
     try:
         interface = getattr(interfaces, interface_name)
@@ -203,8 +206,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_plugin_name(
-        cls, model: "WorkflowStepDefinitionModel"
-    ) -> "WorkflowStepDefinitionModel":
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
         """
         Validate that a plugin with this name exists for the specified plugin kind.
 
@@ -230,7 +233,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
             raise ValueError(
-                f"[!] Invalid plugin name '{plugin_name}'. \n\t"
+                f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
             )
 
@@ -238,8 +241,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_plugin_arguments(
-        cls, model: "WorkflowStepDefinitionModel"
-    ) -> "WorkflowStepDefinitionModel":
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
         """
         Validate and organize details for each step.
 
@@ -279,16 +282,17 @@ class WorkflowStepDefinitionModel(FrozenModel):
             plugin_arguments_model = plugin_arguments_models[
                 plugin_arguments_model_name
             ]
-        except KeyError:
+        except KeyError as e:
             valid_models = ", ".join(plugin_arguments_models)
             raise ValueError(
                 f'The argument class/model "{plugin_arguments_model_name}" for'
                 f'the plugin kind "{plugin_kind}" is not defined. Valid available'
                 f"models are {valid_models}."
-            )
+            ) from e
             LOG.interactive(
                 "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
-                "lookup failed. Please report this to the GeoIPS development team"
+                "lookup failed. Please report this to the GeoIPS development team",
+                plugin_kind,
             )
 
         plugin_arguments_model(**model.arguments)
