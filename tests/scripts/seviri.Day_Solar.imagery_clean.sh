@@ -7,7 +7,7 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20200404.0800_meteoIO_tc2020sh24irondro/* \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/1200/H-000-MSG3* \
              --reader_name seviri_hrit \
              --product_name Day_Solar \
              --output_formatter imagery_clean \
