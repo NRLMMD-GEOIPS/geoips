@@ -123,10 +123,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             "--force",
             default=False,
             action="store_true",
-            help=(
-                "Force the install to occur regardless of the file size potentially "
-                "being downloaded."
-            ),
+            help="Force the install to occur regardless of other factors.",
         )
 
     def __call__(self, args):
@@ -170,12 +167,12 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 )
             else:
                 file_size = get_remote_file_size(test_dataset_url)
-                do_install = "n"
+                do_install = "N"
                 if not force_install:
                     do_install = input(
                         f"Remote compressed file size is {file_size} in size. The "
                         "uncompressed file size will likely be larger.\nAre you sure "
-                        "you want to install it? [y/n]. "
+                        "you want to install it? [y/N]. "
                     )
                 if do_install.lower() == "y" or force_install:
                     print(

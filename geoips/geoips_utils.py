@@ -52,8 +52,14 @@ def get_remote_file_size(url, in_bytes=False):
                 return f"{size_bytes:.1f} {unit}"
             size_bytes /= 1024
         return f"{size_bytes:.1f} PB"
-    except Exception:
-        return "Unkwown"
+    except (
+        requests.exceptions.Timeout,
+        requests.exceptions.ConnectionError,
+        requests.exceptions.TooManyRedirects,
+        requests.exceptions.RequestException,
+    ) as e:
+        LOG.warning(f"Could not get file size for {url}: {e}")
+        return "Unknown"
 
 
 def get_interface_module(namespace):
