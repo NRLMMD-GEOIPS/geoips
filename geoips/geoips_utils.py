@@ -42,7 +42,7 @@ def get_remote_file_size(url, in_bytes=False):
         - Else returns the raw size of the file in bytes.
     """
     try:
-        response = requests.head(url, allow_redirects=True, timeout=5)
+        response = requests.head(url, allow_redirects=True, timeout=30)
         size_bytes = int(response.headers.get("Content-Length", 0))
         if in_bytes:
             return size_bytes
