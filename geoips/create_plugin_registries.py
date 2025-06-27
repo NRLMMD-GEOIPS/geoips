@@ -652,7 +652,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
                     #         if not family:
                     #             family = plugins["product_defaults"][pd]["family"]
                     plugins[interface_name][subplg_source][subplg_product] = {
-                        "docstring": format_docstring(docstring),
+                        "docstring": str(format_docstring(docstring)),
                         "family": family,
                         "interface": interface_module.name,
                         "package": plugin["package"],
@@ -671,14 +671,25 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
             # Since this is not a product plugin, we can ensure that these top-level
             # attributes should exist. Don't include product_defaults or source_names in
             # this info, because it doesn't apply to this type of plugin.
-            plugins[interface_name][plugin["name"]] = {
-                "docstring": format_docstring(plugin["docstring"]),
-                "family": plugin["family"],
-                "interface": plugin["interface"],
-                "package": package,
-                "plugin_type": "yaml_based",
-                "relpath": relpath,
-            }
+            if "docstring" not in plugin:
+                error_message += f"""
+                Error with package '{plugin["package"]}':
+                    docstring or family not defined in product
+                    Must specify docstring and family in either product
+                    or product_defaults.
+                    interface '{plugin["interface"]}'
+                    plugin name '{plugin["name"]}'
+                    pkg relpath: '{relpath}'\n"""
+
+            else:
+                plugins[interface_name][plugin["name"]] = {
+                    "docstring": format_docstring(plugin["docstring"]),
+                    "family": plugin["family"],
+                    "interface": plugin["interface"],
+                    "package": package,
+                    "plugin_type": "yaml_based",
+                    "relpath": relpath,
+                }
     return error_message
 
 

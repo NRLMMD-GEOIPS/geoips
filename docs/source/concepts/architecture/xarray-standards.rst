@@ -87,6 +87,10 @@ The following optional attributes can be used within processing if available.
     this allows producing minimal sized "clean" imagery for overlaying
     in external viewers (such as the Automated Tropical Cyclone
     Forecasting System)
+* 'longitude_of_projection_origin' - OPTIONAL
+
+  * longitude of satellite projection origin can be used
+    in diagnostic products and analysis of imagery.
 
 NetCDF CF Standards
 -------------------

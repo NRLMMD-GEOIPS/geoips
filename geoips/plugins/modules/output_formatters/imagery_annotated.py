@@ -36,13 +36,17 @@ def call(
     title_copyright=None,
     title_formatter=None,
     output_dict=None,
+    var_name=None,
 ):
     """Plot annotated imagery."""
     if product_name_title is None:
         product_name_title = product_name
 
     success_outputs = []
-    plot_data = xarray_obj[product_name].to_masked_array()
+    if var_name:
+        plot_data = xarray_obj[var_name].to_masked_array()
+    else:
+        plot_data = xarray_obj[product_name].to_masked_array()
     from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
     from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
     from geoips.image_utils.mpl_utils import (

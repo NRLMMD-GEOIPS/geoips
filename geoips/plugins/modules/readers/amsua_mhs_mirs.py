@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore satid, nscan, npix, pydatetime
+
 """Read AMSU-A and MHS MIRS NetCDF data files.
 
 This reader is desgined for importing the Advanced Microwave Sounding Unit
