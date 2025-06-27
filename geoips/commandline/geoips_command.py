@@ -9,6 +9,8 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 """
 
 import abc
+import re
+import textwrap
 import argparse
 from importlib import metadata, resources
 import json
@@ -37,6 +39,74 @@ class CustomHelpFormatter(
 
     ``add_arguments`` - Sorts command line arguments in alphabetical order.
     """
+
+    def _format_action(self, action):
+        # Suppress aliases for subcommands
+        if isinstance(action, argparse._SubParsersAction):
+            # Filter to show only the first name of each subcommand
+            parts = []
+            for choice in action._choices_actions:
+                parts.append(f"  {choice.dest:<25} {choice.help}")
+            return "\n" + "\n".join(parts) + "\n"
+        return super()._format_action(action)
+
+    def _fill_text(self, text, width, indent):
+        """
+        Format help text by preserving paragraph breaks and list formatting.
+
+        This method extends argparse's default help text formatting to handle paragraph
+        separation (via double newlines), bullet lists (e.g., "-", "*", or "•"), and
+        numbered lists (e.g., "1. ", "2. ") in a way that respects terminal width and
+        indentation.
+
+        Parameters
+        ----------
+        text : str
+            The original help text, potentially containing newlines, lists, and
+            paragraphs.
+        width : int
+            The maximum line width for wrapping.
+        indent : str
+            The string to prepend to each wrapped line for indentation.
+
+        Returns
+        -------
+        str
+            The formatted help text with wrapped paragraphs and properly indented lists.
+        """
+        lines = text.splitlines()
+        wrapped_lines = []
+
+        for line in lines:
+            stripped = line.strip()
+            if not stripped:
+                # Preserve blank lines (paragraph break)
+                wrapped_lines.append("")
+            elif re.match(r"^\s*[-*•]\s+", line):  # Bullet list detection
+                bullet, rest = re.match(r"^(\s*[-*•]\s+)(.*)", line).groups()
+                wrapped = textwrap.fill(
+                    rest,
+                    width,
+                    initial_indent=indent + bullet,
+                    subsequent_indent=indent + " " * len(bullet),
+                )
+                wrapped_lines.append(wrapped)
+            elif re.match(r"^\s*\d+\.\s+", line):  # Numbered list detection
+                bullet, rest = re.match(r"^(\s*\d+\.\s+)(.*)", line).groups()
+                wrapped = textwrap.fill(
+                    rest,
+                    width,
+                    initial_indent=indent + bullet,
+                    subsequent_indent=indent + " " * len(bullet),
+                )
+                wrapped_lines.append(wrapped)
+            else:
+                wrapped = textwrap.fill(
+                    line, width, initial_indent=indent, subsequent_indent=indent
+                )
+                wrapped_lines.append(wrapped)
+
+        return "\n".join(wrapped_lines)
 
     def add_arguments(self, actions):
         """
@@ -75,8 +145,8 @@ class CustomHelpFormatter(
     def _format_action_invocation(self, action):
         """Remove the positional argument group label from the help output.
 
-        We don't use positional argume groups in the GeoIPS CLI. Overriding this method
-        results in something like this:
+        We don't use positional argument groups in the GeoIPS CLI. Overriding this
+        method results in something like this:
 
             Sub Commands
 
@@ -373,9 +443,11 @@ class GeoipsCommand(abc.ABC):
         )
         # Parse now, as we'll use logging among all of the child command classes
         known_args, remaining_args = independent_parser.parse_known_args()  # NOQA
-        log_level = known_args.log_level
+
         # Set up logging based on the log level provided or defaulted to
+        log_level = known_args.log_level
         LOG = setup_logging(logging_level=log_level.upper())
+
         return LOG
 
     @property
@@ -407,7 +479,8 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                title="Sub Commands", metavar="subcommand"
+                title="Sub Commands",
+                metavar="subcommand",
             )
             # Sort subcommands alphabetically:
             sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)

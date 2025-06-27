@@ -914,8 +914,8 @@ class GeoipsList(GeoipsCommand):
         GeoipsListPackages,
         GeoipsListPlugins,
         GeoipsListRegistries,
-        GeoipsListScripts,
+        # GeoipsListScripts,
         GeoipsListSourceNames,
         GeoipsListTestDatasets,
-        GeoipsListUnitTests,
+        # GeoipsListUnitTests,
     ]
