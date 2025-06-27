@@ -622,7 +622,7 @@ def call_single_time(
         )
     if area_def:
         try:
-            adname = area_def.name
+            adname = area_def.description
         except AttributeError:
             TypeError("Keyword area_def must be of type Sector.")
     else:
