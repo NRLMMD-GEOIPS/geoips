@@ -13,4 +13,4 @@ Here is some information on running our tests.
    :maxdepth: 1
    :caption: Contents:
 
-   running-tests
+   running_tests
