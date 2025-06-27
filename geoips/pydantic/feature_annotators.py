@@ -3,7 +3,8 @@
 
 """Pydantic models used to validate GeoIPS feature annotator plugins."""
 
-from pydantic import Field
+from pydantic import Field, model_validator
+from typing import Optional
 
 from geoips.pydantic.bases import (
     FrozenModel,
@@ -19,7 +20,7 @@ class CartopyFeature(PermissiveFrozenModel):
     enabled: bool = Field(
         ..., strict=True, description="Whether or not to enable this feature."
     )
-    edgecolor: ColorType = Field(
+    edgecolor: Optional[ColorType] = Field(
         None,
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) to "
@@ -30,9 +31,31 @@ class CartopyFeature(PermissiveFrozenModel):
     )
     # NOTE: Once we add land / ocean features, we'll need to add another field, labeled
     # facecolor.
-    linewidth: float = Field(
+    linewidth: Optional[float] = Field(
         None, ge=0, description="The width in pixels of the specified feature."
     )
+    # TODO: There are more arguments here for a mpl Line2D artist and cartopy features.
+    # do we want to support all of those? Do we want to fail before or let
+    # matplotlib fail
+
+    @model_validator(mode="after")
+    def validate_enabled_fields(cls, values):
+        """Validate edgecolor and linewidth based on the value of 'enabled'.
+
+        If enabled is True, then both edgecolor and linewidth must be provided.
+        """
+        enabled = values.enabled
+        edgecolor = values.edgecolor
+        linewidth = values.linewidth
+
+        if enabled:
+            if edgecolor is None or linewidth is None:
+                raise ValueError(
+                    "If 'enabled' is True, both 'edgecolor' and 'linewidth' must be "
+                    "provided."
+                )
+
+        return values
 
 
 class FeatureAnnotatorSpec(FrozenModel):
@@ -51,7 +74,7 @@ class FeatureAnnotatorSpec(FrozenModel):
     states: CartopyFeature = Field(
         ..., strict=True, description="A cartopy states feature."
     )
-    background: ColorType = Field(
+    background: Optional[ColorType] = Field(
         None,
         description=(
             "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
@@ -74,3 +97,7 @@ class FeatureAnnotatorPluginModel(PluginModel):
             "https://scitools.org.uk/cartopy/docs/v0.14/matplotlib/feature_interface.html"  # NOQAx
         ),
     )
+
+
+# TODO: load a model, parse the model to look at all its fields, collect all of the
+# arguments for the matplotlib artist, compare arguments to make sure nothing differs
