@@ -15,5 +15,7 @@ Architecture
     structure-of-geoips/index
     xarray-standards
     geoips-specification
+    cached-files
     tests/index
-    documentation/index.rst
+    documentation/index
+    command_line_interface

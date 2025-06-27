@@ -1,0 +1,15 @@
+enhancement:
+- title: 'Add support for invalid JSON in command-line kwargs. eg. --reader-kwargs'
+  description: |
+    'JSON does not officially support single quotes ( eg. '' ). However, sometimes people include them in command line kwargs. This adds support for single quotes by calling ast.literal_eval instead of json.loads.'
+  files:
+    added:
+    - 'docs/source/releases/latest/335-simplify-cli-kwargs-arguments.yaml'
+    modified:
+    - 'geoips/commandline/args.py'
+  related-issue:
+    number: 335
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2023-09-19
+    finish: today

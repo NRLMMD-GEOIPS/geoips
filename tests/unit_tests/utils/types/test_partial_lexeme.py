@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """pytest test‑suite for ``lexeme.py``."""
 
 from __future__ import annotations

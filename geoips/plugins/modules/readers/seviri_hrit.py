@@ -20,6 +20,7 @@ import os
 import logging
 import numpy as np
 from geoips.plugins.modules.readers.utils.hrit_reader import HritFile, HritError
+from pathlib import Path
 
 # GeoIPS Libraries
 from geoips.errors import NoValidFilesError
@@ -27,6 +28,8 @@ from geoips.interfaces import readers
 from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    check_geolocation_cache_backend,
+    get_geolocation_cache_filename,
     get_geolocation,
 )
 
@@ -35,6 +38,7 @@ LOG = logging.getLogger(__name__)
 with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import numexpr as ne
+    import zarr
 
 try:
     NPROC = 6
@@ -227,76 +231,150 @@ def get_top_level_metadata(fnames, sect):
     return md
 
 
-def get_latitude_longitude(gmd, BADVALS, area_def):
+def get_latitude_longitude(
+    gmd,
+    BADVALS,
+    area_def,
+    geolocation_cache_backend="memmap",
+    chunk_size=None,
+    resource_tracker=None,
+):
     """Generate full-disk latitudes and longitudes."""
-    # Anywhere you see NOQA or noqa: F841, this is added since the variables are used
-    # however they are not recognized by flake8 linter under numexpr.evaluate()
-    # Constants
-    pi = np.pi
-    # Must include rad2deg variable, because it is used within the
-    # numexpr command below.  flake8 does not recognize it as being
-    # used, so must include # NOQA flag
-    rad2deg = 180.0 / pi  # NOQA
-    deg2rad = pi / 180.0
-    Rs = 42164  # Satellite altitude (km)  # noqa: F841
-    Re = 6378.1690  # Earth equatorial radius (km)
-    Rp = 6356.5838  # Earth polar radius (km)
-    r3 = Re**2 / Rp**2  # noqa: F841
-    sd_coeff = 1737122264  # If there is a problem for MSG use 1737121856  # noqa: F841
-    lon0 = gmd["lon0"]  # noqa: F841
-
-    deg2rad = np.pi / 180.0
-    x, y = np.meshgrid(
-        np.arange(0, gmd["num_samples"], 1), np.arange(0, gmd["num_lines"], 1)
+    check_geolocation_cache_backend(geolocation_cache_backend)
+    # If the filename format needs to change for the pre-generated geolocation
+    # files, please discuss prior to changing.  It will force recreation of all
+    # files, which can be problematic for large numbers of sectors
+    fname = get_geolocation_cache_filename(
+        "GEOLL",
+        gmd,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=chunk_size,
     )
-    x = np.fliplr(x)
-    y = np.fliplr(y)
-    x = deg2rad * (x - gmd["sample_offset"]) / (2**-16 * gmd["sample_scale"])
-    y = deg2rad * (y - gmd["line_offset"]) / (2**-16 * gmd["line_scale"])
+    if resource_tracker is not None:
+        key = Path(fname).name
+        if area_def:
+            key += f"_{area_def.area_id}"
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
+    if not Path(fname).exists():
+        LOG.debug("Calculating latitudes and longitudes.")
+        # Anywhere you see NOQA or noqa: F841, this is added since the variables are
+        # used however they are not recognized by flake8 linter under numexpr.evaluate()
+        # Constants
+        pi = np.pi
+        # Must include rad2deg variable, because it is used within the
+        # numexpr command below.  flake8 does not recognize it as being
+        # used, so must include # NOQA flag
+        rad2deg = 180.0 / pi  # NOQA
+        deg2rad = pi / 180.0
+        Rs = 42164  # Satellite altitude (km)  # noqa: F841
+        Re = 6378.1690  # Earth equatorial radius (km)
+        Rp = 6356.5838  # Earth polar radius (km)
+        r3 = Re**2 / Rp**2  # noqa: F841
+        # If there is a problem for MSG use 1737121856
+        sd_coeff = 1737122264  # noqa: F841
+        lon0 = gmd["lon0"]  # noqa: F841
 
-    cos_x = np.cos(x)
-    sin_x = np.sin(x)  # noqa: F841
-    cos_y = np.cos(y)
-    sin_y = np.sin(y)  # noqa: F841
+        deg2rad = np.pi / 180.0
+        x, y = np.meshgrid(
+            np.arange(0, gmd["num_samples"], 1), np.arange(0, gmd["num_lines"], 1)
+        )
+        x = np.fliplr(x)
+        y = np.fliplr(y)
+        x = deg2rad * (x - gmd["sample_offset"]) / (2**-16 * gmd["sample_scale"])
+        y = deg2rad * (y - gmd["line_offset"]) / (2**-16 * gmd["line_scale"])
 
-    sd = ne.evaluate("(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff")
-    bad_mask = sd < 0.0
-    sd[bad_mask] = 0.0
-    sd **= 0.5
+        cos_x = np.cos(x)
+        sin_x = np.sin(x)  # noqa: F841
+        cos_y = np.cos(y)
+        sin_y = np.sin(y)  # noqa: F841
 
-    # Doing inplace operations when variables are no longer needed
+        sd = ne.evaluate(
+            "(Rs * cos_x * cos_y)**2 - (cos_y**2 + r3 * sin_y**2) * sd_coeff"
+        )
+        bad_mask = sd < 0.0
+        sd[bad_mask] = 0.0
+        sd **= 0.5
 
-    # sd no longer needed
-    sn = sd
-    ne.evaluate("(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)", out=sn)
+        # Doing inplace operations when variables are no longer needed
 
-    # cos_x no longer needed
-    s1 = cos_x
-    ne.evaluate("Rs - (sn * cos_x * cos_y)", out=s1)
+        # sd no longer needed
+        sn = sd
+        ne.evaluate("(Rs * cos_x * cos_y - sd) / (cos_y**2 + r3 * sin_y**2)", out=sn)
 
-    # Nothing unneed
-    s2 = ne.evaluate("sn * sin_x * cos_y")  # noqa: F841
+        # cos_x no longer needed
+        s1 = cos_x
+        ne.evaluate("Rs - (sn * cos_x * cos_y)", out=s1)
 
-    # sin_y no longer needed
-    s3 = cos_y
-    ne.evaluate("-sn * sin_y", out=s3)
+        # Nothing unneed
+        s2 = ne.evaluate("sn * sin_x * cos_y")  # noqa: F841
 
-    # sn no longer needed
-    sxy = sn
-    ne.evaluate("sqrt(s1**2 + s2**2)", out=sxy)
+        # sin_y no longer needed
+        s3 = cos_y
+        ne.evaluate("-sn * sin_y", out=s3)
 
-    # s3 no longer needed
-    lats = s3
-    ne.evaluate("rad2deg * arctan(r3 * s3 / sxy)", out=lats)
+        # sn no longer needed
+        sxy = sn
+        ne.evaluate("sqrt(s1**2 + s2**2)", out=sxy)
 
-    # s1 no longer needed
-    lons = s1
-    ne.evaluate("rad2deg * arctan(s2 / s1) + lon0", out=lons)
-    lons[lons > 180.0] -= 360
+        # s3 no longer needed
+        lats = s3
+        ne.evaluate("rad2deg * arctan(r3 * s3 / sxy)", out=lats)
 
-    # Set bad values
-    lats[bad_mask] = BADVALS["Off_Of_Disk"]
-    lons[bad_mask] = BADVALS["Off_Of_Disk"]
+        # s1 no longer needed
+        lons = s1
+        ne.evaluate("rad2deg * arctan(s2 / s1) + lon0", out=lons)
+        lons[lons > 180.0] -= 360
+
+        # Set bad values
+        lats[bad_mask] = BADVALS["Off_Of_Disk"]
+        lons[bad_mask] = BADVALS["Off_Of_Disk"]
+        LOG.info("Done calculating latitudes and longitudes")
+
+        if geolocation_cache_backend == "memmap":
+            with open(fname, "w") as df:
+                lats.tofile(df)
+                lons.tofile(df)
+        elif geolocation_cache_backend == "zarr":
+            if chunk_size:
+                chunks = (chunk_size, chunk_size)
+            else:
+                chunks = None
+            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+            # zarr does NOT have a close method, so you can NOT use the with context.
+            zf = zarr.open(fname, mode="w")
+            # Assume both arrays have the same shape and dtype
+            kwargs = {
+                "shape": lats.shape,
+                "dtype": lats.dtype,
+            }
+            # As of Python 3.11, can't pass chunks=None into create_dataset
+            if chunks:
+                kwargs["chunks"] = chunks
+            zf.create_dataset("lats", **kwargs)
+            zf.create_dataset("lons", **kwargs)
+            zf["lats"][:] = lats
+            zf["lons"][:] = lons
+    else:
+        # Create memmap to the lat/lon file
+        # Nothing will be read until explicitly requested
+        # We are mapping this here so that the lats and lons are available when
+        # calculating satlelite angles
+        if geolocation_cache_backend == "memmap":
+            shape = (gmd["num_lines"], gmd["num_samples"])
+            offset = 8 * gmd["num_samples"] * gmd["num_lines"]
+            lats = np.memmap(fname, mode="r", dtype=np.float64, offset=0, shape=shape)
+            lons = np.memmap(
+                fname, mode="r", dtype=np.float64, offset=offset, shape=shape
+            )
+        elif geolocation_cache_backend == "zarr":
+            LOG.info(
+                "GETGEO zarr to {} : lat/lon file for {}".format(fname, gmd["scene"])
+            )
+            zf = zarr.open(fname, mode="r")
+            lats = zf["lats"]
+            lons = zf["lons"]
+    if resource_tracker is not None:
+        resource_tracker.track_resource_usage(logstr="MEMUSG", verbose=False, key=key)
 
     return lats, lons
 
@@ -471,7 +549,15 @@ class ChanList(object):
 
 
 def call_single_time(
-    fnames, metadata_only=False, chans=None, area_def=None, self_register=False
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
 ):
     """Read SEVIRI hrit data products.
 
@@ -491,6 +577,20 @@ def call_single_time(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Default=None, i.e., if not defined in the yaml file
+        * Defined in yaml file where variables and tuning parameters are set
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
 
     Returns
     -------
@@ -638,8 +738,27 @@ def call_single_time(
     # Assume the datetime is the same for all resolution.  Not true, but close enough.
     # This saves us from having slightly different solar angles for each channel.
     gmd = _get_geolocation_metadata(pro, xarray_obj.attrs)
-    fldk_lats, fldk_lons = get_latitude_longitude(gmd, BADVALS, area_def)
-    gvars[adname] = get_geolocation(sdt, gmd, fldk_lats, fldk_lons, BADVALS, area_def)
+
+    xarray_obj.attrs["longitude_of_projection_origin"] = gmd["lon0"]
+    fldk_lats, fldk_lons = get_latitude_longitude(
+        gmd,
+        BADVALS,
+        area_def,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
+    )
+    gvars[adname] = get_geolocation(
+        sdt,
+        gmd,
+        fldk_lats,
+        fldk_lons,
+        BADVALS,
+        area_def,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
+    )
 
     # Drop files for channels other than those requested and decompress
     outdir = os.path.join(
@@ -694,6 +813,14 @@ def call_single_time(
         if len(dfs[band].items()) == 0:
             LOG.error("No data in band %s, SKIPPING", band)
             continue
+        if resource_tracker:
+            key = f"READ CHAN: abi_netcdf_chan_{chan}_{adname}"
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG",
+                verbose=False,
+                key=key,
+                show_log=False,
+            )
         # Create empty full-disk array for this channel
         data = np.full((num_lines, num_samples), -999.9, dtype=float)
         # Read data into data array
@@ -711,6 +838,10 @@ def call_single_time(
         else:
             count_data[band] = data
         annotation_metadata[band] = df.annotation_metadata
+        if resource_tracker:
+            resource_tracker.track_resource_usage(
+                logstr="MEMUSG", verbose=False, key=key
+            )
 
     datavars[adname] = {}
     radiances = {}
@@ -808,12 +939,18 @@ def call_single_time(
             xobj[varname] = xarray.DataArray(datavars[dsname][varname])
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
-        if hasattr(xobj.attrs, "area_definition") and xobj.area_definition is not None:
-            xobj.attrs["interpolation_radius_of_influence"] = max(
-                xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
-            )
+        if roi is not None:
+            xobj.attrs["interpolation_radius_of_influence"] = roi
         else:
-            xobj.attrs["interpolation_radius_of_influence"] = 10000
+            if (
+                hasattr(xobj.attrs, "area_definition")
+                and xobj.area_definition is not None
+            ):
+                xobj.attrs["interpolation_radius_of_influence"] = max(
+                    xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y
+                )
+            else:
+                xobj.attrs["interpolation_radius_of_influence"] = 10000
         xarray_objs[dsname] = xobj
 
     xarray_objs["METADATA"] = list(xarray_objs.values())[0][[]]
@@ -823,7 +960,17 @@ def call_single_time(
     return xarray_objs
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    metadata_only=False,
+    chans=None,
+    area_def=None,
+    self_register=False,
+    roi=None,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
+):
     """Read SEVIRI hrit data products.
 
     Parameters
@@ -842,6 +989,9 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    roi: radius of influence (unit in meter), used in interpolation scheme
+        * Default=None, i.e., if not defined in the yaml file
+        * Defined in yaml file where variables and tuning parameters are set
 
     Returns
     -------
@@ -870,4 +1020,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         chans,
         area_def,
         self_register,
+        roi=roi,
+        geolocation_cache_backend=geolocation_cache_backend,
+        cache_chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
     )

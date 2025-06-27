@@ -200,8 +200,9 @@ def get_test_data_urls():
     Retrieve test data URLs from a YAML configuration file.
 
     This function reads a YAML file named `test-data-urls.yaml` located
-    in the same directory as the script and returns the URLs specified
-    under the `test_data_urls` key.
+    in geoips/commandline/ancillary_info and returns the URLs specified
+    under the `test_data_urls` key. This script is getting replaced, so
+    the odd placement of the test data url file is fine for now.
 
     Returns
     -------
@@ -215,7 +216,12 @@ def get_test_data_urls():
     ['https://example.com/data1.csv', 'https://example.com/data2.csv']
     """
     dirname, filename = os.path.split(os.path.abspath(__file__))
-    with open(os.path.join(dirname, "test-data-urls.yaml"), "r") as f:
+    with open(
+        os.path.join(
+            dirname, "./../geoips/commandline/ancillary_info/test-data-urls.yaml"
+        ),
+        "r",
+    ) as f:
         data = yaml.safe_load(f)
         return data["test_data_urls"]
 

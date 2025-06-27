@@ -16,6 +16,7 @@ bug fix:
     modified:
     - 'geoips/sector_utils/tc_tracks_database.py'
   related-issue:
+    internal: GEOIPS#759
     number: 759
   date:
     start: 2025-02-25
