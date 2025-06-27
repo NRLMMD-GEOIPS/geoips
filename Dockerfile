@@ -125,6 +125,8 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
 FROM build AS doclinttest
 
 USER root
+# Configure Git (avoid "detected dubious ownership" warnings when mounted)
+RUN git config --global --add safe.directory '*'
 
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,lint,test]"
 
