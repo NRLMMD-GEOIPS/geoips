@@ -33,9 +33,13 @@
         "UCAR",
         "Wimmers",
         "geokompsat",
+	"nesdisstar",
+        "nrlmry",
+        "nrlmmd",
         // Libraries / Tools
         "Mambaforge",
         "Miniforge",
+        "ancildat",
         "astropy",
         "basemap",
         "bokeh",
@@ -45,6 +49,7 @@
         "clavrx",
         "cmocean",
         "conda",
+        "cspp",
         "cython",
         "dask",
         "earthdata",
@@ -57,7 +62,9 @@
         "h5netcdf",
         "h5py",
         "holoviews",
+        "hrit",
         "ipyleaflet",
+        "ipynb",
         "ipywidgets",
         "jupyterlab",
         "libncurses",
@@ -76,6 +83,7 @@
         "pillow",
         "pip",
         "plotly",
+        "pycrtm",
         "pydantic",
         "pygrib",
         "pyhdf",
@@ -138,6 +146,7 @@
         "barotropic",
         "bathymetry",
         "bathythermograph",
+        "bdeck",
         "beaufort",
         "biospheric",
         "buoyancy",
@@ -256,6 +265,7 @@
         "pyranometer",
         "pyrgeometer",
         "pyrheliometer",
+        "pyro",
         "radiance",
         "radiometer",
         "radiometry",
@@ -319,6 +329,7 @@
         "AIRS",
         "ALOS",
         "AMSU",
+	"AMSUB",
         "ASCAT",
         "ATMS",
         "AVHRR",
@@ -358,6 +369,7 @@
         "QuikSCAT",
         "RISAT",
         "Radarsat",
+	"SAPHIR",
         "SARAL",
         "SMAP",
         "SMOS",
@@ -499,6 +511,11 @@
     // --- File/Folder Exclusions ---
     // Glob patterns for files and folders to ignore globally
     "ignorePaths": [
+        // GeoIPS Stored environment files (pip and mamba)
+        "**/environments/pip_*.txt",
+        "**/environments/mamba_*.yml",
+        "**/environments/conda_*.yml",
+        "**/environments/requirements.txt",
         // Common VCS/Dev environment folders
         "**/.env/**",
         "**/.git/**",
@@ -593,9 +610,9 @@
         "PUBLICWWW",
         "TESTDATA",
         "YYYYMMDDTHHMNSS",
-        "awips",
         "abc",
         "amet",
+        "awips",
         "baz",
         "capsys",
         "cmap",
@@ -813,7 +830,7 @@
                 "/#\\s*noqa\\b/g", // Ignore noqa comments
                 "/#\\s*type:\\s*ignore/g", // Ignore type ignore comments
                 "/(?:from|import)\\s+[a-zA-Z0-9_.]+(?:\\s+(?:as)\\s+[a-zA-Z0-9_]+)?/g", // Import statements
-                "/(?:r|u|b|f|rb|fr|br)?['\"][^'\"]*['\"]/g", // String literals (careful, can hide errors)
+                "/(?<!\\w)(?:r|u|b|f|rb|fr|br)?['\"][^'\"]*['\"]/g", // String literals (careful, can hide errors)
                 "/@[a-zA-Z_][a-zA-Z0-9_]*/g", // Ignore decorators
                 "/\\b[A-Za-z_][A-Za-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*/g", // Ignore attribute access like 'obj.attr'
                 "/\\s*[a-zA-Z_][a-zA-Z0-9_]*\\s*=/g", // Variable assignments
@@ -920,7 +937,6 @@
                 "/^\\.\\.\\s+[a-zA-Z_-]+::/m",
                 // Field lists (e.g., :param key:)
                 "/^\\s*:([^:]+):\\s*$/m", // Simple field list line
-                "/^\\s*:([^:]+):\\s+[^\\s]/m", // Field list with content on same line
                 // Interpreted text roles (e.g., :py:func:`~my_func`)
                 "/:[a-zA-Z_\\-]+:`~?([^`]+)`/",
                 // Inline literals (e.g., ``code``)

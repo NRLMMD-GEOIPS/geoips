@@ -8,18 +8,18 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 'geoips validate'.
 """
 
+import os
 import abc
 import argparse
 from importlib import metadata, resources
 import json
-from os.path import dirname
 from shutil import get_terminal_size
 
 from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
+from geoips.commandline.ancillary_info import alias_mapping
 from geoips.commandline.log_setup import setup_logging
 
 
@@ -45,12 +45,55 @@ class PluginPackages:
             for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
         self.paths = [
-            dirname(resources.files(ep.value))
+            os.path.dirname(resources.files(ep.value))
             for ep in sorted(metadata.entry_points(group="geoips.plugin_packages"))
         ]
 
 
 plugin_packages = PluginPackages()
+
+
+class AlphabeticalHelpFormatter(argparse.RawTextHelpFormatter):
+    """
+    Help message formatter with arguments sorted alphabetically.
+
+    This custom formatter extends RawTextHelpFormatter to sort command-line
+    arguments alphabetically when displaying help messages.
+    """
+
+    def add_arguments(self, actions):
+        """
+        Sort command-line arguments via alphabetical order when added to a parser.
+
+        This method takes a list of argument actions (positional or flag argument
+        strings) and sorts them alphabetically.
+
+        Parameters
+        ----------
+        actions : list
+            A collection of command-line argument definitions to be sorted.
+
+        Notes
+        -----
+        Sorting works as follows:
+
+        - For arguments with option flags (like -h or --help),
+          it uses the first option flag for ordering.
+        - For arguments without option flags, it uses the argument's name.
+        - For arguments with aliases flags (like config or conf),
+          it uses the non-alias action word for ordering.
+
+        Examples
+        --------
+        >>> argparse.ArgumentParser(formatter_class=SortingHelpFormatter)
+        >>> parser.add_argument('-z', '--zeta')
+        >>> parser.add_argument('-a', '--alpha')
+        >>> # Help text will show '-a, --alpha' before '-z, --zeta'
+        """
+        actions = sorted(
+            actions, key=lambda x: x.option_strings[0] if x.option_strings else x.dest
+        )
+        super().add_arguments(actions)
 
 
 class ParentParsers:
@@ -65,7 +108,7 @@ class ParentParsers:
     shared correctly.
     """
 
-    geoips_parser = argparse.ArgumentParser()
+    geoips_parser = argparse.ArgumentParser(formatter_class=AlphabeticalHelpFormatter)
     geoips_parser.add_argument(
         "-log",
         "--log-level",
@@ -76,7 +119,9 @@ class ParentParsers:
         help="Log level to output when using the CLI.",
     )
 
-    list_parser = argparse.ArgumentParser(add_help=False)
+    list_parser = argparse.ArgumentParser(
+        add_help=False, formatter_class=AlphabeticalHelpFormatter
+    )
     list_parser.add_argument(
         "--package-name",
         "-p",
@@ -196,21 +241,19 @@ class GeoipsCommand(abc.ABC):
                 # among specific commands, or subsets of commands. For now, this works
                 if self.name == "install" and self.parent.name == "config":
                     break
+                if self.name == "install-github" and self.parent.name == "config":
+                    break
                 self.parent_parsers.insert(
                     0,
                     getattr(ParentParsers, f"{curr_parent.name}_parser"),
                 )
                 curr_parent = curr_parent.parent
 
-            if parent.cmd_instructions:
-                # this is used for testing purposes to ensure failure for invalid
-                # help information. If the parent already has cmd_instructions set,
-                # use these instructions so we can test proper functionality of the CLI.
-                self.cmd_instructions = parent.cmd_instructions
-            else:
-                # Otherwise use the default cmd_instructions which are used for normal
-                # invocation of the CLI.
-                self.cmd_instructions = cmd_instructions
+            # Propagate the command instructions from the parent to this command. This
+            # is important for unit testing where we might provide non-standard
+            # instructions.
+            self.cmd_instructions = parent.cmd_instructions
+
             try:
                 # If the command's name exists w/in the alias mapping, then
                 # add thoss aliases to the parser, otherwise just set it as an empty
@@ -233,7 +276,7 @@ class GeoipsCommand(abc.ABC):
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
-                    formatter_class=argparse.RawTextHelpFormatter,
+                    formatter_class=AlphabeticalHelpFormatter,
                 )
             except KeyError:
                 raise KeyError(
@@ -247,7 +290,7 @@ class GeoipsCommand(abc.ABC):
                 self.name,
                 conflict_handler="resolve",
                 parents=[ParentParsers.geoips_parser],
-                formatter_class=argparse.RawTextHelpFormatter,
+                formatter_class=AlphabeticalHelpFormatter,
             )
             self.LOG = self._get_cli_logger()
             self.combined_name = self.name
@@ -323,9 +366,11 @@ class GeoipsCommand(abc.ABC):
         """
         if len(self.command_classes):
             self.subparsers = self.parser.add_subparsers(
-                help=f"{self.name} instructions.",
+                help=f"{self.name} instructions."
             )
-            for subcmd_cls in self.command_classes:
+            # Sort subcommands alphabetically:
+            sorted_command_classes = sorted(self.command_classes, key=lambda x: x.name)
+            for subcmd_cls in sorted_command_classes:
                 subcmd_cls(LOG=self.LOG, parent=self, legacy=self.legacy)
 
     @property
