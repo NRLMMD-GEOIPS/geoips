@@ -122,11 +122,11 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
 ###############################################################################
 #   TEMPORARY FOR CI TESTING - DELETE AFTER UPDATING CI TO USE test_base
 ###############################################################################
-FROM test_base AS doclinttest
-
-RUN python -m pip install --no-cache-dir -e ".[doc,lint,test]"
+FROM build AS doclinttest
 
 USER root
+
+RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,lint,test]"
 
 RUN mkdir -p /__w /__e /__t /github && \
     chmod -R 777 /__w /__e /__t /github /tmp # For github actions
