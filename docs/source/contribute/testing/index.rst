@@ -4,12 +4,10 @@
  | # # # https://github.com/NRLMMD-GEOIPS.
 
 Testing
-==========
+=======
 
-Testing helps us make sure our code works. 
+Testing helps us make sure our code works.
 Here is some information on running our tests.
-
---------------------------
 
 .. toctree::
    :maxdepth: 1

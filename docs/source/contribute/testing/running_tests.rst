@@ -1,5 +1,5 @@
 Running GeoIPS Pytest Tests
-=======================
+===========================
 
 Basic Usage
 -----------
@@ -49,14 +49,14 @@ Marker Categories
 GeoIPS uses three categories of pytest markers:
 
 **Concurrent Markers**: Can be applied with any other marker
-  - ``integration``, ``spans_multiple_packages``, 
+  - ``integration``, ``spans_multiple_packages``,
     ``limited_test_dataset_availability``
 
 **Repository-Level Markers**: Mutually exclusive, test current repository functionality
   - ``base``, ``full``
 
 **System Implementation Markers**: Mutually exclusive, test full GeoIPS system deployment
-  - ``realtime``, ``scheduler``, ``database``, 
+  - ``realtime``, ``scheduler``, ``database``,
     ``downloader``, ``external_preprocessing``, ``scrubber``
 
 For more information about what these markers mean,
@@ -72,16 +72,16 @@ Repository-Level Markers
 
     pytest -m "base"
 
-Base tests complete very quickly and require only minimal 
+Base tests complete very quickly and require only minimal
 installation for testing basic functionality within the current repository.
 
 **Full Tests** - Comprehensive repository testing::
 
     pytest -m "full"
 
-Full tests require complete installation and test only functionality within 
+Full tests require complete installation and test only functionality within
 the current repository. These tests depend on ``geoips`` being installed.
-This includes all repository tests except those 
+This includes all repository tests except those
 marked as optional ``base`` tests.
 
 Run both base and full tests::
@@ -105,29 +105,29 @@ Exclude integration tests (unit tests only)::
 
     pytest -m "spans_multiple_packages"
 
-This tests functionality that could fail due to code 
+This tests functionality that could fail due to code
 in multiple repositories (e.g., plugin validation across repos).
 
 **Limited Dataset Tests** - Restricted data availability::
 
     pytest -m "limited_test_dataset_availability"
 
-Run just tests that may not be available to all users 
-due to dataset access restrictions or a lack of a 
+Run just tests that may not be available to all users
+due to dataset access restrictions or a lack of a
 pre-packaged opensource testing set.
 
 GeoIPS System Implementation Markers
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-These markers test complete GeoIPS system deployments 
-for real-time processing. 
+These markers test complete GeoIPS system deployments
+for real-time processing.
 Most GeoIPS developers will not use these markers.
 
 **Real-time Tests** - End-to-end processing::
 
     pytest -m "realtime"
 
-Tests full real-time functionality using complete 
+Tests full real-time functionality using complete
 procflow/workflow configs and all installed plugins.
 
 **Scheduler Tests** - Task scheduling::
@@ -152,7 +152,7 @@ Tests automated data download and ingestion functions.
 
     pytest -m "external_preprocessing"
 
-Tests/runs external preprocessing tools 
+Tests/runs external preprocessing tools
 (e.g., CLAVR-x, CSPP) that are not part of core GeoIPS.
 
 **Scrubber Tests** - Data cleanup::
@@ -181,7 +181,7 @@ Run integration tests that don't span multiple packages::
     pytest -m "integration and not spans_multiple_packages"
 
 Pattern Matching Examples
---------------------------
+-------------------------
 
 **Test Name Patterns**
 
@@ -395,7 +395,7 @@ Filter specific warnings::
     pytest -W ignore::DeprecationWarning
 
 Managing Pytest Output and Logging
----------------------------------------------
+----------------------------------
 
 Pytest can generate substantial output, especially when running comprehensive test suites with verbose logging.
 This section covers techniques for capturing, redirecting, and managing pytest output effectively.
@@ -593,7 +593,7 @@ Memory usage profiling::
     pytest --memray
 
 Extended Pytest Functionality
-------------------------------
+-----------------------------
 
 **Core Extensions**
   - `pytest-cov <https://pytest-cov.readthedocs.io/>`_ - Coverage reporting
