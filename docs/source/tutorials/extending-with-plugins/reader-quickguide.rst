@@ -30,7 +30,7 @@ Xarray Variables
 ~~~~~~~~~~~~~~
 - ``latitude``, ``longitude`` (REQUIRED): 2D arrays matching data variables
 - ``time`` (OPTIONAL): 2D array for temporal information
-- Variables of interest: Should match names used in products
+- Variables of interest: Should match names used in downstream plugins
 
 Xarray Standard Attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~
