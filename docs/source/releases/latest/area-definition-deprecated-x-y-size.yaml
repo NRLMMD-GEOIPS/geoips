@@ -1,0 +1,63 @@
+deprecation:
+- title: 'Update deprecated area_def.x-y_size and area_def.name calls.'
+  description: |
+    There were a few PendingDeprecationWarnings raised for any area_def.x_size or
+    area_def.y_size attribute accesses in GeoIPS source code. It was recommended we
+    update those calls to area_def.x_size -> area_def.width and
+    area_def.y_size -> area_def.height. This PR does just that.
+
+    The same thing goes for area_def.name and area_def.proj4_string. It was recommended
+    we update any call matching area_def.name to area_def.description and
+    area_def.proj4_string to area_def.proj_str instead. The functionality of these
+    attributes are exactly the same.
+
+    Lastly, lots of test .yaml files were updated alongside their corresponding imagery
+    (while that had no difference) due to the order of proj-parameters being shifted in
+    the .yaml files. The contents were the same, so no actual functionality has changed.
+  files:
+    modified:
+      - geoips/plugins/modules/output_formatters/full_disk_image.py
+      - geoips/plugins/modules/output_formatters/imagery_annotated.py
+      - geoips/plugins/modules/output_formatters/imagery_clean.py
+      - geoips/plugins/modules/output_formatters/imagery_windbarbs.py
+      - geoips/plugins/modules/output_formatters/imagery_windbarbs_multi_level.py
+      - geoips/plugins/modules/output_formatters/metadata_default.py
+      - geoips/plugins/modules/procflows/config_based.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - geoips/plugins/modules/readers/abi_l2_netcdf.py
+      - geoips/plugins/modules/readers/seviri_hrit.py
+      - geoips/sector_utils/tc_tracks.py
+      - geoips/sector_utils/utils.py
+      - geoips/sector_utils/yaml_utils.py
+      - geoips/xarray_utils/data.py
+      - tests/outputs/abi.tc.IR-BD.imagery_annotated.low_memory/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+      - tests/outputs/abi.tc.IR-BD.imagery_annotated/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml
+      - tests/outputs/abi.tc.Infrared.imagery_annotated.low_memory/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png.yaml
+      - tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png
+      - tests/outputs/abi.tc.Visible.imagery_annotated/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png.yaml
+      - tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png
+      - tests/outputs/amsr2.tc.89H-Physical.imagery_annotated/20200518_073601_IO012020_amsr2_gcom-w1_89H-Physical_140kts_100p00_res1p0-cr300.png.yaml
+      - tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png
+      - tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+      - tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png
+      - tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+      - tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png
+      - tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+      - tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png
+      - tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+      - tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png.yaml
+      - tests/outputs/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean/20210421_014248_WP022021_ascat_metop-c_windbarbs_120kts_78p20_0p5-clean.png.yaml
+      - tests/outputs/ascat_low_knmi.tc.windbarbs.imagery_windbarbs/20210421_014156_WP022021_ascat_metop-c_windbarbs_120kts_35p17_1p0.png.yaml
+      - tests/outputs/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs/20230524_235304_WP022023_ascat_metop-c_windbarbs_135kts_39p90_0p7.png.yaml
+      - tests/outputs/ascat_noaa_50km.tc.wind-ambiguities.imagery_windbarbs/20230524_235200_WP022023_ascat_metop-c_wind-ambiguities_135kts_50p08_1p1.png.yaml
+      - tests/outputs/ascat_uhr.tc.wind-ambiguities.imagery_windbarbs/20210421_014200_WP022021_ascatuhr_metop-c_wind-ambiguities_120kts_100p00_0p1.png.yaml
+      - tests/outputs/gmi.tc.89pct.imagery_clean/20200917_171519_AL202020_gmi_GPM_89pct_115kts_78p16_res1p0-cr300-clean.png.yaml
+      - tests/outputs/oscat_knmi.tc.windbarbs.imagery_windbarbs/20210209_025351_SH192021_oscat_scatsat-1_windbarbs_135kts_75p10_1p0.png.yaml
+      - tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml
+      - tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

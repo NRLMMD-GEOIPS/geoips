@@ -35,8 +35,8 @@ def area_def_to_yamldict(area_def):
     #     area_def.proj_dict["lon_0"],
     #     center_x=0,
     #     center_y=0,
-    #     pix_x=area_def.x_size,
-    #     pix_y=area_def.y_size,
+    #     pix_x=area_def.width,
+    #     pix_y=area_def.height,
     #     pix_width_m=area_def.pixel_size_x,
     #     pix_height_m=area_def.pixel_size_y,
     # )
