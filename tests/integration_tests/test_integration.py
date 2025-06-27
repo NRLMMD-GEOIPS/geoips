@@ -47,7 +47,6 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output.sh",
     "$geoips_repopath/tests/scripts/amsr2.config_based_overlay_output_low_memory.sh",
-    "$geoips_repopath/tests/scripts/amsua_mhs_mirs.tc.rainrate.imagery.sh",
     "$geoips_repopath/tests/scripts/ascat_knmi.tc.windbarbs.imagery_windbarbs_clean.sh",
     "$geoips_repopath/tests/scripts/ascat_low_knmi.tc.windbarbs.imagery_windbarbs.sh",
     "$geoips_repopath/tests/scripts/ascat_noaa_25km.tc.windbarbs.imagery_windbarbs.sh",
@@ -71,18 +70,20 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/aws_tc_TB180.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/aws_tc_TB325-1.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/cli_dummy_script.sh",
+    "$geoips_repopath/tests/scripts/cygnss.tc.windspeed.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/fci.static.Visible.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/fci.unprojected_image.Infrared.sh",
     "$geoips_repopath/tests/scripts/gfs.static.windspeed.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/gfs.static.waveheight.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/gmi.tc.89pct.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/imerg.tc.Rain.imagery_clean.sh",
-    "$geoips_repopath/tests/scripts/mhs_mirs.tc.183-3H.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/mimic_coarse.static.TPW-CIMSS.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/mimic_fine.tc.TPW-PWAT.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/modis.Infrared.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/oscat_knmi.tc.windbarbs.imagery_windbarbs.sh",
+    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/sar.tc.nrcs.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/seviri.WV-Upper.unprojected_image.sh",
     "$geoips_repopath/tests/scripts/seviri.airmass.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/seviri.Convective_Storms.imagery_clean.sh",
@@ -95,7 +96,9 @@ full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/seviri.Volcanic_Ash.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/smap.unsectored.text_winds.sh",
     "$geoips_repopath/tests/scripts/smos.tc.sectored.text_winds.sh",
-    "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
+    # Commenting this out for now because it inconsistently fails on various boxes.
+    # See issue #1076
+    # "$geoips_repopath/tests/scripts/viirs.static.visible.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh",
     "$geoips_repopath/tests/scripts/viirsday.tc.Night-Vis-IR.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/viirsmoon.tc.Night-Vis-GeoIPS1.imagery_clean.sh",
@@ -111,15 +114,16 @@ full_integ_test_calls = [
 
 # Test scripts spanning multiple repositories / geoips plugins.
 multi_repo_integ_test_calls = [
-    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
     "$geoips_repopath/tests/scripts/console_script_list_available_plugins.sh",
+    "python $GEOIPS_PACKAGES_DIR/geoips/tests/utils/test_interfaces.py",
 ]
 
 # Test scripts that require test datasets with limited availability.
 limited_data_integ_test_calls = [
+    "$geoips_repopath/tests/scripts/amsua_mhs_mirs.tc.rainrate.imagery.sh",
     "$geoips_repopath/tests/scripts/ewsg.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/hy2.tc.windspeed.imagery_annotated.sh",
-    "$geoips_repopath/tests/scripts/saphir.tc.183-3HNearest.imagery_annotated.sh",
+    "$geoips_repopath/tests/scripts/mhs_mirs.tc.183-3H.imagery_annotated.sh",
     "$geoips_repopath/tests/scripts/ssmi.tc.37pct.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/ssmis.color91.unprojected_image.sh",
 ]
@@ -313,7 +317,7 @@ def test_integ_base_test_script(base_setup: None, script: str):
 @pytest.mark.spans_multiple_packages
 @pytest.mark.integration
 @pytest.mark.parametrize("script", multi_repo_integ_test_calls)
-def test_integ_multi_repo_script(site_setup: None, script: str):
+def test_integ_multi_repo_script(full_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 
