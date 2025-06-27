@@ -6,6 +6,7 @@ feature:
     - ''
 
     moved:
+    - ''
     # - 'geoips/{pydantic => models}/__init__.py'
     # - 'geoips/{pydantic => models/v1}/bases.py'
     # - 'geoips/{pydantic => models/v1}/feature_annotators.py'
