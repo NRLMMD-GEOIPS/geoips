@@ -3,6 +3,7 @@ feature:
   description: 'Use "apiVersion" to support versioned schema and models validation.'
   files:
     deleted:
+    - ''
 
     moved:
     - 'geoips/{pydantic => models}/__init__.py'
