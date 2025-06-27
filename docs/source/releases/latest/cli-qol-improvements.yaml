@@ -19,6 +19,7 @@ enhancement:
       - geoips/commandline/geoips_describe.py
       - geoips/commandline/geoips_list.py
       - geoips/geoips_utils.py
+      - tests/unit_tests/commandline/test_help_sorting.py
   related-issue:
     number: null
     repo_url: ''
