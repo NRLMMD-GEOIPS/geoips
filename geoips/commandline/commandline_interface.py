@@ -167,7 +167,15 @@ def support_legacy_procflows():
     """
     defined_procflow = None
     # Including '-h' here as we need to be able to support help messages for this cmd
-    supported_procflows = ["config_based", "data_fusion", "single_source", "-h"]
+    supported_procflows = [
+        "config_based",
+        "data_fusion",
+        "order_based",
+        "ob",
+        "obp",
+        "single_source",
+        "-h",
+    ]
     if (
         os.path.basename(sys.argv[0]) == "geoips"
         and len(sys.argv) > 2
