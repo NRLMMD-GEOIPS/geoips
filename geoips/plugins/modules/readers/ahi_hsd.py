@@ -3,6 +3,9 @@
 
 """Advanced Himawari Imager Data Reader."""
 
+# cspell:ignore BADVALS, FLDK, GEOLL, GSICS, adname, calib, cfac, currchan, dsname
+# cspell:ignore sclunit, nprocs, gvars, nseg, segs
+
 # Python Standard Libraries
 from datetime import datetime, timedelta, timezone
 from glob import glob
@@ -796,7 +799,7 @@ def _get_metadata_block_08(df, block_info):
         )
         block_data["line_shift_amount"][info_ind] = np.frombuffer(
             data[start + 6 : start + 10], dtype="float32"
-        )
+        )[0]
         start += 10
     block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
 
@@ -833,7 +836,7 @@ def _get_metadata_block_09(df, block_info):
         )
         block_data["ob_time"][info_ind] = np.frombuffer(
             data[start + 2 : start + 10], dtype="float64"
-        )
+        )[0]
         start += 10
     block_data["spare"] = data[start : start + 40].decode("ascii").replace("\x00", "")
 
@@ -958,7 +961,7 @@ def _check_file_consistency(metadata):
     If any differ, returns False.
     """
     # Checks start dates without comparing times.
-    # Times are uncomparable using this field, but are compared below using ob_timeline.
+    # Times are incomparable using this field, but are compared below using ob_timeline.
     start_dates = [
         int(metadata[fname]["block_01"]["ob_start_time"]) for fname in metadata.keys()
     ]
@@ -980,7 +983,7 @@ def _check_file_consistency(metadata):
     for block in members_to_check.keys():
         for field in members_to_check[block].keys():
             member_vals = [metadata[fname][block][field] for fname in metadata.keys()]
-            # This tests to be sure that all elemnts in member_vals are equal
+            # This tests to be sure that all elements in member_vals are equal
             # If they aren't all equal, then return False
             if member_vals[1:] != member_vals[:-1]:
                 return False
@@ -1153,7 +1156,8 @@ def call_single_time(
                 )
                 continue
         try:
-            all_metadata[fname] = _get_metadata(open(fname, "rb"))
+            with open(fname, "rb") as file_stream:
+                all_metadata[fname] = _get_metadata(file_stream)
         except IOError as resp:
             LOG.exception("BAD FILE %s skipping", resp)
             if ".bz2" in fname:
