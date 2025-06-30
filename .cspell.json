@@ -10,6 +10,8 @@
         "CIRA",
         "CIRA's",
         "CLAVR-x",
+	"CLAVR",
+	"coveragerc",
         "ECMWF",
         "ESRL",
         "EUMETSAT",
@@ -672,6 +674,7 @@
         "tmp",
         "ttt",
         "volc", // volcano
+	"xdist",
         "xyz",
         "yyyy",
         "yyyyddd",
