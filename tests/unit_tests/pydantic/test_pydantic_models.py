@@ -10,7 +10,8 @@ from tests.unit_tests.pydantic.utils import (
     load_geoips_yaml_plugin,
     retrieve_model,
     validate_bad_plugin,
-    validate_good_plugin,
+    validate_base_plugin,
+    validate_neutral_plugin,
 )
 
 
@@ -45,20 +46,31 @@ def load_good_plugins(models_available):
 
 
 # Generate separate test cases for each interface
-def generate_test_cases():
+def generate_test_cases(test_type):
     """Generate test cases used for pydantic validation.
 
     Where each case is a pytest parameter set, Formatted:
     param(argval=(interface_name, test_case[dict]), id={interface_name}_{test_id})
 
+    Parameters
+    ----------
+    test_type: str
+        - The type of test being ran. Must be one of ["bad", "neutral"].
+
     Returns
     -------
     cases: list[pytest.param]
         - A list of pytest parameters representing cases to test.
+
+    Raises
+    ------
+    ValueError:
+        - Raised if test_type isn't one of 'bad' or 'neutral'. (Raised via
+          load_test_cases).
     """
     cases = []
     for interface in models_available.keys():
-        test_cases = load_test_cases(interface)
+        test_cases = load_test_cases(interface, test_type)
         for key, value in test_cases.items():
             print(interface, key)
             cases.append(pytest.param((interface, value), id=f"{interface}_{key}"))
@@ -82,10 +94,10 @@ def test_good_plugin(good_plugin):
         - A dictionary representing a valid GeoIPS plugin.
     """
     model = retrieve_model(good_plugin)
-    validate_good_plugin(good_plugin, model)
+    validate_base_plugin(good_plugin, model)
 
 
-@pytest.mark.parametrize("test_tup", generate_test_cases())
+@pytest.mark.parametrize("test_tup", generate_test_cases("bad"))
 def test_bad_plugins(test_tup):
     """Perform validation on GeoIPS plugins, including failing cases.
 
@@ -98,3 +110,18 @@ def test_bad_plugins(test_tup):
     plugin = PathDict(deepcopy(good_plugins[test_tup[0]]))
     model = retrieve_model(plugin)
     validate_bad_plugin(plugin, test_tup[1], model)
+
+
+@pytest.mark.parametrize("test_tup", generate_test_cases("neutral"))
+def test_neutral_plugins(test_tup):
+    """Perform validation on GeoIPS plugins, including neutral cases.
+
+    Parameters
+    ----------
+    test_tup:
+        - A tuple formatted (interface_name, (key, value, class, err_str)), Formatted:
+          (str, (str, any, str, str)) used to run and validate tests.
+    """
+    plugin = PathDict(deepcopy(good_plugins[test_tup[0]]))
+    model = retrieve_model(plugin)
+    validate_neutral_plugin(plugin, test_tup[1], model)

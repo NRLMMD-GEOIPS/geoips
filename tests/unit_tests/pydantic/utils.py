@@ -3,14 +3,16 @@
 
 """Generic testing utilities used for pydantic unit testing."""
 
-# from collections import UserDict
 import logging
 from importlib.resources import files
-import os
+from pathlib import Path
 import pytest
 from copy import deepcopy
-from pydantic import ValidationError
+from typing import Any, Tuple, Type
+import warnings
 import yaml
+
+from pydantic import BaseModel, Field, model_validator, ValidationError
 
 from geoips import interfaces
 from geoips import pydantic as geoips_pydantic
@@ -54,7 +56,40 @@ class PathDict(dict):
             dict.__setitem__(self, key, value)
 
 
-def load_test_cases(interface_name):
+class TestCaseModel(BaseModel):
+    """YAML-based test case input model validation.
+
+    This pydantic model validates the structure of test case inputs defined in YAML. It
+    ensures that required keys and value types are correctly specified for each test
+    case.
+    """
+
+    test_case_id: str = Field(
+        ..., description="Unique identifier for the individual test case."
+    )
+    description: str = Field(
+        None, description="Short description of the test case and its purpose."
+    )
+    key: str = Field(..., description="Path to the attribute being mutated.")
+    val: Any = Field(..., description="The value to set for the given key.")
+    cls: object = Field(..., description="The name of the model expected to fail.")
+    err_str: str = Field(
+        ..., description="Expected error message fragment for the ValidationError."
+    )
+
+    @model_validator(mode="before")
+    @classmethod
+    def _warn_if_missing_description(cls, values):
+        if "description" not in values:
+            warnings.warn(
+                f"Test case '{values.get('test_case_id', '[unknown]')}' is missing a"
+                f"description. This warning will become an error in GeoIPS 1.18.",
+                UserWarning,
+            )
+        return values
+
+
+def load_test_cases(interface_name: str, test_type: str) -> dict:
     """Load a set of test cases used to validate pydantic model(s).
 
     This can either be a top level model, such as SectorPluginModel, or a component
@@ -64,34 +99,43 @@ def load_test_cases(interface_name):
     ----------
     interface_name: str
         - The name of the interface that's going to be tested.
+    test_type: str
+        - The category of the test cases to load - either "bad" or "neutral".
 
     Returns
     -------
     test_cases: dict
         - The dictionary of test cases used to validate your model.
     """
-    fpath = f"{os.path.dirname(__file__)}/{interface_name}/test_cases.yaml"
-    if not os.path.exists(fpath):
+    if test_type not in ("bad", "neutral"):
+        raise ValueError(f"Unsupported test type: {test_type}")
+
+    fname = f"test_cases_{test_type}.yaml"
+    base_dir = Path(__file__).parent
+    fpath = base_dir / interface_name / fname
+
+    if not fpath.exists():
         raise FileNotFoundError(
-            f"Error: No test cases file could be found. Expected {fpath} but it did not"
-            " exist. Please create this file and rerun your tests."
+            f"Error: No test cases file could be found. Expected {fpath} but it "
+            "does not exist. Please create this file and rerun your tests."
         )
-    with open(fpath, "r") as fo:
-        test_cases = yaml.safe_load(fo)
 
-    for id, val in test_cases.items():
-        for key in list(val.keys()):
-            if key not in ("key", "val", "cls", "err_str", "warn_match"):
-                error = (
-                    f"ERROR: test_case '{id}' has item with key '{key}' which is an "
-                    "invalid test case key. We only support the full set of keys "
-                    "[key, val, cls, err_str] at this moment."
-                )
-                raise RuntimeError(error)
-    return test_cases
+    with fpath.open("r") as fo:
+        raw_test_cases = yaml.safe_load(fo)
+
+    validated_test_cases = {}
+    for test_case_id, raw_test_case in raw_test_cases.items():
+        try:
+            raw_test_case["test_case_id"] = test_case_id
+            validated_test_case = TestCaseModel(**raw_test_case)
+            validated_test_cases[test_case_id] = validated_test_case
+        except ValidationError as e:
+            raise RuntimeError(f"Invalid test case '{test_case_id}': {e}")
+
+    return validated_test_cases
 
 
-def load_geoips_yaml_plugin(interface_name, plugin_name):
+def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
     """Load a GeoIPS YAML plugin via yaml.safe_load, not interface.get_plugin.
 
     This will be used until we convert all of our schema to pydantic. If we load a
@@ -129,6 +173,7 @@ def load_geoips_yaml_plugin(interface_name, plugin_name):
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
+    print("relpaht \t", relpath)
     abspath = str(files("geoips") / relpath)
     package = "geoips"
 
@@ -172,20 +217,7 @@ def retrieve_model(plugin):
     return model
 
 
-def validate_good_plugin(good_plugin, plugin_model):
-    """Assert that a well formatted plugin is valid.
-
-    Parameters
-    ----------
-    good_plugin: dict
-        - A dictionary representing a valid plugin.
-    plugin_model: instance or child of geoips.pydantic.bases.PluginModel
-        - The pydantic-based model used to validate this plugin.
-    """
-    plugin_model(**good_plugin)
-
-
-def _validate_test_tup_keys(test_tup: dict) -> tuple:
+def _validate_test_tup_keys(test_tup: TestCaseModel) -> Tuple[str, Any, str, str]:
     """Ensure test_tup contains either 'err_str' or 'warn_match', and extract values.
 
     Parameters
@@ -195,10 +227,8 @@ def _validate_test_tup_keys(test_tup: dict) -> tuple:
             - 'key' (str): Path to the attribute being mutated.
             - 'val' (any): The value to set for the given key.
             - 'cls' (str): The name of the model expected to fail.
-            - 'err_str' (str, optional): Expected error message fragment for the
+            - 'err_str' (str): Expected error message fragment for the
                 ValidationError.
-            - 'warn_match' (str, optional): Expected warning message fragment if a
-                warning is tested.
 
     Returns
     -------
@@ -210,18 +240,12 @@ def _validate_test_tup_keys(test_tup: dict) -> tuple:
     ValueError
         If neither or both 'err_str' and 'warn_match' are provided.
     """
-    key = test_tup["key"]
-    val = test_tup["val"]
-    failing_model = test_tup["cls"]
-    err_str = test_tup.get("err_str")
-    warn_match = test_tup.get("warn_match")
+    key = test_tup.key
+    val = test_tup.val
+    failing_model = test_tup.cls
+    err_str = test_tup.err_str
 
-    if err_str is not None and warn_match is not None:
-        raise ValueError("Only one of 'err_str' or 'warn_match' should be set.")
-    elif err_str is None and warn_match is None:
-        raise ValueError("At least one of 'err_str' or 'warn_match' must be provided.")
-
-    return key, val, failing_model, err_str, warn_match
+    return key, val, failing_model, err_str
 
 
 def _resolve_model_class(failing_model):
@@ -263,7 +287,48 @@ def _attempt_to_associate_model_with_error(
     return errors[-1]
 
 
-def validate_bad_plugin(good_plugin, test_tup, plugin_model):
+def validate_base_plugin(base_plugin: dict, plugin_model: Type):
+    """Run a base test to assert that a well-formatted plugin is valid.
+
+    Parameters
+    ----------
+    base_plugin: dict
+        - A dictionary representing a valid plugin.
+    plugin_model: instance or child of geoips.pydantic.bases.PluginModel
+        - The pydantic-based model used to validate this plugin.
+    """
+    plugin_model(**base_plugin)
+
+
+def validate_neutral_plugin(
+    base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: type
+):
+    """Run a neutral test to check for expected FutureWarnings in a plugin.
+
+    Parameters
+    ----------
+    base_plugin: dict
+        - A dictionary representing a plugin that is valid.
+    test_tup:
+        - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
+          used to run and validate tests.
+    plugin_model: instance or child of geoips.pydantic.bases.PluginModel
+        - The pydantic-based model used to validate this plugin.
+    """
+    key, val, failing_model, err_str = _validate_test_tup_keys(test_tup)
+
+    neutral_plugin = deepcopy(base_plugin)
+    neutral_plugin[key] = val
+
+    if err_str:
+        with pytest.warns(FutureWarning, match=err_str):
+            plugin_model(**neutral_plugin)
+        return
+
+
+def validate_bad_plugin(
+    base_plugin: dict, test_tup: Tuple[str, Any, str, str], plugin_model: Type
+):
     """Perform validation on any GeoIPS plugin, ensuring correct ValidationErrors occur.
 
     Current supported plugins include readers and sectors. More to come in the future,
@@ -272,7 +337,7 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
 
     Parameters
     ----------
-    good_plugin: dict
+    base_plugin: dict
         - A dictionary representing a plugin that is valid.
     test_tup:
         - A tuple formatted (key, value, class, err_str), formatted (str, any, str, str)
@@ -280,20 +345,15 @@ def validate_bad_plugin(good_plugin, test_tup, plugin_model):
     plugin_model: instance or child of geoips.pydantic.bases.PluginModel
         - The pydantic-based model used to validate this plugin.
     """
-    key, val, failing_model, err_str, warn_match = _validate_test_tup_keys(test_tup)
+    key, val, failing_model, err_str = _validate_test_tup_keys(test_tup)
 
-    bad_plugin = deepcopy(good_plugin)
+    bad_plugin = deepcopy(base_plugin)
     bad_plugin[key] = val
 
     # ValidationErrors won't occur for these fields at the moment.
     # Skip the testing until the validators are implemented.
     validation_to_be_implemented = ["abspath", "relpath", "package"]
     if key in validation_to_be_implemented:
-        return
-
-    if warn_match:
-        with pytest.warns(FutureWarning, match=warn_match):
-            plugin_model(**bad_plugin)
         return
 
     try:
