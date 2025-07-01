@@ -15,7 +15,7 @@ import yaml
 from pydantic import BaseModel, Field, model_validator, ValidationError
 
 from geoips import interfaces
-from geoips import pydantic as geoips_pydantic
+from geoips import models as geoips_models
 
 
 LOG = logging.getLogger(__name__)
@@ -220,10 +220,10 @@ def _validate_test_tup_keys(test_tup: TestCaseModel) -> Tuple[str, Any, str, str
 
 def _resolve_model_class(failing_model):
     """Resolve the actual Pydantic model class by name."""
-    for mod in geoips_pydantic._modules:
-        if failing_model in geoips_pydantic._classes[mod]:
-            return getattr(geoips_pydantic._modules[mod], failing_model)
-        if hasattr(geoips_pydantic._modules[mod], failing_model):
+    for mod in geoips_models._modules:
+        if failing_model in geoips_models._classes[mod]:
+            return getattr(geoips_models._modules[mod], failing_model)
+        if hasattr(geoips_models._modules[mod], failing_model):
             # This behavior occurs for the 'ColorType' attribute, which is
             # a type instance but not actually a pydantic class.
             return None

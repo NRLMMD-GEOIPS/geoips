@@ -93,6 +93,7 @@
         "pyproject",
         "pypublicdecompwt",
         "pyresample",
+        "pyroCb",
         "pystac",
         "pytest",
         "pytests",
@@ -669,6 +670,7 @@
         "stderr",
         "stdin",
         "stdout",
+        "subplg",
         "tmp",
         "ttt",
         "volc", // volcano
