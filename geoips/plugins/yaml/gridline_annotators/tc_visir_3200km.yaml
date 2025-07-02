@@ -3,6 +3,7 @@ family: cartopy
 name: tc_visir_3200km
 docstring: |
   The TC Visible Infrared 3200km gridline_annotators configuration.
+
   All gridline labels enabled, latitude and longitude lines colored
   #000000, 5 degree spacing, 1px linewidth, and [4, 2] linestyle
 spec:
