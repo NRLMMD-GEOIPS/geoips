@@ -681,6 +681,7 @@
         "YYYYMMDDTHHMMZ",
         "yyyymmdd",
         "zzz",
+        "zorder",
     ],
     // --- Global Ignore Patterns ---
     // Regular expressions for patterns to ignore globally

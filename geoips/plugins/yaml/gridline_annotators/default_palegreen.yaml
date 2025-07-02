@@ -2,7 +2,9 @@ interface: gridline_annotators
 family: cartopy
 name: default_palegreen
 docstring: |
-  The default_palegreen gridline_annotators plugin. Top and left gridline labels
+  The default_palegreen gridline_annotators plugin.
+
+  Top and left gridline labels
   (offset 50 px), latitude and longitude lines colored black, auto spacing, 1px
   linewidth, and [4, 2] linestyle. palegreen background color.
 spec:
