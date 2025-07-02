@@ -1,3 +1,4 @@
+# cspell:ignore knmi, viirsday
 deprecation:
 - title: 'Update deprecated area_def.x-y_size and area_def.name calls.'
   description: |
