@@ -1662,6 +1662,8 @@ def get_data(
         sample_inds = gvars["Samples"]
     else:
         full_disk = True
+        line_inds = None
+        sample_inds = None
 
     band_num = md["var_info"]["band_id"]
 
