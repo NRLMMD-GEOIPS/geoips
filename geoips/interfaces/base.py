@@ -577,6 +577,8 @@ class BaseYamlInterface(BaseInterface):
         family_list = []
         plugin_ids = {}
         for plugin in plugins:
+            # TODO: Refactor to remove this `if` block after full migration from JSON
+            # to Pydantic schemas.
             if hasattr(plugin, "model_dump"):
                 pdata = plugin.model_dump()
             else:
