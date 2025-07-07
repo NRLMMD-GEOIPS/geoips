@@ -222,10 +222,10 @@ def set_tc_area_def(
     area_def.sector_info = {}
 
     # area_def.description is Python3 compatible,
-    # and area_def.name is Python2 compatible
+    # and area_def.description is Python2 compatible
     area_def.description = long_description
-    if not hasattr(area_def, "name"):
-        area_def.name = long_description
+    if not hasattr(area_def, "description"):
+        area_def.description = long_description
 
     from geoips.geoips_utils import replace_geoips_paths
 
