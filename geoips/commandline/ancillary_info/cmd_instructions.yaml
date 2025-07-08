@@ -34,6 +34,10 @@ instructions:
 
       To install all available datasets, use `geoips config install all`. Note that this
       will require more than 100GB of space.
+
+      You can force a dataset to be installed (even if it already exists) via `--force.`
+    usage_str: |
+      To use, type `geoips config install <test_dataset_name> --outdir <path> --force`.
     output_info:
       - Not Applicable
   geoips_config_create-registries:
@@ -50,7 +54,10 @@ instructions:
       json format for each. If a different namespace is desired, `-n/--namespace` may be
       provided to specify that namespace. A subset of the available packages can be
       operated on by providing `-p/--packages`. The format can be specified by passing
-      `-s/--save_type`.
+      `-s/--save-type`.
+    usage_str: |
+      To use, type `geoips config create-registries --save-type <save-type> --packages
+      <packages>`.
     output_info:
       - Not Applicable
   geoips_config_delete-registries:
@@ -301,6 +308,7 @@ instructions:
     output_info:
       - Data Host
       - Dataset Name
+      - Size
   geoips_list_unit-tests:
     help_str: "List the unit tests from a GeoIPS package."
     description: |
