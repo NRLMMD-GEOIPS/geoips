@@ -22,7 +22,13 @@ with import_optional_dependencies(loglevel="info"):
     # 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA
     # every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to
     # install it.
-    from data_fusion.commandline.args import add_args as data_fusion_add_args
+    try:
+        from data_fusion.commandline.args import add_args as data_fusion_add_args
+    except ModuleNotFoundError as e:
+        try:
+            from geoips_data_fusion.commandline.args import add_args as data_fusion_add_args
+        except ModuleNotFoundError:
+            raise e
 
     data_fusion_installed = True
 
