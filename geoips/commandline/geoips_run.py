@@ -26,8 +26,7 @@ with import_optional_dependencies(loglevel="info"):
         from data_fusion.commandline.args import add_args as data_fusion_add_args
     except ModuleNotFoundError as e:
         try:
-            from geoips_data_fusion.commandline.args import add_args as \
-                data_fusion_add_args
+            from geoips_data_fusion.commandline.args import add_args as data_fusion_add_args # noqa
         except ModuleNotFoundError:
             raise e
 
