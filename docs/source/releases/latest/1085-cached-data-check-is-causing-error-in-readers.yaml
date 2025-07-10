@@ -1,6 +1,6 @@
 bug fix:
 - title: 'Fixing Uninstantiated Variables in abi_netcdf reader'
-  description: 'Checking for cached data introduced an error in abi_netcdf reader. This fixes that error as well as a downstream error where a datetime wasn''t timezone-aware'
+  description: 'Checking for cached data introduced an error in abi_netcdf reader. This fixes that error as well as a downstream error where a datetime was not timezone-aware'
   files:
     added:
     - 'docs/source/releases/latest/1085-cached-data-check-is-causing-error-in-readers.yaml'
