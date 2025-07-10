@@ -4,7 +4,7 @@ from copy import deepcopy
 
 import pytest
 
-from tests.unit_tests.pydantic.utils import (
+from tests.unit_tests.models.v1.utils import (
     PathDict,
     load_test_cases,
     load_geoips_yaml_plugin,
