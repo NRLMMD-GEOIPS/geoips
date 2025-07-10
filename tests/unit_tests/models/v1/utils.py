@@ -203,7 +203,7 @@ def retrieve_model(plugin):
         - The associated plugin model used to validate this plugin.
     """
     interface = plugin["interface"]
-    module = geoips_pydantic._modules[f"geoips.pydantic.{interface}"]
+    module = geoips_models._modules[f"geoips.pydantic.{interface}"]
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"
