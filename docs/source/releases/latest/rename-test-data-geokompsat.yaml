@@ -1,0 +1,18 @@
+testing:
+- title: 'Rename test_data_geokompsat to test_data_ami.'
+  description: |
+    Renamed test_data_geokompsat to test_data_ami to have consistent naming for all
+    geostationary satellite test datasets. I.e. test_data_<geo_sensor_name>.
+
+    Additionally added another entry to the .gitignore file to ignore
+    registered_plugins.yaml files.
+  files:
+    modified:
+      - .gitignore
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
