@@ -77,7 +77,6 @@ def get_plugin_kinds() -> set[str]:
         str(Lexeme(plugin_kinds).singular)
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
-
     }
 
 
