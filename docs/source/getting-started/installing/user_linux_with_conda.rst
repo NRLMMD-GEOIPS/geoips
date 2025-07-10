@@ -5,6 +5,9 @@
 
 .. _linux-installation:
 
+This page describes the installation of GeoIPS using wheels from PyPI. It is ideally
+suited for users who do not intend to modify the source code.
+
 Conda-based Installation for Linux
 **********************************
 
