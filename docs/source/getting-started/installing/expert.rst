@@ -3,75 +3,65 @@
  | # # # This source code is subject to the license referenced at
  | # # # https://github.com/NRLMMD-GEOIPS.
 
-.. _expert-installation:
+.. _user-installation:
 
-Expert User Installation (with administrative privileges)
-*********************************************************
+User Installation
+*****************
 
-The :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
-is the easiest way to get GeoIPS up and running, but if you have administrative
-privileges on your system, and are confident you can install all the required
-system dependencies yourself, you can install GeoIPS by setting a few environment
-variables for testing purposes.
+This guide is for users who want to install GeoIPS. For development work, see the Contribute section.
 
-Expert User GeoIPS Installation
-===============================
+**For the fully supported installation with all dependencies managed automatically, use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
+
+PyPI Installation
+=================
+
+The simplest way to install GeoIPS is via pip:
+
+.. code:: bash
+
+    pip install geoips
+
+This installs the core GeoIPS package with basic functionality.
 
 System Dependencies
 -------------------
 
-**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`
-**for the fully supported installation, which includes all
-dependencies**
+GeoIPS requires Python >= 3.11. Most other dependencies are handled automatically by pip, but you may need to install these system packages depending on your use case:
 
-Required (**included in**
-:ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`)
+Optional system dependencies:
 
-* wget (Miniconda installation)
-* git >= 2.19.1 (git -C commands in complete installation)
-* openblas (required for scipy pip install)
-* make (required for pypublicdecompwt)
-* Python >= 3.11 (>=3.9 required for entry points, >=3.10 required for importlib
-  improvements, >=3.11 required for config file and efficiency improvements)
-* Test data repos contained in $GEOIPS_TESTDATA_DIR
-  (required for tests to pass)
-* pdflatex (optional, for building pdf documentation)
-  (required for tests to pass)
+* libopenblas-dev (for enhanced performance with scipy)
+* make (required for some optional features)
 
-Optional
+Environment Variables
+---------------------
 
-* gfortran (only required for plugins including fortran builds, build-essential)
-* gcc & g++ (required for plugins including fortran or C builds, build-essential)
-* screen (convenience package)
-* ncurses (only required if building vim, ncurses and libncurses5-dev)
-
-Minimal install
----------------
-
-**Use the** :ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
-**for the fully supported installation, which includes all
-dependencies**
-
-If you are confident you have all system requirements installed
-(Python+cartopy), and do not wish to go through the full
-installation process (which includes conda, rclone, test data, etc),
-you can clone the geoips repo and pip install from your local copy.
-
-**For the fully supported installation, please use the**
-:ref:`Complete Local conda-based GeoIPS Installation<linux-installation>`.
+Set this environment variable for output files:
 
 .. code:: bash
 
-    # NOTE: ALL dependencies above MUST be installed/available
-    #       to use this installation method.
-    # Please follow complete conda-based installation in the
-    #       next section for fully supported complete install.
-    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS
-    export GEOIPS_PACKAGES_DIR=<installation_location>
-    export GEOIPS_TESTDATA_DIR=<desired_test_data_location>
     export GEOIPS_OUTDIRS=<desired_output_file_location>
 
-    git clone $GEOIPS_REPO_URL/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-    pip install -e $GEOIPS_PACKAGES_DIR/geoips
-    $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-    $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh
+Docker Installation
+===================
+
+A Docker image is available for both users and developers:
+
+.. code:: bash
+
+    docker pull geoips/geoips:doclinttest-latest
+
+Note: The current public image builds to a development stage. For production use, you may need to build a custom image from the provided Dockerfile.
+
+WARNING: The current dockerfile is in development, please expect it to have breaking changes.
+
+Plugin Levels
+=============
+
+The GeoIPS Dockerfile supports different plugin levels:
+
+* **Base**: Core functionality (included with pip install)
+* **Full**: Additional plugins for extended capabilities
+* **System**: Complete plugin suite
+
+The pip installation provides the base level. Additional plugins require separate installation or the developer setup.
