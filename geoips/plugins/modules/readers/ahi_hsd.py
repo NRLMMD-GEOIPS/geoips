@@ -1549,7 +1549,7 @@ def call_single_time(
     LOG.info("")
 
     print_mem_usage("MEMUSG", verbose=False)
-    process_datetimes["overall_end"] = datetime.utcnow()
+    process_datetimes["overall_end"] = datetime.now(timezone.utc)
 
     output_process_times(process_datetimes, job_str="AHI HSD Reader")
     return xarray_objs
