@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore invf glle
+
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
 # Python Standard Libraries
