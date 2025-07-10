@@ -6,6 +6,7 @@ bug fix:
     - 'docs/source/releases/latest/1085-cached-data-check-is-causing-error-in-readers.yaml'
     modified:
     - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    - 'geoips/plugins/modules/readers/ahi_hsd.py'
   related-issue:
     number: 1085
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
