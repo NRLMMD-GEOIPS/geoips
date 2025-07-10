@@ -1,6 +1,7 @@
 test_data_urls:
   test_data_abi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_abi_1.15.1_github.com.tgz"
   test_data_ahi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ahi_1.15.1_github.com.tgz"
+  test_data_ami: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_ami_1.15.1_github.com.tgz"
   test_data_amsr2: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_amsr2_1.6.0_github.com.tgz"
   test_data_amsub: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_amsub.tgz"
   test_data_arctic_weather_satellite: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_arctic_weather_satellite_1.15.3_github.com.tgz"
@@ -12,7 +13,6 @@ test_data_urls:
   # test_data_ewsg: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
   test_data_fusion: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_fusion.tgz"
   test_data_geocolor: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_geocolor.tgz"
-  test_data_geokompsat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_geokompsat_1.15.3_github.com.tgz"
   test_data_gfs: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gfs_1.15.3_github.com.tgz"
   test_data_gpm: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_gpm_1.6.0_github.com.tgz"
   # test_data_hy2: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
