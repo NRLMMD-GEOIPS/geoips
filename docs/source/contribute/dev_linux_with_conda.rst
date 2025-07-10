@@ -164,7 +164,7 @@ and run integration tests:
 7. OPTIONAL: Capture working requirements.txt for base install
 --------------------------------------------------------------
 
-OPTIONAL: These can be commited to the repository for reference - only commit if
+OPTIONAL: These can be committed to the repository for reference - only commit if
 base_test.sh returns 0!  Not required.
 
 .. code:: bash
