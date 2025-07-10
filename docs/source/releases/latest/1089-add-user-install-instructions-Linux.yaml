@@ -1,5 +1,5 @@
 documentation:
-- title: 'Docs: user instructions for installing GeoIPS on Linux with Conda'
+- title: 'User instructions for installing GeoIPS on Linux with Conda'
   description: 'Add installation instructions for external users to install GeoIPS on Linux with Conda'
   files:
     deleted:
