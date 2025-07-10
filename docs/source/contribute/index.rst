@@ -26,4 +26,5 @@ Resources for Contributors
    coding-standards
    dev-assisted-package-creation
    git-workflow
+   dev-install
    testing/index
