@@ -5,8 +5,8 @@
 
 .. _user-installation:
 
-User Installation
-*****************
+Expert User Installation
+************************
 
 This guide is for users who want to install GeoIPS. For development work, see the Contribute section.
 
