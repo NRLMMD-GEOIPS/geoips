@@ -9,8 +9,6 @@ This page provides instructions for installing GeoIPS using wheels from PyPI in 
 virtual environment. This installation method is recommended for users who do not
 intend to modify the source code.
 
-**System-level prerequisite** : ``wget``
-
 1. Install Anaconda or Miniconda
 --------------------------------
 
