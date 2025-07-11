@@ -76,26 +76,23 @@ Once inside the `geoips` environment, install GeoIPS from PyPI:
     pip install geoips
     pip list | grep "geoips"  # verify that GeoIPS is installed and check its version
 
-3. Run A Script
----------------
-
-Running a sample script to test your installation requires downloading test data.
+3. Test Data Setup
+------------------
 
 GeoIPS test data download requires the following environment variables to be set:
-You can customize test data location by changing the value of ``$GEOIPS_PACKAGES_DIR``.
 
 .. code:: bash
 
-    # set the required environment variables
+    # GeoIPS Default Locations
+    # Point to base URL for git clone commands
     export GEOIPS_PACKAGES_DIR=$HOME/geoips
-    export GEOIPS_TESTDATA_DIR=GEOIPS_PACKAGES_DIR/test_data
-
-    # create required directories
+    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
+    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
     mkdir -p $GEOIPS_PACKAGES_DIR
-    mkdir -p $GEOIPS_TESTDATA_DIR
+    $GEOIPS_PACKAGES_DIR/geoips
 
-    # install the test dataset
-    geoips config install test_data_noaa_aws
+Note: You can customize test data location by changing the value of ``$GEOIPS_PACKAGES_DIR``.
+
 
 If desired, the GeoIPS environment variables can be added to your
 ``$HOME/.bashrc`` by running the following commands:
@@ -107,3 +104,7 @@ If desired, the GeoIPS environment variables can be added to your
 
 Run the script
 
+4. Run A Script
+---------------
+
+Running a sample script to test your installation requires downloading test data.
