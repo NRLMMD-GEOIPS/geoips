@@ -5,7 +5,7 @@
 
 import logging
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 import numpy
 import shutil
 
@@ -126,7 +126,9 @@ def write_text_winds(
     openstr = "w"
     if append:
         openstr = "a"
-    startdt_str = datetime.utcfromtimestamp(time_array[0]).strftime("%Y%m%d%H%M")
+    startdt_str = datetime.fromtimestamp(time_array[0], tz=timezone.utc).strftime(
+        "%Y%m%d%H%M"
+    )
     header = ""
 
     for text_fname in output_fnames:
@@ -150,7 +152,9 @@ def write_text_winds(
                 speed_array, time_array, lon_array, lat_array, dir_array
             ):
                 # dtstr = time.strftime('%Y%m%d%H%M')
-                dtstr = datetime.utcfromtimestamp(time).strftime("%Y%m%d%H%M")
+                dtstr = datetime.fromtimestamp(time, tz=timezone.utc).strftime(
+                    "%Y%m%d%H%M"
+                )
                 # if lon > 180:
                 #     lon = lon - 360
                 format_string = " {0:>3s} {1:>8.1f} {2:>6.1f} {3:>3d} {4:>3d} {5:s}\n"
@@ -164,7 +168,9 @@ def write_text_winds(
                 speed_array, time_array, lon_array, lat_array
             ):
                 # dtstr = time.strftime('%Y%m%d%H%M')
-                dtstr = datetime.utcfromtimestamp(time).strftime("%Y%m%d%H%M")
+                dtstr = datetime.fromtimestamp(time, tz=timezone.utc).strftime(
+                    "%Y%m%d%H%M"
+                )
                 # if lon > 180:
                 #     lon = lon - 360
                 format_string = "{0:>6s}{1:>8.2f}{2:>8.2f}{3:>4d} {4:s}\n"
@@ -175,12 +181,14 @@ def write_text_winds(
                 )
         output_products += [text_fname]
 
-    ctime = datetime.fromtimestamp(os.stat(text_fname).st_ctime)
+    ctime = datetime.fromtimestamp(os.stat(text_fname).st_ctime, tz=timezone.utc)
     LOG.info("    SUCCESS wrote out text windspeed file %s at %s", text_fname, ctime)
 
     for additional_text_fname in output_fnames:
         shutil.copy(text_fname, additional_text_fname)
-        ctime = datetime.fromtimestamp(os.stat(additional_text_fname).st_ctime)
+        ctime = datetime.fromtimestamp(
+            os.stat(additional_text_fname).st_ctime, tz=timezone.utc
+        )
         LOG.info(
             "    SUCCESS wrote out text windspeed file %s at %s",
             additional_text_fname,

@@ -19,7 +19,7 @@ Example of ATMS file names::
 
 Dataset info::
 
-    TB[12,96,22]:  for each granuel
+    TB[12,96,22]:  for each granule
 
     CHAN#  Center-Freq(GHz)  POL
     1      23.8               V
@@ -66,10 +66,10 @@ Notes
 Unix epoch time is defined as the number of seconds that have elapsed
 since January 1, 1970 (midnight UTC/GMT). Thus, there is a 12 years
 difference for the JPSS data when
-datetime.datetime.utcfromtimestamp(epoch) is used
+datetime.datetime.fromtimestamp(epoch, tc=timezone.utc) is used
 to convert the JPSS IDPS Epoch time to the humman-readable date.
 
-This reader is developed to read one granual a time from ATMS npp and
+This reader is developed to read one granule a time from ATMS npp and
 jpss-1(n20) data files.
 
 The example files are:
@@ -307,7 +307,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         source_file_names += [basename(fname)]  # name of last file from input files
     xarray_atms.attrs["source_file_names"] = source_file_names
 
-    # setup attributors
+    # setup attributes
     from geoips.xarray_utils.time import (
         get_max_from_xarray_time,
         get_min_from_xarray_time,

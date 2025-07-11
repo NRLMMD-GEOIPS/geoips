@@ -4,7 +4,7 @@
 """Advanced Himawari Imager Data Reader."""
 
 # Python Standard Libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from glob import glob
 import logging
 import os
@@ -1121,7 +1121,7 @@ def call_single_time(
     process_datetimes = {}
     LOG.debug("AHI reader test_arg: %s", test_arg)
     print_mem_usage("MEMUSG", verbose=False)
-    process_datetimes["overall_start"] = datetime.utcnow()
+    process_datetimes["overall_start"] = datetime.now(timezone.utc)
     gvars = {}
     datavars = {}
     adname = "undefined"

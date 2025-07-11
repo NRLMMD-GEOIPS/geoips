@@ -1,6 +1,9 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore nline, nparr, gvarlist, xvarname, xvarnames, btvarname, btlut,
+# cspell:ignore adname, llmask
+
 """VIIRS NetCDF reader.
 
 This VIIRS reader is designed for reading the NPP/JPSS VIIRS files geoips.
@@ -48,7 +51,7 @@ of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 """
 # Python Standard Libraries
 from collections import defaultdict
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import os
 
@@ -70,9 +73,6 @@ LOG = logging.getLogger(__name__)
 with import_optional_dependencies(loglevel="info"):
     """Attempt to import a package and print to LOG.info if the import fails."""
     import netCDF4 as ncdf
-
-
-# @staticmethod                                     # not sure where it is uwas used?
 
 
 VARLIST = {
@@ -159,7 +159,7 @@ xvarnames = {
 
 # IMG:
 #     I01(nline, npix): I-band 01 earth view reflectance (0-65527).
-#                                                                 range of vlaues: 0 - 1
+#                                                                 range of values: 0 - 1
 #                       add_offset=0,  scale_factor=1.9991758e-05,
 #                       radiance_scale_factor=0.010167242, radiance_add_offset=0,
 #                       radiance_units: Watts/meter^2/steradian/micrometer
@@ -186,16 +186,16 @@ xvarnames = {
 #     I04TB/I05TB     : associated TBs for I04/I05
 #
 #     Note: I04 and I05 converstion to TB will apply its TB conversion LUT. Since the
-#                       change of TB is so small bewteen the LUT index, we just take
+#                       change of TB is so small between the LUT index, we just take
 #                       value fo the I04/I05 as the LUT index (auto roundup) for easy
 #                       process. This way will have an error of TB less than 0.05K.
-#                       Otherwsie, a interpolation is needed for a more accurate TB.
+#                       Otherwise, a interpolation is needed for a more accurate TB.
 
 # MOD:
 
 #     M01 - M11(nline,npix):  M-band 01-11 earth view reflectance
 #     M12 - M16(nline,npix):  M-band 12-16 earth view radiance. will convert radiance
-#                                                                               anto TBs
+#                                                                               into TBs
 #     M12TB-M16TB:         :  associated TBs for M12-16
 #
 
@@ -237,12 +237,12 @@ def required_chan(chans, varnames):
     return False
 
 
-def required_geo_chan(xarrays, xvarname):
+def required_geo_chan(xarrays, varname):
     """Return True if required geolocation channel."""
     # for data_type in list(xarrays.keys()):
-    #     if xvarname in list(xarrays[data_type].keys()):
+    #     if varname in list(xarrays[data_type].keys()):
     #         LOG.info('        SKIPPING %s geolocation channel %s, xarray GEOLOCATION
-    #                           variable %s exists', data_type, xvarname, xvarname)
+    #                           variable %s exists', data_type, varname, varname)
     #         return False
     return True
 
@@ -288,7 +288,7 @@ def add_to_xarray(varname, nparr, xobj, dataset_masks, data_type, nparr_mask):
         # This was previously only being applied to "BT_CHANNELS", which
         # caused the unprojected test scripts to fail (due to incorrect
         # shape of the final mask array).  Removing that check so ALL
-        # variables are vstacked.
+        # variables are vertically stacked.
         dataset_masks[data_type] = numpy.vstack([dataset_masks[data_type], nparr_mask])
 
 
@@ -358,7 +358,7 @@ def call(
     for fname in sorted(fnames):
         # LOG.info('tst name= ', fname)
 
-        # # chech for right VIIRS file
+        # # check for right VIIRS file
         # if 'viirs' in os.path.basename(fname):
         #     LOG.info('found a VIIRS file')
         # else:
@@ -370,7 +370,7 @@ def call(
 
         LOG.info("    Trying file %s", fname)
 
-        # *************** input VIRRS variables *****************
+        # *************** input VIIRS variables *****************
 
         # read IMG  or MOD  or DNB files
 
@@ -408,11 +408,11 @@ def call(
 
         # convert it to UTC time in format: datetime.datetime(2020, 8, 26, 7,
         #                                                     48, 10, 445420)
-        Start_date = datetime.utcfromtimestamp(s_time[0])
-        End_date = datetime.utcfromtimestamp(e_time[-1])
+        Start_date = datetime.fromtimestamp(s_time[0], tz=timezone.utc)
+        End_date = datetime.fromtimestamp(e_time[-1], tz=timezone.utc)
 
         #    ************  setup VIIRS xarray variables *****************
-        #    only the avaialble fileds are arranged in the xaaray object
+        #    only the available fields are arranged in the xarray object
         #         the missing fields in the data file are not included.
         #         i.e, if I01-03 are missing the *IMG file, then only I04 and
         #              I05 fields will be processed and output to Xarray
@@ -452,7 +452,7 @@ def call(
             )
             return {"METADATA": xarrays[data_type]}
 
-        # check fo avaialble varaibles
+        # check for available variables
         if "observation_data" in ncdf_file.groups.keys():
             list_vars = ncdf_file["observation_data"].variables.keys()
             ncdata = ncdf_file["observation_data"]

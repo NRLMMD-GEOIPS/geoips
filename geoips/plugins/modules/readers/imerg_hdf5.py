@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore yrmody, hhmmse
+
 """Read IMERG rainfall data.
 
 A reader is designed to import IMERG rainfall data for GeoIPS using only
@@ -33,7 +35,7 @@ Dataset information::
               }
 """
 # Python Standard Libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 from os.path import basename
 
@@ -151,7 +153,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     rrErr = np.squeeze(rrErr)
     IRrr = np.squeeze(IRrr)
 
-    start_dt = datetime.utcfromtimestamp(fileobj["Grid"]["time"][...][0])
+    start_dt = datetime.fromtimestamp(fileobj["Grid"]["time"][...][0], tz=timezone.utc)
     end_dt = start_dt + timedelta(
         minutes=int(fileobj["Grid"]["HQobservationTime"][...].max())
     )
@@ -160,7 +162,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     fileobj.close()
 
     #          ------  setup xarray variables   ------
-    # since IMERG time is fixed for 30 minutes, time is not needed. only
+    # since IMERG time is fixed for thirty minutes, time is not needed. only
     # start_time and end_time needed.
 
     # namelist_gmi  = ['latitude', 'longitude', 'rain', 'rrProb', 'rrErr','IRrr']
@@ -174,11 +176,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_imerg["rrErr"] = xr.DataArray(rrErr)
     xarray_imerg["IRrr"] = xr.DataArray(IRrr)
 
-    # setup attributors
-    # xarray_imerg.attrs['start_datetime'] = datetime.strptime(start_time,
-    #                                                          '%Y%m%d%H%M%S')
+    # setup attributes
     xarray_imerg.attrs["start_datetime"] = start_dt
-    # xarray_imerg.attrs['end_datetime']   = datetime.strptime(end_time,'%Y%m%d%H%M%S')
     xarray_imerg.attrs["end_datetime"] = end_dt
     xarray_imerg.attrs["source_name"] = "imerg"
     xarray_imerg.attrs["platform_name"] = "GPM"

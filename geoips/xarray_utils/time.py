@@ -4,7 +4,7 @@
 """Utils to handle time stamp information within xarray objects."""
 
 import calendar
-from datetime import datetime
+from datetime import datetime, timezone
 from itertools import starmap
 import numpy as np
 from cftime import num2pydate
@@ -50,7 +50,7 @@ def get_datetime_from_datetime64(dt64):
     # appears to store the datetime64 object based on the specified
     # units, so cash as datetime64[s], then int.
     dt64_seconds = dt64.astype("datetime64[s]").astype(int)
-    return datetime.utcfromtimestamp(dt64_seconds)
+    return datetime.fromtimestamp(dt64_seconds, tzinfo=timezone.utc)
 
 
 def get_min_from_xarray_time(xarray_obj, varname):
