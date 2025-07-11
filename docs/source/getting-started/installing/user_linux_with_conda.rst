@@ -59,7 +59,7 @@ setup to get Geoips up and running.
       # Note geos no longer required for cartopy >= 0.22
       # openblas / gcc required for recenter_tc / akima build.
       # git required for -C commands
-      # libgit2 sometimes required for brassy
+
       mamba create -y -n geoips -c conda-forge python=3.11 gcc gxx openblas git libgit2
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
@@ -88,8 +88,7 @@ GeoIPS test data download requires the following environment variables to be set
     export GEOIPS_PACKAGES_DIR=$HOME/geoips
     export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-    mkdir -p $GEOIPS_PACKAGES_DIR
-    $GEOIPS_PACKAGES_DIR/geoips
+    mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
 Note: You can customize test data location by changing the value of ``$GEOIPS_PACKAGES_DIR``.
 
