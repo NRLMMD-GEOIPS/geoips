@@ -80,7 +80,6 @@ GeoIPS test data download requires the following environment variables to be set
 .. code:: bash
 
     # GeoIPS Default Locations
-    # Point to base URL for git clone commands
     export GEOIPS_PACKAGES_DIR=$HOME/geoips
     export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
