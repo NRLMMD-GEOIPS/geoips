@@ -5,6 +5,9 @@
 
 .. _linux-installation:
 
+Lightweight Installation for Linux Users
+****************************************
+
 This page provides instructions for installing GeoIPS using wheels from PyPI in a
 virtual environment. This installation method is recommended for users who do not
 intend to modify the source code.
