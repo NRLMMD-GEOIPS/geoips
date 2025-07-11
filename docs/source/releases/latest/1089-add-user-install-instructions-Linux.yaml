@@ -1,0 +1,25 @@
+documentation:
+- title: 'User instructions for installing GeoIPS on Linux with Conda'
+  description: 'Add installation instructions for external users to install GeoIPS on Linux with Conda'
+  files:
+    added:
+    - 'docs/source/contribute/dev-install.rst'
+    - 'docs/source/contribute/dev_linux_with_conda.rst'
+    - 'docs/source/getting-started/installing/user_linux_with_conda.rst'
+    - 'docs/source/releases/latest/1089-add-user-install-instructions-Linux.yaml'
+    - 'docs/source/releases/latest/update-user-install-docs.yaml'
+    modified:
+    - '.cspell.json'
+    - 'docs/source/contribute/index.rst'
+    - 'docs/source/getting-started/installing/expert.rst'
+    - 'docs/source/getting-started/installing/index.rst'
+    deleted:
+    - 'docs/source/getting-started/installing/linux_with_conda.rst'
+    moved:
+    - ''
+  related-issue:
+    number: 1089
+    repo_url: ''
+  date:
+    start: null
+    finish: null
