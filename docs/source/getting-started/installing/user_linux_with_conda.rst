@@ -5,22 +5,18 @@
 
 .. _linux-installation:
 
-Lightweight Installation for Linux Users
-****************************************
+Installation on Linux
+*********************
 
 This page provides instructions for installing GeoIPS using wheels from PyPI in a
-virtual environment. This installation method is recommended for users who do not
-intend to modify the source code.
+conda virtual environment. This installation method is recommended for users with
+or without administrative privleges.
+Developers of core GeoIPS should follow the appropriate guide under "Contribute".
 
 1. Install Anaconda or Miniconda
 --------------------------------
 
-The following instructions create a virtual environment for installing GeoIPS. This
-approach enables users to install GeoIPS without requiring administrative privileges by
-using Conda to manage all required system dependencies
-
-Using a fresh Miniconda or Anaconda environment with **Python 3.11 or later** is the recommended
-setup to get Geoips up and running.
+Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 
 - Download the appropriate version of `Conda
   <https://www.anaconda.com/download#downloads>`_,  `Miniconda
@@ -51,9 +47,8 @@ setup to get Geoips up and running.
       rm -f ./Miniforge3-Linux-x86_64.sh
 
 
-- Create a conda environment named ``geoips`` that contains all system
-  requirements for GeoIPS. Many of these may already be installed on your system,
-  but this command will ensure that for everyone.
+- Create a conda environment named, for example, ``geoips`` with the appropriate 
+  dependencies:
 
   .. code:: bash
 
@@ -63,8 +58,10 @@ setup to get Geoips up and running.
       mamba create -y -n geoips -c conda-forge python=3.11  openblas gcc gxx git
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
-  **Note:** You will need to run ``conda activate geoips``
-  every time you want to run or work on GeoIPS.
+  .. note::
+
+      You must run ``conda activate geoips``
+      every time you run or work with GeoIPS.
 
 2. Install GeoIPS using pip
 ---------------------------
@@ -74,7 +71,6 @@ Once inside the `geoips` environment, install GeoIPS from PyPI:
 .. code:: bash
 
     pip install geoips
-    pip list | grep "geoips"  # verify that GeoIPS is installed and check its version
 
 3. Test Data Setup
 ------------------
@@ -90,17 +86,20 @@ GeoIPS test data download requires the following environment variables to be set
     export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
     mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
-Note: You can customize test data location by changing the value of ``$GEOIPS_PACKAGES_DIR``.
+.. note::
+    You can customize test data location 
+    by changing the value of ``$GEOIPS_TESTDATA_DIR``.
 
-If desired, the GeoIPS environment variables can be added to your
-``$HOME/.bashrc`` by running the following commands:
+If desired, the GeoIPS environment variables can be persisted 
+by adding added to your these variable to your ``$HOME/.bashrc``
+by running the following commands:
 
 .. code:: bash
 
     echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
     echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
 
-Download the sample dataset using geoips CLI command
+Download the sample dataset using geoips CLI command:
 
 .. code:: bash
 
