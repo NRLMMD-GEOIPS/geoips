@@ -47,15 +47,12 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
       rm -f ./Miniforge3-Linux-x86_64.sh
 
 
-- Create a conda environment named, for example, ``geoips`` with the appropriate 
+- Create a conda environment named, for example, ``geoips`` with the appropriate
   dependencies:
 
   .. code:: bash
 
-      # openblas / gcc required for recenter_tc / akima build.
-      # git required for -C commands
-
-      mamba create -y -n geoips -c conda-forge python=3.11  openblas gcc gxx git
+      mamba create -y -n geoips -c conda-forge python=3.11  openblas git
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
   .. note::
@@ -86,10 +83,10 @@ GeoIPS test data download requires the following environment variables to be set
     mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
 .. note::
-    You can customize test data location 
+    You can customize test data location
     by changing the value of ``$GEOIPS_TESTDATA_DIR``.
 
-If desired, the GeoIPS environment variables can be persisted 
+If desired, the GeoIPS environment variables can be persisted
 by adding added to your these variable to your ``$HOME/.bashrc``
 by running the following commands:
 
