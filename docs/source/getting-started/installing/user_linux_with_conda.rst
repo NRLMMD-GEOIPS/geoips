@@ -59,7 +59,7 @@ setup to get Geoips up and running.
       # openblas / gcc required for recenter_tc / akima build.
       # git required for -C commands
 
-      mamba create -y -n geoips -c conda-forge python=3.11 openblas git
+      mamba create -y -n geoips -c conda-forge python=3.11  openblas gcc gxx git
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
   **Note:** You will need to run ``conda activate geoips``
