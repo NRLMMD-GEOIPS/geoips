@@ -168,7 +168,7 @@ class PidLog:
                     # pid expired quickly, need to remove invalid values
                     continue
 
-            dtime = datetime.utcnow().strftime("%Y%m%d_%H%M%S_%f")
+            dtime = datetime.now(timezone.utc).strftime("%Y%m%d_%H%M%S_%f")
             self.usage_dict["overall"]["cpu_percent"].append(cpu_per)
             if platform.system() == "Linux":
                 self.usage_dict["overall"]["cpu_count"].append(len(set(tmp_cpu)))
@@ -287,7 +287,9 @@ class PidLog:
             # Take the latest value under the tracked resource dict - this might be
             # a problematic approach...
             last_stat = {x: y[-1] for x, y in overall_usage_dict.items()}
-            dt = datetime.strptime(last_stat["utc_datetime"], "%Y%m%d_%H%M%S_%f")
+            dt = datetime.strptime(
+                last_stat["utc_datetime"], "%Y%m%d_%H%M%S_%f",
+            ).replace(tzinfo=timezone.utc)
         else:
             last_stat = {x: 0 for x in overall_usage_dict.keys()}
             dt = datetime.now(timezone.utc)
@@ -312,10 +314,10 @@ class PidLog:
         else:
             start_dt = datetime.strptime(
                 overall_usage_dict["utc_datetime"][0], "%Y%m%d_%H%M%S_%f"
-            )
+            ).replace(tzinfo=timezone.utc)
             prior_dt = datetime.strptime(
                 gran_usg_dict[key]["utc_datetime"][-1], "%Y%m%d_%H%M%S_%f"
-            )
+            ).replace(tzinfo=timezone.utc)
             total_runtime = (dt - start_dt).total_seconds()
             elapsed_time = (dt - prior_dt).total_seconds()
 

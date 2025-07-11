@@ -4,7 +4,7 @@
 """Read derived surface winds from SAR netcdf data."""
 
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import glob
 import logging
 from os.path import basename
@@ -262,21 +262,33 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     if wind_xarrays["METADATA"].start_datetime == wind_xarrays["METADATA"].end_datetime:
         # Use alternate attributes to set start and end datetime
         try:
-            wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
+            start_datetime = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y%m%dT%H%M%S"
             )
-            wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
+            wind_xarrays["METADATA"].attrs["start_datetime"] = start_datetime.replace(
+                tzinfo=timezone.utc
+            )
+            end_datetime = datetime.strptime(
                 wind_xarray.time_coverage_end, "%Y%m%dT%H%M%S"
+            )
+            wind_xarrays["METADATA"].attrs["end_datetime"] = end_datetime.replace(
+                tzinfo=timezone.utc
             )
         except ValueError:
             # 20221103 used YYYYMMDDTHHMNSS, on 20221105 switched to
             #                                                       YYYY-MM-DDTHH:MN:SSZ
             # Allow both
-            wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
+            start_datetime = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%SZ"
             )
-            wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
+            wind_xarrays["METADATA"].attrs["start_datetime"] = start_datetime.replace(
+                tzinfo=timezone.utc
+            )
+            end_datetime = datetime.strptime(
                 wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%SZ"
+            )
+            wind_xarrays["METADATA"].attrs["end_datetime"] = end_datetime.replace(
+                tzinfo=timezone.utc
             )
 
     return wind_xarrays

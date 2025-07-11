@@ -1,10 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore tformat, dvar, dset, pform, gtimes
+
 """VIIRS Level 2 NetCDF reader."""
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 import os
 
 from collections import OrderedDict
@@ -139,17 +141,17 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         tformat = "%Y-%m-%dT%H:%M:%SZ"
                     start_datetime = datetime.strptime(
                         meta.attrs["time_coverage_start"], tformat
-                    )
+                    ).replace(tzinfo=timezone.utc)
                     end_datetime = datetime.strptime(
                         meta.attrs["time_coverage_end"], tformat
-                    )
+                    ).replace(tzinfo=timezone.utc)
                 except KeyError:
                     start_datetime = datetime.strptime(
                         meta.attrs["PGE_StartTime"], "%Y-%m-%d %H:%M:%S.%f"
-                    )
+                    ).replace(tzinfo=timezone.utc)
                     end_datetime = datetime.strptime(
                         meta.attrs["PGE_EndTime"], "%Y-%m-%d %H:%M:%S.%f"
-                    )
+                    ).replace(tzinfo=timezone.utc)
                 if hasattr(meta, "SatelliteInstrument"):
                     pform = meta.attrs["SatelliteInstrument"]
                 elif hasattr(meta, "satellite_name"):

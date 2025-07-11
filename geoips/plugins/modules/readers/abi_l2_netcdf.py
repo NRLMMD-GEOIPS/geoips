@@ -4,7 +4,7 @@
 """ABI Level 2 NetCDF reader."""
 
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 
 # Third-Party Libraries
@@ -45,7 +45,7 @@ def calculate_abi_geolocation(
     geometa = abi_netcdf._get_geolocation_metadata(metadata)
     sdt = datetime.strptime(
         metadata["file_info"]["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ"
-    )
+    ).replace(tzinfo=timezone.utc)
     fldk_lats, fldk_lons = abi_netcdf.get_latitude_longitude(
         geometa,
         abi_netcdf.BADVALS,
@@ -118,10 +118,10 @@ def xr_read(fname, chans=None):
     ds = xr.open_dataset(fname)
     ds.attrs["start_datetime"] = datetime.strptime(
         ds.attrs["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ"
-    )
+    ).replace(tzinfo=timezone.utc)
     ds.attrs["end_datetime"] = datetime.strptime(
         ds.attrs["time_coverage_end"], "%Y-%m-%dT%H:%M:%S.%fZ"
-    )
+    ).replace(tzinfo=timezone.utc)
     if chans:
         ds_vars = list(ds.variables)
         drop_vars = [x for x in ds_vars if x not in chans and x not in ["lat", "lon"]]
@@ -183,10 +183,10 @@ def call(
         "area_definition": area_def,
         "start_datetime": datetime.strptime(
             metadata["file_info"]["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        ),
+        ).replace(tzinfo=timezone.utc),
         "end_datetime": datetime.strptime(
             end_metadata["file_info"]["time_coverage_end"], "%Y-%m-%dT%H:%M:%S.%fZ"
-        ),
+        ).replace(tzinfo=timezone.utc),
         "vertical_data_type": "surface",
         "source_name": "abi",
         "data_provider": "noaa",
@@ -255,9 +255,9 @@ def call(
             area_dataset = xr.Dataset(coords=coords)
             area_dataset.attrs = xarray.attrs
             lines = geo["Lines"]
-            samps = geo["Samples"]
+            samples = geo["Samples"]
             for key in xarray.keys():
-                array = xarray[key].values[lines, samps]
+                array = xarray[key].values[lines, samples]
                 area_dataset[key] = (("y", "x"), array)
             xarray = area_dataset
         if ll_mask is not None:

@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore dcnum, plon, slon, jday, rrflag, fsurface, ftime, fasc, alat, alon, aasc
+
 """Windsat binary data reader.
 
 This code is designed to read windsat sdr binary data (idr37) file for windsat
@@ -100,7 +102,7 @@ The actual idr37 data record (idr_record) in C::
     Its total length of idr_record is 72 bytes
 """
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import os
 
@@ -197,13 +199,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     time_s_month = time_s_date[4:6]
     time_s_day = time_s_date[6:8]
 
-    # initilization of ending date for this file
+    # initialization of ending date for this file
     time_e_year = int(time_s_year)
     time_e_month = int(time_s_month)
     time_e_day = int(time_s_day)
 
     # if time_e_hhmm is less than time_s_hhmm, the data crossed the day
-    # bounday and entered the next day
+    # boundary and entered the next day
 
     if (int(time_s_year) % 400 == 0) or (
         (int(time_s_year) % 4 == 0) and (int(time_s_year) % 100 != 0)
@@ -253,8 +255,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_obj = xarray.Dataset()
 
     # Enter metadata
-    xarray_obj.attrs["start_datetime"] = datetime.strptime(time_start, "%Y%m%d %H%M")
-    xarray_obj.attrs["end_datetime"] = datetime.strptime(time_end, "%Y%m%d %H%M")
+    start_datetime = datetime.strptime(time_start, "%Y%m%d %H%M")
+    xarray_obj.attrs["start_datetime"] = start_datetime.replace(tzinfo=timezone.utc)
+    end_datetime = datetime.strptime(time_end, "%Y%m%d %H%M")
+    xarray_obj.attrs["end_datetime"] = end_datetime.replace(tzinfo=timezone.utc)
     xarray_obj.attrs["source_file_datetimes"] = [xarray_obj.attrs["start_datetime"]]
 
     xarray_obj.attrs["platform_name"] = "coriolis"

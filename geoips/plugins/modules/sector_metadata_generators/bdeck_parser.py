@@ -99,7 +99,7 @@ location per line (split between 3 lines each in comments for readability)::
 """
 import os
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 LOG = logging.getLogger(__name__)
 
@@ -256,7 +256,8 @@ def parse_bdeck_line(
     fields["deck_line"] = line.strip()
     fields["storm_basin"] = parts[0]
     fields["storm_num"] = int(parts[1])
-    fields["synoptic_time"] = datetime.strptime(parts[2], "%Y%m%d%H")
+    synoptic_time = datetime.strptime(parts[2], "%Y%m%d%H")
+    fields["synoptic_time"] = synoptic_time.replace(tzinfo=timezone.utc)
 
     if isinstance(storm_start_datetime, datetime):
         fields["storm_start_datetime"] = storm_start_datetime
@@ -342,6 +343,7 @@ def get_storm_start_datetime_from_bdeck_filename(bdeck_filename):
     if len(bdeck_parts) > 2:
         try:
             storm_start_datetime = datetime.strptime(bdeck_parts[1], "%Y%m%d%H")
+            storm_start_datetime = storm_start_datetime.replace(tzinfo=timezone.utc)
             LOG.info(
                 "  USING storm start time found in filename %s", storm_start_datetime
             )

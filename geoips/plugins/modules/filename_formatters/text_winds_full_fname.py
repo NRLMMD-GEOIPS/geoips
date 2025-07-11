@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore YYYYMMDDHHMN, startdt
+
 """Filename formatter for text windspeed products."""
 
 import logging
@@ -86,6 +88,7 @@ def assemble_windspeeds_text_full_fname(
     Examples
     --------
     >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
+    >>> startdt = startdt.replace(tzinfo=timezone.utc)
     >>> assemble_windspeeds_text_full_fname(
     ...     '/outdir',
     ...     'smap-spd',

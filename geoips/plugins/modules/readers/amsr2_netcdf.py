@@ -1,9 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore dtstrs, satazm, loqf, hiqf, xars, dsname
+
 """Read Advanced Microwave Scanning Radiometer (AMSR2) data products."""
 
 # Python Standard Libraries
+from datetime import datetime, timezone
 from glob import glob
 import logging
 from os.path import basename
@@ -131,7 +134,7 @@ def read_amsr2_winds(wind_xarray):
     # (otherwise if you set it directly to ts, it is a pandas format time series, and
     # expand_dims doesn't exist).
     time_array = pandas.to_datetime(
-        dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
+        dtstrs, format="%Y%m%dT%H%M%S", errors="coerce", utc=True
     ).tolist()
     LOG.info("Setting list of times")
     tss = [time_array for ii in range(0, wind_xarray["wind_speed_kts"].shape[1])]
@@ -210,7 +213,7 @@ def read_amsr2_mbt(full_xarray, varname, time_array=None):
         # (otherwise if you set it directly to ts, it is a pandas format time series,
         # and expand_dims doesn't exist).
         curr_time_array = pandas.to_datetime(
-            dtstrs, format="%Y%m%dT%H%M%S", errors="coerce"
+            dtstrs, format="%Y%m%dT%H%M%S", errors="coerce", utc=True
         ).tolist()
         LOG.info("    Setting list of times")
         tss = [
@@ -335,15 +338,13 @@ def call(
         full_xarray.attrs["minimum_coverage"] = 20
         LOG.info("Read data from %s", fname)
         if metadata_only is True:
-            from datetime import datetime
-
             full_xarray.attrs["start_datetime"] = datetime.strptime(
                 full_xarray.attrs["time_coverage_start"][0:19], "%Y-%m-%dT%H:%M:%S"
-            )
+            ).replace(tzinfo=timezone.utc)
             full_xarray.attrs["end_datetime"] = datetime.strptime(
                 full_xarray.attrs["time_coverage_end"][0:19], "%Y-%m-%dT%H:%M:%S"
-            )
-            LOG.info("metadata_only requested, returning without readind data")
+            ).replace(tzinfo=timezone.utc)
+            LOG.info("metadata_only requested, returning without reading data")
             return {"METADATA": full_xarray}
 
         if hasattr(full_xarray, "title") and "AMSR2_OCEAN" in full_xarray.title:

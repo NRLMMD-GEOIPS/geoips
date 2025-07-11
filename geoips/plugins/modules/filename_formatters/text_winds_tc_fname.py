@@ -92,7 +92,9 @@ def assemble_windspeeds_text_tc_fname(
 
     Examples
     --------
-    >>> startdt = datetime.strptime('20200216T001412', '%Y%m%dT%H%M%S')
+    >>> startdt = datetime.strptime(
+            '20200216T001412', '%Y%m%dT%H%M%S'
+        ).replace(tzinfo=timezone.utc)
     >>> assemble_windspeeds_text_tc_fname('/outdir',
     ...     2020,
     ...     'SH',

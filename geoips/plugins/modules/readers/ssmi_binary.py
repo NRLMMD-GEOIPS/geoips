@@ -58,7 +58,7 @@ SSMI input data info::
     char sft[HIRES][2];          /* surface types */
 """
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import os
 
@@ -404,6 +404,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         scan_sec = bst - scan_hr * 3600 - scan_min * 60  # second of the scan
 
         date_info = datetime.strptime(year_info + jDay_info, "%Y%j")
+        date_info = date_info.replace(tzinfo=timezone.utc)
 
         scan_yr = date_info.year
         scan_mon = date_info.month
@@ -601,8 +602,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     end_time = "%04d%03d%02d%02d" % (fcyr, ejld, ehr, emin)
 
     # for LORES
-    xarray_lores.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_lores.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+    xarray_lores.attrs["start_datetime"] = start_datetime.replace(tzinfo=timezone.utc)
+    end_datetime = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_lores.attrs["end_datetime"] = end_datetime.replace(tzinfo=timezone.utc)
     xarray_lores.attrs["source_name"] = "ssmi"
     xarray_lores.attrs["platform_name"] = satid
     xarray_lores.attrs["data_provider"] = "DMSP"
@@ -614,8 +617,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_lores.attrs["interpolation_radius_of_influence"] = 50000
 
     # for 85GHz A-B combined
-    xarray_85ab.attrs["start_datetime"] = datetime.strptime(start_time, "%Y%j%H%M")
-    xarray_85ab.attrs["end_datetime"] = datetime.strptime(end_time, "%Y%j%H%M")
+    start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+    xarray_85ab.attrs["start_datetime"] = start_datetime.replace(tzinfo=timezone.utc)
+    end_datetime = datetime.strptime(end_time, "%Y%j%H%M")
+    xarray_85ab.attrs["end_datetime"] = end_datetime.replace(tzinfo=timezone.utc)
     xarray_85ab.attrs["source_file_datetimes"] = [xarray_85ab.start_datetime]
     xarray_85ab.attrs["source_name"] = "ssmi"
     xarray_85ab.attrs["platform_name"] = satid

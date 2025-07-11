@@ -4,6 +4,7 @@
 """Utilities for creating a database of tropical cyclone tracks."""
 
 from geoips.filenames.base_paths import PATHS as gpaths
+from datetime import datetime, timedelta, timezone
 import logging
 
 import sqlite3
@@ -90,7 +91,6 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     # Gal912016.dat
 
     import re
-    from datetime import datetime, timedelta
     from os.path import basename as pathbasename
     from os import stat as osstat
 
@@ -124,7 +124,9 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     cc.execute("SELECT * FROM tc_trackfiles WHERE filename = ?", (tc_trackfilename,))
     data = cc.fetchone()
 
-    file_timestamp = datetime.fromtimestamp(osstat(tc_trackfilename).st_mtime)
+    file_timestamp = datetime.fromtimestamp(
+        osstat(tc_trackfilename).st_mtime, tz=timezone.utc
+    )
     # Reads timestamp out as string - convert to datetime object.
     # Check if timestamp on file is newer than timestamp in database -
     # if not, just return and don't do anything.
@@ -136,7 +138,7 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
                     (tc_trackfilename,),
                 ).fetchone()[0],
                 "%Y-%m-%d %H:%M:%S.%f",
-            )
+            ).replace(tzinfo=timezone.utc)
         except ValueError as resp:
             LOG.exception(f"Failed on {tc_trackfilename}")
             raise (ValueError(f"FAILED ON {tc_trackfilename}: {resp}"))
@@ -160,7 +162,9 @@ def update_fields(tc_trackfilename, cc, conn, process=False):
     # Start 24h prior to start in sectorfile, for initial processing
     # storm_start_datetime = datetime.strptime(start_line[2],'%Y%m%d%H')
     start_datetime = datetime.strptime(start_line[2], "%Y%m%d%H") - timedelta(hours=24)
+    start_datetime = start_datetime.replace(tzinfo=timezone.utc)
     end_datetime = datetime.strptime(lines[-1].split(",")[2], "%Y%m%d%H")
+    end_datetime = end_datetime.replace(tzinfo=timezone.utc)
     start_vmax = start_line[8]
     vmax = 0
     for line in lines:
@@ -396,8 +400,8 @@ def get_all_storms_from_db(
 
     Examples
     --------
-    >>> startdt = datetime.strptime('20200216', '%Y%m%d')
-    >>> enddt = datetime.strptime('20200217', '%Y%m%d')
+    >>> startdt = datetime.strptime('20200216', '%Y%m%d').replace(tzinfo=timezone.utc)
+    >>> enddt = datetime.strptime('20200217', '%Y%m%d').replace(tzinfo=timezone.utc)
     >>> get_storm_from_db(startdt, enddt)
     """
     from os.path import exists as path_exists

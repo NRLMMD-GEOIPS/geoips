@@ -12,7 +12,7 @@ import operator
 from functools import reduce
 from copy import copy
 from struct import unpack
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from geoips.utils.context_managers import import_optional_dependencies
 
@@ -386,9 +386,8 @@ class HritFile(object):
             if name != "_"
         }
         fields["platform"] = fields["platform"].lower()
-        fields["start_datetime"] = datetime.strptime(
-            fields["start_datetime"], "%Y%m%d%H%M"
-        )
+        start_datetime = datetime.strptime(fields["start_datetime"], "%Y%m%d%H%M")
+        fields["start_datetime"] = start_datetime.replace(tzinfo=timezone.utc)
         return fields
 
     @property

@@ -18,7 +18,7 @@ Output Fields
      XARRAY onjectives to hold variables
 """
 # Python Standard Libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 from os.path import basename
 
@@ -251,7 +251,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
             start = split_fname[3]
             end = split_fname[4]
             start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
             end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            end_datetime = end_datetime.replace(tzinfo=timezone.utc)
             if end_datetime < start_datetime:
                 # Rolled over to new day
                 end_datetime += timedelta(days=1)
@@ -259,6 +261,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # Could not parse the start/end time from the file name
             # Fall back on using info in header
             start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
 
             # Estimate end time just for metadata purposes
             # To my knowledge, the file end time is not included in the binary header
@@ -284,7 +287,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
             start = split_fname[3]
             end = split_fname[4]
             start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
             end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            end_datetime = end_datetime.replace(tzinfo=timezone.utc)
             if end_datetime < start_datetime:
                 # Rolled over to new day
                 end_datetime += timedelta(days=1)
@@ -292,6 +297,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # Could not parse the start/end time from the file name
             # Fall back on using info in header
             start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
 
             # Estimate end time just for metadata purposes
             # To my knowledge, the file end time is not included in the binary header
@@ -317,7 +323,9 @@ def read_ssmis_data_file(fname, metadata_only=False):
             start = split_fname[3]
             end = split_fname[4]
             start_datetime = datetime.strptime(date + start, "d%Y%m%ds%H%M%S")
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
             end_datetime = datetime.strptime(date + end, "d%Y%m%de%H%M%S")
+            end_datetime = end_datetime.replace(tzinfo=timezone.utc)
             if end_datetime < start_datetime:
                 # Rolled over to new day
                 end_datetime += timedelta(days=1)
@@ -325,6 +333,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
             # Could not parse the start/end time from the file name
             # Fall back on using info in header
             start_datetime = datetime.strptime(start_time, "%Y%j%H%M")
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
 
             # Estimate end time just for metadata purposes
             # To my knowledge, the file end time is not included in the binary header

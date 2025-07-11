@@ -49,7 +49,7 @@ purposes. They are not used for now, but will be applied later.
 """
 
 import logging
-from datetime import datetime
+from datetime import datetime, timezone
 
 # import os
 # from collections import OrderedDict
@@ -187,9 +187,11 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             start_datetime = datetime.strptime(
                 meta.attrs["sensing_start_time_utc"], tformat
             )
+            start_datetime = start_datetime.replace(tzinfo=timezone.utc)
             end_datetime = datetime.strptime(
                 meta.attrs["sensing_end_time_utc"], tformat
             )
+            end_datetime = end_datetime.replace(tzinfo=timezone.utc)
         except KeyError:
             LOG.info("error in orbit data start and end time")
         if hasattr(meta, "Spacecraft"):

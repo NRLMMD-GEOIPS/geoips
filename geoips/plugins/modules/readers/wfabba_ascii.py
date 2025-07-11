@@ -7,7 +7,7 @@ WFABBA is a geostationary fire product produced by SSEC
 """
 
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 from os.path import basename
 
@@ -80,7 +80,9 @@ def read_wfabba_header(wfabba_file):
                 is_header = False
     header_meta["header length"] = header_length - 2
     full_time = f"{header_meta.pop('Date')} {header_meta.pop('Time')}"
-    header_meta["datetime"] = datetime.strptime(full_time, "%Y%j %H:%M:%S UTC")
+    header_meta["datetime"] = datetime.strptime(full_time, "%Y%j %H:%M:%S UTC").replace(
+        tzinfo=timezone.utc
+    )
     return header_meta
 
 

@@ -1,9 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore gchan, rchan, gkey, gvar, gvars, dkey, smeta, sval, xarr, memusg,
+# cspell:ignore adname, rchans, idxs
+
 """Standard GeoIPS xarray dictionary based FCI NetCDF data reader."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 import numpy as np
 import os
@@ -280,7 +283,7 @@ def get_latitude_longitude(
         s1 = cos_x
         ne.evaluate("h - (sn * cos_x * cos_y)", out=s1)
 
-        # Nothing unneed
+        # Nothing here is unneeded. Used in numexpr below.
         s2 = ne.evaluate("sn * sin_x * cos_y")  # noqa: F841
 
         # sin_y no longer needed
@@ -333,7 +336,7 @@ def get_latitude_longitude(
         # Create memmap to the lat/lon file
         # Nothing will be read until explicitly requested
         # We are mapping this here so that the lats and lons are available when
-        # calculating satlelite angles
+        # calculating satellite angles
         if geolocation_cache_backend == "memmap":
             shape = (metadata["num_lines"], metadata["num_samples"])
             offset = 8 * metadata["num_samples"] * metadata["num_lines"]
@@ -377,7 +380,7 @@ def get_standard_geoips_attrs(file_attrs, area_def):
     all_attrs["data_provider"] = "EUMETSAT"
     date_time_position = datetime.strptime(
         all_attrs["date_time_position"], "%Y%m%d%H%M%S"
-    )
+    ).replace(tzinfo=timezone.utc)
     if "TRAIL" in all_attrs["mtg_name"]:
         # Time coverage start/end will differ across each individual granule that
         # comprises a full scan. So instead of setting the start/end datetime to the
@@ -386,10 +389,10 @@ def get_standard_geoips_attrs(file_attrs, area_def):
         all_attrs["start_datetime"] = date_time_position
         all_attrs["actual_start_datetime"] = datetime.strptime(
             file_attrs["time_coverage_start"], "%Y%m%d%H%M%S"
-        )
+        ).replace(tzinfo=timezone.utc)
         all_attrs["end_datetime"] = datetime.strptime(
             file_attrs["time_coverage_end"], "%Y%m%d%H%M%S"
-        )
+        ).replace(tzinfo=timezone.utc)
     else:
         all_attrs["start_datetime"] = date_time_position
         all_attrs["end_datetime"] = date_time_position
@@ -575,7 +578,7 @@ def scene_to_xarray(fci_files, geoips_chans, metadata=None, area_def=None):
             xr[dkey].data = xr[dkey].data * RADIANCE_CONVERSION_COEFFICIENTS[dkey]
 
     # Temporarily convert reflectances from % ranging from 0-100 to 0-1
-    # This is required until gamma correction can handle reflecances from 0-100
+    # This is required until gamma correction can handle reflectances from 0-100
     # This will happen when all readers return reflectance ranging from 0-100
     for dkey in list(xr.variables.keys()):
         if "Ref" in dkey:

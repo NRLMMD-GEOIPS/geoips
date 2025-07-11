@@ -4,6 +4,7 @@
 """Read derived surface winds from REMSS SMAP, WINDSAT, and AMSR netcdf data."""
 
 import logging
+from datetime import datetime, timezone
 
 LOG = logging.getLogger(__name__)
 
@@ -28,7 +29,6 @@ def read_remss_data(wind_xarray, data_type):
     """
     import xarray
     import numpy
-    from datetime import datetime
 
     # Set attributes appropriately
     if data_type == "smap":
@@ -96,6 +96,7 @@ def read_remss_data(wind_xarray, data_type):
     basedt = datetime.strptime(
         "{0:04d}{1:02d}{2:02d}".format(year, month, day), "%Y%m%d"
     )
+    basedt = basedt.replace(tzinfo=timezone.utc)
     # minarr = wind_xarray.minute
     minarr = numpy.flipud(wind_xarray[minute_varname])
     # NOTE there is a version of numpy 2.x that will break for masked datetime64

@@ -12,6 +12,7 @@ Potentially useful for real-time processing.
 93S INVEST 210120 1800 12.6S 98.5E SHEM 30 1003
 """
 import logging
+from datetime import datetime, timezone
 
 LOG = logging.getLogger(__name__)
 
@@ -88,7 +89,6 @@ def parse_flat_sectorfile_line(
     :ref:`api`
         Valid fields can be found in geoips.sector_utils.utils.SECTOR_INFO_ATTRS
     """
-    from datetime import datetime
 
     parts = [part.strip() for part in line.split()]
     LOG.info(len(parts))
@@ -114,7 +114,9 @@ def parse_flat_sectorfile_line(
     fields["deck_line"] = line.strip()
     fields["storm_basin"] = basin_ids[parts[0][-1]]
     fields["storm_num"] = int(parts[0][:-1])
-    fields["synoptic_time"] = datetime.strptime(parts[2] + parts[3], "%y%m%d%H%M")
+    fields["synoptic_time"] = datetime.strptime(
+        parts[2] + parts[3], "%y%m%d%H%M"
+    ).replace(tzinfo=timezone.utc)
     fields["aid_type"] = "BEST"
     fields["clat"] = NSEW_to_float(parts[4])
     fields["clon"] = NSEW_to_float(parts[5])

@@ -4,7 +4,7 @@
 """Read pre-processed GeoIPS-formatted NetCDF data."""
 
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 from os.path import basename
 import logging
 
@@ -75,7 +75,9 @@ def read_xarray_netcdf(ncdf_fname):
         raise IOError
     for attr in xarray_obj.attrs.keys():
         if "datetime" in attr:
-            xarray_obj.attrs[attr] = datetime.strptime(xarray_obj.attrs[attr], "%c")
+            xarray_obj.attrs[attr] = datetime.strptime(
+                xarray_obj.attrs[attr], "%c"
+            ).replace(tzinfo=timezone.utc)
         if attr == "None":
             xarray_obj.attrs[attr] = None
         if attr == "True":

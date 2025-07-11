@@ -4,7 +4,7 @@
 """Read derived surface winds from BYU ASCAT UHR NetCDF data."""
 
 # Python Standard Libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 import os
 
@@ -82,8 +82,11 @@ def read_byu_data(wind_xarray, fname):
             .replace(".WRave3.nc", "")
             .replace(".avewr.nc", "")
         ).split("_")[5]
-        wind_xarray.attrs["expected_synoptic_time"] = datetime.strptime(
+        expected_synoptic_time = datetime.strptime(
             expected_yymmdd + expected_hhmn, "%y%m%d%H%M"
+        )
+        wind_xarray.attrs["expected_synoptic_time"] = expected_synoptic_time.replace(
+            tzinfo=timezone.utc
         )
         wind_xarray.attrs["storms_with_coverage"] = [storm_name]
         new_file = False
@@ -217,6 +220,7 @@ def read_byu_data(wind_xarray, fname):
             "_"
         )[1]
         dt = datetime.strptime(expected_yyyymmdd + "0000", "%Y%m%d%H%M")
+        dt = dt.replace(tzinfo=timezone.utc)
         # Find the "true" minimum valid time of the data array.
         # Simply running min() on the time data array will
         # return "2000-01-01T00:00:00". The second lowest
@@ -249,7 +253,9 @@ def read_byu_data(wind_xarray, fname):
 
     else:
         startdt = datetime.strptime(wind_xarray.SZF_start_time[:-1], "%Y%m%d%H%M%S")
+        startdt = startdt.replace(tzinfo=timezone.utc)
         enddt = datetime.strptime(wind_xarray.SZF_stop_time[:-1], "%Y%m%d%H%M%S")
+        enddt = enddt.replace(tzinfo=timezone.utc)
         middt = startdt + (enddt - startdt) / 2
         timearray = numpy.ma.array(
             numpy.zeros(shape=wind_xarray.latitude.shape).astype(int)
@@ -353,11 +359,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # Use alternate attributes to set start and end datetime
         from datetime import datetime
 
-        wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
-            wind_xarray.SZF_start_time, "%Y%m%d%H%M%SZ"
+        start_datetime = datetime.strptime(wind_xarray.SZF_start_time, "%Y%m%d%H%M%SZ")
+        wind_xarrays["METADATA"].attrs["start_datetime"] = start_datetime.replace(
+            tzinfo=timezone.utc
         )
-        wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
-            wind_xarray.SZF_stop_time, "%Y%m%d%H%M%SZ"
+        end_datetime = datetime.strptime(wind_xarray.SZF_stop_time, "%Y%m%d%H%M%SZ")
+        wind_xarrays["METADATA"].attrs["end_datetime"] = end_datetime.replace(
+            tzinfo=timezone.utc
         )
 
     return wind_xarrays

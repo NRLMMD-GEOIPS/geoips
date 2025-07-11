@@ -4,7 +4,7 @@
 """Read SAPHIR hdf files."""
 
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 
 # Third-Party Libraries
@@ -167,10 +167,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # add attributes to xarray
     xarray_saphir.attrs["start_datetime"] = datetime.strptime(
         "%08d%06d" % (start_date_group, start_time_group), "%Y%m%d%H%M%S"
-    )
+    ).replace(tzinfo=timezone.utc)
     xarray_saphir.attrs["end_datetime"] = datetime.strptime(
         "%08d%06d" % (end_date_group, end_time_group), "%Y%m%d%H%M%S"
-    )
+    ).replace(tzinfo=timezone.utc)
     xarray_saphir.attrs["source_name"] = "saphir"
     xarray_saphir.attrs["platform_name"] = "meghatropiques"
     xarray_saphir.attrs["data_provider"] = "GSFC"

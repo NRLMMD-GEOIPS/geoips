@@ -4,7 +4,7 @@
 """MIMIC TPW NetCDF reader."""
 
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import os
 
@@ -79,7 +79,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xobj = xarray.open_dataset(fname)
 
     [date, time, ext] = os.path.basename(fname).split(".")
-    dt = datetime.strptime(date + time, "comp%Y%m%d%H%M%S")
+    dt = datetime.strptime(date + time, "comp%Y%m%d%H%M%S").replace(tzinfo=timezone.utc)
     xobj.attrs["data_provider"] = "cimss"
 
     xobj.attrs["start_datetime"] = dt

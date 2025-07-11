@@ -164,7 +164,7 @@ Additional info::
     SZ_angle:  solar zinath angle (deg)
 """
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import os
 
@@ -306,7 +306,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                             AMSUB vars:
                             'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
                             'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-                Attibutes:
+                Attributes:
                             'source_name', 'platform_name', 'data_provider',
                             'interpolation_radius_of_influence', 'start_datetime',
                             'end_datetime'
@@ -336,10 +336,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # attributes - filename wrong!
         start_datetime = datetime.strptime(
             fileobj.attrs["time_coverage_start"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
-        )
+        ).replace(tzinfo=timezone.utc)
         end_datetime = datetime.strptime(
             fileobj.attrs["time_coverage_end"].astype(str), "%Y-%m-%dT%H:%M:%SZ"
-        )
+        ).replace(tzinfo=timezone.utc)
 
         #  -------- Apply the GEOIPS framework in XARRAY data frame ----------
 

@@ -4,7 +4,7 @@
 """Utilities for TC filenaming, for use within geoips filename formatters."""
 
 import logging
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from glob import glob
 from os.path import basename as pathbasename
 from os.path import join as pathjoin
@@ -66,7 +66,7 @@ def get_storm_subdir(
                     try:
                         existing_storm_start_datetime = datetime.strptime(
                             path_parts[1], "%Y%m%d%H"
-                        )
+                        ).replace(tzinfo=timezone.utc)
                     except ValueError:
                         LOG.warning(
                             "SKIPPING using existing invest dir, "

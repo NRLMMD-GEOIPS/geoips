@@ -1,10 +1,12 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore nctimearray, timeinds, timestmp, windspd
+
 """Read derived surface winds from SAR, SMAP, SMOS, and AMSR netcdf data."""
 
 # Python Standard Libraries
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import logging
 from os.path import basename
 
@@ -91,6 +93,7 @@ def read_smos_data(wind_xarray, fname):
 
     ncobj = Dataset(fname)
     basedt = np.datetime64(datetime.strptime("19900101", "%Y%m%d"))
+    basedt = basedt.replace(tzinfo=timezone.utc)
     nctimearray = np.flipud(ncobj.variables["measurement_time"][...][0, :, :])
     timeinds = np.ma.where(nctimearray)
     # Check if there are any unmasked timeinds, if so update timearray
@@ -167,10 +170,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
             cov_start = datetime.strptime(
                 wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
-            )
+            ).replace(tzinfo=timezone.utc)
             cov_end = datetime.strptime(
                 wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
-            )
+            ).replace(tzinfo=timezone.utc)
             time = cov_start + timedelta(
                 seconds=(cov_end - cov_start).total_seconds() / 2
             )
@@ -247,8 +250,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
 
         final_wind_xarrays["METADATA"].attrs["start_datetime"] = datetime.strptime(
             wind_xarray.time_coverage_start, "%Y-%m-%dT%H:%M:%S Z"
-        )
+        ).replace(tzinfo=timezone.utc)
         final_wind_xarrays["METADATA"].attrs["end_datetime"] = datetime.strptime(
             wind_xarray.time_coverage_end, "%Y-%m-%dT%H:%M:%S Z"
-        )
+        ).replace(tzinfo=timezone.utc)
     return final_wind_xarrays

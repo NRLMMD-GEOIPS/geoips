@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore
+
 """Read AMSU-B and MHS passive microwave data files.
 
 This reader is desgined for importing NOAA Advanced Microwave Sounding Unit
@@ -48,7 +50,7 @@ Basic information on AMSU-B product file::
     Time
 """
 # Python Standard Libraries
-from datetime import datetime
+from datetime import datetime, timezone
 import logging
 import os
 
@@ -144,7 +146,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
                         AMSUB vars:
                           'latitude', 'longitude', 'Ch1', 'Ch2', 'Ch3', 'Ch4','Ch4',
                           'RR', 'Snow','SWE','IWP','SFR' 'sfcType', 'time_scan'
-               Attibutes:
+               Attributes:
                         'source_name', 'platform_name', 'data_provider',
                         'interpolation_radius_of_influence', 'start_datetime',
                         'end_datetime'
@@ -284,8 +286,10 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     end_time = "%02d%03d%02d%02d" % (int(yr), int(jd), int(hr), int(mi))
 
     # add attributes to xarray
-    xarray_amsub.attrs["start_datetime"] = datetime.strptime(start_time, "%y%j%H%M")
-    xarray_amsub.attrs["end_datetime"] = datetime.strptime(end_time, "%y%j%H%M")
+    start_datetime = datetime.strptime(start_time, "%y%j%H%M")
+    xarray_amsub.attrs["start_datetime"] = start_datetime.replace(tzinfo=timezone.utc)
+    end_datetime = datetime.strptime(end_time, "%y%j%H%M")
+    xarray_amsub.attrs["end_datetime"] = end_datetime.replace(tzinfo=timezone.utc)
     xarray_amsub.attrs["source_name"] = "amsu-b"
     xarray_amsub.attrs["platform_name"] = satid
     xarray_amsub.attrs["data_provider"] = "nesdis"

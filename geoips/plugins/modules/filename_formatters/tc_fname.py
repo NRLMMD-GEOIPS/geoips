@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore geoimgbase, hhmnss, currdt, dtstr, osunlink, stormnum, gpaths
+
 """Standard TC filename formatter."""
 
 # Python Standard Libraries
@@ -11,7 +13,7 @@ from os.path import (
     dirname as pathdirname,
     basename as pathbasename,
 )
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from glob import glob
 from os import unlink as osunlink
 
@@ -180,6 +182,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         return [], []
     try:
         fname_dt = datetime.strptime(yyyymmdd + hhmnss, "%Y%m%d%H%M%S")
+        fname_dt = fname_dt.replace(tzinfo=timezone.utc)
     except ValueError:
         LOG.info(
             "NOT REMOVING DUPLICATES. Unmatched filename format, "
@@ -203,6 +206,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         parts = pathbasename(matching_fname).split("_")
         coverage = float(parts[7].replace("p", "."))
         start_dt = datetime.strptime(parts[0] + parts[1][0:6], "%Y%m%d%H%M%S")
+        start_dt = start_dt.replace(tzinfo=timezone.utc)
         max_coverage = max(coverage, max_coverage)
         if min_dt is None:
             min_dt = start_dt
@@ -216,6 +220,7 @@ def tc_fname_remove_duplicates(fname, mins_to_remove=3, remove_files=False):
         parts = pathbasename(matching_fname).split("_")
         coverage = float(parts[7].replace("p", "."))
         start_dt = datetime.strptime(parts[0] + parts[1][0:6], "%Y%m%d%H%M%S")
+        start_dt = start_dt.replace(tzinfo=timezone.utc)
         # Priority to delete lower coverage
         if coverage < max_coverage:
             removed_fnames += [matching_fname]
