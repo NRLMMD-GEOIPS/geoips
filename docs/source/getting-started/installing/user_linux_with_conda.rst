@@ -56,11 +56,10 @@ setup to get Geoips up and running.
 
   .. code:: bash
 
-      # Note geos no longer required for cartopy >= 0.22
       # openblas / gcc required for recenter_tc / akima build.
       # git required for -C commands
 
-      mamba create -y -n geoips -c conda-forge python=3.11 gcc gxx openblas git libgit2
+      mamba create -y -n geoips -c conda-forge python=3.11 openblas git
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
   **Note:** You will need to run ``conda activate geoips``
@@ -92,7 +91,6 @@ GeoIPS test data download requires the following environment variables to be set
 
 Note: You can customize test data location by changing the value of ``$GEOIPS_PACKAGES_DIR``.
 
-
 If desired, the GeoIPS environment variables can be added to your
 ``$HOME/.bashrc`` by running the following commands:
 
@@ -101,9 +99,39 @@ If desired, the GeoIPS environment variables can be added to your
     echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
     echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
 
-Run the script
+Download the sample dataset using geoips CLI command
 
-4. Run A Script
----------------
+.. code:: bash
 
-Running a sample script to test your installation requires downloading test data.
+    geoips config install test_data_abi
+
+
+4. Run a Sample Script
+----------------------
+
+Test the installation by running a sample GeoIPS processing script.
+
+.. code:: bash
+
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C* \
+    --reader_name abi_netcdf \
+    --product_name Infrared \
+    --output_formatter imagery_annotated \
+    --sector_list conus
+
+The end of the output from the above script should resemble the example below, showing
+the path to the generated output image. The final line should display `Return value: 0`,
+indicating that the script ran successfully.
+
+.. code:: bash
+
+    # Truncated log output from the script run
+    .......
+    11_191109    log_setup.py:162  INTERACTIVE:     SINGLESOURCESUCCESS ${GEOIPS_OUTDIRS}/preprocessed/annotated_imagery/NorthAmerica-UnitedStates-Continental/x-x-x/Infrared/abi/20200918.195020.goes-16.abi.Infrared.conus.97p12.noaa.3p0.png
+    11_191109    log_setup.py:162  INTERACTIVE: READER_NAME: abi_netcdf
+    11_191109    log_setup.py:162  INTERACTIVE: PRODUCT_NAME: Infrared
+    11_191109    log_setup.py:162  INTERACTIVE: NUM_PRODUCTS: 1
+    11_191109    log_setup.py:162  INTERACTIVE: NUM_DELETED_PRODUCTS: 0
+    11_191109    log_setup.py:162  INTERACTIVE: Completed geoips PROCFLOW single_source processing, done!
+    11_191109    log_setup.py:162  INTERACTIVE: Total time: 0:00:24.911853
+    11_191109    log_setup.py:162  INTERACTIVE: Return value: 0
