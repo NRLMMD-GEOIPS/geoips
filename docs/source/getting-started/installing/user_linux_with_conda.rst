@@ -22,7 +22,7 @@ installation method enables users to install GeoIPS without requiring administra
 privileges by using Conda to install all required system dependencies, followed by
 installing GeoIPS from a PyPI wheel within that conda environment.
 
-The system-level prerequisites are ``pip``, ``Python3.11 or greater``, and ``wget``
+The system-level prerequisites are ``wget``
 
 1. Install Anaconda or Miniconda
 --------------------------------
