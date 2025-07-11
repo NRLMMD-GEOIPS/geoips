@@ -6,7 +6,7 @@
 from os import getenv, getpid
 from os.path import basename, exists
 import logging
-from datetime import timedelta
+from datetime import datetime, timedelta, timezone
 import inspect
 import xarray
 
@@ -1814,10 +1814,8 @@ def call(fnames, command_line_args=None):
     ``geoips.commandline.args``
         Complete list of available command line args.
     """
-    from datetime import datetime
-
     process_datetimes = {}
-    process_datetimes["overall_start"] = datetime.utcnow()
+    process_datetimes["overall_start"] = datetime.now(timezone.utc)
     final_products = []
     removed_products = []
     saved_products = []
@@ -2077,7 +2075,7 @@ def call(fnames, command_line_args=None):
                 continue
 
         process_datetimes[area_def.area_id] = {}
-        process_datetimes[area_def.area_id]["start"] = datetime.utcnow()
+        process_datetimes[area_def.area_id]["start"] = datetime.now(timezone.utc)
         # add satellite_azimuth_angle and solar_azimuth_angle into list of the variables
         # for ABI only (come from ABI reader)
         if area_def.sector_type in ["reader_defined", "self_register"]:
@@ -2417,7 +2415,7 @@ def call(fnames, command_line_args=None):
                             "databases interface."
                         )
 
-            process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
+            process_datetimes[area_def.area_id]["end"] = datetime.now(timezone.utc)
             num_jobs += 1
         else:
             LOG.interactive(
@@ -2430,7 +2428,7 @@ def call(fnames, command_line_args=None):
     LOG.interactive(
         "\n\n\nProcessing complete! Checking outputs...\n\n",
     )
-    process_datetimes["overall_end"] = datetime.utcnow()
+    process_datetimes["overall_end"] = datetime.now(timezone.utc)
 
     if output_file_list_fname:
         LOG.info("Writing successful outputs to %s", output_file_list_fname)

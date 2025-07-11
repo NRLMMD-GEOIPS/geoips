@@ -5,6 +5,7 @@
 
 # Python Standard Libraries
 import logging
+from datetime import datetime, timezone
 import matplotlib
 import matplotlib.pyplot as plt
 
@@ -219,9 +220,8 @@ def save_image(
 
     LOG.info("IMAGESUCCESS wrote %s", out_fname)
     if image_datetime is not None:
-        from datetime import datetime
 
-        LOG.info("LATENCY %s %s", datetime.utcnow() - image_datetime, out_fname)
+        LOG.info("LATENCY %s %s", datetime.now(timezone.utc) - image_datetime, out_fname)
     return [out_fname]
 
 

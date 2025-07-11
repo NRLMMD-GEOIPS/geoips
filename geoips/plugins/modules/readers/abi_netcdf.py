@@ -7,7 +7,7 @@
 import logging
 import os
 from glob import glob
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
 # Third-Party Libraries
@@ -136,7 +136,7 @@ ALL_CHANS = {
 def metadata_to_datetime(metadata):
     """Use information from the metadata to get the image datetime."""
     times = metadata["var_info"]["time_bounds"]
-    epoch = datetime(2000, 1, 1, 12, 0, 0)
+    epoch = datetime(2000, 1, 1, 12, 0, 0, tzinfo=timezone.utc)
     start_time = epoch + timedelta(seconds=times[0])
     end_time = epoch + timedelta(seconds=times[1])
     return start_time, end_time
@@ -1662,6 +1662,8 @@ def get_data(
         sample_inds = gvars["Samples"]
     else:
         full_disk = True
+        line_inds = None
+        sample_inds = None
 
     band_num = md["var_info"]["band_id"]
 

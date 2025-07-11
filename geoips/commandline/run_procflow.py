@@ -6,7 +6,7 @@
 MUST call with --procflow.
 """
 
-from datetime import datetime
+from datetime import datetime, timezone
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_command_line_args
 from geoips.interfaces import procflows
@@ -27,7 +27,7 @@ def main(get_command_line_args_func=None, ARGS=None):
           For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments
     """
     DATETIMES = {}
-    DATETIMES["start"] = datetime.utcnow()
+    DATETIMES["start"] = datetime.now(timezone.utc)
 
     if get_command_line_args_func is None:
         get_command_line_args_func = get_command_line_args
@@ -70,8 +70,8 @@ def main(get_command_line_args_func=None, ARGS=None):
             COMMAND_LINE_ARGS["procflow"],
         )
         LOG.info("Starting time: %s", DATETIMES["start"])
-        LOG.info("Ending time: %s", datetime.utcnow())
-        LOG.interactive("Total time: %s", datetime.utcnow() - DATETIMES["start"])
+        LOG.info("Ending time: %s", datetime.now(timezone.utc))
+        LOG.interactive("Total time: %s", datetime.now(timezone.utc) - DATETIMES["start"])
         if isinstance(RETVAL, list):
             for ret in RETVAL:
                 LOG.interactive("GEOIPSPROCFLOWSUCCESS %s", ret)
@@ -80,14 +80,14 @@ def main(get_command_line_args_func=None, ARGS=None):
                     "GEOIPSTOTALSUCCESS %s %s products generated, total time %s",
                     str(PROCFLOW.name),
                     len(RETVAL),
-                    datetime.utcnow() - DATETIMES["start"],
+                    datetime.now(timezone.utc) - DATETIMES["start"],
                 )
             else:
                 LOG.interactive(
                     "GEOIPSNOSUCCESS %s %s products generated, total time %s",
                     str(PROCFLOW.name),
                     len(RETVAL),
-                    datetime.utcnow() - DATETIMES["start"],
+                    datetime.now(timezone.utc) - DATETIMES["start"],
                 )
             sys.exit(0)
         # LOG.info('Return value: %s', bin(RETVAL))

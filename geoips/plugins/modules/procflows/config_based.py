@@ -9,7 +9,7 @@ from glob import glob
 from os.path import exists
 from os.path import basename
 from os import getpid
-from datetime import datetime
+from datetime import datetime, timezone
 from pyaml_env import parse_config
 
 from geoips.commandline.args import check_command_line_args
@@ -833,7 +833,7 @@ def call(fnames, command_line_args=None):
     LOG.interactive("GEOIPS_VERS {}".format(geoips_version))
 
     process_datetimes = {}
-    process_datetimes["overall_start"] = datetime.utcnow()
+    process_datetimes["overall_start"] = datetime.now(timezone.utc)
     final_products = {}
     removed_products = []
     saved_products = []
@@ -1258,7 +1258,7 @@ def call(fnames, command_line_args=None):
             # from a single. Sector to pad_area_def so we have enough data for
             # recentering.
             process_datetimes[area_def.area_id] = {}
-            process_datetimes[area_def.area_id]["start"] = datetime.utcnow()
+            process_datetimes[area_def.area_id]["start"] = datetime.now(timezone.utc)
 
             # Make sure we grab some around the required data.
             # Do NOT sector if we are using a reader_defined or self_register area_def -
@@ -2067,7 +2067,9 @@ def call(fnames, command_line_args=None):
                         removed_products += curr_removed_products
                         saved_products += curr_saved_products
 
-                    process_datetimes[area_def.area_id]["end"] = datetime.utcnow()
+                    process_datetimes[area_def.area_id]["end"] = datetime.now(
+                        timezone.utc
+                    )
                     num_jobs += 1
                     pid_track.track_resource_usage(
                         logstr="MEMUSG",
@@ -2089,7 +2091,7 @@ def call(fnames, command_line_args=None):
         )
 
     pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
-    process_datetimes["overall_end"] = datetime.utcnow()
+    process_datetimes["overall_end"] = datetime.now(timezone.utc)
 
     LOG.interactive("\n\n\nProcessing complete! Checking outputs...\n\n\n")
 

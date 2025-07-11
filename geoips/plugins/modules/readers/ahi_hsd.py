@@ -179,7 +179,7 @@ def metadata_to_datetime(metadata, time_var="ob_start_time"):
     """Use information from block_01 to get the image datetime."""
     ost = metadata["block_01"][time_var]
     otl = metadata["block_01"]["ob_timeline"]
-    dt = datetime(1858, 11, 17, 00, 00, 00)
+    dt = datetime(1858, 11, 17, 00, 00, 00, tzinfo=timezone.utc)
     dt += timedelta(days=np.floor(ost))
     dt += timedelta(hours=int(otl // 100), minutes=int(otl % 100))
     return dt
@@ -1544,7 +1544,7 @@ def call_single_time(
     LOG.info("")
 
     print_mem_usage("MEMUSG", verbose=False)
-    process_datetimes["overall_end"] = datetime.utcnow()
+    process_datetimes["overall_end"] = datetime.now(timezone.utc)
 
     output_process_times(process_datetimes, job_str="AHI HSD Reader")
     return xarray_objs
