@@ -70,7 +70,6 @@ feature:
     - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py'
     - 'tests/unit_tests/pydantic/workflows/test_workflow_step_definition_model.py'
     - 'tests/unit_tests/pydantic/workflows/test_workflows.py'
-    moved:
   related-issue:
     number: 1080
     repo_url: ''
