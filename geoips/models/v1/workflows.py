@@ -73,10 +73,11 @@ def get_plugin_kinds() -> set[str]:
     set of str
         singular names of distinct plugin kinds
     """
+    IRREGULAR_PLURALS = {"databases": "database"}
     return {
-        str(Lexeme(plugin_kinds).singular)
+        IRREGULAR_PLURALS.get(kind, str(Lexeme(kind).singular))
         for ifs in interfaces.list_available_interfaces().values()
-        for plugin_kinds in ifs
+        for kind in ifs
     }
 
 

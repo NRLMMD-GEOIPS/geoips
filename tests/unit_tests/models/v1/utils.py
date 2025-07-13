@@ -250,10 +250,10 @@ def _validate_test_tup_keys(test_tup: TestCaseModel) -> Tuple[str, Any, str, str
 
 def _resolve_model_class(failing_model):
     """Resolve the actual Pydantic model class by name."""
-    for mod in geoips_models._modules:
-        if failing_model in geoips_models._classes[mod]:
-            return getattr(geoips_models._modules[mod], failing_model)
-        if hasattr(geoips_models._modules[mod], failing_model):
+    for mod_name, mod in geoips_models.v1._modules.items():
+        if failing_model in geoips_models.v1._classes.get(mod_name, {}):
+            return getattr(mod, failing_model)
+        if hasattr(mod, failing_model):
             # This behavior occurs for the 'ColorType' attribute, which is
             # a type instance but not actually a pydantic class.
             return None
