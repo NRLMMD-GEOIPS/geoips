@@ -16,6 +16,7 @@ for _, modname, _ in pkgutil.iter_modules(__path__):
     _modules[full_name] = module
 
     _classes[full_name] = [
-        name for name, obj in inspect.getmembers(module, inspect.isclass)
+        name
+        for name, obj in inspect.getmembers(module, inspect.isclass)
         if obj.__module__ == full_name
     ]
