@@ -77,10 +77,7 @@ GeoIPS test data download requires the following environment variables to be set
 
 .. code:: bash
 
-    # GeoIPS Default Locations
     conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
-    # Reactivate environment for variables to take effect
-    conda deactivate && conda activate geoips
     conda env config vars set GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     conda env config vars set GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
     conda deactivate && conda activate geoips
