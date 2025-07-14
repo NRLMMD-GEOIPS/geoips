@@ -7,9 +7,10 @@ documentation:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/add-user-install-instructions-Windows.yaml'
     modified:
     - 'docs/source/releases/latest/add-user-install-instructions-Windows.yaml'
+    - 'docs/source/getting-started/installing/user_linux_with_conda.rst'
   related-issue:
     number: null
     repo_url: ''
