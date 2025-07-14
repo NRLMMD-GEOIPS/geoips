@@ -6,8 +6,8 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
-from os import listdir, environ, remove
-from os.path import abspath, join
+from os import listdir, environ, makedirs, remove
+from os.path import abspath, exists, join
 import subprocess
 import requests
 import tempfile
@@ -95,7 +95,15 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     def geoips_testdata_dir(self):
         """String path to GEOIPS_TESTDATA_DIR."""
         if not hasattr(self, "_geoips_testdata_dir"):
-            self._geoips_testdata_dir = environ["GEOIPS_TESTDATA_DIR"]
+            try:
+                self._geoips_testdata_dir = environ["GEOIPS_TESTDATA_DIR"]
+            except KeyError:
+                raise self.parser.error(
+                    "Error: Environment variable '$GEOIPS_TESTDATA_DIR' has not been "
+                    "set. Please either set this variable (via export "
+                    "GEOIPS_TESTDATA_DIR=<some_path>) or specify a custom output "
+                    "directory via 'geoips config install <dataset> -o <folder_path>.'"
+                )
         return self._geoips_testdata_dir
 
     def add_arguments(self):
@@ -115,8 +123,12 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             "-o",
             "--outdir",
             type=str,
-            default=self.geoips_testdata_dir,
-            help="The full path to the directory you want to install this data to.",
+            default=None,
+            help=(
+                "The full path to the directory you want to install this data to."
+                "If not provided, this command will default to $GEOIPS_TESTDATA_DIR."
+                "This is done in the __call__ function."
+            ),
         )
 
     def __call__(self, args):
@@ -129,6 +141,15 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         """
         test_dataset_names = args.test_dataset_names
         outdir = args.outdir
+
+        if not outdir:
+            # This flag wasn't specified. We will default to $GEOIPS_TESTDATA_DIR if
+            # this occurs.
+            outdir = self.geoips_testdata_dir
+
+        if not exists(outdir):
+            # Download directory doesn't exist. Make it before installing data into it
+            makedirs(outdir)
 
         if len(test_dataset_names) > 1 and "all" in test_dataset_names:
             self.parser.error(
