@@ -12,7 +12,7 @@ Installing GeoIPS
     :maxdepth: 1
     :caption: Contents:
 
-    linux_with_conda
+    user_linux_with_conda
     mac_with_conda
     windows_with_conda
     expert
