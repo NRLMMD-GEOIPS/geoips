@@ -77,23 +77,24 @@ GeoIPS test data download requires the following environment variables to be set
 .. code:: bash
 
     # GeoIPS Default Locations
-    export GEOIPS_PACKAGES_DIR=$HOME/geoips
-    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
-    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+    conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
+    conda env config vars set GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
+    conda env config vars set GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
     mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
 .. note::
     You can customize test data location
-    by changing the value of ``$GEOIPS_TESTDATA_DIR``.
+    by changing the value of ``GEOIPS_TESTDATA_DIR``.
 
-If desired, the GeoIPS environment variables can be persisted
-by adding added to your these variable to your ``$HOME/.bashrc``
-by running the following commands:
+After setting the above environment variables, you must reactivate your environment
+for the changes to take effect.
 
 .. code:: bash
 
-    echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
-    echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
+    # Reactivate environment for variables to take effect
+    conda deactivate && conda activate geoips
+    # check if required environment variables are set
+    conda env config vars list
 
 Download the sample dataset using geoips CLI command:
 
