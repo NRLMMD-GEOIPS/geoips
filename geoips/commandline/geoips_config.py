@@ -149,6 +149,9 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
 
         if not exists(outdir):
             # Download directory doesn't exist. Make it before installing data into it
+            print(
+                f"Specified output directory {outdir} doesn't exist. Creating it now."
+            )
             makedirs(outdir)
 
         if len(test_dataset_names) > 1 and "all" in test_dataset_names:
