@@ -50,15 +50,20 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 - Create a conda environment named, for example, ``geoips`` with the appropriate
   dependencies:
 
+
   .. code:: bash
 
+      # Linux users
       mamba create -y -n geoips -c conda-forge python=3.11  openblas git
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
-  .. note::
+  .. code:: bash
 
-      You must run ``conda activate geoips``
-      every time you run or work with GeoIPS.
+      # Windows users (WSL only)
+      sudo apt-get update && sudo apt-get install build-essential
+      mamba create -y -n geoips -c conda-forge python=3.11  openblas git gdal pyhdf pygrib
+      conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
+
 
 2. Install GeoIPS using pip
 ---------------------------
