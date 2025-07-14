@@ -11,6 +11,7 @@ Installation on Linux
 This page provides instructions for installing GeoIPS using wheels from PyPI in a
 conda virtual environment. This installation method is recommended for users with
 or without administrative privleges.
+
 Developers of core GeoIPS should follow the appropriate guide under "Contribute".
 
 1. Install Anaconda or Miniconda
@@ -52,13 +53,13 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 
   .. code:: bash
 
-      mamba create -y -n geoips -c conda-forge python=3.11  openblas git
+      mamba create -y -n geoips -c conda-forge python=3.11 openblas git
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
-  .. note::
+.. note::
 
-      You must run ``conda activate geoips``
-      every time you run or work with GeoIPS.
+   You must run ``conda activate geoips``
+   every time you run or work with GeoIPS.
 
 2. Install GeoIPS using pip
 ---------------------------
@@ -80,33 +81,22 @@ GeoIPS test data download requires the following environment variables to be set
     conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
     conda env config vars set GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     conda env config vars set GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-
-.. note::
-    You can customize test data location
-    by changing the value of ``GEOIPS_TESTDATA_DIR``.
-
-After setting the above environment variables, you must reactivate your environment
-for the changes to take effect.
-
-.. code:: bash
-
-    # Reactivate environment for variables to take effect
     conda deactivate && conda activate geoips
-    # check if required environment variables are set
-    conda env config vars list
-    # create required directories
     mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
+.. note::
+
+   You can customize test data location
+   by changing the value of ``GEOIPS_TESTDATA_DIR``.
+
+4. Run a Sample Script
+----------------------
 
 Download the sample dataset using geoips CLI command:
 
 .. code:: bash
 
     geoips config install test_data_abi
-
-
-4. Run a Sample Script
-----------------------
 
 Test the installation by running a sample GeoIPS processing script.
 
@@ -126,7 +116,7 @@ indicating that the script ran successfully.
 
     # Truncated log output from the script run
     .......
-    11_191109    log_setup.py:162  INTERACTIVE:     SINGLESOURCESUCCESS ${GEOIPS_OUTDIRS}/preprocessed/annotated_imagery/NorthAmerica-UnitedStates-Continental/x-x-x/Infrared/abi/20200918.195020.goes-16.abi.Infrared.conus.97p12.noaa.3p0.png
+    11_191109    log_setup.py:162  INTERACTIVE: SINGLESOURCESUCCESS ${GEOIPS_OUTDIRS}/preprocessed/annotated_imagery/NorthAmerica-UnitedStates-Continental/x-x-x/Infrared/abi/20200918.195020.goes-16.abi.Infrared.conus.97p12.noaa.3p0.png
     11_191109    log_setup.py:162  INTERACTIVE: READER_NAME: abi_netcdf
     11_191109    log_setup.py:162  INTERACTIVE: PRODUCT_NAME: Infrared
     11_191109    log_setup.py:162  INTERACTIVE: NUM_PRODUCTS: 1
