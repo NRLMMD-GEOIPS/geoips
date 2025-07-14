@@ -51,6 +51,7 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 - Create a conda environment named, for example, ``geoips`` with the appropriate
   dependencies:
 
+
   .. code:: bash
 
       mamba create -y -n geoips -c conda-forge python=3.11 openblas git
