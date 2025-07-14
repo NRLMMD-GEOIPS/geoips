@@ -80,7 +80,6 @@ GeoIPS test data download requires the following environment variables to be set
     conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
     conda env config vars set GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
     conda env config vars set GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-    mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
 .. note::
     You can customize test data location
@@ -95,6 +94,9 @@ for the changes to take effect.
     conda deactivate && conda activate geoips
     # check if required environment variables are set
     conda env config vars list
+    # create required directories
+    mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
+
 
 Download the sample dataset using geoips CLI command:
 
