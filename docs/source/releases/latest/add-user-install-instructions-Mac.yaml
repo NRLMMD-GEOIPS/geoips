@@ -2,14 +2,19 @@ documentation:
 - title: 'User instructions for installing GeoIPS on Windows with Conda'
   description: 'Add installation instructions for external users to install GeoIPS on Windows with Conda'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
     added:
-    - ''
-    modified:
+    - 'docs/source/contribute/dev_mac_with_conda.rst'
+    - 'docs/source/getting-started/installing/linux_with_conda.rst'
+    - 'docs/source/getting-started/installing/troubleshooting.rst'
     - 'docs/source/releases/latest/add-user-install-instructions-Mac.yaml'
+    - 'docs/source/releases/latest/finalize-conda-create-and-troubleshooting.yaml'
+    modified:
+    - '.cspell.json'
+    - 'docs/source/contribute/index.rst'
+    - 'docs/source/getting-started/installing/index.rst'
+    - 'docs/source/getting-started/installing/mac_with_conda.rst'
+    deleted:
+    - 'docs/source/getting-started/installing/user_linux_with_conda.rst'
   related-issue:
     number: null
     repo_url: ''
