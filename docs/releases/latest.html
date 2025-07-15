@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Version latest (2025-07-15) &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+    <title>Version latest (2025-07-15) &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0.post13.dev0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=b70c9869"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:42:09"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0.post13.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0.post13.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -592,6 +592,8 @@
 <li><p><em>Enhancement</em>: Add support for invalid json in command-line kwargs. eg. –reader-kwargs</p></li>
 <li><p><em>Enhancement</em>: Update dockerfile</p></li>
 <li><p><em>Removal</em>: Remove outdated integration tests documentation</p></li>
+<li><p><em>Installation</em>: Finalize the conda create command for completeness</p></li>
+<li><p><em>Installation</em>: Add a troubleshooting page to installation section of docs</p></li>
 <li><p><em>Hot fix</em>: Add support for alternative data_fusion package name</p></li>
 </ul>
 </div></blockquote>
@@ -1212,6 +1214,31 @@ kwargs. This adds support for single quotes by calling ast.literal_eval instead 
 </div>
 </section>
 </section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">#</a></h2>
+<section id="finalize-the-conda-create-command-for-completeness">
+<h3>Finalize the conda create command for completeness<a class="headerlink" href="#finalize-the-conda-create-command-for-completeness" title="Permalink to this heading">#</a></h3>
+<p>Add a thorough list of packages for the conda create command.
+This is a more complete list than is needed, but may help avoid
+potential issues with missing libraries for different architectures.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">installing</span><span class="o">/</span><span class="n">linux_with_conda</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="id25">
+<h2>Installation<a class="headerlink" href="#id25" title="Permalink to this heading">#</a></h2>
+<section id="add-a-troubleshooting-page-to-installation-section-of-docs">
+<h3>Add a troubleshooting page to installation section of docs<a class="headerlink" href="#add-a-troubleshooting-page-to-installation-section-of-docs" title="Permalink to this heading">#</a></h3>
+<p>During the workshop installation, this can be used to compile issues
+during the installation process.  After the workshop, this can be used
+to allow for a simplified installation, with potential issues and
+resolutions identified.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">docs</span><span class="o">/</span><span class="n">source</span><span class="o">/</span><span class="n">getting</span><span class="o">-</span><span class="n">started</span><span class="o">/</span><span class="n">installing</span><span class="o">/</span><span class="n">troubleshooting</span><span class="o">.</span><span class="n">rst</span>
+</pre></div>
+</div>
+</section>
+</section>
 <section id="hot-fix">
 <h2>Hot fix<a class="headerlink" href="#hot-fix" title="Permalink to this heading">#</a></h2>
 <section id="add-support-for-alternative-data-fusion-package-name">
@@ -1394,6 +1421,14 @@ geoips_data_fusion. This change allows geoips run to use the pypi packaged versi
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#removal">Removal</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#remove-outdated-integration-tests-documentation">Remove outdated integration tests documentation</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#finalize-the-conda-create-command-for-completeness">Finalize the conda create command for completeness</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id25">Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-a-troubleshooting-page-to-installation-section-of-docs">Add a troubleshooting page to installation section of docs</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hot-fix">Hot fix</a><ul class="nav section-nav flex-column">
