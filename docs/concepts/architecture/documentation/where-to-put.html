@@ -56,7 +56,7 @@ const load = async () => {
     const mermaids_to_add_zoom = 1 === -1 ? all_mermaids.length : 1;
     const mermaids_processed = document.querySelectorAll(".mermaid[data-processed='true']");
     if(mermaids_to_add_zoom > 0) {
-        var svgs = d3.selectAll(".mermaid[data-zoom-id=id-cbd13457-a93c-400b-bc2e-3604171efeb2] svg");
+        var svgs = d3.selectAll(".mermaid[data-zoom-id=id-c28009e5-758a-4a33-8d7c-d5b194869d08] svg");
         if(all_mermaids.length !== mermaids_processed.length) {
             // try again in a sec, wait for mermaids to load
             setTimeout(load, 200);
@@ -90,7 +90,7 @@ window.addEventListener("load", load);
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 15, 2025 19:55:09"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 20:01:12"/>
   </head>
   
   
@@ -540,7 +540,7 @@ window.addEventListener("load", load);
 <section id="flowchart">
 <h2>Flowchart<a class="headerlink" href="#flowchart" title="Permalink to this heading">#</a></h2>
 <p>Please use this flowchart to figure out where to put new documentation.</p>
-<pre data-zoom-id="id-cbd13457-a93c-400b-bc2e-3604171efeb2" class="mermaid">
+<pre data-zoom-id="id-c28009e5-758a-4a33-8d7c-d5b194869d08" class="mermaid">
         flowchart TD
     Start[Start]
     DocBuild{Are you modifying the homepage or how the documentation is built?}
