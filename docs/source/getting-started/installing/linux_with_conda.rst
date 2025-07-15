@@ -54,7 +54,7 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 
   .. code:: bash
 
-      mamba create -y -n geoips -c conda-forge python=3.11 cmake git libgit2 gxx_linux-64 gcc gxx gfortran
+      mamba create -y -n geoips -c conda-forge python=3.11 cmake make git libgit2 gxx_linux-64 gcc gxx gfortran
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 .. note::
