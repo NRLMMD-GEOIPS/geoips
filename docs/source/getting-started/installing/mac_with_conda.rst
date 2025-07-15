@@ -25,49 +25,48 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
   <https://docs.conda.io/en/latest/miniconda.html>`_, or
   `Miniforge/Mambaforge <https://github.com/conda-forge/miniforge#download>`_.
 
-.. code:: bash
+  .. code:: bash  
 
-    # Mamba for Intel chips
-    curl -L -o conda_install.sh \
-    https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
-    # Mamba for ARM (M1/M2) chips
-    curl -L -o conda_install.sh \
-    https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-    # Anaconda for Intel chips
-    curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
-    # Anaconda for ARM (M1/M2) chips
-    curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
-    # Miniconda for Intel chips
-    curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
-    # Miniconda for ARM (M1/M2) chips
-    curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
+      # Mamba for Intel chips
+      curl -L -o conda_install.sh \
+      https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
+      # Mamba for ARM (M1/M2) chips
+      curl -L -o conda_install.sh \
+      https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
+      # Anaconda for Intel chips
+      curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
+      # Anaconda for ARM (M1/M2) chips
+      curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
+      # Miniconda for Intel chips
+      curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
+      # Miniconda for ARM (M1/M2) chips
+      curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
 
 - Make the installer script executable and run it, following the prompts (particularly the bit about
   conda init / restarting terminal!):
 
-.. code:: bash
+  .. code:: bash
 
-    chmod u+x conda_install.sh
-    ./conda_install.sh
-    # Follow instructions regarding conda init / restarting your terminal !
+      chmod u+x conda_install.sh
+      ./conda_install.sh
+      # Follow instructions regarding conda init / restarting your terminal !
 
-.. code:: bash
+  .. code:: bash
 
-    # Clean up after yourself
-    rm -f ./Miniforge3-Linux-x86_64.sh
+      # Clean up after yourself
+      rm -f ./Miniforge3-Linux-x86_64.sh
 
 - Create a conda environment named, for example, ``geoips`` with the appropriate
   dependencies:
 
 
-.. code:: bash
-    
+  .. code:: bash
 
-    # git required for pulling from git and for -C commands
-    # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
-    #   best to install via conda
-    conda create -y -n geoips -c conda-forge python=3.11 cmake gcc gfortran git gxx gxx_linux-64 libgit2 make openblas pyhdf pykdtree     
-    conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
+      # git required for pulling from git and for -C commands
+      # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
+      #   best to install via conda
+      conda create -y -n geoips -c conda-forge python=3.11 cmake gcc gfortran git gxx gxx_linux-64 libgit2 make openblas pyhdf pykdtree     
+      conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 .. note::
 
