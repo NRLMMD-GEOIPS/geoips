@@ -53,14 +53,15 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 
 .. code:: bash
 
-      # Clean up after yourself
-      rm -f ./Miniforge3-Linux-x86_64.sh
+    # Clean up after yourself
+    rm -f ./Miniforge3-Linux-x86_64.sh
 
 - Create a conda environment named, for example, ``geoips`` with the appropriate
   dependencies:
 
 
 .. code:: bash
+    
 
     # git required for pulling from git and for -C commands
     # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
