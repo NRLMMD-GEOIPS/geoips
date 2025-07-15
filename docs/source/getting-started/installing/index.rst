@@ -16,3 +16,4 @@ Installing GeoIPS
     mac_with_conda
     windows_with_conda
     expert
+    troubleshooting
