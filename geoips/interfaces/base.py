@@ -3,6 +3,8 @@
 
 """Base classes for interfaces, plugins, and plugin validation machinery."""
 
+# cspell:ignore refjs
+
 import abc
 import yaml
 import inspect
@@ -322,7 +324,7 @@ class BaseInterface(abc.ABC):
     interface_type = None  # This is set by child classes
     rebuild_registries = PATHS["GEOIPS_REBUILD_REGISTRIES"]
     # Setting this attribute at the top level so it can be used by all methods.
-    # This can be overriden by setting them in child interface classes
+    # This can be overridden by setting them in child interface classes
     apiVersion = "geoips/v1"
 
     def __new__(cls):
@@ -429,6 +431,7 @@ class BaseYamlInterface(BaseInterface):
     validator = YamlPluginValidator()
     interface_type = "yaml_based"
     name = "BaseYamlInterface"
+    use_pydantic = False
 
     def __new__(cls):
         """YAML plugin interface new method."""
@@ -574,10 +577,26 @@ class BaseYamlInterface(BaseInterface):
         family_list = []
         plugin_ids = {}
         for plugin in plugins:
-            if plugin.family not in family_list:
-                family_list.append(plugin.family)
-                plugin_ids[plugin.family] = []
-            plugin_ids[plugin.family].append(plugin.id)
+            # TODO: Refactor to remove this `if` block after full migration from JSON
+            # to Pydantic schemas.
+            if hasattr(plugin, "model_dump"):
+                pdata = plugin.model_dump()
+            else:
+                pdata = plugin if isinstance(plugin, dict) else plugin.__dict__
+
+            plugin_family = pdata.get("family")
+            plugin_name = pdata.get("name")
+
+            if not plugin_family or not plugin_name:
+                raise ValueError(
+                    f"Missing required plugin fields. "
+                    f" Expected 'family' and 'name' got: family={plugin_family}, "
+                    f"name={plugin_name}. Full plugin data: {pdata}"
+                )
+            if plugin_family not in family_list:
+                family_list.append(plugin_family)
+                plugin_ids[plugin_family] = []
+            plugin_ids[plugin_family].append(plugin_name)
 
         output = {
             "all_valid": all_valid,
