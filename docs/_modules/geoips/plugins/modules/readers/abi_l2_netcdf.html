@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.readers.abi_l2_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.readers.abi_l2_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -461,7 +461,13 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">return</span> <span class="n">metadata</span></div>
 
 
-<div class="viewcode-block" id="calculate_abi_geolocation"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_l2_netcdf.calculate_abi_geolocation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_abi_geolocation</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_abi_geolocation"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_l2_netcdf.calculate_abi_geolocation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_abi_geolocation</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">cache_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate ABI geolocation.&quot;&quot;&quot;</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.readers</span><span class="w"> </span><span class="kn">import</span> <span class="n">abi_netcdf</span>
 
@@ -470,10 +476,23 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;file_info&quot;</span><span class="p">][</span><span class="s2">&quot;time_coverage_start&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y-%m-</span><span class="si">%d</span><span class="s2">T%H:%M:%S.</span><span class="si">%f</span><span class="s2">Z&quot;</span>
     <span class="p">)</span>
     <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span> <span class="o">=</span> <span class="n">abi_netcdf</span><span class="o">.</span><span class="n">get_latitude_longitude</span><span class="p">(</span>
-        <span class="n">geometa</span><span class="p">,</span> <span class="n">abi_netcdf</span><span class="o">.</span><span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+        <span class="n">geometa</span><span class="p">,</span>
+        <span class="n">abi_netcdf</span><span class="o">.</span><span class="n">BADVALS</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">cache_chunk_size</span><span class="p">,</span>
+        <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">geo</span> <span class="o">=</span> <span class="n">abi_netcdf</span><span class="o">.</span><span class="n">get_geolocation</span><span class="p">(</span>
-        <span class="n">sdt</span><span class="p">,</span> <span class="n">geometa</span><span class="p">,</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">abi_netcdf</span><span class="o">.</span><span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+        <span class="n">sdt</span><span class="p">,</span>
+        <span class="n">geometa</span><span class="p">,</span>
+        <span class="n">fldk_lats</span><span class="p">,</span>
+        <span class="n">fldk_lons</span><span class="p">,</span>
+        <span class="n">abi_netcdf</span><span class="o">.</span><span class="n">BADVALS</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">cache_chunk_size</span><span class="p">,</span>
+        <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;fldk_lats&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lats</span>
     <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;fldk_lons&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lons</span>
@@ -539,7 +558,16 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">return</span> <span class="n">ds</span></div>
 
 
-<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_l2_netcdf.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_l2_netcdf.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
+    <span class="n">fnames</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">chans</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">cache_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read ABI Level 2 NetCDF data from a list of filenames.</span>
 
@@ -617,7 +645,13 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># so relying on the abi_netcdf reader for the time being until I figure it out</span>
     <span class="c1"># Deal with geolocation outside of loop to avoid hitting the disk numerous times</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">geo</span> <span class="o">=</span> <span class="n">calculate_abi_geolocation</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+        <span class="n">geo</span> <span class="o">=</span> <span class="n">calculate_abi_geolocation</span><span class="p">(</span>
+            <span class="n">metadata</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="p">,</span>
+            <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+            <span class="n">cache_chunk_size</span><span class="o">=</span><span class="n">cache_chunk_size</span><span class="p">,</span>
+            <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
             <span class="n">lats</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;latitude&quot;</span><span class="p">]</span>
             <span class="n">lons</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;longitude&quot;</span><span class="p">]</span>
@@ -645,8 +679,8 @@ window.addEventListener("load", () => mermaid.run());
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">area_def</span> <span class="ow">and</span> <span class="n">ll_mask</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">xarray</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
-            <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">x_size</span><span class="p">)</span>
-            <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">y_size</span><span class="p">)</span>
+            <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;x&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">width</span><span class="p">)</span>
+            <span class="n">coords</span><span class="p">[</span><span class="s2">&quot;y&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">height</span><span class="p">)</span>
             <span class="n">area_dataset</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
             <span class="n">area_dataset</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">attrs</span>
             <span class="n">lines</span> <span class="o">=</span> <span class="n">geo</span><span class="p">[</span><span class="s2">&quot;Lines&quot;</span><span class="p">]</span>

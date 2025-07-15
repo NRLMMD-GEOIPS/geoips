@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Common GeoIPS Data Units &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>Testing &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -27,31 +27,33 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/set_width.css?v=d4af5e1e" />
-    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
-    <script src="../../../_static/doctools.js?v=888ff710"></script>
-    <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
-    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'new-docs/concepts/functionality/data_units';</script>
-    <link rel="icon" href="../../../_static/nrlicon.ico"/>
-    <link rel="index" title="Index" href="../../../genindex.html" />
-    <link rel="search" title="Search" href="../../../search.html" />
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c5be8013"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/testing/index';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Running GeoIPS Pytest Tests" href="running_tests.html" />
+    <link rel="prev" title="Developer Installation" href="../dev-install.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -70,7 +72,7 @@
   <dialog id="pst-search-dialog">
     
 <form class="bd-search d-flex align-items-center"
-      action="../../../search.html"
+      action="../../search.html"
       method="get">
   <i class="fa-solid fa-magnifying-glass"></i>
   <input type="search"
@@ -106,7 +108,7 @@
     
   
 
-<a class="navbar-brand logo" href="../../../index.html">
+<a class="navbar-brand logo" href="../../index.html">
   
   
   
@@ -117,8 +119,8 @@
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -134,35 +136,35 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
     Tutorials
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
     Concepts
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
     Contribute
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
     API
   </a>
 </li>
@@ -176,14 +178,14 @@
                 <ul id="pst-nav-more-links" class="dropdown-menu">
                     
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../releases/index.html">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
     Release Notes
   </a>
 </li>
 
 
 <li class=" ">
-  <a class="nav-link dropdown-item nav-internal" href="../../../contact/index.html">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
     About Us
   </a>
 </li>
@@ -264,10 +266,8 @@
       
       
       
-        
-      
       <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -283,49 +283,49 @@
   <ul class="bd-navbar-elements navbar-nav">
     
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../getting-started/index.html">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
     Getting Started
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../tutorials/index.html">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
     Tutorials
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../concepts/index.html">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
     Concepts
   </a>
 </li>
 
 
-<li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contribute/index.html">
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
     Contribute
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../geoips_api/index.html">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
     API
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../releases/index.html">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
     Release Notes
   </a>
 </li>
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../contact/index.html">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
     About Us
   </a>
 </li>
@@ -368,6 +368,29 @@
     
   </div>
   
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../code-of-conduct.html">Contributor Covenant Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding-standards.html">🖍️ Coding Standards Reference Doc</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../dev-assisted-package-creation.html">Developer Assisted Package Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git-workflow.html">GeoIPS git workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_linux_with_conda.html">Conda-based Installation for Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev-install.html">Developer Installation</a></li>
+<li class="toctree-l1 current active has-children"><a class="current reference internal" href="#">Testing</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_tests.html">Running GeoIPS Pytest Tests</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
       <div class="sidebar-primary-item">
@@ -399,11 +422,14 @@
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
-      <a href="../../../index.html" class="nav-link" aria-label="Home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
         <i class="fa-solid fa-home"></i>
       </a>
     </li>
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Common GeoIPS Data Units</span></li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Contribute</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Testing</span></li>
   </ul>
 </nav>
 </div>
@@ -428,44 +454,16 @@
 <div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
 </div>
 </div>
-</details><section id="common-geoips-data-units">
-<span id="data-units"></span><h1>Common GeoIPS Data Units<a class="headerlink" href="#common-geoips-data-units" title="Permalink to this heading">#</a></h1>
-<p>GeoIPS readers intake several common data processing levels, but
-sources and units can vary. Within geoips, unit conversions, scale factors,
-and data manipulation can occur, however several common units are expected per
-data level. If ingesting similar products with different processing for the same
-sensor (i.e. VIIRS L1 products from NASA versus CSPP), verify products and units rigorously.</p>
-<p>When referring to data processing levels,
-GeoIPS is referencing <a class="reference external" href="https://ghrc.nsstc.nasa.gov/home/proc_level">EOSDIS Processing Levels</a></p>
-<section id="level-1-data">
-<h2>Level 1 Data<a class="headerlink" href="#level-1-data" title="Permalink to this heading">#</a></h2>
-<p>Technically, the lowest level of data that GeoIPS can read, ingest, and mainpulate, is
-geolocated, calibrated data (Level 1). Standard units are the following:</p>
-<ul class="simple">
-<li><p>Brightness Temperature: Kelvin or Celcius</p></li>
-<li><p>Reflectance: Unitless, common range of 1-100</p></li>
-<li><p>Radiance: SI units (W/cm^2 per steradian)</p></li>
+</details><section id="testing">
+<h1>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h1>
+<p>Testing helps us make sure our code works.
+Here is some information on running our tests.</p>
+<div class="toctree-wrapper compound">
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="running_tests.html">Running GeoIPS Pytest Tests</a></li>
 </ul>
-<p>Conversion can be made in brightness temperature, and scale factor, gamma corrections
-can be used within product definitions for individual sensors.</p>
-</section>
-<section id="level-2-data">
-<h2>Level 2 Data<a class="headerlink" href="#level-2-data" title="Permalink to this heading">#</a></h2>
-<p>Level 2 data can range in variable type and format, but common
-products include resampled level 1 data, and wind products.
-Common variables and respective units include:</p>
-<ul class="simple">
-<li><p>Windspeed: Knots or Meters per second (conversions available)</p></li>
-<li><p>Wind Direction: Meterological convention</p></li>
-</ul>
-</section>
-<section id="level-3-4-data">
-<h2>Level 3/4 Data<a class="headerlink" href="#level-3-4-data" title="Permalink to this heading">#</a></h2>
-<p>Level 3 and 4 products generally fall under GeoIPS data_fusion products, or
-require additional processing, readers, or products to describe unique
-variables. Users should refer to current products as guidance or create
-seperate products for the data.</p>
-</section>
+</div>
 </section>
 
 
@@ -478,6 +476,24 @@ seperate products for the data.</p>
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="../dev-install.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Developer Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="running_tests.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Running GeoIPS Pytest Tests</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
@@ -490,24 +506,10 @@ seperate products for the data.</p>
 
 
   <div class="sidebar-secondary-item">
-<div
-    id="pst-page-navigation-heading-2"
-    class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> On this page
-  </div>
-  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#level-1-data">Level 1 Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#level-2-data">Level 2 Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#level-3-4-data">Level 3/4 Data</a></li>
-</ul>
-  </nav></div>
-
-  <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../../../_sources/new-docs/concepts/functionality/data_units.rst.txt"
+      <li><a href="../../_sources/contribute/testing/index.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>
@@ -525,8 +527,8 @@ seperate products for the data.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">

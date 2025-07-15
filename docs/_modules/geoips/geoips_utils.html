@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.geoips_utils &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.geoips_utils &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -440,7 +440,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">import_module</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">tabulate</span><span class="w"> </span><span class="kn">import</span> <span class="n">tabulate</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -449,6 +449,30 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">geoips_paths</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_interface_module"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.get_interface_module">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_interface_module</span><span class="p">(</span><span class="n">namespace</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Retrieve the interface module from a given namespace.</span>
+
+<span class="sd">    Since this function uses the first portion of a namespace, I.e.</span>
+<span class="sd">    (geoips.plugin_packages --&gt; geoips), only interfaces implemented in that exact</span>
+<span class="sd">    package will be recognized in that namespace. This means that if developers or users</span>
+<span class="sd">    implement new interfaces in the &#39;geoips.plugin_packages&#39; namespace, they still won&#39;t</span>
+<span class="sd">    be recognized or available for use in GeoIPS.</span>
+
+<span class="sd">    To get new interfaces to work, you must implement them in a separate namespace that</span>
+<span class="sd">    is named the same as the plugin package that implemented them. I.e.</span>
+<span class="sd">    (splunk.plugin_packages --&gt; splunk). Any other package that falls under that</span>
+<span class="sd">    namespace can make use of these interfaces, as well as GeoIPS&#39; interfaces.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    namespace: str</span>
+<span class="sd">        - The namespace containg the requested interface module. I.e.</span>
+<span class="sd">          &#39;geoips.plugin_packages&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">package_name</span> <span class="o">=</span> <span class="n">namespace</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">import_module</span><span class="p">(</span><span class="n">package_name</span><span class="p">)</span><span class="o">.</span><span class="n">interfaces</span></div>
 
 
 <div class="viewcode-block" id="remove_unsupported_kwargs"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.geoips_utils.remove_unsupported_kwargs">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">remove_unsupported_kwargs</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">requested_kwargs</span><span class="p">):</span>
@@ -564,6 +588,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="s2">&quot;sample_distance_km&quot;</span><span class="p">,</span>
         <span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">,</span>
         <span class="s2">&quot;area_definition&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="k">if</span> <span class="n">extra_attrs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">attrs</span> <span class="o">+=</span> <span class="n">extra_attrs</span>
@@ -824,7 +849,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">if</span> <span class="n">base_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">base_paths</span> <span class="o">=</span> <span class="n">geoips_paths</span>
 
-    <span class="c1"># These are the environment vriables that are specified in base_paths.py.</span>
+    <span class="c1"># These are the environment variables that are specified in base_paths.py.</span>
     <span class="c1"># Eventually we will want to pull these directly from the environment config,</span>
     <span class="c1"># for now explicitly list env vars here.</span>
     <span class="k">if</span> <span class="n">replace_paths</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>

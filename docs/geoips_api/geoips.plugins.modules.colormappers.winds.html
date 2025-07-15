@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.plugins.modules.colormappers.winds package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.colormappers.winds package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -513,6 +513,36 @@
 </dd></dl>
 
 </section>
+<section id="module-geoips.plugins.modules.colormappers.winds.global_winds_transitions">
+<span id="geoips-plugins-modules-colormappers-winds-global-winds-transitions-module"></span><h2>geoips.plugins.modules.colormappers.winds.global_winds_transitions module<a class="headerlink" href="#module-geoips.plugins.modules.colormappers.winds.global_winds_transitions" title="Permalink to this heading">#</a></h2>
+<p>Module containing wind speed colormap with transitions at XX and XX.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.colormappers.winds.global_winds_transitions.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.colormappers.winds.global_winds_transitions.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data_range</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">[0,</span> <span class="pre">200]</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/colormappers/winds/global_winds_transitions.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.colormappers.winds.global_winds_transitions.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Generate appropriate matplotlib colors for plotting global wind speeds.</p>
+<p>global_winds_transitions contains hard coded transition values for different
+colors, in order to have consistent imagery across all sensors / products.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data_range</strong> (<em>list</em><em> of </em><em>float</em><em>, </em><em>default=</em><em>[</em><em>0</em><em>, </em><em>200</em><em>]</em>) – <ul class="simple">
+<li><p>Min and max value for colormap.</p></li>
+<li><p>Ensure the data range matches the range of the algorithm specified for
+use with this colormap</p></li>
+<li><p>This colormap MUST include 0 and 200</p></li>
+</ul>
+</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>mpl_colors_info</strong> – Dictionary of matplotlib plotting parameters, to ensure consistent
+image output</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-geoips.plugins.modules.colormappers.winds.wind_radii_transitions">
 <span id="geoips-plugins-modules-colormappers-winds-wind-radii-transitions-module"></span><h2>geoips.plugins.modules.colormappers.winds.wind_radii_transitions module<a class="headerlink" href="#module-geoips.plugins.modules.colormappers.winds.wind_radii_transitions" title="Permalink to this heading">#</a></h2>
 <p>Module containing wind speed colormap with transitions at 34, 50, 64, and 80.</p>
@@ -629,6 +659,10 @@ image output</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.colormappers.winds.dmw_wind_levels">geoips.plugins.modules.colormappers.winds.dmw_wind_levels module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.colormappers.winds.dmw_wind_levels.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.colormappers.winds.global_winds_transitions">geoips.plugins.modules.colormappers.winds.global_winds_transitions module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.colormappers.winds.global_winds_transitions.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.colormappers.winds.wind_radii_transitions">geoips.plugins.modules.colormappers.winds.wind_radii_transitions module</a><ul class="nav section-nav flex-column">

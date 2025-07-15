@@ -12,6 +12,14 @@ geoips.plugins.modules.colormappers.winds.dmw\_wind\_levels module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.colormappers.winds.global\_winds\_transitions module
+---------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.colormappers.winds.global_winds_transitions
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.colormappers.winds.wind\_radii\_transitions module
 -------------------------------------------------------------------------
 

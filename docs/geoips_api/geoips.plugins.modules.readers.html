@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.plugins.modules.readers package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.readers package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -490,7 +490,11 @@
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#submodules">Submodules</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#module-geoips.plugins.modules.readers.utils.geostationary_geolocation">geoips.plugins.modules.readers.utils.geostationary_geolocation module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.AutoGenError"><code class="docutils literal notranslate"><span class="pre">AutoGenError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.CachedGeolocationIndexError"><code class="docutils literal notranslate"><span class="pre">CachedGeolocationIndexError</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles"><code class="docutils literal notranslate"><span class="pre">calculate_solar_angles()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.check_geolocation_cache_backend"><code class="docutils literal notranslate"><span class="pre">check_geolocation_cache_backend()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.construct_cache_filename"><code class="docutils literal notranslate"><span class="pre">construct_cache_filename()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_data_cache_filename"><code class="docutils literal notranslate"><span class="pre">get_data_cache_filename()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation"><code class="docutils literal notranslate"><span class="pre">get_geolocation()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename"><code class="docutils literal notranslate"><span class="pre">get_geolocation_cache_filename()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes"><code class="docutils literal notranslate"><span class="pre">get_indexes()</span></code></a></li>
@@ -543,13 +547,13 @@
 <p>ABI Level 2 NetCDF reader.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_l2_netcdf.calculate_abi_geolocation">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_l2_netcdf.</span></span><span class="sig-name descname"><span class="pre">calculate_abi_geolocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_l2_netcdf.html#calculate_abi_geolocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_l2_netcdf.calculate_abi_geolocation" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_l2_netcdf.</span></span><span class="sig-name descname"><span class="pre">calculate_abi_geolocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_l2_netcdf.html#calculate_abi_geolocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_l2_netcdf.calculate_abi_geolocation" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate ABI geolocation.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_l2_netcdf.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_l2_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_l2_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_l2_netcdf.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_l2_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_l2_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_l2_netcdf.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read ABI Level 2 NetCDF data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -656,7 +660,7 @@ All variables are loaded in None</p></li>
 <p>Standard GeoIPS xarray dictionary based ABI NetCDF data reader.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_solar_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read ABI NetCDF data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -683,6 +687,11 @@ All variables are loaded in None</p></li>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Default=None, i.e., if not defined in the yaml file.</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -710,7 +719,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.call_single_time">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.call_single_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_solar_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.call_single_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Read ABI NetCDF data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -739,6 +748,29 @@ return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
 </ul>
 </p></li>
+<li><p><strong>geolocation_cache_backend</strong> (<em>str</em>) – <ul>
+<li><p>Specify to use either memmap or zarray to store pre-calculated geolocation
+data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>cache_chunk_size</strong> (<em>int</em>) – <ul>
+<li><p>Specify chunck size if using zarray to store pre-calculated geolocation data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>resource_tracker</strong> (<em>geoips.utils.memusg.PidLog object</em>) – <ul>
+<li><p>Track resource usage using the PidLog class object from geoips.utils.memusg.</p></li>
+<li><p>The PidLog.track_resource_usage method allows us to snapshot the memory usage
+for the PID associated with the geoips call. The time and stats of the
+snapshot are recorded, and can be accessed using the
+PidLog.checkpoint_usage_stats method.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Passed in from Call function.</p></li>
+<li><p>Default=None, i.e., if not defined in the yaml file.</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set.</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -763,6 +795,50 @@ Attributes.</p></li>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_brightness_temperature">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">convert_radiance_to_brightness_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radiance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_data_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#convert_radiance_to_brightness_temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_brightness_temperature" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert radiance to brightness temperature.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radiance</strong> (<em>numpy.masked_array</em>) – Observed radiances</p></li>
+<li><p><strong>calibration_metadata</strong> (<em>dict</em>) – Dictionary holding the planck_fk1, planck_fk2, planck_bc1, and planck_bc2
+constants that are used for converting radiance to BT</p></li>
+<li><p><strong>bad_data_mask</strong> (<em>numpy.array</em>) – Bool array where bad data are masked</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated brightness temperatures</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_reflectance">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">convert_radiance_to_reflectance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radiance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_zenith_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_data_mask</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#convert_radiance_to_reflectance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_reflectance" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert radiance to reflectance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radiance</strong> (<em>numpy.masked_array</em>) – Observed radiances</p></li>
+<li><p><strong>solar_zenith_angle</strong> (<em>numpy.array</em>) – Calculated solar angles for each radiance pixel</p></li>
+<li><p><strong>calibration_metadata</strong> (<em>dict</em>) – Dictionary holding the kappa0 constant used when converting radiance to BT</p></li>
+<li><p><strong>bad_data_mask</strong> (<em>numpy.array</em>) – Bool array where bad data are masked</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated reflectances</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>numpy.array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.get_band_metadata">
 <span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_band_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">all_metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_band_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_band_metadata" title="Permalink to this definition">#</a></dt>
 <dd><p>Get band metadata.</p>
@@ -773,14 +849,79 @@ names as opposed to filenames as the dictionary keys.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.get_cached_brightness_temperature">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_cached_brightness_temperature</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radiance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_data_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_name_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_cached_brightness_temperature"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_cached_brightness_temperature" title="Permalink to this definition">#</a></dt>
+<dd><p>Create or load cached zarray of brightness temperature data.</p>
+<p>Loads zarray file if cache exists, otherwise calls
+convert_radiance_to_brightness_temperature to calculate the reflectances then stores
+to zarray.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radiance</strong> (<em>numpy.masked_array</em>) – Observed radiances</p></li>
+<li><p><strong>calibration_metadata</strong> (<em>dict</em>) – Dictionary holding the planck_fk1, planck_fk2, planck_bc1, and planck_bc2
+constants that are used for converting radiance to BT</p></li>
+<li><p><strong>bad_data_mask</strong> (<em>numpy.array</em>) – Bool array where bad data are masked</p></li>
+<li><p><strong>cache_name_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – Cache file name prefix, by default None</p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Chunk size of zarray, by default None</p></li>
+<li><p><strong>scan_datetime</strong> (<em>datetime</em><em>, </em><em>optional</em>) – Scan start time of observation, by default None</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.area_definition</em><em>, </em><em>optional</em>) – Area definition subsector, by default None</p></li>
+<li><p><strong>standard_metadata</strong> (<em>dict</em><em>, </em><em>optional</em>) – High level metadata for dataset, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated brightness temperatures</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.get_cached_radiance">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_cached_radiance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_disk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">md</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gvars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_name_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_cached_radiance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_cached_radiance" title="Permalink to this definition">#</a></dt>
+<dd><p>Read data for a full channel’s worth of files.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.get_cached_reflectance">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_cached_reflectance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">radiance</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_zenith_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">calibration_metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bad_data_mask</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_name_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_cached_reflectance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_cached_reflectance" title="Permalink to this definition">#</a></dt>
+<dd><p>Create or load cached zarray of reflectance data.</p>
+<p>Loads zarray file if cache exists, otherwise calls convert_radiance_to_reflectance
+to calculate the reflectances then stores to zarray.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>radiance</strong> (<em>numpy.masked_array</em>) – Observed radiances</p></li>
+<li><p><strong>solar_zenith_angle</strong> (<em>numpy.array</em>) – Calculated solar angles for each radiance pixel</p></li>
+<li><p><strong>calibration_metadata</strong> (<em>dict</em>) – Dictionary holding the kappa0 constant used when converting radiance to BT</p></li>
+<li><p><strong>bad_data_mask</strong> (<em>numpy.array</em>) – Bool array where bad data are masked</p></li>
+<li><p><strong>cache_name_prefix</strong> (<em>str</em><em>, </em><em>optional</em>) – Cache file name prefix, by default None</p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em><em>, </em><em>optional</em>) – Chunk size of zarray, by default None</p></li>
+<li><p><strong>scan_datetime</strong> (<em>datetime</em><em>, </em><em>optional</em>) – Scan start time of observation, by default None</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.area_definition</em><em>, </em><em>optional</em>) – Area definition subsector, by default None</p></li>
+<li><p><strong>standard_metadata</strong> (<em>dict</em><em>, </em><em>optional</em>) – High level metadata for dataset, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated reflectances</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.get_data">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gvars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_data" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">md</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gvars</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rad</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ref</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bt</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_name_prefix</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">standard_metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_data" title="Permalink to this definition">#</a></dt>
 <dd><p>Read data for a full channel’s worth of files.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.get_latitude_longitude">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
 <dd><p>Get latitudes and longitudes.</p>
 <p>This routine accepts a dictionary containing metadata as read from a NCDF4
 format file, and returns latitudes and longitudes for a full disk.</p>
@@ -790,6 +931,12 @@ format file, and returns latitudes and longitudes for a full disk.</p>
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.metadata_to_datetime">
 <span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">metadata_to_datetime</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#metadata_to_datetime"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.metadata_to_datetime" title="Permalink to this definition">#</a></dt>
 <dd><p>Use information from the metadata to get the image datetime.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.abi_netcdf.read_netcdf_radiance">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.abi_netcdf.</span></span><span class="sig-name descname"><span class="pre">read_netcdf_radiance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">full_disk</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_inds</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">md</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gvars</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/abi_netcdf.html#read_netcdf_radiance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.abi_netcdf.read_netcdf_radiance" title="Permalink to this definition">#</a></dt>
+<dd><p>Read data for a full channel’s worth of files.</p>
 </dd></dl>
 
 </section>
@@ -805,7 +952,7 @@ format file, and returns latitudes and longitudes for a full disk.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ahi_hsd.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ahi_hsd.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AHI</span> <span class="pre">Default</span> <span class="pre">Test</span> <span class="pre">Arg'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ahi_hsd.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ahi_hsd.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ahi_hsd.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AHI</span> <span class="pre">Default</span> <span class="pre">Test</span> <span class="pre">Arg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ahi_hsd.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ahi_hsd.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read AHI HSD data data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -832,6 +979,11 @@ format file, and returns latitudes and longitudes for a full disk.</p>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Default=None, i.e., if not defined in the yaml file.</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -859,7 +1011,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ahi_hsd.call_single_time">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ahi_hsd.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AHI</span> <span class="pre">Default</span> <span class="pre">Test</span> <span class="pre">Arg'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ahi_hsd.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ahi_hsd.call_single_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ahi_hsd.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">test_arg</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'AHI</span> <span class="pre">Default</span> <span class="pre">Test</span> <span class="pre">Arg'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ahi_hsd.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ahi_hsd.call_single_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Read AHI HSD data data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -886,6 +1038,29 @@ Attributes.</p></li>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Passed in from Call function.</p></li>
+<li><p>Default=None, i.e., if not defined in the yaml file.</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set.</p></li>
+</ul>
+</p></li>
+<li><p><strong>geolocation_cache_backend</strong> (<em>str</em>) – <ul>
+<li><p>Specify to use either memmap or zarray to store pre-calculated geolocation
+data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>cache_chunk_size</strong> (<em>int</em>) – <ul>
+<li><p>Specify chunck size if using zarray to store pre-calculated geolocation data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>resource_tracker</strong> (<em>geoips.utils.memusg.PidLog object</em>) – <ul>
+<li><p>Track resource usage using the PidLog class object from geoips.utils.memusg.</p></li>
+<li><p>The PidLog.track_resource_usage method allows us to snapshot the memory usage
+for the PID associated with the geoips call. The time and stats of the
+snapshot are recorded, and can be accessed using the
+PidLog.checkpoint_usage_stats method.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -935,7 +1110,7 @@ names as opposed to filenames as the dictionary keys.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ahi_hsd.get_latitude_longitude">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ahi_hsd.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ahi_hsd.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ahi_hsd.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ahi_hsd.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ahi_hsd.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ahi_hsd.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
 <dd><p>Get latitudes and longitudes.</p>
 <p>This routine accepts a dictionary containing metadata as read from an HSD
 format file and returns latitudes and longitudes for a full disk image.</p>
@@ -983,7 +1158,7 @@ dictionary and set on the _varinfo dictionary)</p>
 <p>Standard GeoIPS xarray dictionary based GeoKOMPSAT AMI NetCDF data reader.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ami_netcdf.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ami_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ami_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ami_netcdf.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ami_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ami_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ami_netcdf.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read Geo-Kompsat NetCDF data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1010,6 +1185,11 @@ dictionary and set on the _varinfo dictionary)</p>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Default=None, i.e., if not defined in the yaml file</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set</p></li>
 </ul>
 </p></li>
 </ul>
@@ -1037,7 +1217,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ami_netcdf.call_single_time">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ami_netcdf.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ami_netcdf.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ami_netcdf.call_single_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ami_netcdf.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ami_netcdf.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ami_netcdf.call_single_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Read Geo-Kompsat NetCDF data from a list of filenames.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -1064,6 +1244,29 @@ Attributes.</p></li>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Passed in from Call function</p></li>
+<li><p>Default=None, i.e., if not defined in the yaml file</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set</p></li>
+</ul>
+</p></li>
+<li><p><strong>geolocation_cache_backend</strong> (<em>str</em>) – <ul>
+<li><p>Specify to use either memmap or zarray to store pre-calculated geolocation
+data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>cache_chunk_size</strong> (<em>int</em>) – <ul>
+<li><p>Specify chunck size if using zarray to store pre-calculated geolocation data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>resource_tracker</strong> (<em>geoips.utils.memusg.PidLog object</em>) – <ul>
+<li><p>Track resource usage using the PidLog class object from geoips.utils.memusg.</p></li>
+<li><p>The PidLog.track_resource_usage method allows us to snapshot the memory usage
+for the PID associated with the geoips call. The time and stats of the
+snapshot are recorded, and can be accessed using the
+PidLog.checkpoint_usage_stats method.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -1109,7 +1312,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ami_netcdf.latlon_from_lincol_geos">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ami_netcdf.</span></span><span class="sig-name descname"><span class="pre">latlon_from_lincol_geos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ami_netcdf.html#latlon_from_lincol_geos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ami_netcdf.latlon_from_lincol_geos" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ami_netcdf.</span></span><span class="sig-name descname"><span class="pre">latlon_from_lincol_geos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">resolution</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">column</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ami_netcdf.html#latlon_from_lincol_geos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ami_netcdf.latlon_from_lincol_geos" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate latitude and longitude from array indices.</p>
 <p>Uses geostationary projection (likely won’t work with extended local area files).
 Equations and code from GEO-KOMPSAT-2A Level 1B Data User Manual.</p>
@@ -1856,6 +2059,119 @@ Attributes.</p></li>
 </dd></dl>
 
 </section>
+<section id="module-geoips.plugins.modules.readers.aws_netcdf">
+<span id="geoips-plugins-modules-readers-aws-netcdf-module"></span><h2>geoips.plugins.modules.readers.aws_netcdf module<a class="headerlink" href="#module-geoips.plugins.modules.readers.aws_netcdf" title="Permalink to this heading">#</a></h2>
+<p>Arctic Weather Satellite (aws) MWR Level 1B NetCDF reader.</p>
+<p>Channel information is from the ESA webpage:
+<a class="reference external" href="https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/">https://www.esa.int/Applications/Observing_the_Earth/Meteorological_missions/</a></p>
+<p>Arctic_Weather_Satellite/The_instrument
+All channels have a same array size (nscan,nfov).</p>
+<p>Chan        Freq(GHz)        FOV(km)        Utilisation</p>
+<p>Band 1:
+1           50.3             &lt;= 40          Temp sounding
+2           52.8             &lt;= 40          Temp sounding
+3           53.246           &lt;= 40          Temp sounding
+4           53.956           &lt;= 40          Temp sounding
+5           54.4             &lt;= 40          Temp sounding
+6           54.94            &lt;= 40          Temp sounding
+7           55.5             &lt;= 40          Temp sounding
+8           57.290           &lt;= 40          Temp sounding</p>
+<p>Band 2:
+9           89               &lt;= 20          Window and cloud detection</p>
+<p>Band 3:
+10          165.5            &lt;= 10          Window and humidity sounding
+11          176.31           &lt;= 10          Humidity sounding
+12          178.81           &lt;= 10          Humidity sounding
+13          180.31           &lt;= 10          Humidity sounding
+14          181.51           &lt;= 10          Humidity sounding
+15          182.31           &lt;= 10          Humidity sounding</p>
+<p>Band 4:
+16          325.15 +- 1.2    &lt;= 10          Humidity sounding/cloud detection
+17          325.15 +- 2.4    &lt;= 10          Humidity sounding/cloud detection
+18          325.15 +- 4.1    &lt;= 10          Humidity sounding/cloud detection
+19          325.15 +- 6.6    &lt;= 10          Humidity sounding/cloud detection</p>
+<p>Note:  We do not know actual assignments of channels to the four groups, due to lack of
+official documentation on Arctic Weather Satellite data. Thus, we select current
+channels for each band based on internal discussions and our experience.
+We will make adjustments once there are any differences from official document is
+available.</p>
+<p>Also, variables (L1B_quality_flag and degraded_channels) are space holders for QC
+purposes. They are not used for now, but will be applied later.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.aws_netcdf.call">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.aws_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/aws_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.aws_netcdf.call" title="Permalink to this definition">#</a></dt>
+<dd><p>Read aws L1 netCDF data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fci_files</strong> (<em>list</em>) – list of files for a given scan time</p></li>
+<li><p><strong>metadata_only</strong> (<em>bool</em><em>, </em><em>optional</em>) – Only return metadata, by default False</p></li>
+<li><p><strong>chans</strong> (<em>list</em><em>, </em><em>optional</em>) – List of channels/variables to load, by default None</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample area definition</em><em>, </em><em>optional</em>) – Read in data for specific area definition, by default None
+(currently unsupported)</p></li>
+<li><p><strong>self_register</strong> (<em>bool</em><em>, </em><em>optional</em>) – Self register data to given resolution, by default False
+(currently unsupported)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dictionary of xarray datasets</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>AttributeError</strong> – Encountered unknown platform name in source file</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<dl class="simple">
+<dt>data<span class="classifier">grouped file</span></dt><dd><p>stored in groups (status, data, quality) and sub-groups
+open_groups to open and decode a file for required fields
+global attributes in home group ‘/’
+‘/’  is an important character to access data
+process only one orbit file</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.aws_netcdf.get_geoips_platform_name">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.aws_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_geoips_platform_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">meta_platform_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/aws_netcdf.html#get_geoips_platform_name"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.aws_netcdf.get_geoips_platform_name" title="Permalink to this definition">#</a></dt>
+<dd><p>Map source file platform name to standard GeoIPS names.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>meta_platform_name</strong> (<em>str</em>) – Name of platform in source file</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Standard GeoIPS platform name</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.aws_netcdf.merge_xarrays">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.aws_netcdf.</span></span><span class="sig-name descname"><span class="pre">merge_xarrays</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src_xobj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dst_xobj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/aws_netcdf.html#merge_xarrays"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.aws_netcdf.merge_xarrays" title="Permalink to this definition">#</a></dt>
+<dd><p>Merge one xarray into another.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src_xobj</strong> (<em>xarray.Dataset</em>) – Input dataset to merge</p></li>
+<li><p><strong>dst_xobj</strong> (<em>xarray.Dataset</em>) – Dataset where src_xobj will be merged</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Merged xarray dataset</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-geoips.plugins.modules.readers.cygnss_netcdf">
 <span id="geoips-plugins-modules-readers-cygnss-netcdf-module"></span><h2>geoips.plugins.modules.readers.cygnss_netcdf module<a class="headerlink" href="#module-geoips.plugins.modules.readers.cygnss_netcdf" title="Permalink to this heading">#</a></h2>
 <p>Read derived surface winds from CYGNSS netcdf data.</p>
@@ -1976,7 +2292,7 @@ The reader is based on EWS-G data in netcdf4 format.</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ewsg_netcdf.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ewsg_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ewsg_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ewsg_netcdf.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ewsg_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ewsg_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ewsg_netcdf.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read EWS-G data in netcdf4 format.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2009,6 +2325,11 @@ return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
 </ul>
 </p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Default=None, i.e., if not defined in the yaml file</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2034,7 +2355,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ewsg_netcdf.call_single_time">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ewsg_netcdf.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ewsg_netcdf.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ewsg_netcdf.call_single_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ewsg_netcdf.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ewsg_netcdf.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ewsg_netcdf.call_single_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Read EWS-G data in netcdf4 format for one or more files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2065,6 +2386,32 @@ Attributes.</p></li>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Passed in from Call function</p></li>
+<li><p>Default=None, i.e., if not defined in the yaml file</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set</p></li>
+</ul>
+</p></li>
+<li><p><strong>geolocation_cache_backend</strong> (<em>str</em>) – <ul>
+<li><p>Specify to use either memmap or zarray to store pre-calculated geolocation
+data.</p></li>
+<li><p>Not currently used, since these files have all required geolocation data in
+the netCDF file.</p></li>
+</ul>
+</p></li>
+<li><p><strong>cache_chunk_size</strong> (<em>int</em>) – <ul>
+<li><p>Specify chunck size if using zarray to store pre-calculated geolocation data.</p></li>
+<li><p>Not currently used, since geolocation_cache_backend is currently not used.</p></li>
+</ul>
+</p></li>
+<li><p><strong>resource_tracker</strong> (<em>geoips.utils.memusg.PidLog object</em>) – <ul>
+<li><p>Track resource usage using the PidLog class object from geoips.utils.memusg.</p></li>
+<li><p>The PidLog.track_resource_usage method allows us to snapshot the memory usage
+for the PID associated with the geoips call. The time and stats of the
+snapshot are recorded, and can be accessed using the
+PidLog.checkpoint_usage_stats method.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -2113,7 +2460,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_satpy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read and calibrate FCI data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2132,6 +2479,71 @@ Attributes.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.compute_sun_earth_distance">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">compute_sun_earth_distance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#compute_sun_earth_distance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.compute_sun_earth_distance" title="Permalink to this definition">#</a></dt>
+<dd><p>Compute the sun_earth_distance.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_bt">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">convert_radiance_to_bt</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_inds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_inds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#convert_radiance_to_bt"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_bt" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert effective radiance to effective brightness tempearture.</p>
+<p>The effective brightness temperature of a surface is the temperature of a spatially
+uniform blackbody that emits the equivalent amount of radiant energy as the surface
+within a spectral band characterized by the spectral response function of the
+instrument. Given the band-average spectral radiance per wavenumber Lv, i.e. the
+effective radiance, the effective brightness temperature T_eff can be approximated
+as follows:</p>
+<p>T_eff = (c2 * vc)/(a * ln(1 + (c1 * vc**3) /Lv ) ) - b/a</p>
+<p>The set of coefficients {Vc, A, B}, corresponding to a given spectral response
+function, are found by regression over the required range of temperatures.
+Constants C1 = 2hc2 and C2 = hc/k are radiation constants where c, h, and k are the
+speed of light, Planck, and Boltzmann constant, respectively.</p>
+<p>The variable radiance_to_bt_conversion_coefficient_wavenumber contains the
+wavenumber corresponding to νc.</p>
+<p>The variables radiance_to_bt_conversion_coefficient_a and
+radiance_to_bt_conversion_coefficient_b contain the conversion coefficients a and b
+for IR channels, respectively. They are set to the _FillValue for VNIR channels.</p>
+<p>The variables radiance_to_bt_conversion_constant_c1
+and radiance_to_bt_conversion_constant_c2 contain the
+constants c1 and c2 for IR channels. Note that the values given in the dataset are
+c1=2·1011·hc2 =1.19104282E-05 and c2=100 hc/k=1.43877513 due to unit conversions.
+They are set to the _FillValue for visible and near-infrared channels.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>variable_dataset</strong> (<em>xarray.Dataset</em>) – The data.&lt;channel&gt;.measured group dataset</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated brightness temperatures</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_reflectance">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">convert_radiance_to_reflectance</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">variable_dataset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataset_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_datetime</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_zenith_angle</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">line_inds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sample_inds</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">earth_sun_distance_km</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#convert_radiance_to_reflectance"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_reflectance" title="Permalink to this definition">#</a></dt>
+<dd><p>Convert radiance to reflectance.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>variable_dataset</strong> (<em>xarray.Dataset</em>) – Dataset holding all variables from FCI group</p></li>
+<li><p><strong>start_datetime</strong> (<em>datetime.datetime</em>) – Start time of data</p></li>
+<li><p><strong>end_datetime</strong> (<em>datetime.datetime</em>) – End time of data</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated reflectances</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>array</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2160,6 +2572,20 @@ Attributes.</p></li>
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.get_geolocation_metadata">
 <span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_geolocation_metadata</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">xarray_attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#get_geolocation_metadata"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.get_geolocation_metadata" title="Permalink to this definition">#</a></dt>
 <dd><p>Get geolocation metadata.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.get_latitude_longitude">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x_1d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y_1d</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
+<dd><p>Get latitudes and longitudes.</p>
+<p>This routine accepts a dictionary containing metadata as read from a NCDF4
+format file, and returns latitudes and longitudes for a full disk.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.get_ncattrs">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">get_ncattrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fci_file</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">group</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#get_ncattrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.get_ncattrs" title="Permalink to this definition">#</a></dt>
+<dd><p>Lightweight function to quickly return the attrs for a group in a netCDF file.</p>
 </dd></dl>
 
 <dl class="py function">
@@ -2201,8 +2627,8 @@ Attributes.</p></li>
 </dd></dl>
 
 <dl class="py function">
-<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.satpy_read_fci_netcdf_files">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">satpy_read_fci_netcdf_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fci_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#satpy_read_fci_netcdf_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.satpy_read_fci_netcdf_files" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.read_fci_netcdf_files">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">read_fci_netcdf_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fci_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_satpy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#read_fci_netcdf_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.read_fci_netcdf_files" title="Permalink to this definition">#</a></dt>
 <dd><p>Read and calibrate data using satpy’s fci_l1c_nc reader.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2220,6 +2646,33 @@ Attributes.</p></li>
 </dd>
 <dt class="field-odd">Return type<span class="colon">:</span></dt>
 <dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.fci_netcdf.read_with_xarray">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.fci_netcdf.</span></span><span class="sig-name descname"><span class="pre">read_with_xarray</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fci_files</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geoips_chans</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'zarr'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">precise_earth_sun_distance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/fci_netcdf.html#read_with_xarray"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.fci_netcdf.read_with_xarray" title="Permalink to this definition">#</a></dt>
+<dd><p>Load files with xarray and calibrate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fci_files</strong> (<em>list</em>) – List of FCI netCDF files on disk</p></li>
+<li><p><strong>geoips_chans</strong> (<em>list</em>) – Channels/variables denoted in GeoIPS nomenclature to load into memory, where
+‘GeoIPS nomenclature’ is the common variable mapping used in our geostationary
+readers. See ‘BAND_MAP’ variable for an example of these channels. Allows us
+to read in radiances, reflectances, or brightness temperatures even though the
+variable in the dataset itself (such as ‘vis_04’) does not provide that
+information.</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em><em>, </em><em>optional</em>) – Standard geoips attributes, by default None</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.AreaDefinition</em><em>, </em><em>optional</em>) – Crop data to specific area definition, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Calibrated FCI MTG data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>xarray.Dataset</p>
 </dd>
 </dl>
 </dd></dl>
@@ -2336,7 +2789,7 @@ Attributes.</p></li>
 <p>This reader can take in multiple forcast times at multiple analysis times.</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.gfs_grib.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read GFS GRIB data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2368,6 +2821,11 @@ return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
 </ul>
 </p></li>
+<li><p><strong>coord_flag</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>Setup geolocation and temporal values as coordinates</p></li>
+<li><p>Useful for data fusion</p></li>
+</ul>
+</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
@@ -2393,7 +2851,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.gfs_grib.press_grb_to_xr">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">press_grb_to_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_pressure_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unk_pres'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#press_grb_to_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.press_grb_to_xr" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">press_grb_to_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_pressure_name</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'unk_pres'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#press_grb_to_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.press_grb_to_xr" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert pressure grb values to xarray.Dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2417,7 +2875,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.gfs_grib.read_atmos">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">read_atmos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#read_atmos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.read_atmos" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">read_atmos</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#read_atmos"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.read_atmos" title="Permalink to this definition">#</a></dt>
 <dd><p>Read gfs files.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2441,13 +2899,13 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.gfs_grib.read_wave">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">read_wave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#read_wave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.read_wave" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">read_wave</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#read_wave"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.read_wave" title="Permalink to this definition">#</a></dt>
 <dd><p>Read gfswave products.</p>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.gfs_grib.surf_grb_to_xr">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">surf_grb_to_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grb_obj</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#surf_grb_to_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.surf_grb_to_xr" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.gfs_grib.</span></span><span class="sig-name descname"><span class="pre">surf_grb_to_xr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">grb_obj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">coord_flag</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/gfs_grib.html#surf_grb_to_xr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.gfs_grib.surf_grb_to_xr" title="Permalink to this definition">#</a></dt>
 <dd><p>Convert surface grb values to xarray.Dataset.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3253,7 +3711,7 @@ dependence for time). satpy requires time to open file, and requires standard
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.seviri_hrit.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.seviri_hrit.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/seviri_hrit.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.seviri_hrit.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.seviri_hrit.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/seviri_hrit.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.seviri_hrit.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read SEVIRI hrit data products.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3280,6 +3738,11 @@ dependence for time). satpy requires time to open file, and requires standard
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Default=None, i.e., if not defined in the yaml file</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set</p></li>
 </ul>
 </p></li>
 </ul>
@@ -3307,7 +3770,7 @@ Attributes.</p></li>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.seviri_hrit.call_single_time">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.seviri_hrit.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/seviri_hrit.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.seviri_hrit.call_single_time" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.seviri_hrit.</span></span><span class="sig-name descname"><span class="pre">call_single_time</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">roi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/seviri_hrit.html#call_single_time"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.seviri_hrit.call_single_time" title="Permalink to this definition">#</a></dt>
 <dd><p>Read SEVIRI hrit data products.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3334,6 +3797,28 @@ Attributes.</p></li>
 <li><p>register all data to the specified dataset id (as specified in the
 return dictionary keys).</p></li>
 <li><p>Read multiple resolutions of data if False.</p></li>
+</ul>
+</p></li>
+<li><p><strong>roi</strong> (<em>radius</em><em> of </em><em>influence</em><em> (</em><em>unit in meter</em><em>)</em><em>, </em><em>used in interpolation scheme</em>) – <ul>
+<li><p>Default=None, i.e., if not defined in the yaml file</p></li>
+<li><p>Defined in yaml file where variables and tuning parameters are set</p></li>
+</ul>
+</p></li>
+<li><p><strong>geolocation_cache_backend</strong> (<em>str</em>) – <ul>
+<li><p>Specify to use either memmap or zarray to store pre-calculated geolocation
+data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>cache_chunk_size</strong> (<em>int</em>) – <ul>
+<li><p>Specify chunck size if using zarray to store pre-calculated geolocation data.</p></li>
+</ul>
+</p></li>
+<li><p><strong>resource_tracker</strong> (<em>geoips.utils.memusg.PidLog object</em>) – <ul>
+<li><p>Track resource usage using the PidLog class object from geoips.utils.memusg.</p></li>
+<li><p>The PidLog.track_resource_usage method allows us to snapshot the memory usage
+for the PID associated with the geoips call. The time and stats of the
+snapshot are recorded, and can be accessed using the
+PidLog.checkpoint_usage_stats method.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -3375,7 +3860,7 @@ If skip is set and contains one of the keys, skip that key</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.seviri_hrit.get_latitude_longitude">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.seviri_hrit.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/seviri_hrit.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.seviri_hrit.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.seviri_hrit.</span></span><span class="sig-name descname"><span class="pre">get_latitude_longitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/seviri_hrit.html#get_latitude_longitude"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.seviri_hrit.get_latitude_longitude" title="Permalink to this definition">#</a></dt>
 <dd><p>Generate full-disk latitudes and longitudes.</p>
 </dd></dl>
 
@@ -3662,7 +4147,7 @@ GEOIPS framework</p>
 </div>
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ssmi_binary.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ssmi_binary.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ssmi_binary.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ssmi_binary.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ssmi_binary.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ssmi_binary.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ssmi_binary.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read SSMI FNMOC Binary Data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -3742,7 +4227,7 @@ and xarray is utilized to process datasets for product applications.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.ssmis_binary.call">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ssmis_binary.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ssmis_binary.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ssmis_binary.call" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.ssmis_binary.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fnames</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata_only</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chans</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">self_register</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/ssmis_binary.html#call"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.ssmis_binary.call" title="Permalink to this definition">#</a></dt>
 <dd><p>Read SSMIS binary data products.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -4446,10 +4931,16 @@ Attributes.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.readers.abi_netcdf">geoips.plugins.modules.readers.abi_netcdf module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.call_single_time"><code class="docutils literal notranslate"><span class="pre">call_single_time()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_brightness_temperature"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_brightness_temperature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_reflectance"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_reflectance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.get_band_metadata"><code class="docutils literal notranslate"><span class="pre">get_band_metadata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.get_cached_brightness_temperature"><code class="docutils literal notranslate"><span class="pre">get_cached_brightness_temperature()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.get_cached_radiance"><code class="docutils literal notranslate"><span class="pre">get_cached_radiance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.get_cached_reflectance"><code class="docutils literal notranslate"><span class="pre">get_cached_reflectance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.get_data"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.get_latitude_longitude"><code class="docutils literal notranslate"><span class="pre">get_latitude_longitude()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.metadata_to_datetime"><code class="docutils literal notranslate"><span class="pre">metadata_to_datetime()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.abi_netcdf.read_netcdf_radiance"><code class="docutils literal notranslate"><span class="pre">read_netcdf_radiance()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.readers.ahi_hsd">geoips.plugins.modules.readers.ahi_hsd module</a><ul class="nav section-nav flex-column">
@@ -4509,6 +5000,12 @@ Attributes.</p></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.atms_hdf5.read_atms_file"><code class="docutils literal notranslate"><span class="pre">read_atms_file()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.readers.aws_netcdf">geoips.plugins.modules.readers.aws_netcdf module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.aws_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.aws_netcdf.get_geoips_platform_name"><code class="docutils literal notranslate"><span class="pre">get_geoips_platform_name()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.aws_netcdf.merge_xarrays"><code class="docutils literal notranslate"><span class="pre">merge_xarrays()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.readers.cygnss_netcdf">geoips.plugins.modules.readers.cygnss_netcdf module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.cygnss_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.cygnss_netcdf.get_test_files"><code class="docutils literal notranslate"><span class="pre">get_test_files()</span></code></a></li>
@@ -4523,11 +5020,17 @@ Attributes.</p></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.readers.fci_netcdf">geoips.plugins.modules.readers.fci_netcdf module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.avail_chans_in_file"><code class="docutils literal notranslate"><span class="pre">avail_chans_in_file()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.compute_sun_earth_distance"><code class="docutils literal notranslate"><span class="pre">compute_sun_earth_distance()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_bt"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_bt()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_reflectance"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_reflectance()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.final_calibrated_variable_name"><code class="docutils literal notranslate"><span class="pre">final_calibrated_variable_name()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.get_geolocation_metadata"><code class="docutils literal notranslate"><span class="pre">get_geolocation_metadata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.get_latitude_longitude"><code class="docutils literal notranslate"><span class="pre">get_latitude_longitude()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.get_ncattrs"><code class="docutils literal notranslate"><span class="pre">get_ncattrs()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.get_standard_geoips_attrs"><code class="docutils literal notranslate"><span class="pre">get_standard_geoips_attrs()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.load_metadata_single_file"><code class="docutils literal notranslate"><span class="pre">load_metadata_single_file()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.satpy_read_fci_netcdf_files"><code class="docutils literal notranslate"><span class="pre">satpy_read_fci_netcdf_files()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.read_fci_netcdf_files"><code class="docutils literal notranslate"><span class="pre">read_fci_netcdf_files()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.read_with_xarray"><code class="docutils literal notranslate"><span class="pre">read_with_xarray()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.fci_netcdf.scene_to_xarray"><code class="docutils literal notranslate"><span class="pre">scene_to_xarray()</span></code></a></li>
 </ul>
 </li>

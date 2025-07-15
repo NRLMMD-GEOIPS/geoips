@@ -1,0 +1,1173 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Running GeoIPS Pytest Tests &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c5be8013"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/testing/running_tests';</script>
+    <link rel="icon" href="../../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="API" href="../../geoips_api/index.html" />
+    <link rel="prev" title="Testing" href="index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../code-of-conduct.html">Contributor Covenant Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../coding-standards.html">🖍️ Coding Standards Reference Doc</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="../dev-assisted-package-creation.html">Developer Assisted Package Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../git-workflow.html">GeoIPS git workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev_linux_with_conda.html">Conda-based Installation for Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev-install.html">Developer Installation</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Testing</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Running GeoIPS Pytest Tests</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Contribute</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Testing</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Running GeoIPS Pytest Tests</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="running-geoips-pytest-tests">
+<h1>Running GeoIPS Pytest Tests<a class="headerlink" href="#running-geoips-pytest-tests" title="Permalink to this heading">#</a></h1>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading">#</a></h2>
+<p>Run all tests (excluding limited dataset tests):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span>
+</pre></div>
+</div>
+<p>Run with verbose output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>Run tests from a specific test file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">test_example</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>Run specific test class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">test_example</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">TestClassName</span>
+</pre></div>
+</div>
+<p>Run specific test function:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">test_example</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">test_function_name</span>
+</pre></div>
+</div>
+<p>Run specific method from test class:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span><span class="n">test_example</span><span class="o">.</span><span class="n">py</span><span class="p">::</span><span class="n">TestClassName</span><span class="p">::</span><span class="n">test_method_name</span>
+</pre></div>
+</div>
+<section id="long-running-unit-tests">
+<h3>Long-Running Unit Tests<a class="headerlink" href="#long-running-unit-tests" title="Permalink to this heading">#</a></h3>
+<p>Run long-running unit tests (not included in default test paths):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Combine long unit tests with regular tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Run long unit tests with specific markers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="marker-categories">
+<h2>Marker Categories<a class="headerlink" href="#marker-categories" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS uses three categories of pytest markers:</p>
+<dl class="simple">
+<dt><strong>Concurrent Markers</strong>: Can be applied with any other marker</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">integration</span></code>, <code class="docutils literal notranslate"><span class="pre">spans_multiple_packages</span></code>,
+<code class="docutils literal notranslate"><span class="pre">limited_test_dataset_availability</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>Repository-Level Markers</strong>: Mutually exclusive, test current repository functionality</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">base</span></code>, <code class="docutils literal notranslate"><span class="pre">full</span></code></p></li>
+</ul>
+</dd>
+<dt><strong>System Implementation Markers</strong>: Mutually exclusive, test full GeoIPS system deployment</dt><dd><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">realtime</span></code>, <code class="docutils literal notranslate"><span class="pre">scheduler</span></code>, <code class="docutils literal notranslate"><span class="pre">database</span></code>,
+<code class="docutils literal notranslate"><span class="pre">downloader</span></code>, <code class="docutils literal notranslate"><span class="pre">external_preprocessing</span></code>, <code class="docutils literal notranslate"><span class="pre">scrubber</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<p>For more information about what these markers mean,
+see our testing markers documentation.</p>
+</section>
+<section id="marker-based-test-selection">
+<h2>Marker-Based Test Selection<a class="headerlink" href="#marker-based-test-selection" title="Permalink to this heading">#</a></h2>
+<section id="repository-level-markers">
+<h3>Repository-Level Markers<a class="headerlink" href="#repository-level-markers" title="Permalink to this heading">#</a></h3>
+<p><strong>Base Tests</strong> - Quick tests for minimal installations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base&quot;</span>
+</pre></div>
+</div>
+<p>Base tests complete very quickly and require only minimal
+installation for testing basic functionality within the current repository.</p>
+<p><strong>Full Tests</strong> - Comprehensive repository testing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;full&quot;</span>
+</pre></div>
+</div>
+<p>Full tests require complete installation and test only functionality within
+the current repository. These tests depend on <code class="docutils literal notranslate"><span class="pre">geoips</span></code> being installed.
+This includes all repository tests except those
+marked as optional <code class="docutils literal notranslate"><span class="pre">base</span></code> tests.</p>
+<p>Run both base and full tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base or full&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="integration-test-markers">
+<h3>Integration Test Markers<a class="headerlink" href="#integration-test-markers" title="Permalink to this heading">#</a></h3>
+<p><strong>Integration Tests</strong> - Cross-component functionality:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span>
+</pre></div>
+</div>
+<p>Integration tests verify functionality across multiple components and/or packages.</p>
+<p>Exclude integration tests (unit tests only):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;not integration&quot;</span>
+</pre></div>
+</div>
+<p><strong>Multi-Package Tests</strong> - Cross-repository dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;spans_multiple_packages&quot;</span>
+</pre></div>
+</div>
+<p>This tests functionality that could fail due to code
+in multiple repositories (e.g., plugin validation across repos).</p>
+<p><strong>Limited Dataset Tests</strong> - Restricted data availability:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;limited_test_dataset_availability&quot;</span>
+</pre></div>
+</div>
+<p>Run just tests that may not be available to all users
+due to dataset access restrictions or a lack of a
+pre-packaged opensource testing set.</p>
+</section>
+<section id="geoips-system-implementation-markers">
+<h3>GeoIPS System Implementation Markers<a class="headerlink" href="#geoips-system-implementation-markers" title="Permalink to this heading">#</a></h3>
+<p>These markers test complete GeoIPS system deployments
+for real-time processing.
+Most GeoIPS developers will not use these markers.</p>
+<p><strong>Real-time Tests</strong> - End-to-end processing:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;realtime&quot;</span>
+</pre></div>
+</div>
+<p>Tests full real-time functionality using complete
+procflow/workflow configs and all installed plugins.</p>
+<p><strong>Scheduler Tests</strong> - Task scheduling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;scheduler&quot;</span>
+</pre></div>
+</div>
+<p>Tests scheduling capabilities for processing workflows.</p>
+<p><strong>Database Tests</strong> - Database integration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;database&quot;</span>
+</pre></div>
+</div>
+<p>Tests database integrations.</p>
+<p><strong>Downloader Tests</strong> - Data ingestion:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;downloader&quot;</span>
+</pre></div>
+</div>
+<p>Tests automated data download and ingestion functions.</p>
+<p><strong>External Preprocessing Tests</strong> - Third-party integration:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;external_preprocessing&quot;</span>
+</pre></div>
+</div>
+<p>Tests/runs external preprocessing tools
+(e.g., CLAVR-x, CSPP) that are not part of core GeoIPS.</p>
+<p><strong>Scrubber Tests</strong> - Data cleanup:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;scrubber&quot;</span>
+</pre></div>
+</div>
+<p>Tests data cleanup and maintenance functions.</p>
+</section>
+<section id="combined-marker-examples">
+<h3>Combined Marker Examples<a class="headerlink" href="#combined-marker-examples" title="Permalink to this heading">#</a></h3>
+<p>Run base integration tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base and integration&quot;</span>
+</pre></div>
+</div>
+<p>Run full tests excluding those requiring external datasets:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;full and not limited_test_dataset_availability&quot;</span>
+</pre></div>
+</div>
+<p>Run all system implementation tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;realtime or scheduler or database or downloader or external_preprocessing or scrubber&quot;</span>
+</pre></div>
+</div>
+<p>Run integration tests that don’t span multiple packages:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration and not spans_multiple_packages&quot;</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="pattern-matching-examples">
+<h2>Pattern Matching Examples<a class="headerlink" href="#pattern-matching-examples" title="Permalink to this heading">#</a></h2>
+<p><strong>Test Name Patterns</strong></p>
+<p>Run tests containing “reader” in the name:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader&quot;</span>
+</pre></div>
+</div>
+<p>Run tests for specific functionality:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;test_colormap&quot;</span>
+</pre></div>
+</div>
+<p>Run tests NOT containing specific words:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;not slow&quot;</span>
+</pre></div>
+</div>
+<p>Combine multiple patterns with AND:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader and viirs&quot;</span>
+</pre></div>
+</div>
+<p>Combine multiple patterns with OR:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader or writer&quot;</span>
+</pre></div>
+</div>
+<p>Complex pattern combinations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;(reader or writer) and not slow&quot;</span>
+</pre></div>
+</div>
+<p><strong>File Pattern Examples</strong></p>
+<p>Run all reader tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;test_*_reader&quot;</span>
+</pre></div>
+</div>
+<p>Run all tests ending with “integration”:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;*integration&quot;</span>
+</pre></div>
+</div>
+<p>Run tests matching class patterns:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;TestReader or TestWriter&quot;</span>
+</pre></div>
+</div>
+</section>
+<section id="coverage-and-output-options">
+<h2>Coverage and Output Options<a class="headerlink" href="#coverage-and-output-options" title="Permalink to this heading">#</a></h2>
+<p><strong>Coverage Reports</strong></p>
+<p>Generate HTML coverage report:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>Generate XML coverage report:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>Generate coverage report to terminal:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span>
+</pre></div>
+</div>
+<p>Show missing lines in terminal coverage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span><span class="o">-</span><span class="n">missing</span>
+</pre></div>
+</div>
+<p>Generate annotated source code coverage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">annotate</span>
+</pre></div>
+</div>
+<p>Combine multiple coverage formats:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span><span class="o">-</span><span class="n">missing</span>
+</pre></div>
+</div>
+<p>Specify coverage source directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>Set coverage output directory:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span><span class="p">:</span><span class="n">htmlcov</span>
+</pre></div>
+</div>
+<p>Exclude files from coverage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">config</span><span class="o">=.</span><span class="n">coveragerc</span>
+</pre></div>
+</div>
+<p>Show coverage for specific modules only:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span><span class="o">-</span><span class="n">missing</span>
+</pre></div>
+</div>
+<p>Fail if coverage below threshold:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">fail</span><span class="o">-</span><span class="n">under</span><span class="o">=</span><span class="mi">80</span>
+</pre></div>
+</div>
+<p><strong>Test Execution Control</strong></p>
+<p>Stop on first failure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">x</span>
+</pre></div>
+</div>
+<p>Stop after N failures:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">maxfail</span><span class="o">=</span><span class="mi">3</span>
+</pre></div>
+</div>
+<p>Run failed tests first:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">ff</span>
+</pre></div>
+</div>
+<p>Run last failed tests only:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">lf</span>
+</pre></div>
+</div>
+<p>Run new tests first:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">nf</span>
+</pre></div>
+</div>
+<p><strong>Output Formatting</strong></p>
+<p>Show only failures and errors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">rf</span>
+</pre></div>
+</div>
+<p>Show extra test summary (all except passed):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">ra</span>
+</pre></div>
+</div>
+<p>Show all test outcomes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">rA</span>
+</pre></div>
+</div>
+<p>Show skipped tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">rs</span>
+</pre></div>
+</div>
+<p>Show expected failures:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">rx</span>
+</pre></div>
+</div>
+<p>Quiet output (reduce verbosity):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">q</span>
+</pre></div>
+</div>
+<p>Extra verbose output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">vv</span>
+</pre></div>
+</div>
+<p>Show local variables in tracebacks:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">l</span>
+</pre></div>
+</div>
+<p>Capture output (show print statements):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">s</span>
+</pre></div>
+</div>
+<p>Disable output capturing completely:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">capture</span><span class="o">=</span><span class="n">no</span>
+</pre></div>
+</div>
+<p><strong>Traceback Options</strong></p>
+<p>Short traceback format:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">short</span>
+</pre></div>
+</div>
+<p>Long traceback format (default):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">long</span>
+</pre></div>
+</div>
+<p>No traceback:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">no</span>
+</pre></div>
+</div>
+<p>Only show one line per failure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">line</span>
+</pre></div>
+</div>
+<p>Native Python traceback:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">native</span>
+</pre></div>
+</div>
+<p><strong>Progress and Timing</strong></p>
+<p>Show slowest test durations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">durations</span><span class="o">=</span><span class="mi">10</span>
+</pre></div>
+</div>
+<p>Show all test durations:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">durations</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Show test progress as percentage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">no</span> <span class="o">-</span><span class="n">q</span> <span class="o">--</span><span class="n">durations</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p>Disable duration reporting:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">durations</span><span class="o">=</span><span class="mi">0</span>
+</pre></div>
+</div>
+<p><strong>Warning Control</strong></p>
+<p>Disable warnings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">disable</span><span class="o">-</span><span class="n">warnings</span>
+</pre></div>
+</div>
+<p>Show warnings summary:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">rw</span>
+</pre></div>
+</div>
+<p>Turn warnings into errors:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">W</span> <span class="n">error</span>
+</pre></div>
+</div>
+<p>Filter specific warnings:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">W</span> <span class="n">ignore</span><span class="p">::</span><span class="ne">DeprecationWarning</span>
+</pre></div>
+</div>
+</section>
+<section id="managing-pytest-output-and-logging">
+<h2>Managing Pytest Output and Logging<a class="headerlink" href="#managing-pytest-output-and-logging" title="Permalink to this heading">#</a></h2>
+<p>Pytest can generate substantial output, especially when running comprehensive test suites with verbose logging.
+This section covers techniques for capturing, redirecting, and managing pytest output effectively.</p>
+<p><strong>Redirecting Output to Files</strong></p>
+<p>Capture all pytest output to a file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="n">test_results</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Separate stdout and stderr:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="n">test_output</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;</span> <span class="n">test_errors</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Append to existing log files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;&gt;</span> <span class="n">test_log</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Capture only test results (suppress pytest’s own output):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">q</span> <span class="o">&gt;</span> <span class="n">results</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Create timestamped log files:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="s2">&quot;test_$(date +%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S).log&quot;</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Control pytest verbosity levels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">v</span> <span class="o">&gt;</span> <span class="n">verbose_output</span><span class="o">.</span><span class="n">txt</span>          <span class="c1"># Standard verbose</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">vv</span> <span class="o">&gt;</span> <span class="n">extra_verbose_output</span><span class="o">.</span><span class="n">txt</span>   <span class="c1"># Extra verbose</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">q</span> <span class="o">&gt;</span> <span class="n">quiet_output</span><span class="o">.</span><span class="n">txt</span>            <span class="c1"># Minimal output</span>
+</pre></div>
+</div>
+<p>Filter output by test outcomes:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">ra</span> <span class="o">&gt;</span> <span class="n">all_summary</span><span class="o">.</span><span class="n">txt</span>            <span class="c1"># All test summary info</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">rf</span> <span class="o">&gt;</span> <span class="n">failures_only</span><span class="o">.</span><span class="n">txt</span>          <span class="c1"># Only failures and errors</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">rs</span> <span class="o">&gt;</span> <span class="n">skipped_tests</span><span class="o">.</span><span class="n">txt</span>          <span class="c1"># Only skipped tests</span>
+</pre></div>
+</div>
+<p>Enable live logging to see real-time output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="n">level</span><span class="o">=</span><span class="n">INFO</span> <span class="o">&gt;</span> <span class="n">test_with_logs</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Capture logs at different levels:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">level</span><span class="o">=</span><span class="n">DEBUG</span> <span class="o">&gt;</span> <span class="n">debug_logs</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">level</span><span class="o">=</span><span class="n">WARNING</span> <span class="o">&gt;</span> <span class="n">warning_logs</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Configure log format for file output:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">log</span><span class="o">-</span><span class="n">cli</span><span class="o">-</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%(asctime)s</span><span class="s2"> [</span><span class="si">%(levelname)s</span><span class="s2">] </span><span class="si">%(message)s</span><span class="s2">&quot;</span> <span class="o">&gt;</span> <span class="n">formatted_logs</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Use progress indicators for long-running tests:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">line</span> <span class="o">-</span><span class="n">q</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">progress</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p>Rotate logs by test session:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="s2">&quot;session_$(date +</span><span class="si">%s</span><span class="s2">).log&quot;</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Split output by test categories:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base&quot;</span> <span class="o">&gt;</span> <span class="n">base_tests</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span> <span class="o">&gt;</span> <span class="n">integration_tests</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p><strong>Output Size Management</strong></p>
+<p>Limit traceback length to reduce file size:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">short</span> <span class="o">&gt;</span> <span class="n">compact_results</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">--</span><span class="n">tb</span><span class="o">=</span><span class="n">no</span> <span class="o">&gt;</span> <span class="n">minimal_results</span><span class="o">.</span><span class="n">txt</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+<p>Compress output files automatically:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">|</span> <span class="n">gzip</span> <span class="o">&gt;</span> <span class="n">test_results</span><span class="o">.</span><span class="n">gz</span>
+</pre></div>
+</div>
+<p><strong>Real-time Monitoring</strong></p>
+<p>Monitor test progress in real-time:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">|</span> <span class="n">tee</span> <span class="n">test_output</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+<p>Follow log files during test execution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">&gt;</span> <span class="n">test</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span> <span class="o">&amp;</span>
+<span class="n">tail</span> <span class="o">-</span><span class="n">f</span> <span class="n">test</span><span class="o">.</span><span class="n">log</span>
+</pre></div>
+</div>
+<p>Run multiple test configurations with separate logs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;base&quot;</span> <span class="o">&gt;</span> <span class="n">base</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration&quot;</span> <span class="o">&gt;</span> <span class="n">integration</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+<span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;full&quot;</span> <span class="o">&gt;</span> <span class="n">full</span><span class="o">.</span><span class="n">log</span> <span class="mi">2</span><span class="o">&gt;&amp;</span><span class="mi">1</span>
+</pre></div>
+</div>
+</section>
+<section id="multi-package-coverage-example">
+<h2>Multi-Package Coverage Example<a class="headerlink" href="#multi-package-coverage-example" title="Permalink to this heading">#</a></h2>
+<p>Run tests across all GeoIPS plugin packages with comprehensive coverage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>cd $GEOIPS_PACKAGES_DIR
+coverage run --omit=*test* --source ./.. --module \
+      pytest -m &#39;$pytest_mark&#39; \
+      --junit-xml=/output/test-artifacts/pytest.xml \
+      --html=/output/test-artifacts/pytest.html --self-contained-html
+coverage json -o /output/test-artifacts/coverage.json --pretty-print
+coverage lcov -o /output/test-artifacts/coverage.lcov
+coverage html -d /output/test-artifacts/coverage-html
+</pre></div>
+</div>
+<dl class="simple">
+<dt>This example:</dt><dd><ul class="simple">
+<li><p>Uses <code class="docutils literal notranslate"><span class="pre">coverage</span> <span class="pre">run</span></code> to collect coverage data across all packages</p></li>
+<li><p>Omits test files from coverage analysis with <code class="docutils literal notranslate"><span class="pre">--omit=*test*</span></code></p></li>
+<li><p>Sets source directory to parent directory with <code class="docutils literal notranslate"><span class="pre">--source</span> <span class="pre">./..</span></code></p></li>
+<li><p>Runs pytest as a module with specified markers</p></li>
+<li><p>Generates JUnit XML for CI/CD integration</p></li>
+<li><p>Creates self-contained HTML test report</p></li>
+<li><p>Exports coverage in multiple formats (JSON, LCOV, HTML)</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="advanced-usage">
+<h2>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this heading">#</a></h2>
+<p><strong>Parallel Execution</strong></p>
+<p>Run tests in parallel (requires pytest-xdist):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">n</span> <span class="n">auto</span>
+</pre></div>
+</div>
+<p>Specify number of parallel workers:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">n</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>Distribute tests across multiple CPUs:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">n</span> <span class="n">logical</span>
+</pre></div>
+</div>
+<p><strong>Complex Examples</strong></p>
+<p>Run with custom markers and options:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">m</span> <span class="s2">&quot;integration and not limited_test_dataset_availability&quot;</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span> <span class="o">-</span><span class="n">v</span>
+</pre></div>
+</div>
+<p>Exclude specific directories:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">ignore</span><span class="o">=</span><span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span>
+</pre></div>
+</div>
+<p>Include long unit tests with coverage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests</span><span class="o">/</span> <span class="n">tests</span><span class="o">/</span><span class="n">unit_tests_long</span><span class="o">/</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">html</span>
+</pre></div>
+</div>
+<p>Pattern matching with coverage:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">k</span> <span class="s2">&quot;reader&quot;</span> <span class="o">--</span><span class="n">cov</span><span class="o">=</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span><span class="o">.</span><span class="n">readers</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span><span class="o">-</span><span class="n">missing</span>
+</pre></div>
+</div>
+<p><strong>Development and Debugging</strong></p>
+<p>Dry run (collect tests without running):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">collect</span><span class="o">-</span><span class="n">only</span>
+</pre></div>
+</div>
+<p>Debug mode (drop into debugger on failures):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">pdb</span>
+</pre></div>
+</div>
+<p>Drop into debugger on first failure:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">-</span><span class="n">x</span> <span class="o">--</span><span class="n">pdb</span>
+</pre></div>
+</div>
+<p>Set trace immediately:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">trace</span>
+</pre></div>
+</div>
+<p><strong>CI/CD Integration</strong></p>
+<p>Create JUnit XML output for CI/CD:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">junit</span><span class="o">-</span><span class="n">xml</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">xml</span>
+</pre></div>
+</div>
+<p>Create JSON report:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">json</span><span class="o">-</span><span class="n">report</span> <span class="o">--</span><span class="n">json</span><span class="o">-</span><span class="n">report</span><span class="o">-</span><span class="n">file</span><span class="o">=</span><span class="n">report</span><span class="o">.</span><span class="n">json</span>
+</pre></div>
+</div>
+<p>Combine XML and coverage for CI:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">junit</span><span class="o">-</span><span class="n">xml</span><span class="o">=</span><span class="n">results</span><span class="o">.</span><span class="n">xml</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">xml</span> <span class="o">--</span><span class="n">cov</span><span class="o">-</span><span class="n">report</span><span class="o">=</span><span class="n">term</span>
+</pre></div>
+</div>
+<p><strong>Performance Testing</strong></p>
+<p>Run with benchmark plugin (if installed):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">benchmark</span><span class="o">-</span><span class="n">only</span>
+</pre></div>
+</div>
+<p>Profile test execution:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">profile</span>
+</pre></div>
+</div>
+<p>Memory usage profiling:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pytest</span> <span class="o">--</span><span class="n">memray</span>
+</pre></div>
+</div>
+</section>
+<section id="extended-pytest-functionality">
+<h2>Extended Pytest Functionality<a class="headerlink" href="#extended-pytest-functionality" title="Permalink to this heading">#</a></h2>
+<dl class="simple">
+<dt><strong>Core Extensions</strong></dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://pytest-cov.readthedocs.io/">pytest-cov</a> - Coverage reporting</p></li>
+<li><p><a class="reference external" href="https://pytest-xdist.readthedocs.io/">pytest-xdist</a> - Parallel test execution</p></li>
+<li><p><a class="reference external" href="https://pytest-html.readthedocs.io/">pytest-html</a> - HTML test reports</p></li>
+</ul>
+</dd>
+<dt><strong>Development Tools</strong></dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://pytest-mock.readthedocs.io/">pytest-mock</a> - Enhanced mocking capabilities</p></li>
+<li><p><a class="reference external" href="https://pytest-benchmark.readthedocs.io/">pytest-benchmark</a> - Performance benchmarking</p></li>
+<li><p><a class="reference external" href="https://pytest-memray.readthedocs.io/">pytest-memray</a> - Memory profiling</p></li>
+</ul>
+</dd>
+<dt><strong>CI/CD Integration</strong></dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://pytest-json-report.readthedocs.io/">pytest-json-report</a> - JSON test reports</p></li>
+<li><p><a class="reference external" href="https://pytest-timeout.readthedocs.io/">pytest-timeout</a> - Test timeout handling</p></li>
+<li><p><a class="reference external" href="https://pytest-rerunfailures.readthedocs.io/">pytest-rerunfailures</a> - Retry failed tests</p></li>
+</ul>
+</dd>
+<dt><strong>Quality Assurance</strong></dt><dd><ul class="simple">
+<li><p><a class="reference external" href="https://pypi.org/project/pytest-flake8/">pytest-flake8</a> - Code style checking</p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/pytest-mypy/">pytest-mypy</a> - Type checking integration</p></li>
+<li><p><a class="reference external" href="https://pytest-clarity.readthedocs.io/">pytest-clarity</a> - Better assertion output</p></li>
+</ul>
+</dd>
+</dl>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Testing</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../../geoips_api/index.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#long-running-unit-tests">Long-Running Unit Tests</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marker-categories">Marker Categories</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#marker-based-test-selection">Marker-Based Test Selection</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#repository-level-markers">Repository-Level Markers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#integration-test-markers">Integration Test Markers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips-system-implementation-markers">GeoIPS System Implementation Markers</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#combined-marker-examples">Combined Marker Examples</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pattern-matching-examples">Pattern Matching Examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#coverage-and-output-options">Coverage and Output Options</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-pytest-output-and-logging">Managing Pytest Output and Logging</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-package-coverage-example">Multi-Package Coverage Example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#advanced-usage">Advanced Usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#extended-pytest-functionality">Extended Pytest Functionality</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../../_sources/contribute/testing/running_tests.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

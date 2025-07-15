@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.interfaces.yaml_based package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.interfaces.yaml_based package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -703,8 +703,29 @@ not be instantiated directly. To access sector plugins, use
 
 <dl class="py method">
 <dt class="sig sig-object py" id="geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot">
-<span class="sig-name descname"><span class="pre">create_test_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fig_ax_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/sectors.html#SectorPluginBase.create_test_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">create_test_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">fname</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">return_fig_ax_map</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlay</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/yaml_based/sectors.html#SectorPluginBase.create_test_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.yaml_based.sectors.SectorPluginBase.create_test_plot" title="Permalink to this definition">#</a></dt>
 <dd><p>Create a test PNG image for this sector.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>fname</strong> (<em>str</em>) – <ul>
+<li><p>The full path to the output image.</p></li>
+</ul>
+</p></li>
+<li><p><strong>return_fix_ax_map</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>Whether or not we should save the image to disk or return the figure,
+axes, and mapobj variables in memory</p></li>
+</ul>
+</p></li>
+<li><p><strong>overlay</strong> (<em>bool</em><em>, </em><em>default=False</em>) – <ul>
+<li><p>If true, overlay this sector on the global grid and make it slightly
+transparent. Useful for projecting tiny sectors on the global grid to get
+a sense of where they’ll end up and what they’ll look like.</p></li>
+</ul>
+</p></li>
+</ul>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>

@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_test &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.commandline.geoips_test &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -437,6 +437,7 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">glob</span><span class="w"> </span><span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">resources</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 
 <span class="c1"># from os import listdir</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">environ</span><span class="p">,</span> <span class="n">makedirs</span>
@@ -476,7 +477,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="c1">#             help=&quot;GeoIPS Packages Unit Test Directory Name where unit tests are held.&quot;, # NOQA</span>
 <span class="c1">#         )</span>
 <span class="c1">#         self.parser.add_argument(</span>
-<span class="c1">#             &quot;--package_name&quot;,</span>
+<span class="c1">#             &quot;--package-name&quot;,</span>
 <span class="c1">#             &quot;-p&quot;,</span>
 <span class="c1">#             type=str,</span>
 <span class="c1">#             default=&quot;geoips&quot;,</span>
@@ -570,6 +571,16 @@ window.addEventListener("load", () => mermaid.run());
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;GEOIPS_OUTDIRS&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;The output directory to create your sector image in.&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--overlay&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Overlay this sector on the global_cylindrical grid. Useful for testing&quot;</span>
+                <span class="s2">&quot;small sectors, where their domain might be difficult to interpret in &quot;</span>
+                <span class="s2">&quot;a geospatial context.&quot;</span>
+            <span class="p">),</span>
         <span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
@@ -587,6 +598,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">sector_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">sector_name</span>
         <span class="n">outdir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outdir</span>
+        <span class="n">overlay</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">overlay</span>
         <span class="c1"># If the path to outdir doesn&#39;t already exist, make that path</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">outdir</span><span class="p">):</span>
             <span class="n">makedirs</span><span class="p">(</span><span class="n">outdir</span><span class="p">)</span>
@@ -614,7 +626,7 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="sa">f</span><span class="s2">&quot;named &#39;</span><span class="si">{</span><span class="n">sector_name</span><span class="si">}</span><span class="s2">&#39; and run &#39;create_plugin_registries&#39;.&quot;</span>
             <span class="p">)</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Creating </span><span class="si">{</span><span class="n">fname</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
-        <span class="n">sect</span><span class="o">.</span><span class="n">create_test_plot</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span></div>
+        <span class="n">sect</span><span class="o">.</span><span class="n">create_test_plot</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">overlay</span><span class="o">=</span><span class="n">overlay</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsTestScript"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestScript">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTestScript</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -629,7 +641,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        Currently the &quot;geoips test script&quot; command supports this format:</span>
 <span class="sd">            - geoips test script &lt;-p&gt; &lt;package_name&gt; &lt;script_name&gt; &lt;--integration&gt;</span>
 <span class="sd">        Where:</span>
-<span class="sd">            - &lt;package_name&gt; is any GeoIPS package that is installed and recognized by</span>
+<span class="sd">            - &lt;package-name&gt; is any GeoIPS package that is installed and recognized by</span>
 <span class="sd">              the GeoIPS Library</span>
 <span class="sd">            - &lt;script_name&gt; is the name of the bash script being tested</span>
 <span class="sd">            - &#39;--integration&#39; represents whether or not this is an &#39;integration&#39; test</span>
@@ -640,7 +652,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Script to be tested&quot;</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--package-name&quot;</span><span class="p">,</span>
             <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
@@ -667,6 +679,11 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        args: Argparse Namespace()</span>
 <span class="sd">            - The list argument namespace to parse through</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">args</span><span class="o">.</span><span class="n">warnings</span> <span class="o">!=</span> <span class="s2">&quot;print&quot;</span><span class="p">:</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;The &#39;warnings&#39; argument is not yet supported for this command.&quot;</span><span class="p">,</span>
+                <span class="ne">UserWarning</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="n">package_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">package_name</span>
         <span class="n">script_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">script_name</span>
         <span class="n">is_integration_test</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">integration</span>
@@ -722,7 +739,7 @@ window.addEventListener("load", () => mermaid.run());
 <div class="viewcode-block" id="GeoipsTestLinting.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTestLinting.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the test-subparser for the Test Linting Command.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;--package_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--package-name&quot;</span><span class="p">,</span>
             <span class="s2">&quot;-p&quot;</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
@@ -755,7 +772,7 @@ window.addEventListener("load", () => mermaid.run());
 
 
 <div class="viewcode-block" id="GeoipsTest"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_test.GeoipsTest">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsTest</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-Level Test Command for testing GeoIPS and its corresponding Packages.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Top-Level test command for testing GeoIPS and its corresponding packages.&quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;test&quot;</span>
     <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">GeoipsTestLinting</span><span class="p">,</span> <span class="n">GeoipsTestScript</span><span class="p">,</span> <span class="n">GeoipsTestSector</span><span class="p">]</span></div>

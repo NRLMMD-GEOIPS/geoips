@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Integration Tests &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>Integration Tests &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -375,8 +375,7 @@
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="../index.html">Functionality</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="../command-line/index.html">Command Line Interface</a></li>
-
+<li class="toctree-l2"><a class="reference internal" href="../command-line/index.html">Command Line Interface (CLI)</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../plugin-registries.html">Using Plugin Registries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../documentation-building.html">Documentation Building</a></li>
 <li class="toctree-l2 current active has-children"><a class="reference internal" href="index.html">Examples</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
@@ -404,12 +403,17 @@
 </details></li>
 <li class="toctree-l1 has-children"><a class="reference internal" href="../../architecture/index.html">Architecture</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/extend-with-plugins.html">Extend GeoIPS with Plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/interfaces/module_based/output-checkers/index.html">What Are Output Checkers?</a></li>
+
+
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/plugin-registries.html">Understanding Plugin Registries</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/structure-of-geoips/index.html">The Structure of GeoIPS</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/xarray-standards.html">Xarray and NetCDF Metadata Standards</a></li>
 <li class="toctree-l2"><a class="reference internal" href="../../architecture/geoips-specification.html">Software Requirements Specification</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/cached-files.html">Cache Files Managed by GeoIPS</a></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../architecture/tests/index.html">Testing Suite</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
 <li class="toctree-l3"><a class="reference internal" href="../../architecture/tests/unit-tests.html">Unit Testing</a></li>
+<li class="toctree-l3"><a class="reference internal" href="../../architecture/tests/test-sectors.html">Test Sectors for GeoIPS</a></li>
 </ul>
 </details></li>
 <li class="toctree-l2 has-children"><a class="reference internal" href="../../architecture/documentation/index.html">Documentation</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
@@ -417,6 +421,7 @@
 <li class="toctree-l3"><a class="reference internal" href="../../architecture/documentation/where-to-put.html">Where to Put Documentation</a></li>
 </ul>
 </details></li>
+<li class="toctree-l2"><a class="reference internal" href="../../architecture/command_line_interface.html">Command Line Interface</a></li>
 </ul>
 </details></li>
 </ul>
@@ -1161,16 +1166,7 @@ exit $((ss_retval))
 
 #!/bin/bash
 
-geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-_________-EPI______-202312110800-__ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-_________-PRO______-202312110800-__ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000001___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000002___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000003___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000004___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000005___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000006___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000007___-202312110800-C_ \
-             $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20231211/0800/H-000-MSG2__-MSG2_IODC___-WV_062___-000008___-202312110800-C_ \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/1200/H-000-MSG3* \
              --reader_name seviri_hrit \
              --product_name WV-Upper \
              --output_formatter unprojected_image \
@@ -1387,21 +1383,7 @@ exit $retval
 
 # This exact test case required for valid comparisons - remove &quot;compare_path&quot; argument if running a different
 # set of arguments.
-geoips run single_source \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0838266_e0838583_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0838586_e0839303_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0839306_e0840023_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0840026_e0840343_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0840346_e0841063_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0841066_e0841383_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/GATMO_j01_d20210809_t0841386_e0842103_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0838266_e0838583_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0838586_e0839303_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0839306_e0840023_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0840026_e0840343_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0840346_e0841063_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0841066_e0841383_b19295_fnmoc_ops.h5 \
-          $GEOIPS_TESTDATA_DIR/test_data_atms/data/jpss-1_20210809_0838_tc2021ep11Kevin/SATMS_j01_d20210809_t0841386_e0842103_b19295_fnmoc_ops.h5 \
+geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_atms/data/n20_20230525_0336_tc2023wp02Mawar/*.h5 \
           --reader_name atms_hdf5 \
           --product_name 165H \
           --filename_formatter geoips_netcdf_fname \

@@ -16,12 +16,31 @@ Latest (version on cutting edge of git)
 
    latest
 
+Upcoming (version AHEAD OF the cutting edge of git)
+---------------------------------------------------
+
+.. toctree::
+   :maxdepth: 1
+
+   upcoming
+
+Version 1.16
+------------
+
+.. toctree::
+   :maxdepth: 1
+
+   1.16.1
+   1.16.0
+
 Version 1.15
 ------------
 
 .. toctree::
    :maxdepth: 1
 
+   1.15.3
+   1.15.2
    1.15.1
    1.15.0
 

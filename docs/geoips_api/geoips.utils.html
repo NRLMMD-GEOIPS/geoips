@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.utils package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.utils package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -479,6 +479,82 @@
 <section id="submodules">
 <h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading">#</a></h2>
 </section>
+<section id="module-geoips.utils.cache_files">
+<span id="geoips-utils-cache-files-module"></span><h2>geoips.utils.cache_files module<a class="headerlink" href="#module-geoips.utils.cache_files" title="Permalink to this heading">#</a></h2>
+<p>Module for handling cached files in GeoIPS.</p>
+<p>This modules provides functions to manage cache files in GeoIPS.
+Cache files will be stored in the user cache directory, which is platform-dependent. The
+correct cache directory is determined using the GEOIPS_CACHE_DIR environment variable
+which defaults to <cite>platformdirs.user_cache_dir(“geoips”)</cite> if not set.</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.cache_files.create_cached_json_from_yaml">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.cache_files.</span></span><span class="sig-name descname"><span class="pre">create_cached_json_from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/cache_files.html#create_cached_json_from_yaml"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.cache_files.create_cached_json_from_yaml" title="Permalink to this definition">#</a></dt>
+<dd><p>Create a cached JSON file from a YAML file.</p>
+<p>This function reads a YAML file and writes its contents to a JSON file in the user
+cache directory. The JSON file will be created if it does not already exist, or
+updated if it does.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – The path to the source YAML file.</p></li>
+<li><p><strong>cache_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the cache directory. If not provided, the default user cache
+directory will be used.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The path to the cached JSON file.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.cache_files.get_cached_json">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.cache_files.</span></span><span class="sig-name descname"><span class="pre">get_cached_json</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/cache_files.html#get_cached_json"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.cache_files.get_cached_json" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the cached JSON file corresponding to a YAML file.</p>
+<p>Some files in GeoIPS are stored in YAML format, but we want to use JSON at runtime
+because loading JSON is faster than loading YAML. This function checks if the cached
+JSON file exists and is up to date. If it does not exist or is out of date, it
+creates a new cached JSON file from the YAML file. It then returns the contents of
+the cached JSON file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – The path to the source YAML file.</p></li>
+<li><p><strong>cache_dir</strong> (<em>str</em><em>, </em><em>optional</em>) – The path to the cache directory. If not provided, the default user cache
+directory will be used.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.utils.cache_files.source_modified">
+<span class="sig-prename descclassname"><span class="pre">geoips.utils.cache_files.</span></span><span class="sig-name descname"><span class="pre">source_modified</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/cache_files.html#source_modified"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.cache_files.source_modified" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if the source file was modified more recently than the destination file.</p>
+<p>This uses os.path.getmtime() to determine whether the source file has been modified
+more recently than the destination file. Returns True if the source file was
+modified more recently than the destination file, False otherwise.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>source</strong> (<em>str</em>) – The path to the source file we are monitoring for changes.</p></li>
+<li><p><strong>dest</strong> (<em>str</em>) – The path to the destination file we will update if the source file changes.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>True if the source file was modified more recently than the destination file,
+False otherwise.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>bool</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
 <section id="module-geoips.utils.composite">
 <span id="geoips-utils-composite-module"></span><h2>geoips.utils.composite module<a class="headerlink" href="#module-geoips.utils.composite" title="Permalink to this heading">#</a></h2>
 <p>Utilities for swath compositing in GeoIPS.</p>
@@ -591,6 +667,26 @@ beginning of that function’s docstring.</p>
 <li><p>Requires psutil and threading</p></li>
 </ul>
 <dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.checkpoint_usage_stats">
+<span class="sig-name descname"><span class="pre">checkpoint_usage_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg.html#PidLog.checkpoint_usage_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.checkpoint_usage_stats" title="Permalink to this definition">#</a></dt>
+<dd><p>Return organized dictionary of stats from track_resource_usage.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Resource usage statistics for markers/checkpoints recorded by the
+track_resource_usage method. Dictionary is ordered by the markers passed to
+track_resource_usage. Each key in the return dictionary will hold a
+dictionary of the resource usage statistics. If a group is specified in the
+marker name (e.g. “FOO: BAR”), the return dictionary will have a “BAR” key,
+and will have a “checkpoint_group” key in the corresponding resource usage
+dictionary with a value of “FOO”.</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.print_mem_usg">
 <span class="sig-name descname"><span class="pre">print_mem_usg</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg.html#PidLog.print_mem_usg"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.print_mem_usg" title="Permalink to this definition">#</a></dt>
 <dd><p>Print verbose resouce usage.</p>
@@ -618,6 +714,46 @@ beginning of that function’s docstring.</p>
 <dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.track_pids">
 <span class="sig-name descname"><span class="pre">track_pids</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg.html#PidLog.track_pids"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.track_pids" title="Permalink to this definition">#</a></dt>
 <dd><p>Track pids and create a dict of values.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.utils.memusg.PidLog.track_resource_usage">
+<span class="sig-name descname"><span class="pre">track_resource_usage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">logstr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verbose</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">show_log</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpoint</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">increment_key</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/utils/memusg.html#PidLog.track_resource_usage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.utils.memusg.PidLog.track_resource_usage" title="Permalink to this definition">#</a></dt>
+<dd><p>Record resouce usage for a given processing marker in GeoIPS.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>logstr</strong> (<em>str</em><em>, </em><em>optional</em>) – String to include at the start of the log message, by default “”</p></li>
+<li><p><strong>verbose</strong> (<em>bool</em><em>, </em><em>optional</em>) – Print the full resource usage statistics dict to stdout, by default False</p></li>
+<li><p><strong>key</strong> (<em>str</em><em>, </em><em>optional</em>) – Unique name of marker to record statistics, by default None
+A marker can be categorized as part of a group when using “:” in the
+marker name (e.g “FOO: BAR”). This is used in the checkpoint_usage_stats
+method, where markers will have a “checkpoint_group” key in their resource
+usage statistics dictionary holding the name of the group.
+(e.g. stats[“BAR”][“checkpoint_group”] == “FOO”)</p></li>
+<li><p><strong>show_log</strong> (<em>bool</em><em>, </em><em>optional</em>) – Use LOG.info to print the current memory usage, by default True</p></li>
+<li><p><strong>checkpoint</strong> (<em>bool</em><em>, </em><em>optional</em>) – Re-use a marker key to record more detailed profiling of resource usage in
+terms of both timing and maximum memory usage, by default False</p></li>
+<li><p><strong>increment_key</strong> (<em>bool</em><em>, </em><em>optional</em>) – Append the number of times marker is re-used to the key, by default True
+Marker names should be unique, and should at minimum hold the start/end
+resource usage for the marker. If a marker is re-used and increment_key is
+False, a KeyError is raised. If increment_key is True and the marker has
+both start/end stats, a number is automatically appended to the key name.
+This number represents how many times a marker has been re-used. For
+example: “FOO: BAR” -&gt; “FOO: BAR(1)”: -&gt; “FOO: BAR(2)”
+(Note: “FOO: BAR(2)” is only created if “FOO: BAR(1)” has start/end stats)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Resource usage statistics for checkpoint</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>KeyError</strong> – Duplicate key is discovered and increment_key is False</p>
+</dd>
+</dl>
 </dd></dl>
 
 </dd></dl>
@@ -702,6 +838,12 @@ beginning of that function’s docstring.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.cache_files">geoips.utils.cache_files module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.cache_files.create_cached_json_from_yaml"><code class="docutils literal notranslate"><span class="pre">create_cached_json_from_yaml()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.cache_files.get_cached_json"><code class="docutils literal notranslate"><span class="pre">get_cached_json()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.cache_files.source_modified"><code class="docutils literal notranslate"><span class="pre">source_modified()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.composite">geoips.utils.composite module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.composite.find_preproc_alg_files"><code class="docutils literal notranslate"><span class="pre">find_preproc_alg_files()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.composite.find_preproc_alg_netcdfs"><code class="docutils literal notranslate"><span class="pre">find_preproc_alg_netcdfs()</span></code></a></li>
@@ -718,11 +860,13 @@ beginning of that function’s docstring.</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.utils.memusg">geoips.utils.memusg module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog"><code class="docutils literal notranslate"><span class="pre">PidLog</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.checkpoint_usage_stats"><code class="docutils literal notranslate"><span class="pre">PidLog.checkpoint_usage_stats()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.print_mem_usg"><code class="docutils literal notranslate"><span class="pre">PidLog.print_mem_usg()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.print_resource_usage"><code class="docutils literal notranslate"><span class="pre">PidLog.print_resource_usage()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.save_csv"><code class="docutils literal notranslate"><span class="pre">PidLog.save_csv()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.save_exit"><code class="docutils literal notranslate"><span class="pre">PidLog.save_exit()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.track_pids"><code class="docutils literal notranslate"><span class="pre">PidLog.track_pids()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.PidLog.track_resource_usage"><code class="docutils literal notranslate"><span class="pre">PidLog.track_resource_usage()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.utils.memusg.print_mem_usage"><code class="docutils literal notranslate"><span class="pre">print_mem_usage()</span></code></a></li>

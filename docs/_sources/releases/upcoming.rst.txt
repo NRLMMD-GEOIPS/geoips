@@ -1,0 +1,17 @@
+Version upcoming (2025-07-15)
+*****************************
+
+ * *Release process*: Add 1.15.1 release note
+
+Release process
+===============
+
+Add 1.15.1 release note
+-----------------------
+
+* Upcoming public version 1.15.3.
+* Upcoming internal version 1.15.1.
+
+::
+
+     added: docs/source/releases/upcoming/1.15.1-internal-release.yaml

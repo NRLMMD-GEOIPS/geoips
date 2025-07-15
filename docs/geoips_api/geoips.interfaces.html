@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.interfaces package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.interfaces package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -727,23 +727,10 @@ accessed by importing them from <code class="docutils literal notranslate"><span
 <span class="pre">`</span></code>
 will retrieve an instance of <code class="docutils literal notranslate"><span class="pre">AlgorithmsInterface</span></code> which will provide access to
 the GeoIPS algorithm plugins.</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.call_create_plugin_registries">
-<span class="sig-name descname"><span class="pre">call_create_plugin_registries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseInterface.call_create_plugin_registries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.call_create_plugin_registries" title="Permalink to this definition">#</a></dt>
-<dd><p>Run command ‘create_plugin_registries’ as a subprocess.</p>
-<p>This should be done whenever a plugin is attempted to be loaded but fails
-because it isn’t an entry in the plugin registry. If the plugin still cannot be
-found after this function is ran, then report the issue to the user.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>yaml</strong> (<em>bool</em><em> (</em><em>default=False</em><em>)</em>) – <ul class="simple">
-<li><p>Truth value as to whether or not we want to create a .yaml registry. If
-false, then create the default .json registry instead.</p></li>
-</ul>
-</p>
-</dd>
-</dl>
-</dd></dl>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.apiVersion">
+<span class="sig-name descname"><span class="pre">apiVersion</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'geoips/v1'</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.apiVersion" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.get_plugin">
@@ -762,8 +749,9 @@ strings for product plugins.</p></li>
 true and get_plugin fails, rebuild the plugin registry, call then call
 get_plugin once more with rebuild_registries toggled off, so it only gets
 rebuilt once.</p></li>
-<li><p>rbr (ReBuildRegistries) is set in geoips.filenames.base_paths with a
-default value of True. Users and developers can change this if desired.</p></li>
+<li><p>By default, the value of rebuild_registries is set in
+geoips.filenames.base_paths with a value of True. Users and
+developers can change this if desired.</p></li>
 </ul>
 </p></li>
 </ul>
@@ -797,6 +785,12 @@ plugin registry.</p>
 </dl>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.get_plugins">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseInterface.get_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.get_plugins" title="Permalink to this definition">#</a></dt>
+<dd><p>Abstract function for retrieving all plugins under a certain interface.</p>
+</dd></dl>
+
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.interface_type">
 <span class="sig-name descname"><span class="pre">interface_type</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.interface_type" title="Permalink to this definition">#</a></dt>
@@ -807,71 +801,35 @@ plugin registry.</p>
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'BaseInterface'</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
-<dl class="py attribute">
+<dl class="py property">
+<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.namespace">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">namespace</span></span><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.namespace" title="Permalink to this definition">#</a></dt>
+<dd><p>Default namespace used for the plugin registry associated with this class.</p>
+<p>By default, we use ‘geoips.plugin_packages’ as the namespace for interface
+classes. However, if a user has developed interfaces in a separate namespace
+from geoips, they can override this in their own classes by setting the
+namespace to search in.</p>
+</dd></dl>
+
+<dl class="py property">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.plugin_registry">
-<span class="sig-name descname"><span class="pre">plugin_registry</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;geoips.plugin_registry.PluginRegistry</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.plugin_registry" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">plugin_registry</span></span><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.plugin_registry" title="Permalink to this definition">#</a></dt>
+<dd><p>The plugin registry associated with this interface.</p>
+<p>By default, the plugin registry used comes from the namespace
+‘geoips.plugin_packages’. However, if a user has developed interfaces in a
+separate namespace from geoips, they can override this in their own classes by
+setting the namespace to search in.</p>
+</dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.plugin_registry_module">
-<span class="sig-name descname"><span class="pre">plugin_registry_module</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'geoips.plugin_registry'</span> <span class="pre">from</span> <span class="pre">'/opt/hostedtoolcache/Python/3.10.17/x64/lib/python3.10/site-packages/geoips/plugin_registry.py'&gt;</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.plugin_registry_module" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plugin_registry_module</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;module</span> <span class="pre">'geoips.plugin_registry'</span> <span class="pre">from</span> <span class="pre">'/opt/hostedtoolcache/Python/3.11.13/x64/lib/python3.11/site-packages/geoips/plugin_registry.py'&gt;</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.plugin_registry_module" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
-<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.rbr">
-<span class="sig-name descname"><span class="pre">rbr</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.rbr" title="Permalink to this definition">#</a></dt>
+<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.rebuild_registries">
+<span class="sig-name descname"><span class="pre">rebuild_registries</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">True</span></em><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.rebuild_registries" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.registered_module_based_plugins">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">registered_module_based_plugins</span></span><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.registered_module_based_plugins" title="Permalink to this definition">#</a></dt>
-<dd><p>Return a dictionary of registered module-based plugins.</p>
-<p>This property provides centeralized error handling for missing plugin
-registries.</p>
-</dd></dl>
-
-<dl class="py property">
-<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.registered_yaml_based_plugins">
-<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">registered_yaml_based_plugins</span></span><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.registered_yaml_based_plugins" title="Permalink to this definition">#</a></dt>
-<dd><p>Return a dictionary of registered yaml-based plugins.</p>
-<p>This property provides centeralized error handling for missing plugin
-registries.</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="geoips.interfaces.base.BaseInterface.retry_get_plugin">
-<span class="sig-name descname"><span class="pre">retry_get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rebuild_registries</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">err_type=&lt;class</span> <span class="pre">'geoips.errors.PluginError'&gt;</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseInterface.retry_get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseInterface.retry_get_plugin" title="Permalink to this definition">#</a></dt>
-<dd><p>Re-run self.get_plugin, but call ‘create_plugin_registries’ beforehand.</p>
-<p>By running ‘create_plugin_registries’, we automate the registration of plugins
-in GeoIPS. If the plugin persists not to be found, then we’ll raise an
-appropriate PluginError as denoted by ‘err_str’.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em><em> or </em><em>tuple</em><em>(</em><em>str</em><em>)</em>) – <ul>
-<li><p>The name of the yaml plugin. Either a single string or a tuple of strings
-for product plugins.</p></li>
-</ul>
-</p></li>
-<li><p><strong>rebuild_registries</strong> (<em>bool</em>) – <ul>
-<li><p>Whether or not to rebuild the registries if get_plugin fails. If set to
-true and get_plugin fails, rebuild the plugin registry, call then call
-get_plugin once more with rebuild_registries toggled off, so it only gets
-rebuilt once.</p></li>
-</ul>
-</p></li>
-<li><p><strong>err_str</strong> (<em>string</em>) – <ul>
-<li><p>The error to be reported.</p></li>
-</ul>
-</p></li>
-<li><p><strong>err_type</strong> (<em>Exception-based Class</em>) – <ul>
-<li><p>The class of exception to be raised.</p></li>
-</ul>
-</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
 
 </dd></dl>
 
@@ -926,7 +884,7 @@ rebuilt once.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseModuleInterface.get_plugins">
 <span class="sig-name descname"><span class="pre">get_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseModuleInterface.get_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseModuleInterface.get_plugins" title="Permalink to this definition">#</a></dt>
-<dd><p>Get a list of plugins for this interface.</p>
+<dd><p>Retrieve all module plugins for this interface.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -941,14 +899,19 @@ rebuilt once.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseModuleInterface.plugin_is_valid">
-<span class="sig-name descname"><span class="pre">plugin_is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseModuleInterface.plugin_is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseModuleInterface.plugin_is_valid" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">plugin_is_valid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseModuleInterface.plugin_is_valid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseModuleInterface.plugin_is_valid" title="Permalink to this definition">#</a></dt>
 <dd><p>Check that an interface is valid.</p>
 <p>Check that the requested interface function has the correct call signature.
 Return values should be as specified below, but are not programmatically
 verified.</p>
+<p>Note this is currently only called via the
+tests/utils/test_interfaces.py script (which is
+not a valid pytest script, but called directly
+via the command line), via the test_interface
+method within this base interface.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>name</strong> (<em>str</em>) – Name of the interface to be validated</p>
+<dd class="field-odd"><p><strong>plugin</strong> (<em>PluginObject</em>) – A plugin object coming from _plugin_module_to_obj that needs to be validated.</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
 <dd class="field-even"><p>True if valid, False if invalid</p>
@@ -998,7 +961,7 @@ Additionally, ensure all methods of this interface work as expected:</p>
 <li><p><em>- ‘validity_check’ contains a dict whose keys are plugin names and whose</em> – values are bools where <cite>True</cite> indicates that the Plugin’s function is
 valid according to <cite>plugin_is_valid</cite>.</p></li>
 <li><p><em>- ‘func’ contains a dict whose keys are plugin names and whose values are</em> – the function for each Plugin.</p></li>
-<li><p><em>- ‘family’ contains a dict whose keys are plugin names and whose vlaues</em> – are the contents of the ‘family’ attribute for each Plugin.</p></li>
+<li><p><em>- ‘family’ contains a dict whose keys are plugin names and whose values</em> – are the contents of the ‘family’ attribute for each Plugin.</p></li>
 </ul>
 </p>
 </dd>
@@ -1060,7 +1023,7 @@ rebuilt once.</p></li>
 <dl class="py method">
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseYamlInterface.get_plugins">
 <span class="sig-name descname"><span class="pre">get_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseYamlInterface.get_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseYamlInterface.get_plugins" title="Permalink to this definition">#</a></dt>
-<dd><p>Retrieve a plugin by name.</p>
+<dd><p>Retrieve all yaml plugin objects.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1089,6 +1052,10 @@ rebuilt once.</p></li>
 <dt class="sig sig-object py" id="geoips.interfaces.base.BaseYamlInterface.test_interface">
 <span class="sig-name descname"><span class="pre">test_interface</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/interfaces/base.html#BaseYamlInterface.test_interface"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.interfaces.base.BaseYamlInterface.test_interface" title="Permalink to this definition">#</a></dt>
 <dd><p>Test interface method.</p>
+<p>Note this is currently only called via the
+tests/utils/test_interfaces.py script (which is
+not a valid pytest script, but called directly
+via the command line.</p>
 </dd></dl>
 
 <dl class="py attribute">
@@ -1247,17 +1214,16 @@ validator instances.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.interfaces.base">geoips.interfaces.base module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface"><code class="docutils literal notranslate"><span class="pre">BaseInterface</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.call_create_plugin_registries"><code class="docutils literal notranslate"><span class="pre">BaseInterface.call_create_plugin_registries()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.apiVersion"><code class="docutils literal notranslate"><span class="pre">BaseInterface.apiVersion</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.get_plugin"><code class="docutils literal notranslate"><span class="pre">BaseInterface.get_plugin()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.get_plugin_metadata"><code class="docutils literal notranslate"><span class="pre">BaseInterface.get_plugin_metadata()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.get_plugins"><code class="docutils literal notranslate"><span class="pre">BaseInterface.get_plugins()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.interface_type"><code class="docutils literal notranslate"><span class="pre">BaseInterface.interface_type</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.name"><code class="docutils literal notranslate"><span class="pre">BaseInterface.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.namespace"><code class="docutils literal notranslate"><span class="pre">BaseInterface.namespace</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.plugin_registry"><code class="docutils literal notranslate"><span class="pre">BaseInterface.plugin_registry</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.plugin_registry_module"><code class="docutils literal notranslate"><span class="pre">BaseInterface.plugin_registry_module</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.rbr"><code class="docutils literal notranslate"><span class="pre">BaseInterface.rbr</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.registered_module_based_plugins"><code class="docutils literal notranslate"><span class="pre">BaseInterface.registered_module_based_plugins</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.registered_yaml_based_plugins"><code class="docutils literal notranslate"><span class="pre">BaseInterface.registered_yaml_based_plugins</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.retry_get_plugin"><code class="docutils literal notranslate"><span class="pre">BaseInterface.retry_get_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseInterface.rebuild_registries"><code class="docutils literal notranslate"><span class="pre">BaseInterface.rebuild_registries</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.interfaces.base.BaseModuleInterface"><code class="docutils literal notranslate"><span class="pre">BaseModuleInterface</span></code></a><ul class="nav section-nav flex-column">

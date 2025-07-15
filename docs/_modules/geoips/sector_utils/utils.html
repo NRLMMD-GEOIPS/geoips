@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.sector_utils.utils &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.sector_utils.utils &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -627,7 +627,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="p">)</span>
     <span class="n">covg_area_def</span> <span class="o">=</span> <span class="n">copy_sector_info</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">covg_area_def</span><span class="p">)</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Coverage area definition: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">covg_area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Coverage area definition: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">covg_area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
         <span class="s2">&quot;  Coverage sector info: clat: </span><span class="si">%s</span><span class="s2"> clon: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="n">covg_area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;clat&quot;</span><span class="p">],</span>
@@ -845,11 +845,16 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="n">ret_area_defs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">area_def</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">curr_area_def</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">curr_area_def</span> <span class="ow">in</span> <span class="n">ret_area_defs</span><span class="p">]:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">curr_area_def</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">curr_area_def</span> <span class="ow">in</span> <span class="n">ret_area_defs</span>
+        <span class="p">]:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
             <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;area_def </span><span class="si">%s</span><span class="s2"> already in return list, not including&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;area_def </span><span class="si">%s</span><span class="s2"> already in return list, not including&quot;</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ret_area_defs</span></div>
 
@@ -963,12 +968,17 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">if</span> <span class="ow">not</span> <span class="n">is_requested_aid_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="n">aid_type</span><span class="p">):</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                 <span class="s2">&quot;area_def </span><span class="si">%s</span><span class="s2"> aid_type </span><span class="si">%s</span><span class="s2"> not requested, not including&quot;</span><span class="p">,</span>
-                <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                 <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;aid_type&quot;</span><span class="p">],</span>
             <span class="p">)</span>
             <span class="k">continue</span>
-        <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="n">curr_area_def</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">curr_area_def</span> <span class="ow">in</span> <span class="n">ret_area_defs</span><span class="p">]:</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;area_def </span><span class="si">%s</span><span class="s2"> already in return list, not including&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span> <span class="ow">in</span> <span class="p">[</span>
+            <span class="n">curr_area_def</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">curr_area_def</span> <span class="ow">in</span> <span class="n">ret_area_defs</span>
+        <span class="p">]:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;area_def </span><span class="si">%s</span><span class="s2"> already in return list, not including&quot;</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+            <span class="p">)</span>
             <span class="k">continue</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">kept_one</span> <span class="o">=</span> <span class="kc">False</span>
@@ -983,8 +993,8 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="n">kept_one</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                         <span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list, NOT including </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                        <span class="n">other_area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                        <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">other_area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                        <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">other_area_def</span><span class="p">]</span>
                 <span class="k">if</span> <span class="p">(</span>
@@ -996,8 +1006,8 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
                         <span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list, NOT including </span><span class="si">%s</span><span class="s2">, &quot;</span>
                         <span class="s2">&quot;invest_storm_id defined&quot;</span><span class="p">,</span>
-                        <span class="n">other_area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                        <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">other_area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                        <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">other_area_def</span><span class="p">]</span>
 
@@ -1005,12 +1015,12 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list, track type </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                     <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">[</span><span class="s2">&quot;aid_type&quot;</span><span class="p">],</span>
                 <span class="p">)</span>
             <span class="k">elif</span> <span class="ow">not</span> <span class="n">kept_one</span><span class="p">:</span>
                 <span class="n">ret_area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Including area_def </span><span class="si">%s</span><span class="s2"> in return list&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ret_area_defs</span></div>
 
@@ -1028,14 +1038,14 @@ window.addEventListener("load", () => mermaid.run());
             <span class="p">):</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="s2">&quot;AREA_DEF LIST REPLACING </span><span class="si">%s</span><span class="s2"> with area_def </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">]</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
-                    <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">]</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                 <span class="s2">&quot;AREA_DEF LIST REPLACING Multiple identical sectors - using latest </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">ret_area_def_ids</span><span class="p">[</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">area_def</span>
 
@@ -1055,7 +1065,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="c1">#             if not sects:</span>
 <span class="c1">#                 LOG.info(&#39;AREA_DEF LIST NO COVERAGE not adding sector&#39;)</span>
 <span class="c1">#             else:</span>
-<span class="c1">#                 LOG.info(&#39;AREA_DEF LIST ADDING area_def %s&#39;, area_def.name)</span>
+<span class="c1">#                 LOG.info(&#39;AREA_DEF LIST ADDING area_def %s&#39;, area_def.description)</span>
 <span class="c1">#                 ret_area_def_ids[area_def.area_id] = area_def</span>
 <span class="c1">#                 ret_area_def_sects[area_def.area_id] = sects[0]</span>
 <span class="c1">#         elif is_dynamic_sector(area_def):</span>
@@ -1070,13 +1080,13 @@ window.addEventListener("load", () => mermaid.run());
 <span class="c1">#</span>
 <span class="c1">#                 LOG.info(&#39;AREA_DEF LIST REPLACING %s with area_def %s&#39;,</span>
 <span class="c1">#                          ret_area_def_ids[area_def.area_id].name,</span>
-<span class="c1">#                          area_def.name)</span>
+<span class="c1">#                          area_def.description)</span>
 <span class="c1">#                 ret_area_def_ids[area_def.area_id] = area_def</span>
 <span class="c1">#                 ret_area_def_sects[area_def.area_id] = sects[0]</span>
 <span class="c1">#</span>
 <span class="c1">#         else:</span>
 <span class="c1">#             LOG.warning(&#39;AREA_DEF LIST REPLACING Multiple identical sectors - using</span>
-<span class="c1">#                         latest %s&#39;, area_def.name)</span>
+<span class="c1">#                         latest %s&#39;, area_def.description)</span>
 <span class="c1">#             ret_area_def_ids[area_def.area_id] = area_def</span>
 <span class="c1">#</span>
 <span class="c1">#     return ret_area_def_ids.values()</span>

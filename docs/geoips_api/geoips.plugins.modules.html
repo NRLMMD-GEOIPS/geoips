@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.plugins.modules package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -572,6 +572,7 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html">geoips.plugins.modules.colormappers.winds package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html#module-geoips.plugins.modules.colormappers.winds.dmw_wind_levels">geoips.plugins.modules.colormappers.winds.dmw_wind_levels module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html#module-geoips.plugins.modules.colormappers.winds.global_winds_transitions">geoips.plugins.modules.colormappers.winds.global_winds_transitions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html#module-geoips.plugins.modules.colormappers.winds.wind_radii_transitions">geoips.plugins.modules.colormappers.winds.wind_radii_transitions module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html#module-geoips.plugins.modules.colormappers.winds.wind_radii_transitions_legacy">geoips.plugins.modules.colormappers.winds.wind_radii_transitions_legacy module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.plugins.modules.colormappers.winds.html#module-geoips.plugins.modules.colormappers.winds">Module contents</a></li>
@@ -765,6 +766,10 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level_clean">geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level_clean module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level_clean.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#module-geoips.plugins.modules.output_formatters.metadata_default">geoips.plugins.modules.output_formatters.metadata_default module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.metadata_default.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.output_formatters.html#geoips.plugins.modules.output_formatters.metadata_default.output_metadata_yaml"><code class="docutils literal notranslate"><span class="pre">output_metadata_yaml()</span></code></a></li>
@@ -899,10 +904,16 @@
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.abi_netcdf">geoips.plugins.modules.readers.abi_netcdf module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.call_single_time"><code class="docutils literal notranslate"><span class="pre">call_single_time()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_brightness_temperature"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_brightness_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.convert_radiance_to_reflectance"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_reflectance()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_band_metadata"><code class="docutils literal notranslate"><span class="pre">get_band_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_cached_brightness_temperature"><code class="docutils literal notranslate"><span class="pre">get_cached_brightness_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_cached_radiance"><code class="docutils literal notranslate"><span class="pre">get_cached_radiance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_cached_reflectance"><code class="docutils literal notranslate"><span class="pre">get_cached_reflectance()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_data"><code class="docutils literal notranslate"><span class="pre">get_data()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.get_latitude_longitude"><code class="docutils literal notranslate"><span class="pre">get_latitude_longitude()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.metadata_to_datetime"><code class="docutils literal notranslate"><span class="pre">metadata_to_datetime()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.abi_netcdf.read_netcdf_radiance"><code class="docutils literal notranslate"><span class="pre">read_netcdf_radiance()</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.ahi_hsd">geoips.plugins.modules.readers.ahi_hsd module</a><ul>
@@ -962,6 +973,12 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.atms_hdf5.read_atms_file"><code class="docutils literal notranslate"><span class="pre">read_atms_file()</span></code></a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.aws_netcdf">geoips.plugins.modules.readers.aws_netcdf module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.aws_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.aws_netcdf.get_geoips_platform_name"><code class="docutils literal notranslate"><span class="pre">get_geoips_platform_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.aws_netcdf.merge_xarrays"><code class="docutils literal notranslate"><span class="pre">merge_xarrays()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.cygnss_netcdf">geoips.plugins.modules.readers.cygnss_netcdf module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.cygnss_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.cygnss_netcdf.get_test_files"><code class="docutils literal notranslate"><span class="pre">get_test_files()</span></code></a></li>
@@ -976,11 +993,17 @@
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.modules.readers.html#module-geoips.plugins.modules.readers.fci_netcdf">geoips.plugins.modules.readers.fci_netcdf module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.avail_chans_in_file"><code class="docutils literal notranslate"><span class="pre">avail_chans_in_file()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.compute_sun_earth_distance"><code class="docutils literal notranslate"><span class="pre">compute_sun_earth_distance()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_bt"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_bt()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.convert_radiance_to_reflectance"><code class="docutils literal notranslate"><span class="pre">convert_radiance_to_reflectance()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.final_calibrated_variable_name"><code class="docutils literal notranslate"><span class="pre">final_calibrated_variable_name()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.get_geolocation_metadata"><code class="docutils literal notranslate"><span class="pre">get_geolocation_metadata()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.get_latitude_longitude"><code class="docutils literal notranslate"><span class="pre">get_latitude_longitude()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.get_ncattrs"><code class="docutils literal notranslate"><span class="pre">get_ncattrs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.get_standard_geoips_attrs"><code class="docutils literal notranslate"><span class="pre">get_standard_geoips_attrs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.load_metadata_single_file"><code class="docutils literal notranslate"><span class="pre">load_metadata_single_file()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.satpy_read_fci_netcdf_files"><code class="docutils literal notranslate"><span class="pre">satpy_read_fci_netcdf_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.read_fci_netcdf_files"><code class="docutils literal notranslate"><span class="pre">read_fci_netcdf_files()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.read_with_xarray"><code class="docutils literal notranslate"><span class="pre">read_with_xarray()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.fci_netcdf.scene_to_xarray"><code class="docutils literal notranslate"><span class="pre">scene_to_xarray()</span></code></a></li>
 </ul>
 </li>

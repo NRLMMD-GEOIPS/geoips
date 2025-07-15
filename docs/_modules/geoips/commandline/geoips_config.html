@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_config &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.commandline.geoips_config &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -435,14 +435,79 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">Various configuration-based commands for setting up your geoips environment.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="nb">any</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span><span class="p">,</span> <span class="n">environ</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">listdir</span><span class="p">,</span> <span class="n">environ</span><span class="p">,</span> <span class="n">remove</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">join</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">subprocess</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">requests</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">tempfile</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="kn">import</span> <span class="nb">any</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">tarfile</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.ancillary_info.test_data</span><span class="w"> </span><span class="kn">import</span> <span class="n">test_dataset_dict</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.geoips_command</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeoipsCommand</span><span class="p">,</span> <span class="n">GeoipsExecutableCommand</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugin_registry</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistry</span>
+
+
+<div class="viewcode-block" id="GeoipsConfigCreateRegistries"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigCreateRegistries</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Config Command Class for creating plugin registries for plugin packages.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;create-registries&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsConfigCreateRegistries.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the Config Command.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-s&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--save-type&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;json&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;json&quot;</span><span class="p">,</span> <span class="s2">&quot;yaml&quot;</span><span class="p">],</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;The file format to save the registry as. Defaults to &#39;json&#39;, which is &quot;</span>
+                <span class="s2">&quot;what&#39;s used by GeoIPS under the hood. For human readable output, you &quot;</span>
+                <span class="s2">&quot;can provide the optional argument &#39;-s yaml&#39;.&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips config create-registries -n &lt;namespace&gt; -s &lt;save_type&gt; -p &lt;packages&gt;` command.  # NOQA</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: Namespace()</span>
+<span class="sd">            - The argument namespace to parse through</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">packages</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">packages</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">namespace</span>
+        <span class="n">save_type</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">save_type</span>
+        <span class="n">plugin_registry</span> <span class="o">=</span> <span class="n">PluginRegistry</span><span class="p">(</span><span class="n">namespace</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">create_registries</span><span class="p">(</span><span class="n">packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="GeoipsConfigDeleteRegistries"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigDeleteRegistries</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Config Command Class for deleting plugin registries for plugin packages.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;delete-registries&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsConfigDeleteRegistries.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the Config Command.&quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips config delete-registries -n &lt;namespace&gt; -p &lt;packages&gt;` command.  # NOQA</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: Namespace()</span>
+<span class="sd">            - The argument namespace to parse through</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">packages</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">packages</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">namespace</span>
+        <span class="n">plugin_registry</span> <span class="o">=</span> <span class="n">PluginRegistry</span><span class="p">(</span><span class="n">namespace</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">plugin_registry</span><span class="o">.</span><span class="n">delete_registries</span><span class="p">(</span><span class="n">packages</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="GeoipsConfigInstall"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigInstall</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -465,10 +530,15 @@ window.addEventListener("load", () => mermaid.run());
 <div class="viewcode-block" id="GeoipsConfigInstall.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the Config Command.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
-            <span class="s2">&quot;test_dataset_name&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;test_dataset_names&quot;</span><span class="p">,</span>
             <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
-            <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">test_dataset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()),</span>
-            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Test Dataset to Install.&quot;</span><span class="p">,</span>
+            <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;+&quot;</span><span class="p">,</span>
+            <span class="n">choices</span><span class="o">=</span><span class="nb">list</span><span class="p">(</span><span class="n">test_dataset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">+</span> <span class="p">[</span><span class="s2">&quot;all&quot;</span><span class="p">],</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Names of the GeoIPS test datasets to install. If &#39;all&#39; is specified, &quot;</span>
+                <span class="s2">&quot;GeoIPS will install all test datasets hosted on NextCloud. &#39;all&#39; &quot;</span>
+                <span class="s2">&quot;cannot be specified alongside other test dataset names.&quot;</span>
+            <span class="p">),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
             <span class="s2">&quot;-o&quot;</span><span class="p">,</span>
@@ -479,30 +549,52 @@ window.addEventListener("load", () => mermaid.run());
         <span class="p">)</span></div>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips config install &lt;test_dataset_name&gt;` command.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips config install &lt;test_dataset_names&gt; -o &lt;outdir&gt;` command.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        args: Namespace()</span>
 <span class="sd">            - The argument namespace to parse through</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">test_dataset_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span>
+        <span class="n">test_dataset_names</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_names</span>
         <span class="n">outdir</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">outdir</span>
-        <span class="n">test_dataset_url</span> <span class="o">=</span> <span class="n">test_dataset_dict</span><span class="p">[</span><span class="n">test_dataset_name</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">test_dataset_name</span> <span class="ow">in</span> <span class="n">fol</span> <span class="k">for</span> <span class="n">fol</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">)]):</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Test dataset &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39; already exists under &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="w"> </span><span class="n">test_dataset_name</span><span class="p">)</span><span class="si">}</span><span class="s2">*/&#39;. See that &quot;</span>
-                <span class="s2">&quot;location for the contents of the test dataset.&quot;</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_dataset_names</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="s2">&quot;all&quot;</span> <span class="ow">in</span> <span class="n">test_dataset_names</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="s2">&quot;Error: you cannot specify &#39;all&#39; alongside other test dataset names. &quot;</span>
+                <span class="s2">&quot;If &#39;all&#39; is specified, that must be the only argument provided.&quot;</span>
             <span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="nb">print</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Installing </span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2"> test dataset. This may take a while...&quot;</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">download_extract_test_data</span><span class="p">(</span><span class="n">test_dataset_url</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
-            <span class="n">out_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Test dataset &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39; has been installed under &quot;</span>
-            <span class="n">out_str</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">/&quot;</span>
-            <span class="nb">print</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span>
+
+        <span class="n">all_datasets</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="kc">True</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">test_dataset_names</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">test_dataset_names</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span>
+            <span class="k">else</span> <span class="kc">False</span>
+        <span class="p">)</span>
+
+        <span class="n">install_dataset_names</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="nb">list</span><span class="p">(</span><span class="n">test_dataset_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="k">if</span> <span class="n">all_datasets</span> <span class="k">else</span> <span class="n">test_dataset_names</span>
+        <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">test_dataset_name</span> <span class="ow">in</span> <span class="n">install_dataset_names</span><span class="p">:</span>
+            <span class="n">test_dataset_url</span> <span class="o">=</span> <span class="n">test_dataset_dict</span><span class="p">[</span><span class="n">test_dataset_name</span><span class="p">]</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">([</span><span class="n">test_dataset_name</span> <span class="ow">in</span> <span class="n">fol</span> <span class="k">for</span> <span class="n">fol</span> <span class="ow">in</span> <span class="n">listdir</span><span class="p">(</span><span class="n">outdir</span><span class="p">)]):</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Test dataset &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39; already exists under &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;&#39;</span><span class="si">{</span><span class="n">join</span><span class="p">(</span><span class="n">outdir</span><span class="p">,</span><span class="w"> </span><span class="n">test_dataset_name</span><span class="p">)</span><span class="si">}</span><span class="s2">*/&#39;. See that &quot;</span>
+                    <span class="s2">&quot;location for the contents of the test dataset.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Installing </span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2"> test dataset. This may take a &quot;</span>
+                    <span class="s2">&quot;while...&quot;</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">download_extract_test_data</span><span class="p">(</span><span class="n">test_dataset_url</span><span class="p">,</span> <span class="n">outdir</span><span class="p">)</span>
+                <span class="n">out_str</span> <span class="o">=</span> <span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Test dataset &#39;</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&#39; has been installed under &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">outdir</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">/&quot;</span>
+                <span class="p">)</span>
+                <span class="c1"># Print the output of the command.</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">out_str</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GeoipsConfigInstall.download_extract_test_data"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.download_extract_test_data">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">download_extract_test_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">url</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Download the specified URL and write it to the corresponding download_dir.</span>
@@ -519,13 +611,44 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">resp</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">resp</span><span class="o">.</span><span class="n">status_code</span> <span class="o">==</span> <span class="mi">200</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">extract_data_cautiously</span><span class="p">(</span><span class="n">resp</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
+
+            <span class="n">total_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">resp</span><span class="o">.</span><span class="n">headers</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;Content-Length&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+            <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span>  <span class="c1"># 1MB</span>
+
+            <span class="c1"># Write the data to a temp file on disk. This is needed as files larger than</span>
+            <span class="c1"># 1-2Gb might not fit in memory for some machines. Delete the temp file</span>
+            <span class="c1"># after extraction has finished.</span>
+            <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">NamedTemporaryFile</span><span class="p">(</span><span class="n">delete</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp_file</span><span class="p">:</span>
+                <span class="c1"># Progress bar setup</span>
+                <span class="n">progress</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span>
+                    <span class="n">total</span><span class="o">=</span><span class="n">total_size</span><span class="p">,</span>
+                    <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;B&quot;</span><span class="p">,</span>
+                    <span class="n">unit_scale</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">unit_divisor</span><span class="o">=</span><span class="mi">1024</span><span class="p">,</span>
+                    <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Downloading&quot;</span><span class="p">,</span>
+                <span class="p">)</span>
+
+                <span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">resp</span><span class="o">.</span><span class="n">iter_content</span><span class="p">(</span><span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+                        <span class="n">tmp_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span>
+                        <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">))</span>
+
+                <span class="n">progress</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                <span class="n">tmp_file</span><span class="o">.</span><span class="n">flush</span><span class="p">()</span>
+
+                <span class="c1"># Seek back to the start of the file for extraction</span>
+                <span class="n">tmp_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Beginning data extraction...&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">extract_data_cautiously</span><span class="p">(</span><span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">)</span>
+            <span class="c1"># Delete the temp file!</span>
+            <span class="n">remove</span><span class="p">(</span><span class="n">tmp_file</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;Error retrieving data from </span><span class="si">{</span><span class="n">url</span><span class="si">}</span><span class="s2">; Status Code </span><span class="si">{</span><span class="n">resp</span><span class="o">.</span><span class="n">status_code</span><span class="si">}</span><span class="s2">.&quot;</span>
             <span class="p">)</span></div>
 
-<div class="viewcode-block" id="GeoipsConfigInstall.extract_data_cautiously"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">extract_data_cautiously</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">response</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">):</span>
+<div class="viewcode-block" id="GeoipsConfigInstall.extract_data_cautiously"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">extract_data_cautiously</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">download_dir</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract the GET Response cautiously and skip any dangerous members.</span>
 
 <span class="sd">        Iterate through a Response and check that each member is not dangerous to</span>
@@ -537,24 +660,79 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        response: Requests Response Object</span>
-<span class="sd">            - The GET Response from retrieving the data url</span>
+<span class="sd">        filepath: str</span>
+<span class="sd">            - The path to the temporary file to extract from.</span>
 <span class="sd">        download_dir: str</span>
 <span class="sd">            - The directory in which to download and extract the data into</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fileobj</span><span class="o">=</span><span class="n">response</span><span class="o">.</span><span class="n">raw</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r|gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">tarfile</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r:gz&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">tar</span><span class="p">:</span>
+            <span class="n">members</span> <span class="o">=</span> <span class="n">tar</span><span class="o">.</span><span class="n">getmembers</span><span class="p">()</span>
+
             <span class="c1"># Validate and extract each member of the archive</span>
-            <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">tar</span><span class="p">:</span>
-                <span class="k">if</span> <span class="ow">not</span> <span class="n">abspath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">download_dir</span><span class="p">):</span>
-                    <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;Found unsafe filepath in tar, exiting now.&quot;</span><span class="p">)</span>
-                <span class="n">tar</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">download_dir</span><span class="p">)</span></div></div>
+            <span class="k">with</span> <span class="n">tqdm</span><span class="p">(</span>
+                <span class="n">total</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">members</span><span class="p">),</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;file&quot;</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Extracting&quot;</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">80</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">tar</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">abspath</span><span class="p">(</span><span class="n">join</span><span class="p">(</span><span class="n">download_dir</span><span class="p">,</span> <span class="n">m</span><span class="o">.</span><span class="n">name</span><span class="p">))</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">download_dir</span><span class="p">):</span>
+                        <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="s2">&quot;Found unsafe filepath in tar, exiting now.&quot;</span><span class="p">)</span>
+                    <span class="n">tar</span><span class="o">.</span><span class="n">extract</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">download_dir</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="s2">&quot;tar&quot;</span><span class="p">)</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="GeoipsConfigInstallGithub"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstallGithub">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfigInstallGithub</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Config Command Class for installing packages/data.</span>
+
+<span class="sd">    Supports installation of packages and test data needed for testing and/or running</span>
+<span class="sd">    your GeoIPS environment via github repositories.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;install-github&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsConfigInstallGithub.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the config-subparser for the Config Command.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;test_dataset_name&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;GeoIPS Test Dataset to Install from GitHub repository.&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run the `geoips config install-github &lt;test_dataset_name&gt;` command.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: Namespace()</span>
+<span class="sd">            - The argument namespace to parse through</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test_dataset_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">test_dataset_name</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Running check_system_requirements.sh test_data_github </span><span class="si">{</span><span class="n">test_dataset_name</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span>
+        <span class="n">call_list</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;bash&quot;</span><span class="p">,</span>
+            <span class="n">join</span><span class="p">(</span>
+                <span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;GEOIPS_PACKAGES_DIR&quot;</span><span class="p">),</span>
+                <span class="s2">&quot;geoips&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;setup&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;check_system_requirements.sh&quot;</span><span class="p">,</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;test_data_github&quot;</span><span class="p">,</span>
+            <span class="n">test_dataset_name</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="n">subprocess</span><span class="o">.</span><span class="n">call</span><span class="p">(</span><span class="n">call_list</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsConfig"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_config.GeoipsConfig">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsConfig</span><span class="p">(</span><span class="n">GeoipsCommand</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Config top-level command for configuring your GeoIPS environment.&quot;&quot;&quot;</span>
 
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;config&quot;</span>
-    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[</span><span class="n">GeoipsConfigInstall</span><span class="p">]</span></div>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[</span>
+        <span class="n">GeoipsConfigInstall</span><span class="p">,</span>
+        <span class="n">GeoipsConfigInstallGithub</span><span class="p">,</span>
+        <span class="n">GeoipsConfigCreateRegistries</span><span class="p">,</span>
+        <span class="n">GeoipsConfigDeleteRegistries</span><span class="p">,</span>
+    <span class="p">]</span></div>
 </pre></div>
 
                 </article>

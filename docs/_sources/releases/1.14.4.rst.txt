@@ -1,36 +1,22 @@
-Version 1.14.4 (2025-04-30)
+Version 1.14.4 (2025-07-15)
 ***************************
 
- * *Documentation*: Update upcoming and tagged versions
  * *Enhancement*: Create mtg fci reader
  * *Enhancement*: Viirs l2 netcdf reader
- * *Bug fix*: Changed plaformdirs version in requirements.txt
- * *Bug fix*: Clean up log output for output checkers
- * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
- * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+ * *Release process*: Add 1.14.4 release note
  * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
  * *Bug fix*: Resolve string-based output_checker_threshold_image return
- * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Bug fix*: Changed plaformdirs version in requirements.txt
  * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
- * *Release process*: Add 1.14.4 release note
- * *Installation*: Update full install to include all packages available on github.com
+ * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
+ * *Bug fix*: Bug fix abi_l2_netcdf reader
+ * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+ * *Bug fix*: Clean up log output for output checkers
  * *Installation*: Update installation instructions to use miniforge installer
+ * *Installation*: Update full install to include all packages available on github.com
+ * *Documentation*: Update upcoming and tagged versions
  * *Bug fixes*: Clone git test data repositories to the correct location
  * *Bug fixes*: Use autoescape=true for jinja template
-
-Documentation
-=============
-
-Update upcoming and tagged versions
------------------------------------
-
-* Tagged version: 1.14.4
-* Upcoming version: 1.14.5
-
-::
-
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
 
 Enhancement
 ===========
@@ -86,69 +72,18 @@ Add new reader for VIIRS L2 netCDF files.
 
      added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
 
-Bug fix
-=======
+Release process
+===============
 
-Changed plaformdirs version in requirements.txt
------------------------------------------------
+Add 1.14.4 release note
+-----------------------
 
-The previous platformdir version caused a circular dependency error, this updates the version number to allow
-installation from requirements.txt.
-
-::
-
-     modified: environments/requirements.txt
-
-Bug fix
-=======
-
-Clean up log output for output checkers
----------------------------------------
-
-Attempted to fix issue with MISSINGPRODUCTS not being
-properly identified (extra files in test output directories
-did NOT flag a failed MISSINGPRODUCT in the tests), but did
-not fix that.  Just updated log outputs to be easier to follow.
-
-Also note the missingproduct RM file now writes out the missing
-file regardless of whether basename current output == basename compare file,
-I believe this was to resolve issues of .ext.gz != .ext, and the file
-wasn't getting written to the rm file, probably we should just write
-out all the files, and not worry about whether they match the compare
-output or not (that should have already been checked).  But this
-effectively does the same thing (with duplicate files getting written
-to the file)
+* Upcoming public version 1.15.0.
+* Upcoming internal version 1.14.4.
 
 ::
 
-     modified: geoips/interfaces/module_based/output_checkers.py
-
-Bug fix
-=======
-
-Bug fix atms reader - only crop to valid indices when key exists
-----------------------------------------------------------------
-
-Only crop ATMS data to valid indices when the "valid_indices" key exists in the
-xarray dataset. This key is only populated when reading in a GEO file. As a result,
-the reader will error when only reading in SDR files.
-
-::
-
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
-
-Bug fix
-=======
-
-Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
--------------------------------------------------------------------------
-
-Early versions of brassy did not have the brassy.actions method, force
-version >= 0.0.3 to ensure build_docs.py can complete.
-
-::
-
-     modified: pyproject.toml
+     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
 
 Bug fix
 =======
@@ -178,17 +113,15 @@ Set it explicitly, rather than using get_env_var.
 Bug fix
 =======
 
-Bug fix abi_l2_netcdf reader
-----------------------------
+Changed plaformdirs version in requirements.txt
+-----------------------------------------------
 
-Fix bug where the start and end datetime was not properly being tracked for each
-file ingested in the main loop. This was causing issues when attempting to
-concatenate multiple scan times with 2D arrays. Concatenation of multiple files
-for a single scan time is currently only supported with 1D xarray datasets.
+The previous platformdir version caused a circular dependency error, this updates the version number to allow
+installation from requirements.txt.
 
 ::
 
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     modified: environments/requirements.txt
 
 Bug fix
 =======
@@ -209,18 +142,83 @@ method and skipping over missing files.
      modified: geoips/interfaces/module_based/readers.py
      modified: geoips/plugins/modules/readers/seviri_hrit.py
 
-Release process
-===============
+Bug fix
+=======
 
-Add 1.14.4 release note
------------------------
+Bug fix atms reader - only crop to valid indices when key exists
+----------------------------------------------------------------
 
-* Upcoming public version 1.15.0.
-* Upcoming internal version 1.14.4.
+Only crop ATMS data to valid indices when the "valid_indices" key exists in the
+xarray dataset. This key is only populated when reading in a GEO file. As a result,
+the reader will error when only reading in SDR files.
 
 ::
 
-     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Bug fix
+=======
+
+Bug fix abi_l2_netcdf reader
+----------------------------
+
+Fix bug where the start and end datetime was not properly being tracked for each
+file ingested in the main loop. This was causing issues when attempting to
+concatenate multiple scan times with 2D arrays. Concatenation of multiple files
+for a single scan time is currently only supported with 1D xarray datasets.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+
+Bug fix
+=======
+
+Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
+-------------------------------------------------------------------------
+
+Early versions of brassy did not have the brassy.actions method, force
+version >= 0.0.3 to ensure build_docs.py can complete.
+
+::
+
+     modified: pyproject.toml
+
+Bug fix
+=======
+
+Clean up log output for output checkers
+---------------------------------------
+
+Attempted to fix issue with MISSINGPRODUCTS not being
+properly identified (extra files in test output directories
+did NOT flag a failed MISSINGPRODUCT in the tests), but did
+not fix that.  Just updated log outputs to be easier to follow.
+
+Also note the missingproduct RM file now writes out the missing
+file regardless of whether basename current output == basename compare file,
+I believe this was to resolve issues of .ext.gz != .ext, and the file
+wasn't getting written to the rm file, probably we should just write
+out all the files, and not worry about whether they match the compare
+output or not (that should have already been checked).  But this
+effectively does the same thing (with duplicate files getting written
+to the file)
+
+::
+
+     modified: geoips/interfaces/module_based/output_checkers.py
+
+Installation
+============
+
+Update installation instructions to use miniforge installer
+-----------------------------------------------------------
+
+mambaforge deprecated
+
+::
+
+     modified: docs/source/starter/installation.rst
 
 Installation
 ============
@@ -242,17 +240,19 @@ since that is currently unused on github.com.
 
      modified: tests/integration_tests/full_install.sh
 
-Installation
-============
+Documentation
+=============
 
-Update installation instructions to use miniforge installer
------------------------------------------------------------
+Update upcoming and tagged versions
+-----------------------------------
 
-mambaforge deprecated
+* Tagged version: 1.14.4
+* Upcoming version: 1.14.5
 
 ::
 
-     modified: docs/source/starter/installation.rst
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
 
 Bug fixes
 =========

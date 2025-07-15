@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.filenames.base_paths &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.filenames.base_paths &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -458,6 +458,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">socket</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">platformdirs</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -539,8 +540,19 @@ window.addEventListener("load", () => mermaid.run());
         <span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">,</span>
         <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span>
+        <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">,</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;geoips&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_env_var</span><span class="p">(</span>
+        <span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;cache&quot;</span><span class="p">,</span> <span class="s2">&quot;satpy&quot;</span><span class="p">)</span>
+    <span class="p">)</span>
     <span class="c1"># Convert the string to a bool</span>
     <span class="k">if</span> <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;0&quot;</span><span class="p">:</span>
+        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;False&quot;</span><span class="p">:</span>
+        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;false&quot;</span><span class="p">:</span>
         <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># Identify defaults for global GeoIPS variables.  The actual values for</span>
@@ -556,6 +568,10 @@ window.addEventListener("load", () => mermaid.run());
         <span class="s2">&quot;GEOIPS_COPYRIGHT&quot;</span><span class="p">:</span> <span class="s2">&quot;NRL-Monterey&quot;</span><span class="p">,</span>
         <span class="s2">&quot;GEOIPS_COPYRIGHT_ABBREVIATED&quot;</span><span class="p">:</span> <span class="s2">&quot;NRLMRY&quot;</span><span class="p">,</span>
         <span class="c1"># Configuration and Queue</span>
+        <span class="c1"># Note: platformdirs provides functions to retrieve appropriate directory paths</span>
+        <span class="c1"># for different use types on different operating systems. GEOIPS_CACHE_DIR will</span>
+        <span class="c1"># resolve to a different path on Linux/WSL, OSX, and Windows.</span>
+        <span class="s2">&quot;GEOIPS_CACHE_DIR&quot;</span><span class="p">:</span> <span class="n">platformdirs</span><span class="o">.</span><span class="n">user_cache_dir</span><span class="p">(</span><span class="s2">&quot;geoips&quot;</span><span class="p">),</span>
         <span class="s2">&quot;GEOIPS_RCFILE&quot;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="s2">&quot;DEFAULT_QUEUE&quot;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
         <span class="c1"># Computer Identifier</span>
@@ -570,8 +586,18 @@ window.addEventListener("load", () => mermaid.run());
         <span class="s2">&quot;</span><span class="si">%(levelname)7s</span><span class="s2">: </span><span class="si">%(message)s</span><span class="s2">&quot;</span><span class="p">,</span>
         <span class="s2">&quot;GEOIPS_LOGGING_DATEFMT_STRING&quot;</span><span class="p">:</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2">_%H%M%S&quot;</span><span class="p">,</span>
         <span class="s2">&quot;GEOIPS_LOGGING_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;interactive&quot;</span><span class="p">,</span>
+        <span class="c1"># Changes the warning level used for warnings.simplefilter</span>
+        <span class="c1"># Valid options are &quot;ignore&quot;, &quot;default&quot;, &quot;error&quot;, &quot;always&quot;, &quot;module&quot;, &quot;once&quot;</span>
+        <span class="c1"># See https://docs.python.org/3/library/warnings.html#the-warnings-filter</span>
+        <span class="c1"># for details on each option.</span>
+        <span class="s2">&quot;GEOIPS_WARNING_LEVEL&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span>
     <span class="p">}</span>
 
+    <span class="c1"># Long variables names to avoid black and flake8 conflicts.</span>
+    <span class="c1"># flake8 was flagging for long lines, but black was not correcting them.</span>
+    <span class="c1"># If someone can figure out how to get flake8 and black to play nicely with that</span>
+    <span class="c1"># line, please resolve!</span>
+    <span class="n">dyn_geo_var</span> <span class="o">=</span> <span class="s2">&quot;GEOIPS_PREGENERATED_DYNAMIC_GEOLOCATION&quot;</span>
     <span class="c1"># Identify the defaults for relative path-based environment variables,</span>
     <span class="c1"># these paths default to locations under base paths set above.</span>
     <span class="c1"># The actual variables will be set using get_env_var below.</span>
@@ -591,6 +617,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;GEOTIFF_IMAGERY_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/geotiff_imagery&quot;</span><span class="p">,</span>
             <span class="s2">&quot;FINAL_DATA_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/final&quot;</span><span class="p">,</span>
             <span class="s2">&quot;PREGENERATED_GEOLOCATION_PATH&quot;</span><span class="p">:</span> <span class="s2">&quot;preprocessed/geolocation&quot;</span><span class="p">,</span>
+            <span class="c1"># Used in geostationary_geolocation - use longterm_files</span>
+            <span class="c1"># for now to maintain backwards compatibility</span>
+            <span class="s2">&quot;GEOIPS_PREGENERATED_STATIC_GEOLOCATION&quot;</span><span class="p">:</span> <span class="s2">&quot;longterm_files/geolocation&quot;</span><span class="p">,</span>
+            <span class="n">dyn_geo_var</span><span class="p">:</span> <span class="s2">&quot;longterm_files/geolocation_dynamic&quot;</span><span class="p">,</span>
             <span class="c1"># Scratch Directories</span>
             <span class="s2">&quot;SCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
             <span class="s2">&quot;LOCALSCRATCH&quot;</span><span class="p">:</span> <span class="s2">&quot;scratch&quot;</span><span class="p">,</span>
@@ -608,6 +638,28 @@ window.addEventListener("load", () => mermaid.run());
             <span class="c1"># Tropical Cyclone Paths</span>
             <span class="s2">&quot;TC_DECKS_DB&quot;</span><span class="p">:</span> <span class="s2">&quot;longterm_files/tc/tc_decks.db&quot;</span><span class="p">,</span>
             <span class="s2">&quot;TC_DECKS_DIR&quot;</span><span class="p">:</span> <span class="s2">&quot;longterm_files/tc/decks&quot;</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR&quot;</span><span class="p">]:</span> <span class="p">{</span>
+            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;longterm/geolocation/dynamic&quot;</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;longterm/geolocation/static&quot;</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;shortterm/geolocation/solar&quot;</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;shortterm/calibrated_data&quot;</span>
+            <span class="p">),</span>
+        <span class="p">},</span>
+        <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;SATPY_DATA_CACHE_DIR&quot;</span><span class="p">]:</span> <span class="p">{</span>
+            <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;shortterm/calibrated_data&quot;</span>
+            <span class="p">),</span>
+            <span class="s2">&quot;SATPY_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">:</span> <span class="p">(</span>
+                <span class="s2">&quot;shortterm/geolocation/solar&quot;</span>
+            <span class="p">),</span>
         <span class="p">},</span>
         <span class="n">paths</span><span class="p">[</span><span class="s2">&quot;BASE_PATH&quot;</span><span class="p">]:</span> <span class="p">{</span>
             <span class="s2">&quot;TC_TEMPLATE&quot;</span><span class="p">:</span> <span class="s2">&quot;plugins/yaml/sectors/dynamic/tc_web_template.yaml&quot;</span><span class="p">,</span>

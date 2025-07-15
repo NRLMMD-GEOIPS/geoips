@@ -92,6 +92,14 @@ geoips.plugins.modules.output\_formatters.imagery\_windbarbs\_multi\_level modul
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.output\_formatters.imagery\_windbarbs\_multi\_level\_clean module
+----------------------------------------------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.output_formatters.imagery_windbarbs_multi_level_clean
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.output\_formatters.metadata\_default module
 ------------------------------------------------------------------
 

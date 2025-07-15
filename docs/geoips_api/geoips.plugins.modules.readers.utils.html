@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.plugins.modules.readers.utils package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.readers.utils package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -498,15 +498,86 @@
 <p>Raise exception on auto generated geolocation error.</p>
 </dd></dl>
 
+<dl class="py exception">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.CachedGeolocationIndexError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">CachedGeolocationIndexError</span></span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#CachedGeolocationIndexError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.CachedGeolocationIndexError" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IndexError</span></code></p>
+<p>Raise exception on cached geolocation IndexError.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">calculate_solar_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#calculate_solar_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">calculate_solar_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_solar_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#calculate_solar_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles" title="Permalink to this definition">#</a></dt>
 <dd><p>Calculate solar angles.</p>
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.check_geolocation_cache_backend">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">check_geolocation_cache_backend</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cache_backend</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">supported_backends</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">('memmap',</span> <span class="pre">'zarr')</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#check_geolocation_cache_backend"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.check_geolocation_cache_backend" title="Permalink to this definition">#</a></dt>
+<dd><p>Check if requested geolocation cache backend is supported.</p>
+<p>Perhaps this should be converted to a decorator later on?</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache_backend</strong> (<em>str</em>) – Library name used to create cached geolocation files (e.g. zarr or memmap)</p></li>
+<li><p><strong>supported_backends</strong> (<em>list</em><em> or </em><em>tuple</em><em>, </em><em>optional</em>) – Supported cache backends, by default (“memmap”, “zarr”)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>ValueError</strong> – If cache_backend is not in supported_backends</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.construct_cache_filename">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">construct_cache_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#construct_cache_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.construct_cache_filename" title="Permalink to this definition">#</a></dt>
+<dd><p>Construct a cached file name.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pref</strong> (<em>str</em>) – Prefix to identify type of cached data</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em>) – Top level metadata for dataset</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.area_definition</em><em>, </em><em>optional</em>) – Area definition subsector of data, by default None</p></li>
+<li><p><strong>cache_backend</strong> (<em>str</em><em>, </em><em>optional</em>) – Specify to use either numpy.memmao or zarray for cache, by default “memmap”</p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em><em>, </em><em>optional</em>) – zarray cache chunk size, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>File name for cached data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.get_data_cache_filename">
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_data_cache_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_data_cache_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_data_cache_filename" title="Permalink to this definition">#</a></dt>
+<dd><p>Get the full file path for a cached calibrated data file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>pref</strong> (<em>str</em>) – Prefix to identify type of cached data</p></li>
+<li><p><strong>metadata</strong> (<em>dict</em>) – Top level metadata for dataset</p></li>
+<li><p><strong>area_def</strong> (<em>pyresample.area_definition</em><em>, </em><em>optional</em>) – Area definition subsector of data, by default None</p></li>
+<li><p><strong>cache_backend</strong> (<em>str</em><em>, </em><em>optional</em>) – Specify to use either numpy.memmao or zarray for cache, by default “memmap”</p></li>
+<li><p><strong>chunk_size</strong> (<em>int</em><em>, </em><em>optional</em>) – zarray cache chunk size, by default None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Full file path for cached data</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_geolocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fldk_lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fldk_lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_geolocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_geolocation</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dt</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gmd</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fldk_lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fldk_lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cache_solar_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">scan_datetime</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_geolocation"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation" title="Permalink to this definition">#</a></dt>
 <dd><p>Gather and return the geolocation data for the input metadata.</p>
 <p>Input metadata should be the metadata for a single ABI data file.</p>
 <p>If latitude/longitude have not been calculated with the metadata form the
@@ -521,7 +592,7 @@ This may be slow for full-disk images.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_geolocation_cache_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_geolocation_cache_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_geolocation_cache_filename</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pref</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">solar_angles</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_geolocation_cache_filename"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename" title="Permalink to this definition">#</a></dt>
 <dd><p>Set the location and filename format for the cached geolocation files.</p>
 <p>There is a separate filename format for satellite latlons and sector latlons</p>
 <p class="rubric">Notes</p>
@@ -531,7 +602,7 @@ files, which can be problematic for large numbers of sectors.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_indexes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">area_def</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_indexes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes" title="Permalink to this definition">#</a></dt>
 <dd><p>Return two 2-D arrays containing the X and Y indexes.</p>
 <p>These are indices that should be used from the raw data for the input
 sector definition.</p>
@@ -539,7 +610,7 @@ sector definition.</p>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="geoips.plugins.modules.readers.utils.geostationary_geolocation.get_satellite_angles">
-<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_satellite_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_satellite_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_satellite_angles" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.plugins.modules.readers.utils.geostationary_geolocation.</span></span><span class="sig-name descname"><span class="pre">get_satellite_angles</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">metadata</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lats</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">lons</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">BADVALS</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sect</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">geolocation_cache_backend</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'memmap'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunk_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resource_tracker</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/plugins/modules/readers/utils/geostationary_geolocation.html#get_satellite_angles"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_satellite_angles" title="Permalink to this definition">#</a></dt>
 <dd><p>Get satellite angles.</p>
 </dd></dl>
 
@@ -756,7 +827,11 @@ interpolation_radius_of_influence</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#submodules">Submodules</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.plugins.modules.readers.utils.geostationary_geolocation">geoips.plugins.modules.readers.utils.geostationary_geolocation module</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.AutoGenError"><code class="docutils literal notranslate"><span class="pre">AutoGenError</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.CachedGeolocationIndexError"><code class="docutils literal notranslate"><span class="pre">CachedGeolocationIndexError</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles"><code class="docutils literal notranslate"><span class="pre">calculate_solar_angles()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.check_geolocation_cache_backend"><code class="docutils literal notranslate"><span class="pre">check_geolocation_cache_backend()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.construct_cache_filename"><code class="docutils literal notranslate"><span class="pre">construct_cache_filename()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_data_cache_filename"><code class="docutils literal notranslate"><span class="pre">get_data_cache_filename()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation"><code class="docutils literal notranslate"><span class="pre">get_geolocation()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename"><code class="docutils literal notranslate"><span class="pre">get_geolocation_cache_filename()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes"><code class="docutils literal notranslate"><span class="pre">get_indexes()</span></code></a></li>

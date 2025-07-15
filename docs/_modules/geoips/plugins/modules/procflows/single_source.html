@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.procflows.single_source &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.procflows.single_source &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -1471,16 +1471,16 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="c1"># Always pad TC sectors, and if &quot;force_pad=True&quot; is passed into the function</span>
     <span class="k">if</span> <span class="n">is_sector_type</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;tc&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">force_pad</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_info</span><span class="p">)</span>
         <span class="c1"># Get an extra 50% size for TCs so we can handle recentering and not have</span>
         <span class="c1"># missing data. --larger area for possibly moved center for vis/ir backgrounds</span>
         <span class="c1"># Default to 1.5x padding</span>
-        <span class="n">num_lines</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">y_size</span> <span class="o">*</span> <span class="n">y_scale_factor</span><span class="p">)</span>
-        <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">x_size</span> <span class="o">*</span> <span class="n">x_scale_factor</span><span class="p">)</span>
+        <span class="n">num_lines</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="n">y_scale_factor</span><span class="p">)</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="n">x_scale_factor</span><span class="p">)</span>
         <span class="c1"># Need full swath width for AMSU-B and MHS. Need a better solution for this.</span>
         <span class="k">if</span> <span class="n">source_name</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">source_name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;amsu-b&quot;</span><span class="p">,</span> <span class="s2">&quot;mhs&quot;</span><span class="p">]:</span>
-            <span class="n">num_lines</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">y_size</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
-            <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">x_size</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
+            <span class="n">num_lines</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">height</span> <span class="o">*</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">num_samples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">area_def</span><span class="o">.</span><span class="n">width</span> <span class="o">*</span> <span class="mi">5</span><span class="p">)</span>
 
         <span class="c1"># TC sectors have center lat and center lon defined within the sector_info</span>
         <span class="c1"># For other sectors, use lat_0 and lon_0 from proj_dict</span>
@@ -1841,10 +1841,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">):</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">):</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
 
         <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Getting all area defs from command line args:&quot;</span><span class="p">)</span>
@@ -1944,10 +1944,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">):</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;area_id&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">):</span>
-            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">area_def</span><span class="p">,</span> <span class="s2">&quot;description&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">sector_type</span><span class="p">)</span>
 
         <span class="c1"># Add it to the list</span>
         <span class="n">area_defs</span> <span class="o">+=</span> <span class="p">[</span><span class="n">area_def</span><span class="p">]</span>
@@ -1991,7 +1991,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">area_defs</span><span class="p">,</span> <span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">start_datetime</span>
         <span class="p">)</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">])</span>
+    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">area_defs</span><span class="p">])</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">area_defs</span><span class="p">)</span></div>
 
 
@@ -2215,8 +2215,8 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># because it may be ambiguous which area definition is actually the &quot;closest&quot;.</span>
     <span class="k">elif</span> <span class="n">data_end_datetime</span> <span class="o">-</span> <span class="n">data_start_datetime</span> <span class="o">&lt;</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">hours</span><span class="o">=</span><span class="n">time_range_hours</span><span class="p">):</span>
         <span class="n">new_area_defs</span> <span class="o">=</span> <span class="n">filter_area_defs_actual_time</span><span class="p">(</span><span class="n">area_defs</span><span class="p">,</span> <span class="n">data_start_datetime</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">])</span>
-        <span class="k">if</span> <span class="n">check_area_def</span><span class="o">.</span><span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">]:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Allowed area_defs: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">check_area_def</span><span class="o">.</span><span class="n">description</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="n">ad</span><span class="o">.</span><span class="n">description</span> <span class="k">for</span> <span class="n">ad</span> <span class="ow">in</span> <span class="n">new_area_defs</span><span class="p">]:</span>
             <span class="n">retval</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">return</span> <span class="n">retval</span></div>
@@ -2502,7 +2502,9 @@ window.addEventListener("load", () => mermaid.run());
             <span class="c1"># method for handling this generally, but for</span>
             <span class="c1"># now skip IndexErrors.</span>
             <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;SKIPPING no coverage for </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">))</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;SKIPPING no coverage for </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+                <span class="p">)</span>
                 <span class="k">continue</span>
 
         <span class="n">process_datetimes</span><span class="p">[</span><span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -2534,7 +2536,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">pid_track</span><span class="o">.</span><span class="n">print_mem_usg</span><span class="p">()</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">pad_sect_xarrays</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
-                <span class="s2">&quot;SKIPPING no sectored xarrays returned for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span>
+                <span class="s2">&quot;SKIPPING no sectored xarrays returned for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">description</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -2551,7 +2553,8 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">pad_sect_xarrays</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">end_datetime</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;SKIPPING duplicate area_def, out of time range, for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">name</span>
+                <span class="s2">&quot;SKIPPING duplicate area_def, out of time range, for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">continue</span>
 
@@ -2784,7 +2787,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="s2">&quot;data products for </span><span class="si">%s</span><span class="s2">, </span><span class="si">%s</span><span class="s2"> required&quot;</span><span class="p">,</span>
                     <span class="n">covg</span><span class="p">,</span>
                     <span class="n">fname_covg</span><span class="p">,</span>
-                    <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
                     <span class="n">minimum_coverage</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">continue</span>
@@ -2853,7 +2856,7 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="s1">&#39;SKIPPING No coverage or required variables &quot;</span><span class="si">%s</span><span class="s1">&quot; for </span><span class="si">%s</span><span class="s1"> </span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">,</span>
                 <span class="n">variables</span><span class="p">,</span>
                 <span class="n">xobjs</span><span class="p">[</span><span class="s2">&quot;METADATA&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">source_name</span><span class="p">,</span>
-                <span class="n">area_def</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
             <span class="p">)</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>

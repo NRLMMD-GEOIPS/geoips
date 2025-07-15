@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.readers.ami_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.readers.ami_netcdf &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../../../" id="documentation_options" src="../../../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -437,6 +437,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">glob</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 
 <span class="c1"># Third-Party Libraries</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">netCDF4</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ncdf</span>
@@ -444,19 +445,22 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">xarray</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">readers</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.utils.context_managers</span><span class="w"> </span><span class="kn">import</span> <span class="n">import_optional_dependencies</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.plugins.modules.readers.utils.geostationary_geolocation</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">,</span>
     <span class="n">get_geolocation_cache_filename</span><span class="p">,</span>
     <span class="n">get_geolocation</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
+
+<span class="k">with</span> <span class="n">import_optional_dependencies</span><span class="p">(</span><span class="n">loglevel</span><span class="o">=</span><span class="s2">&quot;info&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Attempt to import a package &amp; print to LOG.info if the import fails.&quot;&quot;&quot;</span>
+    <span class="c1"># If this reader is not installed on the system, don&#39;t fail alltogether,</span>
+    <span class="c1"># just skip this import. This reader will not work if the import fails</span>
+    <span class="c1"># and the package will have to be installed to process data of this type.</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">numexpr</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">ne</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;Failed import numexpr in scifile/readers/abi_ncdf4_reader_new.py. &quot;</span>
-        <span class="s2">&quot;If you need it, install it.&quot;</span>
-    <span class="p">)</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
 <span class="n">nprocs</span> <span class="o">=</span> <span class="mi">6</span>
 
@@ -541,16 +545,38 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="latlon_from_lincol_geos"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ami_netcdf.latlon_from_lincol_geos">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">latlon_from_lincol_geos</span><span class="p">(</span><span class="n">resolution</span><span class="p">,</span> <span class="n">line</span><span class="p">,</span> <span class="n">column</span><span class="p">,</span> <span class="n">metadata</span><span class="p">):</span>
+<div class="viewcode-block" id="latlon_from_lincol_geos"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ami_netcdf.latlon_from_lincol_geos">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">latlon_from_lincol_geos</span><span class="p">(</span>
+    <span class="n">resolution</span><span class="p">,</span>
+    <span class="n">line</span><span class="p">,</span>
+    <span class="n">column</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate latitude and longitude from array indices.</span>
 
 <span class="sd">    Uses geostationary projection (likely won&#39;t work with extended local area files).</span>
 <span class="sd">    Equations and code from GEO-KOMPSAT-2A Level 1B Data User Manual.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span><span class="s2">&quot;GEOLL&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span>
+        <span class="s2">&quot;GEOLL&quot;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">name</span>
+        <span class="k">if</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;area_id&quot;</span><span class="p">):</span>
+            <span class="n">key</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;area_id&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
         <span class="n">degtorad</span> <span class="o">=</span> <span class="mf">3.14159265358979</span> <span class="o">/</span> <span class="mf">180.0</span>
 
+        <span class="c1"># Note metadata included directly in the data files is incorrect for</span>
+        <span class="c1"># some AMI data files.  These hard coded values are pulled from the</span>
+        <span class="c1"># manual for correct geolocation.</span>
         <span class="k">if</span> <span class="n">resolution</span> <span class="o">==</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">:</span>
             <span class="n">COFF</span> <span class="o">=</span> <span class="mf">11000.5</span>
             <span class="n">CFAC</span> <span class="o">=</span> <span class="mf">8.170135561335742e7</span>
@@ -614,14 +640,53 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="n">nlat</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nlat</span><span class="p">))]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">999.9</span>
         <span class="n">nlon</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">nlon</span><span class="p">))]</span> <span class="o">=</span> <span class="o">-</span><span class="mf">999.9</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
-            <span class="n">nlat</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-            <span class="n">nlon</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-
-    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
-    <span class="n">offset</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
-    <span class="n">nlat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">nlon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+                <span class="n">nlat</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                <span class="n">nlon</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chunk_size</span><span class="p">:</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2"> (chunks=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+            <span class="c1"># zarr does NOT have a close method, so you can NOT use the with context.</span>
+            <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="c1"># Assume both arrays have the same shape and dtype</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">nlat</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">nlat</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="c1"># As of Python 3.11, can&#39;t pass chunks=None into create_dataset</span>
+            <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunks</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;lats&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;lons&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lats&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">nlat</span>
+            <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lons&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">nlon</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Create memmap to the lat/lon file</span>
+        <span class="c1"># Nothing will be read until explicitly requested</span>
+        <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
+        <span class="c1"># calculating satlelite angles</span>
+        <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="mi">4</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+            <span class="n">nlat</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">nlon</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+            <span class="p">)</span>
+        <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;GETGEO zarr to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="n">nlat</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lats&quot;</span><span class="p">]</span>
+            <span class="n">nlon</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lons&quot;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span><span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="p">(</span><span class="n">nlat</span><span class="p">,</span> <span class="n">nlon</span><span class="p">)</span></div>
 
@@ -962,7 +1027,17 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">return</span> <span class="n">data</span></div>
 
 
-<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ami_netcdf.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span><span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="call"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ami_netcdf.call">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call</span><span class="p">(</span>
+    <span class="n">fnames</span><span class="p">,</span>
+    <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">roi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">cache_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read Geo-Kompsat NetCDF data from a list of filenames.</span>
 
@@ -982,6 +1057,9 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        * register all data to the specified dataset id (as specified in the</span>
 <span class="sd">          return dictionary keys).</span>
 <span class="sd">        * Read multiple resolutions of data if False.</span>
+<span class="sd">    roi: radius of influence (unit in meter), used in interpolation scheme</span>
+<span class="sd">        * Default=None, i.e., if not defined in the yaml file</span>
+<span class="sd">        * Defined in yaml file where variables and tuning parameters are set</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1003,11 +1081,23 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">chans</span><span class="p">,</span>
         <span class="n">area_def</span><span class="p">,</span>
         <span class="n">self_register</span><span class="p">,</span>
+        <span class="n">roi</span><span class="o">=</span><span class="n">roi</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">cache_chunk_size</span><span class="o">=</span><span class="n">cache_chunk_size</span><span class="p">,</span>
+        <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
     <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="call_single_time"><a class="viewcode-back" href="../../../../../geoips_api/geoips.plugins.modules.readers.html#geoips.plugins.modules.readers.ami_netcdf.call_single_time">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">call_single_time</span><span class="p">(</span>
-    <span class="n">fnames</span><span class="p">,</span> <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span>
+    <span class="n">fnames</span><span class="p">,</span>
+    <span class="n">metadata_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">chans</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">self_register</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">roi</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">cache_chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Read Geo-Kompsat NetCDF data from a list of filenames.</span>
@@ -1028,6 +1118,21 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        * register all data to the specified dataset id (as specified in the</span>
 <span class="sd">          return dictionary keys).</span>
 <span class="sd">        * Read multiple resolutions of data if False.</span>
+<span class="sd">    roi: radius of influence (unit in meter), used in interpolation scheme</span>
+<span class="sd">        * Passed in from Call function</span>
+<span class="sd">        * Default=None, i.e., if not defined in the yaml file</span>
+<span class="sd">        * Defined in yaml file where variables and tuning parameters are set</span>
+<span class="sd">    geolocation_cache_backend : str</span>
+<span class="sd">        * Specify to use either memmap or zarray to store pre-calculated geolocation</span>
+<span class="sd">          data.</span>
+<span class="sd">    cache_chunk_size : int</span>
+<span class="sd">        * Specify chunck size if using zarray to store pre-calculated geolocation data.</span>
+<span class="sd">    resource_tracker: geoips.utils.memusg.PidLog object</span>
+<span class="sd">        * Track resource usage using the PidLog class object from geoips.utils.memusg.</span>
+<span class="sd">        * The PidLog.track_resource_usage method allows us to snapshot the memory usage</span>
+<span class="sd">          for the PID associated with the geoips call. The time and stats of the</span>
+<span class="sd">          snapshot are recorded, and can be accessed using the</span>
+<span class="sd">          PidLog.checkpoint_usage_stats method.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -1042,6 +1147,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        Additional information regarding required attributes and variables</span>
 <span class="sd">        for GeoIPS-formatted xarray Datasets.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
     <span class="n">gvars</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">datavars</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">geo_metadata</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1210,11 +1316,23 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
         <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
         <span class="p">(</span><span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">)</span> <span class="o">=</span> <span class="n">latlon_from_lincol_geos</span><span class="p">(</span>
-            <span class="n">resolution</span><span class="o">=</span><span class="n">self_register</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">geo_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span>
+            <span class="n">self_register</span><span class="p">,</span>
+            <span class="n">j</span><span class="p">,</span>
+            <span class="n">i</span><span class="p">,</span>
+            <span class="n">geo_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">],</span>
+            <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+            <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_geolocation</span><span class="p">(</span>
-            <span class="n">start_dt</span><span class="p">,</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">],</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+            <span class="n">start_dt</span><span class="p">,</span>
+            <span class="n">geo_metadata</span><span class="p">[</span><span class="n">adname</span><span class="p">],</span>
+            <span class="n">fldk_lats</span><span class="p">,</span>
+            <span class="n">fldk_lons</span><span class="p">,</span>
+            <span class="n">BADVALS</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="p">,</span>
+            <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+            <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">gvars</span><span class="p">[</span><span class="n">adname</span><span class="p">]:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
@@ -1240,11 +1358,22 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">][</span><span class="s2">&quot;num_samples&quot;</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;f&quot;</span><span class="p">)</span>
                 <span class="n">i</span><span class="p">,</span> <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">)</span>
                 <span class="p">(</span><span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">)</span> <span class="o">=</span> <span class="n">latlon_from_lincol_geos</span><span class="p">(</span>
-                    <span class="n">resolution</span><span class="o">=</span><span class="n">res</span><span class="p">,</span> <span class="n">column</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">line</span><span class="o">=</span><span class="n">j</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">geo_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">]</span>
+                    <span class="n">res</span><span class="p">,</span>
+                    <span class="n">j</span><span class="p">,</span>
+                    <span class="n">i</span><span class="p">,</span>
+                    <span class="n">geo_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">],</span>
+                    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+                    <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
                 <span class="p">)</span>
-
                 <span class="n">gvars</span><span class="p">[</span><span class="n">res</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_geolocation</span><span class="p">(</span>
-                    <span class="n">start_dt</span><span class="p">,</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">],</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+                    <span class="n">start_dt</span><span class="p">,</span>
+                    <span class="n">geo_metadata</span><span class="p">[</span><span class="n">res</span><span class="p">],</span>
+                    <span class="n">fldk_lats</span><span class="p">,</span>
+                    <span class="n">fldk_lons</span><span class="p">,</span>
+                    <span class="n">BADVALS</span><span class="p">,</span>
+                    <span class="n">area_def</span><span class="p">,</span>
+                    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+                    <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
                 <span class="p">)</span>
             <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
                 <span class="n">LOG</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s2">&quot;SKIPPING apparently no coverage or bad geolocation file&quot;</span><span class="p">)</span>
@@ -1261,6 +1390,14 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">if</span> <span class="n">chan</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">file_info</span><span class="p">:</span>
             <span class="k">continue</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Reading </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">chan</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">resource_tracker</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;READ CHAN: ami_netcdf_chan_</span><span class="si">{</span><span class="n">chan</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">adname</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span>
+                <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+                <span class="n">show_log</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="n">chan_md</span> <span class="o">=</span> <span class="n">file_info</span><span class="p">[</span><span class="n">chan</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">res</span><span class="p">,</span> <span class="n">res_chans</span> <span class="ow">in</span> <span class="n">DATASET_INFO</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">chan</span> <span class="ow">in</span> <span class="n">res_chans</span><span class="p">:</span>
@@ -1296,6 +1433,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="k">if</span> <span class="n">dsname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">datavars</span><span class="p">:</span>
                 <span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
             <span class="n">datavars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">chan</span> <span class="o">+</span> <span class="n">typ</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+        <span class="k">if</span> <span class="n">resource_tracker</span><span class="p">:</span>
+            <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span>
+            <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">res</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;LOW&quot;</span><span class="p">,</span> <span class="s2">&quot;MED&quot;</span><span class="p">,</span> <span class="s2">&quot;HIGH&quot;</span><span class="p">]:</span>
@@ -1347,22 +1488,27 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">for</span> <span class="n">varname</span> <span class="ow">in</span> <span class="n">gvars</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">xobj</span><span class="p">[</span><span class="n">varname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xarray</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span><span class="n">gvars</span><span class="p">[</span><span class="n">dsname</span><span class="p">][</span><span class="n">varname</span><span class="p">])</span>
 
-        <span class="n">roi</span> <span class="o">=</span> <span class="mi">500</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xobj</span><span class="p">,</span> <span class="s2">&quot;area_definition&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">roi</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
-                <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_x</span><span class="p">,</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_y</span>
-            <span class="p">)</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def roi </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">curr_res</span> <span class="ow">in</span> <span class="n">geo_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
-            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-                <span class="s2">&quot;Trying metadata roi </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-                <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span><span class="p">,</span>
-                <span class="n">roi</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="k">if</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">&gt;</span> <span class="n">roi</span><span class="p">:</span>
-                <span class="n">roi</span> <span class="o">=</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span>
-                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying standard_metadata[</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">curr_res</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+        <span class="c1"># if roi is not defined in yaml file, a default roi is applied</span>
+        <span class="k">if</span> <span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="mi">500</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">xobj</span><span class="p">,</span> <span class="s2">&quot;area_definition&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">roi</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span>
+                    <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_x</span><span class="p">,</span> <span class="n">xobj</span><span class="o">.</span><span class="n">area_definition</span><span class="o">.</span><span class="n">pixel_size_y</span>
+                <span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying area_def roi </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">curr_res</span> <span class="ow">in</span> <span class="n">geo_metadata</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;Trying metadata roi </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span><span class="p">,</span>
+                    <span class="n">roi</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span> <span class="o">&gt;</span> <span class="n">roi</span><span class="p">:</span>
+                    <span class="n">roi</span> <span class="o">=</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span><span class="s2">&quot;res_km&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="mf">1000.0</span>
+                    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Trying standard_metadata[</span><span class="si">%s</span><span class="s2">] </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">curr_res</span><span class="p">,</span> <span class="n">roi</span><span class="p">)</span>
         <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;interpolation_radius_of_influence&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi</span>
+        <span class="n">xobj</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;longitude_of_projection_origin&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">geo_metadata</span><span class="p">[</span><span class="n">curr_res</span><span class="p">][</span>
+            <span class="s2">&quot;lon0&quot;</span>
+        <span class="p">]</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
         <span class="n">xarray_objs</span><span class="p">[</span><span class="n">dsname</span><span class="p">]</span> <span class="o">=</span> <span class="n">xobj</span>
         <span class="c1"># At some point we may need to deconflict, but for now just use any of the</span>
         <span class="c1"># dataset attributes as the METADATA dataset</span>

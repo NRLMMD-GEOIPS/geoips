@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Expert User Installation (with administrative privileges) &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>Expert User Installation &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -378,10 +378,10 @@
 <li class="toctree-l1"><a class="reference internal" href="../what-is-geoips/index.html">What is GeoIPS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../system-requirements.html">System Requirements</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installing GeoIPS</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="linux_with_conda.html">Conda-based Installation for Linux</a></li>
+<li class="toctree-l2"><a class="reference internal" href="user_linux_with_conda.html">Installation on Linux</a></li>
 <li class="toctree-l2"><a class="reference internal" href="mac_with_conda.html">Conda-based Installation for Mac</a></li>
 <li class="toctree-l2"><a class="reference internal" href="windows_with_conda.html">Linux-based Installation for Windows</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Expert User Installation (with administrative privileges)</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Expert User Installation</a></li>
 </ul>
 </details></li>
 <li class="toctree-l1"><a class="reference internal" href="../best-practices/research-and-ops.html">GeoIPS Generalized Best Practices</a></li>
@@ -433,7 +433,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Installing GeoIPS</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Expert User Installation (with administrative privileges)</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Expert User Installation</span></li>
   </ul>
 </nav>
 </div>
@@ -458,68 +458,52 @@
 <div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
 </div>
 </div>
-</details><section id="expert-user-installation-with-administrative-privileges">
-<span id="expert-installation"></span><h1>Expert User Installation (with administrative privileges)<a class="headerlink" href="#expert-user-installation-with-administrative-privileges" title="Permalink to this heading">#</a></h1>
-<p>The <a class="reference internal" href="linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>
-is the easiest way to get GeoIPS up and running, but if you have administrative
-privileges on your system, and are confident you can install all the required
-system dependencies yourself, you can install GeoIPS by setting a few environment
-variables for testing purposes.</p>
-<section id="expert-user-geoips-installation">
-<h2>Expert User GeoIPS Installation<a class="headerlink" href="#expert-user-geoips-installation" title="Permalink to this heading">#</a></h2>
+</details><section id="expert-user-installation">
+<span id="user-installation"></span><h1>Expert User Installation<a class="headerlink" href="#expert-user-installation" title="Permalink to this heading">#</a></h1>
+<p>This guide is for users who want to install GeoIPS. For development work, see the Contribute section.</p>
+<p><strong>For the fully supported installation with all dependencies managed automatically, use the</strong> <a class="reference internal" href="user_linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>.</p>
+<section id="pypi-installation">
+<h2>PyPI Installation<a class="headerlink" href="#pypi-installation" title="Permalink to this heading">#</a></h2>
+<p>The simplest way to install GeoIPS is via pip:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>geoips
+</pre></div>
+</div>
+<p>This installs the core GeoIPS package with basic functionality.</p>
 <section id="system-dependencies">
 <h3>System Dependencies<a class="headerlink" href="#system-dependencies" title="Permalink to this heading">#</a></h3>
-<p><strong>Use the</strong> <a class="reference internal" href="linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>
-<strong>for the fully supported installation, which includes all
-dependencies</strong></p>
-<p>Required (<strong>included in</strong>
-<a class="reference internal" href="linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>)</p>
+<p>GeoIPS requires Python &gt;= 3.11. Most other dependencies are handled automatically by pip, but you may need to install these system packages depending on your use case:</p>
+<p>Optional system dependencies:</p>
 <ul class="simple">
-<li><p>wget (Miniconda installation)</p></li>
-<li><p>git &gt;= 2.19.1 (git -C commands in complete installation)</p></li>
-<li><p>openblas (required for scipy pip install)</p></li>
-<li><p>make (required for pypublicdecompwt)</p></li>
-<li><p>Python &gt;= 3.9 (3.9 required for entry points)</p></li>
-<li><p>Test data repos contained in $GEOIPS_TESTDATA_DIR
-(required for tests to pass)</p></li>
-<li><p>pdflatex (optional, for building pdf documentation)
-(required for tests to pass)</p></li>
-</ul>
-<p>Optional</p>
-<ul class="simple">
-<li><p>gfortran (only required for plugins including fortran builds, build-essential)</p></li>
-<li><p>gcc &amp; g++ (required for plugins including fortran or C builds, build-essential)</p></li>
-<li><p>screen (convenience package)</p></li>
-<li><p>ncurses (only required if building vim, ncurses and libncurses5-dev)</p></li>
+<li><p>libopenblas-dev (for enhanced performance with scipy)</p></li>
+<li><p>make (required for some optional features)</p></li>
 </ul>
 </section>
-<section id="minimal-install">
-<h3>Minimal install<a class="headerlink" href="#minimal-install" title="Permalink to this heading">#</a></h3>
-<p><strong>Use the</strong> <a class="reference internal" href="linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>.
-<strong>for the fully supported installation, which includes all
-dependencies</strong></p>
-<p>If you are confident you have all system requirements installed
-(Python+cartopy), and do not wish to go through the full
-installation process (which includes conda, rclone, test data, etc),
-you can clone the geoips repo and pip install from your local copy.</p>
-<p><strong>For the fully supported installation, please use the</strong>
-<a class="reference internal" href="linux_with_conda.html#linux-installation"><span class="std std-ref">Complete Local conda-based GeoIPS Installation</span></a>.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># NOTE: ALL dependencies above MUST be installed/available</span>
-<span class="c1">#       to use this installation method.</span>
-<span class="c1"># Please follow complete conda-based installation in the</span>
-<span class="c1">#       next section for fully supported complete install.</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_REPO_URL</span><span class="o">=</span>https://github.com/NRLMMD-GEOIPS
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span>&lt;installation_location&gt;
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span>&lt;desired_test_data_location&gt;
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span>&lt;desired_output_file_location&gt;
-
-git<span class="w"> </span>clone<span class="w"> </span><span class="nv">$GEOIPS_REPO_URL</span>/geoips.git<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
-<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_install.sh
-<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_test.sh
+<section id="environment-variables">
+<h3>Environment Variables<a class="headerlink" href="#environment-variables" title="Permalink to this heading">#</a></h3>
+<p>Set this environment variable for output files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span>&lt;desired_output_file_location&gt;
 </pre></div>
 </div>
 </section>
+</section>
+<section id="docker-installation">
+<h2>Docker Installation<a class="headerlink" href="#docker-installation" title="Permalink to this heading">#</a></h2>
+<p>A Docker image is available for both users and developers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>docker<span class="w"> </span>pull<span class="w"> </span>geoips/geoips:doclinttest-latest
+</pre></div>
+</div>
+<p>Note: The current public image builds to a development stage. For production use, you may need to build a custom image from the provided Dockerfile.</p>
+<p>WARNING: The current dockerfile is in development, please expect it to have breaking changes.</p>
+</section>
+<section id="plugin-levels">
+<h2>Plugin Levels<a class="headerlink" href="#plugin-levels" title="Permalink to this heading">#</a></h2>
+<p>The GeoIPS Dockerfile supports different plugin levels:</p>
+<ul class="simple">
+<li><p><strong>Base</strong>: Core functionality (included with pip install)</p></li>
+<li><p><strong>Full</strong>: Additional plugins for extended capabilities</p></li>
+<li><p><strong>System</strong>: Complete plugin suite</p></li>
+</ul>
+<p>The pip installation provides the base level. Additional plugins require separate installation or the developer setup.</p>
 </section>
 </section>
 
@@ -570,11 +554,13 @@ pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </s
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#expert-user-geoips-installation">Expert User GeoIPS Installation</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#pypi-installation">PyPI Installation</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#system-dependencies">System Dependencies</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#minimal-install">Minimal install</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Environment Variables</a></li>
 </ul>
 </li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#docker-installation">Docker Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-levels">Plugin Levels</a></li>
 </ul>
   </nav></div>
 

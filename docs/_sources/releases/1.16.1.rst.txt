@@ -1,0 +1,293 @@
+Version 1.16.1 (2025-07-15)
+***************************
+
+ * *Bug fix*: Update arctic weather satellite sector path and test data repo path
+ * *Bug fix*: Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
+ * *Bug fix*: Update geostationary readers for appropriate python 3.11 zarr usage
+ * *Bug fix*: Renamed all remaining test scripts and output from global to global-cylindrical
+ * *Bug fix*: Update test image output with minor differences
+ * *Bug fix*: Rmdir latest folder before running build docs
+ * *Bug fix*: Use realpath for repopath in build_docs.sh
+ * *Bug fix*: Do not include trailing underscore in release notes
+ * *Bug fix*: Combine and remove errant leading space in arctic weather satellite docstrings
+ * *Bug fix*: Add modified file to auto-populate brassy changelog release note
+ * *Bug fix*: Update tc tracks database when passing one deck file at commandline
+ * *Bug fix*: Add site-nrlmmd-geoips option to interactive pytest
+ * *Release updates*: Bug fixes on the open source github.com geoips site integration tests.
+ * *Release updates*: Update tagged_version and upcoming_version
+ * *Release updates*: Ensure check_code.sh calls flake8 from the current repository
+
+Bug fix
+=======
+
+Update arctic weather satellite sector path and test data repo path
+-------------------------------------------------------------------
+
+* Use test_data_arctic_weather_satellite rather than test_data_ArcticWS
+* Use bwp992025.dat in geoips repo rather than bwp992025.2025042800.dat in test data repo.
+
+::
+
+     added: tests/sectors/tc_bdecks/bwp992025.dat
+     modified: tests/scripts/aws_TB165.imagery_clean.sh
+     modified: tests/scripts/aws_TB180.imagery_clean.sh
+     modified: tests/scripts/aws_TB325-1.imagery_clean.sh
+     modified: tests/scripts/aws_TB50.imagery_clean.sh
+     modified: tests/scripts/aws_TB89.imagery_clean.sh
+     modified: tests/scripts/aws_tc_TB165.imagery_clean.sh
+     modified: tests/scripts/aws_tc_TB180.imagery_clean.sh
+     modified: tests/scripts/aws_tc_TB325-1.imagery_clean.sh
+     modified: tests/scripts/aws_tc_TB50.imagery_clean.sh
+     modified: tests/scripts/aws_tc_TB89.imagery_clean.sh
+
+Bug fix
+=======
+
+Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
+-------------------------------------------------------------------------
+
+How did we not catch this earlier?
+
+::
+
+     modified: tests/scripts/viirs.static.visible.imagery_clean.sh
+
+Bug fix
+=======
+
+Update geostationary readers for appropriate python 3.11 zarr usage
+-------------------------------------------------------------------
+
+* Remove with context - zarr no longer has a "close" method, so you can't use with
+* Only pass chunks in if not None - create_dataset method fails if chunks is passed in as None
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Bug fix
+=======
+
+Renamed all remaining test scripts and output from global to global-cylindrical
+-------------------------------------------------------------------------------
+
+Missed these.
+
+::
+
+     moved: aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB165.global.24p51.noaa.20p0.png ->
+     aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB165.global_cylindrical.24p51.noaa.20p0.png
+     moved: aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB180.global.24p51.noaa.20p0.png ->
+     aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB180.global_cylindrical.24p51.noaa.20p0.png
+     moved: aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB325-1.global.24p42.noaa.20p0.png ->
+     aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB325-1.global_cylindrical.24p42.noaa.20p0.png
+     moved: aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB50.global.29p01.noaa.20p0.png ->
+     aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB50.global_cylindrical.29p01.noaa.20p0.png
+     moved: aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB89.global.28p70.noaa.20p0.png ->
+     aws.orbital.imagery_clean/20250416.142818.aws.mwr.TB89.global_cylindrical.28p70.noaa.20p0.png
+     moved: fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p09.EUMETSAT.20p0.png ->
+     fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global_cylindrical.26p09.EUMETSAT.20p0.png
+     moved:
+     mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global.83p60.cimss.20p0.png ->
+     mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
+     moved:
+     seviri.Convective_Storms.imagery_clean/20200404.080000.msg-1.seviri.Convective_Storms.global.22p76.nesdisstar.20p0.png
+     ->
+     seviri.Convective_Storms.imagery_clean/20200404.080000.msg-1.seviri.Convective_Storms.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved:
+     seviri.Day_Microphys_Summer.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Summer.global.22p76.nesdisstar.20p0.png
+     ->
+     seviri.Day_Microphys_Summer.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Summer.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved:
+     seviri.Day_Microphys_Winter.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Winter.global.22p76.nesdisstar.20p0.png
+     ->
+     seviri.Day_Microphys_Winter.imagery_clean/20200404.080000.msg-1.seviri.Day_Microphys_Winter.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved: seviri.Day_Solar.imagery_clean/20200404.080000.msg-1.seviri.Day_Solar.global.22p76.nesdisstar.20p0.png ->
+     seviri.Day_Solar.imagery_clean/20200404.080000.msg-1.seviri.Day_Solar.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved: seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global.22p76.nesdisstar.20p0.png ->
+     seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust-RGB.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved: seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust_RGB.global.22p76.nesdisstar.20p0.png ->
+     seviri.Dust-RGB.imagery_clean/20200404.080000.msg-1.seviri.Dust_RGB.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved:
+     seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global.22p76.nesdisstar.20p0.png ->
+     seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural-Color.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved:
+     seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural_Color.global.22p76.nesdisstar.20p0.png ->
+     seviri.Natural-Color.imagery_clean/20200404.080000.msg-1.seviri.Natural_Color.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved:
+     seviri.Night_Microphys.imagery_clean/20240327.010000.msg-3.seviri.Night_Microphys.global.22p76.nesdisstar.20p0.png
+     ->
+     seviri.Night_Microphys.imagery_clean/20240327.010000.msg-3.seviri.Night_Microphys.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved: seviri.Volcanic_Ash.imagery_clean/20200404.080000.msg-1.seviri.Volcanic_Ash.global.22p76.nesdisstar.20p0.png
+     ->
+     seviri.Volcanic_Ash.imagery_clean/20200404.080000.msg-1.seviri.Volcanic_Ash.global_cylindrical.22p76.nesdisstar.20p0.png
+     moved: seviri.airmass.imagery_clean/20200404.080000.msg-1.seviri.airmass.global.22p76.nesdisstar.20p0.png ->
+     seviri.airmass.imagery_clean/20200404.080000.msg-1.seviri.airmass.global_cylindrical.22p76.nesdisstar.20p0.png
+     modified: tests/scripts/aws_TB165.imagery_clean.sh
+     modified: tests/scripts/aws_TB180.imagery_clean.sh
+     modified: tests/scripts/aws_TB325-1.imagery_clean.sh
+     modified: tests/scripts/aws_TB50.imagery_clean.sh
+     modified: tests/scripts/aws_TB89.imagery_clean.sh
+
+Bug fix
+=======
+
+Update test image output with minor differences
+-----------------------------------------------
+
+* VIIRS has minor differences throughout image (speckled)
+* DMW and MIMIC image edge differences
+
+::
+
+     modified:
+     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
+     modified:
+     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
+     modified:
+     tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
+
+Bug fix
+=======
+
+Rmdir latest folder before running build docs
+---------------------------------------------
+
+If the latest folder is left over in a repository, build docs will fail.
+Just remove the latest folder if it is empty.
+
+::
+
+     modified: docs/build_docs.sh
+
+Bug fix
+=======
+
+Use realpath for repopath in build_docs.sh
+------------------------------------------
+
+sphinx build fails on fortran library docstrings without realpath.
+
+::
+
+     modified: docs/build_docs.sh
+
+Bug fix
+=======
+
+Do not include trailing underscore in release notes
+---------------------------------------------------
+
+Remove trailing underscore from GEOIPS in release note.
+sphinx thinks the trailing underscore is a link, and fails
+because it is not defined.
+
+::
+
+     modified: docs/source/releases/1.15.2/update-geolocation-paths-to-include-geoips.yaml
+
+Bug fix
+=======
+
+Combine and remove errant leading space in arctic weather satellite docstrings
+------------------------------------------------------------------------------
+
+Leading spaces in the SECOND docstring table resulted in unexpected indent for sphinx.
+Combine docstrings for clarity, remove unnecessary content, and remove extra leading
+spaces.
+
+::
+
+     modified: geoips/plugins/modules/readers/aws_netcdf.py
+
+Bug fix
+=======
+
+Add modified file to auto-populate brassy changelog release note
+----------------------------------------------------------------
+
+If all file lists are empty, sphinx will fail.
+
+::
+
+     modified: docs/source/releases/1.16.0/865-auto-populate-repo-url-and-start-date-for-brassy-changelogs.yaml
+
+Bug fix
+=======
+
+Update tc tracks database when passing one deck file at commandline
+-------------------------------------------------------------------
+
+Check if length of sys.argv is greater than OR equal to two. Otherwise
+script would ignore a single deck file if passed at the commandline.
+
+::
+
+     modified: geoips/commandline/update_tc_tracks_database.py
+
+Bug fix
+=======
+
+Add site-nrlmmd-geoips option to interactive pytest
+---------------------------------------------------
+
+This should be all encompassing for everything required to test a complete
+github.com NRLMMD-GEOIPS installation. This includes all integration tests, as
+well as all short and long pytests.
+
+Additionally, ensure markers are passed properly to the pytest command from
+within interactive_pytest.sh - we can't include the quotes in the
+pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
+and include the -m within the actual call to pytest.
+
+::
+
+     modified: tests/utils/interactive_pytest.sh
+
+Release updates
+===============
+
+Bug fixes on the open source github.com geoips site integration tests.
+----------------------------------------------------------------------
+
+Bug fixes required to get the GeoIPS Site integration tests to pass on all available
+github.com open source repositories.
+
+Also update standard sync files
+
+::
+
+     modified: docs/source/releases/
+
+Release updates
+===============
+
+Update tagged_version and upcoming_version
+------------------------------------------
+
+tagged_version 1.16.1 (site-nrlmmd bug fixes)
+upcoming_version 1.16.2 (system-nrlmry bug fixes)
+
+::
+
+     modified: .github/versions/upcoming_version
+     modified: .github/versions/tagged_version
+
+Release updates
+===============
+
+Ensure check_code.sh calls flake8 from the current repository
+-------------------------------------------------------------
+
+flake8 uses the .flake8 config from the CWD, not from the path you are calling it
+on, so ensure we cd to the current repository from check_code.sh before calling
+flake8
+
+::
+
+     modified: tests/utils/check_code.sh

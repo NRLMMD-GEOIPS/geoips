@@ -1,0 +1,675 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Developer Assisted Package Creation &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contribute/dev-assisted-package-creation';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="GeoIPS git workflow" href="git-workflow.html" />
+    <link rel="prev" title="🖍️ Coding Standards Reference Doc" href="coding-standards.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../releases/index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="code-of-conduct.html">Contributor Covenant Code of Conduct</a></li>
+<li class="toctree-l1"><a class="reference internal" href="coding-standards.html">🖍️ Coding Standards Reference Doc</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Developer Assisted Package Creation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="git-workflow.html">GeoIPS git workflow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev_linux_with_conda.html">Conda-based Installation for Linux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev-install.html">Developer Installation</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="testing/index.html">Testing</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing/running_tests.html">Running GeoIPS Pytest Tests</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Contribute</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Developer Assisted Package Creation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <details class="sd-sphinx-override sd-dropdown sd-card sd-mb-3">
+<summary class="sd-summary-title sd-card-header">
+<span class="sd-summary-text">Distribution Statement</span><span class="sd-summary-state-marker sd-summary-chevron-right"><svg version="1.1" width="1.5em" height="1.5em" class="sd-octicon sd-octicon-chevron-right" viewBox="0 0 24 24" aria-hidden="true"><path d="M8.72 18.78a.75.75 0 0 1 0-1.06L14.44 12 8.72 6.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018l6.25 6.25a.75.75 0 0 1 0 1.06l-6.25 6.25a.75.75 0 0 1-1.06 0Z"></path></svg></span></summary><div class="sd-summary-content sd-card-body docutils">
+<div class="line-block">
+<div class="line"># # # This source code is subject to the license referenced at</div>
+<div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
+</div>
+</div>
+</details><section id="developer-assisted-package-creation">
+<h1>Developer Assisted Package Creation<a class="headerlink" href="#developer-assisted-package-creation" title="Permalink to this heading">#</a></h1>
+<p>If you are a user, developer, or researcher that has software related to geospatial data
+processing and are unable to integrate that functionality into GeoIPS, you’ve come to
+the right place. Some of our developers for GeoIPS (specifically those that are CIRA-based), might be
+able to help you integrate your functionality into GeoIPS. Please continue reading if
+you think this may be of use!</p>
+<section id="why-we-assist-with-package-creation">
+<h2>Why We Assist With Package Creation<a class="headerlink" href="#why-we-assist-with-package-creation" title="Permalink to this heading">#</a></h2>
+<p>The GeoIPS Development team is committed to integrating a variety of geospatial
+processing routines into GeoIPS, or as standalone packages that can interact with
+GeoIPS. This can be as simple as adding your algorithm or reader to the main GeoIPS
+code, or it can be more complex in creating a completely separate GeoIPS plugin-package
+specific for your use case.</p>
+<p>Please feel free to view any of our
+<a class="reference external" href="https://github.com/orgs/NRLMMD-GEOIPS/repositories">public repositories</a> for a
+general idea of what we can help you with. For any standalone package that we’ll be
+developing for users who have requested assistance, we’ll largely be following the
+structure of the <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/template_basic_plugin">template_basic_plugin package</a>.
+The aforementioned package is a template for creating separate plugin packages that can
+interact with GeoIPS seamlessly.</p>
+<p>The purpose of integrating software like this is to elevate GeoIPS as a package that can
+process nearly any type of satellite, in-situ, geo-located -derived data, and output it
+in a variety of formats. For each standalone package that we create, we only elevate the
+capabilities of GeoIPS as a whole. Eventually, we’d like to see GeoIPS be one, if not
+the package you need to handle your geospatial processing routines.</p>
+</section>
+<section id="funding-requirements-for-complex-transitions">
+<h2>Funding Requirements for Complex Transitions<a class="headerlink" href="#funding-requirements-for-complex-transitions" title="Permalink to this heading">#</a></h2>
+<p>While we welcome all conversations about integrating external packages into GeoIPS, please note that if transitioning
+your package requires substantial development time and resources, we may require funding to support that effort. The
+complexity of the integration, the state of your existing codebase, and the extent of modifications needed will all
+factor into this assessment. We encourage you to reach out to discuss your specific needs, and we can provide guidance
+on potential resource requirements and funding options.</p>
+</section>
+<section id="use-cases-that-we-ll-support">
+<h2>Use Cases That We’ll Support<a class="headerlink" href="#use-cases-that-we-ll-support" title="Permalink to this heading">#</a></h2>
+<p>If the data routines you’ve created don’t match any of the repositories linked above,
+then we’ve likely found a use case worth creating a separate GeoIPS package for.</p>
+<p>The data processing you’ve implemented cannot already exist in
+GeoIPS, or any of its corresponding packages. If you have processing routines that are
+similar, it is likely you’ll just have to reformat your inputs to integrate correctly
+with the GeoIPS system. We are happy to help with that if needed. For a full list of
+public repositories that the GeoIPS team supports, see
+<a class="reference external" href="https://github.com/orgs/NRLMMD-GEOIPS/repositories">GeoIPS Repositories</a>.</p>
+<p>Please either submit an issue <a class="reference external" href="https://github.com/NRLMMD-GEOIPS/geoips/issues/new/choose">here</a>,
+or contact us at <code class="docutils literal notranslate"><span class="pre">geoips&#64;nrlmry.navy.mil</span></code> specifying your use case and the assistance
+needed. Here’s what we’ll need from you for either method.</p>
+</section>
+<section id="information-needed-for-developers">
+<h2>Information Needed for Developers<a class="headerlink" href="#information-needed-for-developers" title="Permalink to this heading">#</a></h2>
+<p>In order to create a standalone GeoIPS Package implementing your routines, we’ll need
+the following information:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">Data</span></code></p>
+<ol class="loweralpha simple">
+<li><p>We’ll take on most datasets that are needed to produce your expected output. The
+more data and types of data which you provide, the better chance we have at
+testing and producing accurate outputs that match your current routines. Please
+don’t provide us with Terabytes of data, only that which is necessary to produce
+your product in its entirety.</p></li>
+</ol>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Code</span></code></p>
+<ol class="loweralpha simple">
+<li><p>The code provided should encapsulate everything you or your group created to get
+your processing routines working. This does not include code from dependent 3rd
+party software packages, but a list of software dependencies would be appreciated
+so we know what to install. Code included could be any of the following bullet
+points.</p></li>
+<li><p>Algorithms</p></li>
+<li><p>Colormaps</p></li>
+<li><p>Readers</p></li>
+<li><p>Utility Modules</p></li>
+<li><p>Any other code you wrote that’s required to produce the expected output</p></li>
+</ol>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">List</span> <span class="pre">of</span> <span class="pre">Input</span> <span class="pre">Variables</span></code> needed to produce the desired output</p>
+<ol class="loweralpha simple">
+<li><p>Since the data you’re using is geospatial, we’ll need some context of what
+variables we’ll be dealing with. Please provide us with a list of variables needed
+to produce your expected output. It should look something like what is shown below.</p></li>
+<li><p>[<code class="docutils literal notranslate"><span class="pre">cloud_height_acha</span></code>, <code class="docutils literal notranslate"><span class="pre">relative_humidity</span></code>, <code class="docutils literal notranslate"><span class="pre">cloud_water_content</span></code>, …]</p></li>
+</ol>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Examples</span> <span class="pre">of</span> <span class="pre">Accurate</span> <span class="pre">Outputs</span></code> from your current routines.</p>
+<ol class="loweralpha simple">
+<li><p>Included alongside these outputs, please provide the data used to generate these
+outputs. This way, we have a concrete test example to compare alongside to make
+sure what we’ve implemented matches what you expect. Could Include:</p></li>
+<li><p>Imagery</p></li>
+<li><p>GeoTIFFs</p></li>
+<li><p>NetCDF / HDF5 Files</p></li>
+<li><p>Any other output that could assist with testing</p></li>
+</ol>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Description</span> <span class="pre">of</span> <span class="pre">your</span> <span class="pre">Geospatial</span> <span class="pre">Processing</span> <span class="pre">Routines</span></code></p>
+<ol class="loweralpha simple">
+<li><p>In this description, you should include the following information:</p></li>
+<li><p>What this software achieves</p></li>
+<li><p>What outputs it creates</p></li>
+<li><p>Why it’s needed</p></li>
+</ol>
+</li>
+</ol>
+<p>Once we have the aforementioned information, we’ll be able to move forward in creating
+your standalone GeoIPS package, translated from your current geospatial processing
+routines. Once this package has been created, you’ll be able to work alongside the
+GeoIPS environment to produce your personally tailored outputs.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="coding-standards.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">🖍️ Coding Standards Reference Doc</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="git-workflow.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">GeoIPS git workflow</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#why-we-assist-with-package-creation">Why We Assist With Package Creation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funding-requirements-for-complex-transitions">Funding Requirements for Complex Transitions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#use-cases-that-we-ll-support">Use Cases That We’ll Support</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#information-needed-for-developers">Information Needed for Developers</a></li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/contribute/dev-assisted-package-creation.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

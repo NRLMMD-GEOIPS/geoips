@@ -1,153 +1,16 @@
-Version 1.14.0 (2025-04-30)
+Version 1.14.0 (2025-07-15)
 ***************************
 
- * *Documentation*: Make all documentation sections optional
- * *Documentation*: Resolve pdf doc build issues
- * *Documentation*: Build rst release notes from yaml files every time
- * *Installation*: Remove path and python path from setup configs
+ * *Github actions*: Move reusable workflows and sync files to geoips_ci
+ * *Github actions*: Add standard synced files to geoips repo
  * *Github actions*: Turn off pdf doc build from doc-test
  * *Github actions*: Turn off rst release note check from version release branches
  * *Github actions*: Move 1.14.0 and 1.14.1 rst files into latest/*.yaml and upcoming/*.yaml
- * *Github actions*: Move reusable workflows and sync files to geoips_ci
- * *Github actions*: Add standard synced files to geoips repo
+ * *Documentation*: Make all documentation sections optional
+ * *Documentation*: Resolve pdf doc build issues
+ * *Installation*: Remove path and python path from setup configs
  * *Release process*: Add pip and mamba 1.14.0 environment files
-
-Documentation
-=============
-
-Make all documentation sections optional
-----------------------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-Previously required introduction and user guide - allow building documentation
-with only release notes and API.
-
-::
-
-     modified: docs/build_docs.sh
-     modified: docs/source/_templates/index_PKG.html
-
-Documentation
-=============
-
-Resolve pdf doc build issues
-----------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-PDF doc builds often fail when html succeeds - this MUST be tested regularly
-on PR merge, to ensure we keep up with pdf builds as well as html. Much easier to
-resolve issues as they crop up rather than much later when we realize it's failing.
-
-Temporarily turn off all pdf builds, and comment out the pdf download from the
-documentation index template.
-
-::
-
-     modified: .github/workflows/doc-test.yaml
-     modified: .github/workflows/reusable-deploy-docs.yaml
-     modified: docs/source/_templates/index_PKG.html
-
-Documentation
-=============
-
-Build rst release notes from yaml files every time
---------------------------------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-Rather than generating and checking in RST files with
-each release, save all the original YAML files and produce
-RST every time from within build_docs.sh.
-
-Store the release notes in X.Y.Z directories, producing
-X.Y.Z.rst during the build_docs process. Update the index.rst
-generating code to support either vX_Y_Z.rst or X.Y.Z.rst
-filename format.
-
-This allows simply moving the 'latest' release note directory
-to X.Y.Z during the release process, and maintaining a record
-of all the original release notes in perpetuity, facilitating
-rapid release roll backs or evaluation of previous release notes.
-
-Note we also now ignore an 'upcoming' release note directory,
-as that is a temporary location to store the release note for
-the upcoming release during the version release process for
-the current version ('latest').  At the end of the release
-process, the 'upcoming' directory will be moved to 'latest'
-to prepare for the next release.
-
-::
-
-     modified: docs/build_docs.sh
-     modified: docs/update_release_note_index.py
-
-Installation
-============
-
-Remove path and python path from setup configs
-----------------------------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-This was causing problems with using the wrong python/pip during processing.
-Do not explicitly set PATH or PYTHONPATH.
-
-::
-
-     modified: setup/config_geoips
-     modified: setup/geoips_conda_init_setup
-
-Github actions
-==============
-
-Turn off pdf doc build from doc-test
-------------------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-We still need to fix the pdf doc build, but turning it off temporarily until
-we determine what the issue is.
-
-::
-
-     modified: .github/workflows/doc-test.yaml
-
-Github actions
-==============
-
-Turn off rst release note check from version release branches
--------------------------------------------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-Since version releases often have corrections to RST release notes, do not fail
-on RST release note check within version release branches.
-
-::
-
-     modified: .github/workflows/release-note-check.yaml
-
-Github actions
-==============
-
-Move 1.14.0 and 1.14.1 rst files into latest/*.yaml and upcoming/*.yaml
------------------------------------------------------------------------
-
-*From issue GEOIPS#562: 2024-08-15, version update*
-
-No longer deleting YAML files or checking in rst files - store
-all release notes as YAML in perpetuity, and auto-generate the
-rst with brassy every time. This will make rolling back releases
-MUCH easier.
-
-::
-
-     deleted: docs/source/releases/v1_14_0.rst
-     deleted: docs/source/releases/v1_14_1.rst
-     modified: docs/source/releases/latest/v1_14_0.yaml
-     modified: docs/source/releases/upcoming/v1_14_1.yaml
+ * *Documentation*: Build rst release notes from yaml files every time
 
 Github actions
 ==============
@@ -201,6 +64,109 @@ These files auto-copied from geoips_ci.
      added: bandit.yml
      modified: CHANGELOG.rst
 
+Github actions
+==============
+
+Turn off pdf doc build from doc-test
+------------------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+We still need to fix the pdf doc build, but turning it off temporarily until
+we determine what the issue is.
+
+::
+
+     modified: .github/workflows/doc-test.yaml
+
+Github actions
+==============
+
+Turn off rst release note check from version release branches
+-------------------------------------------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+Since version releases often have corrections to RST release notes, do not fail
+on RST release note check within version release branches.
+
+::
+
+     modified: .github/workflows/release-note-check.yaml
+
+Github actions
+==============
+
+Move 1.14.0 and 1.14.1 rst files into latest/*.yaml and upcoming/*.yaml
+-----------------------------------------------------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+No longer deleting YAML files or checking in rst files - store
+all release notes as YAML in perpetuity, and auto-generate the
+rst with brassy every time. This will make rolling back releases
+MUCH easier.
+
+::
+
+     deleted: docs/source/releases/v1_14_0.rst
+     deleted: docs/source/releases/v1_14_1.rst
+     modified: docs/source/releases/latest/v1_14_0.yaml
+     modified: docs/source/releases/upcoming/v1_14_1.yaml
+
+Documentation
+=============
+
+Make all documentation sections optional
+----------------------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+Previously required introduction and user guide - allow building documentation
+with only release notes and API.
+
+::
+
+     modified: docs/build_docs.sh
+     modified: docs/source/_templates/index_PKG.html
+
+Documentation
+=============
+
+Resolve pdf doc build issues
+----------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+PDF doc builds often fail when html succeeds - this MUST be tested regularly
+on PR merge, to ensure we keep up with pdf builds as well as html. Much easier to
+resolve issues as they crop up rather than much later when we realize it's failing.
+
+Temporarily turn off all pdf builds, and comment out the pdf download from the
+documentation index template.
+
+::
+
+     modified: .github/workflows/doc-test.yaml
+     modified: .github/workflows/reusable-deploy-docs.yaml
+     modified: docs/source/_templates/index_PKG.html
+
+Installation
+============
+
+Remove path and python path from setup configs
+----------------------------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+This was causing problems with using the wrong python/pip during processing.
+Do not explicitly set PATH or PYTHONPATH.
+
+::
+
+     modified: setup/config_geoips
+     modified: setup/geoips_conda_init_setup
+
 Release process
 ===============
 
@@ -227,3 +193,37 @@ Tue Sep 17 01:45:03 UTC 2024
      added: environments/mamba_full_package_list_1.14.0_20240916.yml
      added: environments/pip_base_requirements_1.14.0_20240915.txt
      added: environments/pip_full_requirements_1.14.0_20240916.txt
+
+Documentation
+=============
+
+Build rst release notes from yaml files every time
+--------------------------------------------------
+
+*From issue GEOIPS#562: 2024-08-15, version update*
+
+Rather than generating and checking in RST files with
+each release, save all the original YAML files and produce
+RST every time from within build_docs.sh.
+
+Store the release notes in X.Y.Z directories, producing
+X.Y.Z.rst during the build_docs process. Update the index.rst
+generating code to support either vX_Y_Z.rst or X.Y.Z.rst
+filename format.
+
+This allows simply moving the 'latest' release note directory
+to X.Y.Z during the release process, and maintaining a record
+of all the original release notes in perpetuity, facilitating
+rapid release roll backs or evaluation of previous release notes.
+
+Note we also now ignore an 'upcoming' release note directory,
+as that is a temporary location to store the release note for
+the upcoming release during the version release process for
+the current version ('latest').  At the end of the release
+process, the 'upcoming' directory will be moved to 'latest'
+to prepare for the next release.
+
+::
+
+     modified: docs/build_docs.sh
+     modified: docs/update_release_note_index.py

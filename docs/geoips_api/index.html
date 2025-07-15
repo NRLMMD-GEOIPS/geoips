@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>API &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>API &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -49,11 +49,11 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="geoips package" href="geoips.html" />
-    <link rel="prev" title="GeoIPS git workflow" href="../contribute/git-workflow.html" />
+    <link rel="prev" title="Running GeoIPS Pytest Tests" href="../contribute/testing/running_tests.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -550,6 +550,7 @@
 <li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#submodules">Submodules</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.bases">geoips.pydantic.bases module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.feature_annotators">geoips.pydantic.feature_annotators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.gridline_annotators">geoips.pydantic.gridline_annotators module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.sectors">geoips.pydantic.sectors module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.workflows">geoips.pydantic.workflows module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic">Module contents</a></li>
@@ -569,6 +570,7 @@
 </li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a><ul>
 <li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.cache_files">geoips.utils.cache_files module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.composite">geoips.utils.composite module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.context_managers">geoips.utils.context_managers module</a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.utils.html#module-geoips.utils.decorators">geoips.utils.decorators module</a></li>
@@ -607,7 +609,6 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.create_plugin_registries"><code class="docutils literal notranslate"><span class="pre">create_plugin_registries()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.format_docstring"><code class="docutils literal notranslate"><span class="pre">format_docstring()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.get_parser"><code class="docutils literal notranslate"><span class="pre">get_parser()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.parse_plugin_paths"><code class="docutils literal notranslate"><span class="pre">parse_plugin_paths()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.registry_sanity_check"><code class="docutils literal notranslate"><span class="pre">registry_sanity_check()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.create_plugin_registries.remove_registries"><code class="docutils literal notranslate"><span class="pre">remove_registries()</span></code></a></li>
@@ -632,6 +633,7 @@
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.expose_geoips_commands"><code class="docutils literal notranslate"><span class="pre">expose_geoips_commands()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.find_all_txt_plugins"><code class="docutils literal notranslate"><span class="pre">find_all_txt_plugins()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.find_ascii_palette"><code class="docutils literal notranslate"><span class="pre">find_ascii_palette()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.get_interface_module"><code class="docutils literal notranslate"><span class="pre">get_interface_module()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.get_numpy_seeded_random_generator"><code class="docutils literal notranslate"><span class="pre">get_numpy_seeded_random_generator()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.get_required_geoips_xarray_attrs"><code class="docutils literal notranslate"><span class="pre">get_required_geoips_xarray_attrs()</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.geoips_utils.is_editable"><code class="docutils literal notranslate"><span class="pre">is_editable()</span></code></a></li>
@@ -647,13 +649,18 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.html#module-geoips.plugin_registry">geoips.plugin_registry module</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry"><code class="docutils literal notranslate"><span class="pre">PluginRegistry</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_interface_plugin_info"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_interface_plugin_info()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_interface_plugin_names"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_interface_plugin_names()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_plugin_info"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugin_info()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.identify_plugin_type"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.identify_plugin_type()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.create_registries"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.create_registries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.delete_registries"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.delete_registries()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_module_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_module_plugin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_module_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_module_plugins()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_plugin_metadata"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugin_metadata()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_yaml_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_yaml_plugin()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.get_yaml_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_yaml_plugins()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.interface_mapping"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.interface_mapping</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.list_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.list_plugins()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.registered_module_based_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.registered_module_based_plugins</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.registered_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.registered_plugins</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.registered_yaml_based_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.registered_yaml_based_plugins</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.html#geoips.plugin_registry.PluginRegistry.retry_get_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.retry_get_plugin()</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -679,12 +686,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../contribute/git-workflow.html"
+       href="../contribute/testing/running_tests.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">GeoIPS git workflow</p>
+        <p class="prev-next-title">Running GeoIPS Pytest Tests</p>
       </div>
     </a>
     <a class="right-next"

@@ -92,6 +92,14 @@ geoips.plugins.modules.readers.atms\_hdf5 module
    :undoc-members:
    :show-inheritance:
 
+geoips.plugins.modules.readers.aws\_netcdf module
+-------------------------------------------------
+
+.. automodule:: geoips.plugins.modules.readers.aws_netcdf
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.plugins.modules.readers.cygnss\_netcdf module
 ----------------------------------------------------
 

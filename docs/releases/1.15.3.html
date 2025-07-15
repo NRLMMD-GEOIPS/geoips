@@ -1,0 +1,773 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Version 1.15.3 (2025-07-15) &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/set_width.css?v=d4af5e1e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'releases/1.15.3';</script>
+    <link rel="icon" href="../_static/nrlicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Version 1.15.2 (2025-07-15)" href="1.15.2.html" />
+    <link rel="prev" title="Version 1.16.0 (2025-07-15)" href="1.16.0.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="1.1" />
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+  
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+            <li class="nav-item dropdown">
+                <button class="btn dropdown-toggle nav-item" type="button"
+                data-bs-toggle="dropdown" aria-expanded="false"
+                aria-controls="pst-nav-more-links">
+                    More
+                </button>
+                <ul id="pst-nav-more-links" class="dropdown-menu">
+                    
+<li class=" current active">
+  <a class="nav-link dropdown-item nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class=" ">
+  <a class="nav-link dropdown-item nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+                </ul>
+            </li>
+            
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../getting-started/index.html">
+    Getting Started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../tutorials/index.html">
+    Tutorials
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../concepts/index.html">
+    Concepts
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contribute/index.html">
+    Contribute
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../geoips_api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Release Notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contact/index.html">
+    About Us
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/NRLMMD-GEOIPS/geoips" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="latest.html">Version latest (2025-07-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="upcoming.html">Version upcoming (2025-07-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.16.1.html">Version 1.16.1 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.16.0.html">Version 1.16.0 (2025-07-15)</a></li>
+</ul>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Version 1.15.3 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.2.html">Version 1.15.2 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.1.html">Version 1.15.1 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.15.0.html">Version 1.15.0 (2025-07-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="1.14.5.html">Version 1.14.5 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.4.html">Version 1.14.4 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.3.html">Version 1.14.3 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.2.html">Version 1.14.2 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.1.html">Version 1.14.1 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="1.14.0.html">Version 1.14.0 (2025-07-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_14_0a0.html">Version 1.14.0a0 (2024-08-16)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_13_1.html">Version 1.13.1 (2024-07-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0.html">Version 1.13.0 (2024-06-08)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_13_0a0.html">Version 1.13.0a0 (2024-04-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_12_4.html">Version 1.12.4 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_3.html">Version 1.12.3 (2024-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2.html">Version 1.12.2 (2024-04-24)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_2a0.html">Version 1.12.2a0 (2024-02-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_1.html">Version 1.12.1 (2024-02-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_12_0.html">Version 1.12.0 (2023-12-07)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7.html">Version 1.11.7 (2023-11-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_7a0.html">Version 1.11.7a0 (2023-10-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_6.html">Version 1.11.6 (2023-10-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5.html">Version 1.11.5 (2023-10-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_5a0.html">Version 1.11.5a0 (2023-09-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3.html">Version 1.11.3 (2023-09-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_3a0.html">Version 1.11.3a0 (2023-09-20)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_2.html">Version 1.11.2 (2023-09-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1.html">Version 1.11.1 (2023-08-16)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_1a0.html">Version 1.11.1a0 (2023-08-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_11_0.html">Version 1.11.0 (2023-08-02)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_10_3.html">Version 1.10.3 (2023-06-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_2.html">Version 1.10.2 (2023-06-01)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_1.html">Version 1.10.1 (2023-05-23)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0.html">Version 1.10.0 (2023-05-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a13.html">Version 1.10.0a13 (2023-05-11)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a12.html">Version 1.10.0a12 (2023-05-09)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a11.html">Version 1.10.0a11 (2023-04-30)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a10.html">Version 1.10.0a10 (2023-04-29)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a9.html">Version 1.10.0a9 (2023-04-27)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a8.html">Version 1.10.0a8 (2023-04-28)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a7.html">Version 1.10.0a7 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a6.html">Version 1.10.0a6 (2023-04-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a5.html">Version 1.10.0a5 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a4.html">Version 1.10.0a4 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a3.html">Version 1.10.0a3 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a2.html">Version 1.10.0a2 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a1.html">Version 1.10.0a1 (2023-04-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_10_0a0.html">Version 1.10.0a0 (2023-04-04)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_9_2.html">Version 1.9.2 (2023-05-10)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_1.html">Version 1.9.1 (2023-04-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_9_0.html">Version 1.9.0 (2023-03-23)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_8_1.html">Version 1.8.1 (2023-03-22)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_8_0.html">Version 1.8.0 (2023-03-12)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_7_0.html">Version 1.7.0 (2023-02-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_6_3.html">Version 1.6.3 (2023-02-02)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_1.html">Version 1.6.1 (2023-01-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_6_0.html">Version 1.6.0 (2022-11-28)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_5_3.html">Version 1.5.3 (2022-11-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_2.html">Version 1.5.2 (2022-09-26)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_1.html">Version 1.5.1 (2022-07-13)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_5_0.html">Version 1.5.0 (2022-06-09)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_4_8.html">Version 1.4.8 (2022-05-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_7.html">Version 1.4.7 (2022-05-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_6.html">Version 1.4.6 (2022-04-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_5.html">Version 1.4.5 (2022-03-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_4.html">Version 1.4.4 (2022-03-06)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_3.html">Version 1.4.3 (2022-02-17)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_2.html">Version 1.4.2 (2022-02-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_1.html">Version 1.4.1 (2022-01-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_4_0.html">Version 1.4.0 (2022-01-10)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_3_2.html">Version 1.3.2 (2021-12-21)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_1.html">Version 1.3.1 (2021-12-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_3_0.html">Version 1.3.0 (2021-11-24)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_2_5.html">Version 1.2.5 (2021-11-18)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_4.html">Version 1.2.4 (2021-11-12)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_3.html">Version 1.2.3 (2021-11-05)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_2.html">Version 1.2.2 (2021-10-25)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_1.html">Version 1.2.1 (2021-10-04)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_2_0.html">Version 1.2.0 (2021-09-15)</a></li>
+</ul>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="v1_1_17.html">Version 1.1.17 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_16.html">Version 1.1.16 (2021-03-03)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_15.html">Version 1.1.15 (2021-02-15)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_14.html">Version 1.1.14 (2021-02-07)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="v1_1_13.html">Version 1.1.13 (2021-01-29)</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Release Notes</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Version 1.15.3 (2025-07-15)</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="version-1-15-3-2025-07-15">
+<h1>Version 1.15.3 (2025-07-15)<a class="headerlink" href="#version-1-15-3-2025-07-15" title="Permalink to this heading">#</a></h1>
+<blockquote>
+<div><ul class="simple">
+<li><p><em>Testing</em>: Provide more informative integration pytest output when running with -s</p></li>
+<li><p><em>Documentation</em>: Update upcoming and tagged versions</p></li>
+<li><p><em>Cli</em>: Add geoips config install-github cli command</p></li>
+<li><p><em>Enhancement</em>: Implement additional caching options for abi geostationary reader</p></li>
+</ul>
+</div></blockquote>
+<section id="testing">
+<h2>Testing<a class="headerlink" href="#testing" title="Permalink to this heading">#</a></h2>
+<section id="provide-more-informative-integration-pytest-output-when-running-with-s">
+<h3>Provide more informative integration pytest output when running with -s<a class="headerlink" href="#provide-more-informative-integration-pytest-output-when-running-with-s" title="Permalink to this heading">#</a></h3>
+<p>Output reference environment variables (like OUTPUT_CHECKER_THRESHOLD_IMAGE), and the full
+copy pasteable command line call for each test script. Remove some other print statements.
+Should determine if there is some concept of logging levels in pytests (using geoips
+setup_logging did not appear to immediately work with initial tests).</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="documentation">
+<h2>Documentation<a class="headerlink" href="#documentation" title="Permalink to this heading">#</a></h2>
+<section id="update-upcoming-and-tagged-versions">
+<h3>Update upcoming and tagged versions<a class="headerlink" href="#update-upcoming-and-tagged-versions" title="Permalink to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Tagged version: 1.15.3</p></li>
+<li><p>Upcoming version: 1.16.2</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">tagged_version</span>
+<span class="n">modified</span><span class="p">:</span> <span class="o">.</span><span class="n">github</span><span class="o">/</span><span class="n">versions</span><span class="o">/</span><span class="n">upcoming_version</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="cli">
+<h2>Cli<a class="headerlink" href="#cli" title="Permalink to this heading">#</a></h2>
+<section id="add-geoips-config-install-github-cli-command">
+<h3>Add geoips config install-github cli command<a class="headerlink" href="#add-geoips-config-install-github-cli-command" title="Permalink to this heading">#</a></h3>
+<p>Currently this just calls $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh
+test_data_github, but functionality can later be moved directly into the python. This will
+allow us to update READMEs for consistency (geoips config install test_data_* for datasets
+that are available on CIRA NEXCLOUD, geoips config install-github test_data_* for datasets
+that are available at $GEOIPS_REPO_URL), and eventually deprecate the check_system_requirements.sh
+command.</p>
+<p>Note geoips config install and geoips config install-github can both be updated
+in the future to support package installs as well, but for now leave a note in both
+of their help functions noting that currently only test data installations are
+supported.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">ancillary_info</span><span class="o">/</span><span class="n">cmd_instructions</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">commandline</span><span class="o">/</span><span class="n">geoips_config</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="enhancement">
+<h2>Enhancement<a class="headerlink" href="#enhancement" title="Permalink to this heading">#</a></h2>
+<section id="implement-additional-caching-options-for-abi-geostationary-reader">
+<h3>Implement additional caching options for abi geostationary reader<a class="headerlink" href="#implement-additional-caching-options-for-abi-geostationary-reader" title="Permalink to this heading">#</a></h3>
+<p>Add support for optionally caching solar angle calculations in either memmap or
+zarray format. Solar angle calculations are stored under a “short term” directory,
+so any files under that directory can be subject to aggressive scrubbing without the
+worry of deleting “long term” caches (e.g. lat/lon/sat_azimuth/sat_zenith).</p>
+<p>In addition to the optional solar angle caching, the abi_netcdf reader was updated
+to support the optional caching of both radiance and calibrated data. The abi_satpy
+and ahi_satpy readers are considerably faster, likely due to the caching of both the
+solar angles and the data itself.</p>
+<p>The environment variables that control the cache location have been standardized
+under base_paths.py, and are assigned the following names:
+GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC,
+GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC,
+GEOIPS_DATA_CACHE_DIR_SHORTERM_GEOLOCATION_SOLAR_ANGLES,
+GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA,
+SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA,
+SATPY_DATA_CACHE_DIR_SHORTERM_GEOLOCATION_SOLAR_ANGLES.</p>
+<p>The variables above use derived paths from either GEOIPS_DATA_CACHE_DIR or
+SATPY_DATA_CACHE_DIR, which can both be set in the config_geoips script. Presently,
+both of those paths will default to $GEOIPS_OUTDIRS/cache/geoips and
+$GEOIPS_OUTDIRS/cache/satpy, respectively.</p>
+<p>Add new config based test script for processing ABI visible and Infrared data while
+using the solar angle and data caching options.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">scripts</span><span class="o">/</span><span class="n">abi</span><span class="o">.</span><span class="n">config_based_output_full_zarr_cache_backend</span><span class="o">.</span><span class="n">sh</span>
+<span class="n">added</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">yaml_configs</span><span class="o">/</span><span class="n">abi_test_full_zarr_cache_backend</span><span class="o">.</span><span class="n">yaml</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">filenames</span><span class="o">/</span><span class="n">base_paths</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">geoips</span><span class="o">/</span><span class="n">plugins</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="n">readers</span><span class="o">/</span><span class="n">abi_netcdf</span><span class="o">.</span><span class="n">py</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">setup</span><span class="o">/</span><span class="n">config_geoips</span>
+<span class="n">modified</span><span class="p">:</span> <span class="n">tests</span><span class="o">/</span><span class="n">integration_tests</span><span class="o">/</span><span class="n">test_integration</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="1.16.0.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Version 1.16.0 (2025-07-15)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="1.15.2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Version 1.15.2 (2025-07-15)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing">Testing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#provide-more-informative-integration-pytest-output-when-running-with-s">Provide more informative integration pytest output when running with -s</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">Documentation</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#update-upcoming-and-tagged-versions">Update upcoming and tagged versions</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#cli">Cli</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#add-geoips-config-install-github-cli-command">Add geoips config install-github cli command</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#enhancement">Enhancement</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#implement-additional-caching-options-for-abi-geostationary-reader">Implement additional caching options for abi geostationary reader</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+  <div class="sidebar-secondary-item">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/releases/1.15.3.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><div class="footer">
+    <a href="http://www.navy.mil">Official US Navy Website</a>
+    <a href="http://www.navy.com/navy/">US Navy Recruiting</a>
+    <a href="http://www.nrlmry.navy.mil">NRL</a>
+    <a href="http://foia.navy.mil">Accessibility</a>
+    <a href="http://foia.navy.mil">Freedom of Information Act</a>
+    <a href="http://www.nrlmry.navy.mil/privacypolicy.htm">Security & Policy</a>
+    <a href="http://www.nrlmry.navy.mil/linknotice.html">Hyperlink Notice</a>
+    <a href="mailto:webmaster@nrlmry.navy.mil">webmaster@nrlmry.navy.mil</a><br>
+    <a href="http://www.nrlmry.navy.mil">
+    Naval Research Laboratory Marine Meteorology Division Monterey, CA</a><br>
+    7 Grace Hopper Avenue, STOP 2, Monterey, CA 93943-5502
+</div></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

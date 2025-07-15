@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.plugins.modules.readers.utils.geostationary_geolocation &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.plugins.modules.readers.utils.geostationary_geolocation &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../../../../" id="documentation_options" src="../../../../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -435,9 +435,11 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample</span><span class="w"> </span><span class="kn">import</span> <span class="n">utils</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample.geometry</span><span class="w"> </span><span class="kn">import</span> <span class="n">SwathDefinition</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">pyresample.kd_tree</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_neighbour_info</span>  <span class="c1"># , get_sample_from_neighbour_info</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">CoverageError</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.filenames.base_paths</span><span class="w"> </span><span class="kn">import</span> <span class="n">PATHS</span> <span class="k">as</span> <span class="n">gpaths</span>
@@ -471,12 +473,11 @@ window.addEventListener("load", () => mermaid.run());
 <span class="n">DONT_AUTOGEN_GEOLOCATION</span> <span class="o">=</span> <span class="kc">False</span>
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;DONT_AUTOGEN_GEOLOCATION&quot;</span><span class="p">):</span>
     <span class="n">DONT_AUTOGEN_GEOLOCATION</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="n">GEOLOCDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;longterm_files&quot;</span><span class="p">,</span> <span class="s2">&quot;geolocation&quot;</span><span class="p">)</span>
+
+<span class="n">STATIC_GEOLOCDIR</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC&quot;</span><span class="p">]</span>
 
 <span class="c1"># default dynamic geoloc dir for NRL</span>
-<span class="n">DYNAMIC_GEOLOCDIR</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-    <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;longterm_files&quot;</span><span class="p">,</span> <span class="s2">&quot;geolocation_dynamic&quot;</span>
-<span class="p">)</span>
+<span class="n">DYNAMIC_GEOLOCDIR</span> <span class="o">=</span> <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC&quot;</span><span class="p">]</span>
 
 <span class="n">READ_GEOLOCDIRS</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">getenv</span><span class="p">(</span><span class="s2">&quot;READ_GEOLOCDIRS&quot;</span><span class="p">):</span>
@@ -489,27 +490,62 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">pass</span></div>
 
 
-<div class="viewcode-block" id="get_geolocation_cache_filename"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_geolocation_cache_filename</span><span class="p">(</span><span class="n">pref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the location and filename format for the cached geolocation files.</span>
+<div class="viewcode-block" id="CachedGeolocationIndexError"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.CachedGeolocationIndexError">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CachedGeolocationIndexError</span><span class="p">(</span><span class="ne">IndexError</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Raise exception on cached geolocation IndexError.&quot;&quot;&quot;</span>
 
-<span class="sd">    There is a separate filename format for satellite latlons and sector latlons</span>
+    <span class="k">pass</span></div>
 
-<span class="sd">    Notes</span>
-<span class="sd">    -----</span>
-<span class="sd">    Changing geolocation filename format will force recreation of all</span>
-<span class="sd">    files, which can be problematic for large numbers of sectors.</span>
+
+<div class="viewcode-block" id="check_geolocation_cache_backend"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.check_geolocation_cache_backend">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">check_geolocation_cache_backend</span><span class="p">(</span>
+    <span class="n">cache_backend</span><span class="p">,</span> <span class="n">supported_backends</span><span class="o">=</span><span class="p">(</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span> <span class="s2">&quot;zarr&quot;</span><span class="p">)</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if requested geolocation cache backend is supported.</span>
+
+<span class="sd">    Perhaps this should be converted to a decorator later on?</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    cache_backend : str</span>
+<span class="sd">        Library name used to create cached geolocation files (e.g. zarr or memmap)</span>
+<span class="sd">    supported_backends : list or tuple, optional</span>
+<span class="sd">        Supported cache backends, by default (&quot;memmap&quot;, &quot;zarr&quot;)</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        If cache_backend is not in supported_backends</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">cache</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">GEOLOCDIR</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">])</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_dynamic_sector</span>
+    <span class="k">if</span> <span class="n">cache_backend</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">supported_backends</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Unsupported cache backend: </span><span class="si">{</span><span class="n">cache_backend</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">&quot; Supported cache backends: </span><span class="si">{</span><span class="n">supported_backends</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="p">)</span></div>
 
-    <span class="k">if</span> <span class="n">is_dynamic_sector</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
-        <span class="n">cache</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DYNAMIC_GEOLOCDIR</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">])</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cache</span><span class="p">):</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span>
-        <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
-            <span class="k">pass</span>
 
+<div class="viewcode-block" id="construct_cache_filename"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.construct_cache_filename">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">construct_cache_filename</span><span class="p">(</span>
+    <span class="n">pref</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Construct a cached file name.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pref : str</span>
+<span class="sd">        Prefix to identify type of cached data</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        Top level metadata for dataset</span>
+<span class="sd">    area_def : pyresample.area_definition, optional</span>
+<span class="sd">        Area definition subsector of data, by default None</span>
+<span class="sd">    cache_backend : str, optional</span>
+<span class="sd">        Specify to use either numpy.memmao or zarray for cache, by default &quot;memmap&quot;</span>
+<span class="sd">    chunk_size : int, optional</span>
+<span class="sd">        zarray cache chunk size, by default None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        File name for cached data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">cache_backend</span><span class="p">)</span>
     <span class="c1"># In order to ensure consistency here, take a sha1 hash of the string representation</span>
     <span class="c1">#  of the dictionary values. hash is applied to the object itself, which appears to</span>
     <span class="c1"># not be consistent from one Python 3 run to the next.</span>
@@ -531,6 +567,14 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span>
         <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">],</span>
     <span class="p">)</span>
+    <span class="k">if</span> <span class="n">cache_backend</span> <span class="o">!=</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+        <span class="c1"># Only replace whitespaces with a hyphen when not memmap to prevent regenerating</span>
+        <span class="c1"># any cached geolocation files</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">fname</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">chunk_size</span> <span class="ow">and</span> <span class="n">cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+        <span class="c1"># If chunking enabled, include the size in the file name</span>
+        <span class="n">fname</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_chunk</span><span class="si">{</span><span class="n">chunk_size</span><span class="si">}</span><span class="s2">&quot;</span>
 
     <span class="c1"># If the filename format needs to change for the pre-generated geolocation</span>
     <span class="c1"># files, please discuss prior to changing.  It will force recreation of all</span>
@@ -566,7 +610,102 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">else</span><span class="p">:</span>
         <span class="n">fname</span> <span class="o">+=</span> <span class="s2">&quot;_</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">md_hash</span><span class="p">)</span>
 
-    <span class="n">fname</span> <span class="o">+=</span> <span class="s2">&quot;.dat&quot;</span>
+    <span class="k">if</span> <span class="n">cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+        <span class="n">fname</span> <span class="o">+=</span> <span class="s2">&quot;.dat&quot;</span>
+    <span class="k">elif</span> <span class="n">cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+        <span class="n">fname</span> <span class="o">+=</span> <span class="s2">&quot;.zarr&quot;</span>
+    <span class="k">return</span> <span class="n">fname</span></div>
+
+
+<div class="viewcode-block" id="get_data_cache_filename"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_data_cache_filename">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_data_cache_filename</span><span class="p">(</span>
+    <span class="n">pref</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">scan_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the full file path for a cached calibrated data file.</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    pref : str</span>
+<span class="sd">        Prefix to identify type of cached data</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        Top level metadata for dataset</span>
+<span class="sd">    area_def : pyresample.area_definition, optional</span>
+<span class="sd">        Area definition subsector of data, by default None</span>
+<span class="sd">    cache_backend : str, optional</span>
+<span class="sd">        Specify to use either numpy.memmao or zarray for cache, by default &quot;memmap&quot;</span>
+<span class="sd">    chunk_size : int, optional</span>
+<span class="sd">        zarray cache chunk size, by default None</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">       Full file path for cached data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cache_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+        <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA&quot;</span><span class="p">],</span>
+    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">scan_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">pref</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">scan_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">T%H%M%S.</span><span class="si">%f</span><span class="s1">Z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
+            <span class="k">pass</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">construct_cache_filename</span><span class="p">(</span>
+        <span class="n">pref</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+        <span class="n">cache_backend</span><span class="o">=</span><span class="n">cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache_dir</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">],</span> <span class="n">fname</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="get_geolocation_cache_filename"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation_cache_filename">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_geolocation_cache_filename</span><span class="p">(</span>
+    <span class="n">pref</span><span class="p">,</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">solar_angles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Set the location and filename format for the cached geolocation files.</span>
+
+<span class="sd">    There is a separate filename format for satellite latlons and sector latlons</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Changing geolocation filename format will force recreation of all</span>
+<span class="sd">    files, which can be problematic for large numbers of sectors.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">solar_angles</span><span class="p">:</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_DATA_CACHE_DIR_SHORTTERM_GEOLOCATION_SOLAR_ANGLES&quot;</span><span class="p">],</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cache</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">STATIC_GEOLOCDIR</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">])</span>
+        <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.sector_utils.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_dynamic_sector</span>
+
+        <span class="k">if</span> <span class="n">is_dynamic_sector</span><span class="p">(</span><span class="n">area_def</span><span class="p">):</span>
+            <span class="n">cache</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">DYNAMIC_GEOLOCDIR</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;platform_name&quot;</span><span class="p">])</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cache</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cache</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">construct_cache_filename</span><span class="p">(</span>
+        <span class="n">pref</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+        <span class="n">cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+    <span class="p">)</span>
 
     <span class="c1"># Check alternative read-only directories (i.e. operational)</span>
     <span class="k">for</span> <span class="n">dirname</span> <span class="ow">in</span> <span class="n">READ_GEOLOCDIRS</span><span class="p">:</span>
@@ -577,7 +716,20 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cache</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="get_geolocation"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_geolocation</span><span class="p">(</span><span class="n">dt</span><span class="p">,</span> <span class="n">gmd</span><span class="p">,</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_geolocation"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_geolocation">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_geolocation</span><span class="p">(</span>
+    <span class="n">dt</span><span class="p">,</span>
+    <span class="n">gmd</span><span class="p">,</span>
+    <span class="n">fldk_lats</span><span class="p">,</span>
+    <span class="n">fldk_lons</span><span class="p">,</span>
+    <span class="n">BADVALS</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cache_solar_angles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">scan_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Gather and return the geolocation data for the input metadata.</span>
 
@@ -594,13 +746,30 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">    This is because they actually change.</span>
 <span class="sd">    This may be slow for full-disk images.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
     <span class="n">adname</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
     <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
         <span class="n">adname</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
 
+    <span class="k">if</span> <span class="n">resolution</span><span class="p">:</span>
+        <span class="n">adname</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">resolution</span><span class="si">}</span><span class="s2">&quot;</span>
+
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;GETGEO: </span><span class="si">{</span><span class="n">adname</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="s2">&quot;ALL&quot;</span><span class="p">)</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
     <span class="k">try</span><span class="p">:</span>
         <span class="n">fldk_sat_zen</span><span class="p">,</span> <span class="n">fldk_sat_azm</span> <span class="o">=</span> <span class="n">get_satellite_angles</span><span class="p">(</span>
-            <span class="n">gmd</span><span class="p">,</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">area_def</span>
+            <span class="n">gmd</span><span class="p">,</span>
+            <span class="n">fldk_lats</span><span class="p">,</span>
+            <span class="n">fldk_lons</span><span class="p">,</span>
+            <span class="n">BADVALS</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="p">,</span>
+            <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+            <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+            <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
         <span class="p">)</span>
     <span class="k">except</span> <span class="n">AutoGenError</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
@@ -608,7 +777,15 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># Determine which indicies will be needed for the input sector if there is one.</span>
     <span class="k">if</span> <span class="n">area_def</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">lines</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">get_indexes</span><span class="p">(</span><span class="n">gmd</span><span class="p">,</span> <span class="n">fldk_lats</span><span class="p">,</span> <span class="n">fldk_lons</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+            <span class="n">lines</span><span class="p">,</span> <span class="n">samples</span> <span class="o">=</span> <span class="n">get_indexes</span><span class="p">(</span>
+                <span class="n">gmd</span><span class="p">,</span>
+                <span class="n">fldk_lats</span><span class="p">,</span>
+                <span class="n">fldk_lons</span><span class="p">,</span>
+                <span class="n">area_def</span><span class="p">,</span>
+                <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+                <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+                <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
+            <span class="p">)</span>
         <span class="k">except</span> <span class="n">AutoGenError</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
@@ -616,6 +793,16 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># points. This may not be entirely appropriate, especially if we want to do</span>
         <span class="c1"># something better than nearest neighbor interpolation.</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">shape</span>
+
+        <span class="c1"># I&#39;m not entirely sure why this happens from time to time, but sometimes the</span>
+        <span class="c1"># lines/samples are the correct size, but not the correct shape. I should really</span>
+        <span class="c1"># figure out the reason for this issue, but it&#39;s not entirely clear so in the</span>
+        <span class="c1"># mean time reshape here as needed.</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">lines</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;Reshaping lines and samples - should not have to do this...&quot;</span><span class="p">)</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+            <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">shape</span><span class="p">)</span>
+
         <span class="n">index_mask</span> <span class="o">=</span> <span class="n">lines</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">999</span>
 
         <span class="n">lons</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">)</span>
@@ -623,14 +810,17 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">sat_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">)</span>
         <span class="n">sat_azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">full</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">)</span>
 
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling lons from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
-        <span class="n">lons</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lons</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling lats from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
-        <span class="n">lats</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lats</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling sat_zen from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
-        <span class="n">sat_zen</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_sat_zen</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling sat_azm from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
-        <span class="n">sat_azm</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_sat_azm</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling lons from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
+            <span class="n">lons</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lons</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling lats from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
+            <span class="n">lats</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_lats</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling sat_zen from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
+            <span class="n">sat_zen</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_sat_zen</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Pulling sat_azm from inds for </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
+            <span class="n">sat_azm</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]</span> <span class="o">=</span> <span class="n">fldk_sat_azm</span><span class="p">[</span><span class="n">lines</span><span class="p">[</span><span class="n">index_mask</span><span class="p">],</span> <span class="n">samples</span><span class="p">[</span><span class="n">index_mask</span><span class="p">]]</span>
+        <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">CachedGeolocationIndexError</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
 
     <span class="k">else</span><span class="p">:</span>
         <span class="n">lats</span> <span class="o">=</span> <span class="n">fldk_lats</span>
@@ -640,10 +830,25 @@ window.addEventListener("load", () => mermaid.run());
 
     <span class="c1"># Get generator for solar zenith and azimuth angles</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Must calculate solar zen/azm for sector </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
-    <span class="n">sun_zen</span><span class="p">,</span> <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">calculate_solar_angles</span><span class="p">(</span><span class="n">gmd</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">dt</span><span class="p">)</span>
+    <span class="n">sun_zen</span><span class="p">,</span> <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">calculate_solar_angles</span><span class="p">(</span>
+        <span class="n">gmd</span><span class="p">,</span>
+        <span class="n">lats</span><span class="p">,</span>
+        <span class="n">lons</span><span class="p">,</span>
+        <span class="n">dt</span><span class="p">,</span>
+        <span class="n">resource_tracker</span><span class="o">=</span><span class="n">resource_tracker</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+        <span class="n">cache_solar_angles</span><span class="o">=</span><span class="n">cache_solar_angles</span><span class="p">,</span>
+        <span class="n">scan_datetime</span><span class="o">=</span><span class="n">scan_datetime</span><span class="p">,</span>
+    <span class="p">)</span>
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;GETGEO Done calculating solar zen/azm for sector </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">adname</span><span class="p">)</span>
     <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">sun_zen</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">)</span>
     <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">sun_azm</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">area_def</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">lons</span><span class="p">,</span> <span class="n">lats</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">get_lonlats</span><span class="p">()</span>
@@ -657,6 +862,10 @@ window.addEventListener("load", () => mermaid.run());
         <span class="s2">&quot;solar_zenith_angle&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">sun_zen</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">),</span>
         <span class="s2">&quot;solar_azimuth_angle&quot;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ma</span><span class="o">.</span><span class="n">masked_less_equal</span><span class="p">(</span><span class="n">sun_azm</span><span class="p">,</span> <span class="o">-</span><span class="mf">999.1</span><span class="p">),</span>
     <span class="p">}</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">geolocation</span><span class="p">[</span><span class="s2">&quot;Lines&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
@@ -664,16 +873,45 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
         <span class="k">pass</span>
 
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
     <span class="k">return</span> <span class="n">geolocation</span></div>
 
 
-<div class="viewcode-block" id="get_satellite_angles"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_satellite_angles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_satellite_angles</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">BADVALS</span><span class="p">,</span> <span class="n">sect</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="get_satellite_angles"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_satellite_angles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_satellite_angles</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">lats</span><span class="p">,</span>
+    <span class="n">lons</span><span class="p">,</span>
+    <span class="n">BADVALS</span><span class="p">,</span>
+    <span class="n">sect</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Get satellite angles.&quot;&quot;&quot;</span>
     <span class="c1"># If the filename format needs to change for the pre-generated geolocation</span>
     <span class="c1"># files, please discuss prior to changing.  It will force recreation of all</span>
     <span class="c1"># files, which can be problematic for large numbers of sectors</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span><span class="s2">&quot;GEOSAT&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span>
+        <span class="s2">&quot;GEOSAT&quot;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;GEO SAT ANGLES: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sect</span><span class="p">:</span>
+            <span class="n">key</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">sect</span><span class="o">.</span><span class="n">area_id</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">if</span> <span class="n">sect</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">DONT_AUTOGEN_GEOLOCATION</span> <span class="ow">and</span> <span class="s2">&quot;tc2019&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sect</span><span class="o">.</span><span class="n">name</span><span class="p">:</span>
             <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="s2">&quot;GETGEO Requested NO AUTOGEN GEOLOCATION. &quot;</span>
@@ -698,6 +936,10 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">beta</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;arccos(cos(deg2rad * (lats - sub_lat)) * cos(deg2rad * (lons - sub_lon)))&quot;</span><span class="p">)</span>  <span class="c1"># NOQA</span>
         <span class="c1"># fmt: on</span>
         <span class="n">bad</span> <span class="o">=</span> <span class="n">lats</span> <span class="o">==</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
 
         <span class="c1"># Calculate satellite zenith angle</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating satellite zenith angle&quot;</span><span class="p">)</span>
@@ -708,6 +950,10 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">out</span><span class="o">=</span><span class="n">zen</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">zen</span><span class="p">[</span><span class="n">bad</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
 
         <span class="c1"># Sat azimuth</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating satellite azimuth angle&quot;</span><span class="p">)</span>
@@ -719,37 +965,101 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;where(lats &lt; sub_lat, 180.0 - azm, azm)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">azm</span><span class="p">)</span>
         <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;where(azm &lt; 0.0, 360.0 + azm, azm)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">azm</span><span class="p">)</span>
         <span class="n">azm</span><span class="p">[</span><span class="n">bad</span><span class="p">]</span> <span class="o">=</span> <span class="n">BADVALS</span><span class="p">[</span><span class="s2">&quot;Off_Of_Disk&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span>
 
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done calculating satellite zenith and azimuth angles&quot;</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
-            <span class="n">zen</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-            <span class="n">azm</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+                <span class="n">zen</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                <span class="n">azm</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chunk_size</span><span class="p">:</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2"> (chunks=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+            <span class="c1"># NOTE zarr does NOT have a close method, so you can NOT use with context.</span>
+            <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="c1"># Assume azm and zen shape and dtype are the same</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">azm</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">azm</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="c1"># As of Python 3.11, can&#39;t pass chunks=None into create_dataset</span>
+            <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunks</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;azm&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;zen&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;azm&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">azm</span>
+            <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;zen&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">zen</span>
         <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
         <span class="c1"># ds = xarray.Dataset({&#39;zeniths&#39;:([&#39;x&#39;,&#39;y&#39;],zen),&#39;azimuths&#39;:([&#39;x&#39;,&#39;y&#39;],azm)})</span>
         <span class="c1"># ds.to_netcdf(fname)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+            <span class="c1"># Create a memmap to the lat/lon file</span>
+            <span class="c1"># Nothing will be read until explicitly requested</span>
+            <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
+            <span class="c1"># calculating satlelite angles</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;GETGEO memmap to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
-    <span class="c1"># Create a memmap to the lat/lon file</span>
-    <span class="c1"># Nothing will be read until explicitly requested</span>
-    <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
-    <span class="c1"># calculating satlelite angles</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;GETGEO memmap to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">])</span>
-    <span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+            <span class="n">zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+            <span class="n">azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+            <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
+            <span class="c1"># saved_xarray = xarray.load_dataset(fname)</span>
+            <span class="c1"># zen = saved_xarray[&#39;zeniths&#39;].to_masked_array()</span>
+            <span class="c1"># azm = saved_xarray[&#39;azimuths&#39;].to_masked_array()</span>
+        <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;GETGEO zarr to </span><span class="si">{}</span><span class="s2"> : azm/zen file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+            <span class="c1"># chunk_x, chunk_y = [int(x/100) for x in lats.shape]</span>
+            <span class="c1"># NOTE zarr does NOT have a close method, so you can NOT use with context.</span>
+            <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="n">azm</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;azm&quot;</span><span class="p">]</span>
+            <span class="n">zen</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;zen&quot;</span><span class="p">]</span>
 
-    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
-    <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
-    <span class="n">zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
-    <span class="n">azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
-    <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
-    <span class="c1"># saved_xarray = xarray.load_dataset(fname)</span>
-    <span class="c1"># zen = saved_xarray[&#39;zeniths&#39;].to_masked_array()</span>
-    <span class="c1"># azm = saved_xarray[&#39;azimuths&#39;].to_masked_array()</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">zen</span><span class="p">,</span> <span class="n">azm</span></div>
 
 
-<div class="viewcode-block" id="get_indexes"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_indexes</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">area_def</span><span class="p">):</span>
+<div class="viewcode-block" id="get_indexes"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.get_indexes">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_indexes</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">lats</span><span class="p">,</span>
+    <span class="n">lons</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="s2">&quot;memmap&quot;</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Return two 2-D arrays containing the X and Y indexes.</span>
 
@@ -779,9 +1089,22 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># If the filename format needs to change for the pre-generated geolocation</span>
     <span class="c1"># files, please discuss prior to changing.  It will force recreation of all</span>
     <span class="c1"># files, which can be problematic for large numbers of sectors</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span><span class="s2">&quot;GEOINDS&quot;</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">area_def</span><span class="p">)</span>
+    <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span>
+        <span class="s2">&quot;GEOINDS&quot;</span><span class="p">,</span>
+        <span class="n">metadata</span><span class="p">,</span>
+        <span class="n">area_def</span><span class="p">,</span>
+        <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+        <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">fname</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="s2">&quot;GEOINDS: &quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">area_def</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
             <span class="ow">and</span> <span class="n">DONT_AUTOGEN_GEOLOCATION</span>
@@ -891,58 +1214,114 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">fname</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
             <span class="p">)</span>
         <span class="p">)</span>
-        <span class="c1"># Store indicies for sector</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-            <span class="n">samples</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
-        <span class="c1"># Store indicies for sector</span>
-        <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
-        <span class="c1"># ds = xarray.Dataset({&#39;lines&#39;:([&#39;x&#39;],lines),&#39;samples&#39;:([&#39;x&#39;],samples)})</span>
-        <span class="c1"># ds.to_netcdf(fname)</span>
-
-    <span class="c1"># Create a memmap to the lat/lon file</span>
-    <span class="c1"># Nothing will be read until explicitly requested</span>
-    <span class="c1"># We are mapping this here so that the lats and lons are available when calculating</span>
-    <span class="c1"># satlelite angles.</span>
-    <span class="c1"># LOG.info(&#39;GETGEO memmap to %s : inds file for %s, roi_factor %s, res_km %s&#39;,</span>
-    <span class="c1">#          fname, metadata[&#39;scene&#39;], metadata[&#39;roi_factor&#39;], metadata[&#39;res_km&#39;])</span>
-    <span class="c1"># LOG.info(&#39;GETGEO memmap to %s : lat/lon file for %s, roi_factor %s, res_km %s&#39;,</span>
-    <span class="c1">#          fname, metadata[&#39;scene&#39;], metadata[&#39;roi_factor&#39;], metadata[&#39;res_km&#39;])</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;GETGEO memmap to </span><span class="si">%s</span><span class="s2"> : inds file for </span><span class="si">%s</span><span class="s2">, roi_factor </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">fname</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-        <span class="s2">&quot;GETGEO memmap to </span><span class="si">%s</span><span class="s2"> : lat/lon file for </span><span class="si">%s</span><span class="s2">, roi_factor </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-        <span class="n">fname</span><span class="p">,</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">],</span>
-    <span class="p">)</span>
-    <span class="k">try</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+            <span class="c1"># Store indicies for sector</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">fname</span><span class="p">),</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                <span class="n">samples</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="c1"># Store indicies for sector</span>
+            <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
+            <span class="c1"># ds = xarray.Dataset({&#39;lines&#39;:([&#39;x&#39;],lines),&#39;samples&#39;:([&#39;x&#39;],samples)})</span>
+            <span class="c1"># ds.to_netcdf(fname)</span>
+        <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chunk_size</span><span class="p">:</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">chunks</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2"> (chunks=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+            <span class="c1"># NOTE zarr does NOT have a close method, so you can NOT use with context.</span>
+            <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+            <span class="c1"># Assume both arrays have the same shape and dtype</span>
+            <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">lines</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">lines</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+            <span class="p">}</span>
+            <span class="c1"># As of Python 3.11, can&#39;t pass chunks=None into create_dataset</span>
+            <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+                <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunks</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;lines&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;samples&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+            <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">lines</span>
+            <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;samples&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">samples</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;GETGEO to </span><span class="si">%s</span><span class="s2"> : inds file for </span><span class="si">%s</span><span class="s2">, roi_factor </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">fname</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+            <span class="s2">&quot;GETGEO to </span><span class="si">%s</span><span class="s2"> : lat/lon file for </span><span class="si">%s</span><span class="s2">, roi_factor </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">fname</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;roi_factor&quot;</span><span class="p">],</span>
+        <span class="p">)</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">shape</span>
-        <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;GETGEO memmap from </span><span class="si">%s</span><span class="s2"> : lines for </span><span class="si">%s</span><span class="s2">, shape </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">fname</span><span class="p">,</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
-            <span class="n">shape</span><span class="p">,</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+                <span class="c1"># Create a memmap to the lat/lon file</span>
+                <span class="c1"># Nothing will be read until explicitly requested</span>
+                <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
+                <span class="c1"># calculating satlelite angles.</span>
+                <span class="c1"># LOG.info(</span>
+                <span class="c1">#   &#39;GETGEO memmap to %s : inds file for %s, roi_factor %s, res_km %s&#39;,</span>
+                <span class="c1">#   fname,</span>
+                <span class="c1">#   metadata[&#39;scene&#39;],</span>
+                <span class="c1">#   metadata[&#39;roi_factor&#39;],</span>
+                <span class="c1">#   metadata[&#39;res_km&#39;]</span>
+                <span class="c1"># )</span>
+                <span class="c1"># LOG.info(</span>
+                <span class="c1">#   &#39;GETGEO memmap to %s : %s file for %s, roi_factor %s, res_km %s&#39;,</span>
+                <span class="c1">#    fname,</span>
+                <span class="c1">#   &quot;lat/lon&quot;,</span>
+                <span class="c1">#   metadata[&#39;scene&#39;],</span>
+                <span class="c1">#   metadata[&#39;roi_factor&#39;],</span>
+                <span class="c1">#   metadata[&#39;res_km&#39;]</span>
+                <span class="c1"># )</span>
+                <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;GETGEO memmap from </span><span class="si">%s</span><span class="s2"> : lines for </span><span class="si">%s</span><span class="s2">, shape </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">fname</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
+                    <span class="n">shape</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+                <span class="p">)</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;GETGEO memmap from </span><span class="si">%s</span><span class="s2"> : samples for </span><span class="si">%s</span><span class="s2">, offset </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">fname</span><span class="p">,</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
+                    <span class="n">offset</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+                <span class="p">)</span>
+            <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+                <span class="c1"># Load lines/samples from pre-calculated zarr</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                    <span class="s2">&quot;GETGEO zarr to </span><span class="si">{}</span><span class="s2"> : inds file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                        <span class="n">fname</span><span class="p">,</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="c1"># NOTE zarr does NOT have close method, so you can NOT use with context.</span>
+                <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;lines&quot;</span><span class="p">]</span>
+                <span class="n">samples</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;samples&quot;</span><span class="p">]</span>
+                <span class="n">lines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+                <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">samples</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Mismatched geolocation file size (Empty?  No coverage?  Or old &quot;</span>
+                <span class="s2">&quot;sector of different shape?&quot;</span>
+            <span class="p">)</span>
+            <span class="k">raise</span> <span class="n">CachedGeolocationIndexError</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
-            <span class="s2">&quot;GETGEO memmap from </span><span class="si">%s</span><span class="s2"> : samples for </span><span class="si">%s</span><span class="s2">, offset </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">fname</span><span class="p">,</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">],</span>
-            <span class="n">offset</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="n">samples</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">resp</span><span class="p">:</span>
-        <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-            <span class="s2">&quot;Mismatched geolocation file size (Empty?  No coverage?  Or old sector of &quot;</span>
-            <span class="s2">&quot;different shape?&quot;</span>
-        <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">IndexError</span><span class="p">(</span><span class="n">resp</span><span class="p">)</span>
+
     <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
     <span class="c1"># saved_xarray = xarray.load_dataset(fname)</span>
     <span class="c1"># lines= saved_xarray[&#39;lines&#39;].to_masked_array()</span>
@@ -950,114 +1329,232 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">return</span> <span class="n">lines</span><span class="p">,</span> <span class="n">samples</span></div>
 
 
-<div class="viewcode-block" id="calculate_solar_angles"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_solar_angles</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">lats</span><span class="p">,</span> <span class="n">lons</span><span class="p">,</span> <span class="n">dt</span><span class="p">):</span>
+<div class="viewcode-block" id="calculate_solar_angles"><a class="viewcode-back" href="../../../../../../geoips_api/geoips.plugins.modules.readers.utils.html#geoips.plugins.modules.readers.utils.geostationary_geolocation.calculate_solar_angles">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">calculate_solar_angles</span><span class="p">(</span>
+    <span class="n">metadata</span><span class="p">,</span>
+    <span class="n">lats</span><span class="p">,</span>
+    <span class="n">lons</span><span class="p">,</span>
+    <span class="n">dt</span><span class="p">,</span>
+    <span class="n">resource_tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">area_def</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">chunk_size</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">cache_solar_angles</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">scan_datetime</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate solar angles.&quot;&quot;&quot;</span>
     <span class="c1"># If debug is set to True, memory savings will be turned off in order to keep</span>
     <span class="c1"># all calculated results for inspection.</span>
     <span class="c1"># If set to False, variables will attempt to reuse memory when possible which</span>
     <span class="c1"># will result in some results being overwritten when no longer needed.</span>
     <span class="n">debug</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="n">area_def</span><span class="p">:</span>
+        <span class="n">adname</span> <span class="o">=</span> <span class="n">area_def</span><span class="o">.</span><span class="n">area_id</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">adname</span> <span class="o">=</span> <span class="s2">&quot;None&quot;</span>
+    <span class="k">if</span> <span class="n">cache_solar_angles</span><span class="p">:</span>
+        <span class="n">check_geolocation_cache_backend</span><span class="p">(</span><span class="n">geolocation_cache_backend</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="s2">&quot;GEOSOL&quot;</span>
+        <span class="k">if</span> <span class="n">scan_datetime</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">prefix</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;_</span><span class="si">{</span><span class="n">scan_datetime</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y%m</span><span class="si">%d</span><span class="s1">T%H%M%S.</span><span class="si">%f</span><span class="s1">Z&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="n">fname</span> <span class="o">=</span> <span class="n">get_geolocation_cache_filename</span><span class="p">(</span>
+            <span class="n">prefix</span><span class="p">,</span>
+            <span class="n">metadata</span><span class="p">,</span>
+            <span class="n">area_def</span><span class="o">=</span><span class="n">area_def</span><span class="p">,</span>
+            <span class="n">geolocation_cache_backend</span><span class="o">=</span><span class="n">geolocation_cache_backend</span><span class="p">,</span>
+            <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span>
+            <span class="n">solar_angles</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">cache_exists</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">cache_exists</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Calculating solar zenith and azimuth angles.&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;GEO SOLAR ANGLES: </span><span class="si">{</span><span class="n">adname</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">x</span><span class="si">{</span><span class="n">lats</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span>
+            <span class="s2">&quot;None&quot;</span><span class="p">,</span> <span class="s2">&quot;ALL&quot;</span>
+        <span class="p">)</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
     <span class="c1"># Getting good value mask</span>
     <span class="c1"># good = lats &gt; -999</span>
     <span class="c1"># good_lats = lats[good]</span>
     <span class="c1"># good_lons = lons[good]</span>
+    <span class="k">if</span> <span class="n">cache_solar_angles</span> <span class="ow">is</span> <span class="kc">False</span> <span class="ow">or</span> <span class="p">(</span><span class="n">cache_solar_angles</span> <span class="ow">and</span> <span class="n">cache_exists</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="c1"># Constants</span>
+        <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
+        <span class="n">pi2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>  <span class="c1"># NOQA</span>
+        <span class="n">num_lines</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_lines</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">size</span> <span class="o">=</span> <span class="n">num_lines</span> <span class="o">*</span> <span class="n">num_samples</span>  <span class="c1"># NOQA</span>
+        <span class="n">deg2rad</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>  <span class="c1"># NOQA</span>
+        <span class="n">rad2deg</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">pi</span>  <span class="c1"># NOQA</span>
 
-    <span class="c1"># Constants</span>
-    <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span>
-    <span class="n">pi2</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">pi</span>  <span class="c1"># NOQA</span>
-    <span class="n">num_lines</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
-    <span class="n">num_samples</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span>
-    <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">num_lines</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-    <span class="n">size</span> <span class="o">=</span> <span class="n">num_lines</span> <span class="o">*</span> <span class="n">num_samples</span>  <span class="c1"># NOQA</span>
-    <span class="n">deg2rad</span> <span class="o">=</span> <span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span>  <span class="c1"># NOQA</span>
-    <span class="n">rad2deg</span> <span class="o">=</span> <span class="mf">180.0</span> <span class="o">/</span> <span class="n">pi</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># Calculate any non-data dependent quantities</span>
+        <span class="n">jday</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%j&quot;</span><span class="p">))</span>
+        <span class="n">a1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.00554</span> <span class="o">*</span> <span class="n">jday</span> <span class="o">-</span> <span class="mf">6.28306</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
+        <span class="n">a2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.93946</span> <span class="o">*</span> <span class="n">jday</span> <span class="o">-</span> <span class="mf">23.35089</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
+        <span class="n">et</span> <span class="o">=</span> <span class="o">-</span><span class="mf">7.67825</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">10.09176</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>  <span class="c1"># NOQA</span>
 
-    <span class="c1"># Calculate any non-data dependent quantities</span>
-    <span class="n">jday</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%j&quot;</span><span class="p">))</span>
-    <span class="n">a1</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.00554</span> <span class="o">*</span> <span class="n">jday</span> <span class="o">-</span> <span class="mf">6.28306</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
-    <span class="n">a2</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.93946</span> <span class="o">*</span> <span class="n">jday</span> <span class="o">-</span> <span class="mf">23.35089</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">pi</span> <span class="o">/</span> <span class="mf">180.0</span><span class="p">)</span>
-    <span class="n">et</span> <span class="o">=</span> <span class="o">-</span><span class="mf">7.67825</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a1</span><span class="p">)</span> <span class="o">-</span> <span class="mf">10.09176</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">a2</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># Solar declination radians</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating delta&quot;</span><span class="p">)</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">deg2rad</span> <span class="o">*</span> <span class="mf">23.4856</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">0.9683</span> <span class="o">*</span> <span class="n">jday</span> <span class="o">-</span> <span class="mf">78.00878</span><span class="p">))</span>  <span class="c1"># NOQA</span>
 
-    <span class="c1"># Solar declination radians</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating delta&quot;</span><span class="p">)</span>
-    <span class="n">delta</span> <span class="o">=</span> <span class="n">deg2rad</span> <span class="o">*</span> <span class="mf">23.4856</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">deg2rad</span><span class="p">(</span><span class="mf">0.9683</span> <span class="o">*</span> <span class="n">jday</span> <span class="o">-</span> <span class="mf">78.00878</span><span class="p">))</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># Pre-generate sin and cos of latitude</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating sin and cos&quot;</span><span class="p">)</span>
+        <span class="n">sin_lat</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sin(deg2rad * lats)&quot;</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">cos_lat</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(deg2rad * lats)&quot;</span><span class="p">)</span>  <span class="c1"># NOQA</span>
 
-    <span class="c1"># Pre-generate sin and cos of latitude</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating sin and cos&quot;</span><span class="p">)</span>
-    <span class="n">sin_lat</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;sin(deg2rad * lats)&quot;</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-    <span class="n">cos_lat</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(deg2rad * lats)&quot;</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># Hour angle</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initializing hour angle&quot;</span><span class="p">)</span>
+        <span class="n">solar_time</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">minute</span> <span class="o">/</span> <span class="mf">60.0</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">second</span> <span class="o">/</span> <span class="mf">3600.0</span>  <span class="c1"># NOQA</span>
+        <span class="n">h_ang</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;deg2rad * ((solar_time + lons / 15.0 + et / 60.0 - 12.0) * 15.0)&quot;</span>
+        <span class="p">)</span>
 
-    <span class="c1"># Hour angle</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Initializing hour angle&quot;</span><span class="p">)</span>
-    <span class="n">solar_time</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">hour</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">minute</span> <span class="o">/</span> <span class="mf">60.0</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">second</span> <span class="o">/</span> <span class="mf">3600.0</span>  <span class="c1"># NOQA</span>
-    <span class="n">h_ang</span> <span class="o">=</span> <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-        <span class="s2">&quot;deg2rad * ((solar_time + lons / 15.0 + et / 60.0 - 12.0) * 15.0)&quot;</span>
-    <span class="p">)</span>
+        <span class="c1"># Pre-allocate all required arrays</span>
+        <span class="c1"># This avoids having to allocate them again every time the generator is accessed</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Allocating arrays&quot;</span><span class="p">)</span>
+        <span class="n">sun_elev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">h_ang</span><span class="p">)</span>
 
-    <span class="c1"># Pre-allocate all required arrays</span>
-    <span class="c1"># This avoids having to allocate them again every time the generator is accessed</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Allocating arrays&quot;</span><span class="p">)</span>
-    <span class="n">sun_elev</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">h_ang</span><span class="p">)</span>
+        <span class="c1"># Hour angle at all points in radians</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating hour angle&quot;</span><span class="p">)</span>
 
-    <span class="c1"># Hour angle at all points in radians</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating hour angle&quot;</span><span class="p">)</span>
+        <span class="c1"># Sun elevation</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating sun elevation angle using sin and cos&quot;</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;arcsin(sin_lat * sin(delta) + cos_lat * cos(delta) * cos(h_ang))&quot;</span><span class="p">,</span>
+            <span class="n">out</span><span class="o">=</span><span class="n">sun_elev</span><span class="p">,</span>
+        <span class="p">)</span>  <span class="c1"># NOQA</span>
 
-    <span class="c1"># Sun elevation</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating sun elevation angle using sin and cos&quot;</span><span class="p">)</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-        <span class="s2">&quot;arcsin(sin_lat * sin(delta) + cos_lat * cos(delta) * cos(h_ang))&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sun_elev</span>
-    <span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating caz&quot;</span><span class="p">)</span>
+        <span class="c1"># No longer need sin_lat and this saves 3.7GB</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">caz</span> <span class="o">=</span> <span class="n">sin_lat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">caz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">sin_lat</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;-cos_lat * sin(delta) + sin_lat * cos(delta) * cos(h_ang) / cos(sun_elev)&quot;</span><span class="p">,</span>
+            <span class="n">out</span><span class="o">=</span><span class="n">caz</span><span class="p">,</span>
+        <span class="p">)</span>  <span class="c1"># NOQA</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating caz&quot;</span><span class="p">)</span>
-    <span class="c1"># No longer need sin_lat and this saves 3.7GB</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="n">caz</span> <span class="o">=</span> <span class="n">sin_lat</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating az&quot;</span><span class="p">)</span>
+        <span class="c1"># No longer need h_ang and this saves 3.7GB</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">az</span> <span class="o">=</span> <span class="n">h_ang</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">az</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">h_ang</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(delta) * sin(h_ang) / cos(sun_elev)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">az</span><span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="c1"># No longer need sin_lat and this saves 3.7GB</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">cos_lat</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">cos_lat</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;where(az &lt;= -1, -pi / 2.0, where(az &gt; 1, pi / 2.0, arcsin(az)))&quot;</span><span class="p">,</span>
+            <span class="n">out</span><span class="o">=</span><span class="n">sun_azm</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating solar zenith angle&quot;</span><span class="p">)</span>
+        <span class="c1"># No longer need sun_elev and this saves 3.7GB RAM</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
+            <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">sun_elev</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">sun_elev</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;90.0 - rad2deg * sun_elev&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sun_zen</span><span class="p">)</span>
+
+        <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating solar azimuth angle&quot;</span><span class="p">)</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;where(caz &lt;= 0, pi - sun_azm,where(az &lt;= 0, 2.0 * pi + sun_azm, sun_azm))&quot;</span><span class="p">,</span>
+            <span class="n">out</span><span class="o">=</span><span class="n">sun_azm</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">sun_azm</span> <span class="o">+=</span> <span class="n">pi</span>
+        <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
+            <span class="s2">&quot;where(sun_azm &gt; 2.0 * pi, sun_azm - 2.0 * pi, sun_azm)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sun_azm</span>
+        <span class="p">)</span>
+        <span class="c1"># ne.evaluate(&#39;where(caz &lt;= 0, pi - sun_azm, sun_azm) + pi&#39;, out=sun_azm)</span>
+        <span class="c1"># ne.evaluate(&#39;rad2deg * where(sun_azm &lt; 0, sun_azm + pi2, where(sun_azm &gt;= pi2,</span>
+        <span class="c1">#                                                     sun_azm - pi2, sun_azm))&#39;,</span>
+        <span class="c1">#                                                                  out=sun_azm)</span>
+        <span class="k">if</span> <span class="n">cache_solar_angles</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">df</span><span class="p">:</span>
+                    <span class="n">sun_zen</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+                    <span class="n">sun_azm</span><span class="o">.</span><span class="n">tofile</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">chunk_size</span><span class="p">:</span>
+                    <span class="n">chunks</span> <span class="o">=</span> <span class="p">(</span><span class="n">chunk_size</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">chunks</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Storing to </span><span class="si">%s</span><span class="s2"> (chunks=</span><span class="si">%s</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">fname</span><span class="p">,</span> <span class="n">chunks</span><span class="p">)</span>
+                <span class="c1"># NOTE zarr does NOT have close method, so you can NOT use the context.</span>
+                <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;w&quot;</span><span class="p">)</span>
+                <span class="c1"># Assume both arrays have the same shape and dtype</span>
+                <span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;shape&quot;</span><span class="p">:</span> <span class="n">sun_azm</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+                    <span class="s2">&quot;dtype&quot;</span><span class="p">:</span> <span class="n">sun_azm</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span>
+                <span class="p">}</span>
+                <span class="c1"># As of Python 3.11, can&#39;t pass chunks=None into create_dataset</span>
+                <span class="k">if</span> <span class="n">chunks</span><span class="p">:</span>
+                    <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">chunks</span>
+                <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;sun_azm&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">zf</span><span class="o">.</span><span class="n">create_dataset</span><span class="p">(</span><span class="s2">&quot;sun_zen&quot;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+                <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;sun_azm&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">sun_azm</span>
+                <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;sun_zen&quot;</span><span class="p">][:]</span> <span class="o">=</span> <span class="n">sun_zen</span>
+        <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done calculating solar zenith and azimuth angles&quot;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">caz</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">sin_lat</span><span class="p">)</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-        <span class="s2">&quot;-cos_lat * sin(delta) + sin_lat * cos(delta) * cos(h_ang) / cos(sun_elev)&quot;</span><span class="p">,</span>
-        <span class="n">out</span><span class="o">=</span><span class="n">caz</span><span class="p">,</span>
-    <span class="p">)</span>  <span class="c1"># NOQA</span>
+        <span class="k">if</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;memmap&quot;</span><span class="p">:</span>
+            <span class="c1"># Create a memmap to the lat/lon file</span>
+            <span class="c1"># Nothing will be read until explicitly requested</span>
+            <span class="c1"># We are mapping this here so that the lats and lons are available when</span>
+            <span class="c1"># calculating satlelite angles</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;GETGEO memmap to </span><span class="si">{}</span><span class="s2"> : lat/lon file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating az&quot;</span><span class="p">)</span>
-    <span class="c1"># No longer need h_ang and this saves 3.7GB</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="n">az</span> <span class="o">=</span> <span class="n">h_ang</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">az</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">h_ang</span><span class="p">)</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;cos(delta) * sin(h_ang) / cos(sun_elev)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">az</span><span class="p">)</span>  <span class="c1"># NOQA</span>
-    <span class="c1"># No longer need sin_lat and this saves 3.7GB</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">cos_lat</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">cos_lat</span><span class="p">)</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-        <span class="s2">&quot;where(az &lt;= -1, -pi / 2.0, where(az &gt; 1, pi / 2.0, arcsin(az)))&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sun_azm</span>
-    <span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="mi">8</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">]</span> <span class="o">*</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">]</span>
+            <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+            <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">memmap</span><span class="p">(</span>
+                <span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">float64</span><span class="p">,</span> <span class="n">offset</span><span class="o">=</span><span class="n">offset</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="n">shape</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+                    <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">checkpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+                <span class="p">)</span>
+            <span class="c1"># Possible switch to xarray based geolocation files, but we lose memmapping.</span>
+            <span class="c1"># saved_xarray = xarray.load_dataset(fname)</span>
+            <span class="c1"># zen = saved_xarray[&#39;zeniths&#39;].to_masked_array()</span>
+            <span class="c1"># azm = saved_xarray[&#39;azimuths&#39;].to_masked_array()</span>
+        <span class="k">elif</span> <span class="n">geolocation_cache_backend</span> <span class="o">==</span> <span class="s2">&quot;zarr&quot;</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;GETGEO zarr to </span><span class="si">{}</span><span class="s2"> : sun_azm/sun_zen file for </span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+                    <span class="n">fname</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;scene&quot;</span><span class="p">]</span>
+                <span class="p">)</span>
+            <span class="p">)</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_lines&quot;</span><span class="p">],</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">])</span>
+            <span class="c1"># chunk_x, chunk_y = [int(x/100) for x in lats.shape]</span>
+            <span class="c1"># NOTE zarr does NOT have a close method, so you can NOT use with context.</span>
+            <span class="n">zf</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+            <span class="n">sun_azm</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;sun_azm&quot;</span><span class="p">]</span>
+            <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">zf</span><span class="p">[</span><span class="s2">&quot;sun_zen&quot;</span><span class="p">]</span>
 
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating solar zenith angle&quot;</span><span class="p">)</span>
-    <span class="c1"># No longer need sun_elev and this saves 3.7GB RAM</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">debug</span><span class="p">:</span>
-        <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">sun_elev</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">sun_zen</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">empty_like</span><span class="p">(</span><span class="n">sun_elev</span><span class="p">)</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;90.0 - rad2deg * sun_elev&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sun_zen</span><span class="p">)</span>
-
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Calculating solar azimuth angle&quot;</span><span class="p">)</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span>
-        <span class="s2">&quot;where(caz &lt;= 0, pi - sun_azm, where(az &lt;= 0, 2.0 * pi + sun_azm, sun_azm))&quot;</span><span class="p">,</span>
-        <span class="n">out</span><span class="o">=</span><span class="n">sun_azm</span><span class="p">,</span>
-    <span class="p">)</span>
-    <span class="n">sun_azm</span> <span class="o">+=</span> <span class="n">pi</span>
-    <span class="n">ne</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="s2">&quot;where(sun_azm &gt; 2.0 * pi, sun_azm - 2.0 * pi, sun_azm)&quot;</span><span class="p">,</span> <span class="n">out</span><span class="o">=</span><span class="n">sun_azm</span><span class="p">)</span>
-    <span class="c1"># ne.evaluate(&#39;where(caz &lt;= 0, pi - sun_azm, sun_azm) + pi&#39;, out=sun_azm)</span>
-    <span class="c1"># ne.evaluate(&#39;rad2deg * where(sun_azm &lt; 0, sun_azm + pi2, where(sun_azm &gt;= pi2,</span>
-    <span class="c1">#                                                         sun_azm - pi2, sun_azm))&#39;,</span>
-    <span class="c1">#                                                                       out=sun_azm)</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Done calculating solar zenith and azimuth angles&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">resource_tracker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">resource_tracker</span><span class="o">.</span><span class="n">track_resource_usage</span><span class="p">(</span>
+            <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;MEMUSG&quot;</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span> <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">sun_zen</span><span class="p">,</span> <span class="n">sun_azm</span></div>
 </pre></div>

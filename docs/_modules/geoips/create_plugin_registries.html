@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.create_plugin_registries &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.create_plugin_registries &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -443,7 +443,7 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">util</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">importlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">resources</span><span class="p">,</span> <span class="n">util</span><span class="p">,</span> <span class="n">import_module</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">inspect</span><span class="w"> </span><span class="kn">import</span> <span class="n">signature</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">basename</span><span class="p">,</span>
@@ -451,14 +451,12 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">split</span><span class="p">,</span>
     <span class="n">splitext</span><span class="p">,</span>
     <span class="n">exists</span><span class="p">,</span>
-    <span class="n">join</span> <span class="k">as</span> <span class="n">osjoin</span><span class="p">,</span>
-    <span class="n">relpath</span> <span class="k">as</span> <span class="n">osrelpath</span><span class="p">,</span>
+    <span class="n">join</span> <span class="k">as</span> <span class="n">os_join</span><span class="p">,</span>
+    <span class="n">relpath</span> <span class="k">as</span> <span class="n">os_relpath</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">remove</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">re</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.commandline.log_setup</span><span class="w"> </span><span class="kn">import</span> <span class="n">setup_logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">geoips.interfaces</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.errors</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistryError</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
@@ -571,14 +569,14 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># readable than json), and json output is used for processing. Ensure we</span>
         <span class="c1"># can load either option.</span>
         <span class="k">if</span> <span class="n">save_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
-            <span class="n">comp_registry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span>
-                <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">registry_fname</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">registry_fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reg_file</span><span class="p">:</span>
+                <span class="n">comp_registry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">reg_file</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># json.load is much faster than yaml.safe_load</span>
-            <span class="n">comp_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
-                <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-            <span class="p">)</span>
+            <span class="n">registry_fname</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span>
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">registry_fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reg_file</span><span class="p">:</span>
+                <span class="n">comp_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">reg_file</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">pkg_idx</span><span class="p">,</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">):</span>
             <span class="c1"># pkg is the package being compared against comp_pkg. For example, if</span>
             <span class="c1"># comp_pkg was &#39;geoips&#39;, then it would compare against recenter_tc,</span>
@@ -592,13 +590,13 @@ window.addEventListener("load", () => mermaid.run());
             <span class="c1"># Track sets of plugins by plugin type</span>
             <span class="c1"># (schemas, yaml_based, and module_based)</span>
             <span class="k">if</span> <span class="n">save_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
-                <span class="n">pkg_registry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span>
-                    <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="n">registry_fname</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">registry_fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reg_file</span><span class="p">:</span>
+                    <span class="n">pkg_registry</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">reg_file</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="n">pkg_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
-                    <span class="nb">open</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span>
-                <span class="p">)</span>
+                <span class="n">registry_fname</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span>
+                <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">registry_fname</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">reg_file</span><span class="p">:</span>
+                    <span class="n">pkg_registry</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">reg_file</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">plugin_type</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">pkg_registry</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
                 <span class="c1"># check the pkg&#39;s registry for both yaml-based and module-based plugins</span>
                 <span class="k">for</span> <span class="n">interface</span> <span class="ow">in</span> <span class="n">comp_registry</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">]:</span>
@@ -667,9 +665,9 @@ window.addEventListener("load", () => mermaid.run());
 <span class="s2">                                                You can&#39;t have two products of the same</span>
 <span class="s2">                                                interface [</span><span class="si">{}</span><span class="s2">] with the same</span>
 <span class="s2">                                                plugin name [</span><span class="si">{}</span><span class="s2">] found under</span>
-<span class="s2">                                                subplg name [</span><span class="si">{}</span><span class="s2">]</span>
+<span class="s2">                                                sub_plg name [</span><span class="si">{}</span><span class="s2">]</span>
 <span class="s2">                                                relpath: </span><span class="si">{}</span>
-<span class="s2">                                                subplg relpath: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
+<span class="s2">                                                sub_plg relpath: </span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span>
                                                 <span class="n">comp_pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                 <span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span>
                                                 <span class="n">interface</span><span class="p">,</span>
@@ -738,18 +736,18 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">    No returns, file written to `pkg_dir`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">save_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>
-        <span class="n">reg_plug_abspath</span> <span class="o">=</span> <span class="n">osjoin</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
+        <span class="n">reg_plug_abspath</span> <span class="o">=</span> <span class="n">os_join</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reg_plug_abspath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">plugin_registry</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reg_plug_abspath</span><span class="p">)</span>
             <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="n">plugin_registry</span><span class="p">,</span> <span class="n">default_flow_style</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">reg_plug_abspath</span> <span class="o">=</span> <span class="n">osjoin</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">)</span>
+        <span class="n">reg_plug_abspath</span> <span class="o">=</span> <span class="n">os_join</span><span class="p">(</span><span class="n">pkg_dir</span><span class="p">,</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">)</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">reg_plug_abspath</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">plugin_registry</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span><span class="s2">&quot;Writing </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">reg_plug_abspath</span><span class="p">)</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">plugins</span><span class="p">,</span> <span class="n">plugin_registry</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="create_plugin_registries"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.create_plugin_registries">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_plugin_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">):</span>
+<div class="viewcode-block" id="create_plugin_registries"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.create_plugin_registries">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">create_plugin_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all plugin paths associated with every installed GeoIPS packages.</span>
 
 <span class="sd">    These paths include schema plugins, module_based plugins</span>
@@ -765,6 +763,10 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        [EntryPoint(name=&#39;geoips&#39;, value=&#39;geoips&#39;, group=&#39;geoips.plugin_packages&#39;), ...]</span>
 <span class="sd">    save_type: str</span>
 <span class="sd">        The file format to save to [json, yaml]</span>
+<span class="sd">    namespace: str</span>
+<span class="sd">        Namespace that your plugin packages fall under. The argument parser defaults</span>
+<span class="sd">        this value to &#39;geoips.plugin_packages&#39;, but a user can create separate</span>
+<span class="sd">        namespaces if developing interfaces outside of the main GeoIPS package.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># It appears when there is *.egg-info directory, it picks that package up</span>
     <span class="c1"># twice in the list.  If the same package path exists twice, only keep one</span>
@@ -775,7 +777,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="c1"># so we do not need to worry about saving the &quot;wrong&quot; package here.</span>
     <span class="c1"># We are actually looping through all the files in each package, so</span>
     <span class="c1"># we do not have an entry point for every plugin, just a single entry</span>
-    <span class="c1"># point for each plugin packge.</span>
+    <span class="c1"># point for each plugin package.</span>
     <span class="k">for</span> <span class="n">ep</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
         <span class="n">pkg_dir</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">ep</span><span class="o">.</span><span class="n">value</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">pkg_dir</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">pkg_dirs</span><span class="p">:</span>
@@ -825,10 +827,10 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># type (ie, yaml based, text based, and module based plugins, and</span>
         <span class="c1"># in the future potentially schema)</span>
         <span class="n">plugin_paths</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;yamls&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">yaml_files</span><span class="p">),</span>
+            <span class="s2">&quot;yaml&quot;</span><span class="p">:</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">yaml_files</span><span class="p">),</span>
             <span class="s2">&quot;text&quot;</span><span class="p">:</span> <span class="n">text_files</span><span class="p">,</span>
             <span class="c1"># &quot;schemas&quot;: schema_yamls,</span>
-            <span class="s2">&quot;pyfiles&quot;</span><span class="p">:</span> <span class="n">python_files</span><span class="p">,</span>
+            <span class="s2">&quot;py_files&quot;</span><span class="p">:</span> <span class="n">python_files</span><span class="p">,</span>
         <span class="p">}</span>
         <span class="c1"># `plugins` is passed by reference and populated with all YAML, text, and</span>
         <span class="c1"># python plugins found within the current plugin package `package`.</span>
@@ -837,7 +839,9 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># If any errors are found, append the error message string to the current</span>
         <span class="c1"># error_message.  Do not raise an exception until all plugins have been</span>
         <span class="c1"># read in, so we can collect and report on all errors at once.</span>
-        <span class="n">error_message</span> <span class="o">+=</span> <span class="n">parse_plugin_paths</span><span class="p">(</span><span class="n">plugin_paths</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">pkg_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">)</span>
+        <span class="n">error_message</span> <span class="o">+=</span> <span class="n">parse_plugin_paths</span><span class="p">(</span>
+            <span class="n">plugin_paths</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">pkg_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">namespace</span>
+        <span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Available Plugin Types:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
             <span class="s2">&quot;Available YAML Plugin Interfaces:</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
@@ -854,7 +858,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="c1"># Remove all registries to prevent running geoips with an incomplete</span>
         <span class="c1"># or corrupt set of plugins.  Force user to resolve errors before</span>
         <span class="c1"># proceeding.</span>
-        <span class="n">remove_registries</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">))</span>
+        <span class="n">remove_registries</span><span class="p">(</span><span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">namespace</span><span class="p">))</span>
         <span class="c1"># Now raise the error, including the error message with output</span>
         <span class="c1"># from every failed plugin/file during the attempted registry process.</span>
         <span class="k">raise</span> <span class="n">PluginRegistryError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span>
@@ -864,7 +868,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">registry_sanity_check</span><span class="p">(</span><span class="n">unique_package_entry_points</span><span class="p">,</span> <span class="n">save_type</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="parse_plugin_paths"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.parse_plugin_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parse_plugin_paths</span><span class="p">(</span><span class="n">plugin_paths</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+<div class="viewcode-block" id="parse_plugin_paths"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.parse_plugin_paths">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">parse_plugin_paths</span><span class="p">(</span><span class="n">plugin_paths</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">package_dir</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Parse the plugin_paths provided from the current installed GeoIPS package.</span>
 
 <span class="sd">    Then, add them to the plugins dictionary based on the path of the plugin.</span>
@@ -881,6 +885,10 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        The path to the current GeoIPS package (for determining relative paths)</span>
 <span class="sd">    plugins: dict</span>
 <span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+<span class="sd">    namespace: str</span>
+<span class="sd">        Namespace that your plugin packages fall under. The argument parser defaults</span>
+<span class="sd">        this value to &#39;geoips.plugin_packages&#39;, but a user can create separate</span>
+<span class="sd">        namespaces if developing interfaces outside of the main GeoIPS package.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -899,12 +907,12 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">for</span> <span class="n">filepath</span> <span class="ow">in</span> <span class="n">plugin_paths</span><span class="p">[</span><span class="n">plugin_type</span><span class="p">]:</span>
             <span class="n">filepath</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
             <span class="c1"># Path relative to the package directory</span>
-            <span class="n">relpath</span> <span class="o">=</span> <span class="n">osrelpath</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">package_dir</span><span class="p">)</span>
+            <span class="n">relpath</span> <span class="o">=</span> <span class="n">os_relpath</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">package_dir</span><span class="p">)</span>
             <span class="c1"># plugins is passed by reference, so any new plugins found</span>
             <span class="c1"># are added to the plugins dictionary and retained throughout.</span>
-            <span class="k">if</span> <span class="n">plugin_type</span> <span class="o">==</span> <span class="s2">&quot;yamls&quot;</span><span class="p">:</span>  <span class="c1"># yaml based plugins</span>
+            <span class="k">if</span> <span class="n">plugin_type</span> <span class="o">==</span> <span class="s2">&quot;yaml&quot;</span><span class="p">:</span>  <span class="c1"># yaml based plugins</span>
                 <span class="n">error_message</span> <span class="o">+=</span> <span class="n">add_yaml_plugin</span><span class="p">(</span>
-                    <span class="n">filepath</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">]</span>
+                    <span class="n">filepath</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">[</span><span class="s2">&quot;yaml_based&quot;</span><span class="p">],</span> <span class="n">namespace</span>
                 <span class="p">)</span>
             <span class="c1"># Ensure we append any errors to the error_message as we go.</span>
             <span class="c1"># Exception will not be raised until the very end, when we</span>
@@ -928,7 +936,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="k">return</span> <span class="n">error_message</span></div>
 
 
-<div class="viewcode-block" id="add_yaml_plugin"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.add_yaml_plugin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_yaml_plugin</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">):</span>
+<div class="viewcode-block" id="add_yaml_plugin"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.add_yaml_plugin">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">add_yaml_plugin</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">relpath</span><span class="p">,</span> <span class="n">package</span><span class="p">,</span> <span class="n">plugins</span><span class="p">,</span> <span class="n">namespace</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Add the yaml plugin associated with the filepaths and package to plugins.</span>
 
 <span class="sd">    Parameters</span>
@@ -941,6 +949,10 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        The current GeoIPS package being parsed</span>
 <span class="sd">    plugins: dict</span>
 <span class="sd">        A dictionary object of all installed GeoIPS package plugins</span>
+<span class="sd">    namespace: str</span>
+<span class="sd">        Namespace that your plugin packages fall under. The argument parser defaults</span>
+<span class="sd">        this value to &#39;geoips.plugin_packages&#39;, but a user can create separate</span>
+<span class="sd">        namespaces if developing interfaces outside of the main GeoIPS package.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -952,7 +964,12 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">        reporting them all at once, to facilitate rapidly identifying and</span>
 <span class="sd">        resolving errors.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">yaml</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">SafeLoader</span><span class="p">):</span>
+    <span class="c1"># Since this function always loads all plugins, loading them up front should be</span>
+    <span class="c1"># fine. It might be good to refactor this at some point. This is a quick fix.</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filepath</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">plugin_file</span><span class="p">:</span>
+        <span class="n">new_plugins</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">load_all</span><span class="p">(</span><span class="n">plugin_file</span><span class="p">,</span> <span class="n">Loader</span><span class="o">=</span><span class="n">yaml</span><span class="o">.</span><span class="n">SafeLoader</span><span class="p">))</span>
+
+    <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">new_plugins</span><span class="p">:</span>
         <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;relpath&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">relpath</span>
         <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">package</span>
 
@@ -963,7 +980,11 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="sa">f</span><span class="s2">&quot;&quot;&quot;No &#39;interface&#39; level in &#39;</span><span class="si">{</span><span class="n">filepath</span><span class="si">}</span><span class="s2">&#39;.</span>
 <span class="s2">                    Ensure all required metadata is included.&quot;&quot;&quot;</span>
             <span class="p">)</span>
-        <span class="n">interface_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">namespace</span> <span class="o">!=</span> <span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">:</span>
+            <span class="n">mod</span> <span class="o">=</span> <span class="n">import_module</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
+            <span class="n">interface_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">interfaces</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">interface_module</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">geoips</span><span class="o">.</span><span class="n">interfaces</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">interface_name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">interface_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugins</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
@@ -1042,7 +1063,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="c1"># second pass in the plugin registry creation to fill in the</span>
                     <span class="c1"># nulls (but we will not worry about that yet)</span>
                     <span class="c1"># if not docstring or not family:</span>
-                    <span class="c1">#     # if the yaml_subplg doesn&#39;t include a docstring, grab its</span>
+                    <span class="c1">#     # if the yaml_sub_plg doesn&#39;t include a docstring, grab its</span>
                     <span class="c1">#     # product_defaults docstring</span>
                     <span class="c1">#     if (</span>
                     <span class="c1">#         &quot;product_defaults&quot; not in plugins</span>
@@ -1060,7 +1081,7 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="c1">#         if not family:</span>
                     <span class="c1">#             family = plugins[&quot;product_defaults&quot;][pd][&quot;family&quot;]</span>
                     <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">subplg_source</span><span class="p">][</span><span class="n">subplg_product</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-                        <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">),</span>
+                        <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">format_docstring</span><span class="p">(</span><span class="n">docstring</span><span class="p">)),</span>
                         <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">family</span><span class="p">,</span>
                         <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">interface_module</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
                         <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">],</span>
@@ -1079,14 +1100,25 @@ window.addEventListener("load", () => mermaid.run());
             <span class="c1"># Since this is not a product plugin, we can ensure that these top-level</span>
             <span class="c1"># attributes should exist. Don&#39;t include product_defaults or source_names in</span>
             <span class="c1"># this info, because it doesn&#39;t apply to this type of plugin.</span>
-            <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]),</span>
-                <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">],</span>
-                <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="p">,</span>
-                <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;yaml_based&quot;</span><span class="p">,</span>
-                <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">relpath</span><span class="p">,</span>
-            <span class="p">}</span>
+            <span class="k">if</span> <span class="s2">&quot;docstring&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">plugin</span><span class="p">:</span>
+                <span class="n">error_message</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">                Error with package &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;package&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;:</span>
+<span class="s2">                    docstring or family not defined in product</span>
+<span class="s2">                    Must specify docstring and family in either product</span>
+<span class="s2">                    or product_defaults.</span>
+<span class="s2">                    interface &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                    plugin name &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;</span>
+<span class="s2">                    pkg relpath: &#39;</span><span class="si">{</span><span class="n">relpath</span><span class="si">}</span><span class="s2">&#39;</span><span class="se">\n</span><span class="s2">&quot;&quot;&quot;</span>
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">plugins</span><span class="p">[</span><span class="n">interface_name</span><span class="p">][</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{</span>
+                    <span class="s2">&quot;docstring&quot;</span><span class="p">:</span> <span class="n">format_docstring</span><span class="p">(</span><span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;docstring&quot;</span><span class="p">]),</span>
+                    <span class="s2">&quot;family&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;family&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">plugin</span><span class="p">[</span><span class="s2">&quot;interface&quot;</span><span class="p">],</span>
+                    <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="n">package</span><span class="p">,</span>
+                    <span class="s2">&quot;plugin_type&quot;</span><span class="p">:</span> <span class="s2">&quot;yaml_based&quot;</span><span class="p">,</span>
+                    <span class="s2">&quot;relpath&quot;</span><span class="p">:</span> <span class="n">relpath</span><span class="p">,</span>
+                <span class="p">}</span>
     <span class="k">return</span> <span class="n">error_message</span></div>
 
 
@@ -1343,43 +1375,18 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">help</span><span class="o">=</span><span class="s2">&quot;Package name to create registries for. If not specified, run on all.&quot;</span><span class="p">,</span>
     <span class="p">)</span>
+    <span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+        <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;--namespace&quot;</span><span class="p">,</span>
+        <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+        <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">,</span>
+        <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+            <span class="s2">&quot;Namespace that your plugin packages fall under. Defaults to geoips, but a &quot;</span>
+            <span class="s2">&quot;user can create separate namespaces if developing interfaces outside of &quot;</span>
+            <span class="s2">&quot;the main GeoIPS package.&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
     <span class="k">return</span> <span class="n">parser</span></div>
-
-
-<div class="viewcode-block" id="main"><a class="viewcode-back" href="../../geoips_api/geoips.html#geoips.create_plugin_registries.main">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Generate all available plugins from all installed GeoIPS packages.</span>
-
-<span class="sd">    After all plugins have been generated, they are written to registered_plugins.yaml</span>
-<span class="sd">    containing a dictionary of all the registered GeoIPS plugins. Keys in this</span>
-<span class="sd">    dictionary are the interface names, following by each plugin name.</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    args: list</span>
-<span class="sd">        List of strings representing the arguments provided via command line.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">parser</span> <span class="o">=</span> <span class="n">get_parser</span><span class="p">()</span>
-
-    <span class="n">ARGS</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">()</span>
-    <span class="n">save_type</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">save_type</span>
-    <span class="n">package_name</span> <span class="o">=</span> <span class="n">ARGS</span><span class="o">.</span><span class="n">package_name</span>
-
-    <span class="n">LOG</span> <span class="o">=</span> <span class="n">setup_logging</span><span class="p">(</span><span class="n">logging_level</span><span class="o">=</span><span class="s2">&quot;INTERACTIVE&quot;</span><span class="p">)</span>
-    <span class="c1"># Note: Python 3.9 appears to return duplicates when installed with setuptools.</span>
-    <span class="c1"># These are filtered within the create_plugin_registries function.</span>
-    <span class="n">plugin_packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">package_name</span><span class="p">:</span>
-        <span class="k">for</span> <span class="n">plugin_package</span> <span class="ow">in</span> <span class="n">plugin_packages</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">plugin_package</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="n">package_name</span><span class="p">:</span>
-                <span class="n">use_plugin_package</span> <span class="o">=</span> <span class="n">plugin_package</span>
-        <span class="n">plugin_packages</span> <span class="o">=</span> <span class="p">[</span><span class="n">use_plugin_package</span><span class="p">]</span>
-    <span class="n">LOG</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">)</span>
-    <span class="n">create_plugin_registries</span><span class="p">(</span><span class="n">plugin_packages</span><span class="p">,</span> <span class="n">save_type</span><span class="p">)</span>
-    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
-
-
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
-    <span class="n">main</span><span class="p">()</span>
 </pre></div>
 
                 </article>

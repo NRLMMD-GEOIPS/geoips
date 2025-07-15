@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips.commandline package &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.commandline package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -482,7 +482,10 @@
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="geoips.commandline.ancillary_info.html">geoips.commandline.ancillary_info package</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="geoips.commandline.ancillary_info.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.ancillary_info.html#module-geoips.commandline.ancillary_info.test_data">geoips.commandline.ancillary_info.test_data module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.commandline.ancillary_info.html#module-geoips.commandline.ancillary_info.test_data">geoips.commandline.ancillary_info.test_data module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.commandline.ancillary_info.html#geoips.commandline.ancillary_info.test_data.load_test_dataset_urls"><code class="docutils literal notranslate"><span class="pre">load_test_dataset_urls()</span></code></a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.commandline.ancillary_info.html#module-geoips.commandline.ancillary_info">Module contents</a></li>
 </ul>
 </li>
@@ -680,7 +683,7 @@ more recently than the json cmd_instructions</p></li>
 ‘geoips list’ and ‘geoips run’</p>
 <dl class="py class">
 <dt class="sig sig-object py" id="geoips.commandline.commandline_interface.GeoipsCLI">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.commandline_interface.</span></span><span class="sig-name descname"><span class="pre">GeoipsCLI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instructions_dir</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/commandline_interface.html#GeoipsCLI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.commandline_interface.GeoipsCLI" title="Permalink to this definition">#</a></dt>
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.commandline_interface.</span></span><span class="sig-name descname"><span class="pre">GeoipsCLI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd_instructions</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/commandline_interface.html#GeoipsCLI"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.commandline_interface.GeoipsCLI" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsCommand" title="geoips.commandline.geoips_command.GeoipsCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsCommand</span></code></a></p>
 <p>Top-Level Class for the GeoIPS Commandline Interface (CLI).</p>
 <p>This class includes a list of Command Classes, which will implement the core
@@ -705,9 +708,28 @@ functionality of the CLI. This includes the following as of right now:
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="geoips.commandline.commandline_interface.deprecate_create_plugin_registries">
+<span class="sig-prename descclassname"><span class="pre">geoips.commandline.commandline_interface.</span></span><span class="sig-name descname"><span class="pre">deprecate_create_plugin_registries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/commandline_interface.html#deprecate_create_plugin_registries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.commandline_interface.deprecate_create_plugin_registries" title="Permalink to this definition">#</a></dt>
+<dd><p>Deprecate the ‘create_plugin_registries’ command if it was supplied.</p>
+<p>If ‘create_plugin_registries’ was called, convert that command to
+‘geoips config create-registries’ and print a deprecation warning. These two
+commands are equivalent, however we are transitioning to the sole use of the CLI
+rather than unconnected console scripts.</p>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="geoips.commandline.commandline_interface.main">
-<span class="sig-prename descclassname"><span class="pre">geoips.commandline.commandline_interface.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/commandline_interface.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.commandline_interface.main" title="Permalink to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">geoips.commandline.commandline_interface.</span></span><span class="sig-name descname"><span class="pre">main</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">suppress_args</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/commandline_interface.html#main"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.commandline_interface.main" title="Permalink to this definition">#</a></dt>
 <dd><p>Entry point for GeoIPS command line interface (CLI).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>suppress_args</strong> (<em>bool</em><em>, </em><em>(</em><em>default=True</em><em>)</em>) – <ul class="simple">
+<li><p>Whether or not we want to suppress the arguments returned from the CLI.
+If False, return the argument namespace. Used for unit testing.</p></li>
+</ul>
+</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py function">
@@ -746,6 +768,44 @@ the CLI’s argparser can call the appropriate functionality.</p>
 <p>Will implement a plethora of commands, but for the meantime, we’ll work on
 ‘geoips config’,’geoips describe’, ‘geoips list’, ‘geoips run’, ‘geoips test’, and
 ‘geoips validate’.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_command.AlphabeticalHelpFormatter">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_command.</span></span><span class="sig-name descname"><span class="pre">AlphabeticalHelpFormatter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">prog</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">indent_increment</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">2</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">max_help_position</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">24</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">width</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#AlphabeticalHelpFormatter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.AlphabeticalHelpFormatter" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">RawTextHelpFormatter</span></code></p>
+<p>Help message formatter with arguments sorted alphabetically.</p>
+<p>This custom formatter extends RawTextHelpFormatter to sort command-line
+arguments alphabetically when displaying help messages.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_command.AlphabeticalHelpFormatter.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#AlphabeticalHelpFormatter.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.AlphabeticalHelpFormatter.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Sort command-line arguments via alphabetical order when added to a parser.</p>
+<p>This method takes a list of argument actions (positional or flag argument
+strings) and sorts them alphabetically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>actions</strong> (<em>list</em>) – A collection of command-line argument definitions to be sorted.</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Sorting works as follows:</p>
+<ul class="simple">
+<li><p>For arguments with option flags (like -h or –help),
+it uses the first option flag for ordering.</p></li>
+<li><p>For arguments without option flags, it uses the argument’s name.</p></li>
+<li><p>For arguments with aliases flags (like config or conf),
+it uses the non-alias action word for ordering.</p></li>
+</ul>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">formatter_class</span><span class="o">=</span><span class="n">SortingHelpFormatter</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-z&#39;</span><span class="p">,</span> <span class="s1">&#39;--zeta&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;-a&#39;</span><span class="p">,</span> <span class="s1">&#39;--alpha&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Help text will show &#39;-a, --alpha&#39; before &#39;-z, --zeta&#39;</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py class">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_command.CommandClassFactory">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_command.</span></span><span class="sig-name descname"><span class="pre">CommandClassFactory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">base_class</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">class_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_attrs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_command.html#CommandClassFactory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_command.CommandClassFactory" title="Permalink to this definition">#</a></dt>
@@ -864,13 +924,18 @@ shared amongst all of its child commands. As such, every argument created by
 the class matches the structure &lt;class_name&gt;_parser, then the arguments will be
 shared correctly.</p>
 <dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_command.ParentParsers.config_parser">
+<span class="sig-name descname"><span class="pre">config_parser</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ArgumentParser(prog='build_docs.py',</span> <span class="pre">usage=None,</span> <span class="pre">description=None,</span> <span class="pre">formatter_class=&lt;class</span> <span class="pre">'argparse.HelpFormatter'&gt;,</span> <span class="pre">conflict_handler='error',</span> <span class="pre">add_help=False)</span></em><a class="headerlink" href="#geoips.commandline.geoips_command.ParentParsers.config_parser" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_command.ParentParsers.geoips_parser">
-<span class="sig-name descname"><span class="pre">geoips_parser</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ArgumentParser(prog='build_docs.py',</span> <span class="pre">usage=None,</span> <span class="pre">description=None,</span> <span class="pre">formatter_class=&lt;class</span> <span class="pre">'argparse.HelpFormatter'&gt;,</span> <span class="pre">conflict_handler='error',</span> <span class="pre">add_help=True)</span></em><a class="headerlink" href="#geoips.commandline.geoips_command.ParentParsers.geoips_parser" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">geoips_parser</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ArgumentParser(prog='build_docs.py',</span> <span class="pre">usage=None,</span> <span class="pre">description=None,</span> <span class="pre">formatter_class=&lt;class</span> <span class="pre">'geoips.commandline.geoips_command.AlphabeticalHelpFormatter'&gt;,</span> <span class="pre">conflict_handler='error',</span> <span class="pre">add_help=True)</span></em><a class="headerlink" href="#geoips.commandline.geoips_command.ParentParsers.geoips_parser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_command.ParentParsers.list_parser">
-<span class="sig-name descname"><span class="pre">list_parser</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ArgumentParser(prog='build_docs.py',</span> <span class="pre">usage=None,</span> <span class="pre">description=None,</span> <span class="pre">formatter_class=&lt;class</span> <span class="pre">'argparse.HelpFormatter'&gt;,</span> <span class="pre">conflict_handler='error',</span> <span class="pre">add_help=False)</span></em><a class="headerlink" href="#geoips.commandline.geoips_command.ParentParsers.list_parser" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">list_parser</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">ArgumentParser(prog='build_docs.py',</span> <span class="pre">usage=None,</span> <span class="pre">description=None,</span> <span class="pre">formatter_class=&lt;class</span> <span class="pre">'geoips.commandline.geoips_command.AlphabeticalHelpFormatter'&gt;,</span> <span class="pre">conflict_handler='error',</span> <span class="pre">add_help=False)</span></em><a class="headerlink" href="#geoips.commandline.geoips_command.ParentParsers.list_parser" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -904,12 +969,58 @@ the user.</p>
 <p>Config top-level command for configuring your GeoIPS environment.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfig.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstall'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstall'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigInstallGithub'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigCreateRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfig.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'config'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfig.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreateRegistries">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">GeoipsConfigCreateRegistries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigCreateRegistries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Config Command Class for creating plugin registries for plugin packages.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigCreateRegistries.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the config-subparser for the Config Command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'create-registries'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">GeoipsConfigDeleteRegistries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigDeleteRegistries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Config Command Class for deleting plugin registries for plugin packages.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigDeleteRegistries.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the config-subparser for the Config Command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'delete-registries'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -956,7 +1067,7 @@ associated files and directories together.</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously">
-<span class="sig-name descname"><span class="pre">extract_data_cautiously</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">response</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigInstall.extract_data_cautiously"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">extract_data_cautiously</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filepath</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">download_dir</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigInstall.extract_data_cautiously"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously" title="Permalink to this definition">#</a></dt>
 <dd><p>Extract the GET Response cautiously and skip any dangerous members.</p>
 <p>Iterate through a Response and check that each member is not dangerous to
 extract to your machine. If it is, skip it.</p>
@@ -966,8 +1077,8 @@ when downloading test data.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>response</strong> (<em>Requests Response Object</em>) – <ul>
-<li><p>The GET Response from retrieving the data url</p></li>
+<li><p><strong>filepath</strong> (<em>str</em>) – <ul>
+<li><p>The path to the temporary file to extract from.</p></li>
 </ul>
 </p></li>
 <li><p><strong>download_dir</strong> (<em>str</em>) – <ul>
@@ -988,6 +1099,31 @@ when downloading test data.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstall.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'install'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstallGithub">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_config.</span></span><span class="sig-name descname"><span class="pre">GeoipsConfigInstallGithub</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigInstallGithub"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Config Command Class for installing packages/data.</p>
+<p>Supports installation of packages and test data needed for testing and/or running
+your GeoIPS environment via github repositories.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstallGithub.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_config.html#GeoipsConfigInstallGithub.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the config-subparser for the Config Command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstallGithub.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_config.GeoipsConfigInstallGithub.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'install-github'</span></em><a class="headerlink" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1297,7 +1433,7 @@ calling this command is shown below, outputted in a yaml-based format.</p>
 <p>Top-Level List Command for listing off GeoIPS Artifacts.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsList.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceWorkflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListInterfaces'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPackages'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPlugins'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListScripts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListSourceNames'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListTestDatasets'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListUnitTests'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsList.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceAlgorithms'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceColormappers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceCoverage-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceDatabases'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFeature-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceFilename-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceGridline-Annotators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceInterpolators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Checkers'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceOutput-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProcflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProduct-Defaults'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceProducts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceReaders'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Adjusters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Metadata-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSector-Spec-Generators'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceSectors'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceTitle-Formatters'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'abc.GeoipsListSingleInterfaceWorkflows'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListInterfaces'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPackages'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListPlugins'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListRegistries'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListScripts'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListSourceNames'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListTestDatasets'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_list.GeoipsListUnitTests'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsList.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1456,6 +1592,31 @@ implemented in such package[s].</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsListPlugins.name">
 <span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'plugins'</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsListPlugins.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsListRegistries">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_list.</span></span><span class="sig-name descname"><span class="pre">GeoipsListRegistries</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_list.html#GeoipsListRegistries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsListRegistries" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>List Command for listing out plugin registries from installed plugin packages.</p>
+<p>This command is used to easily expose what plugin packages have plugin registries
+created.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsListRegistries.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_list.html#GeoipsListRegistries.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsListRegistries.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the list-subparser for the List Registries Command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsListRegistries.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsListRegistries.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_list.GeoipsListRegistries.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'registries'</span></em><a class="headerlink" href="#geoips.commandline.geoips_list.GeoipsListRegistries.name" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -1635,7 +1796,7 @@ unique source_name which they support.</p></li>
 <p>Run Command for running process-workflows (procflows).</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRun.command_classes">
-<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunSingleSource'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunDataFusion'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunConfigBased'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRun.command_classes" title="Permalink to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunDataFusion'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunConfigBased'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunOrderBased'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_run.GeoipsRunSingleSource'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRun.command_classes" title="Permalink to this definition">#</a></dt>
 <dd></dd></dl>
 
 <dl class="py attribute">
@@ -1692,6 +1853,36 @@ unique source_name which they support.</p></li>
 </dd></dl>
 
 <dl class="py class">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_run.</span></span><span class="sig-name descname"><span class="pre">GeoipsRunOrderBased</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased" title="Permalink to this definition">#</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
+<p>Run command for executing an order based process-workflow (procflow).</p>
+<p>Makes use of workflow plugins and additional commandline arguments that single
+source would use.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.add_arguments">
+<span class="sig-name descname"><span class="pre">add_arguments</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunOrderBased.add_arguments"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.add_arguments" title="Permalink to this definition">#</a></dt>
+<dd><p>Add arguments to the run-subparser for the ‘run order-based’ command.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.command_classes">
+<span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[]</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.command_classes" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'order_based'</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.name" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunOrderBased.warning">
+<span class="sig-name descname"><span class="pre">warning</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'\x1b[31m\nWARNING:</span> <span class="pre">\x1b[33m`geoips</span> <span class="pre">run</span> <span class="pre">order_based`</span> <span class="pre">is</span> <span class="pre">experimental</span> <span class="pre">and</span> <span class="pre">is</span> <span class="pre">subject</span> <span class="pre">to</span> <span class="pre">change.</span> <span class="pre">This</span> <span class="pre">warning</span> <span class="pre">will</span> <span class="pre">be</span> <span class="pre">removed</span> <span class="pre">once</span> <span class="pre">this</span> <span class="pre">command</span> <span class="pre">is</span> <span class="pre">stable.\n\x1b[0m'</span></em><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning" title="Permalink to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_run.GeoipsRunSingleSource">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_run.</span></span><span class="sig-name descname"><span class="pre">GeoipsRunSingleSource</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_run.html#GeoipsRunSingleSource"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_run.GeoipsRunSingleSource" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsExecutableCommand" title="geoips.commandline.geoips_command.GeoipsExecutableCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsExecutableCommand</span></code></a></p>
@@ -1723,7 +1914,7 @@ unique source_name which they support.</p></li>
 <dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTest">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">geoips.commandline.geoips_test.</span></span><span class="sig-name descname"><span class="pre">GeoipsTest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LOG</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">legacy</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/geoips/commandline/geoips_test.html#GeoipsTest"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTest" title="Permalink to this definition">#</a></dt>
 <dd><p>Bases: <a class="reference internal" href="#geoips.commandline.geoips_command.GeoipsCommand" title="geoips.commandline.geoips_command.GeoipsCommand"><code class="xref py py-class docutils literal notranslate"><span class="pre">GeoipsCommand</span></code></a></p>
-<p>Top-Level Test Command for testing GeoIPS and its corresponding Packages.</p>
+<p>Top-Level test command for testing GeoIPS and its corresponding packages.</p>
 <dl class="py attribute">
 <dt class="sig sig-object py" id="geoips.commandline.geoips_test.GeoipsTest.command_classes">
 <span class="sig-name descname"><span class="pre">command_classes</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">[&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestLinting'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestScript'&gt;,</span> <span class="pre">&lt;class</span> <span class="pre">'geoips.commandline.geoips_test.GeoipsTestSector'&gt;]</span></em><a class="headerlink" href="#geoips.commandline.geoips_test.GeoipsTest.command_classes" title="Permalink to this definition">#</a></dt>
@@ -1774,7 +1965,7 @@ unique source_name which they support.</p></li>
 </ul>
 </dd>
 <dt>Where:</dt><dd><ul class="simple">
-<li><p>&lt;package_name&gt; is any GeoIPS package that is installed and recognized by
+<li><p>&lt;package-name&gt; is any GeoIPS package that is installed and recognized by
 the GeoIPS Library</p></li>
 <li><p>&lt;script_name&gt; is the name of the bash script being tested</p></li>
 <li><p>‘–integration’ represents whether or not this is an ‘integration’ test</p></li>
@@ -2268,12 +2459,17 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.commandline_interface.GeoipsCLI.name"><code class="docutils literal notranslate"><span class="pre">GeoipsCLI.name</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.commandline_interface.deprecate_create_plugin_registries"><code class="docutils literal notranslate"><span class="pre">deprecate_create_plugin_registries()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.commandline_interface.main"><code class="docutils literal notranslate"><span class="pre">main()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.commandline_interface.print_beta_warning"><code class="docutils literal notranslate"><span class="pre">print_beta_warning()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.commandline_interface.support_legacy_procflows"><code class="docutils literal notranslate"><span class="pre">support_legacy_procflows()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-geoips.commandline.geoips_command">geoips.commandline.geoips_command module</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.AlphabeticalHelpFormatter"><code class="docutils literal notranslate"><span class="pre">AlphabeticalHelpFormatter</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.AlphabeticalHelpFormatter.add_arguments"><code class="docutils literal notranslate"><span class="pre">AlphabeticalHelpFormatter.add_arguments()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.CommandClassFactory"><code class="docutils literal notranslate"><span class="pre">CommandClassFactory</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.GeoipsCommand"><code class="docutils literal notranslate"><span class="pre">GeoipsCommand</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.GeoipsCommand.add_subparsers"><code class="docutils literal notranslate"><span class="pre">GeoipsCommand.add_subparsers()</span></code></a></li>
@@ -2289,6 +2485,7 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers"><code class="docutils literal notranslate"><span class="pre">ParentParsers</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers.config_parser"><code class="docutils literal notranslate"><span class="pre">ParentParsers.config_parser</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers.geoips_parser"><code class="docutils literal notranslate"><span class="pre">ParentParsers.geoips_parser</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers.list_parser"><code class="docutils literal notranslate"><span class="pre">ParentParsers.list_parser</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_command.ParentParsers.mutex_group"><code class="docutils literal notranslate"><span class="pre">ParentParsers.mutex_group</span></code></a></li>
@@ -2303,6 +2500,18 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfig.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfig.name</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreateRegistries</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreateRegistries.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreateRegistries.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigCreateRegistries.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigCreateRegistries.name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigDeleteRegistries</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigDeleteRegistries.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigDeleteRegistries.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigDeleteRegistries.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigDeleteRegistries.name</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.command_classes</span></code></a></li>
@@ -2310,6 +2519,12 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.extract_data_cautiously"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.extract_data_cautiously()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.geoips_testdata_dir"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.geoips_testdata_dir</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstall.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstall.name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_config.GeoipsConfigInstallGithub.name"><code class="docutils literal notranslate"><span class="pre">GeoipsConfigInstallGithub.name</span></code></a></li>
 </ul>
 </li>
 </ul>
@@ -2368,6 +2583,12 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListPlugins.name"><code class="docutils literal notranslate"><span class="pre">GeoipsListPlugins.name</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListRegistries"><code class="docutils literal notranslate"><span class="pre">GeoipsListRegistries</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListRegistries.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsListRegistries.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListRegistries.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsListRegistries.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListRegistries.name"><code class="docutils literal notranslate"><span class="pre">GeoipsListRegistries.name</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListScripts"><code class="docutils literal notranslate"><span class="pre">GeoipsListScripts</span></code></a><ul class="nav section-nav flex-column">
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListScripts.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsListScripts.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_list.GeoipsListScripts.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsListScripts.command_classes</span></code></a></li>
@@ -2417,6 +2638,13 @@ For more info, see geoips.commandline.geoips_run.GeoipsRun:add_arguments</p></li
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunDataFusion.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsRunDataFusion.add_arguments()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunDataFusion.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsRunDataFusion.command_classes</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunDataFusion.name"><code class="docutils literal notranslate"><span class="pre">GeoipsRunDataFusion.name</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.add_arguments"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.add_arguments()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.command_classes"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.command_classes</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.name"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.name</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunOrderBased.warning"><code class="docutils literal notranslate"><span class="pre">GeoipsRunOrderBased.warning</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.commandline.geoips_run.GeoipsRunSingleSource"><code class="docutils literal notranslate"><span class="pre">GeoipsRunSingleSource</span></code></a><ul class="nav section-nav flex-column">

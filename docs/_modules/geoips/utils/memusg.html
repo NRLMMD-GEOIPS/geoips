@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.utils.memusg &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.utils.memusg &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -440,10 +440,11 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">threading</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">literal_eval</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sys</span><span class="w"> </span><span class="kn">import</span> <span class="n">argv</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timezone</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">platform</span>
 
 <span class="c1"># Installed libraires</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections</span><span class="w"> </span><span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 
 <span class="c1"># Geoips libraries</span>
@@ -551,14 +552,18 @@ window.addEventListener("load", () => mermaid.run());
 <div class="viewcode-block" id="PidLog.track_pids"><a class="viewcode-back" href="../../../geoips_api/geoips.utils.html#geoips.utils.memusg.PidLog.track_pids">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">track_pids</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Track pids and create a dict of values.&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;cpu_percent&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;unique_set_size&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;res_set_size&quot;</span><span class="p">:</span> <span class="p">[],</span>
-            <span class="s2">&quot;utc_datetime&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="s2">&quot;overall&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;cpu_percent&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;thread_count&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;unique_set_size&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;res_set_size&quot;</span><span class="p">:</span> <span class="p">[],</span>
+                <span class="s2">&quot;utc_datetime&quot;</span><span class="p">:</span> <span class="p">[],</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;checkpoints&quot;</span><span class="p">:</span> <span class="p">{},</span>
         <span class="p">}</span>
+
         <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">pid_bool</span><span class="p">:</span>
 
@@ -593,13 +598,13 @@ window.addEventListener("load", () => mermaid.run());
                     <span class="k">continue</span>
 
             <span class="n">dtime</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S_</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cpu_per</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">cpu_per</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">tmp_cpu</span><span class="p">)))</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;thread_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thrd_cnt</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uss_tmp</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rss_tmp</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dtime</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">tmp_cpu</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;thread_count&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">thrd_cnt</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">uss_tmp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rss_tmp</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dtime</span><span class="p">)</span>
 
         <span class="k">return</span></div>
 
@@ -623,9 +628,9 @@ window.addEventListener("load", () => mermaid.run());
             <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span><span class="p">,</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">ram_usg</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span>
-            <span class="n">highest</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">])</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">ram_usg</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span>
+            <span class="n">highest</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">])</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ram_usg</span> <span class="o">=</span> <span class="mi">0</span>
             <span class="n">highest</span> <span class="o">=</span> <span class="mi">0</span>
@@ -653,6 +658,255 @@ window.addEventListener("load", () => mermaid.run());
 
         <span class="k">return</span> <span class="n">usage_dict</span></div>
 
+<div class="viewcode-block" id="PidLog.track_resource_usage"><a class="viewcode-back" href="../../../geoips_api/geoips.utils.html#geoips.utils.memusg.PidLog.track_resource_usage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">track_resource_usage</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">logstr</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">key</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+        <span class="n">show_log</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">checkpoint</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="n">increment_key</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Record resouce usage for a given processing marker in GeoIPS.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        logstr : str, optional</span>
+<span class="sd">            String to include at the start of the log message, by default &quot;&quot;</span>
+<span class="sd">        verbose : bool, optional</span>
+<span class="sd">            Print the full resource usage statistics dict to stdout, by default False</span>
+<span class="sd">        key : str, optional</span>
+<span class="sd">            Unique name of marker to record statistics, by default None</span>
+<span class="sd">            A marker can be categorized as part of a group when using &quot;:&quot; in the</span>
+<span class="sd">            marker name (e.g &quot;FOO: BAR&quot;). This is used in the checkpoint_usage_stats</span>
+<span class="sd">            method, where markers will have a &quot;checkpoint_group&quot; key in their resource</span>
+<span class="sd">            usage statistics dictionary holding the name of the group.</span>
+<span class="sd">            (e.g. stats[&quot;BAR&quot;][&quot;checkpoint_group&quot;] == &quot;FOO&quot;)</span>
+<span class="sd">        show_log : bool, optional</span>
+<span class="sd">            Use LOG.info to print the current memory usage, by default True</span>
+<span class="sd">        checkpoint : bool, optional</span>
+<span class="sd">            Re-use a marker key to record more detailed profiling of resource usage in</span>
+<span class="sd">            terms of both timing and maximum memory usage, by default False</span>
+<span class="sd">        increment_key : bool, optional</span>
+<span class="sd">            Append the number of times marker is re-used to the key, by default True</span>
+<span class="sd">            Marker names should be unique, and should at minimum hold the start/end</span>
+<span class="sd">            resource usage for the marker. If a marker is re-used and increment_key is</span>
+<span class="sd">            False, a KeyError is raised. If increment_key is True and the marker has</span>
+<span class="sd">            both start/end stats, a number is automatically appended to the key name.</span>
+<span class="sd">            This number represents how many times a marker has been re-used. For</span>
+<span class="sd">            example: &quot;FOO: BAR&quot; -&gt; &quot;FOO: BAR(1)&quot;: -&gt; &quot;FOO: BAR(2)&quot;</span>
+<span class="sd">            (Note: &quot;FOO: BAR(2)&quot; is only created if &quot;FOO: BAR(1)&quot; has start/end stats)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Resource usage statistics for checkpoint</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        KeyError</span>
+<span class="sd">            Duplicate key is discovered and increment_key is False</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">usage_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">vmem_percent</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">virtual_memory</span><span class="p">()</span><span class="o">.</span><span class="n">percent</span>
+        <span class="n">swap_percent</span> <span class="o">=</span> <span class="n">psutil</span><span class="o">.</span><span class="n">swap_memory</span><span class="p">()</span><span class="o">.</span><span class="n">percent</span>
+
+        <span class="n">overall_usage_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">overall_usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># Take the latest value under the tracked resource dict - this might be</span>
+            <span class="c1"># a problematic approach...</span>
+            <span class="n">last_stat</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">overall_usage_dict</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">last_stat</span><span class="p">[</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S_</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">last_stat</span> <span class="o">=</span> <span class="p">{</span><span class="n">x</span><span class="p">:</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">overall_usage_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()}</span>
+            <span class="n">dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">(</span><span class="n">timezone</span><span class="o">.</span><span class="n">utc</span><span class="p">)</span>
+            <span class="n">last_stat</span><span class="p">[</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S_</span><span class="si">%f</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">gran_usg_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;checkpoints&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gran_usg_dict</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;New tracker </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">elapsed_time</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">total_runtime</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">overall_usage_dict</span><span class="p">[</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;UNEXPECTED ERROR IN RESOURCE TRACKING </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: &quot;</span>
+                <span class="s2">&quot;No overall usage defined, starting over with tracking :shrug:</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;gran_usg_dict[</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">] = </span><span class="si">{</span><span class="n">gran_usg_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;overall_usage_dict: </span><span class="se">\n</span><span class="si">{</span><span class="n">overall_usage_dict</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="n">elapsed_time</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">total_runtime</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                <span class="n">overall_usage_dict</span><span class="p">[</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S_</span><span class="si">%f</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">prior_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span>
+                <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">_%H%M%S_</span><span class="si">%f</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+            <span class="n">total_runtime</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">start_dt</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+            <span class="n">elapsed_time</span> <span class="o">=</span> <span class="p">(</span><span class="n">dt</span> <span class="o">-</span> <span class="n">prior_dt</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+
+        <span class="c1"># Check if this key is being re-used. Arrays should at maximum length of 2:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="nb">len</span><span class="p">(</span><span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span>
+            <span class="ow">and</span> <span class="n">checkpoint</span> <span class="ow">is</span> <span class="kc">False</span>
+            <span class="ow">and</span> <span class="n">increment_key</span> <span class="ow">is</span> <span class="kc">False</span>
+        <span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Usage key &#39;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">&#39; already exists and is of length 2&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">increment_key</span><span class="p">:</span>
+            <span class="n">orig_key</span> <span class="o">=</span> <span class="n">key</span>
+            <span class="n">inc_keys</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">gran_usg_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">x</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">inc_num</span><span class="p">,</span> <span class="n">ikey</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">inc_keys</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">ikey</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="nb">len</span><span class="p">(</span><span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">ikey</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+                    <span class="n">key</span> <span class="o">=</span> <span class="n">ikey</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">key</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">inc_num</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gran_usg_dict</span><span class="p">:</span>
+                <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+                <span class="n">elapsed_time</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="n">total_runtime</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Usage key &#39;</span><span class="si">%s</span><span class="s2">&#39; already exists and is of length 2. increment_keys &quot;</span>
+                <span class="s2">&quot;is True, so will instead use &#39;</span><span class="si">%s</span><span class="s2">&#39;.&quot;</span><span class="p">,</span>
+                <span class="n">orig_key</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+            <span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">checkpoint</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="s2">&quot;Flagged </span><span class="si">%s</span><span class="s2"> as checkpoint, but found no stats. Likely this is not &quot;</span>
+                <span class="s2">&quot;a true checkpoint. Considering this the start of resource tracking.&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">checkpoint</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="k">if</span> <span class="n">checkpoint</span><span class="p">:</span>
+            <span class="c1"># Use sub-checkpoints to track highest memory usage</span>
+            <span class="k">if</span> <span class="s2">&quot;subcheck&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+                <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;subcheck&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">stat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">last_stat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;subcheck&quot;</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Track the resource statistics for this checkpoint</span>
+        <span class="k">for</span> <span class="n">stat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">last_stat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+        <span class="c1"># Also track the elapsed time of the checkpoint, and the total run time</span>
+        <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;elapsed_time&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">elapsed_time</span><span class="p">)</span>
+        <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;total_runtime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">total_runtime</span><span class="p">)</span>
+        <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dt</span><span class="p">)</span>
+        <span class="c1"># Grab the highest value for all statistics</span>
+        <span class="k">if</span> <span class="s2">&quot;subcheck&quot;</span> <span class="ow">in</span> <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]:</span>
+            <span class="n">all_stats</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">stat</span><span class="p">:</span> <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span> <span class="o">+</span> <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="s2">&quot;subcheck&quot;</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">overall_usage_dict</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+            <span class="p">}</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">all_stats</span> <span class="o">=</span> <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+        <span class="n">max_stat</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="n">stat</span><span class="p">:</span> <span class="nb">max</span><span class="p">(</span><span class="n">vals</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">stat</span><span class="p">,</span> <span class="n">vals</span> <span class="ow">in</span> <span class="n">all_stats</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="k">if</span> <span class="s2">&quot;datetime&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stat</span> <span class="ow">and</span> <span class="s2">&quot;max_&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stat</span>
+        <span class="p">}</span>
+
+        <span class="k">for</span> <span class="n">stat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">max_stat</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">gran_usg_dict</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;max_</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+
+        <span class="n">ram_usg</span> <span class="o">=</span> <span class="n">max_stat</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">]</span>
+        <span class="n">highest</span> <span class="o">=</span> <span class="n">max_stat</span><span class="p">[</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">show_log</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">checkpoint</span><span class="p">:</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: virtual perc: </span><span class="si">%s</span><span class="s2"> on </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">vmem_percent</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: swap perc:    </span><span class="si">%s</span><span class="s2"> on </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">swap_percent</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: highest ram:    </span><span class="si">%s</span><span class="s2"> on </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">ram_usg</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: highest rss:      </span><span class="si">%s</span><span class="s2"> on </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">highest</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="s2">&quot;</span><span class="si">%s</span><span class="s2">: elapsed runtime (seconds):    </span><span class="si">%s</span><span class="s2"> on </span><span class="si">%s</span><span class="s2"> </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">key</span><span class="p">,</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">elapsed_time</span><span class="p">),</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()),</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span><span class="p">,</span>
+            <span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                <span class="n">usage_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">print_resource_usage</span><span class="p">()</span>
+
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;memusg_virtual&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">vmem_percent</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;memusg_swap&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">swap_percent</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;memusg_highest&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">highest</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;elapsed_runtime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">elapsed_time</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;total_procflow_runtime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_runtime</span>
+
+        <span class="k">return</span> <span class="n">usage_dict</span></div>
+
+<div class="viewcode-block" id="PidLog.checkpoint_usage_stats"><a class="viewcode-back" href="../../../geoips_api/geoips.utils.html#geoips.utils.memusg.PidLog.checkpoint_usage_stats">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">checkpoint_usage_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return organized dictionary of stats from track_resource_usage.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            Resource usage statistics for markers/checkpoints recorded by the</span>
+<span class="sd">            track_resource_usage method. Dictionary is ordered by the markers passed to</span>
+<span class="sd">            track_resource_usage. Each key in the return dictionary will hold a</span>
+<span class="sd">            dictionary of the resource usage statistics. If a group is specified in the</span>
+<span class="sd">            marker name (e.g. &quot;FOO: BAR&quot;), the return dictionary will have a &quot;BAR&quot; key,</span>
+<span class="sd">            and will have a &quot;checkpoint_group&quot; key in the corresponding resource usage</span>
+<span class="sd">            dictionary with a value of &quot;FOO&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">checkpoint_usage_stats</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">exclude_stats</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="s2">&quot;max_elapsed_time&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;max_total_runtime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;utc_datetime&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;subcheck&quot;</span><span class="p">,</span>
+        <span class="p">]</span>
+        <span class="k">for</span> <span class="n">check_name</span><span class="p">,</span> <span class="n">check_stats</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;checkpoints&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">checkpoint_usage_stats</span><span class="p">[</span><span class="n">check_name</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">if</span> <span class="s2">&quot;: &quot;</span> <span class="ow">in</span> <span class="n">check_name</span><span class="p">:</span>
+                <span class="n">group</span> <span class="o">=</span> <span class="n">check_name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;: &quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">checkpoint_usage_stats</span><span class="p">[</span><span class="n">check_name</span><span class="p">][</span><span class="s2">&quot;checkpoint_group&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">group</span>
+            <span class="k">for</span> <span class="n">stat</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">check_stats</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">stat</span> <span class="ow">in</span> <span class="n">exclude_stats</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="k">elif</span> <span class="n">stat</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;elapsed_time&quot;</span><span class="p">]:</span>
+                    <span class="n">checkpoint_usage_stats</span><span class="p">[</span><span class="n">check_name</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">elif</span> <span class="s2">&quot;max_&quot;</span> <span class="ow">in</span> <span class="n">stat</span><span class="p">:</span>
+                    <span class="n">checkpoint_usage_stats</span><span class="p">[</span><span class="n">check_name</span><span class="p">][</span><span class="n">stat</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">stat</span> <span class="o">==</span> <span class="s2">&quot;datetime&quot;</span><span class="p">:</span>
+                        <span class="n">stat</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;checkpoint_</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">checkpoint_usage_stats</span><span class="p">[</span><span class="n">check_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">_start&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">checkpoint_usage_stats</span><span class="p">[</span><span class="n">check_name</span><span class="p">][</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">stat</span><span class="si">}</span><span class="s2">_stop&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">val</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">checkpoint_usage_stats</span></div>
+
 <div class="viewcode-block" id="PidLog.print_resource_usage"><a class="viewcode-back" href="../../../geoips_api/geoips.utils.html#geoips.utils.memusg.PidLog.print_resource_usage">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">print_resource_usage</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Print verbose resource usage, using &quot;resource&quot; package.&quot;&quot;&quot;</span>
         <span class="n">usage_dict</span> <span class="o">=</span> <span class="p">{}</span>
@@ -672,23 +926,23 @@ window.addEventListener("load", () => mermaid.run());
                 <span class="n">usage_dict</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">usage</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">except</span> <span class="ne">NameError</span><span class="p">:</span>
             <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;resource not defined&quot;</span><span class="p">)</span>
-        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_cpuusg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">])</span>  <span class="c1"># [-1]</span>
-        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_threads&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;thread_count&quot;</span><span class="p">])</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_cpuusg&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">])</span>  <span class="c1"># [-1]</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_threads&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;thread_count&quot;</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
-            <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_cpucnt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">])</span>
-        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_uss&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_maxuss&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span>
+            <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_cpucnt&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">])</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_uss&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;ru_maxuss&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">])</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">&quot;RESOURCE &quot;</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span>
             <span class="o">+</span> <span class="s2">&quot; Max. User Set Size (RAM) = &quot;</span>
-            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">]))</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">]))</span>
         <span class="p">)</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
             <span class="s2">&quot;RESOURCE &quot;</span>
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">logstr</span>
             <span class="o">+</span> <span class="s2">&quot; Max. CPU % Usage = &quot;</span>
-            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">]))</span>
+            <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">]))</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">usage_dict</span></div>
 
@@ -701,14 +955,14 @@ window.addEventListener("load", () => mermaid.run());
 <div class="viewcode-block" id="PidLog.save_csv"><a class="viewcode-back" href="../../../geoips_api/geoips.utils.html#geoips.utils.memusg.PidLog.save_csv">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">save_csv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save a csv file to output.&quot;&quot;&quot;</span>
         <span class="n">usg_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;Time [UTC]&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;CPU Percent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;Thread Count&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;thread_count&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;USS [RAM bytes]&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;RSS [bytes]&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;Time [UTC]&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;utc_datetime&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;CPU Percent&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_percent&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;Thread Count&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;thread_count&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;USS [RAM bytes]&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;unique_set_size&quot;</span><span class="p">],</span>
+            <span class="s2">&quot;RSS [bytes]&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;res_set_size&quot;</span><span class="p">],</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Linux&quot;</span><span class="p">:</span>
-            <span class="n">usg_dict</span><span class="p">[</span><span class="s2">&quot;CPU Count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">]</span>
+            <span class="n">usg_dict</span><span class="p">[</span><span class="s2">&quot;CPU Count&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">usage_dict</span><span class="p">[</span><span class="s2">&quot;overall&quot;</span><span class="p">][</span><span class="s2">&quot;cpu_count&quot;</span><span class="p">]</span>
         <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">usg_dict</span><span class="p">)</span>
 
         <span class="n">outdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">gpaths</span><span class="p">[</span><span class="s2">&quot;GEOIPS_OUTDIRS&quot;</span><span class="p">],</span> <span class="s2">&quot;memory_logs&quot;</span><span class="p">)</span>

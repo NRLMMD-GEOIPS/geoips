@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.geoips_list &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.commandline.geoips_list &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -452,6 +452,112 @@ window.addEventListener("load", () => mermaid.run());
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips.geoips_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">is_editable</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
+
+
+<div class="viewcode-block" id="GeoipsListRegistries"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_list.GeoipsListRegistries">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsListRegistries</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List Command for listing out plugin registries from installed plugin packages.</span>
+
+<span class="sd">    This command is used to easily expose what plugin packages have plugin registries</span>
+<span class="sd">    created.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;registries&quot;</span>
+    <span class="n">command_classes</span> <span class="o">=</span> <span class="p">[]</span>
+
+<div class="viewcode-block" id="GeoipsListRegistries.add_arguments"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_list.GeoipsListRegistries.add_arguments">[docs]</a>    <span class="k">def</span><span class="w"> </span><span class="nf">add_arguments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add arguments to the list-subparser for the List Registries Command.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-n&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--namespace&quot;</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="s2">&quot;geoips.plugin_packages&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;The namespace of plugin packages to list plugin registries for. &quot;</span>
+                <span class="s2">&quot;If not specified, this defaults to &#39;geoips.plugin_packages&#39;.&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;-r&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;--relpath&quot;</span><span class="p">,</span>
+            <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="p">(</span>
+                <span class="s2">&quot;Whether or not you want the paths for the plugin registry files to be &quot;</span>
+                <span class="s2">&quot;displayed as relative paths. Default is false, which means the paths &quot;</span>
+                <span class="s2">&quot;will be shown as absolute.&quot;</span>
+            <span class="p">),</span>
+        <span class="p">)</span></div>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;List all plugin registries under &#39;namespace&#39; held under &lt;package_name&gt;.</span>
+
+<span class="sd">        Printed to Terminal</span>
+<span class="sd">        -------------------</span>
+<span class="sd">        out_array: 2D Array of Strings</span>
+<span class="sd">            - GeoIPS Package</span>
+<span class="sd">            - .json registry path</span>
+<span class="sd">            - .yaml registry path</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        args: Namespace()</span>
+<span class="sd">            - The list argument namespace to parse through</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">namespace</span>
+        <span class="n">relpath</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">relpath</span>
+        <span class="n">package_name</span> <span class="o">=</span> <span class="n">args</span><span class="o">.</span><span class="n">package_name</span>
+        <span class="n">default_headers</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;package&quot;</span><span class="p">:</span> <span class="s2">&quot;GeoIPS Package&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;json&quot;</span><span class="p">:</span> <span class="s2">&quot;JSON Path&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yaml&quot;</span><span class="p">:</span> <span class="s2">&quot;YAML Path&quot;</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="n">headers</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_headers_by_command</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">default_headers</span><span class="p">)</span>
+        <span class="n">registry_list</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">packages</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">namespace</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">packages</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: no plugin packages exist under namespace &#39;</span><span class="si">{</span><span class="n">namespace</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">entry_points</span><span class="p">(</span><span class="n">group</span><span class="o">=</span><span class="n">namespace</span><span class="p">):</span>
+            <span class="n">pkg_path</span> <span class="o">=</span> <span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">)</span>
+            <span class="n">json_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pkg_path</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.json&quot;</span><span class="p">)</span>
+            <span class="n">yaml_path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">pkg_path</span> <span class="o">/</span> <span class="s2">&quot;registered_plugins.yaml&quot;</span><span class="p">)</span>
+
+            <span class="n">json_path</span> <span class="o">=</span> <span class="n">json_path</span> <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;missing&quot;</span>
+            <span class="n">yaml_path</span> <span class="o">=</span> <span class="n">yaml_path</span> <span class="k">if</span> <span class="n">exists</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;missing&quot;</span>
+
+            <span class="n">json_path</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">json_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">relpath</span> <span class="k">else</span> <span class="n">json_path</span>
+            <span class="n">yaml_path</span> <span class="o">=</span> <span class="n">basename</span><span class="p">(</span><span class="n">yaml_path</span><span class="p">)</span> <span class="k">if</span> <span class="n">relpath</span> <span class="k">else</span> <span class="n">yaml_path</span>
+
+            <span class="n">reg_entry</span> <span class="o">=</span> <span class="p">[</span><span class="n">pkg</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">json_path</span><span class="p">,</span> <span class="n">yaml_path</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">package_name</span> <span class="o">!=</span> <span class="s2">&quot;all&quot;</span> <span class="ow">and</span> <span class="n">pkg</span><span class="o">.</span><span class="n">value</span> <span class="o">==</span> <span class="n">package_name</span><span class="p">:</span>
+                <span class="n">registry_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg_entry</span><span class="p">)</span>
+                <span class="k">break</span>
+            <span class="k">elif</span> <span class="n">package_name</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="n">registry_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">reg_entry</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">continue</span>
+
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">registry_list</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">parser</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;Error: plugin package &#39;</span><span class="si">{</span><span class="n">package_name</span><span class="si">}</span><span class="s2">&#39; could not be found in &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;namespace &#39;</span><span class="si">{</span><span class="n">namespace</span><span class="si">}</span><span class="s2">&#39;.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;Plugin Package Registries&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Plugin Package Registries&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="s2">&quot;Plugin Package Registries&quot;</span><span class="p">))</span>
+        <span class="nb">print</span><span class="p">(</span>
+            <span class="n">tabulate</span><span class="p">(</span>
+                <span class="nb">sorted</span><span class="p">(</span><span class="n">registry_list</span><span class="p">),</span>
+                <span class="n">headers</span><span class="o">=</span><span class="n">headers</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span>
+                <span class="n">tablefmt</span><span class="o">=</span><span class="s2">&quot;rounded_grid&quot;</span><span class="p">,</span>
+                <span class="n">maxcolwidths</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">terminal_width</span> <span class="o">//</span> <span class="nb">len</span><span class="p">(</span><span class="n">headers</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="GeoipsListSourceNames"><a class="viewcode-back" href="../../../geoips_api/geoips.commandline.html#geoips.commandline.geoips_list.GeoipsListSourceNames">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">GeoipsListSourceNames</span><span class="p">(</span><span class="n">GeoipsExecutableCommand</span><span class="p">):</span>
@@ -1210,6 +1316,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">GeoipsListInterfaces</span><span class="p">,</span>
         <span class="n">GeoipsListPackages</span><span class="p">,</span>
         <span class="n">GeoipsListPlugins</span><span class="p">,</span>
+        <span class="n">GeoipsListRegistries</span><span class="p">,</span>
         <span class="n">GeoipsListScripts</span><span class="p">,</span>
         <span class="n">GeoipsListSourceNames</span><span class="p">,</span>
         <span class="n">GeoipsListTestDatasets</span><span class="p">,</span>

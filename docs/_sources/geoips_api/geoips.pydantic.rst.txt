@@ -20,6 +20,14 @@ geoips.pydantic.feature\_annotators module
    :undoc-members:
    :show-inheritance:
 
+geoips.pydantic.gridline\_annotators module
+-------------------------------------------
+
+.. automodule:: geoips.pydantic.gridline_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.pydantic.sectors module
 ------------------------------
 

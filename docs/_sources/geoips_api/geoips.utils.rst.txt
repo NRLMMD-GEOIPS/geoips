@@ -4,6 +4,14 @@ geoips.utils package
 Submodules
 ----------
 
+geoips.utils.cache\_files module
+--------------------------------
+
+.. automodule:: geoips.utils.cache_files
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
 geoips.utils.composite module
 -----------------------------
 

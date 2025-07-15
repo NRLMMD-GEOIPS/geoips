@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic.sectors &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.pydantic.sectors &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -430,7 +430,10 @@ window.addEventListener("load", () => mermaid.run());
                 <article class="bd-article">
                   
   <h1>Source code for geoips.pydantic.sectors</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS sector plugins.&quot;&quot;&quot;</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
+<span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
+
+<span class="sd">&quot;&quot;&quot;Pydantic models used to validate GeoIPS sector plugins.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datetime</span><span class="w"> </span><span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">enum</span><span class="w"> </span><span class="kn">import</span> <span class="n">Enum</span>
@@ -456,8 +459,8 @@ window.addEventListener("load", () => mermaid.run());
 <div class="viewcode-block" id="XYCoordinate"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.sectors.XYCoordinate">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">XYCoordinate</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;A coordinate in projection units.&quot;&quot;&quot;</span>
 
-    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The x coordinate in projection units.&quot;</span><span class="p">)</span>
-    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The y coordinate in projection units.&quot;</span><span class="p">)</span></div>
+    <span class="n">x</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The x coordinate in projection units.&quot;</span><span class="p">)</span>
+    <span class="n">y</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;The y coordinate in projection units.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="lat_lon_coordinate"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.sectors.lat_lon_coordinate">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">lat_lon_coordinate</span><span class="p">(</span><span class="n">arg</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
@@ -502,7 +505,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="p">),</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">ellps</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">ellipsoid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="s2">&quot;GRS80&quot;</span><span class="p">,</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
             <span class="s2">&quot;The name of a built-in ellipsoid definition. &quot;</span>
@@ -772,14 +775,49 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;pyresmaple documentation.&quot;</span>
         <span class="p">),</span>
     <span class="p">)</span>
-
-    <span class="n">center</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="n">XYCoordinate</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="n">center</span><span class="p">:</span> <span class="n">XYCoordinate</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+        <span class="n">default_factory</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">XYCoordinate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="mf">0.0</span><span class="p">),</span>
         <span class="n">description</span><span class="o">=</span><span class="p">(</span>
-            <span class="s2">&quot;The center of the sector in projection units. Defaults to (0, 0). &quot;</span>
+            <span class="s2">&quot;The center of the sector in projection units. Defaults to (0.0, 0.0). &quot;</span>
             <span class="s2">&quot;See the pyresample documentation for more information.&quot;</span>
         <span class="p">),</span>
-    <span class="p">)</span></div>
+    <span class="p">)</span>
+
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_valdiate_and_convert_center</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">v</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate and normalize the &#39;center&#39; field into an XYCoordinate object.</span>
+
+<span class="sd">        Supports flexible input formats while enforcing strict correctness.</span>
+<span class="sd">        Acceptable input formats:</span>
+<span class="sd">        - A 2-element list or tuple: [x, y] or (x, y)</span>
+<span class="sd">        - A dictionary with &#39;x&#39; and &#39;y&#39; keys: {&quot;x&quot;:float, &quot;y&quot;:float}</span>
+<span class="sd">        - An existing XYCoodinate instance</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">            ValueError: If the list / tuple does not have exactly two elements or the</span>
+<span class="sd">            dict lacks &#39;x&#39; or &#39;y&#39;.</span>
+<span class="sd">            TypeError: If the input is not a dict, list, tuple, or XYCoordinate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">            XYCoordinate: Validated coordinate object for center of projection.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Center must be a 2-element list / tuple (x, y).&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">XYCoordinate</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">if</span> <span class="s2">&quot;x&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span> <span class="ow">or</span> <span class="s2">&quot;y&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">v</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Both &#39;x&#39; and &#39;y&#39; must be supplied in the center dictionary.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">return</span> <span class="n">XYCoordinate</span><span class="p">(</span><span class="o">**</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">XYCoordinate</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">v</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;center must be (x, y) as a dict, list, tuple.&quot;</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RegionMetadata"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">RegionMetadata</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
@@ -879,7 +917,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">gt</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Pressure of the storm in millibars.&quot;</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">vmax</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+    <span class="n">velocity_max</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
         <span class="n">Field</span><span class="p">(</span>
             <span class="o">...</span><span class="p">,</span>
@@ -888,13 +926,13 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Maximum velocity in knots of the storm.&quot;</span><span class="p">,</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">clat</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+    <span class="n">center_lat</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
         <span class="n">Field</span><span class="p">(</span>
             <span class="o">...</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">ge</span><span class="o">=-</span><span class="mi">90</span><span class="p">,</span> <span class="n">le</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Center latitude of the storm.&quot;</span>
         <span class="p">),</span>
     <span class="p">]</span>
-    <span class="n">clon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
+    <span class="n">center_lon</span><span class="p">:</span> <span class="n">Annotated</span><span class="p">[</span>
         <span class="nb">float</span><span class="p">,</span>
         <span class="n">Field</span><span class="p">(</span>
             <span class="o">...</span><span class="p">,</span>

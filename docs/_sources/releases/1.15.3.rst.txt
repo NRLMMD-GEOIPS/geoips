@@ -1,0 +1,101 @@
+Version 1.15.3 (2025-07-15)
+***************************
+
+ * *Testing*: Provide more informative integration pytest output when running with -s
+ * *Documentation*: Update upcoming and tagged versions
+ * *Cli*: Add geoips config install-github cli command
+ * *Enhancement*: Implement additional caching options for abi geostationary reader
+
+Testing
+=======
+
+Provide more informative integration pytest output when running with -s
+-----------------------------------------------------------------------
+
+Output reference environment variables (like OUTPUT_CHECKER_THRESHOLD_IMAGE), and the full
+copy pasteable command line call for each test script. Remove some other print statements.
+Should determine if there is some concept of logging levels in pytests (using geoips
+setup_logging did not appear to immediately work with initial tests).
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.15.3
+* Upcoming version: 1.16.2
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Cli
+===
+
+Add geoips config install-github cli command
+--------------------------------------------
+
+Currently this just calls $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh
+test_data_github, but functionality can later be moved directly into the python. This will
+allow us to update READMEs for consistency (geoips config install test_data_* for datasets
+that are available on CIRA NEXCLOUD, geoips config install-github test_data_* for datasets
+that are available at $GEOIPS_REPO_URL), and eventually deprecate the check_system_requirements.sh
+command.
+
+Note geoips config install and geoips config install-github can both be updated
+in the future to support package installs as well, but for now leave a note in both
+of their help functions noting that currently only test data installations are
+supported.
+
+::
+
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_config.py
+
+Enhancement
+===========
+
+Implement additional caching options for abi geostationary reader
+-----------------------------------------------------------------
+
+Add support for optionally caching solar angle calculations in either memmap or
+zarray format. Solar angle calculations are stored under a "short term" directory,
+so any files under that directory can be subject to aggressive scrubbing without the
+worry of deleting "long term" caches (e.g. lat/lon/sat_azimuth/sat_zenith).
+
+In addition to the optional solar angle caching, the abi_netcdf reader was updated
+to support the optional caching of both radiance and calibrated data. The abi_satpy
+and ahi_satpy readers are considerably faster, likely due to the caching of both the
+solar angles and the data itself.
+
+The environment variables that control the cache location have been standardized
+under base_paths.py, and are assigned the following names:
+GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC,
+GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC,
+GEOIPS_DATA_CACHE_DIR_SHORTERM_GEOLOCATION_SOLAR_ANGLES,
+GEOIPS_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA,
+SATPY_DATA_CACHE_DIR_SHORTTERM_CALIBRATED_DATA,
+SATPY_DATA_CACHE_DIR_SHORTERM_GEOLOCATION_SOLAR_ANGLES.
+
+The variables above use derived paths from either GEOIPS_DATA_CACHE_DIR or
+SATPY_DATA_CACHE_DIR, which can both be set in the config_geoips script. Presently,
+both of those paths will default to $GEOIPS_OUTDIRS/cache/geoips and
+$GEOIPS_OUTDIRS/cache/satpy, respectively.
+
+Add new config based test script for processing ABI visible and Infrared data while
+using the solar angle and data caching options.
+
+::
+
+     added: tests/scripts/abi.config_based_output_full_zarr_cache_backend.sh
+     added: tests/yaml_configs/abi_test_full_zarr_cache_backend.yaml
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: setup/config_geoips
+     modified: tests/integration_tests/test_integration.py

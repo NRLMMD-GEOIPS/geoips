@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.pydantic.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.pydantic.workflows &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -430,7 +430,7 @@ window.addEventListener("load", () => mermaid.run());
                 <article class="bd-article">
                   
   <h1>Source code for geoips.pydantic.workflows</h1><div class="highlight"><pre>
-<span></span><span class="c1"># # # This source code is protected under the license referenced at</span>
+<span></span><span class="c1"># # # This source code is subject to the license referenced at</span>
 <span class="c1"># # # https://github.com/NRLMMD-GEOIPS.</span>
 
 <span class="sd">&quot;&quot;&quot;Workflow plugin models.</span>
@@ -444,98 +444,103 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span>
 
 <span class="c1"># Third-Party Libraries</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">model_validator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pydantic</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConfigDict</span><span class="p">,</span> <span class="n">Field</span><span class="p">,</span> <span class="n">field_validator</span><span class="p">,</span> <span class="n">model_validator</span>
 
 <span class="c1"># GeoIPS imports</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">geoips</span><span class="w"> </span><span class="kn">import</span> <span class="n">interfaces</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic.bases</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginModel</span><span class="p">,</span> <span class="n">FrozenModel</span><span class="p">,</span> <span class="n">PermissiveFrozenModel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">geoips.pydantic.bases</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">PythonIdentifier</span><span class="p">,</span>
+    <span class="n">PluginModel</span><span class="p">,</span>
+    <span class="n">FrozenModel</span><span class="p">,</span>
+    <span class="n">PermissiveFrozenModel</span><span class="p">,</span>
+<span class="p">)</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="get_plugin_names"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.get_plugin_names">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_names</span><span class="p">(</span><span class="n">plugin_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return valid plugin names for passed plugin type.</span>
+<div class="viewcode-block" id="get_plugin_names"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.get_plugin_names">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_names</span><span class="p">(</span><span class="n">plugin_kind</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return valid plugin names for passed plugin kind.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    plugin_type : str</span>
+<span class="sd">    plugin_kind : str</span>
 <span class="sd">        valid plugin interface name</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    list</span>
-<span class="sd">        A list of plugin names for a valid plugin type</span>
+<span class="sd">        A list of plugin names for a valid plugin kind</span>
 
 <span class="sd">    Raises</span>
 <span class="sd">    ------</span>
 <span class="sd">    AttributeError</span>
-<span class="sd">        If the plugin type is invalid</span>
+<span class="sd">        If the plugin kind is invalid</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">interface_name</span> <span class="o">=</span> <span class="n">plugin_type</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span>
-            <span class="n">interface_name</span> <span class="o">=</span> <span class="n">plugin_type</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span>
-    <span class="k">except</span> <span class="ne">IndexError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;&#39;plugin_type&#39; must be at least one character.&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+    <span class="n">interface_name</span> <span class="o">=</span> <span class="n">plugin_kind</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">interface_name</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;s&quot;</span><span class="p">:</span>
+        <span class="n">interface_name</span> <span class="o">=</span> <span class="n">plugin_kind</span> <span class="o">+</span> <span class="s2">&quot;s&quot;</span>
 
     <span class="k">try</span><span class="p">:</span>
         <span class="n">interface</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">interfaces</span><span class="p">,</span> <span class="n">interface_name</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">AttributeError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="n">error_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_type</span><span class="si">}</span><span class="s2"> is not a valid plugin type&quot;</span>
+        <span class="n">error_message</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">}</span><span class="s2"> is not a recognized plugin kind.&quot;</span>
         <span class="n">LOG</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="n">error_message</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="n">error_message</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
     <span class="k">return</span> <span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">interface</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">()</span> <span class="ow">or</span> <span class="p">[]]</span></div>
 
 
-<div class="viewcode-block" id="get_plugin_types"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.get_plugin_types">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_types</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return plugin types from available interfaces.</span>
+<div class="viewcode-block" id="get_plugin_kinds"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.get_plugin_kinds">[docs]</a><span class="k">def</span><span class="w"> </span><span class="nf">get_plugin_kinds</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return plugin kinds from available interfaces.</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    set of str</span>
-<span class="sd">        singular names of distinct plugin types</span>
+<span class="sd">        singular names of distinct plugin kinds</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="c1"># set comprehension</span>
-        <span class="c1"># the [:-1] slice converts the plugin type from plural to singular</span>
+        <span class="c1"># the [:-1] slice converts the plugin kind from plural to singular</span>
         <span class="c1"># eg. &#39;Readers&#39; =&gt; &#39;Reader&#39;</span>
-        <span class="n">plugin_types</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">plugin_kinds</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="k">for</span> <span class="n">ifs</span> <span class="ow">in</span> <span class="n">interfaces</span><span class="o">.</span><span class="n">list_available_interfaces</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">plugin_types</span> <span class="ow">in</span> <span class="n">ifs</span>
+        <span class="k">for</span> <span class="n">plugin_kinds</span> <span class="ow">in</span> <span class="n">ifs</span>
     <span class="p">}</span></div>
 
 
 <div class="viewcode-block" id="OutputFormatterArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.OutputFormatterArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">OutputFormatterArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Output Formatter arguments.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="CoverageCheckerArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.CoverageCheckerArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">CoverageCheckerArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Coverage Checker arguments.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="FilenameFormatterArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.FilenameFormatterArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">FilenameFormatterArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate FilenameFormatter arguments.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="AlgorithmArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.AlgorithmArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">AlgorithmArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Algorithm arguments.&quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
     <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="InterpolatorArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.InterpolatorArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">InterpolatorArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Interpolator arguments.&quot;&quot;&quot;</span>
+
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="WorkflowArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.WorkflowArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate Workflow arguments.&quot;&quot;&quot;</span>
 
     <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
     <span class="k">pass</span></div>
@@ -547,7 +552,6 @@ window.addEventListener("load", () => mermaid.run());
 <span class="sd">    Pydantic model defining and validating Reader step arguments.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
     <span class="n">area_def</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Area definition identifier.&quot;</span><span class="p">)</span>
     <span class="n">variables</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="kc">None</span><span class="p">,</span>
@@ -586,72 +590,111 @@ window.addEventListener("load", () => mermaid.run());
         <span class="k">return</span> <span class="n">values</span></div>
 
 
-<div class="viewcode-block" id="WorkflowArgumentsModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.WorkflowArgumentsModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowArgumentsModel</span><span class="p">(</span><span class="n">PermissiveFrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate workflow arguments.&quot;&quot;&quot;</span>
-
-    <span class="n">model_config</span> <span class="o">=</span> <span class="n">ConfigDict</span><span class="p">(</span><span class="n">extra</span><span class="o">=</span><span class="s2">&quot;allow&quot;</span><span class="p">)</span>
-    <span class="k">pass</span></div>
-
-
 <div class="viewcode-block" id="WorkflowStepDefinitionModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepDefinitionModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowStepDefinitionModel</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate step definition : name, arguments.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate step definition : kind, name, and arguments.&quot;&quot;&quot;</span>
 
-    <span class="nb">type</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;for internal use only, plugin type&quot;</span><span class="p">,</span> <span class="n">exclude</span><span class="o">=</span><span class="kc">True</span>
-    <span class="p">)</span>
+    <span class="n">kind</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;plugin kind&quot;</span><span class="p">)</span>
     <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;plugin name&quot;</span><span class="p">,</span> <span class="n">init</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="n">arguments</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span><span class="n">default_factory</span><span class="o">=</span><span class="nb">dict</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;step args&quot;</span><span class="p">)</span>
 
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_name</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Validate plugin name.&quot;&quot;&quot;</span>
-        <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">name</span>
-        <span class="n">plugin_type</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">type</span>
-
-        <span class="n">valid_plugin_names</span> <span class="o">=</span> <span class="n">get_plugin_names</span><span class="p">(</span><span class="n">plugin_type</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_plugin_names</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> is invalid. </span><span class="se">\n\t</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Must be one of </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">valid_plugin_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">values</span>
-
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_arguments</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
+    <span class="nd">@field_validator</span><span class="p">(</span><span class="s2">&quot;kind&quot;</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_kind</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Validate and organize details for each step.</span>
+<span class="sd">        Validate that &#39;kind&#39; is a known plugin kind.</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        values : dict</span>
-<span class="sd">            A dictionary of plugin data. The key is plugin type, and</span>
-<span class="sd">            the value consists of plugin name and arguments</span>
+<span class="sd">        value : str</span>
+<span class="sd">            Value of the &#39;kind&#39; attribute to validate.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        values : dict</span>
-<span class="sd">            A validated and structured dictionary with the following fields:</span>
+<span class="sd">        str</span>
+<span class="sd">            Validated value of &#39;kind&#39; if it is valid.</span>
 
-<span class="sd">            - `type` : str</span>
-<span class="sd">                The type of the plugin.</span>
-<span class="sd">            - `name` : str</span>
-<span class="sd">                The name of the plugin.</span>
-<span class="sd">            - `arguments` : dict</span>
-<span class="sd">                The arguments associated with the plugin.</span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the user-provided value for &#39;kind&#39; is not in the valid_kind list.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># We did not switch to kind: Annotated[str, Field(pattern=kind_pattern)] due to</span>
+        <span class="c1"># lack of user-friendly error reporting options in case of validation failure.</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Invalid input: &#39;kind&#39; cannot be empty.&quot;</span><span class="p">)</span>
+
+        <span class="n">valid_kinds</span> <span class="o">=</span> <span class="n">get_plugin_kinds</span><span class="p">()</span>
+
+        <span class="c1"># raise error if the plugin kind is not valid</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_kinds</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[!] Invalid plugin kind: &#39;</span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">&#39;. Must be one of </span><span class="si">{</span><span class="n">valid_kinds</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">value</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_name</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;WorkflowStepDefinitionModel&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WorkflowStepDefinitionModel&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate that a plugin with this name exists for the specified plugin kind.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: WorkflowStepDefinitionModel</span>
+<span class="sd">            The WorkflowStepDefinitionModel instance to validate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        WorkflowStepDefinitionModel</span>
+<span class="sd">            The validated instance of WorkflowStepDefinitionModel</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValueError</span>
+<span class="sd">            If the plugin name is not valid for the specified plugin kind.</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Empty : Missing step details&quot;</span><span class="p">)</span>
+        <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">name</span>
+        <span class="n">plugin_kind</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kind</span>
 
-        <span class="c1"># Delegate arguments validation to each plugin type argument class</span>
-        <span class="n">plugin_type</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;type&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">plugin_type</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Plugin name cannot be empty&quot;</span><span class="p">)</span>
-        <span class="n">plugin_type_pascal_case</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">plugin_type</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)]</span>
+        <span class="n">valid_plugin_names</span> <span class="o">=</span> <span class="n">get_plugin_names</span><span class="p">(</span><span class="n">plugin_kind</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_plugin_names</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;[!] Invalid plugin name &#39;</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">&#39;. </span><span class="se">\n\t</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Must be one of </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">valid_plugin_names</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">model</span>
+
+    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;after&quot;</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_validate_plugin_arguments</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="s2">&quot;WorkflowStepDefinitionModel&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;WorkflowStepDefinitionModel&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Validate and organize details for each step.</span>
+
+<span class="sd">        This validator is called after the model is initialized. It ensures that the</span>
+<span class="sd">        `kind`, `name`, and `arguments` attributes are properly validated and</span>
+<span class="sd">        structured for each workflow step.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        model: WorkflowStepDefinitionModel</span>
+<span class="sd">            The WorkflowStepDefinitionModel instance to validate.</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        WorkflowStepDefinitionModel</span>
+<span class="sd">            The validated instance of WorkflowStepDefinitionModel</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Delegate arguments validation to each plugin kind argument class</span>
+        <span class="n">plugin_kind</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kind</span>
+        <span class="n">plugin_kind_pascal_case</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">word</span><span class="o">.</span><span class="n">capitalize</span><span class="p">()</span> <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">plugin_kind</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)]</span>
         <span class="p">)</span>
-        <span class="n">plugin_arguments_model_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_type_pascal_case</span><span class="si">}</span><span class="s2">ArgumentsModel&quot;</span>
+        <span class="n">plugin_arguments_model_name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_kind_pascal_case</span><span class="si">}</span><span class="s2">ArgumentsModel&quot;</span>
         <span class="c1"># Dictionary listing all plugin arguments models</span>
         <span class="n">plugin_arguments_models</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;AlgorithmArgumentsModel&quot;</span><span class="p">:</span> <span class="n">AlgorithmArgumentsModel</span><span class="p">,</span>
@@ -659,99 +702,37 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;FilenameFormatterArgumentsModel&quot;</span><span class="p">:</span> <span class="n">FilenameFormatterArgumentsModel</span><span class="p">,</span>
             <span class="s2">&quot;InterpolatorArgumentsModel&quot;</span><span class="p">:</span> <span class="n">InterpolatorArgumentsModel</span><span class="p">,</span>
             <span class="s2">&quot;OutputFormatterArgumentsModel&quot;</span><span class="p">:</span> <span class="n">OutputFormatterArgumentsModel</span><span class="p">,</span>
+            <span class="s2">&quot;CoverageCheckerArgumentsModel&quot;</span><span class="p">:</span> <span class="n">CoverageCheckerArgumentsModel</span><span class="p">,</span>
             <span class="s2">&quot;ReaderArgumentsModel&quot;</span><span class="p">:</span> <span class="n">ReaderArgumentsModel</span><span class="p">,</span>
             <span class="s2">&quot;WorkflowArgumentsModel&quot;</span><span class="p">:</span> <span class="n">WorkflowArgumentsModel</span><span class="p">,</span>
         <span class="p">}</span>
-        <span class="n">plugin_arguments_model</span> <span class="o">=</span> <span class="n">plugin_arguments_models</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
-            <span class="n">plugin_arguments_model_name</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">plugin_arguments_model</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">plugin_arguments_model</span> <span class="o">=</span> <span class="n">plugin_arguments_models</span><span class="p">[</span>
+                <span class="n">plugin_arguments_model_name</span>
+            <span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">valid_models</span> <span class="o">=</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">plugin_arguments_models</span><span class="p">)</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s1">&#39;The argument class/model &quot;</span><span class="si">{</span><span class="n">plugin_arguments_model_name</span><span class="si">}</span><span class="s1">&quot; for&#39;</span>
-                <span class="sa">f</span><span class="s1">&#39;the plugin type &quot;</span><span class="si">{</span><span class="n">plugin_type</span><span class="si">}</span><span class="s1">&quot; is not defined.&#39;</span>
+                <span class="sa">f</span><span class="s1">&#39;the plugin kind &quot;</span><span class="si">{</span><span class="n">plugin_kind</span><span class="si">}</span><span class="s1">&quot; is not defined. Valid available&#39;</span>
+                <span class="sa">f</span><span class="s2">&quot;models are </span><span class="si">{</span><span class="n">valid_models</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+            <span class="n">LOG</span><span class="o">.</span><span class="n">interactive</span><span class="p">(</span>
+                <span class="s2">&quot;Plugin kind &#39;</span><span class="si">%s</span><span class="s2">&#39; was already validated, yet PluginArgumentsModel &quot;</span>
+                <span class="s2">&quot;lookup failed. Please report this to the GeoIPS development team&quot;</span>
             <span class="p">)</span>
 
-        <span class="n">plugin_arguments_raw</span> <span class="o">=</span> <span class="n">values</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;arguments&quot;</span><span class="p">)</span>
+        <span class="n">plugin_arguments_model</span><span class="p">(</span><span class="o">**</span><span class="n">model</span><span class="o">.</span><span class="n">arguments</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">plugin_arguments_raw</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">plugin_arguments_raw</span> <span class="o">==</span> <span class="s2">&quot;null&quot;</span><span class="p">:</span>
-            <span class="n">plugin_arguments_raw</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin_arguments_raw</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;The &#39;arguments&#39; field for </span><span class="si">{</span><span class="n">plugin_type</span><span class="si">}</span><span class="s2"> must be a dictionary, got &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">plugin_arguments_raw</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
-            <span class="p">)</span>
-
-        <span class="n">plugin_arguments_model</span><span class="p">(</span><span class="o">**</span><span class="n">plugin_arguments_raw</span><span class="p">)</span>
-
-        <span class="k">return</span> <span class="n">values</span></div>
-
-
-<div class="viewcode-block" id="WorkflowStepModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowStepModel</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate and process a sequence of steps with their data.&quot;&quot;&quot;</span>
-
-    <span class="n">definition</span><span class="p">:</span> <span class="n">WorkflowStepDefinitionModel</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
-        <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Sequence of workflow steps&quot;</span>
-    <span class="p">)</span>
-
-    <span class="nd">@model_validator</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s2">&quot;before&quot;</span><span class="p">)</span>
-    <span class="k">def</span><span class="w"> </span><span class="nf">_plugin_name_validator</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">values</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Validate user input for the plugin type.</span>
-
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        values : dict</span>
-<span class="sd">            The step data containing step name (plugin type) and its content.</span>
-
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        dict</span>
-<span class="sd">            processed step data after step name validation.</span>
-
-
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        ValueError</span>
-<span class="sd">            if the user input step name is not in the valid_types list</span>
-<span class="sd">            if the user input step name and type (if provided) are not same</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">values</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Empty : Step data cannot be empty.&quot;</span><span class="p">)</span>
-
-        <span class="n">valid_types</span> <span class="o">=</span> <span class="n">get_plugin_types</span><span class="p">()</span>
-
-        <span class="c1"># extract step name and step data</span>
-        <span class="n">plugin_type</span><span class="p">,</span> <span class="n">step_data</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="nb">iter</span><span class="p">(</span><span class="n">values</span><span class="o">.</span><span class="n">items</span><span class="p">()))</span>
-
-        <span class="c1"># raise error if the step name (plugin type) is not valid</span>
-        <span class="k">if</span> <span class="n">plugin_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">valid_types</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;invalid step name : </span><span class="si">{</span><span class="n">plugin_type</span><span class="si">}</span><span class="s2">.</span><span class="se">\n\t</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Must be one of </span><span class="si">{</span><span class="n">valid_types</span><span class="si">}</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-        <span class="c1"># extract value for type field (if provided) otherwise</span>
-        <span class="c1"># add the key value for step name</span>
-        <span class="k">if</span> <span class="s2">&quot;type&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">step_data</span><span class="p">:</span>
-            <span class="n">step_data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">plugin_type</span>
-
-        <span class="c1"># ensure &#39;type&#39; field matches step name</span>
-        <span class="k">if</span> <span class="n">step_data</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">!=</span> <span class="n">plugin_type</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;step name : &#39;</span><span class="si">{</span><span class="n">plugin_type</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;and type : &#39;</span><span class="si">{</span><span class="n">step_data</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39; mismatch. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Check your workflow definition</span><span class="se">\n\n</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-
-        <span class="k">return</span> <span class="p">{</span><span class="s2">&quot;definition&quot;</span><span class="p">:</span> <span class="n">step_data</span><span class="p">}</span></div>
+        <span class="k">return</span> <span class="n">model</span></div>
 
 
 <div class="viewcode-block" id="WorkflowSpecModel"><a class="viewcode-back" href="../../../geoips_api/geoips.pydantic.html#geoips.pydantic.workflows.WorkflowSpecModel">[docs]</a><span class="k">class</span><span class="w"> </span><span class="nc">WorkflowSpecModel</span><span class="p">(</span><span class="n">FrozenModel</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;The specification for a workflow.&quot;&quot;&quot;</span>
 
     <span class="c1"># list of steps</span>
-    <span class="n">steps</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">WorkflowStepModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
+    <span class="n">steps</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="n">PythonIdentifier</span><span class="p">,</span> <span class="n">WorkflowStepDefinitionModel</span><span class="p">]</span> <span class="o">=</span> <span class="n">Field</span><span class="p">(</span>
         <span class="o">...</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="s2">&quot;Steps to produce the workflow.&quot;</span>
     <span class="p">)</span></div>
 

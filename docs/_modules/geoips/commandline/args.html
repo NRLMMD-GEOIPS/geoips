@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.commandline.args &#8212; GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation</title>
+    <title>geoips.commandline.args &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=56cf5eff"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Apr 30, 2025 21:25:04"/>
+    <meta name="docbuild:last-update" content="Jul 15, 2025 18:17:18"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.15.1.post567.dev0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -436,7 +436,7 @@ window.addEventListener("load", () => mermaid.run());
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="kn">import</span> <span class="n">abspath</span><span class="p">,</span> <span class="n">exists</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">os</span><span class="w"> </span><span class="kn">import</span> <span class="n">getenv</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">json</span><span class="w"> </span><span class="kn">import</span> <span class="n">loads</span> <span class="k">as</span> <span class="n">jloads</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">ast</span><span class="w"> </span><span class="kn">import</span> <span class="n">literal_eval</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">isodate</span>
 
 <span class="n">LOG</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -716,7 +716,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--sector_adjuster_kwargs&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify sector_adjuster kwargs that should be used for</span>
 <span class="s2">                            this sector_adjuster. Should be formatted as a json</span>
 <span class="s2">                            dictionary string&quot;&quot;&quot;</span><span class="p">,</span>
@@ -899,7 +899,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--product_spec_override&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify product spec fields to override the default specifications.</span>
 <span class="s2">                            Should be formatted as a json dictionary string&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="p">)</span>
@@ -931,7 +931,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--compare_paths_override&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;NOT YET IMPLEMENTED Specify dictionary of full paths to directories</span>
 <span class="s2">                            (with &lt;product&gt; and &lt;output&gt; wildcards) containing</span>
 <span class="s2">                            output products to compare with current outputs.</span>
@@ -975,7 +975,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--filename_formatter_kwargs&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify filename format kwargs that should be used for</span>
 <span class="s2">                            this filename_formatter. Should be formatted as a json</span>
 <span class="s2">                            dictionary string&quot;&quot;&quot;</span><span class="p">,</span>
@@ -997,7 +997,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--metadata_filename_formatter_kwargs&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify filename format kwargs that should be used for</span>
 <span class="s2">                            this metadata_filename_formatter.</span>
 <span class="s2">                            Should be formatted as a json dictionary string&quot;&quot;&quot;</span><span class="p">,</span>
@@ -1018,7 +1018,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--output_formatter_kwargs&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify output format kwargs that should be used for this</span>
 <span class="s2">                    output_formatter. should be formatted as a json dictionary string,</span>
 <span class="s2">                    ie: &#39;{&quot;title_formatter&quot;: &quot;tc_copyright&quot;, &quot;title_copyright&quot;: &quot;NRL&quot;}&#39;</span>
@@ -1040,7 +1040,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--metadata_output_formatter_kwargs&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify output format kwargs that should be used for this metadata.</span>
 <span class="s2">                    Should be formatted as a json dictionary string.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="p">)</span>
@@ -1067,7 +1067,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">procflow_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
             <span class="s2">&quot;--output_checker_kwargs&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Output Checker Keyword Arguments.</span>
 <span class="s2">                    - These keyword arguments get passed through directly to the</span>
 <span class="s2">                      outputs_match method on the output_checker plugin.</span>
@@ -1096,7 +1096,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--reader_kwargs&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify reader kwargs that should be used for</span>
 <span class="s2">                            this reader. Should be formatted as a json</span>
 <span class="s2">                            dictionary string&quot;&quot;&quot;</span><span class="p">,</span>
@@ -1232,7 +1232,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--fuse_reader_kwargs&quot;</span><span class="p">,</span>
             <span class="n">action</span><span class="o">=</span><span class="s2">&quot;append&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Provide the reader kwargs for files passed under the</span>
 <span class="s2">                    fuse_files flag. Should be formatted as a json dictionary string.</span>
 <span class="s2">                    Only provide one json dict str to this flag.</span>
@@ -1326,7 +1326,7 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">prod_db_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
             <span class="s2">&quot;--product_db_writer_kwargs&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Provide the product db writer kwargs for the plugin passed under the</span>
 <span class="s2">                    product_db_writer flag. Should be formatted as a json dictionary</span>
 <span class="s2">                    string. Only provide one json dict str to this flag.&quot;&quot;&quot;</span><span class="p">,</span>
@@ -1335,10 +1335,16 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--product_db_writer_override&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify product database writer that should be used for each</span>
 <span class="s2">                    available sector should be formatted as a json dictionary</span>
 <span class="s2">                    string.&quot;&quot;&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">prod_db_group</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span>
+            <span class="s2">&quot;--store_checkpoint_statistics&quot;</span><span class="p">,</span>
+            <span class="n">action</span><span class="o">=</span><span class="s2">&quot;store_true&quot;</span><span class="p">,</span>
+            <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Store the tracked resource usage statistics for each checkpoint to</span>
+<span class="s2">                    the backend database.&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
     <span class="n">composite_group</span> <span class="o">=</span> <span class="n">parser</span><span class="o">.</span><span class="n">add_argument_group</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="s2">&quot;Image composite kwargs&quot;</span><span class="p">)</span>
@@ -1347,7 +1353,7 @@ window.addEventListener("load", () => mermaid.run());
             <span class="s2">&quot;--composite_output_kwargs_override&quot;</span><span class="p">,</span>
             <span class="n">nargs</span><span class="o">=</span><span class="s2">&quot;?&quot;</span><span class="p">,</span>
             <span class="n">default</span><span class="o">=</span><span class="p">{},</span>
-            <span class="nb">type</span><span class="o">=</span><span class="n">jloads</span><span class="p">,</span>
+            <span class="nb">type</span><span class="o">=</span><span class="n">literal_eval</span><span class="p">,</span>
             <span class="n">help</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;Specify product composite kwargs that should be used for each</span>
 <span class="s2">                    available sector output. Should be formatted as a json dictionary</span>
 <span class="s2">                    string.&quot;&quot;&quot;</span><span class="p">,</span>
