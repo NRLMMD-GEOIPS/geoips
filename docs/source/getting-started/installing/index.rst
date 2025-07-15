@@ -13,6 +13,6 @@ Installing GeoIPS
     :caption: Contents:
 
     user_linux_with_conda
-    mac_with_conda
+    user_mac_with_conda
     windows_with_conda
     expert
