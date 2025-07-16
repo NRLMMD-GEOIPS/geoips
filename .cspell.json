@@ -5,7 +5,8 @@
     // Words considered correct for THIS project specifically
     "words": [
         // Project Specific / Acronyms / People / Orgs
-        "AWIPS",
+        "libopenblas",
+	"AWIPS",
         "CIMSS",
         "CIRA",
         "CIRA's",
@@ -89,6 +90,7 @@
         "pydantic",
         "pygrib",
         "pyhdf",
+        "pykdtree",
         "pyproj",
         "pyproject",
         "pypublicdecompwt",

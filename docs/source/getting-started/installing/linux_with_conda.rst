@@ -5,53 +5,19 @@
 
 .. _linux-installation:
 
-Conda-based Installation for Linux
-**********************************
+Installation on Linux
+*********************
 
-Using a fresh Mini/Anaconda Python 3.11+ Environment is the easiest way to
-get geoips up and running.
+This page provides instructions for installing GeoIPS using wheels from PyPI in a
+conda virtual environment. This installation method is recommended for users with
+or without administrative privleges.
 
-Complete Local conda-based GeoIPS Installation
-==============================================
+Developers of core GeoIPS should follow the appropriate guide under "Contribute".
 
-The following instructions will guide you through installing GeoIPS using
-Anaconda Python. This installation method allows users to install GeoIPS without
-requiring administrative privileges by using Conda to install all of the
-"Required" system dependencies, then installing geoips into
-that conda environment.
-
-1. Set GeoIPS Environment Variables
------------------------------------
-
-In order to support GeoIPS' testing infrastructure, there are a few required
-environment variables.
-You can change your installation location by changing the value of
-``$GEOIPS_PACKAGES_DIR`` below.
-
-.. code:: bash
-
-    # GeoIPS Default Locations
-    # Point to base URL for git clone commands
-    export GEOIPS_REPO_URL=https://github.com/NRLMMD-GeoIPS
-    export GEOIPS_PACKAGES_DIR=$HOME/geoips
-    export GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
-    export GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
-    # Clone the GeoIPS git repository, for installation and testing setup
-    mkdir -p $GEOIPS_PACKAGES_DIR
-    git clone ${GEOIPS_REPO_URL}/geoips.git $GEOIPS_PACKAGES_DIR/geoips
-
-If desired, the GeoIPS environment variables can be added to your
-``$HOME/.bashrc`` by running the following commands:
-
-.. code:: bash
-
-    echo "export GEOIPS_REPO_URL=$GEOIPS_REPO_URL" >> ~/.bashrc
-    echo "export GEOIPS_PACKAGES_DIR=$GEOIPS_PACKAGES_DIR" >> ~/.bashrc
-    echo "export GEOIPS_TESTDATA_DIR=$GEOIPS_TESTDATA_DIR" >> ~/.bashrc
-    echo "export GEOIPS_OUTDIRS=$GEOIPS_OUTDIRS" >> ~/.bashrc
-
-2. Install Anaconda or Miniconda
+1. Install Anaconda or Miniconda
 --------------------------------
+
+Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 
 - Download the appropriate version of `Conda
   <https://www.anaconda.com/download#downloads>`_,  `Miniconda
@@ -66,8 +32,7 @@ If desired, the GeoIPS environment variables can be added to your
       # wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh
       wget https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-Linux-x86_64.sh
 
-- Make the install script executable and run the installer,
-  following the prompts (particularly the bit about
+- Make the installer script executable and run it, following the prompts (particularly the bit about
   conda init / restarting terminal!):
 
   .. code:: bash
@@ -82,109 +47,84 @@ If desired, the GeoIPS environment variables can be added to your
       # Clean up after yourself
       rm -f ./Miniforge3-Linux-x86_64.sh
 
-3. Create and activate a conda environment with some dependencies
------------------------------------------------------------------
 
-Next we'll create a conda environment named ``geoips`` that contains all system
-requirements for GeoIPS. Many of these may already be installed on your system,
-but this command will ensure that for everyone.
+- Create a conda environment named, for example, ``geoips`` with the appropriate
+  dependencies:
 
-.. code:: bash
 
-    # Note geos no longer required for cartopy >= 0.22
-    # openblas / gcc required for recenter_tc / akima build.
-    # git required for -C commands
-    # libgit2 sometimes required for brassy
-    mamba create -y -n geoips -c conda-forge python=3.11 gcc gxx openblas git libgit2
-    conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
+  .. code:: bash
 
-**Note:** You will need to run ``conda activate geoips``
-every time you want to run or work on GeoIPS.
+      # These mamba packages are likely not all required, but it provides a thorough set of
+      # libraries to avoid potential missing system dependencies.
+      mamba create -y -n geoips -c conda-forge python=3.11 cmake make git libgit2 gxx_linux-64 gcc gxx gfortran
+      conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
-4. Install the GeoIPS git repository
-------------------------------------
+.. note::
 
-This command installs all GeoIPS Python dependencies, and GeoIPS itself.
+   You must run ``conda activate geoips``
+   every time you run or work with GeoIPS.
+
+2. Install GeoIPS using pip
+---------------------------
+
+Once inside the `geoips` environment, install GeoIPS from PyPI:
 
 .. code:: bash
 
-    # Ensure geoips python environment enabled before installing geoips
-    pip install -e "$GEOIPS_PACKAGES_DIR/geoips[doc,lint,test,debug]"
+    pip install geoips
 
-5. Test your installation
--------------------------
+3. Test Data Setup
+------------------
 
-To test your installation you will need to download test data,
-and run integration tests:
-
-- ``base_install.sh`` will clone repositories containing test data.
-- ``pytest -m "integration and base"`` will run the base geoips integration tests
-  to confirm installation is working correctly.  For more information on running
-  pytest-based integration tests, please see
-  https://github.com/NRLMMD-GEOIPS/geoips/blob/942ef8e7d66a163fa7feba9e1f17a95d3ba83b63/docs/dev/integration_tests.rst#L114
+GeoIPS test data download requires the following environment variables to be set:
 
 .. code:: bash
 
-    # Ensure geoips python environment enabled
+    conda env config vars set GEOIPS_PACKAGES_DIR=$HOME/geoips
+    # Reactivate environment for variables to take effect
+    conda deactivate && conda activate geoips
+    conda env config vars set GEOIPS_TESTDATA_DIR=$GEOIPS_PACKAGES_DIR/test_data
+    conda env config vars set GEOIPS_OUTDIRS=$GEOIPS_PACKAGES_DIR/outdirs
+    conda deactivate && conda activate geoips
+    mkdir -p "$GEOIPS_PACKAGES_DIR" "$GEOIPS_TESTDATA_DIR" "$GEOIPS_OUTDIRS"
 
-    # Install base GeoIPS package and minimal test datasets.
-    $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
+.. note::
 
-    # Run integration tests
-    pytest -m "integration and base" $GEOIPS_PACKAGES_DIR/geoips
+   You can customize test data location
+   by changing the value of ``GEOIPS_TESTDATA_DIR``.
 
-6. Test output
---------------
+4. Run a Sample Script
+----------------------
 
-- **Successful Run**:
-  If all tests pass, `pytest` will report a summary at the end indicating
-  success (e.g, `== 53 passed in 30.00m ==`).
-
-- **Failures**:
-  If any script fails, `pytest` will display a traceback and the relevant
-  command output. Since these scripts are run via bash, a `CalledProcessError`
-  may be raised if the shell command returns a non-zero exit code. In such
-  cases, review the error output to determine what went wrong, fix the
-  underlying issue (or ask for help), and rerun the tests.
-
-- **Debugging Failed Tests**:
-  Consider running the failed script directly in a terminal to isolate the
-  problem. For example, if a test script
-  `"$geoips_repopath/tests/scripts/abi.config_based_output.sh"` fails, try
-  running it separately:
-
-  .. code-block:: bash
-
-      cd $geoips_repopath
-      bash tests/scripts/abi.config_based_output.sh
-
-  This can help you identify environment issues, missing dependencies, or
-  other runtime problems.
-
-7. OPTIONAL: Capture working requirements.txt for base install
---------------------------------------------------------------
-
-OPTIONAL: These can be commited to the repository for reference - only commit if
-base_test.sh returns 0!  Not required.
+Download the sample dataset using geoips CLI command:
 
 .. code:: bash
 
-  if [[ "$NEW_GEOIPS_VERSION" != "" ]]; then
-      GEOIPS_VERSION=$NEW_GEOIPS_VERSION
-  fi
-  if [[ "$GEOIPS_VERSION" == "" ]]; then
-      GEOIPS_VERSION=`python -c "import geoips; print(geoips.__version__)"`
-  fi
+    geoips config install test_data_abi
 
-  mkdir -p $GEOIPS_PACKAGES_DIR/geoips/environments
+Test the installation by running a sample GeoIPS processing script.
 
-  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_pip_environment \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERSION}_`date -u +%Y%m%d`.txt
+.. code:: bash
 
-  $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh dump_mamba_environment \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/mamba_base_package_list_${GEOIPS_VERSION}_`date -u +%Y%m%d`.yml
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_abi/data/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C* \
+    --reader_name abi_netcdf \
+    --product_name Infrared \
+    --output_formatter imagery_annotated \
+    --sector_list conus
 
-  # Copy the base pip requirements to requirements.txt, for good measure
-  cp \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/pip_base_requirements_${GEOIPS_VERSION}_`date -u +%Y%m%d`.txt \
-    $GEOIPS_PACKAGES_DIR/geoips/environments/requirements.txt
+The end of the output from the above script should resemble the example below, showing
+the path to the generated output image. The final line should display `Return value: 0`,
+indicating that the script ran successfully.
+
+.. code:: bash
+
+    # Truncated log output from the script run
+    .......
+    11_191109    log_setup.py:162  INTERACTIVE: SINGLESOURCESUCCESS ${GEOIPS_OUTDIRS}/preprocessed/annotated_imagery/NorthAmerica-UnitedStates-Continental/x-x-x/Infrared/abi/20200918.195020.goes-16.abi.Infrared.conus.97p12.noaa.3p0.png
+    11_191109    log_setup.py:162  INTERACTIVE: READER_NAME: abi_netcdf
+    11_191109    log_setup.py:162  INTERACTIVE: PRODUCT_NAME: Infrared
+    11_191109    log_setup.py:162  INTERACTIVE: NUM_PRODUCTS: 1
+    11_191109    log_setup.py:162  INTERACTIVE: NUM_DELETED_PRODUCTS: 0
+    11_191109    log_setup.py:162  INTERACTIVE: Completed geoips PROCFLOW single_source processing, done!
+    11_191109    log_setup.py:162  INTERACTIVE: Total time: 0:00:24.911853
+    11_191109    log_setup.py:162  INTERACTIVE: Return value: 0
