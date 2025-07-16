@@ -7,7 +7,7 @@ Various configuration-based commands for setting up your geoips environment.
 """
 
 import pathlib
-from os import listdir, environ, makedirs, remove
+from os import listdir, remove
 from os.path import abspath, exists, join
 import subprocess
 import requests
@@ -283,7 +283,7 @@ class GeoipsConfigInstallGithub(GeoipsExecutableCommand):
         call_list = [
             "bash",
             join(
-                environ.get("GEOIPS_PACKAGES_DIR"),
+                geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"],
                 "geoips",
                 "setup",
                 "check_system_requirements.sh",
