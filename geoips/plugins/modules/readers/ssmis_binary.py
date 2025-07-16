@@ -88,6 +88,14 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     return final_xobjs
 
 
+def parse_datetime_array(time_array, time_format):
+    """Parse an array of time strings into numpy datetime64 objects."""
+    time_utc = pd.to_datetime(
+        time_array.ravel(), format=time_format, utc=True
+    ).values.reshape(time_array.shape)
+    return xr.DataArray(time_utc)
+
+
 def append_xarray_dicts(xobjs_list):
     """Append two dictionaries of xarray objects."""
     final_xobjs = {}
@@ -992,9 +1000,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_imager["H91"].attrs["channel_number"] = 18
     xarray_imager["sfcType"] = xr.DataArray(surf)
     xarray_imager["rain"] = xr.DataArray(rain)
-    xarray_imager["time"] = xr.DataArray(
-        pd.DataFrame(time_imager).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
-    )
+    xarray_imager["time"] = parse_datetime_array(time_imager, "%Y%j%H%M")
 
     # set xarray object for enviro  variables
     xarray_enviro = xr.Dataset()
@@ -1022,9 +1028,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_enviro["Ch17_5x4"].attrs["channel_number"] = 17
     xarray_enviro["Ch18_5x4"] = xr.DataArray(ch18_5x4 / 100 + 273.15)
     xarray_enviro["Ch18_5x4"].attrs["channel_number"] = 18
-    xarray_enviro["time"] = xr.DataArray(
-        pd.DataFrame(time_enviro).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
-    )
+    xarray_enviro["time"] = parse_datetime_array(time_enviro, "%Y%j%H%M")
 
     # set xarray object for LAS  variables
     xarray_las = xr.Dataset()
@@ -1058,9 +1062,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_las["Ch24_3x3"].attrs["channel_number"] = 24
     xarray_las["Height_1000mb"] = xr.DataArray(height_1000mb)
     xarray_las["Surf_las"] = xr.DataArray(surf_las)
-    xarray_las["time"] = xr.DataArray(
-        pd.DataFrame(time_las).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
-    )
+    xarray_las["time"] = parse_datetime_array(time_las, "%Y%j%H%M")
 
     # set xarray object for UAS  variables
     xarray_uas = xr.Dataset()
@@ -1080,9 +1082,7 @@ def read_ssmis_data_file(fname, metadata_only=False):
     xarray_uas["Ch24_6x6"].attrs["channel_number"] = 24
     xarray_uas["Scene"] = xr.DataArray(scene)
     xarray_uas["tqFlag"] = xr.DataArray(tqflag)
-    xarray_uas["time"] = xr.DataArray(
-        pd.DataFrame(time_uas).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
-    )
+    xarray_uas["time"] = parse_datetime_array(time_uas, "%Y%j%H%M")
 
     # Setup attributes
 

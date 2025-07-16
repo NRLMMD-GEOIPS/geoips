@@ -126,11 +126,16 @@ def read_gmi_file(fname, xarray_gmi):
         final_xarray["H166"] = xr.DataArray(H166)
         final_xarray["V183-3"] = xr.DataArray(V183_3)
         final_xarray["V183-7"] = xr.DataArray(V183_7)
-        final_xarray["time"] = xr.DataArray(
-            pd.DataFrame(time_scan)
-            .astype(int)
-            .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
-        )
+        time_scan_utc = pd.to_datetime(
+            time_scan.ravel(), format="%Y%m%d%H%M%S", utc=True
+        ).values.reshape(time_scan.shape)
+        final_xarray["time"] = xr.DataArray(time_scan_utc)
+
+        # final_xarray["time"] = xr.DataArray(
+        #     pd.DataFrame(time_scan)
+        #     .astype(int)
+        #     .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
+        # )
     else:
         final_xarray["latitude"] = xr.DataArray(
             np.vstack([xarray_gmi["latitude"].to_masked_array(), lat])
@@ -177,11 +182,15 @@ def read_gmi_file(fname, xarray_gmi):
         final_xarray["V183-7"] = xr.DataArray(
             np.vstack([xarray_gmi["V183-7"].to_masked_array(), V183_7])
         )
-        new_time = xr.DataArray(
-            pd.DataFrame(time_scan)
-            .astype(int)
-            .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
-        )
+        time_scan_utc = pd.to_datetime(
+            time_scan.ravel(), format="%Y%m%d%H%M%S", utc=True
+        ).values.reshape(time_scan.shape)
+        new_time = xr.DataArray(time_scan_utc)
+        #   new_time = xr.DataArray(
+        #       pd.DataFrame(time_scan)
+        #       .astype(int)
+        #       .apply(pd.to_datetime, format="%Y%m%d%H%M%S")
+        #   )
         final_xarray["time"] = xr.DataArray(
             np.vstack(
                 [

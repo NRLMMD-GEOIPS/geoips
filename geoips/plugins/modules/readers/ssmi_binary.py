@@ -82,6 +82,14 @@ source_names = ["ssmi"]
 # variables are needed in this for moving through the binary file correctly.
 
 
+def parse_datetime_array(time_array, time_format):
+    """Parse an array of time strings into numpy datetime64 objects."""
+    time_utc = pd.to_datetime(
+        time_array.ravel(), format=time_format, utc=True
+    ).values.reshape(time_array.shape)
+    return xr.DataArray(time_utc)
+
+
 def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
     """Read SSMI FNMOC Binary Data.
 
@@ -575,9 +583,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_lores["V22"] = xr.DataArray(V22)
     xarray_lores["V37"] = xr.DataArray(V37)
     xarray_lores["H37"] = xr.DataArray(H37)
-    xarray_lores["time"] = xr.DataArray(
-        pd.DataFrame(time_scan_lo).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
-    )
+    xarray_lores["time"] = parse_datetime_array(time_scan_lo, "%Y%j%H%M")
 
     # for combined 85GHz A-B channels
     xarray_85ab = xr.Dataset()
@@ -586,6 +592,7 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     xarray_85ab["V85"] = xr.DataArray(V85)
     xarray_85ab["H85"] = xr.DataArray(H85)
     xarray_85ab["sfcType"] = xr.DataArray(sfcType)
+    xarray_85ab["time"] = parse_datetime_array(time_scan_lo, "%Y%j%H%M")
     xarray_85ab["time"] = xr.DataArray(
         pd.DataFrame(time_scan).astype(int).apply(pd.to_datetime, format="%Y%j%H%M")
     )
