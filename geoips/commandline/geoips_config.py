@@ -131,9 +131,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         outdir = args.outdir
 
         if not outdir.is_dir():
-            self.parser.error(
-                f"Specified output directory {outdir} doesn't exist."
-            )
+            self.parser.error(f"Specified output directory {outdir} doesn't exist.")
             raise FileNotFoundError(outdir)
 
         if len(test_dataset_names) > 1 and "all" in test_dataset_names:
