@@ -18,7 +18,7 @@ Developers of core GeoIPS should follow the appropriate guide under "Contribute"
 1. Install Anaconda or Miniconda
 --------------------------------
 
-Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
+Use a fresh Anaconda or Miniconda environment with **Python 3.11 or later**.
 
 - Download the appropriate version of `Conda
   <https://www.anaconda.com/download#downloads>`_,  `Miniconda
@@ -27,16 +27,16 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
 
   .. code:: bash
 
+      # Anaconda for Intel chips
+      curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
+      # Anaconda for ARM (M1/M2) chips
+      curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
       # Mamba for Intel chips
       curl -L -o conda_install.sh \
       https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
       # Mamba for ARM (M1/M2) chips
       curl -L -o conda_install.sh \
       https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-      # Anaconda for Intel chips
-      curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
-      # Anaconda for ARM (M1/M2) chips
-      curl -L -o conda_install.sh https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
       # Miniconda for Intel chips
       curl -L -o conda_install.sh https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
       # Miniconda for ARM (M1/M2) chips
