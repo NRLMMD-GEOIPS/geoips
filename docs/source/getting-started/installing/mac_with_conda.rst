@@ -25,7 +25,7 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
   <https://docs.conda.io/en/latest/miniconda.html>`_, or
   `Miniforge/Mambaforge <https://github.com/conda-forge/miniforge#download>`_.
 
-  .. code:: bash  
+  .. code:: bash
 
       # Mamba for Intel chips
       curl -L -o conda_install.sh \
@@ -65,7 +65,7 @@ Use a fresh Miniconda or Anaconda environment with **Python 3.11 or later**.
       # git required for pulling from git and for -C commands
       # pyhdf and pykdtree don't have wheels for mac and don't build cleanly
       #   best to install via conda
-      conda create -y -n geoips -c conda-forge python=3.11 cmake gcc gfortran git gxx gxx_linux-64 libgit2 make openblas pyhdf pykdtree     
+      conda create -y -n geoips -c conda-forge python=3.11 cmake gfortran git libgit2 make openblas pyhdf pykdtree
       conda activate geoips  # RUN EVERY TIME YOU WANT TO USE GEOIPS!
 
 .. note::
