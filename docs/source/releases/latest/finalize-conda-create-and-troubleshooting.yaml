@@ -1,0 +1,24 @@
+installation:
+- title: 'Finalize the conda create command for completeness'
+  description: |
+    Add a thorough list of packages for the conda create command.
+    This is a more complete list than is needed, but may help avoid
+    potential issues with missing libraries for different architectures.
+  files:
+    modified:
+      - docs/source/getting-started/installing/linux_with_conda.rst
+  date:
+    start: 2025-07-15
+    finish: 2025-07-15
+- title: 'Add a troubleshooting page to installation section of docs'
+  description: |
+    During the workshop installation, this can be used to compile issues
+    during the installation process.  After the workshop, this can be used
+    to allow for a simplified installation, with potential issues and
+    resolutions identified.
+  files:
+    modified:
+      - docs/source/getting-started/installing/troubleshooting.rst
+  date:
+    start: 2025-07-15
+    finish: 2025-07-15

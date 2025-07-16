@@ -1,0 +1,19 @@
+documentation:
+- title: 'User instructions for installing GeoIPS on Windows with Conda'
+  description: 'Add installation instructions for external users to install GeoIPS on Windows with Conda'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'docs/source/releases/latest/add-user-install-instructions-Windows.yaml'
+    modified:
+    - 'docs/source/releases/latest/add-user-install-instructions-Windows.yaml'
+    - 'docs/source/getting-started/installing/user_linux_with_conda.rst'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

@@ -26,4 +26,6 @@ Resources for Contributors
    coding-standards
    dev-assisted-package-creation
    git-workflow
+   dev_linux_with_conda
+   dev-install
    testing/index
