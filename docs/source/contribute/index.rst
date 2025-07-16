@@ -27,5 +27,6 @@ Resources for Contributors
    dev-assisted-package-creation
    git-workflow
    dev_linux_with_conda
+   dev_mac_with_conda
    dev-install
    testing/index
