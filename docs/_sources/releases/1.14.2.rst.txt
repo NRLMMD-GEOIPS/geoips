@@ -1,4 +1,4 @@
-Version 1.14.2 (2025-07-15)
+Version 1.14.2 (2025-07-16)
 ***************************
 
  * *Enchancement*: Reader functionality and product fixes

@@ -1,4 +1,4 @@
-Version latest (2025-07-15)
+Version latest (2025-07-16)
 ***************************
 
  * *Documentation*: Enhanced documentation for output formatters and checkers
@@ -7,6 +7,7 @@ Version latest (2025-07-15)
  * *Documentation*: Add pytest testing documentation
  * *Documentation*: Add linux help section to testing documentation
  * *Documentation*: Document file cache and geoips_cache_dir
+ * *Documentation*: User instructions for installing geoips on windows with conda
  * *Documentation*: User instructions for installing geoips on windows with conda
  * *Documentation*: Add test sector documentation
  * *Documentation*: Update to non-conda installation documentation
@@ -146,6 +147,27 @@ Provide documentation describing GEOIPS_CACHE_DIR and the files that get cached.
 
      added: docs/source/concepts/architecture/index.rst
      added: docs/source/concepts/architecture/cached-files.rst
+
+Documentation
+=============
+
+User instructions for installing geoips on windows with conda
+-------------------------------------------------------------
+
+Add installation instructions for external users to install GeoIPS on Windows with Conda
+
+::
+
+     added: docs/source/contribute/dev_mac_with_conda.rst
+     added: docs/source/getting-started/installing/linux_with_conda.rst
+     added: docs/source/getting-started/installing/troubleshooting.rst
+     added: docs/source/releases/latest/add-user-install-instructions-Mac.yaml
+     added: docs/source/releases/latest/finalize-conda-create-and-troubleshooting.yaml
+     modified: .cspell.json
+     modified: docs/source/contribute/index.rst
+     modified: docs/source/getting-started/installing/index.rst
+     modified: docs/source/getting-started/installing/mac_with_conda.rst
+     deleted: docs/source/getting-started/installing/user_linux_with_conda.rst
 
 Documentation
 =============

@@ -1,4 +1,4 @@
-Version 1.16.1 (2025-07-15)
+Version 1.16.1 (2025-07-16)
 ***************************
 
  * *Bug fix*: Update arctic weather satellite sector path and test data repo path

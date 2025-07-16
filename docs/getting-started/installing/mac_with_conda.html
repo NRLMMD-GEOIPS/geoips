@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Conda-based Installation for Mac &#8212; GeoIPS, Geolocated Information Processing System 1.16.1 documentation</title>
+    <title>Installation on Mac &#8212; GeoIPS, Geolocated Information Processing System 1.16.2.post16.dev0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=3ef73d23"></script>
+    <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js?v=d00da8f1"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 15, 2025 20:08:26"/>
+    <meta name="docbuild:last-update" content="Jul 16, 2025 20:42:52"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.16.1 documentation - Home"/>
-    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.16.1 documentation - Home"/>
+    <img src="../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.16.2.post16.dev0 documentation - Home"/>
+    <img src="../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.16.2.post16.dev0 documentation - Home"/>
   
   
 </a></div>
@@ -379,7 +379,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../system-requirements.html">System Requirements</a></li>
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Installing GeoIPS</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="linux_with_conda.html">Installation on Linux</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#">Conda-based Installation for Mac</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">Installation on Mac</a></li>
 <li class="toctree-l2"><a class="reference internal" href="windows_with_conda.html">Linux-based Installation for Windows</a></li>
 <li class="toctree-l2"><a class="reference internal" href="expert.html">Expert User Installation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="troubleshooting.html">Troubleshooting Your Installation</a></li>
@@ -434,7 +434,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Installing GeoIPS</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Conda-based Installation for Mac</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Installation on Mac</span></li>
   </ul>
 </nav>
 </div>
@@ -459,138 +459,118 @@
 <div class="line"># # # <a class="github reference external" href="https://github.com/NRLMMD-GEOIPS">NRLMMD-GEOIPS</a>.</div>
 </div>
 </div>
-</details><section id="conda-based-installation-for-mac">
-<span id="mac-installation"></span><h1>Conda-based Installation for Mac<a class="headerlink" href="#conda-based-installation-for-mac" title="Permalink to this heading">#</a></h1>
-<p>Using a fresh Mini/Anaconda Python 3.11+ Environment is the easiest way to
-get geoips up and running.</p>
-<section id="complete-local-conda-based-geoips-installation">
-<h2>Complete Local conda-based GeoIPS Installation<a class="headerlink" href="#complete-local-conda-based-geoips-installation" title="Permalink to this heading">#</a></h2>
-<p>The following instructions will guide you through installing GeoIPS using
-Anaconda Python on Mac OSX. This installation method allows users to install
-GeoIPS without requiring administrative privileges by using Conda to install all
-of the “Required” system dependencies, then installing geoips into that conda
-environment.</p>
-<section id="set-geoips-environment-variables">
-<h3>1. Set GeoIPS Environment Variables<a class="headerlink" href="#set-geoips-environment-variables" title="Permalink to this heading">#</a></h3>
-<p>In order to support GeoIPS’ testing infrastructure, there are a few required
-environment variables.
-You can change your installation location by changing the value of
-<code class="docutils literal notranslate"><span class="pre">$GEOIPS_PACKAGES_DIR</span></code> below.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># GeoIPS Default Locations</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_REPO_URL</span><span class="o">=</span>https://github.com/NRLMMD-GeoIPS<span class="w">  </span><span class="c1"># Point to base URL for git clone commands</span>
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/test_data
-<span class="nb">export</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/outdirs
-</pre></div>
-</div>
-<p>If desired, the GeoIPS environment variables can be added to your
-<code class="docutils literal notranslate"><span class="pre">$HOME/.bashrc</span></code> or <code class="docutils literal notranslate"><span class="pre">$HOME/.zshrc</span></code> by running the following commands:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_REPO_URL=</span><span class="nv">$GEOIPS_REPO_URL</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_PACKAGES_DIR=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_TESTDATA_DIR=</span><span class="nv">$GEOIPS_TESTDATA_DIR</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-<span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;export GEOIPS_OUTDIRS=</span><span class="nv">$GEOIPS_OUTDIRS</span><span class="s2">&quot;</span><span class="w"> </span>&gt;&gt;<span class="w"> </span>~/.bashrc
-</pre></div>
-</div>
-</section>
+</details><section id="installation-on-mac">
+<span id="mac-installation"></span><h1>Installation on Mac<a class="headerlink" href="#installation-on-mac" title="Permalink to this heading">#</a></h1>
+<p>This page provides instructions for installing GeoIPS using wheels from PyPI in a
+conda virtual environment. This installation method is recommended for users with
+or without administrative privleges.</p>
+<p>Developers of core GeoIPS should follow the appropriate guide under “Contribute”.</p>
 <section id="install-anaconda-or-miniconda">
-<h3>2. Install Anaconda or Miniconda<a class="headerlink" href="#install-anaconda-or-miniconda" title="Permalink to this heading">#</a></h3>
-<ul class="simple">
+<h2>1. Install Anaconda or Miniconda<a class="headerlink" href="#install-anaconda-or-miniconda" title="Permalink to this heading">#</a></h2>
+<p>Use a fresh Anaconda or Miniconda environment with <strong>Python 3.11 or later</strong>.</p>
+<ul>
 <li><p>Download the appropriate version of <a class="reference external" href="https://www.anaconda.com/download#downloads">Conda</a>,  <a class="reference external" href="https://docs.conda.io/en/latest/miniconda.html">Miniconda</a>, or
-<a class="reference external" href="https://github.com/conda-forge/miniforge#download">Miniforge/Mambaforge</a>.</p></li>
-</ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Mamba for Intel chips</span>
+<a class="reference external" href="https://github.com/conda-forge/miniforge#download">Miniforge/Mambaforge</a>.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Anaconda for Intel chips</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span>https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
+<span class="c1"># Anaconda for ARM (M1/M2) chips</span>
+curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span>https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
+<span class="c1"># Mamba for Intel chips</span>
 curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span><span class="se">\</span>
 https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-x86_64.sh
 <span class="c1"># Mamba for ARM (M1/M2) chips</span>
 curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span><span class="se">\</span>
 https://github.com/conda-forge/miniforge/releases/latest/download/Miniforge3-MacOSX-arm64.sh
-<span class="c1"># Anaconda for Intel chips</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span>https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-x86_64.sh
-<span class="c1"># Anaconda for ARM (M1/M2) chips</span>
-curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span>https://repo.anaconda.com/archive/Anaconda3-2023.07-2-MacOSX-arm64.sh
 <span class="c1"># Miniconda for Intel chips</span>
 curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-x86_64.sh
 <span class="c1"># Miniconda for ARM (M1/M2) chips</span>
 curl<span class="w"> </span>-L<span class="w"> </span>-o<span class="w"> </span>conda_install.sh<span class="w"> </span>https://repo.anaconda.com/miniconda/Miniconda3-latest-MacOSX-arm64.sh
 </pre></div>
 </div>
-<ul class="simple">
-<li><p>Make the install script executable and run the installer,
-following the prompts (particularly the bit about
-conda init / restarting terminal!):</p></li>
-</ul>
+</li>
+<li><p>Make the installer script executable and run it, following the prompts (particularly the bit about
+conda init / restarting terminal!):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>chmod<span class="w"> </span>u+x<span class="w"> </span>conda_install.sh
 ./conda_install.sh
 <span class="c1"># Follow instructions regarding conda init / restarting your terminal !</span>
 </pre></div>
 </div>
-</section>
-<section id="create-and-activate-a-conda-environment-with-some-dependencies">
-<h3>3. Create and activate a conda environment with some dependencies<a class="headerlink" href="#create-and-activate-a-conda-environment-with-some-dependencies" title="Permalink to this heading">#</a></h3>
-<p>Next we’ll create a conda environment named <code class="docutils literal notranslate"><span class="pre">geoips</span></code> that contains all system
-requirements for GeoIPS. Many of these may already be installed on your system,
-but this command will ensure that for everyone.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Clean up after yourself</span>
+rm<span class="w"> </span>-f<span class="w"> </span>./Miniforge3-Linux-x86_64.sh
+</pre></div>
+</div>
+</li>
+<li><p>Create a conda environment named, for example, <code class="docutils literal notranslate"><span class="pre">geoips</span></code> with the appropriate
+dependencies:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># git required for pulling from git and for -C commands</span>
 <span class="c1"># pyhdf and pykdtree don&#39;t have wheels for mac and don&#39;t build cleanly</span>
 <span class="c1">#   best to install via conda</span>
-conda<span class="w"> </span>create<span class="w"> </span>-y<span class="w"> </span>-n<span class="w"> </span>geoips<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>openblas<span class="w"> </span>git<span class="w"> </span>pyhdf<span class="w"> </span>pykdtree
+conda<span class="w"> </span>create<span class="w"> </span>-y<span class="w"> </span>-n<span class="w"> </span>geoips<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span><span class="nv">python</span><span class="o">=</span><span class="m">3</span>.11<span class="w"> </span>cmake<span class="w"> </span>gfortran<span class="w"> </span>git<span class="w"> </span>libgit2<span class="w"> </span>make<span class="w"> </span>openblas<span class="w"> </span>pyhdf<span class="w"> </span>pykdtree
 conda<span class="w"> </span>activate<span class="w"> </span>geoips<span class="w">  </span><span class="c1"># RUN EVERY TIME YOU WANT TO USE GEOIPS!</span>
 </pre></div>
 </div>
-<p><strong>Note:</strong> You will need to run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">geoips</span></code> every time you want to
-run or work on GeoIPS.</p>
-</section>
-<section id="clone-the-geoips-git-repository-for-installation-and-testing-commands">
-<h3>4. Clone the GeoIPS git repository, for installation and testing commands<a class="headerlink" href="#clone-the-geoips-git-repository-for-installation-and-testing-commands" title="Permalink to this heading">#</a></h3>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>mkdir<span class="w"> </span>-p<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>
-git<span class="w"> </span>clone<span class="w"> </span><span class="si">${</span><span class="nv">GEOIPS_REPO_URL</span><span class="si">}</span>/geoips.git<span class="w"> </span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips
-</pre></div>
-</div>
-</section>
-<section id="install-the-geoips-git-repository">
-<h3>5. Install the GeoIPS git repository<a class="headerlink" href="#install-the-geoips-git-repository" title="Permalink to this heading">#</a></h3>
-<p>This command installs all GeoIPS Python dependencies, and GeoIPS itself.</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure geoips python environment enabled before installing geoips</span>
-<span class="c1"># using &quot;conda activate geoips&quot;</span>
-
-<span class="c1"># Install geoips via pip</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">/geoips[doc,lint,test,debug]&quot;</span>
-</pre></div>
-</div>
-</section>
-<section id="test-your-installation">
-<h3>6. Test your installation<a class="headerlink" href="#test-your-installation" title="Permalink to this heading">#</a></h3>
-<p>To test your installation you will call two scripts:</p>
-<ul class="simple">
-<li><p><code class="docutils literal notranslate"><span class="pre">base_install.sh</span></code> will clone repositories containing test data.</p></li>
-<li><p><code class="docutils literal notranslate"><span class="pre">base_test.sh</span></code> will run a few integration tests to ensure that your
-installation is working correctly.</p></li>
+</li>
 </ul>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Ensure geoips python environment enabled</span>
-<span class="c1"># using &quot;conda activate geoips&quot;</span>
-
-<span class="c1"># Download the test data</span>
-<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_install.sh
-
-<span class="c1"># Create the GeoIPS plugin registries</span>
-create_plugin_registries
-
-<span class="c1"># Run integration tests</span>
-<span class="nv">$GEOIPS_PACKAGES_DIR</span>/geoips/tests/integration_tests/base_test.sh
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You must run <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">activate</span> <span class="pre">geoips</span></code>
+every time you run or work with GeoIPS.</p>
+</div>
+</section>
+<section id="install-geoips-using-pip">
+<h2>2. Install GeoIPS using pip<a class="headerlink" href="#install-geoips-using-pip" title="Permalink to this heading">#</a></h2>
+<p>Once inside the <cite>geoips</cite> environment, install GeoIPS from PyPI:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>geoips
 </pre></div>
 </div>
 </section>
-<section id="test-output">
-<h3>7. Test output<a class="headerlink" href="#test-output" title="Permalink to this heading">#</a></h3>
-<p>For reference, the end of the output from the base_test.sh command should
-look something like below, indicating that none of the tests failed:</p>
-<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>Package:<span class="w"> </span>geoips_base
-Total<span class="w"> </span>run<span class="w"> </span>time:<span class="w"> </span><span class="m">82</span><span class="w"> </span>seconds
-Number<span class="w"> </span>data<span class="w"> </span>types<span class="w"> </span>run:<span class="w"> </span><span class="m">3</span>
-Number<span class="w"> </span>data<span class="w"> </span>types<span class="w"> </span>failed:<span class="w"> </span><span class="m">0</span>
+<section id="test-data-setup">
+<h2>3. Test Data Setup<a class="headerlink" href="#test-data-setup" title="Permalink to this heading">#</a></h2>
+<p>GeoIPS test data download requires the following environment variables to be set:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">GEOIPS_PACKAGES_DIR</span><span class="o">=</span><span class="nv">$HOME</span>/geoips
+<span class="c1"># Reactivate environment for variables to take effect</span>
+conda<span class="w"> </span>deactivate<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>geoips
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">GEOIPS_TESTDATA_DIR</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/test_data
+conda<span class="w"> </span>env<span class="w"> </span>config<span class="w"> </span>vars<span class="w"> </span><span class="nb">set</span><span class="w"> </span><span class="nv">GEOIPS_OUTDIRS</span><span class="o">=</span><span class="nv">$GEOIPS_PACKAGES_DIR</span>/outdirs
+conda<span class="w"> </span>deactivate<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>conda<span class="w"> </span>activate<span class="w"> </span>geoips
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_PACKAGES_DIR</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_TESTDATA_DIR</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$GEOIPS_OUTDIRS</span><span class="s2">&quot;</span>
 </pre></div>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>You can customize test data location
+by changing the value of <code class="docutils literal notranslate"><span class="pre">GEOIPS_TESTDATA_DIR</span></code>.</p>
+</div>
 </section>
+<section id="run-a-sample-script">
+<h2>4. Run a Sample Script<a class="headerlink" href="#run-a-sample-script" title="Permalink to this heading">#</a></h2>
+<p>Download the sample dataset using geoips CLI command:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>config<span class="w"> </span>install<span class="w"> </span>test_data_abi
+</pre></div>
+</div>
+<p>Test the installation by running a sample GeoIPS processing script.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>geoips<span class="w"> </span>run<span class="w"> </span>single_source<span class="w"> </span><span class="nv">$GEOIPS_TESTDATA_DIR</span>/test_data_abi/data/goes16_20200918_1950/OR_ABI-L1b-RadF-M6C*<span class="w"> </span><span class="se">\</span>
+--reader_name<span class="w"> </span>abi_netcdf<span class="w"> </span><span class="se">\</span>
+--product_name<span class="w"> </span>Infrared<span class="w"> </span><span class="se">\</span>
+--output_formatter<span class="w"> </span>imagery_annotated<span class="w"> </span><span class="se">\</span>
+--sector_list<span class="w"> </span>conus
+</pre></div>
+</div>
+<p>The end of the output from the above script should resemble the example below, showing
+the path to the generated output image. The final line should display <cite>Return value: 0</cite>,
+indicating that the script ran successfully.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Truncated log output from the script run</span>
+.......
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>SINGLESOURCESUCCESS<span class="w"> </span><span class="si">${</span><span class="nv">GEOIPS_OUTDIRS</span><span class="si">}</span>/preprocessed/annotated_imagery/NorthAmerica-UnitedStates-Continental/x-x-x/Infrared/abi/20200918.195020.goes-16.abi.Infrared.conus.97p12.noaa.3p0.png
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>READER_NAME:<span class="w"> </span>abi_netcdf
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>PRODUCT_NAME:<span class="w"> </span>Infrared
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>NUM_PRODUCTS:<span class="w"> </span><span class="m">1</span>
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>NUM_DELETED_PRODUCTS:<span class="w"> </span><span class="m">0</span>
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>Completed<span class="w"> </span>geoips<span class="w"> </span>PROCFLOW<span class="w"> </span>single_source<span class="w"> </span>processing,<span class="w"> </span><span class="k">done</span>!
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>Total<span class="w"> </span>time:<span class="w"> </span><span class="m">0</span>:00:24.911853
+11_191109<span class="w">    </span>log_setup.py:162<span class="w">  </span>INTERACTIVE:<span class="w"> </span>Return<span class="w"> </span>value:<span class="w"> </span><span class="m">0</span>
+</pre></div>
+</div>
 </section>
 </section>
 
@@ -641,16 +621,10 @@ Number<span class="w"> </span>data<span class="w"> </span>types<span class="w"> 
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#complete-local-conda-based-geoips-installation">Complete Local conda-based GeoIPS Installation</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#set-geoips-environment-variables">1. Set GeoIPS Environment Variables</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-anaconda-or-miniconda">2. Install Anaconda or Miniconda</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-and-activate-a-conda-environment-with-some-dependencies">3. Create and activate a conda environment with some dependencies</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clone-the-geoips-git-repository-for-installation-and-testing-commands">4. Clone the GeoIPS git repository, for installation and testing commands</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-the-geoips-git-repository">5. Install the GeoIPS git repository</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-your-installation">6. Test your installation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#test-output">7. Test output</a></li>
-</ul>
-</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-anaconda-or-miniconda">1. Install Anaconda or Miniconda</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#install-geoips-using-pip">2. Install GeoIPS using pip</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data-setup">3. Test Data Setup</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#run-a-sample-script">4. Run a Sample Script</a></li>
 </ul>
   </nav></div>
 
