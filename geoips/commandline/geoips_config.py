@@ -6,6 +6,7 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
+import pathlib
 from os import listdir, environ, makedirs, remove
 from os.path import abspath, exists, join
 import subprocess
@@ -109,8 +110,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         self.parser.add_argument(
             "-o",
             "--outdir",
-            type=str,
-            default=testdata_dir if testdata_dir else os.getcwd(),
+            type=pathlib.Path,
+            default=pathlib.Path(testdata_dir) if testdata_dir else pathlib.Path.cwd(),
             help=(
                 "The full path to the directory you want to install this data to."
                 "If not provided, this command will default to $GEOIPS_TESTDATA_DIR"
@@ -129,23 +130,19 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         test_dataset_names = args.test_dataset_names
         outdir = args.outdir
 
-        if not exists(outdir):
-            log.critical(
+        if not outdir.is_dir():
+            self.parser.error(
                 f"Specified output directory {outdir} doesn't exist."
             )
             raise FileNotFoundError(outdir)
 
         if len(test_dataset_names) > 1 and "all" in test_dataset_names:
             self.parser.error(
-                "Error: you cannot specify 'all' alongside other test dataset names. "
+                "You cannot specify 'all' alongside other test dataset names. "
                 "If 'all' is specified, that must be the only argument provided."
             )
 
-        all_datasets = (
-            True
-            if len(test_dataset_names) == 1 and test_dataset_names[0] == "all"
-            else False
-        )
+        all_datasets = len(test_dataset_names) == 1 and test_dataset_names[0] == "all"
 
         install_dataset_names = (
             list(test_dataset_dict.keys()) if all_datasets else test_dataset_names
@@ -182,7 +179,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         ----------
         url: str
             - The url of the test dataset to download
-        download_dir: str
+        download_dir: pathlib.Path
             - The directory in which to download and extract the data into
         """
         resp = requests.get(url, stream=True, timeout=15)
@@ -238,7 +235,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         ----------
         filepath: str
             - The path to the temporary file to extract from.
-        download_dir: str
+        download_dir: pathlib.Path
             - The directory in which to download and extract the data into
         """
         with tarfile.open(filepath, mode="r:gz") as tar:
