@@ -16,6 +16,7 @@ from numpy import any
 import tarfile
 from tqdm import tqdm
 
+import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.plugin_registry import PluginRegistry
@@ -104,17 +105,16 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 "cannot be specified alongside other test dataset names."
             ),
         )
-        testdata_dir = geoips.base_paths.PATHS["testdata_dir"]
+        testdata_dir = geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"]
         self.parser.add_argument(
             "-o",
             "--outdir",
             type=str,
-            default=testdata_dir if testdata_dir else ".",
+            default=testdata_dir if testdata_dir else os.getcwd(),
             help=(
                 "The full path to the directory you want to install this data to."
-                "If not provided, this command will default to $GEOIPS_TESTDATA_DIR,"
-                " or if $GEOIPS_TESTDATA_DIR is not set will default to the "
-                "current directory."
+                "If not provided, this command will default to $GEOIPS_TESTDATA_DIR"
+                "if set else will default to the current working directory."
             ),
         )
 
