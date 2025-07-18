@@ -48,7 +48,7 @@ class GeoipsCLI(GeoipsCommand):
 
         The CLI contains a single top-level argparse.ArgumentParser() which contains
         subparsers related to each subcommand. This ensures that each command has a
-        unique set of arguments inheirted from command -> subcommand -> subcommand,
+        unique set of arguments inherited from command -> subcommand -> subcommand,
         and so on. For example, the GeoipsList Command Class's arguments are inherited
         by all subcommand child classes, which recursively can have their own child
         subcommand classes.
@@ -93,6 +93,21 @@ class GeoipsCLI(GeoipsCommand):
                 sys.argv.pop(log_idx + 1)
                 sys.argv.pop(log_idx)
                 sys.argv.insert(1, log_level)
+                sys.argv.insert(1, flag)
+        if "--warnings" in sys.argv:
+            # One of the flags was found in the arguments provided
+            warn_idx = max(
+                [idx if arg == "--warnings" else -1 for idx, arg in enumerate(sys.argv)]
+            )
+            # Make sure that the argument list is long enough for warning level to be
+            # provided. It doesn't have to be correct, that validation will be done
+            # by argparse
+            if len(sys.argv) > warn_idx + 1:
+                flag = sys.argv[warn_idx]
+                warn_level = sys.argv[warn_idx + 1]
+                sys.argv.pop(warn_idx + 1)
+                sys.argv.pop(warn_idx)
+                sys.argv.insert(1, warn_level)
                 sys.argv.insert(1, flag)
 
         super().__init__(legacy=legacy)
@@ -152,7 +167,15 @@ def support_legacy_procflows():
     """
     defined_procflow = None
     # Including '-h' here as we need to be able to support help messages for this cmd
-    supported_procflows = ["config_based", "data_fusion", "single_source", "-h"]
+    supported_procflows = [
+        "config_based",
+        "data_fusion",
+        "order_based",
+        "ob",
+        "obp",
+        "single_source",
+        "-h",
+    ]
     if (
         os.path.basename(sys.argv[0]) == "geoips"
         and len(sys.argv) > 2

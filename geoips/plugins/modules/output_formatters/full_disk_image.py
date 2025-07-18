@@ -51,8 +51,8 @@ def call(
         frame_clr = gridline_annotator.get("spec", {}).get("background")
 
     if hasattr(area_def, "x_size"):
-        x_size = area_def.x_size
-        y_size = area_def.y_size
+        x_size = area_def.width
+        y_size = area_def.height
     else:
         x_size = area_def.get_lonlats()[0].shape[0]
         y_size = area_def.get_lonlats()[0].shape[1]

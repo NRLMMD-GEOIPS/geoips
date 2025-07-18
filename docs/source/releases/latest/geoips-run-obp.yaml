@@ -1,0 +1,24 @@
+enhancement:
+- title: 'GeoIPS Run Order Based Command'
+  description: |
+    This update adds a new command, ``geoips run order_based`` command, which executes
+    the order based process workflow (procflow). While there will likely be updates to
+    this command in the future, these changes allow you to execute an obp procflow from
+    the command line rather than manually calling the associated python module.
+
+    Currently, the order based procflow only supports reader plugins. More to be
+    supported in the future.
+  files:
+    modified:
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_run.py
+      - tests/unit_tests/commandline/test_geoips_run.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 06/04/2025
+    finish: null

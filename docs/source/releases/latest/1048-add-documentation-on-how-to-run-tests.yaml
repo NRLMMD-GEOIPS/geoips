@@ -1,0 +1,56 @@
+enhancement:
+- title: Reorganize testing documentation structure
+  description: Restructured testing documentation by creating a dedicated testing
+    section under contribute/ and consolidating test running instructions into a comprehensive
+    guide
+  files:
+    deleted:
+    - docs/dev/integration_tests.rst
+    added:
+    - docs/source/contribute/testing/index.rst
+    - docs/source/contribute/testing/running_tests.rst
+    modified:
+    - docs/source/contribute/index.rst
+  related-issue:
+    number: 1048
+    repo_url: ''
+  date:
+    start: ''
+    finish: '2025-06-27'
+removal:
+- title: Remove outdated integration tests documentation
+  description: Removed the old integration_tests.rst file as part of documentation
+    reorganization
+  files:
+    deleted:
+    - docs/dev/integration_tests.rst
+  related-issue:
+    number: 1048
+    repo_url: ''
+  date:
+    start: ''
+    finish: '2025-06-16'
+documentation:
+- title: Add pytest testing documentation
+  description: Created documentation covering pytest usage, markers, output
+    management, and testing features for GeoIPS
+  files:
+    added:
+    - docs/source/contribute/testing/running_tests.rst
+  related-issue:
+    number: 1048
+    repo_url: ''
+  date:
+    start: ''
+    finish: '2025-06-27'
+- title: Add Linux help section to testing documentation
+  description: Updated running_tests.rst with additional Linux-specific help information
+  files:
+    modified:
+    - docs/source/contribute/testing/running_tests.rst
+  related-issue:
+    number: 1048
+    repo_url: ''
+  date:
+    start: ''
+    finish: '2025-06-27'

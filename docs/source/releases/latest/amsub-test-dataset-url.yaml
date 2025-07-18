@@ -1,0 +1,23 @@
+testing:
+- title: 'Added test_data_amsub to nextcloud'
+  description: |
+    This PR is part of many updates we've made to public test datasets for GeoIPS. We
+    found matching AMSU-B data to what was used internally, and are now making it public
+    so we can expand our test suite.
+
+    Additionally, this PR removed a duplicate test-data-urls.yaml file from setup/,
+    which was used before dev-staging got merged into main. test-data-urls.yaml is now
+    located in geoips/commandline/ancillary_info/, and should work whether or not the
+    user is installed in editable mode.
+  files:
+    deleted:
+      - setup/test-data-urls.yaml
+    modified:
+      - geoips/commandline/ancillary_info/test-data-urls.yaml
+      - tests/integration_tests/test_integration.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
