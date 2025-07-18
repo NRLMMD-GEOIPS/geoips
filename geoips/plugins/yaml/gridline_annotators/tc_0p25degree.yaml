@@ -3,6 +3,7 @@ family: cartopy
 name: tc_0p25degree
 docstring: |
   The TC 0.25 degree gridline_annotators configuration.
+
   All gridline labels enabled, latitude and longitude lines colored
   #00B4B4B4, 0.25 degree spacing, 1px linewidth, and [4, 2] linestyle
 spec:

@@ -80,6 +80,9 @@ workflows:
   - wf
   - wfs
   - workflow
+order-based:
+  - ob
+  - obp
 package:
   - pkg
 packages:
@@ -102,6 +105,8 @@ source-names:
   - src-names
 install:
   - inst
+install-github:
+  - inst-gh
 delete-registries:
   - del-reg
   - del-regs

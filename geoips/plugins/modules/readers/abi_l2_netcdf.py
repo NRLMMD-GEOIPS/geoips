@@ -32,7 +32,13 @@ def get_metadata(fname):
     return metadata
 
 
-def calculate_abi_geolocation(metadata, area_def):
+def calculate_abi_geolocation(
+    metadata,
+    area_def,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
+):
     """Calculate ABI geolocation."""
     from geoips.plugins.modules.readers import abi_netcdf
 
@@ -41,10 +47,23 @@ def calculate_abi_geolocation(metadata, area_def):
         metadata["file_info"]["time_coverage_start"], "%Y-%m-%dT%H:%M:%S.%fZ"
     )
     fldk_lats, fldk_lons = abi_netcdf.get_latitude_longitude(
-        geometa, abi_netcdf.BADVALS, area_def
+        geometa,
+        abi_netcdf.BADVALS,
+        area_def,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
     )
     geo = abi_netcdf.get_geolocation(
-        sdt, geometa, fldk_lats, fldk_lons, abi_netcdf.BADVALS, area_def
+        sdt,
+        geometa,
+        fldk_lats,
+        fldk_lons,
+        abi_netcdf.BADVALS,
+        area_def,
+        geolocation_cache_backend=geolocation_cache_backend,
+        chunk_size=cache_chunk_size,
+        resource_tracker=resource_tracker,
     )
     geo["fldk_lats"] = fldk_lats
     geo["fldk_lons"] = fldk_lons
@@ -110,7 +129,16 @@ def xr_read(fname, chans=None):
     return ds
 
 
-def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=False):
+def call(
+    fnames,
+    area_def=None,
+    metadata_only=False,
+    chans=False,
+    self_register=False,
+    geolocation_cache_backend="memmap",
+    cache_chunk_size=None,
+    resource_tracker=None,
+):
     """
     Read ABI Level 2 NetCDF data from a list of filenames.
 
@@ -188,7 +216,13 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     # so relying on the abi_netcdf reader for the time being until I figure it out
     # Deal with geolocation outside of loop to avoid hitting the disk numerous times
     try:
-        geo = calculate_abi_geolocation(metadata, area_def)
+        geo = calculate_abi_geolocation(
+            metadata,
+            area_def,
+            geolocation_cache_backend=geolocation_cache_backend,
+            cache_chunk_size=cache_chunk_size,
+            resource_tracker=resource_tracker,
+        )
         if area_def:
             lats = geo["latitude"]
             lons = geo["longitude"]
@@ -216,8 +250,8 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
             continue
         if area_def and ll_mask is not None:
             coords = dict(xarray.coords)
-            coords["x"] = range(area_def.x_size)
-            coords["y"] = range(area_def.y_size)
+            coords["x"] = range(area_def.width)
+            coords["y"] = range(area_def.height)
             area_dataset = xr.Dataset(coords=coords)
             area_dataset.attrs = xarray.attrs
             lines = geo["Lines"]

@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test module for the CLI command 'geoips config delete-registries'."""
 
 import pytest
@@ -32,24 +35,28 @@ valid_expected = [
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": None,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": None,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
         "command": "geoips config delete-registries",
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
+        "warnings": "ignore",
     },
     # Dummy dict needed for registry rebuild
     {"empty": "dict"},

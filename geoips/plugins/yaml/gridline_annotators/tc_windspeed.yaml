@@ -2,7 +2,8 @@ interface: gridline_annotators
 family: cartopy
 name: tc_windspeed
 docstring: |
-  The TC Windspeed gridline_annotators configuration
+  The TC Windspeed gridline_annotators configuration.
+
   All gridline labels enabled, latitude and longitude lines colored
   #00B4B4B4, 2 degree spacing, 1px linewidth, and [4, 2] linestyle
 spec:

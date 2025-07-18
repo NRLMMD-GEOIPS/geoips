@@ -140,14 +140,14 @@ def registry_sanity_check(plugin_packages, save_type):
         # readable than json), and json output is used for processing. Ensure we
         # can load either option.
         if save_type == "yaml":
-            comp_registry = yaml.safe_load(
-                open(resources.files(comp_pkg.value) / "registered_plugins.yaml")
-            )
+            registry_fname = resources.files(comp_pkg.value) / "registered_plugins.yaml"
+            with open(registry_fname, "r") as reg_file:
+                comp_registry = yaml.safe_load(reg_file)
         else:
             # json.load is much faster than yaml.safe_load
-            comp_registry = json.load(
-                open(resources.files(comp_pkg.value) / "registered_plugins.json", "r")
-            )
+            registry_fname = resources.files(comp_pkg.value) / "registered_plugins.json"
+            with open(registry_fname, "r") as reg_file:
+                comp_registry = json.load(reg_file)
         for pkg_idx, pkg in enumerate(plugin_packages):
             # pkg is the package being compared against comp_pkg. For example, if
             # comp_pkg was 'geoips', then it would compare against recenter_tc,
@@ -161,13 +161,13 @@ def registry_sanity_check(plugin_packages, save_type):
             # Track sets of plugins by plugin type
             # (schemas, yaml_based, and module_based)
             if save_type == "yaml":
-                pkg_registry = yaml.safe_load(
-                    open(resources.files(pkg.value) / "registered_plugins.yaml")
-                )
+                registry_fname = resources.files(pkg.value) / "registered_plugins.yaml"
+                with open(registry_fname, "r") as reg_file:
+                    pkg_registry = yaml.safe_load(reg_file)
             else:
-                pkg_registry = json.load(
-                    open(resources.files(pkg.value) / "registered_plugins.json", "r")
-                )
+                registry_fname = resources.files(pkg.value) / "registered_plugins.json"
+                with open(registry_fname, "r") as reg_file:
+                    pkg_registry = json.load(reg_file)
             for plugin_type in list(pkg_registry.keys()):
                 # check the pkg's registry for both yaml-based and module-based plugins
                 for interface in comp_registry[plugin_type]:
@@ -535,7 +535,12 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
         reporting them all at once, to facilitate rapidly identifying and
         resolving errors.
     """
-    for plugin in yaml.load_all(open(filepath, mode="r"), Loader=yaml.SafeLoader):
+    # Since this function always loads all plugins, loading them up front should be
+    # fine. It might be good to refactor this at some point. This is a quick fix.
+    with open(filepath, "r") as plugin_file:
+        new_plugins = list(yaml.load_all(plugin_file, Loader=yaml.SafeLoader))
+
+    for plugin in new_plugins:
         plugin["relpath"] = relpath
         plugin["package"] = package
 
@@ -647,7 +652,7 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
                     #         if not family:
                     #             family = plugins["product_defaults"][pd]["family"]
                     plugins[interface_name][subplg_source][subplg_product] = {
-                        "docstring": format_docstring(docstring),
+                        "docstring": str(format_docstring(docstring)),
                         "family": family,
                         "interface": interface_module.name,
                         "package": plugin["package"],
@@ -666,14 +671,25 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
             # Since this is not a product plugin, we can ensure that these top-level
             # attributes should exist. Don't include product_defaults or source_names in
             # this info, because it doesn't apply to this type of plugin.
-            plugins[interface_name][plugin["name"]] = {
-                "docstring": format_docstring(plugin["docstring"]),
-                "family": plugin["family"],
-                "interface": plugin["interface"],
-                "package": package,
-                "plugin_type": "yaml_based",
-                "relpath": relpath,
-            }
+            if "docstring" not in plugin:
+                error_message += f"""
+                Error with package '{plugin["package"]}':
+                    docstring or family not defined in product
+                    Must specify docstring and family in either product
+                    or product_defaults.
+                    interface '{plugin["interface"]}'
+                    plugin name '{plugin["name"]}'
+                    pkg relpath: '{relpath}'\n"""
+
+            else:
+                plugins[interface_name][plugin["name"]] = {
+                    "docstring": format_docstring(plugin["docstring"]),
+                    "family": plugin["family"],
+                    "interface": plugin["interface"],
+                    "package": package,
+                    "plugin_type": "yaml_based",
+                    "relpath": relpath,
+                }
     return error_message
 
 

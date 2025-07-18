@@ -11,6 +11,7 @@ Will implement a plethora of commands, but for the meantime, we'll work on
 import os
 import abc
 import argparse
+import warnings
 from importlib import metadata, resources
 import json
 from shutil import get_terminal_size
@@ -19,7 +20,7 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
-from geoips.commandline.ancillary_info import alias_mapping
+from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 
 
@@ -117,6 +118,17 @@ class ParentParsers:
         # Specified in order of what will be shown. First is lowest level (10).
         choices=["debug", "info", "warning", "interactive", "error", "critical"],
         help="Log level to output when using the CLI.",
+    )
+    geoips_parser.add_argument(
+        "--warnings",
+        type=str,
+        default=os.getenv("GEOIPS_WARNING_LEVEL", "ignore"),
+        choices=["default", "error", "ignore", "always", "module", "once"],
+        help=(
+            "Set the warning level for the CLI. See the warnings module documentation "
+            "for more information: "
+            "https://docs.python.org/3/library/warnings.html#warning-filter"
+        ),
     )
 
     list_parser = argparse.ArgumentParser(
@@ -241,20 +253,34 @@ class GeoipsCommand(abc.ABC):
                 # among specific commands, or subsets of commands. For now, this works
                 if self.name == "install" and self.parent.name == "config":
                     break
+                if self.name == "install-github" and self.parent.name == "config":
+                    break
                 self.parent_parsers.insert(
                     0,
                     getattr(ParentParsers, f"{curr_parent.name}_parser"),
                 )
                 curr_parent = curr_parent.parent
 
-            # Propagate the command instructions from the parent to this command. This
-            # is important for unit testing where we might provide non-standard
-            # instructions.
-            self.cmd_instructions = parent.cmd_instructions
+            if parent.cmd_instructions:
+                # this is used for testing purposes to ensure failure for invalid
+                # help information. If the parent already has cmd_instructions set,
+                # use these instructions so we can test proper functionality of the CLI.
+                self.cmd_instructions = parent.cmd_instructions
+            else:
+                # Otherwise use the default cmd_instructions which are used for normal
+                # invocation of the CLI.
+                self.cmd_instructions = cmd_instructions
 
             try:
+                # Add custom logic for the 'order_based' command. This is the only
+                # command which has epilog text, which in this case, is a warning saying
+                # this procflow is in development and is subject to change at any time
+                if self.name == "order_based":
+                    epilog = self.warning
+                else:
+                    epilog = None
                 # If the command's name exists w/in the alias mapping, then
-                # add thoss aliases to the parser, otherwise just set it as an empty
+                # add those aliases to the parser, otherwise just set it as an empty
                 # list.
                 aliases = self.alias_mapping.get(self.name.replace("_", "-"), [])
                 # Attempt to create a sepate sub-parser for the specific command
@@ -271,6 +297,7 @@ class GeoipsCommand(abc.ABC):
                     usage=self.cmd_instructions["instructions"][self.combined_name][
                         "usage_str"
                     ],
+                    epilog=epilog,
                     parents=self.parent_parsers,
                     conflict_handler="resolve",
                     aliases=aliases,
@@ -290,7 +317,7 @@ class GeoipsCommand(abc.ABC):
                 parents=[ParentParsers.geoips_parser],
                 formatter_class=AlphabeticalHelpFormatter,
             )
-            self.LOG = self._get_cli_logger()
+            self.LOG = self._handle_top_level_args()
             self.combined_name = self.name
 
         self.add_subparsers()
@@ -299,7 +326,7 @@ class GeoipsCommand(abc.ABC):
             command_parser=self.parser,
         )
 
-    def _get_cli_logger(self):
+    def _handle_top_level_args(self):
         """Set up and retrieve the logger object for use in the CLI.
 
         If either flag ['--log-level', '--log'] was provided with a valid log level
@@ -328,11 +355,22 @@ class GeoipsCommand(abc.ABC):
             default="interactive",
             choices=["interactive", "debug", "info", "warning", "error"],
         )
+        independent_parser.add_argument(
+            "--warnings",
+            type=str,
+            default=os.getenv("GEOIPS_WARNING_LEVEL", "ignore"),
+            choices=["default", "error", "ignore", "always", "module", "once"],
+        )
         # Parse now, as we'll use logging among all of the child command classes
-        known_args, remaining_args = independent_parser.parse_known_args()  # NOQA
-        log_level = known_args.log_level
+        known_args, _ = independent_parser.parse_known_args()  # NOQA
+
+        # Set up warning level
+        warnings.simplefilter(known_args.warnings)
+
         # Set up logging based on the log level provided or defaulted to
+        log_level = known_args.log_level
         LOG = setup_logging(logging_level=log_level.upper())
+
         return LOG
 
     @property
