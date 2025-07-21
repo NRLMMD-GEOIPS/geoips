@@ -1,0 +1,23 @@
+bug fix:
+- title: 'Use filter="tar" in tarfile extract commands'
+  description: |
+    Update all uses of tarfile to use the filter="tar" option in extract commands.
+    This prevents a number of different types of malicious tar files from being
+    extracted. This will become default behavior in Python 3.14. This gets rid of a
+    DeprecationWarning in lower versions of Python.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/commandline/geoips_config.py'
+    - 'setup/download_test_data.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: 2025-07-13
+    finish: 2025-07-13

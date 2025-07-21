@@ -5,7 +5,6 @@
 
 .. _products_functionality:
 
-******************
 Products in GeoIPS
 ******************
 
