@@ -90,6 +90,7 @@
         "pydantic",
         "pygrib",
         "pyhdf",
+        "pykdtree",
         "pyproj",
         "pyproject",
         "pypublicdecompwt",
