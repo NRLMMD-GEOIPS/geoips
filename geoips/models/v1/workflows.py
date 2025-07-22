@@ -55,7 +55,7 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         If the plugin kind is invalid
 
     """
-    interface_name = str(Lexeme(plugin_kind).plural)
+    interface_name = Lexeme(plugin_kind).plural
     try:
         interface = getattr(interfaces, interface_name)
     except AttributeError as e:
@@ -74,7 +74,7 @@ def get_plugin_kinds() -> set[str]:
         singular names of distinct plugin kinds
     """
     return {
-        str(Lexeme(plugin_kinds).singular)
+        Lexeme(plugin_kinds).singular
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
