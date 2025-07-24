@@ -8,7 +8,7 @@ Various configuration-based commands for setting up your geoips environment.
 
 import pathlib
 from os import listdir, remove
-from os.path import abspath, join
+from os.path import join
 import subprocess
 import requests
 import tempfile
