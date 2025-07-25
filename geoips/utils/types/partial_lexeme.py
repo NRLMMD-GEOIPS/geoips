@@ -39,8 +39,8 @@ _IRREGULAR: Dict[str, str] = {
     "children": "child",
     "data": "datum",
     "criteria": "criterion",
-    "databases": "database",
-    "database": "databases",
+    # "databases": "database",
+    # "database": "databases",
 }
 
 # Reverse map – singular → plural
