@@ -39,8 +39,6 @@ _IRREGULAR: Dict[str, str] = {
     "children": "child",
     "data": "datum",
     "criteria": "criterion",
-    # "databases": "database",
-    # "database": "databases",
 }
 
 # Reverse map – singular → plural
@@ -66,11 +64,16 @@ def _normalize(word: str) -> str:
     if w.endswith("ies") and len(w) > 3 and w[-4] not in "aeiou":
         return w[:-3] + "y"
 
-    if w.endswith("es") and w[-3:] in {"ses", "xes", "zes"}:
-        return w[:-2]
-
-    if w.endswith("es") and w[-4:-2] in {"sh", "ch"}:
-        return w[:-2]
+    if w.endswith("es"):
+        if w.endswith("zzes"):
+            return w[:-3]
+        if w[-3] in {"xes", "zes"}:
+            return w[:-2]
+        if w[-3] in {"ses"}:
+            if w[-4] == "s":
+                return w[:-2]
+            else:
+                return w[:-1]
 
     if w.endswith("s") and not w.endswith("ss") and len(w) > 3:
         return w[:-1]
