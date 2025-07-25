@@ -1,0 +1,28 @@
+bug fix:
+  - title: "Ensure plugin-is-valid passes with type hints in plugin call signature"
+    description: |
+      Previously if a plugin had type hints within the call signature, the return
+      value of inspect.signature was not being parsed properly, and the plugin
+      was not being recognized as valid.  Ensure we use only the argument name
+      for comparison against the list of allowed arguments.
+
+      Note currently plugin_is_valid is only tested by calling
+      tests/utils/test_interfaces.py, in the future call signatures will be
+      validated differently, but we want to ensure this test is regularly
+      run to ensure compliance with expected call signature formatting
+      as much as possible.
+    files:
+      deleted:
+        - ""
+      moved:
+        - ""
+      added:
+        - ""
+      modified:
+        - geoips/interfaces/base.py""
+    related-issue:
+      number: null
+      repo_url: ""
+    date:
+      start: 2025-05-12
+      finish: 2025-05-12

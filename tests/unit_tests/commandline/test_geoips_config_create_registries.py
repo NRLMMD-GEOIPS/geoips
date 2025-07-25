@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test module for the CLI command 'geoips config create-registries'."""
 
 import pytest
@@ -22,6 +25,8 @@ valid_args = [
         "geoips.plugin_packages",
         "-p",
         "geoips",
+        "--warnings",
+        "ignore",
     ],
 ]
 valid_expected = [
@@ -31,6 +36,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": None,
         "save_type": "json",
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -38,6 +44,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": None,
         "save_type": "yaml",
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -45,6 +52,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
         "save_type": "json",
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -52,6 +60,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": None,
         "save_type": "json",
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -59,6 +68,7 @@ valid_expected = [
         "namespace": "geoips.plugin_packages",
         "packages": ["geoips"],
         "save_type": "json",
+        "warnings": "ignore",
     },
 ]
 invalid_args = [

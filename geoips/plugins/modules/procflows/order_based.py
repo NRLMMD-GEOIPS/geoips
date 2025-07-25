@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Processing workflow for order based data source processing."""
 
 # Python Standard Libraries

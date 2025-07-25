@@ -1,4 +1,4 @@
-# # # This source code is protected under the license referenced at
+# # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Workflow plugin models.
@@ -7,6 +7,13 @@ Defines pydantic models related to Workflow plugins,
 including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 """
 
+# Previously, the model names used as type hints were quoted marking them as strings;
+# leading to forward references, which allow referring to a class before Python has
+# fully parsed it.
+
+# By adding from __future__ import annotations, Python defers evaluation of all type
+# annotations until runtime, automatically treating them as strings. This eliminates
+# the need to manually quote forward-referenced types (simplified type hinting).
 from __future__ import annotations
 
 # Python Standard Libraries
@@ -48,11 +55,7 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         If the plugin kind is invalid
 
     """
-    interface_name = plugin_kind
-
-    if not interface_name.endswith("s"):
-        interface_name = str(Lexeme(plugin_kind).plural)
-
+    interface_name = str(Lexeme(plugin_kind).plural)
     try:
         interface = getattr(interfaces, interface_name)
     except AttributeError as e:
@@ -71,10 +74,7 @@ def get_plugin_kinds() -> set[str]:
         singular names of distinct plugin kinds
     """
     return {
-        # set comprehension
-        # the [:-1] slice converts the plugin kind from plural to singular
-        # eg. 'Readers' => 'Reader'
-        plugin_kinds[:-1]
+        str(Lexeme(plugin_kinds).singular)
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
@@ -164,7 +164,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
-    kind: str = Field(..., description="plugin kind")
+    kind: Lexeme = Field(..., description="plugin kind")
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 

@@ -6,9 +6,12 @@
 Runs the appropriate script based on the args provided.
 """
 
+from colorama import Fore, Style
+
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.interfaces import procflows
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -19,8 +22,20 @@ with import_optional_dependencies(loglevel="info"):
     # 'Failed to import data_fusion.commandline at /path/to/geoips/geoips/commandline/geoips_run.py:19. If you need it, install it.' # NOQA
     # every time we use the CLI. If a user needs the CLI, I'm assuming they'll know to
     # install it.
-    from data_fusion.commandline.args import add_args as data_fusion_add_args
-
+    try:
+        from data_fusion.commandline.args import add_args as data_fusion_add_args
+    except ModuleNotFoundError as e:
+        try:
+            # 'data_fusion' is not an allowed name for the data_fusion package on pypi.
+            # We have temporarily pushed it to pypi as geoips_data_fusion.
+            # This change allows geoips run to use the pypi packaged
+            # version of the data_fusion file, which is named
+            # 'geoips_data_fusion'
+            from geoips_data_fusion.commandline.args import (
+                add_args as data_fusion_add_args,
+            )
+        except ModuleNotFoundError:
+            raise e
     data_fusion_installed = True
 
 
@@ -100,6 +115,53 @@ class GeoipsRunDataFusion(GeoipsExecutableCommand):
             )
 
 
+class GeoipsRunOrderBased(GeoipsExecutableCommand):
+    """Run command for executing an order based process-workflow (procflow).
+
+    Makes use of workflow plugins and additional commandline arguments that single
+    source would use.
+    """
+
+    name = "order_based"
+    command_classes = []
+    warning = (
+        Fore.RED
+        + "\nWARNING: "
+        + Fore.YELLOW
+        + "`geoips run order_based` is experimental and is subject to "
+        + "change. This warning will be removed once this command is "
+        + "stable.\n"
+        + Style.RESET_ALL
+    )
+
+    def add_arguments(self):
+        """Add arguments to the run-subparser for the 'run order-based' command."""
+        self.parser.add_argument(
+            "-w",
+            "--workflow",
+            type=str,
+            required=True,
+            help="The name of the workflow plugin to execute. REQUIRED.",
+        )
+        add_args(parser=self.parser, legacy=self.legacy)
+
+    def __call__(self, args):
+        """Run the provided GeoIPS command.
+
+        In specific, run a GeoIPS order based process-workflow (procflow) to produce
+        some output.
+
+        Parameters
+        ----------
+        args: Namespace()
+            - The argument namespace to parse through.
+        """
+        workflow = args.workflow
+        obp = procflows.get_plugin("order_based")
+        obp(workflow, args.filenames, args)
+        print(self.warning)
+
+
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
     """Run Command for executing the single source process-workflow (procflow)."""
 
@@ -139,7 +201,8 @@ class GeoipsRun(GeoipsCommand):
 
     name = "run"
     command_classes = [
-        GeoipsRunSingleSource,
         GeoipsRunDataFusion,
         GeoipsRunConfigBased,
+        GeoipsRunOrderBased,
+        GeoipsRunSingleSource,
     ]

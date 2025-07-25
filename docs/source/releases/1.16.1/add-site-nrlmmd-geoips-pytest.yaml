@@ -1,0 +1,25 @@
+bug fix:
+- title: 'Add site-nrlmmd-geoips option to interactive pytest'
+  description: |
+    This should be all encompassing for everything required to test a complete
+    github.com NRLMMD-GEOIPS installation. This includes all integration tests, as
+    well as all short and long pytests.
+
+    Additionally, ensure markers are passed properly to the pytest command from
+    within interactive_pytest.sh - we can't include the quotes in the
+    pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
+    and include the -m within the actual call to pytest.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-06
+    finish: 2025-06-09

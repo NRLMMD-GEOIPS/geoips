@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Unit test module for the CLI command 'geoips list registries'."""
 
 import pytest
@@ -25,6 +28,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -34,6 +38,7 @@ valid_expected = [
         "columns": ["package", "json"],
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -43,6 +48,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -52,6 +58,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": False,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -61,6 +68,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": True,
+        "warnings": "ignore",
     },
     {
         "log_level": "interactive",
@@ -70,6 +78,7 @@ valid_expected = [
         "columns": None,
         "namespace": "geoips.plugin_packages",
         "relpath": True,
+        "warnings": "ignore",
     },
 ]
 invalid_args = [

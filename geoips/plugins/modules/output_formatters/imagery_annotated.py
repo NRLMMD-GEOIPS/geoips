@@ -36,13 +36,17 @@ def call(
     title_copyright=None,
     title_formatter=None,
     output_dict=None,
+    var_name=None,
 ):
     """Plot annotated imagery."""
     if product_name_title is None:
         product_name_title = product_name
 
     success_outputs = []
-    plot_data = xarray_obj[product_name].to_masked_array()
+    if var_name:
+        plot_data = xarray_obj[var_name].to_masked_array()
+    else:
+        plot_data = xarray_obj[product_name].to_masked_array()
     from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
     from geoips.image_utils.colormap_utils import set_matplotlib_colors_standard
     from geoips.image_utils.mpl_utils import (
@@ -77,8 +81,8 @@ def call(
     if clean_fname:
         # Create matplotlib figure and main axis, where the main image will be plotted
         fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-            area_def.x_size,
-            area_def.y_size,
+            area_def.width,
+            area_def.height,
             area_def,
             noborder=True,
             frame_clr=frame_clr,
@@ -105,8 +109,8 @@ def call(
 
     # Create matplotlib figure and main axis, where the main image will be plotted
     fig, main_ax, mapobj = create_figure_and_main_ax_and_mapobj(
-        area_def.x_size,
-        area_def.y_size,
+        area_def.width,
+        area_def.height,
         area_def,
         existing_mapobj=mapobj,
         noborder=False,
@@ -164,7 +168,7 @@ def call(
         title_copyright=title_copyright,
         title_formatter=title_formatter,
     )
-    set_title(main_ax, title_string, area_def.y_size)
+    set_title(main_ax, title_string, area_def.height)
 
     if mpl_colors_info["colorbar"] is True:
         # Create the colorbar to match the mpl_colors

@@ -1,0 +1,129 @@
+bug fix:
+- title: 'Additional test output updates'
+  description: 'Extra tests'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - tests/integration_tests/test_integration.py
+    - tests/outputs/ewsg.static.Infrared.imagery_clean/20201211.230905.ews-g1.gvar.Infrared.ewsg.65p15.noaa.10p0.png
+    - tests/outputs/modis.Infrared.unprojected_image/20210104.201500.aqua.modis.Infrared.self_register.100p00.nasa.3p0.png
+    - tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png
+    - tests/outputs/seviri.WV-Upper.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14
+- title: 'Update amsub -> amsua_mhs for extra test script'
+  description: 'Updating naming for accuracy'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    number: 753
+    repo_url: "GEOIPS/geoips"
+  date:
+    start: 2025-04-14
+    finish: 2025-04-14
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null

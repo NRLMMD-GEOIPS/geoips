@@ -33,7 +33,7 @@ instructions:
       the -p (--packages) flag, which should be a list of one or more package names
       to create plugin registries for that fall under 'namespace'. Additionally, you
       can add the -s (--save_type) flag, which is a string that can be either 'json' or
-      'yaml', specifiying the file format of your registry. By default, GeoIPS expects
+      'yaml', specifying the file format of your registry. By default, GeoIPS expects
       'json' as the file format to use, and that is the default of this flag.
     usage_str: |
       To use, type `geoips config create-registries -n <namespace> -s <save_type>
@@ -48,8 +48,37 @@ instructions:
       registries for a subset of packages of the specified namespace, you can provide
       the -p (--packages) flag, which should be a list of one or more package names
       to create plugin registries for that fall under 'namespace'.
+      Install the appropriate test dataset and/or package based on the arguments
+      provided. To see a list of available test datasets for install, run
+      `geoips list test-datasets`.
+
     usage_str: |
       To use, type `geoips config delete-registries -n <namespace> -p <packages>`.
+    output_info:
+      - Not Applicable
+  geoips_config_install-github:
+    help_str: |
+      Install the appropriate test dataset and/or package directly from a github
+      repository based on the arguments provided. Will install the github repository
+      $GEOIPS_REPO_URL/<repository_name>.
+      Repositories named test_data_* or realtime_outputs_* will be
+      cloned into $GEOIPS_TESTDATA_DIR.  All other repositories will be cloned into
+      $GEOIPS_PACKAGES_DIR.
+
+      Currently only test data installations are supported.
+    usage_str: |
+      To use, type `geoips config install-github <repository_name>`.
+    output_info:
+      - Not Applicable
+  geoips_config_install-github:
+    help_str: |
+      Install the appropriate test dataset directly from a github
+      repository based on the arguments provided. Will install the github repository
+      $GEOIPS_REPO_URL/<repository_name>.
+      Repositories named test_data_* or realtime_outputs_* will be
+      cloned into $GEOIPS_TESTDATA_DIR by default.
+    usage_str: |
+      To use, type `geoips config install-github <repository_name>`.
     output_info:
       - Not Applicable
   geoips_describe: &geoips-describe-artifact
@@ -372,7 +401,7 @@ instructions:
   geoips_run_config_based:
     help_str: |
       Run the config based process workflow. For more information of the
-      arguments available, either run 'geoips run config_basd -h', or view the arguments
+      arguments available, either run 'geoips run config_based -h', or view the arguments
       set up in geoips.commandline.args:add_args
     usage_str: |
       To use, type `geoips run data_fusion **<data_fusion_args>`.
@@ -388,6 +417,16 @@ instructions:
       To use, type `geoips run data_fusion **<data_fusion_args>`.
     output_info:
       - Log Output of the Data Fusion Process Workflow (Procflow)
+  geoips_run_order_based:
+    help_str: |
+      Run the order_based process workflow (procflow). This procflow executes operations
+      in the order they are specified in the provided workflow plugin. Eventually, this
+      will be the only procflow supported by GeoIPS. '--workflow' is a required argument
+      for this command.
+    usage_str: |
+      To use, type `geoips run order_based -w <workflow> **<order_based_args>`.
+    output_info:
+      - Log output of the order based process workflow.
   geoips_run_single_source:
     help_str: |
       Run the native geoips single source process workflow. For more information of the
