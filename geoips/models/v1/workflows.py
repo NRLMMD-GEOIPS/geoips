@@ -105,8 +105,8 @@ class AlgorithmArgumentsModel(PermissiveFrozenModel):
 
 
 class InterpolatorArgumentsModel(PermissiveFrozenModel):
-    """Validate Interpolator arguments."""
-
+    """Interpolator step argument definition."""
+    
     pass
 
 
