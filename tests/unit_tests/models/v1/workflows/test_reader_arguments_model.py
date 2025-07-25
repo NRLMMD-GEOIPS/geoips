@@ -10,7 +10,7 @@ import pytest
 from pydantic import ValidationError
 
 # GeoIPS Libraries
-from geoips.pydantic import workflows
+from geoips.models.v1 import workflows
 
 
 def test_good_valid_reader_arguments_model(valid_reader_arguments_model_data):
