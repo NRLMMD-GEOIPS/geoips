@@ -39,8 +39,8 @@ _IRREGULAR: Dict[str, str] = {
     "children": "child",
     "data": "datum",
     "criteria": "criterion",
-    "databases": "database",
-    "database": "databases",
+    # "databases": "database",
+    # "database": "databases",
 }
 
 # Reverse map – singular → plural
@@ -120,12 +120,12 @@ class Lexeme(str):
     @property
     def singular(self) -> "Lexeme":
         """Return the singular spelling."""
-        return self.__class__(_normalize(self))
+        return _normalize(self)
 
     @property
     def plural(self) -> "Lexeme":
         """Return a plural spelling."""
-        return self.__class__(_to_plural(self.singular))
+        return _to_plural(self.singular)
 
     def _key(self) -> str:
         """Normalize key for comparisons and hashing."""
