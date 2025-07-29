@@ -6,8 +6,9 @@
 Various configuration-based commands for setting up your geoips environment.
 """
 
-from os import listdir, environ, remove
-from os.path import abspath, join
+import pathlib
+from os import listdir, remove
+from os.path import join
 import subprocess
 import requests
 import tempfile
@@ -16,6 +17,7 @@ from numpy import any
 import tarfile
 from tqdm import tqdm
 
+import geoips
 from geoips.commandline.ancillary_info.test_data import test_dataset_dict
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.plugin_registry import PluginRegistry
@@ -91,13 +93,6 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
     name = "install"
     command_classes = []
 
-    @property
-    def geoips_testdata_dir(self):
-        """String path to GEOIPS_TESTDATA_DIR."""
-        if not hasattr(self, "_geoips_testdata_dir"):
-            self._geoips_testdata_dir = environ["GEOIPS_TESTDATA_DIR"]
-        return self._geoips_testdata_dir
-
     def add_arguments(self):
         """Add arguments to the config-subparser for the Config Command."""
         self.parser.add_argument(
@@ -111,12 +106,17 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 "cannot be specified alongside other test dataset names."
             ),
         )
+        testdata_dir = geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"]
         self.parser.add_argument(
             "-o",
             "--outdir",
-            type=str,
-            default=self.geoips_testdata_dir,
-            help="The full path to the directory you want to install this data to.",
+            type=pathlib.Path,
+            default=pathlib.Path(testdata_dir) if testdata_dir else pathlib.Path.cwd(),
+            help=(
+                "The full path to the directory you want to install this data to."
+                "If not provided, this command will default to $GEOIPS_TESTDATA_DIR"
+                "if set else will default to the current working directory."
+            ),
         )
 
     def __call__(self, args):
@@ -130,17 +130,17 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         test_dataset_names = args.test_dataset_names
         outdir = args.outdir
 
+        if not outdir.is_dir():
+            self.parser.error(f"Specified output directory {outdir} doesn't exist.")
+            raise FileNotFoundError(outdir)
+
         if len(test_dataset_names) > 1 and "all" in test_dataset_names:
             self.parser.error(
-                "Error: you cannot specify 'all' alongside other test dataset names. "
+                "You cannot specify 'all' alongside other test dataset names. "
                 "If 'all' is specified, that must be the only argument provided."
             )
 
-        all_datasets = (
-            True
-            if len(test_dataset_names) == 1 and test_dataset_names[0] == "all"
-            else False
-        )
+        all_datasets = len(test_dataset_names) == 1 and test_dataset_names[0] == "all"
 
         install_dataset_names = (
             list(test_dataset_dict.keys()) if all_datasets else test_dataset_names
@@ -177,7 +177,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         ----------
         url: str
             - The url of the test dataset to download
-        download_dir: str
+        download_dir: pathlib.Path
             - The directory in which to download and extract the data into
         """
         resp = requests.get(url, stream=True, timeout=15)
@@ -233,7 +233,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
         ----------
         filepath: str
             - The path to the temporary file to extract from.
-        download_dir: str
+        download_dir: pathlib.Path
             - The directory in which to download and extract the data into
         """
         with tarfile.open(filepath, mode="r:gz") as tar:
@@ -244,7 +244,8 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 total=len(members), unit="file", desc="Extracting", ncols=80
             ) as progress:
                 for m in tar:
-                    if not abspath(join(download_dir, m.name)).startswith(download_dir):
+                    member_path = (download_dir / m.name).resolve()
+                    if not str(member_path).startswith(str(download_dir.resolve())):
                         raise SystemExit("Found unsafe filepath in tar, exiting now.")
                     tar.extract(m, path=download_dir, filter="tar")
                     progress.update(1)
@@ -283,7 +284,7 @@ class GeoipsConfigInstallGithub(GeoipsExecutableCommand):
         call_list = [
             "bash",
             join(
-                environ.get("GEOIPS_PACKAGES_DIR"),
+                geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"],
                 "geoips",
                 "setup",
                 "check_system_requirements.sh",
