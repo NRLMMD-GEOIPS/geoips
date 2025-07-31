@@ -1,4 +1,4 @@
-Version 1.15.2 (2025-07-16)
+Version 1.15.2 (2025-07-31)
 ***************************
 
  * *Bug fix*: Ensure geoips_rebuild_registries is properly set as a bool

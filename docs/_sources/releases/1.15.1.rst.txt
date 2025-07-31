@@ -1,4 +1,4 @@
-Version 1.15.1 (2025-07-16)
+Version 1.15.1 (2025-07-31)
 ***************************
 
  * *Bug fixes*: Replace xarray_datatree with xarray

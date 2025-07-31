@@ -1,4 +1,4 @@
-Version 1.14.3 (2025-07-16)
+Version 1.14.3 (2025-07-31)
 ***************************
 
  * *Refactoring updates*: Share logger object to cli command classes

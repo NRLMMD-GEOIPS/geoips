@@ -1,4 +1,4 @@
-Version latest (2025-07-16)
+Version latest (2025-07-31)
 ***************************
 
  * *Documentation*: Enhanced documentation for output formatters and checkers
@@ -12,8 +12,10 @@ Version latest (2025-07-16)
  * *Documentation*: Add test sector documentation
  * *Documentation*: Update to non-conda installation documentation
  * *Bug fix*: Fix linting errors from flake8 and cspell
+ * *Bug fix*: Geoips config install bug fix.
  * *Bug fix*: Restore non-editable installability.
  * *Bug fix*: Use filter="tar" in tarfile extract commands
+ * *Bug fix*: Pin python to <3.13.0
  * *Bug fix*: Fix error handling in yamlpluginvalidator.validate()
  * *Bug fix*: Fixing uninstantiated variables in abi_netcdf reader
  * *Bug fix*: Fix unclosed file handle warnings
@@ -227,6 +229,24 @@ Fix linting errors from flake8 and cspell
 Bug fix
 =======
 
+Geoips config install bug fix.
+------------------------------
+
+The command 'geoips config install' will cause a KeyError if the environment
+variable $GEOIPS_TESTDATA_DIR is not set. This PR updates this logic and raises an
+argparse error if this environment variable isn't set and the --outdir variable was
+not provided.
+
+Additionally, this PR added new logic to create the specified output directory if it
+doesn't already exist.
+
+::
+
+     modified: geoips/commandline/geoips_config.py
+
+Bug fix
+=======
+
 Restore non-editable installability.
 ------------------------------------
 
@@ -253,6 +273,18 @@ DeprecationWarning in lower versions of Python.
 
      modified: geoips/commandline/geoips_config.py
      modified: setup/download_test_data.py
+
+Bug fix
+=======
+
+Pin python to <3.13.0
+---------------------
+
+Changes to datetime handling are breaking in python 3.13. This pins the python version below 3.13 for now.
+
+::
+
+     modified: pyproject.toml
 
 Bug fix
 =======
