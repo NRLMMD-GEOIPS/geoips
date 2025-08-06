@@ -48,7 +48,7 @@ def test_lexeme_equality(singular: str, plural: str) -> None:
     Parameters
     ----------
     singular : str
-        The singular form of a noun (irregular).
+        The singular form of a noun.
     plural : str
         The plural form of the same noun.
     """
