@@ -48,18 +48,21 @@ _S_TO_P: Dict[str, str] = {
 
 
 def _normalize(word: str) -> str:
-    """Return the canonical singular, lower‑case form of word.
+    """Convert nouns to their singular form.
 
-    It converts plural nouns to their singular forms using:
-    1. An irregular lookup table, `_IRREGULAR` for known exceptions.
-    2. Heuristic suffix rules for regular pluralization:
+    When provided with a noun, whether singular or plural, returns its singular form.
+     This is done using:
 
-      - Words ending in "ies" - replace "ies" with "y" if preceded by a consonant
-      - Words in double "zzes" - removes "zes"
-      - Words ending in "sses", "xes", or "zes" - remove "es"
-      - Words ending in "ses" - remove "s"
-      - Words ending in "es" and containing "sh" or "ch" in their singular form
-      - Words ending in singular "s" and more than three characters long - remove "s"
+        1. An irregular lookup table, `_IRREGULAR` for known exceptions.
+        2. Heuristic suffix rules for regular pluralization:
+
+        - Words ending in "ies" - replace "ies" with "y" if preceded by a consonant
+        - Words in double "zzes" - removes "zes"
+        - Words ending in "sses", "xes", or "zes" - remove "es"
+        - Words ending in "ses" - remove "s"
+        - Words ending in "es" and containing "sh" or "ch" in their singular form -
+            remove "es"
+        - Words ending in singular "s" and more than three characters long - remove "s"
 
     Parameters
     ----------
