@@ -67,7 +67,7 @@ def _normalize(word: str) -> str:
     Parameters
     ----------
     word : str
-        The singular form of noun.
+        The noun in its singular or plural form.
 
     Returns
     -------
