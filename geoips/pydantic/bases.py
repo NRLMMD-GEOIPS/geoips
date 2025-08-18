@@ -259,9 +259,17 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            metadata = getattr(ints, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            if interface_name == "products":
+                # need different logic for products as they use get_plugin_metadata via
+                # 'source_name', 'plugin_name'
+                first_product_name = values.get("spec").get("products")[0]["name"]
+                metadata = getattr(ints, interface_name).get_plugin_metadata(
+                    values.get("name"), first_product_name
+                )
+            else:
+                metadata = getattr(ints, interface_name).get_plugin_metadata(
+                    values.get("name")
+                )
         except AttributeError:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
