@@ -866,6 +866,7 @@ def call_single_time(
             chan_info[chn] = []
         chan_info[chn].append(typ)
 
+
     # Gather geolocation data
     # Assume datetime the same for all resolutions.  Not true, but close enough.
     # This save us from having very slightly different solar angles for each channel.
@@ -1048,41 +1049,58 @@ def call_single_time(
     if self_register:
         # Determine which resolution has geolocation
         LOG.info("Registering to {}".format(self_register))
-        if self_register == "HIGH":
-            datavars[adname] = datavars.pop("HIGH")
-            for varname, var in datavars["LOW"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 4, order=0)
-            datavars.pop("LOW")
-            for varname, var in datavars["MED"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 2, order=0)
-            datavars.pop("MED")
-
-        elif self_register == "MED":
-            datavars[adname] = datavars.pop("MED")
-            for varname, var in datavars["LOW"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 2, order=0)
-            datavars.pop("LOW")
-            for varname, var in datavars["HIGH"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::2, ::2]
-            datavars.pop("HIGH")
-
-        elif self_register == "LOW":
-            datavars[adname] = datavars.pop("LOW")
-            for varname, var in datavars["MED"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::2, ::2]
-            datavars.pop("MED")
-            for varname, var in datavars["HIGH"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::4, ::4]
-            datavars.pop("HIGH")
-
-        else:
+        res_list = ["HIGH", "MED", "LOW"]
+        if self_register not in res_list:
             raise ValueError("No geolocation data found.")
+        for resolution in res_list:
+            if self_register == resolution:
+                not_these_res = res_list.copy()
+                not_these_res.remove(resolution)
+
+                datavars[adname] = datavars.pop(resolution)
+                for not_this_res in not_these_res:
+                    if not_this_res in datavars.keys():
+                        for varname, var in datavars[not_this_res].items():
+                            datavars[adname][varname] = var
+                        datavars.pop(not_this_res)
+
+        # if self_register == "HIGH":
+        #     datavars[adname] = datavars.pop("HIGH")
+        #     for varname, var in datavars["LOW"].items():
+        #         datavars[adname][varname] = var
+        #         # datavars[adname][varname] = zoom(var, 4, order=0)
+        #     datavars.pop("LOW")
+        #     for varname, var in datavars["MED"].items():
+        #         datavars[adname][varname] = var
+        #         # datavars[adname][varname] = zoom(var, 2, order=0)
+        #     datavars.pop("MED")
+
+        # elif self_register == "MED":
+        #     datavars[adname] = datavars.pop("MED")
+        #     for varname, var in datavars["LOW"].items():
+        #         datavars[adname][varname] = var
+        #         # datavars[adname][varname] = zoom(var, 2, order=0)
+        #     datavars.pop("LOW")
+        #     for varname, var in datavars["HIGH"].items():
+        #         datavars[adname][varname] = var
+        #         # datavars[adname][varname] = var[::2, ::2]
+        #     datavars.pop("HIGH")
+
+        # elif self_register == "LOW":
+        #     datavars[adname] = datavars.pop("LOW")
+        #     if "MED" in datavars.keys():
+        #         for varname, var in datavars["MED"].items():
+        #             datavars[adname][varname] = var
+        #             # datavars[adname][varname] = var[::2, ::2]
+        #         datavars.pop("MED")
+        #     if "HIGH" in datavars.keys():
+        #         for varname, var in datavars["HIGH"].items():
+        #             datavars[adname][varname] = var
+        #             # datavars[adname][varname] = var[::4, ::4]
+        #         datavars.pop("HIGH")
+
+        # else:
+        #     raise ValueError("No geolocation data found.")
 
     # basically just reformat the all_metadata dictionary to
     # reference channel names as opposed to file names..
