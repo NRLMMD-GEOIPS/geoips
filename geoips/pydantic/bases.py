@@ -219,7 +219,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         available options.""",
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
-    name: PythonIdentifier = Field(..., description="Plugin name.")
+    name: str = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
         None,
