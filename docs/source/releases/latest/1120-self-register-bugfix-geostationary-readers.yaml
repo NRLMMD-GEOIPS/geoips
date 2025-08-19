@@ -1,0 +1,23 @@
+bug fix:
+- title: 'self-register bugfix for geostationary readers'
+  description: |
+    The `abi_netcdf.py` reader had a bug which caused a KeyError when the
+    `self_register` variable was set. This drew our attention to
+    inconsistencies in the naming of the returned dictionary of xarray
+    Datasets.
+    The current behavior is: when `self_register` is set, it will always
+    return a Dataset named `Full-Disk`. We feel this naming is inappropriate.
+    The new behavior, implemented in this PR, is to return the Dataset named
+    the same as the `self_register` variable, with all zoomed or subsampled
+    data placed together.
+  files:
+    added:
+    - 'docs/source/releases/latest/1120-self-register-bugfix-geostationary-readers.yaml'
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+  related-issue:
+    number: 1120
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2025/08/18
+    finish: today
