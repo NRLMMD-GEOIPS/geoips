@@ -32,7 +32,7 @@ LOG = logging.getLogger(__name__)
 # Installed Libraries
 
 with import_optional_dependencies(loglevel="info"):
-    """Attempt to import a package & print to LOG.info if the import fails."""
+    # Attempt to import a package & print to LOG.info if the import fails.
     # If this reader is not installed on the system, don't fail alltogether,
     # just skip this import. This reader will not work if the import fails
     # and the package will have to be installed to process data of this type.
@@ -891,7 +891,9 @@ def call_single_time(
             )
         )
         # Get just the metadata we need
-        standard_metadata[self_register] = _get_geolocation_metadata(res_md[self_register])
+        standard_metadata[self_register] = _get_geolocation_metadata(
+            res_md[self_register]
+        )
         fldk_lats, fldk_lons = get_latitude_longitude(
             standard_metadata[self_register],
             BADVALS,
