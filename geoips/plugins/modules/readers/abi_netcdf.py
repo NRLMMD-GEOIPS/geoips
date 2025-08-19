@@ -597,7 +597,19 @@ def call(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
     roi: radius of influence (unit in meter), used in interpolation scheme
+        * Passed in from Call function.
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
 
@@ -759,7 +771,8 @@ def call_single_time(
     # From here on we will just rely on the metadata from a single data file
     # for each resolution
     res_md = {}
-    for res in ["LOW", "MED", "HIGH"]:
+    low_med_hi_list = ["LOW", "MED", "HIGH"]
+    for res in low_med_hi_list:
         # Find a file for this resolution: Any one will do
         res_chans = list(set(DATASET_INFO[res]).intersection(file_info.keys()))
         if res_chans:
@@ -907,7 +920,7 @@ def call_single_time(
             )
             gvars[adname] = {}
     else:
-        for res in ["LOW", "MED", "HIGH"]:
+        for res in low_med_hi_list:
             try:
                 res_md[res]
             except KeyError:
@@ -1036,7 +1049,7 @@ def call_single_time(
     #   remove any unneeded datasets from datavars and gvars
     #   also mask any values below -999.0
     if area_def:
-        for res in ["LOW", "MED", "HIGH"]:
+        for res in low_med_hi_list:
             if adname not in gvars and res in gvars and gvars[res]:
                 gvars[adname] = gvars[res]
             try:
@@ -1049,15 +1062,21 @@ def call_single_time(
     if self_register:
         # Determine which resolution has geolocation
         LOG.info("Registering to {}".format(self_register))
-        res_list = ["HIGH", "MED", "LOW"]
-        if self_register not in res_list:
-            raise ValueError("No geolocation data found.")
-        for resolution in res_list:
+        if self_register not in low_med_hi_list:
+            raise ValueError(
+                "No geolocation data found for '{}' format.".format(
+                    self_register
+                )
+            )
+        for resolution in low_med_hi_list:
             if self_register == resolution:
-                not_these_res = res_list.copy()
+                not_these_res = low_med_hi_list.copy()
                 not_these_res.remove(resolution)
 
                 datavars[adname] = datavars.pop(resolution)
+                # Loop through the remaining resolutions
+                # eg. if self_register="LOW" then the remaining resolutions
+                #   would be "MED" and "HIGH"
                 for not_this_res in not_these_res:
                     if not_this_res in datavars.keys():
                         for varname, var in datavars[not_this_res].items():
