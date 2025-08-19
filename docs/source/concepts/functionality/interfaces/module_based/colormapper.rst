@@ -5,7 +5,6 @@
 
 .. _colormapper_functionality:
 
-*******************
 Colormaps in GeoIPS
 *******************
 
@@ -37,7 +36,8 @@ Other keyword arguments can be passed to the matplotlib colorbar in some output 
 using the `colorbar_kwargs`, `set_ticks_kwargs`, and `set_label_kwargs` keys.
 
 For an example of how a custom colormapper is formatted, see the
-`Infrared colormapper <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/visir/Infrared.py>`_.
+`Infrared colormapper
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/geoips/plugins/modules/colormappers/visir/Infrared.py>`_.
 
 Using a Colormapper
 ===================
@@ -50,7 +50,8 @@ specification, which can be executed via the command line or a test
 script using a GeoIPS procflow.
 
 For examples of including a colormapper in a product implementation, see the
-`Extend GeoIPS with a Colormapper <https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/colormapper/index.rst>`_
+`Extend GeoIPS with a Colormapper
+<https://github.com/NRLMMD-GEOIPS/geoips/blob/main/docs/source/tutorials/extending-with-plugins/colormapper/index.rst>`_
 and
 :ref:`product defaults <create-product-defaults>`
 tutorials.
@@ -82,4 +83,3 @@ The output of the plugin can then be applied to the plot of the image. For examp
       if mpl_colors_info["colorbar"] is True:
           # Create the colorbar defined in the colormapper.
           create_colorbar(fig, mpl_colors_info)
-

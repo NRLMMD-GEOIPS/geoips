@@ -5,11 +5,14 @@
     // Words considered correct for THIS project specifically
     "words": [
         // Project Specific / Acronyms / People / Orgs
-        "AWIPS",
+        "libopenblas",
+	"AWIPS",
         "CIMSS",
         "CIRA",
         "CIRA's",
         "CLAVR-x",
+	"CLAVR",
+	"coveragerc",
         "ECMWF",
         "ESRL",
         "EUMETSAT",
@@ -87,6 +90,7 @@
         "pydantic",
         "pygrib",
         "pyhdf",
+        "pykdtree",
         "pyproj",
         "pyproject",
         "pypublicdecompwt",
@@ -669,13 +673,17 @@
         "stdout",
         "tmp",
         "ttt",
+        "volc", // volcano
+	"xdist",
         "xyz",
         "yyyy",
         "yyyyddd",
         "yyyyjjj",
         "yyyyjjjhhmn",
+        "YYYYMMDDTHHMMZ",
         "yyyymmdd",
         "zzz",
+        "zorder",
     ],
     // --- Global Ignore Patterns ---
     // Regular expressions for patterns to ignore globally

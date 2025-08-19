@@ -8,6 +8,7 @@ Runs the appropriate tests based on the arguments provided.
 
 from glob import glob
 from importlib import resources
+import warnings
 
 # from os import listdir
 from os import environ, makedirs
@@ -249,6 +250,11 @@ class GeoipsTestScript(GeoipsExecutableCommand):
         args: Argparse Namespace()
             - The list argument namespace to parse through
         """
+        if args.warnings != "print":
+            warnings.warn(
+                "The 'warnings' argument is not yet supported for this command.",
+                UserWarning,
+            )
         package_name = args.package_name
         script_name = args.script_name
         is_integration_test = args.integration
