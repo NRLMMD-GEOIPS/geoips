@@ -4,7 +4,7 @@ Validates Product plugins using pydantic. Intended to be a 'carryover' model whi
 be used until we fully switch over to using workflow plugins.
 """
 
-from typing import List
+from typing import ClassVar, List
 
 from pydantic import (
     Field,
@@ -15,8 +15,8 @@ import yaml
 
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.pydantic.bases import (
-    DynamicModel,
     FrozenModel,
+    PermissiveDynamicModel,
     PermissiveFrozenModel,
     PythonIdentifier,
     PluginModel,
@@ -110,11 +110,10 @@ class ProductSpec(ProductDefaultSpec):
     )
 
 
-class Product(DynamicModel):
-    """Format for how to specify a singular product in a product plugin.
+class ProductPluginModel(PermissiveDynamicModel):
+    """Format for how to specify a singular product in a product plugin."""
 
-    Additional fields may not be added.
-    """
+    interface: ClassVar[str] = "products"
 
     name: str = Field(
         ...,
@@ -229,7 +228,8 @@ class Product(DynamicModel):
                 in_place=False,
                 replace=True,
             )
-            self.product_defaults = self.product_defaults.name
+            self.family = self.product_defaults.family
+            delattr(self, "product_defaults")
 
         # Remove all top level null values from the product's spec. I.e:
         # interpolator=null (cannot remove easily via pydantic)
@@ -238,13 +238,13 @@ class Product(DynamicModel):
         return self
 
 
-class ProductsSpec(DynamicModel):
+class ProductsSpec(PermissiveDynamicModel):
     """Format for the Product 'spec' field.
 
     Uses FrozenModel, meaning no additional fields can be added.
     """
 
-    products: List[Product] = Field(
+    products: List[ProductPluginModel] = Field(
         ...,
         description=(
             "A list of one or more products that fall under the same source name."
@@ -253,8 +253,8 @@ class ProductsSpec(DynamicModel):
     )
 
 
-class ProductPluginModel(PluginModel):
-    """Product plugin format using pydantic."""
+class ProductsListPluginModel(PluginModel):
+    """Product list plugin format using pydantic."""
 
     model_config = ConfigDict(extra="allow")
     spec: ProductsSpec = Field(
