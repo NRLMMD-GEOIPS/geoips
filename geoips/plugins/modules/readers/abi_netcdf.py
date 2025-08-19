@@ -1063,9 +1063,7 @@ def call_single_time(
         LOG.info("Registering to {}".format(self_register))
         if self_register not in low_med_hi_list:
             raise ValueError(
-                "No geolocation data found for '{}' format.".format(
-                    self_register
-                )
+                "No geolocation data found for '{}' format.".format(self_register)
             )
         for resolution in low_med_hi_list:
             if self_register == resolution:
