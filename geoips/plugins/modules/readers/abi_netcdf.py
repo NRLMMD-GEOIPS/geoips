@@ -655,8 +655,7 @@ def call_single_time(
     resource_tracker=None,
     roi=None,
 ):
-    """
-    Read ABI NetCDF data from a list of filenames.
+    """Read ABI NetCDF data from a list of filenames.
 
     Parameters
     ----------
@@ -703,7 +702,6 @@ def call_single_time(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
-
     check_geolocation_cache_backend(geolocation_cache_backend)
     gvars = {}
     datavars = {}
