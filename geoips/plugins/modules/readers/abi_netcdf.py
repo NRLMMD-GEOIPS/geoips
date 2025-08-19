@@ -609,7 +609,6 @@ def call(
           snapshot are recorded, and can be accessed using the
           PidLog.checkpoint_usage_stats method.
     roi: radius of influence (unit in meter), used in interpolation scheme
-        * Passed in from Call function.
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
 
@@ -704,6 +703,7 @@ def call_single_time(
         Additional information regarding required attributes and variables
         for GeoIPS-formatted xarray Datasets.
     """
+
     check_geolocation_cache_backend(geolocation_cache_backend)
     gvars = {}
     datavars = {}
@@ -879,7 +879,6 @@ def call_single_time(
             chan_info[chn] = []
         chan_info[chn].append(typ)
 
-
     # Gather geolocation data
     # Assume datetime the same for all resolutions.  Not true, but close enough.
     # This save us from having very slightly different solar angles for each channel.
@@ -892,18 +891,18 @@ def call_single_time(
             )
         )
         # Get just the metadata we need
-        standard_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
+        standard_metadata[self_register] = _get_geolocation_metadata(res_md[self_register])
         fldk_lats, fldk_lons = get_latitude_longitude(
-            standard_metadata[adname],
+            standard_metadata[self_register],
             BADVALS,
             area_def,
             geolocation_cache_backend=geolocation_cache_backend,
             chunk_size=cache_chunk_size,
             resource_tracker=resource_tracker,
         )
-        gvars[adname] = get_geolocation(
+        gvars[self_register] = get_geolocation(
             sdt,
-            standard_metadata[adname],
+            standard_metadata[self_register],
             fldk_lats,
             fldk_lons,
             BADVALS,
@@ -913,12 +912,12 @@ def call_single_time(
             scan_datetime=sdt,
             resource_tracker=resource_tracker,
         )
-        if not gvars[adname]:
+        if not gvars[self_register]:
             LOG.error(
                 f"GEOLOCATION FAILED for adname {adname} DONT_AUTOGEN_GEOLOCATION "
                 f"is: {DONT_AUTOGEN_GEOLOCATION}"
             )
-            gvars[adname] = {}
+            gvars[self_register] = {}
     else:
         for res in low_med_hi_list:
             try:
@@ -1014,14 +1013,14 @@ def call_single_time(
         if self_register:
             data = get_data(
                 chan_md,
-                gvars[adname],
+                gvars[self_register],
                 rad,
                 ref,
                 bt,
                 cache_data=cache_data,
                 cache_name_prefix=cache_name_prefix,
                 scan_datetime=sdt,
-                standard_metadata=standard_metadata[adname],
+                standard_metadata=standard_metadata[self_register],
             )
         else:
             data = get_data(
@@ -1073,53 +1072,18 @@ def call_single_time(
                 not_these_res = low_med_hi_list.copy()
                 not_these_res.remove(resolution)
 
-                datavars[adname] = datavars.pop(resolution)
+                datavars[resolution] = datavars.pop(resolution)
                 # Loop through the remaining resolutions
                 # eg. if self_register="LOW" then the remaining resolutions
                 #   would be "MED" and "HIGH"
                 for not_this_res in not_these_res:
                     if not_this_res in datavars.keys():
+                        # The other resolutions have already been scaled
+                        # Data needs to move to the chosen self_register
                         for varname, var in datavars[not_this_res].items():
-                            datavars[adname][varname] = var
+                            datavars[resolution][varname] = var
+                        # Remove the old data names
                         datavars.pop(not_this_res)
-
-        # if self_register == "HIGH":
-        #     datavars[adname] = datavars.pop("HIGH")
-        #     for varname, var in datavars["LOW"].items():
-        #         datavars[adname][varname] = var
-        #         # datavars[adname][varname] = zoom(var, 4, order=0)
-        #     datavars.pop("LOW")
-        #     for varname, var in datavars["MED"].items():
-        #         datavars[adname][varname] = var
-        #         # datavars[adname][varname] = zoom(var, 2, order=0)
-        #     datavars.pop("MED")
-
-        # elif self_register == "MED":
-        #     datavars[adname] = datavars.pop("MED")
-        #     for varname, var in datavars["LOW"].items():
-        #         datavars[adname][varname] = var
-        #         # datavars[adname][varname] = zoom(var, 2, order=0)
-        #     datavars.pop("LOW")
-        #     for varname, var in datavars["HIGH"].items():
-        #         datavars[adname][varname] = var
-        #         # datavars[adname][varname] = var[::2, ::2]
-        #     datavars.pop("HIGH")
-
-        # elif self_register == "LOW":
-        #     datavars[adname] = datavars.pop("LOW")
-        #     if "MED" in datavars.keys():
-        #         for varname, var in datavars["MED"].items():
-        #             datavars[adname][varname] = var
-        #             # datavars[adname][varname] = var[::2, ::2]
-        #         datavars.pop("MED")
-        #     if "HIGH" in datavars.keys():
-        #         for varname, var in datavars["HIGH"].items():
-        #             datavars[adname][varname] = var
-        #             # datavars[adname][varname] = var[::4, ::4]
-        #         datavars.pop("HIGH")
-
-        # else:
-        #     raise ValueError("No geolocation data found.")
 
     # basically just reformat the all_metadata dictionary to
     # reference channel names as opposed to file names..
@@ -1148,7 +1112,7 @@ def call_single_time(
             LOG.info(f"Did not find satellite zenith angle to mask for {res}")
             pass
     for ds in datavars.keys():
-        if not datavars[ds]:
+        if not any(datavars[ds]):
             datavars.pop(ds)
 
     xarray_objs = {}
@@ -1382,7 +1346,7 @@ def read_netcdf_radiance(full_disk, line_inds, sample_inds, md, gvars):
                         "This section of code needs to be reexamined."
                     )
                 # Perform the actual zoom
-                zoom_factor = zoom_factor.astype(np.int)
+                zoom_factor = zoom_factor.astype(int)
                 rad_data = zoom(
                     np.float64(df.variables["Rad"][...]), zoom_factor[0], order=0
                 )
@@ -1405,7 +1369,7 @@ def read_netcdf_radiance(full_disk, line_inds, sample_inds, md, gvars):
                     )
                 # Perform the actual subsampling
                 LOG.info("Before zoom")
-                zoom_factor = zoom_factor.astype(np.int)
+                zoom_factor = zoom_factor.astype(int)
 
                 # NOTE: Strides are broken for netCDF4 library version < 4.6.2.
                 #       At present, the most recent stable release is 4.6.1.
