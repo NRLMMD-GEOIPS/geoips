@@ -52,8 +52,7 @@ class SpecPlugin(FrozenModel):
         ...,
         desciption=(
             "The specification of the module plugin being overridden or implemented "
-            "directly. Should be one of the any of the following types of plugins:\n"
-            "Currently supports: Algorithms, Colormappers, Interpolators."
+            "directly."
         ),
     )
 
@@ -61,8 +60,7 @@ class SpecPlugin(FrozenModel):
 class ProductDefaultSpec(PermissiveFrozenModel):
     """Format of the argument specifications for a product default plugin.
 
-    Additional fields may be added as (such as coverage_checker, windbarb_plotter,
-    mtif type) arguments if needed.
+    Additional fields may be added as needed.
 
     As well, you can add as many arguments to a certain plugin as needed. Keep in mind
     these arguments must be present in the actual module plugin.
@@ -77,6 +75,17 @@ class ProductDefaultSpec(PermissiveFrozenModel):
     interpolator: SpecPlugin = Field(
         None, description="The specification of an interpolator plugin."
     )
+    windbarb_plotter: SpecPlugin = Field(
+        None, description="The specification of an windbarb_plotter plugin."
+    )
+    coverage_checker: SpecPlugin = Field(
+        None, description="The specification of an coverage_checker plugin."
+    )
+    pad_area_definition: bool = Field(
+        None, description="Whether or not to pad your area definition if specified."
+    )
+    mtif_type: str = Field(None, description="The format of METOC TIFF to output.")
+    display_name: str = Field(None, description="The display name of your product.")
 
 
 class ProductDefaultPluginModel(PluginModel):
