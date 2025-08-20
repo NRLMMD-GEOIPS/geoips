@@ -27,11 +27,15 @@ FAMILIES_CHECKED_AGAINST = [
 ]
 
 
-class AlgorithmColormapperInterpolatorModel(PermissiveFrozenModel):
-    """Format specifying which plugin to use and the arguments to provide to it."""
+class ModulePluginArgumentsModel(PermissiveFrozenModel):
+    """Format specifying which module plugin to use and the arguments to provide to it.
+
+    Normally one of 'algorithm', 'colormapper', 'interpolator', but can be other types
+    of module plugins as well (such as 'coverage_checker').
+    """
 
     name: PythonIdentifier = Field(
-        ..., description="The name of the plugin to be used."
+        ..., description="The name of the module plugin to be used."
     )
     arguments: dict = Field(
         ...,
@@ -42,14 +46,14 @@ class AlgorithmColormapperInterpolatorModel(PermissiveFrozenModel):
 
 
 class SpecPlugin(FrozenModel):
-    """Simple model containing the name of the plugin and the arguments to feed it."""
+    """Model containing the name of the module plugin and the arguments to feed it."""
 
-    plugin: AlgorithmColormapperInterpolatorModel = Field(
+    plugin: ModulePluginArgumentsModel = Field(
         ...,
         desciption=(
-            "The specification of the plugin being overridden or implemented directly. "
-            "Should be one of the any of the following types of plugins:\n"
-            "Algorithms, Colormappers, Interpolators"
+            "The specification of the module plugin being overridden or implemented "
+            "directly. Should be one of the any of the following types of plugins:\n"
+            "Currently supports: Algorithms, Colormappers, Interpolators."
         ),
     )
 
@@ -113,7 +117,7 @@ class ProductsListSpec(FrozenModel):
 
     # Quotes are used here as this is a forward reference. Haven't found a workaround to
     # this yet.
-    products: List["EmbeddedProductPluginModel"] = Field(
+    products: List["SingleProductPluginModel"] = Field(
         ...,
         description=(
             "A list of one or more products that fall under the same source name."
@@ -130,37 +134,17 @@ class ProductsListPluginModel(PluginModel):
     )
 
 
-class EmbeddedProductPluginModel(PluginModel):
+class SingleProductPluginModel(PluginModel):
     """Format for how to specify a singular product plugin."""
 
     model_config = ConfigDict(extra="allow")
 
-    name: str = Field(
-        ...,
-        description=(
-            "The name of the product being specified. Currently doesn't have to be a "
-            "valid python identifier as we have some products (such as 89H) which don't"
-            " adhere to that."
-        ),
-    )
     source_names: List[str] = Field(
         ...,
         description=(
             "A list of strings representing the source(s) this product is derived from."
             "Currently doesn't have to be a valid python identifier as we have some "
             "cases that don't adhere to that (such as amsu-a_mhs)."
-        ),
-    )
-    docstring: str = Field(
-        ...,
-        description="A single or multiline description of what this product implements",
-    )
-    family: PythonIdentifier = Field(
-        None,
-        description=(
-            "The family this product falls under. Will be deprecated once the order "
-            "based procflow has been implemented. Cannot be specified along the "
-            "'product_defaults' field."
         ),
     )
     product_defaults: ProductDefaultPluginModel = Field(
@@ -182,7 +166,7 @@ class EmbeddedProductPluginModel(PluginModel):
         ),
     )
 
-    # This runs second
+    # This runs after 'check_family_pd_xor'
     @model_validator(mode="before")
     @classmethod
     def load_product_default(cls, self):
@@ -194,14 +178,19 @@ class EmbeddedProductPluginModel(PluginModel):
 
             abspath = product_defaults.get_plugin(self["product_defaults"])["abspath"]
             yam = yaml.safe_load(open(abspath, "r"))
+            # This assigns the actual model to the product defaults attribute. We then
+            # merge that (keeping original product contents) with the products spec.
             self["product_defaults"] = ProductDefaultPluginModel(**yam)
             cls._override_product_defaults(self)
+            # At the end of this function, we remove the product defaults attribute
+            # entirely and fill its family in the corresponding attribute instead.
 
         cls._validate_plugins_if_exist(self)
 
         return self
 
-    # This runs first
+    # NOTE: model validators using mode before run from bottom to top.
+    # This runs before 'load_product_default'
     @model_validator(mode="before")
     def check_family_pd_xor(self):
         """Validate that either family or product_defaults is provided xor fashion.
@@ -214,6 +203,10 @@ class EmbeddedProductPluginModel(PluginModel):
             raise ValueError(
                 "You must provide exactly one of 'family' or 'product_defaults'."
             )
+        # NOTE: Hardcoding this here. I tried using a top-level
+        # interface: ClassVar[str] = "products" but that resulted in the following error
+
+        # pydantic.errors.PydanticUserError: Decorators defined with incorrect fields:
         self["interface"] = "products"
         return self
 
@@ -261,11 +254,11 @@ class EmbeddedProductPluginModel(PluginModel):
 
 # Discriminated Union via RootModel
 class _ProductPluginUnion(
-    RootModel[Union[ProductsListPluginModel, EmbeddedProductPluginModel]]
+    RootModel[Union[ProductsListPluginModel, SingleProductPluginModel]]
 ):
     """Private root model to unpack via ProductPluginModel."""
 
-    root: Union[ProductsListPluginModel, EmbeddedProductPluginModel]
+    root: Union[ProductsListPluginModel, SingleProductPluginModel]
 
 
 class ProductPluginModel:
