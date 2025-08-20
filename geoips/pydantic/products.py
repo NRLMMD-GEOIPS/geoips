@@ -111,6 +111,8 @@ class ProductsListSpec(FrozenModel):
     Uses FrozenModel, meaning no additional fields can be added.
     """
 
+    # Quotes are used here as this is a forward reference. Haven't found a workaround to
+    # this yet.
     products: List["EmbeddedProductPluginModel"] = Field(
         ...,
         description=(
@@ -257,9 +259,25 @@ class EmbeddedProductPluginModel(PluginModel):
         return self
 
 
-class ProductPluginModel(
+# Discriminated Union via RootModel
+class _ProductPluginUnion(
     RootModel[Union[ProductsListPluginModel, EmbeddedProductPluginModel]]
 ):
-    """The format of a singular product plugin or a list of them."""
+    """Private root model to unpack via ProductPluginModel."""
 
     root: Union[ProductsListPluginModel, EmbeddedProductPluginModel]
+
+
+class ProductPluginModel:
+    """The format of a singular product plugin or a list of them."""
+
+    def __new__(cls, **data):
+        """Create a new instance of a ProductPluginModel exposing the subclass of root.
+
+        Where root is the attribute used to access either type of model used to
+        construct a ProductPluginModel.
+
+        I.e. '_ProductPluginUnion(**data).root = Real Model' # NOQA RS210
+        """
+        parsed_model = _ProductPluginUnion(**data).root
+        return parsed_model
