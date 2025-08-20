@@ -259,13 +259,20 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            if interface_name == "products":
+            if interface_name == "products" or "source_names" in values:
                 # need different logic for products as they use get_plugin_metadata via
                 # 'source_name', 'plugin_name'
-                first_product_name = values.get("spec").get("products")[0]["name"]
-                metadata = getattr(ints, interface_name).get_plugin_metadata(
-                    values.get("name"), first_product_name
-                )
+                if values.get("family") == "list":
+                    # product list
+                    first_product_name = values.get("spec").get("products")[0]["name"]
+                    metadata = getattr(ints, interface_name).get_plugin_metadata(
+                        values.get("name"), first_product_name
+                    )
+                else:
+                    # singular product
+                    metadata = getattr(ints, "products").get_plugin_metadata(
+                        values.get("source_names")[0], values.get("name")
+                    )
             else:
                 metadata = getattr(ints, interface_name).get_plugin_metadata(
                     values.get("name")

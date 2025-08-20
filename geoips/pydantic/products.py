@@ -4,19 +4,14 @@ Validates Product plugins using pydantic. Intended to be a 'carryover' model whi
 be used until we fully switch over to using workflow plugins.
 """
 
-from typing import ClassVar, List
+from typing import List, Union
 
-from pydantic import (
-    Field,
-    ConfigDict,
-    model_validator,
-)
+from pydantic import RootModel, Field, ConfigDict, model_validator
 import yaml
 
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.pydantic.bases import (
     FrozenModel,
-    PermissiveDynamicModel,
     PermissiveFrozenModel,
     PythonIdentifier,
     PluginModel,
@@ -110,10 +105,33 @@ class ProductSpec(ProductDefaultSpec):
     )
 
 
-class ProductPluginModel(PermissiveDynamicModel):
-    """Format for how to specify a singular product in a product plugin."""
+class ProductsListSpec(FrozenModel):
+    """Format for the Product 'spec' field.
 
-    interface: ClassVar[str] = "products"
+    Uses FrozenModel, meaning no additional fields can be added.
+    """
+
+    products: List["EmbeddedProductPluginModel"] = Field(
+        ...,
+        description=(
+            "A list of one or more products that fall under the same source name."
+            "For example, Visible and Infrared under the 'abi' source name."
+        ),
+    )
+
+
+class ProductsListPluginModel(PluginModel):
+    """Format for how to specify a list of product plugins."""
+
+    spec: ProductsListSpec = Field(
+        ..., description="The specification format of a plugin list."
+    )
+
+
+class EmbeddedProductPluginModel(PluginModel):
+    """Format for how to specify a singular product plugin."""
+
+    model_config = ConfigDict(extra="allow")
 
     name: str = Field(
         ...,
@@ -151,6 +169,8 @@ class ProductPluginModel(PermissiveDynamicModel):
             "be specified alongside the 'family' field."
         ),
     )
+    # Using quotes around the classes as we need forward references. No other way around
+    # this that I've found so far.
     spec: ProductSpec = Field(
         ...,
         description=(
@@ -160,23 +180,9 @@ class ProductPluginModel(PermissiveDynamicModel):
         ),
     )
 
-    # This runs first
-    @model_validator(mode="before")
-    def check_family_pd_xor(self):
-        """Validate that either family or product_defaults is provided xor fashion.
-
-        Meaning, only one of those options can be provided, not both or none.
-        """
-        if (self.get("family") is None and self.get("product_defaults") is None) or (
-            self.get("family") is not None and self.get("product_defaults") is not None
-        ):
-            raise ValueError(
-                "You must provide exactly one of 'family' or 'product_defaults'."
-            )
-        return self
-
     # This runs second
     @model_validator(mode="before")
+    @classmethod
     def load_product_default(cls, self):
         """If a product_defaults entry has been provided, load it."""
         if self.get("product_defaults"):
@@ -191,6 +197,22 @@ class ProductPluginModel(PermissiveDynamicModel):
 
         cls._validate_plugins_if_exist(self)
 
+        return self
+
+    # This runs first
+    @model_validator(mode="before")
+    def check_family_pd_xor(self):
+        """Validate that either family or product_defaults is provided xor fashion.
+
+        Meaning, only one of those options can be provided, not both or none.
+        """
+        if (self.get("family") is None and self.get("product_defaults") is None) or (
+            self.get("family") is not None and self.get("product_defaults") is not None
+        ):
+            raise ValueError(
+                "You must provide exactly one of 'family' or 'product_defaults'."
+            )
+        self["interface"] = "products"
         return self
 
     # Not implementing as a model validator as it would not consistently run last.
@@ -235,25 +257,9 @@ class ProductPluginModel(PermissiveDynamicModel):
         return self
 
 
-class ProductsSpec(PermissiveDynamicModel):
-    """Format for the Product 'spec' field.
+class ProductPluginModel(
+    RootModel[Union[ProductsListPluginModel, EmbeddedProductPluginModel]]
+):
+    """The format of a singular product plugin or a list of them."""
 
-    Uses FrozenModel, meaning no additional fields can be added.
-    """
-
-    products: List[ProductPluginModel] = Field(
-        ...,
-        description=(
-            "A list of one or more products that fall under the same source name."
-            "For example, Visible and Infrared under the 'abi' source name."
-        ),
-    )
-
-
-class ProductsListPluginModel(PluginModel):
-    """Product list plugin format using pydantic."""
-
-    model_config = ConfigDict(extra="allow")
-    spec: ProductsSpec = Field(
-        ..., description="A field representing a list of products."
-    )
+    root: Union[ProductsListPluginModel, EmbeddedProductPluginModel]
