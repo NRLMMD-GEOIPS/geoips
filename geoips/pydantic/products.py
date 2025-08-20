@@ -187,6 +187,7 @@ class ProductPluginModel(PermissiveDynamicModel):
             abspath = product_defaults.get_plugin(self["product_defaults"])["abspath"]
             yam = yaml.safe_load(open(abspath, "r"))
             self["product_defaults"] = ProductDefaultPluginModel(**yam)
+            cls._override_product_defaults(self)
 
         cls._validate_plugins_if_exist(self)
 
@@ -198,10 +199,7 @@ class ProductPluginModel(PermissiveDynamicModel):
 
         Where family comes from spec.family or spec.product_defaults.family.
         """
-        if self.get("family"):
-            family_name = self["family"]
-        elif self.get("product_defaults").family:
-            family_name = self["product_defaults"].family
+        family_name = self["family"]
 
         if family_name in FAMILIES_CHECKED_AGAINST:
             # Only validating for the alg-cmap-int -based families currently
@@ -218,22 +216,21 @@ class ProductPluginModel(PermissiveDynamicModel):
                         )
         return self
 
-    @model_validator(mode="after")
-    def override_product_defaults(self):
+    def _override_product_defaults(self):
         """Override the contents of product defaults if applicable."""
-        if self.product_defaults:
-            self.spec = merge_nested_dicts(
-                self.dict()["spec"],
-                self.dict()["product_defaults"]["spec"],
+        if self["product_defaults"]:
+            self["spec"] = merge_nested_dicts(
+                self["spec"],
+                self["product_defaults"].spec.dict(),
                 in_place=False,
-                replace=True,
+                replace=False,
             )
-            self.family = self.product_defaults.family
-            delattr(self, "product_defaults")
+            self["family"] = self["product_defaults"].family
+            self.pop("product_defaults")
 
         # Remove all top level null values from the product's spec. I.e:
         # interpolator=null (cannot remove easily via pydantic)
-        self.spec = {k: v for k, v in self.spec.items() if v is not None}
+        self["spec"] = {k: v for k, v in self["spec"].items() if v is not None}
 
         return self
 
