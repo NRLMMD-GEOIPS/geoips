@@ -5,11 +5,14 @@
     // Words considered correct for THIS project specifically
     "words": [
         // Project Specific / Acronyms / People / Orgs
-        "AWIPS",
+        "libopenblas",
+	"AWIPS",
         "CIMSS",
         "CIRA",
         "CIRA's",
         "CLAVR-x",
+	"CLAVR",
+	"coveragerc",
         "ECMWF",
         "ESRL",
         "EUMETSAT",
@@ -33,6 +36,7 @@
         "UCAR",
         "Wimmers",
         "geokompsat",
+	"nesdisstar",
         "nrlmry",
         "nrlmmd",
         // Libraries / Tools
@@ -86,6 +90,7 @@
         "pydantic",
         "pygrib",
         "pyhdf",
+        "pykdtree",
         "pyproj",
         "pyproject",
         "pypublicdecompwt",
@@ -328,6 +333,7 @@
         "AIRS",
         "ALOS",
         "AMSU",
+	"AMSUB",
         "ASCAT",
         "ATMS",
         "AVHRR",
@@ -367,6 +373,7 @@
         "QuikSCAT",
         "RISAT",
         "Radarsat",
+	"SAPHIR",
         "SARAL",
         "SMAP",
         "SMOS",
@@ -666,13 +673,17 @@
         "stdout",
         "tmp",
         "ttt",
+        "volc", // volcano
+	"xdist",
         "xyz",
         "yyyy",
         "yyyyddd",
         "yyyyjjj",
         "yyyyjjjhhmn",
+        "YYYYMMDDTHHMMZ",
         "yyyymmdd",
         "zzz",
+        "zorder",
     ],
     // --- Global Ignore Patterns ---
     // Regular expressions for patterns to ignore globally

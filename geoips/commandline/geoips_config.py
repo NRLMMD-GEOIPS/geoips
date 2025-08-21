@@ -104,7 +104,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
             "test_dataset_names",
             type=str.lower,
             nargs="+",
-            choices=list(test_dataset_dict.keys()),
+            choices=list(test_dataset_dict.keys()) + ["all"],
             help=(
                 "Names of the GeoIPS test datasets to install. If 'all' is specified, "
                 "GeoIPS will install all test datasets hosted on NextCloud. 'all' "
@@ -246,7 +246,7 @@ class GeoipsConfigInstall(GeoipsExecutableCommand):
                 for m in tar:
                     if not abspath(join(download_dir, m.name)).startswith(download_dir):
                         raise SystemExit("Found unsafe filepath in tar, exiting now.")
-                    tar.extract(m, path=download_dir)
+                    tar.extract(m, path=download_dir, filter="tar")
                     progress.update(1)
 
 

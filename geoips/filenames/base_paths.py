@@ -157,6 +157,11 @@ def initialize_paths():
         "%(levelname)7s: %(message)s",
         "GEOIPS_LOGGING_DATEFMT_STRING": "%d_%H%M%S",
         "GEOIPS_LOGGING_LEVEL": "interactive",
+        # Changes the warning level used for warnings.simplefilter
+        # Valid options are "ignore", "default", "error", "always", "module", "once"
+        # See https://docs.python.org/3/library/warnings.html#the-warnings-filter
+        # for details on each option.
+        "GEOIPS_WARNING_LEVEL": "default",
     }
 
     # Long variables names to avoid black and flake8 conflicts.

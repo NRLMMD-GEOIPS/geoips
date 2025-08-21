@@ -1042,16 +1042,16 @@ def pad_area_definition(
 
     # Always pad TC sectors, and if "force_pad=True" is passed into the function
     if is_sector_type(area_def, "tc") or force_pad:
-        LOG.info("Trying area_def %s, %s", area_def.name, area_def.sector_info)
+        LOG.info("Trying area_def %s, %s", area_def.description, area_def.sector_info)
         # Get an extra 50% size for TCs so we can handle recentering and not have
         # missing data. --larger area for possibly moved center for vis/ir backgrounds
         # Default to 1.5x padding
-        num_lines = int(area_def.y_size * y_scale_factor)
-        num_samples = int(area_def.x_size * x_scale_factor)
+        num_lines = int(area_def.height * y_scale_factor)
+        num_samples = int(area_def.width * x_scale_factor)
         # Need full swath width for AMSU-B and MHS. Need a better solution for this.
         if source_name is not None and source_name in ["amsu-b", "mhs"]:
-            num_lines = int(area_def.y_size * 1)
-            num_samples = int(area_def.x_size * 5)
+            num_lines = int(area_def.height * 1)
+            num_samples = int(area_def.width * 5)
 
         # TC sectors have center lat and center lon defined within the sector_info
         # For other sectors, use lat_0 and lon_0 from proj_dict
@@ -1414,10 +1414,10 @@ def get_area_defs_from_command_line_args(
             setattr(area_def, "name", area_def.sector_type)
 
         if not hasattr(area_def, "area_id"):
-            setattr(area_def, "area_id", area_def.name)
+            setattr(area_def, "area_id", area_def.description)
 
         if not hasattr(area_def, "description"):
-            setattr(area_def, "description", area_def.name)
+            setattr(area_def, "description", area_def.description)
 
         area_defs += [area_def]
     LOG.interactive("Getting all area defs from command line args:")
@@ -1517,10 +1517,10 @@ def get_area_defs_from_command_line_args(
             setattr(area_def, "name", area_def.sector_type)
 
         if not hasattr(area_def, "area_id"):
-            setattr(area_def, "area_id", area_def.name)
+            setattr(area_def, "area_id", area_def.sector_type)
 
         if not hasattr(area_def, "description"):
-            setattr(area_def, "description", area_def.name)
+            setattr(area_def, "description", area_def.sector_type)
 
         # Add it to the list
         area_defs += [area_def]
@@ -1564,7 +1564,7 @@ def get_area_defs_from_command_line_args(
             area_defs, xobjs["METADATA"].start_datetime
         )
 
-    LOG.info("Allowed area_defs: %s", [ad.name for ad in area_defs])
+    LOG.info("Allowed area_defs: %s", [ad.description for ad in area_defs])
     return list(area_defs)
 
 
@@ -1788,8 +1788,8 @@ def verify_area_def(
     # because it may be ambiguous which area definition is actually the "closest".
     elif data_end_datetime - data_start_datetime < timedelta(hours=time_range_hours):
         new_area_defs = filter_area_defs_actual_time(area_defs, data_start_datetime)
-        LOG.info("Allowed area_defs: %s", [ad.name for ad in new_area_defs])
-        if check_area_def.name not in [ad.name for ad in new_area_defs]:
+        LOG.info("Allowed area_defs: %s", [ad.description for ad in new_area_defs])
+        if check_area_def.description not in [ad.description for ad in new_area_defs]:
             retval = False
 
     return retval
@@ -2075,7 +2075,9 @@ def call(fnames, command_line_args=None):
             # method for handling this generally, but for
             # now skip IndexErrors.
             except IndexError as resp:
-                LOG.error("SKIPPING no coverage for %s, %s", area_def.name, str(resp))
+                LOG.error(
+                    "SKIPPING no coverage for %s, %s", area_def.description, str(resp)
+                )
                 continue
 
         process_datetimes[area_def.area_id] = {}
@@ -2107,7 +2109,7 @@ def call(fnames, command_line_args=None):
         pid_track.print_mem_usg()
         if len(pad_sect_xarrays.keys()) == 0:
             LOG.interactive(
-                "SKIPPING no sectored xarrays returned for %s", area_def.name
+                "SKIPPING no sectored xarrays returned for %s", area_def.description
             )
             continue
 
@@ -2124,7 +2126,8 @@ def call(fnames, command_line_args=None):
             pad_sect_xarrays["METADATA"].end_datetime,
         ):
             LOG.info(
-                "SKIPPING duplicate area_def, out of time range, for %s", area_def.name
+                "SKIPPING duplicate area_def, out of time range, for %s",
+                area_def.description,
             )
             continue
 
@@ -2357,7 +2360,7 @@ def call(fnames, command_line_args=None):
                     "data products for %s, %s required",
                     covg,
                     fname_covg,
-                    area_def.name,
+                    area_def.description,
                     minimum_coverage,
                 )
                 continue
@@ -2426,7 +2429,7 @@ def call(fnames, command_line_args=None):
                 'SKIPPING No coverage or required variables "%s" for %s %s',
                 variables,
                 xobjs["METADATA"].source_name,
-                area_def.name,
+                area_def.description,
             )
 
     LOG.interactive(

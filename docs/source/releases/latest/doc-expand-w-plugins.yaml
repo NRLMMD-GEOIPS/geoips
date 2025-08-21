@@ -1,0 +1,37 @@
+documentation:
+- title: 'Enhanced documentation for output formatters and checkers'
+  description: 'Added comprehensive documentation for output checkers and formatters, including detailed explanations of how they work, their importance in the testing process, and practical examples of their usage.'
+  files:
+    added: # important changes
+    - 'docs/source/concepts/architecture/interfaces/module_based/output-checkers/index.rst'
+    - 'docs/source/releases/latest/doc-expand-w-plugins.yaml'
+    modified: # pink formatting and adding the above pages to index files
+    - 'docs/source/concepts/architecture/documentation/index.rst'
+    - 'docs/source/concepts/architecture/documentation/where-to-put.rst'
+    - 'docs/source/concepts/architecture/index.rst'
+    - 'docs/source/concepts/architecture/plugin-registries.rst'
+    - 'docs/source/concepts/architecture/structure-of-geoips/index.rst'
+    - 'docs/source/concepts/architecture/tests/index.rst'
+    - 'docs/source/concepts/functionality/command-line/index.rst'
+    - 'docs/source/concepts/functionality/documentation-building.rst'
+    - 'docs/source/concepts/functionality/index.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/algorithm.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/colormapper.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/filename_formats.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/interpolators.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/output_formats.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/procflows.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/readers.rst'
+    - 'docs/source/concepts/functionality/interfaces/module_based/title_formats.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/dynamic_sectors.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/gridline_annotators.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/product_defaults.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/products.rst'
+    - 'docs/source/concepts/functionality/interfaces/yaml_based/static_sectors.rst'
+    - 'docs/source/tutorials/nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.rst'
+  related-issue:
+    number: 398
+    repo_url: ''
+  date:
+    start: "Apr 12, 2024"
+    finish: "May 14, 2025"

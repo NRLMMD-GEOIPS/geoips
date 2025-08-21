@@ -764,7 +764,7 @@ def sector_xarrays(
     )
 
     for key, xobj in xobjs.items():
-        LOG.info("SECTORING dataset %s area_def %s", key, area_def.name)
+        LOG.info("SECTORING dataset %s area_def %s", key, area_def.description)
         LOG.info(" requested variables %s", set(varlist))
         LOG.info(" dataset variables %s", set(xobj.variables.keys()))
         LOG.info(" dataset data_vars %s", set(xobj.data_vars))
@@ -924,7 +924,7 @@ def get_sectored_xarrays(
         LOG.info(
             "SKIPPING BACKGROUNDS, no coverage for %s %s",
             xobjs[0].source_name,
-            area_def.name,
+            area_def.description,
         )
     return sect_xarrays
 
