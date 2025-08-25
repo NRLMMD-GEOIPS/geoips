@@ -150,7 +150,8 @@ def parse_args_with_argparse():
             if not pygit2.discover_repository(package_path):
                 raise pygit2.GitError(
                     "Could not automatically find usable repo_path for "
-                    f"{args.package_name}. Found {package_path} but it is not a git repo"
+                    f"{args.package_name}. Found {package_path} but "
+                    "it is not a git repo"
                 )
         args.repo_path = package_path
 
