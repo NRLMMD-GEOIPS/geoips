@@ -72,7 +72,7 @@ def _normalize(word: str) -> str:
     Returns
     -------
     str
-        A plausible plural form of the given word.
+        A plausible singular form of the given word.
 
     Notes
     -----
