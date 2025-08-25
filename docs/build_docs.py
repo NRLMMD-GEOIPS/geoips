@@ -147,7 +147,7 @@ def parse_args_with_argparse():
             # ".git" folder. This is also somewhat slower
             # so is good idea to use Repository constructor and then
             # handle edge case here.
-            if not pygit2.discover_repository(package_path): 
+            if not pygit2.discover_repository(package_path):
                 raise pygit2.GitError(
                     "Could not automatically find usable repo_path for "
                     f"{args.package_name}. Found {package_path} but it is not a git repo"
