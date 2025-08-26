@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""GeoIPS order-based procflow pydantic models init file."""
+"""GeoIPS order-based procflow v2alpha1 models init file."""
 
 import logging
 import importlib
