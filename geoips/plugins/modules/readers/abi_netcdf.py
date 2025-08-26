@@ -1062,26 +1062,16 @@ def call_single_time(
         # Determine which resolution has geolocation
         LOG.info("Registering to {}".format(self_register))
         if self_register not in all_res:
-            raise ValueError(
-                "No geolocation data found for '{}' format.".format(self_register)
-            )
-        for resolution in all_res:
-            if self_register == resolution:
-                not_these_res = all_res.copy()
-                not_these_res.remove(resolution)
+            raise ValueError("No geolocation data found.")
 
-                datavars[adname] = datavars.pop(resolution)
-                # Loop through the remaining resolutions
-                # eg. if self_register="LOW" then the remaining resolutions
-                #   would be "MED" and "HIGH"
-                for not_this_res in not_these_res:
-                    if not_this_res in datavars.keys():
-                        # The other resolutions have already been scaled
-                        # Data needs to move to the chosen self_register
-                        for varname, var in datavars[not_this_res].items():
-                            datavars[adname][varname] = var
-                        # Remove the old data names
-                        datavars.pop(not_this_res)
+        all_res.remove(self_register)
+        datavars[adname] = datavars.pop(self_register)
+        for res in all_res:
+            if res in datavars:
+                for varname, var in datavars[res].items():
+                    datavars[adname][varname] = var
+                datavars.pop(res)
+
 
     # basically just reformat the all_metadata dictionary to
     # reference channel names as opposed to file names..

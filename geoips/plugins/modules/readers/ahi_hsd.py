@@ -1033,6 +1033,17 @@ def call(
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
 
     Returns
     -------
@@ -1445,39 +1456,20 @@ def call_single_time(
             gvars.pop(res)
 
     if self_register:
-        adname = "FULL_DISK"
-
         # Determine which resolution has geolocation
-        LOG.info("Registering to %s", self_register)
-        if self_register == "HIGH":
-            datavars["FULL_DISK"] = datavars.pop("HIGH")
-            for varname, var in datavars["LOW"].items():
-                datavars["FULL_DISK"][varname] = zoom(var, 4, order=0)
-            datavars.pop("LOW")
-            for varname, var in datavars["MED"].items():
-                datavars["FULL_DISK"][varname] = zoom(var, 2, order=0)
-            datavars.pop("MED")
-
-        elif self_register == "MED":
-            datavars["FULL_DISK"] = datavars.pop("MED")
-            for varname, var in datavars["LOW"].items():
-                datavars["FULL_DISK"][varname] = zoom(var, 2, order=0)
-            datavars.pop("LOW")
-            for varname, var in datavars["HIGH"].items():
-                datavars["FULL_DISK"][varname] = var[::2, ::2]
-            datavars.pop("HIGH")
-
-        elif self_register == "LOW":
-            datavars["FULL_DISK"] = datavars.pop("LOW")
-            for varname, var in datavars["MED"].items():
-                datavars["FULL_DISK"][varname] = var[::2, ::2]
-            datavars.pop("MED")
-            for varname, var in datavars["HIGH"].items():
-                datavars["FULL_DISK"][varname] = var[::4, ::4]
-            datavars.pop("HIGH")
-
-        else:
+        all_res = ["LOW", "MED", "HIGH"]
+        LOG.info("Registering to {}".format(self_register))
+        if self_register not in all_res:
             raise ValueError("No geolocation data found.")
+
+        all_res.remove(self_register)
+        datavars[adname] = datavars.pop(self_register)
+        for res in all_res:
+            if res in datavars:
+                for varname, var in datavars[res].items():
+                    datavars[adname][varname] = var
+                datavars.pop(res)
+
     print_mem_usage("MEMUSG", verbose=False)
 
     # basically just reformat the all_metadata dictionary to
