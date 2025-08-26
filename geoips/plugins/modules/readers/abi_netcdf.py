@@ -769,8 +769,8 @@ def call_single_time(
     # From here on we will just rely on the metadata from a single data file
     # for each resolution
     res_md = {}
-    low_med_hi_list = ["LOW", "MED", "HIGH"]
-    for res in low_med_hi_list:
+    all_res = ["LOW", "MED", "HIGH"]
+    for res in all_res:
         # Find a file for this resolution: Any one will do
         res_chans = list(set(DATASET_INFO[res]).intersection(file_info.keys()))
         if res_chans:
@@ -889,20 +889,20 @@ def call_single_time(
             )
         )
         # Get just the metadata we need
-        standard_metadata[self_register] = _get_geolocation_metadata(
+        standard_metadata[adname] = _get_geolocation_metadata(
             res_md[self_register]
         )
         fldk_lats, fldk_lons = get_latitude_longitude(
-            standard_metadata[self_register],
+            standard_metadata[adname],
             BADVALS,
             area_def,
             geolocation_cache_backend=geolocation_cache_backend,
             chunk_size=cache_chunk_size,
             resource_tracker=resource_tracker,
         )
-        gvars[self_register] = get_geolocation(
+        gvars[adname] = get_geolocation(
             sdt,
-            standard_metadata[self_register],
+            standard_metadata[adname],
             fldk_lats,
             fldk_lons,
             BADVALS,
@@ -912,14 +912,14 @@ def call_single_time(
             scan_datetime=sdt,
             resource_tracker=resource_tracker,
         )
-        if not gvars[self_register]:
+        if not gvars[adname]:
             LOG.error(
                 f"GEOLOCATION FAILED for adname {adname} DONT_AUTOGEN_GEOLOCATION "
                 f"is: {DONT_AUTOGEN_GEOLOCATION}"
             )
-            gvars[self_register] = {}
+            gvars[adname] = {}
     else:
-        for res in low_med_hi_list:
+        for res in all_res:
             try:
                 res_md[res]
             except KeyError:
@@ -1013,14 +1013,14 @@ def call_single_time(
         if self_register:
             data = get_data(
                 chan_md,
-                gvars[self_register],
+                gvars[adname],
                 rad,
                 ref,
                 bt,
                 cache_data=cache_data,
                 cache_name_prefix=cache_name_prefix,
                 scan_datetime=sdt,
-                standard_metadata=standard_metadata[self_register],
+                standard_metadata=standard_metadata[adname],
             )
         else:
             data = get_data(
@@ -1048,7 +1048,7 @@ def call_single_time(
     #   remove any unneeded datasets from datavars and gvars
     #   also mask any values below -999.0
     if area_def:
-        for res in low_med_hi_list:
+        for res in all_res:
             if adname not in gvars and res in gvars and gvars[res]:
                 gvars[adname] = gvars[res]
             try:
@@ -1061,16 +1061,16 @@ def call_single_time(
     if self_register:
         # Determine which resolution has geolocation
         LOG.info("Registering to {}".format(self_register))
-        if self_register not in low_med_hi_list:
+        if self_register not in all_res:
             raise ValueError(
                 "No geolocation data found for '{}' format.".format(self_register)
             )
-        for resolution in low_med_hi_list:
+        for resolution in all_res:
             if self_register == resolution:
-                not_these_res = low_med_hi_list.copy()
+                not_these_res = all_res.copy()
                 not_these_res.remove(resolution)
 
-                datavars[resolution] = datavars.pop(resolution)
+                datavars[adname] = datavars.pop(resolution)
                 # Loop through the remaining resolutions
                 # eg. if self_register="LOW" then the remaining resolutions
                 #   would be "MED" and "HIGH"
@@ -1079,7 +1079,7 @@ def call_single_time(
                         # The other resolutions have already been scaled
                         # Data needs to move to the chosen self_register
                         for varname, var in datavars[not_this_res].items():
-                            datavars[resolution][varname] = var
+                            datavars[adname][varname] = var
                         # Remove the old data names
                         datavars.pop(not_this_res)
 
@@ -1110,7 +1110,7 @@ def call_single_time(
             LOG.info(f"Did not find satellite zenith angle to mask for {res}")
             pass
     for ds in datavars.keys():
-        if not any(datavars[ds]):
+        if not datavars[ds]:
             datavars.pop(ds)
 
     xarray_objs = {}
