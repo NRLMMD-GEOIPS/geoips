@@ -13,6 +13,9 @@ import sys
 LOG = logging.getLogger(__name__)
 
 
+# This function is required to dynamically load versioned models in the unit tests
+# Due for further refactoring and optimization in the upcoming PR
+# Relevant issue : https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
 def collect_modules():
     """Dynamically find and import all submodules within a package."""
     modules = {}
@@ -32,6 +35,9 @@ def collect_modules():
     return modules
 
 
+# This function is required to dynamically load versioned models in the unit tests
+# Due for further refactoring and optimization in the upcoming PR
+# Relevant issue : https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
 def collect_classes(modules):
     """Extract all classes from the given modules.
 
