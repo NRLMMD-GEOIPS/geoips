@@ -1,0 +1,25 @@
+enhancement:
+- title: 'Pydantic Product Models'
+  description: |
+    Added new pydantic models for product and product default plugins. These are the
+    last remaining yaml-based plugins that needed to be converted over to pydantic.
+
+    Additionally, added unit tests for these models that reach 100% coverage. Still need
+    to do some tweaking to those tests, since the way products were set up, it seems
+    pydantic fails in the incorrect model, although the failure is in fact correct. Need
+    to sort this out.
+  files:
+    added:
+      - geoips/pydantic/products.py
+      - tests/unit_tests/pydantic/products/test_cases_bad.yaml
+      - tests/unit_tests/pydantic/products/test_cases_neutral.yaml
+    modified:
+      - .gitignore
+      - geoips/pydantic/bases.py
+      - tests/unit_tests/pydantic/test_pydantic_models.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
