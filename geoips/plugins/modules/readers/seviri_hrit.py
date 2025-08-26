@@ -992,6 +992,17 @@ def call(
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file
         * Defined in yaml file where variables and tuning parameters are set
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
 
     Returns
     -------
