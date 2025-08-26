@@ -14,7 +14,7 @@ from geoips.models.v1.bases import (
 )
 
 MATPLOTLIB_COLOR_DOC = (
-    "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."
+    "An rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."
     "For more info, see: "
     "https://matplotlib.org/stable/users/explain/colors/colors.html"
 )
