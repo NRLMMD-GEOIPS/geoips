@@ -4,7 +4,7 @@
 """Generic testing utilities used for pydantic unit testing."""
 
 import logging
-from importlib.resources import files
+from importlib import import_module, resources
 from pathlib import Path
 import pytest
 from copy import deepcopy
@@ -174,7 +174,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
 
     relpath = entry["relpath"]
     print("relpaht \t", relpath)
-    abspath = str(files("geoips") / relpath)
+    abspath = str(resources.files("geoips") / relpath)
     package = "geoips"
 
     with open(abspath, "r") as fo:
@@ -203,7 +203,9 @@ def retrieve_model(plugin):
         - The associated plugin model used to validate this plugin.
     """
     interface = plugin["interface"]
-    module = geoips_models._modules[f"geoips.models.v1.{interface}"]
+    # upcoming PR: https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
+    # module = geoips_models._modules[f"geoips.models.v1.{interface}"]
+    module = import_module(f"geoips.models.v1.{interface}")
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"

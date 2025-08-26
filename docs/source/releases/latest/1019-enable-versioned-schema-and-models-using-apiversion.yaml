@@ -11,6 +11,7 @@ feature:
     - 'geoips/models/v1/gridline_annotators.py'
     - 'geoips/models/v1/sectors.py'
     - 'geoips/models/v1/workflows.py'
+    - 'geoips/models/v2alpha1/__init__.py'
     - 'geoips/models/v2alpha1/bases.py'
     - 'geoips/models/v2alpha1/feature_annotators.py'
     - 'geoips/models/v2alpha1/sectors.py'
