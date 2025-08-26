@@ -137,22 +137,9 @@ def parse_args_with_argparse():
             )
             if not package_path:
                 raise ModuleNotFoundError
-            pygit2.Repository(package_path)
         except ModuleNotFoundError as e:
             raise e(f"Could not automatically find repo_path for {args.package_name}.")
-        except pygit2.GitError:
-            # Handles edge case for permissions error where package_path
-            # is not owned by root. Not as robust as Repository class
-            # constructor, but still better then looking for
-            # ".git" folder. This is also somewhat slower
-            # so is good idea to use Repository constructor and then
-            # handle edge case here.
-            if not pygit2.discover_repository(package_path):
-                raise pygit2.GitError(
-                    "Could not automatically find usable repo_path for "
-                    f"{args.package_name}. Found {package_path} but "
-                    "it is not a git repo"
-                )
+        validate_path_exists_and_is_git_repo(package_path)
         args.repo_path = package_path
 
     if not args.output_dir:
@@ -228,9 +215,15 @@ def validate_path_exists_and_is_git_repo(repo_path, logger=logging.getLogger(__n
         raise FileNotFoundError
     try:
         pygit2.Repository(repo_path)
-    except pygit2.GitError as e:
-        logger.critical(f"{repo_path} is not a valid git repo")
-        raise e
+    except pygit2.GitError:
+        # Handles edge case for permissions error where package_path
+        # is not owned by root. Not as robust as Repository class
+        # constructor, but still better then looking for
+        # ".git" folder. This is also somewhat slower
+        # so is good idea to use Repository constructor and then
+        # handle edge case here.
+        if not pygit2.discover_repository(repo_path):
+            logger.exception(f"{repo_path} is not a valid git repo")
 
 
 def validate_package_is_installed(package_name, logger=logging.getLogger(__name__)):
