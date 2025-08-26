@@ -1,0 +1,76 @@
+product_missing_source_names:
+  key: spec/products
+  val:
+    - name: Infrared
+      docstring: |
+        Infrared product for abi
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT"]
+  cls: ProductSpec
+  err_str: Field required
+product_has_family_and_product_defaults:
+  key: spec/products
+  val:
+    - name: Infrared
+      docstring: |
+        Infrared product for abi
+      source_names: [abi]
+      product_defaults: Infrared
+      family: interpolator_algorithm_colormapper
+      spec:
+        variables: ["B14BT"]
+  cls: ProductSpec
+  err_str: Field required
+  # "You must provide exactly one of 'family' or 'product_defaults'."
+product_missing_variables:
+  key: spec/products
+  val:
+    - name: Infrared
+      docstring: |
+        Infrared product for abi
+      source_names: [abi]
+      product_defaults: Infrared
+      spec: {}
+  cls: ProductSpec
+  err_str: Field required
+product_using_plugin_not_specified_in_family:
+  key: spec/products
+  val:
+    - name: Infrared
+      docstring: |
+        Infrared product for abi
+      source_names: [abi]
+      family: algorithm_colormapper
+      spec:
+        variables: ["B14BT"]
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              output_data_range: [-90.0, 30.0]
+              input_units: Kelvin
+              output_units: celsius
+              min_outbounds: crop
+              max_outbounds: crop
+              norm: null
+              inverse: null
+        colormapper:
+          plugin:
+            name: Infrared
+            arguments:
+              data_range: [-90.0, 30.0]
+        interpolator:
+          plugin:
+            name: interp_nearest
+            arguments: {}
+  cls: ProductSpec
+  err_str: Field required
+    # Error: 'interpolator' plugin supplied but that does not adhere to the family
+    # supplied or the family of the product default supplied.
+  # By default we only test the last error raised for multiple errors. All errors raised
+  # include:
+    # Input should be a valid tuple
+    # Input should be a valid tuple
+    # Input should be a valid tuple
+    # Input should be a valid string

@@ -270,8 +270,13 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
                     )
                 else:
                     # singular product
+                    source_names = values.get("source_names")
+                    if source_names is None:
+                        raise ValueError(
+                            "Error: product plugin is missing the 'source_names' field."
+                        )
                     metadata = getattr(ints, "products").get_plugin_metadata(
-                        values.get("source_names")[0], values.get("name")
+                        source_names[0], values.get("name")
                     )
             else:
                 metadata = getattr(ints, interface_name).get_plugin_metadata(
