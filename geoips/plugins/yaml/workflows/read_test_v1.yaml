@@ -16,6 +16,11 @@ spec:
       name: abi_netcdf
       arguments:
         variables: ['B14BT']
+    interpolator:
+      kind: interpolator
+      name: interp_gauss
+      arguments:
+        sigmaval: 10000
     algorithm:
       kind: algorithm
       name: single_channel
