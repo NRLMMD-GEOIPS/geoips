@@ -7,9 +7,6 @@ Runs the appropriate script based on the args provided.
 """
 
 from colorama import Fore, Style
-import sys
-import logging
-
 
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
@@ -18,7 +15,6 @@ from geoips.interfaces import procflows
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
-LOG = logging.getLogger(__name__)
 
 with import_optional_dependencies(loglevel="info"):
     """Attempt to import data_fusion_args from Data Fusion."""
@@ -184,9 +180,6 @@ class GeoipsRunSingleSource(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through
         """
-        if args.product_name is None:
-            LOG.critical("Missing product name : add procduct name")
-            sys.exit(1)
         if args.procflow is None and self.legacy:
             err_str = (
                 "Deprecated, Legacy 'run_procflow' call was used and --procflow "
