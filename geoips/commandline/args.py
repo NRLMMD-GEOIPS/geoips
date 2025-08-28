@@ -34,8 +34,6 @@ def check_command_line_args(arglist, argdict):
     TypeError
         Incorrect command line formatting
     """
-    from ipdb import set_trace as shell
-    # shell()
     if arglist is None:
         return True
     if "filenames" in arglist:
