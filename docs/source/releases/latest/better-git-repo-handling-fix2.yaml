@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Fix permissions bug'
+  description: 'This is a small fix that follows up on a previous fix to the documentation building script.'
+  files:
+    modified:
+    - 'docs/build_docs.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
