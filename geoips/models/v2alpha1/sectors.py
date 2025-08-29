@@ -51,9 +51,10 @@ class SectorProjection(PermissiveFrozenModel):
     This is a dictionary that provides Proj projection information for the sector. For
     more information on what parameters can be supplied, see the Proj documentation.
 
-    Validation has only been implemented for some of the most common options. If you
-    need validation for a parameter that is not currently implemented, please open an
-    issue and, if possible, a pull request on GitHub.
+    Validation has only been implemented for some of the most common options. Additional
+    sector projection parameters are supported but not validated. If you need validation
+    for a parameter that is not currently implemented, please open an issue and, if
+    possible, a pull request on GitHub.
     """
 
     proj: str = Field(..., description="Proj projection alias.")
