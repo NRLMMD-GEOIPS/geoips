@@ -340,7 +340,7 @@ class AreaDefinitionSpec(FrozenModel):
             "The units used for resolution and area_extent. "
             "This takes priority over the units specified in the projection. "
             "For more information on this parameter and its priority order, see the "
-            "pyresmaple documentation."
+            "pyresample documentation."
         ),
     )
     center: XYCoordinate = Field(
