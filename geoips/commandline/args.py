@@ -87,6 +87,10 @@ def check_command_line_args(arglist, argdict):
             raise TypeError("tcdb dictionary entry must be bool (True or False)")
         LOG.info("COMMANDLINEARG tcdb: %s", argdict["tcdb"])
     if "product_name" in arglist:
+        if argdict["procflow"] == "single_source" and not argdict["product_name"]:
+            raise TypeError(
+                'Must pass a string for "product_name" when running "single_source"'
+            )
         if argdict["product_name"] and not isinstance(argdict["product_name"], str):
             raise TypeError(
                 'Must pass a single string for "product_name" dictionary entry'
