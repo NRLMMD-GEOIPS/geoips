@@ -327,6 +327,25 @@ def get_test_files(test_data_dir):
     return str(comp_path), test_files
 
 
+def correct_file_format(fname):
+    """Check if file has a supported text format.
+
+    Convenience function that delegates to is_text_file for compatibility
+    with existing interfaces.
+
+    Parameters
+    ----------
+    fname : str or Path
+        Path to file for format validation.
+
+    Returns
+    -------
+    bool
+        True if file format is supported for text comparison.
+    """
+    return is_text_file(fname)
+
+
 def perform_test_comparisons(plugin, compare_file, test_files):
     """Execute comparison tests and validate expected results.
 
