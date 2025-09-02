@@ -162,6 +162,7 @@ def initialize_paths():
         # See https://docs.python.org/3/library/warnings.html#the-warnings-filter
         # for details on each option.
         "GEOIPS_WARNING_LEVEL": "default",
+        "GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE": True,
     }
 
     # Long variables names to avoid black and flake8 conflicts.
