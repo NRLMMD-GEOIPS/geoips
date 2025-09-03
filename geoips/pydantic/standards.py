@@ -24,6 +24,7 @@ class CoreBaseModel(BaseModel):
     This model overrides the default string representation of Pydantic models to
     generate a user-friendly, JSON-formatted output with two-space indentation.
     """
+
     model_config = ConfigDict(str_strip_whitespace=True, loc_by_alias=False)
     # model_config = ConfigDict(
     #     extra="allow", populate_by_name=True, str_strip_whitespace=True,
@@ -109,6 +110,7 @@ class StaticBaseModel(CoreBaseModel):
     # sets the model name as the title
     @property
     def model_title(self):
+        """Update the docstring."""
         return self.__class__.__name__
 
     has_disallowed_fields: ClassVar[bool] = False  # Default: no disallowed fields
