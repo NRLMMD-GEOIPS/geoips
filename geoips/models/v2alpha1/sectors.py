@@ -15,7 +15,7 @@ from pydantic import (
 )
 from pydantic.functional_validators import AfterValidator
 
-from geoips.models.bases import FrozenModel, PermissiveFrozenModel, PluginModel
+from geoips.models.v2alpha1.bases import FrozenModel, PermissiveFrozenModel, PluginModel
 
 
 class EarthConstants(float, Enum):
@@ -51,9 +51,10 @@ class SectorProjection(PermissiveFrozenModel):
     This is a dictionary that provides Proj projection information for the sector. For
     more information on what parameters can be supplied, see the Proj documentation.
 
-    Validation has only been implemented for some of the most common options. If you
-    need validation for a parameter that is not currently implemented, please open an
-    issue and, if possible, a pull request on GitHub.
+    Validation has only been implemented for some of the most common options. Additional
+    sector projection parameters are supported but not validated. If you need validation
+    for a parameter that is not currently implemented, please open an issue and, if
+    possible, a pull request on GitHub.
     """
 
     proj: str = Field(..., description="Proj projection alias.")
@@ -342,7 +343,7 @@ class AreaDefinitionSpec(FrozenModel):
             "The units used for resolution and area_extent. "
             "This takes priority over the units specified in the projection. "
             "For more information on this parameter and its priority order, see the "
-            "pyresmaple documentation."
+            "pyresample documentation."
         ),
     )
     center: XYCoordinate = Field(
