@@ -11,7 +11,7 @@ bug fix:
     - 'tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png.yaml'
     - 'tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png.yaml'
   related-issue:
-    number: null
+    number: 1130
     repo_url: ''
   date:
     start: null
