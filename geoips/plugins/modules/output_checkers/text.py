@@ -12,7 +12,6 @@ import logging
 from pathlib import Path
 from shutil import copy
 from importlib.resources import files
-from typing import Optional
 from dataclasses import dataclass
 
 from geoips.commandline.log_setup import log_with_emphasis
@@ -82,10 +81,10 @@ def _print_rich_error(title: str, *messages: str):
             content.append(msg, style="bold red" if i == 0 else "red")
 
         console.print(
-            Panel(content, title="❌ Error", border_style="red", box=box.ROUNDED)
+            Panel(content, title="Error", border_style="red", box=box.ROUNDED)
         )
     else:
-        print(f"❌ {title}")
+        print(f"{title}")
         for msg in messages:
             print(f"   {msg}")
 
@@ -100,10 +99,10 @@ def _print_rich_warning(title: str, *messages: str):
             content.append(msg, style="bold yellow" if i == 0 else "yellow")
 
         console.print(
-            Panel(content, title="⚠️ Warning", border_style="yellow", box=box.ROUNDED)
+            Panel(content, title=" Warning", border_style="yellow", box=box.ROUNDED)
         )
     else:
-        print(f"⚠️ {title}")
+        print(f"{title}")
         for msg in messages:
             print(f"   {msg}")
 
