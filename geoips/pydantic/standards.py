@@ -103,9 +103,7 @@ class StaticBaseModel(CoreBaseModel):
     #     - `populate_by_name=True`: Enables populating fields by their aliases.
     """
 
-    model_config = ConfigDict(
-        extra="allow", populate_by_name=True, loc_by_alias=True
-    )
+    model_config = ConfigDict(extra="allow", populate_by_name=True, loc_by_alias=True)
 
     # sets the model name as the title
     @property
