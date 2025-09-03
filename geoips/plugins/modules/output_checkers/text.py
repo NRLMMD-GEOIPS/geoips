@@ -284,6 +284,73 @@ def outputs_match(plugin, output_product, compare_product):
     return result.matches
 
 
+def compare_text_files(output_product, compare_product):
+    """Check if two text files match (convenience function).
+
+    Simplified interface that doesn't require a plugin instance.
+    Does not generate diff files but will print differences to console
+    if PRINT_TO_CONSOLE is enabled.
+
+    Parameters
+    ----------
+    output_product : str or Path
+        Path to generated output file being validated.
+    compare_product : str or Path
+        Path to reference file for comparison.
+
+    Returns
+    -------
+    bool
+        True if files have identical content, False otherwise.
+
+    Raises
+    ------
+    ValueError
+        If either file is not a valid text file format.
+
+    Examples
+    --------
+    >>> import tempfile
+    >>> # Create identical test files
+    >>> with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f1:
+    ...     _ = f1.write('identical content')
+    ...     path1 = f1.name
+    >>> with tempfile.NamedTemporaryFile(mode='w', suffix='.txt', delete=False) as f2:
+    ...     _ = f2.write('identical content')
+    ...     path2 = f2.name
+    >>> 
+    >>> result = compare_text_files(path1, path2)
+    >>> result
+    True
+    >>> Path(path1).unlink(); Path(path2).unlink()  # cleanup
+    """
+    if not (is_text_file(output_product) and is_text_file(compare_product)):
+        raise ValueError("Both files must be valid text files")
+    
+    result = run_diff(output_product, compare_product)
+    LOG.debug(result.diff_output)
+    
+    if result.matches:
+        log_with_emphasis(LOG.info, "GOOD Text files match")
+    else:
+        log_with_emphasis(
+            LOG.interactive,
+            "BAD Text files do NOT match exactly",
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
+        )
+        
+        # Print to console if enabled (no diff file for convenience function)
+        if PRINT_TO_CONSOLE and result.diff_output:
+            print(f"\n{'='*80}")
+            print("DIFFERENCES FOUND:")
+            print('='*80)
+            print(result.diff_output)
+            print(f"{'='*80}\n")
+    
+    return result.matches
+
+
 def get_test_files(test_data_dir):
     """Generate test files with controlled similarity levels.
 
@@ -381,53 +448,6 @@ def perform_test_comparisons(plugin, compare_file, test_files):
             result == expected_match
         ), f"Test {idx}: expected {expected_match}, got {result}"
 
-def outputs_match(output_product, compare_product):
-    """Check if two text files match.
-
-    Convenience function that maintains backward compatibility.
-
-    Parameters
-    ----------
-    output_product : str or Path
-        Path to generated output file being validated.
-    compare_product : str or Path
-        Path to reference file for comparison.
-
-    Returns
-    -------
-    bool
-        True if files have identical content, False otherwise.
-
-    Raises
-    ------
-    ValueError
-        If either file is not a valid text file format.
-    """
-    if not (is_text_file(output_product) and is_text_file(compare_product)):
-        raise ValueError("Both files must be valid text files")
-    
-    result = run_diff(output_product, compare_product)
-    LOG.debug(result.diff_output)
-    
-    if result.matches:
-        log_with_emphasis(LOG.info, "GOOD Text files match")
-    else:
-        log_with_emphasis(
-            LOG.interactive,
-            "BAD Text files do NOT match exactly",
-            f"output_product: {output_product}",
-            f"compare_product: {compare_product}",
-        )
-        
-        # Print to console if enabled (no diff file for legacy interface)
-        if PRINT_TO_CONSOLE and result.diff_output:
-            print(f"\n{'='*80}")
-            print("DIFFERENCES FOUND:")
-            print('='*80)
-            print(result.diff_output)
-            print(f"{'='*80}\n")
-    
-    return result.matches
 
 def call(plugin, compare_path, output_products):
     """Execute comparison workflow for output validation.
@@ -449,4 +469,4 @@ def call(plugin, compare_path, output_products):
     int
         Exit code: 0 for successful completion, non-zero for errors.
     """
-    return int(plugin.outputs_match(compare_path, output_products))
+    return plugin.compare_outputs(compare_path, output_products)
