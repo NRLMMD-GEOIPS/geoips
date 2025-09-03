@@ -1,6 +1,6 @@
 bug fix:
 - title: 'Update projection comparison files for integration tests.'
-  description: 'The ordering of projection descriptors changed and this caused multiple intrgration strict comparison tests to fail. This updates the comparison files to match the new ordering.'
+  description: 'The ordering of projection descriptors changed and this caused multiple integration strict comparison tests to fail. This updates the comparison files to match the new ordering.'
   files:
     modified:
     - 'tests/integration_tests/full_install.sh'
