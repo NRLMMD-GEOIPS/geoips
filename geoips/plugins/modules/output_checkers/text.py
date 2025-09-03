@@ -21,6 +21,9 @@ from geoips.filenames.base_paths import PATHS
 
 USE_RICH = PATHS["GEOIPS_RICH_CONSOLE_OUTPUT"]
 PRINT_TO_CONSOLE = PATHS["GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE"]
+PROMPT_TO_OVERWRITE_COMPARISON_FILE = PATHS.get(
+    "GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH", False
+)
 
 interface = "output_checkers"
 family = "standard"
@@ -87,47 +90,58 @@ def _print_rich_error(title: str, *messages: str):
             print(f"   {msg}")
 
 
+def _print_rich_warning(title: str, *messages: str):
+    """Print warning messages using rich formatting."""
+    if USE_RICH and RICH_AVAILABLE:
+        content = Text()
+        for i, msg in enumerate(messages):
+            if i > 0:
+                content.append("\n")
+            content.append(msg, style="bold yellow" if i == 0 else "yellow")
+
+        console.print(
+            Panel(content, title="⚠️ Warning", border_style="yellow", box=box.ROUNDED)
+        )
+    else:
+        print(f"⚠️ {title}")
+        for msg in messages:
+            print(f"   {msg}")
+
+
 def _print_rich_diff(diff_output: str, file1: str, file2: str):
     """Print diff output using rich formatting."""
     if USE_RICH and RICH_AVAILABLE:
         # Create a table for file comparison
         table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED)
         table.add_column("File 1", style="cyan")
-        table.add_column("File 2", style="yellow")
-        table.add_row(str(file1), str(file2))
+        table.add_column("File 2", style="magenta")
 
-        console.print(
-            Panel(table, title="📁 Files Being Compared", border_style="blue")
-        )
+        def hard_wrap_filename(fname):
+            width = int(console.width * 0.48)
+            fname = str(fname)
+            return "\n".join(fname[i : i + width] for i in range(0, len(fname), width))
+
+        file1, file2 = hard_wrap_filename(file1), hard_wrap_filename(file2)
+        table.add_row(file1, file2)
+        console.print(Panel(table, title="Files Being Compared", border_style="yellow"))
 
         # Display diff output with syntax highlighting
         if diff_output.strip():
-            try:
-                syntax = Syntax(
-                    diff_output,
-                    "diff",
-                    theme="monokai",
-                    line_numbers=True,
-                    word_wrap=True,
+            syntax = Syntax(
+                diff_output,
+                "diff",
+                theme="monokai",
+                line_numbers=False,
+                word_wrap=True,
+            )
+            console.print(
+                Panel(
+                    syntax,
+                    title="Differences Found",
+                    border_style="yellow",
+                    box=box.ROUNDED,
                 )
-                console.print(
-                    Panel(
-                        syntax,
-                        title="🔍 Differences Found",
-                        border_style="yellow",
-                        box=box.ROUNDED,
-                    )
-                )
-            except Exception:
-                # Fallback to plain text if syntax highlighting fails
-                console.print(
-                    Panel(
-                        Text(diff_output, style="yellow"),
-                        title="🔍 Differences Found",
-                        border_style="yellow",
-                        box=box.ROUNDED,
-                    )
-                )
+            )
     else:
         msgs = []
         msgs.append("DIFFERENCES FOUND:")
@@ -135,6 +149,79 @@ def _print_rich_diff(diff_output: str, file1: str, file2: str):
         msgs.append(f"File 2: {file2}")
         msgs.append(diff_output)
         log_with_emphasis(LOG.error, msgs)
+
+
+def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
+    """Prompt user to confirm overwriting file1 with file2."""
+    if USE_RICH and RICH_AVAILABLE:
+        # Rich formatted prompt
+        console.print(
+            Panel(
+                Text(
+                    f"Do you want to overwrite:\n",
+                    style="bold yellow",
+                )
+                + Text(
+                    f"{file1}\n",
+                    style="cyan",
+                )
+                + Text(
+                    "with\n",
+                    style="yellow",
+                )
+                + Text(
+                    f"{file2}",
+                    style="magenta",
+                ),
+                title="⚠️ Overwrite?",
+                border_style="red",
+                box=box.ROUNDED,
+            )
+        )
+        response = console.input(
+            "[bold red]Enter 'yes' to confirm overwrite "
+            "(or input anything else to cancel): [/bold red]"
+        )
+    else:
+        # Plain text prompt
+        print(f"\n⚠️ Overwrite Confirmation")
+        print(f"Do you want to overwrite:")
+        print(f"  {file1}")
+        print(f"with:")
+        print(f"  {file2}?")
+        response = input(
+            "Enter 'yes' to confirm overwrite (or input anything else to cancel): "
+        )
+
+    return response.lower().strip() == "yes"
+
+
+def _handle_overwrite_prompt(file1: str, file2: str) -> bool:
+    """Handle the overwrite prompt workflow."""
+    if not PROMPT_TO_OVERWRITE_COMPARISON_FILE:
+        return False
+
+    if _prompt_user_for_overwrite(file1, file2):
+        # Overwrite file1 with file2
+        copy(file2, file1)
+
+        success_msg = f"File overwritten successfully! {file2} has replaced {file1}."
+        if USE_RICH and RICH_AVAILABLE:
+            console.print(
+                Panel(
+                    Text(success_msg, style="bold green"),
+                    title="Overwrite Complete",
+                    border_style="green",
+                    box=box.ROUNDED,
+                )
+            )
+        else:
+            print(f"{success_msg}")
+
+        LOG.warning(f"Overwritten {file1} with {file2}")
+        return True
+    else:
+        return False
 
 
 def correct_file_format(fname):
@@ -192,6 +279,10 @@ def log_comparison_result(result, output_product, compare_product, diff_file=Non
     if PRINT_TO_CONSOLE and result.diff_output:
         _print_rich_diff(result.diff_output, output_product, compare_product)
 
+    # Handle overwrite prompt if files don't match
+    if not result.matches:
+        _handle_overwrite_prompt(compare_product, output_product)
+
 
 def write_diff_file(file1, file2, output_file):
     """Write diff output to a file."""
@@ -248,6 +339,9 @@ def compare_text_files(output_product, compare_product):
 
             if result.diff_output:
                 _print_rich_diff(result.diff_output, output_product, compare_product)
+
+        # Handle overwrite prompt if files don't match
+        _handle_overwrite_prompt(compare_product, output_product)
 
     return result.matches
 
