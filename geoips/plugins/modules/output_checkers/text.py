@@ -179,8 +179,8 @@ def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
             )
         )
         response = console.input(
-            "[bold red]Enter 'yes' to confirm overwrite "
-            "(or input anything else to cancel): [/bold red]"
+            "[bold red]Enter 'yes' or 'y' to confirm overwrite "
+            "(or anything else to cancel): [/bold red]"
         )
     else:
         # Plain text prompt
@@ -190,10 +190,10 @@ def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
         print(f"with:")
         print(f"  {file2}?")
         response = input(
-            "Enter 'yes' to confirm overwrite (or input anything else to cancel): "
+            "Enter 'yes' or 'y' to confirm overwrite (or anything else to cancel): "
         )
 
-    return response.lower().strip() == "yes"
+    return response.lower().strip() in ["yes", "y"]
 
 
 def _handle_overwrite_prompt(file1: str, file2: str) -> bool:
@@ -280,8 +280,6 @@ def log_comparison_result(result, output_product, compare_product, diff_file=Non
         _print_rich_diff(result.diff_output, output_product, compare_product)
 
     # Handle overwrite prompt if files don't match
-    if not result.matches:
-        _handle_overwrite_prompt(compare_product, output_product)
 
 
 def write_diff_file(file1, file2, output_file):
@@ -306,42 +304,9 @@ def outputs_match(plugin, output_product, compare_product):
         write_diff_file(output_product, compare_product, diff_file)
 
     log_comparison_result(result, output_product, compare_product, diff_file)
-    return result.matches
-
-
-def compare_text_files(output_product, compare_product):
-    """Check if two text files match (convenience function)."""
-    if not (
-        correct_file_format(output_product) and correct_file_format(compare_product)
-    ):
-        raise ValueError("Both files must be valid text files")
-
-    result = run_diff(output_product, compare_product)
-    LOG.debug(result.diff_output)
-
-    if result.matches:
-        log_with_emphasis(LOG.info, "GOOD Text files match")
-        if PRINT_TO_CONSOLE:
-            _print_rich_success("Text files match!")
-    else:
-        log_with_emphasis(
-            LOG.error,
-            "BAD Text files do NOT match exactly",
-            f"output_product: {output_product}",
-            f"compare_product: {compare_product}",
-        )
-
-        if PRINT_TO_CONSOLE:
-            error_messages = [
-                f"Output: {output_product}",
-                f"Compare: {compare_product}",
-            ]
-
-            if result.diff_output:
-                _print_rich_diff(result.diff_output, output_product, compare_product)
-
-        # Handle overwrite prompt if files don't match
-        _handle_overwrite_prompt(compare_product, output_product)
+    if not result.matches:
+        if _handle_overwrite_prompt(compare_product, output_product):
+            result.matches = True
 
     return result.matches
 
