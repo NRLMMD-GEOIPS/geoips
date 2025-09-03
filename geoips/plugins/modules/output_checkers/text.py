@@ -19,6 +19,26 @@ from geoips.commandline.log_setup import log_with_emphasis
 from geoips.geoips_utils import get_numpy_seeded_random_generator
 from geoips.filenames.base_paths import PATHS
 
+# Rich output configuration
+USE_RICH = True  # Set this constant to control rich output
+
+if USE_RICH:
+    try:
+        from rich.console import Console
+        from rich.panel import Panel
+        from rich.text import Text
+        from rich.syntax import Syntax
+        from rich.table import Table
+        from rich import box
+        
+        console = Console()
+        RICH_AVAILABLE = True
+    except ImportError:
+        RICH_AVAILABLE = False
+        USE_RICH = False
+else:
+    RICH_AVAILABLE = False
+
 PRINT_TO_CONSOLE = PATHS["GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE"]
 
 # Module constants
@@ -35,6 +55,89 @@ class ComparisonResult:
     """Container for file comparison results."""
     matches: bool
     diff_output: str = ""
+
+
+def _print_rich_success(message: str):
+    """Print success message using rich formatting."""
+    if USE_RICH and RICH_AVAILABLE:
+        console.print(Panel(
+            Text(message, style="bold green"),
+            title="✅ Success",
+            border_style="green",
+            box=box.ROUNDED
+        ))
+    else:
+        print(f"✅ {message}")
+
+
+def _print_rich_error(title: str, *messages: str):
+    """Print error messages using rich formatting."""
+    if USE_RICH and RICH_AVAILABLE:
+        content = Text()
+        for i, msg in enumerate(messages):
+            if i > 0:
+                content.append("\n")
+            content.append(msg, style="bold red" if i == 0 else "red")
+        
+        console.print(Panel(
+            content,
+            title="❌ Error",
+            border_style="red",
+            box=box.ROUNDED
+        ))
+    else:
+        print(f"❌ {title}")
+        for msg in messages:
+            print(f"   {msg}")
+
+
+def _print_rich_diff(diff_output: str, file1: str, file2: str):
+    """Print diff output using rich formatting."""
+    if USE_RICH and RICH_AVAILABLE:
+        # Create a table for file comparison
+        table = Table(show_header=True, header_style="bold magenta", box=box.ROUNDED)
+        table.add_column("File 1", style="cyan")
+        table.add_column("File 2", style="yellow")
+        table.add_row(str(file1), str(file2))
+        
+        console.print(Panel(
+            table,
+            title="📁 Files Being Compared",
+            border_style="blue"
+        ))
+        
+        # Display diff output with syntax highlighting
+        if diff_output.strip():
+            try:
+                syntax = Syntax(
+                    diff_output,
+                    "diff",
+                    theme="monokai",
+                    line_numbers=True,
+                    word_wrap=True
+                )
+                console.print(Panel(
+                    syntax,
+                    title="🔍 Differences Found",
+                    border_style="yellow",
+                    box=box.ROUNDED
+                ))
+            except Exception:
+                # Fallback to plain text if syntax highlighting fails
+                console.print(Panel(
+                    Text(diff_output, style="yellow"),
+                    title="🔍 Differences Found",
+                    border_style="yellow",
+                    box=box.ROUNDED
+                ))
+    else:
+        print(f"\n{'='*80}")
+        print("DIFFERENCES FOUND:")
+        print(f"File 1: {file1}")
+        print(f"File 2: {file2}")
+        print("=" * 80)
+        print(diff_output)
+        print(f"{'='*80}\n")
 
 
 def correct_file_format(fname):
@@ -76,6 +179,8 @@ def log_comparison_result(result, output_product, compare_product, diff_file=Non
     """Log comparison results with optional console output."""
     if result.matches:
         log_with_emphasis(LOG.info, "GOOD Text files match")
+        if PRINT_TO_CONSOLE:
+            _print_rich_success("Text files match perfectly!")
         return
 
     log_messages = [
@@ -88,12 +193,18 @@ def log_comparison_result(result, output_product, compare_product, diff_file=Non
 
     log_with_emphasis(LOG.interactive, *log_messages)
 
-    if PRINT_TO_CONSOLE and result.diff_output:
-        print(f"\n{'='*80}")
-        print("DIFFERENCES FOUND:")
-        print("=" * 80)
-        print(result.diff_output)
-        print(f"{'='*80}\n")
+    if PRINT_TO_CONSOLE:
+        error_messages = [
+            f"Output: {output_product}",
+            f"Compare: {compare_product}"
+        ]
+        if diff_file:
+            error_messages.append(f"Diff file: {diff_file}")
+            
+        _print_rich_error("Text files do NOT match exactly", *error_messages)
+        
+        if result.diff_output:
+            _print_rich_diff(result.diff_output, output_product, compare_product)
 
 
 def write_diff_file(file1, file2, output_file):
@@ -133,6 +244,8 @@ def compare_text_files(output_product, compare_product):
     
     if result.matches:
         log_with_emphasis(LOG.info, "GOOD Text files match")
+        if PRINT_TO_CONSOLE:
+            _print_rich_success("Text files match perfectly!")
     else:
         log_with_emphasis(
             LOG.interactive,
@@ -141,12 +254,15 @@ def compare_text_files(output_product, compare_product):
             f"compare_product: {compare_product}",
         )
         
-        if PRINT_TO_CONSOLE and result.diff_output:
-            print(f"\n{'='*80}")
-            print("DIFFERENCES FOUND:")
-            print('='*80)
-            print(result.diff_output)
-            print(f"{'='*80}\n")
+        if PRINT_TO_CONSOLE:
+            error_messages = [
+                f"Output: {output_product}",
+                f"Compare: {compare_product}"
+            ]
+            _print_rich_error("Text files do NOT match exactly", *error_messages)
+            
+            if result.diff_output:
+                _print_rich_diff(result.diff_output, output_product, compare_product)
     
     return result.matches
 
@@ -206,9 +322,29 @@ def get_test_files(test_data_dir):
 
 def perform_test_comparisons(plugin, compare_file, test_files):
     """Execute comparison tests and validate expected results."""
+    if USE_RICH and RICH_AVAILABLE and PRINT_TO_CONSOLE:
+        console.print(Panel(
+            "Starting test comparisons...",
+            title="🧪 Test Suite",
+            border_style="blue"
+        ))
+    
     for idx, test_file in enumerate(test_files):
         result = outputs_match(plugin, test_file, compare_file)
         expected_match = idx == 0  # Only first file should match
+        
+        if USE_RICH and RICH_AVAILABLE and PRINT_TO_CONSOLE:
+            status = "✅ PASS" if result == expected_match else "❌ FAIL"
+            style = "green" if result == expected_match else "red"
+            console.print(f"Test {idx + 1}: {status}", style=style)
+        
         assert (
             result == expected_match
         ), f"Test {idx}: expected {expected_match}, got {result}"
+    
+    if USE_RICH and RICH_AVAILABLE and PRINT_TO_CONSOLE:
+        console.print(Panel(
+            "All tests completed successfully! 🎉",
+            title="✅ Test Results",
+            border_style="green"
+        ))
