@@ -41,12 +41,18 @@ ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]
 ColorType = Union[ColorTuple, str]
 
 
-class PrettyBaseModel(BaseModel):
+class CoreBaseModel(BaseModel):
     """Make Pydantic models pretty-print by default.
 
     This model overrides the default string representation of Pydantic models to
     generate a user-friendly, JSON-formatted output with two-space indentation.
+
+    Pydantic model with a customized ``ConfigDict`` configuration for GeoIPS.
     """
+
+    model_config = ConfigDict(
+        str_strip_whitespace=True, populate_by_name=True, loc_by_alias=False
+    )
 
     def __str__(self) -> str:
         """Return a pretty-print string representation of a Pydantic model.
@@ -63,18 +69,10 @@ class PrettyBaseModel(BaseModel):
         return self.model_dump_json(indent=2, exclude_unset=True)
 
 
-class CoreBaseModel(PrettyBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configuration for GeoIPS."""
-
-    model_config = ConfigDict(
-        str_strip_whitespace=True, populate_by_name=True, loc_by_alias=False
-    )
-
-
 class FrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are not allowed, and the object data cannot be modified after initialization.
     """
@@ -85,7 +83,7 @@ class FrozenModel(CoreBaseModel):
 class PermissiveFrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are allowed, but the object data cannot be modified after initialization.
     """
@@ -96,7 +94,7 @@ class PermissiveFrozenModel(CoreBaseModel):
 class DynamicModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are not allowed, but the object data can be modified after initialization.
     """
@@ -107,7 +105,7 @@ class DynamicModel(CoreBaseModel):
 class PermissiveDynamicModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
+    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
     customized configurations. It is intended for use in cases where additional fields
     are allowed, and the object data can be modified after initialization.
     """

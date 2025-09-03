@@ -66,17 +66,17 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
     ), f"{error_message} does not match {expected_error}"
 
 
-# Test PrettyBaseModel
-class MockPrettyBaseModel(bases.PrettyBaseModel):
-    """Test PrettyBaseModel to test __str__method of PrettyBaseModel."""
+# Test CoreBaseModel
+class MockCoreBaseModel(bases.CoreBaseModel):
+    """Test CoreBaseModel to test __str__method of CoreBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin")
 
 
 def test_good_pretty_base_model_str():
-    """Test if the PrettyBaseModel returns JSON data with two-space indentation."""
-    test_model = MockPrettyBaseModel(plugin_type="Reader", plugin_name="abi_netcdf")
+    """Test if the CoreBaseModel returns JSON data with two-space indentation."""
+    test_model = MockCoreBaseModel(plugin_type="Reader", plugin_name="abi_netcdf")
 
     string_representation_of_model = str(test_model)
     expected_json_format = json.dumps(
@@ -87,9 +87,9 @@ def test_good_pretty_base_model_str():
 
 
 def test_bad_pretty_base_model_missing_required_field():
-    """Test PrettyBaseModel for missing required fields."""
+    """Test CoreBaseModel for missing required fields."""
     with pytest.raises(ValidationError) as exec_info:
-        MockPrettyBaseModel(plugin_type="Reader")
+        MockCoreBaseModel(plugin_type="Reader")
 
     error_info = exec_info.value.errors()
     assert len(error_info) == 1
@@ -98,9 +98,9 @@ def test_bad_pretty_base_model_missing_required_field():
 
 
 def test_bad_pretty_base_model_invalid_field_type():
-    """Test PrettyBaseModel for missing required fields."""
+    """Test CoreBaseModel for missing required fields."""
     with pytest.raises(ValidationError) as exec_info:
-        MockPrettyBaseModel(plugin_type="Reader", plugin_name=123)
+        MockCoreBaseModel(plugin_type="Reader", plugin_name=123)
 
     error_info = exec_info.value.errors()
     assert len(error_info) == 1
