@@ -381,6 +381,53 @@ def perform_test_comparisons(plugin, compare_file, test_files):
             result == expected_match
         ), f"Test {idx}: expected {expected_match}, got {result}"
 
+def outputs_match(output_product, compare_product):
+    """Check if two text files match.
+
+    Convenience function that maintains backward compatibility.
+
+    Parameters
+    ----------
+    output_product : str or Path
+        Path to generated output file being validated.
+    compare_product : str or Path
+        Path to reference file for comparison.
+
+    Returns
+    -------
+    bool
+        True if files have identical content, False otherwise.
+
+    Raises
+    ------
+    ValueError
+        If either file is not a valid text file format.
+    """
+    if not (is_text_file(output_product) and is_text_file(compare_product)):
+        raise ValueError("Both files must be valid text files")
+    
+    result = run_diff(output_product, compare_product)
+    LOG.debug(result.diff_output)
+    
+    if result.matches:
+        log_with_emphasis(LOG.info, "GOOD Text files match")
+    else:
+        log_with_emphasis(
+            LOG.interactive,
+            "BAD Text files do NOT match exactly",
+            f"output_product: {output_product}",
+            f"compare_product: {compare_product}",
+        )
+        
+        # Print to console if enabled (no diff file for legacy interface)
+        if PRINT_TO_CONSOLE and result.diff_output:
+            print(f"\n{'='*80}")
+            print("DIFFERENCES FOUND:")
+            print('='*80)
+            print(result.diff_output)
+            print(f"{'='*80}\n")
+    
+    return result.matches
 
 def call(plugin, compare_path, output_products):
     """Execute comparison workflow for output validation.
