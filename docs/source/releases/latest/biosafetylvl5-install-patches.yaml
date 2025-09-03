@@ -8,7 +8,7 @@ bug fix:
     - 'tests/integration_tests/full_install.sh'
     - 'tests/integration_tests/site_install.sh'
   related-issue:
-    number: null
+    number: 1130
     repo_url: ''
   date:
     start: null
