@@ -1,123 +1,12 @@
 bug fix:
-- title: ''
-  description: ''
+- title: 'Fix install scripts'
+  description: 'This adds missing test data sets to the site and full install scripts necessary for running the site and full integration tests.'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/biosafetylvl5-install-patches.yaml'
     modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-deprecation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-removal:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-performance:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-documentation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-continuous integration:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
+    - 'tests/integration_tests/full_install.sh'
+    - 'tests/integration_tests/site_install.sh'
   related-issue:
     number: null
     repo_url: ''
