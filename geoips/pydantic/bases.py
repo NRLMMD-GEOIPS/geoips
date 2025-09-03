@@ -63,7 +63,15 @@ class PrettyBaseModel(BaseModel):
         return self.model_dump_json(indent=2, exclude_unset=True)
 
 
-class FrozenModel(PrettyBaseModel):
+class CoreBaseModel(PrettyBaseModel):
+    """Pydantic model with a customized ``ConfigDict`` configuration for GeoIPS."""
+
+    model_config = ConfigDict(
+        str_strip_whitespace=True, populate_by_name=True, loc_by_alias=False
+    )
+
+
+class FrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
     This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
@@ -71,10 +79,10 @@ class FrozenModel(PrettyBaseModel):
     are not allowed, and the object data cannot be modified after initialization.
     """
 
-    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=True)
+    model_config = ConfigDict(extra="forbid", frozen=True)
 
 
-class PermissiveFrozenModel(PrettyBaseModel):
+class PermissiveFrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
     This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
@@ -82,10 +90,10 @@ class PermissiveFrozenModel(PrettyBaseModel):
     are allowed, but the object data cannot be modified after initialization.
     """
 
-    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=True)
+    model_config = ConfigDict(extra="allow", frozen=True)
 
 
-class DynamicModel(PrettyBaseModel):
+class DynamicModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
     This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
@@ -93,10 +101,10 @@ class DynamicModel(PrettyBaseModel):
     are not allowed, but the object data can be modified after initialization.
     """
 
-    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=False)
+    model_config = ConfigDict(extra="forbid", frozen=False)
 
 
-class PermissiveDynamicModel(PrettyBaseModel):
+class PermissiveDynamicModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
 
     This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
@@ -104,7 +112,7 @@ class PermissiveDynamicModel(PrettyBaseModel):
     are allowed, and the object data can be modified after initialization.
     """
 
-    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=False)
+    model_config = ConfigDict(extra="allow", frozen=False)
 
 
 def python_identifier(val: str) -> str:
