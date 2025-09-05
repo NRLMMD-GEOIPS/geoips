@@ -73,6 +73,18 @@ class MockCoreBaseModel(bases.CoreBaseModel):
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
 
+    @classmethod
+    def get_disallowed_fields(cls):
+        """Return a list of fields restricted from user input."""
+        # return super().get_disallowed_fields()
+        return ["internal_field"]
+
+
+def test_good_core_base_model_model_name():
+    """Test if the CoreBaseModel model_name method returns valid class name."""
+    test_model = MockCoreBaseModel(plugin_type="Reader", pluginname="abi_netcdf")
+    assert test_model.model_name == "MockCoreBaseModel"
+
 
 def test_good_core_base_model_whitespace():
     """Test if the CoreBaseModel trims space around input values."""
@@ -81,6 +93,15 @@ def test_good_core_base_model_whitespace():
     )
     assert test_model.plugin_type == "Reader"
     assert test_model.plugin_name == "abi_netcdf"
+
+
+def test_good_core_base_model_check_internal_field():
+    """Test if CoreBaseModel rejects fields marked internal."""
+    with pytest.raises(ValidationError) as exec_info:
+        MockCoreBaseModel(
+            plugin_type="Reader", pluginname="abi_netcdf", internal_field="internal"
+        )
+    assert "internal_field can't be user-defined" in str(exec_info.value)
 
 
 def test_good_core_base_model_alias():
@@ -99,6 +120,19 @@ def test_good_core_base_model_str():
     )
 
     assert string_representation_of_model == expected_json_format
+
+
+def test_good_core_base_model_has_key_nested():
+    """Test CoreBaseModel internal fields presence at a nested level."""
+    sample_data = [
+        {"input1": "value1"},
+        {"nested_input": {"internal_field": "internal_value"}},
+    ]
+    # Both assertions are included in this test because this is a boolean check
+    # One assertion would be sufficient, but the second is added as a precautionary
+    # measure. No need to parameterize and over-engineer
+    assert MockCoreBaseModel._has_key_nested(sample_data, "internal_field") is True
+    assert MockCoreBaseModel._has_key_nested(sample_data, "internal_field1") is False
 
 
 def test_bad_core_base_model_missing_required_field():
