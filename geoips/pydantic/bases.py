@@ -89,7 +89,7 @@ class CoreBaseModel(BaseModel):
     @classmethod
     def _has_key_nested(cls, obj, key):
         """
-        Recursively searches if an internal field exists in the input dictionary.
+        Recursively searches if an internal field exists in the nested structures.
 
         Parameters
         ----------
