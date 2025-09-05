@@ -6,7 +6,7 @@
 from pydantic import Field, model_validator
 from typing import Optional
 
-from geoips.models.v1.bases import (
+from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
     PluginModel,

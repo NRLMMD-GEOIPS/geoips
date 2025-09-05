@@ -15,7 +15,7 @@ import yaml
 from pydantic import BaseModel, Field, model_validator, ValidationError
 
 from geoips import interfaces
-from geoips import models as geoips_models
+from geoips import pydantic_models as geoips_models
 
 
 LOG = logging.getLogger(__name__)
