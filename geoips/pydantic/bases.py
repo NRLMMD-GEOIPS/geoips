@@ -65,6 +65,8 @@ class CoreBaseModel(BaseModel):
         - `validate_assignment=False` to revalidate model when the data is changed.
         - `arbitrary_types_allowed=True` to allow custom data types as field types.
         - `strict=False`  to allow Coercion of  values to declared type when possible.
+        - `allow_inf_nan=False` to allow +/-infinity and NaN values to float and
+                                decimal fields.
 
     - `check_internal_fields`:
         -  Model-level validator that prevents user input from setting internal fields.
@@ -92,6 +94,8 @@ class CoreBaseModel(BaseModel):
         # Coerce values to declared type when possible
         # If you need strict=True for a field, use Field(strict=True)
         strict=False,
+        # to allow +/-infinity and NaN values to float and decimal fields
+        allow_inf_nan=False,
     )
 
     def __str__(self) -> str:
