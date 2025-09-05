@@ -81,6 +81,80 @@ class CoreBaseModel(BaseModel):
         # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
         return self.model_dump_json(indent=2, exclude_unset=True)
 
+    @property
+    def model_name(self):
+        """Update the docstring."""
+        return self.__class__.__name__
+
+    @classmethod
+    def _has_key_nested(cls, obj, key):
+        """
+        Recursively searches if an internal field exists in the input dictionary.
+
+        Parameters
+        ----------
+        obj : dict
+            Input dictionary to search.
+        key : str
+            The internal field to look for.
+
+        Returns
+        -------
+        bool
+            True if the internal field exists, False otherwise.
+        """
+        if isinstance(obj, dict):
+            if key in obj:
+                return True
+            return any(cls._has_key_nested(v, key) for v in obj.values())
+        elif isinstance(obj, list):
+            return any(cls._has_key_nested(item, key) for item in obj)
+        return False
+
+    @model_validator(mode="before")
+    def check_internal_fields(cls, values):
+        """
+        Validate internal fields and warn if the user tries to set them.
+
+        Parameters
+        ----------
+        values: dict
+            dictionary containing step details.
+
+        Returns
+        -------
+        dict
+            dictionary containing step details.
+
+        Raises
+        ------
+        ValueError
+            If a disallowed field is found in the input.
+        """
+        disallowed_fields = cls.get_disallowed_fields()
+        for field in disallowed_fields:
+            # if field in values and values[field] is not None:
+            if cls._has_key_nested(values, field):
+                raise ValueError(f"{field} can't be user-defined; set internally")
+        return values
+
+    @classmethod
+    def get_disallowed_fields(cls):
+        """
+        Return a list of fields restricted from user input.
+
+        Submodels should override this method to specify fields where user input
+        is restricted. By default, it returns an empty list, indicating no fields are
+        restricted.
+
+        Returns
+        -------
+        list
+            A list of field names (strings)
+
+        """
+        return []
+
 
 class FrozenModel(CoreBaseModel):
     """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
