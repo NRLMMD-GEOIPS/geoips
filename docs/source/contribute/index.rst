@@ -30,3 +30,4 @@ Resources for Contributors
    dev_mac_with_conda
    dev-install
    testing/index
+   pydantic-models

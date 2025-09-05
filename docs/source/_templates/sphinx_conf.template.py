@@ -41,7 +41,17 @@ extensions = [
     "sphinxcontrib.autoprogram",
     "m2r2",
     "sphinxcontrib.mermaid",
+    # "sphinx_pydantic",
+    "autodoc_pydantic",
 ]
+
+try:
+    # import sphinx_pydantic  # noqa: F401
+    import autodoc_pydantic  # noqa: F401
+    extensions.append("sphinx_pydantic")
+except Exception as e:
+    import warnings
+    warnings.warn(f"'sphinx_pydantic' not available: {e}. Skipping Pydantic-specific rendering.")
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
