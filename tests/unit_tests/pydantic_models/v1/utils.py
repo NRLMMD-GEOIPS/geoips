@@ -4,7 +4,7 @@
 """Generic testing utilities used for pydantic unit testing."""
 
 import logging
-from importlib.resources import files
+from importlib import import_module, resources
 from pathlib import Path
 import pytest
 from copy import deepcopy
@@ -15,7 +15,7 @@ import yaml
 from pydantic import BaseModel, Field, model_validator, ValidationError
 
 from geoips import interfaces
-from geoips import pydantic as geoips_pydantic
+from geoips import pydantic_models as geoips_models
 
 
 LOG = logging.getLogger(__name__)
@@ -174,7 +174,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
 
     relpath = entry["relpath"]
     print("relpaht \t", relpath)
-    abspath = str(files("geoips") / relpath)
+    abspath = str(resources.files("geoips") / relpath)
     package = "geoips"
 
     with open(abspath, "r") as fo:
@@ -203,7 +203,9 @@ def retrieve_model(plugin):
         - The associated plugin model used to validate this plugin.
     """
     interface = plugin["interface"]
-    module = geoips_pydantic._modules[f"geoips.pydantic.{interface}"]
+    # upcoming PR: https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
+    # module = geoips_models._modules[f"geoips.pydantic_models.v1.{interface}"]
+    module = import_module(f"geoips.pydantic_models.v1.{interface}")
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"
@@ -250,10 +252,10 @@ def _validate_test_tup_keys(test_tup: TestCaseModel) -> Tuple[str, Any, str, str
 
 def _resolve_model_class(failing_model):
     """Resolve the actual Pydantic model class by name."""
-    for mod in geoips_pydantic._modules:
-        if failing_model in geoips_pydantic._classes[mod]:
-            return getattr(geoips_pydantic._modules[mod], failing_model)
-        if hasattr(geoips_pydantic._modules[mod], failing_model):
+    for mod_name, mod in geoips_models.v1._modules.items():
+        if failing_model in geoips_models.v1._classes.get(mod_name, {}):
+            return getattr(mod, failing_model)
+        if hasattr(mod, failing_model):
             # This behavior occurs for the 'ColorType' attribute, which is
             # a type instance but not actually a pydantic class.
             return None

@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""GeoIPS order-based procflow pydantic models init file."""
+"""GeoIPS order-based procflow v2alpha1 models init file."""
 
 import logging
 import importlib
@@ -13,11 +13,14 @@ import sys
 LOG = logging.getLogger(__name__)
 
 
+# This function is required to dynamically load versioned models in the unit tests
+# Due for further refactoring and optimization in the upcoming PR
+# Relevant issue : https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
 def collect_modules():
     """Dynamically find and import all submodules within a package."""
     modules = {}
 
-    # Get the current package (i.e., geoips.pydantic)
+    # Get the current package (i.e., geoips.pydantic_models)
     package = sys.modules[__name__]
 
     for _, module_name, is_pkg in pkgutil.walk_packages(  # NOQA
@@ -32,6 +35,9 @@ def collect_modules():
     return modules
 
 
+# This function is required to dynamically load versioned models in the unit tests
+# Due for further refactoring and optimization in the upcoming PR
+# Relevant issue : https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
 def collect_classes(modules):
     """Extract all classes from the given modules.
 

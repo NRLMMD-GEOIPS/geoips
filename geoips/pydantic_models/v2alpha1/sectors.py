@@ -15,11 +15,15 @@ from pydantic import (
 )
 from pydantic.functional_validators import AfterValidator
 
-from geoips.pydantic.bases import FrozenModel, PermissiveFrozenModel, PluginModel
+from geoips.pydantic_models.v2alpha1.bases import (
+    FrozenModel,
+    PermissiveFrozenModel,
+    PluginModel,
+)
 
 
 class EarthConstants(float, Enum):
-    """A simple class containing constant values relative to the geometry of Earth."""
+    """A class with Earth related geometrical constants."""
 
     SEMI_MAJOR_AXIS = 6371228.0  # Semimajor axis of the earth in meters.
 
@@ -31,7 +35,7 @@ class XYCoordinate(FrozenModel):
     y: float = Field(..., description="The y coordinate in projection units.")
 
 
-def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
+def validate_lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     """Validate a latitude and longitude coordinate."""
     if arg[0] < -90 or arg[0] > 90:
         raise ValueError("Latitude must be between -90 and 90")
@@ -40,7 +44,9 @@ def lat_lon_coordinate(arg: tuple[float, float]) -> tuple[float, float]:
     return arg
 
 
-LatLonCoordinate = Annotated[Tuple[float, float], AfterValidator(lat_lon_coordinate)]
+LatLonCoordinate = Annotated[
+    Tuple[float, float], AfterValidator(validate_lat_lon_coordinate)
+]
 
 
 class SectorProjection(PermissiveFrozenModel):
@@ -49,9 +55,10 @@ class SectorProjection(PermissiveFrozenModel):
     This is a dictionary that provides Proj projection information for the sector. For
     more information on what parameters can be supplied, see the Proj documentation.
 
-    Validation has only been implemented for some of the most common options. If you
-    need validation for a parameter that is not currently implemented, please open an
-    issue and, if possible, a pull request on GitHub.
+    Validation has only been implemented for some of the most common options. Additional
+    sector projection parameters are supported but not validated. If you need validation
+    for a parameter that is not currently implemented, please open an issue and, if
+    possible, a pull request on GitHub.
     """
 
     proj: str = Field(..., description="Proj projection alias.")
@@ -79,7 +86,7 @@ class SectorProjection(PermissiveFrozenModel):
             "The name of a built-in ellipsoid definition. "
             "See https://proj.org/en/stable/usage/ellipsoids.html#built-in-ellipsoid-definitions "  # NOQA
             " for more information, or execute :option:`proj -le` for a list of "
-            "built-in ellipsoid names."
+            "built-in ellipsoid names. "
             "*Defaults to 'GRS80'.*"
         ),
     )
@@ -102,7 +109,7 @@ class SectorProjection(PermissiveFrozenModel):
             strict=True,
             ge=0,
             description=(
-                "Scale factor. Determines scale factor used in the projection."
+                "Scale factor. Determines scale factor used in the projection. "
                 "*Defaults to 1.0.*"
             ),
         ),
@@ -124,7 +131,7 @@ class SectorProjection(PermissiveFrozenModel):
             strict=True,
             ge=-90,
             le=90,
-            description=("First standard parallel." "*Defaults to 0.0.*"),
+            description=("First standard parallel." " *Defaults to 0.0.*"),
         ),
     ]
     lat_2: Annotated[
@@ -134,7 +141,7 @@ class SectorProjection(PermissiveFrozenModel):
             strict=True,
             ge=-90,
             le=90,
-            description=("Second standard parallel." "*Defaults to 0.0.*"),
+            description=("Second standard parallel." " *Defaults to 0.0.*"),
         ),
     ]
     lat_ts: Annotated[
@@ -145,8 +152,8 @@ class SectorProjection(PermissiveFrozenModel):
             ge=0,
             description=(
                 "Latitude of true scale. Defines the latitude where scale is not "
-                "distorted."
-                "Takes precedence over ``+k_0`` if both options are used together."
+                "distorted. "
+                "Takes precedence over ``+k_0`` if both options are used together. "
                 "*Defaults to 0.0.*"
             ),
         ),
@@ -165,8 +172,8 @@ class SectorProjection(PermissiveFrozenModel):
     t_final: float = Field(
         None,
         description=(
-            "Final epoch that the coordinate will be propagated to after transformation."  # NOQA
-            "The special epoch *now* can be used instead of writing a specific period in"  # NOQA
+            "Final epoch that the coordinate will be propagated to after transformation. "  # NOQA
+            "The special epoch *now* can be used instead of writing a specific period in "  # NOQA
             "time. When *now* is used, it is replaced internally with the epoch of the "
             "transformation. This means that the resulting coordinate will be slightly "
             "different if carried out again at a later date."
@@ -330,7 +337,7 @@ class AreaDefinitionSpec(FrozenModel):
         description=(
             "The size of the pixels in the sector in projection units. "
             "May be specified as a single float or a tuple of two floats "
-            "describing the resolution in the x and y directions separately."
+            "describing the resolution in the x and y directions separately. "
             "See the pyresample documentation for more information."
         ),
     )
@@ -340,7 +347,7 @@ class AreaDefinitionSpec(FrozenModel):
             "The units used for resolution and area_extent. "
             "This takes priority over the units specified in the projection. "
             "For more information on this parameter and its priority order, see the "
-            "pyresmaple documentation."
+            "pyresample documentation."
         ),
     )
     center: XYCoordinate = Field(

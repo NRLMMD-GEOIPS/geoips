@@ -1,4 +1,4 @@
-# # # This source code is subject to the license referenced at
+# # # This source code is protected under the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Workflow plugin models.
@@ -6,6 +6,15 @@
 Defines pydantic models related to Workflow plugins,
 including top-level callable interfaces (eg. Readers, OutputFormatters, etc.).
 """
+
+# Previously, the model names used as type hints were quoted marking them as strings;
+# leading to forward references, which allow referring to a class before Python has
+# fully parsed it.
+
+# By adding from __future__ import annotations, Python defers evaluation of all type
+# annotations until runtime, automatically treating them as strings. This eliminates
+# the need to manually quote forward-referenced types (simplified type hinting).
+from __future__ import annotations
 
 # Python Standard Libraries
 import logging
@@ -16,12 +25,13 @@ from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic.bases import (
+from geoips.pydantic_models.v2alpha1.bases import (
     PythonIdentifier,
     PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
 )
+from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
 
@@ -45,10 +55,7 @@ def get_plugin_names(plugin_kind: str) -> List[str]:
         If the plugin kind is invalid
 
     """
-    interface_name = plugin_kind
-
-    if not interface_name[:-1] == "s":
-        interface_name = plugin_kind + "s"
+    interface_name = Lexeme(plugin_kind).plural
 
     try:
         interface = getattr(interfaces, interface_name)
@@ -68,10 +75,7 @@ def get_plugin_kinds() -> set[str]:
         singular names of distinct plugin kinds
     """
     return {
-        # set comprehension
-        # the [:-1] slice converts the plugin kind from plural to singular
-        # eg. 'Readers' => 'Reader'
-        plugin_kinds[:-1]
+        Lexeme(plugin_kinds).singular
         for ifs in interfaces.list_available_interfaces().values()
         for plugin_kinds in ifs
     }
@@ -161,7 +165,7 @@ class ReaderArgumentsModel(PermissiveFrozenModel):
 class WorkflowStepDefinitionModel(FrozenModel):
     """Validate step definition : kind, name, and arguments."""
 
-    kind: str = Field(..., description="plugin kind")
+    kind: Lexeme = Field(..., description="plugin kind")
     name: str = Field(..., description="plugin name", init=False)
     arguments: Dict[str, Any] = Field(default_factory=dict, description="step args")
 
@@ -203,8 +207,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_plugin_name(
-        cls, model: "WorkflowStepDefinitionModel"
-    ) -> "WorkflowStepDefinitionModel":
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
         """
         Validate that a plugin with this name exists for the specified plugin kind.
 
@@ -230,7 +234,7 @@ class WorkflowStepDefinitionModel(FrozenModel):
         valid_plugin_names = get_plugin_names(plugin_kind)
         if plugin_name not in valid_plugin_names:
             raise ValueError(
-                f"[!] Invalid plugin name '{plugin_name}'. \n\t"
+                f"Invalid plugin name '{plugin_name}'."
                 f"Must be one of {sorted(valid_plugin_names)}"
             )
 
@@ -238,8 +242,8 @@ class WorkflowStepDefinitionModel(FrozenModel):
 
     @model_validator(mode="after")
     def _validate_plugin_arguments(
-        cls, model: "WorkflowStepDefinitionModel"
-    ) -> "WorkflowStepDefinitionModel":
+        cls, model: WorkflowStepDefinitionModel
+    ) -> WorkflowStepDefinitionModel:
         """
         Validate and organize details for each step.
 
@@ -279,16 +283,17 @@ class WorkflowStepDefinitionModel(FrozenModel):
             plugin_arguments_model = plugin_arguments_models[
                 plugin_arguments_model_name
             ]
-        except KeyError:
+        except KeyError as e:
             valid_models = ", ".join(plugin_arguments_models)
             raise ValueError(
                 f'The argument class/model "{plugin_arguments_model_name}" for'
                 f'the plugin kind "{plugin_kind}" is not defined. Valid available'
                 f"models are {valid_models}."
-            )
+            ) from e
             LOG.interactive(
                 "Plugin kind '%s' was already validated, yet PluginArgumentsModel "
-                "lookup failed. Please report this to the GeoIPS development team"
+                "lookup failed. Please report this to the GeoIPS development team",
+                plugin_kind,
             )
 
         plugin_arguments_model(**model.arguments)
