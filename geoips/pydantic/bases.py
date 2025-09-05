@@ -42,12 +42,39 @@ ColorType = Union[ColorTuple, str]
 
 
 class CoreBaseModel(BaseModel):
-    """Make Pydantic models pretty-print by default.
+    """CoreBaseModel for GeoIPS Order-Based Procflow data model validation.
 
-    This model overrides the default string representation of Pydantic models to
-    generate a user-friendly, JSON-formatted output with two-space indentation.
+    This model provides a standardized Pydantic base class with custom configuration
+    and validation logic for all GeoIPS models built using Pydantic library. It
+    consolidates useful configurations, custom validators, and utility methods.
 
-    Pydantic model with a customized ``ConfigDict`` configuration for GeoIPS.
+    Features
+    --------
+    - Pretty-printing:
+        Make Pydantic models pretty-print by default. Overrides the default string
+        representation of Pydantic models to generate a user-friendly, JSON-formatted
+        output with two-space indentation.
+
+    - Inherited Configuration:
+        Includes a customized ``ConfigDict`` with the following options set:
+
+        - `str_strip_whitespace=True`  to trim whitespace around input.
+        - `populate_by_name=True` to populate data using aliased field names.
+        - `loc_by_alias=False` to allow usage of input field name instead of model
+                                field name in error locations.
+        - `validate_assignment=False` to revalidate model when the data is changed.
+        - `arbitrary_types_allowed=True` to allow custom data types as field types.
+        - `strict=False`  to allow Coercion of  values to declared type when possible.
+
+    - `check_internal_fields`:
+        -  Model-level validator that prevents user input from setting internal fields.
+        -  Allows defining a list of internal fields globally or at the class level.
+        - Raises a validation error if a restricted field is provided by the user.
+
+    - `model_name`:
+        - Prints the model name along with the data.
+        - Useful for debugging and logging purposes(for dev).
+        - This method would be further enhanced in future PR
     """
 
     model_config = ConfigDict(
