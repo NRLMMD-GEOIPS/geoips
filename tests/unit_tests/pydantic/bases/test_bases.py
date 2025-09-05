@@ -71,10 +71,22 @@ class MockCoreBaseModel(bases.CoreBaseModel):
     """Test CoreBaseModel to test __str__method of CoreBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
-    plugin_name: str = Field(description="name of the plugin")
+    plugin_name: str = Field(description="name of the plugin", alias="pluginname")
+
+def test_good_core_base_model_whitespace():
+    """Test if the CoreBaseModel trims space around input values."""
+    test_model = MockCoreBaseModel(plugin_type="  Reader  ", plugin_name="  abi_netcdf  ")
+    assert test_model.plugin_type == "Reader"
+    assert test_model.plugin_name == "abi_netcdf"
 
 
-def test_good_pretty_base_model_str():
+def test_good_core_base_model_alias():
+    """Test if the CoreBasemodel allows population by alias name."""
+    test_model = MockCoreBaseModel(plugin_type="Reader", pluginname="abi_netcdf")
+    assert test_model.plugin_name == "abi_netcdf"
+
+
+def test_good_core_base_model_str():
     """Test if the CoreBaseModel returns JSON data with two-space indentation."""
     test_model = MockCoreBaseModel(plugin_type="Reader", plugin_name="abi_netcdf")
 
@@ -86,7 +98,7 @@ def test_good_pretty_base_model_str():
     assert string_representation_of_model == expected_json_format
 
 
-def test_bad_pretty_base_model_missing_required_field():
+def test_bad_core_base_model_missing_required_field():
     """Test CoreBaseModel for missing required fields."""
     with pytest.raises(ValidationError) as exec_info:
         MockCoreBaseModel(plugin_type="Reader")
@@ -97,7 +109,7 @@ def test_bad_pretty_base_model_missing_required_field():
     assert error_info[0]["type"] == "missing"
 
 
-def test_bad_pretty_base_model_invalid_field_type():
+def test_bad_core_base_model_invalid_field_type():
     """Test CoreBaseModel for missing required fields."""
     with pytest.raises(ValidationError) as exec_info:
         MockCoreBaseModel(plugin_type="Reader", plugin_name=123)
