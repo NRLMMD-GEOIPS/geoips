@@ -51,7 +51,20 @@ class CoreBaseModel(BaseModel):
     """
 
     model_config = ConfigDict(
-        str_strip_whitespace=True, populate_by_name=True, loc_by_alias=False
+        # Trim white space around input
+        str_strip_whitespace=True,
+        # Populate data using aliased field names
+        populate_by_name=True,
+        # Use input field name instead of model field name in error locations
+        loc_by_alias=False,
+        # Revalidate model when the data is changed
+        # No use case in OBP-v1; planned for future releases
+        validate_assignment=False,
+        # Allow arbitrary / custom data types as field types
+        arbitrary_types_allowed=True,
+        # Coerce values to declared type when possible
+        # If you need strict=True for a field, use Field(strict=True)
+        strict=False,
     )
 
     def __str__(self) -> str:
