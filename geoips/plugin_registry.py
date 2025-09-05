@@ -406,7 +406,7 @@ class PluginRegistry:
 
         # Construct module path and import
         try:
-            module = import_module(f"{package_name}.models.{model_version}.{interface}")
+            module = import_module(f"{package_name}.pydantic_models.{model_version}.{interface}")
         except ImportError as e:
             raise ImportError(
                 f"Could not import models from '{api_version}': {e}"
