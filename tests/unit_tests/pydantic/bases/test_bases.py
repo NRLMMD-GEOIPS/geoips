@@ -73,9 +73,12 @@ class MockCoreBaseModel(bases.CoreBaseModel):
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
 
+
 def test_good_core_base_model_whitespace():
     """Test if the CoreBaseModel trims space around input values."""
-    test_model = MockCoreBaseModel(plugin_type="  Reader  ", plugin_name="  abi_netcdf  ")
+    test_model = MockCoreBaseModel(
+        plugin_type="  Reader  ", plugin_name="  abi_netcdf  "
+    )
     assert test_model.plugin_type == "Reader"
     assert test_model.plugin_name == "abi_netcdf"
 
