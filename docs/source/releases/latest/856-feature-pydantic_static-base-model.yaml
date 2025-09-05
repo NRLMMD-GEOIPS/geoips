@@ -12,6 +12,7 @@ enhancement:
     - 'docs/dev/order_based_procflow.rst'
     - 'geoips/pydantic/bases.py'
     - 'tests/unit_tests/pydantic/bases/test_bases.py'
+    - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py'
   related-issue: 
     number: 856
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
