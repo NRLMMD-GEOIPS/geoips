@@ -204,8 +204,8 @@ def retrieve_model(plugin):
     """
     interface = plugin["interface"]
     # upcoming PR: https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
-    # module = geoips_models._modules[f"geoips.models.v1.{interface}"]
-    module = import_module(f"geoips.models.v1.{interface}")
+    # module = geoips_models._modules[f"geoips.pydantic_models.v1.{interface}"]
+    module = import_module(f"geoips.pydantic_models.v1.{interface}")
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"

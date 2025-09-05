@@ -15,7 +15,7 @@ from pydantic import (
 )
 from pydantic.functional_validators import AfterValidator
 
-from geoips.models.v2alpha1.bases import FrozenModel, PermissiveFrozenModel, PluginModel
+from geoips.pydantic_models.v2alpha1.bases import FrozenModel, PermissiveFrozenModel, PluginModel
 
 
 class EarthConstants(float, Enum):
