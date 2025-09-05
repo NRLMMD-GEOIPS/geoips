@@ -1,6 +1,6 @@
 continuous integration:
 - title: 'CSpell Regex fix'
-  description: 'This updates the cspell config file so that cspell checks string literals longer than 3 chars.
+  description: 'This updates the cspell config file so that cspell checks string literals longer than 3 chars.'
   files:
     modified:
     - '.cspell.json'
