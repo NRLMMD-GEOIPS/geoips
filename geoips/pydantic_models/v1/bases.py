@@ -163,6 +163,13 @@ class CoreBaseModel(BaseModel):
         ------
         ValueError
             If a disallowed field is found in the input.
+
+        Notes
+        -----
+            This function was initially implemented to handle an internal field called
+            `plugin_type`, which was removed as part of of architectural changes.
+            Although it is currently unused, we anticipate a strong use case moving
+            forward.
         """
         disallowed_fields = cls.get_disallowed_fields()
         for field in disallowed_fields:
