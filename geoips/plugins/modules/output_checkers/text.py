@@ -312,7 +312,10 @@ def outputs_match(plugin, output_product, compare_product):
 
 def call(plugin, compare_path, output_products):
     """Execute comparison workflow for output validation."""
-    return plugin.compare_outputs(compare_path, output_products)
+    if len(output_products)>1 and not isinstance(output_products, str):
+        return all(plugin.compare_outputs(compare_path, output_product) for output_product in output_products)
+    else:
+        return plugin.compare_outputs(compare_path, output_products)
 
 
 # =============================================================================
