@@ -84,12 +84,12 @@ if __name__ == "__main__":
     parser = ArgumentParser(description="order-based procflow processing")
     parser.add_argument("workflow", help="The workflow name to process.")
     parser.add_argument("fnames", nargs="+", help="The filenames to process.")
-    parser.add_argument(
-        "-l",
-        "--loglevel",
-        choices=["debug", "info", "interactive", "warning", "error"],
-        default="interactive",
-    )
+    # parser.add_argument(
+    #     "-l",
+    #     "--loglevel",
+    #     choices=["debug", "info", "interactive", "warning", "error"],
+    #     default="interactive",
+    # )
     args = parser.parse_args()
-    LOG = setup_logging(logging_level=args.loglevel)
+    # LOG = setup_logging(logging_level=args.loglevel)
     call(args.workflow, args.fnames)
