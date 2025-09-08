@@ -163,8 +163,8 @@ def initialize_paths():
         # for details on each option.
         "GEOIPS_WARNING_LEVEL": "default",
         "GEOIPS_TEST_PRINT_TEXT_OUTPUT_CHECKER_TO_CONSOLE": True,
-        "GEOIPS_RICH_CONSOLE_OUTPUT": True,
-        "GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH": True,
+        "GEOIPS_RICH_CONSOLE_OUTPUT": False,
+        "GEOIPS_PROMPT_TO_OVERWRITE_COMPARISON_FILE_IF_MISMATCH": False,
     }
 
     # Long variables names to avoid black and flake8 conflicts.
