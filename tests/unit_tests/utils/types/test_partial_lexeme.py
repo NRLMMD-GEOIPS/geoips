@@ -6,14 +6,24 @@
 from __future__ import annotations
 
 import json
-from typing import Dict, Set, Tuple
+from typing import Dict, Set
 
 import pytest
 from pydantic import BaseModel
 
 from geoips.utils.types.partial_lexeme import Lexeme
 
-REGULAR_PAIR: Tuple[str, str] = ("reader", "readers")
+# REGULAR_PAIR: Tuple[str, str] = ("reader", "readers")
+REGULAR_PAIRS = [
+    ("reader", "readers"),
+    ("party", "parties"),
+    ("quiz", "quizzes"),
+    ("process", "processes"),
+    ("box", "boxes"),
+    ("process", "processes"),
+    ("dish", "dishes"),
+    ("church", "churches"),
+]
 IRREGULAR_PAIRS = [
     ("analysis", "analyses"),
     ("index", "indices"),
@@ -30,32 +40,28 @@ def test_creation() -> None:
     Lexeme("test")
 
 
-def test_regular_equality() -> None:
+@pytest.mark.parametrize("singular, plural", REGULAR_PAIRS + IRREGULAR_PAIRS)
+def test_lexeme_equality(singular: str, plural: str) -> None:
     """
-    Test equality behavior for regular singular and plural forms.
-
-    Checks that singular and plural forms with a standard 's' suffix compare equal
-    and maintain proper equality ordering (i.e., plural != singular).
-    """
-    singular, plural = REGULAR_PAIR
-    assert Lexeme(singular) == Lexeme(plural) == singular
-    assert not plural == singular
-
-
-@pytest.mark.parametrize("singular,plural", IRREGULAR_PAIRS)
-def test_irregular_equality(singular: str, plural: str) -> None:
-    """
-    Test equality behavior for irregular plural forms.
+    Test equality behavior for regular and irregular plural forms.
 
     Parameters
     ----------
     singular : str
-        The singular form of an irregular noun.
+        The singular form of a noun.
     plural : str
         The plural form of the same noun.
     """
-    assert Lexeme(singular) == plural
+    # Lexeme always normalizes to singular for equality
+    assert Lexeme(singular) == singular
     assert Lexeme(plural) == singular
+
+    # Lexeme objects for singular and plural are equal
+    assert Lexeme(singular) == Lexeme(plural)
+
+    # Original strings differ (more of a sanity check)
+    # Should we retain this or not; sheep == sheep
+    assert singular != plural
 
 
 def test_hash_equivalence() -> None:
