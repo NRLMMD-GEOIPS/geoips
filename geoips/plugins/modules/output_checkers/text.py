@@ -157,7 +157,7 @@ def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
         console.print(
             Panel(
                 Text(
-                    f"Do you want to overwrite:\n",
+                    "Do you want to overwrite:\n",
                     style="bold yellow",
                 )
                 + Text(
@@ -183,10 +183,10 @@ def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
         )
     else:
         # Plain text prompt
-        print(f"Overwrite Confirmation")
-        print(f"Do you want to overwrite:")
+        print("Overwrite Confirmation")
+        print("Do you want to overwrite:")
         print(f"  {file1}")
-        print(f"with:")
+        print("with:")
         print(f"  {file2}?")
         response = input(
             "Enter 'yes' or 'y' to confirm overwrite (or anything else to cancel): "
