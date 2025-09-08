@@ -172,7 +172,7 @@ def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
                     f"{file2}",
                     style="magenta",
                 ),
-                title="⚠️ Overwrite?",
+                title="Overwrite?",
                 border_style="red",
                 box=box.ROUNDED,
             )
@@ -183,7 +183,7 @@ def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
         )
     else:
         # Plain text prompt
-        print(f"\n⚠️ Overwrite Confirmation")
+        print(f"Overwrite Confirmation")
         print(f"Do you want to overwrite:")
         print(f"  {file1}")
         print(f"with:")
