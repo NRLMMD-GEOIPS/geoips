@@ -16,6 +16,7 @@ from __future__ import annotations
 import keyword
 import logging
 from typing import Any, ClassVar, Dict, Union, Tuple, Type
+# from typing import Type
 import warnings
 
 # Third-Party Libraries
@@ -35,210 +36,13 @@ from pydantic._internal._model_construction import (
 
 # GeoIPS imports
 from geoips import interfaces
+from geoips.pydantic_models.bases import FrozenModel
 from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
 
 ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
 ColorType = Union[ColorTuple, str]
-
-
-class CoreBaseModel(BaseModel):
-    """CoreBaseModel for GeoIPS Order-Based Procflow data model validation.
-
-    This model provides a standardized Pydantic base class with custom configuration
-    and validation logic for all GeoIPS models built using Pydantic library. It
-    consolidates useful configurations, custom validators, and utility methods.
-
-    Features
-    --------
-    - Pretty-printing:
-        Make Pydantic models pretty-print by default. Overrides the default string
-        representation of Pydantic models to generate a user-friendly, JSON-formatted
-        output with two-space indentation.
-
-    - Inherited Configuration:
-        Includes a customized ``ConfigDict`` with the following options set:
-
-        - `str_strip_whitespace=True`  to trim whitespace around input.
-        - `populate_by_name=True` to populate data using aliased field names.
-        - `loc_by_alias=False` to allow usage of input field name instead of model
-                                field name in error locations.
-        - `validate_assignment=False` to revalidate model when the data is changed.
-        - `arbitrary_types_allowed=True` to allow custom data types as field types.
-        - `strict=False`  to allow Coercion of  values to declared type when possible.
-        - `allow_inf_nan=False` to allow +/-infinity and NaN values to float and
-                                decimal fields.
-
-    - `check_internal_fields`:
-        -  Model-level validator that prevents user input from setting internal fields.
-        -  Allows defining a list of internal fields globally or at the class level.
-        - Raises a validation error if a restricted field is provided by the user.
-
-    - `model_name`:
-        - Prints the model name along with the data.
-        - Useful for debugging and logging purposes(for dev).
-        - This method would be further enhanced in future PR
-    """
-
-    model_config = ConfigDict(
-        # Trim white space around input
-        str_strip_whitespace=True,
-        # Populate data using aliased field names
-        populate_by_name=True,
-        # Use input field name instead of model field name in error locations
-        loc_by_alias=False,
-        # Revalidate model when the data is changed
-        # No use case in OBP-v1; planned for future releases
-        validate_assignment=False,
-        # Allow arbitrary / custom data types as field types
-        arbitrary_types_allowed=True,
-        # Coerce values to declared type when possible
-        # If you need strict=True for a field, use Field(strict=True)
-        strict=False,
-        # to allow +/-infinity and NaN values to float and decimal fields
-        allow_inf_nan=False,
-    )
-
-    def __str__(self) -> str:
-        """Return a pretty-print string representation of a Pydantic model.
-
-        The returned string will be formatted as JSON with two-space indentation.
-
-        Returns
-        -------
-        str
-            A JSON-formatted string representation of the Pydantic model.
-        """
-        # Check if exclude unset removes all None attributes or just those which weren't
-        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
-        return self.model_dump_json(indent=2, exclude_unset=True)
-
-    @property
-    def model_name(self):
-        """Update the docstring."""
-        return self.__class__.__name__
-
-    @classmethod
-    def _has_key_nested(cls, obj, key):
-        """
-        Recursively searches if an internal field exists in the nested structures.
-
-        Parameters
-        ----------
-        obj : dict
-            Input dictionary to search.
-        key : str
-            The internal field to look for.
-
-        Returns
-        -------
-        bool
-            True if the internal field exists, False otherwise.
-        """
-        if isinstance(obj, dict):
-            if key in obj:
-                return True
-            return any(cls._has_key_nested(v, key) for v in obj.values())
-        elif isinstance(obj, list):
-            return any(cls._has_key_nested(item, key) for item in obj)
-        return False
-
-    @model_validator(mode="before")
-    def check_internal_fields(cls, values):
-        """
-        Validate internal fields and warn if the user tries to set them.
-
-        Parameters
-        ----------
-        values: dict
-            dictionary containing step details.
-
-        Returns
-        -------
-        dict
-            dictionary containing step details.
-
-        Raises
-        ------
-        ValueError
-            If a disallowed field is found in the input.
-
-        Notes
-        -----
-            This function was initially implemented to handle an internal field called
-            `plugin_type`, which was removed as part of of architectural changes.
-            Although it is currently unused, we anticipate a strong use case moving
-            forward.
-        """
-        disallowed_fields = cls.get_disallowed_fields()
-        for field in disallowed_fields:
-            # if field in values and values[field] is not None:
-            if cls._has_key_nested(values, field):
-                raise ValueError(f"{field} can't be user-defined; set internally")
-        return values
-
-    @classmethod
-    def get_disallowed_fields(cls):
-        """
-        Return a list of fields restricted from user input.
-
-        Submodels should override this method to specify fields where user input
-        is restricted. By default, it returns an empty list, indicating no fields are
-        restricted.
-
-        Returns
-        -------
-        list
-            A list of field names (strings)
-
-        """
-        return []
-
-
-class FrozenModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are not allowed, and the object data cannot be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="forbid", frozen=True)
-
-
-class PermissiveFrozenModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are allowed, but the object data cannot be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="allow", frozen=True)
-
-
-class DynamicModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are not allowed, but the object data can be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="forbid", frozen=False)
-
-
-class PermissiveDynamicModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are allowed, and the object data can be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="allow", frozen=False)
-
 
 def python_identifier(val: str) -> str:
     """Validate if a string is a valid Python identifier.
