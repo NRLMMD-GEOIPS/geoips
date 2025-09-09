@@ -57,7 +57,7 @@ class CoreBaseModel(BaseModel):
         representation of Pydantic models to generate a user-friendly, JSON-formatted
         output with two-space indentation.
 
-    - Configuration Options:
+    - Configured Options:
         Includes a customized ``ConfigDict`` with the following options set:
 
         - `str_strip_whitespace=True` to trim whitespace around input.
