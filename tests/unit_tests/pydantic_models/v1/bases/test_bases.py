@@ -68,7 +68,7 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
 
 # Test CoreBaseModel
 class MockCoreBaseModel(bases.CoreBaseModel):
-    """Test CoreBaseModel to test __str__method of CoreBaseModel."""
+    """Test CoreBaseModel to test __str__ method of CoreBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
