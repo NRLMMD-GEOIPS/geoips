@@ -57,22 +57,22 @@ class CoreBaseModel(BaseModel):
         representation of Pydantic models to generate a user-friendly, JSON-formatted
         output with two-space indentation.
 
-    - Inherited Configuration:
+    - Configuration Options:
         Includes a customized ``ConfigDict`` with the following options set:
 
-        - `str_strip_whitespace=True`  to trim whitespace around input.
-        - `populate_by_name=True` to populate data using aliased field names.
-        - `loc_by_alias=False` to allow usage of input field name instead of model
-                                field name in error locations.
-        - `validate_assignment=False` to revalidate model when the data is changed.
+        - `str_strip_whitespace=True` to trim whitespace around input.
+        - `validate_by_alias=True` to populate data using aliased field names.
+        - `validate_by_name=True` to populate an aliased using its model-defined name.
+        - `loc_by_alias=False` to disallow usage of alias field name in error locations.
+        - `validate_assignment=False` Disables model revalidation when data is changed.
         - `arbitrary_types_allowed=True` to allow custom data types as field types.
-        - `strict=False`  to allow Coercion of  values to declared type when possible.
-        - `allow_inf_nan=False` to allow +/-infinity and NaN values to float and
+        - `strict=False` to disallow coercion of values to declared type when possible.
+        - `allow_inf_nan=False` to disallow +/-infinity and NaN values in float and
                                 decimal fields.
 
-    - `check_internal_fields`:
-        -  Model-level validator that prevents user input from setting internal fields.
-        -  Allows defining a list of internal fields globally or at the class level.
+    - `check_restricted_fields`:
+        - Model-level validator that disallows user input for restricted fields.
+        - Allows defining a list of restricted fields globally or at the class level.
         - Raises a validation error if a restricted field is provided by the user.
 
     - `model_name`:
@@ -81,22 +81,30 @@ class CoreBaseModel(BaseModel):
         - This method would be further enhanced in future PR
     """
 
+    restricted_fields: ClassVar[Tuple[str, ...]] = ()
     model_config = ConfigDict(
-        # Trim white space around input
+        # If True, trim white space around input
         str_strip_whitespace=True,
-        # Populate data using aliased field names
-        populate_by_name=True,
-        # Use input field name instead of model field name in error locations
+        # If True, populate data using aliased field names
+        validate_by_alias=True,
+        # If True, aliased field can be populated by its name as defined in the model
+        validate_by_name=True,
+        # If True, error locations use the alias field name when provided in input
         loc_by_alias=False,
-        # Revalidate model when the data is changed
+        # If True, revalidates the model when data is modified
         # No use case in OBP-v1; planned for future releases
         validate_assignment=False,
-        # Allow arbitrary / custom data types as field types
+        # If True, allow arbitrary / custom data types as field types
+        # Example: PythonIdentifier
         arbitrary_types_allowed=True,
-        # Coerce values to declared type when possible
-        # If you need strict=True for a field, use Field(strict=True)
+        # If True, values are not coerced; if False, values are coerced to declared
+        # type when possible
+        # use Field(strict=True) to enforce strict type validation on a field
         strict=False,
-        # to allow +/-infinity and NaN values to float and decimal fields
+        # If True, allow +/-infinity and NaN values in float and decimal fields
+        # use Field(allow_inf_nan=True) to allow +/-infinity and NaN values.
+        # Do not enable this configuration at model level. Restrict your usage to
+        # field level if required
         allow_inf_nan=False,
     )
 
@@ -116,25 +124,25 @@ class CoreBaseModel(BaseModel):
 
     @property
     def model_name(self):
-        """Update the docstring."""
+        """Return the model name for logging and end-user interactions."""
         return self.__class__.__name__
 
     @classmethod
     def _has_key_nested(cls, obj, key):
         """
-        Recursively searches if an internal field exists in the nested structures.
+        Recursively searches if a restricted field exists in the nested structures.
 
         Parameters
         ----------
         obj : dict
             Input dictionary to search.
         key : str
-            The internal field to look for.
+            The restricted field to look for.
 
         Returns
         -------
         bool
-            True if the internal field exists, False otherwise.
+            True if the restricted field exists, False otherwise.
         """
         if isinstance(obj, dict):
             if key in obj:
@@ -145,9 +153,9 @@ class CoreBaseModel(BaseModel):
         return False
 
     @model_validator(mode="before")
-    def check_internal_fields(cls, values):
+    def check_restricted_fields(cls, values):
         """
-        Validate internal fields and warn if the user tries to set them.
+        Validate restricted fields and warn if the user tries to set them.
 
         Parameters
         ----------
@@ -162,38 +170,20 @@ class CoreBaseModel(BaseModel):
         Raises
         ------
         ValueError
-            If a disallowed field is found in the input.
+            If a restricted field is found in the input.
 
         Notes
         -----
-            This function was initially implemented to handle an internal field called
+            This function was initially implemented to handle a restricted field called
             `plugin_type`, which was removed as part of of architectural changes.
             Although it is currently unused, we anticipate a strong use case moving
             forward.
         """
-        disallowed_fields = cls.get_disallowed_fields()
-        for field in disallowed_fields:
+        for field in cls.restricted_fields:
             # if field in values and values[field] is not None:
             if cls._has_key_nested(values, field):
                 raise ValueError(f"{field} can't be user-defined; set internally")
         return values
-
-    @classmethod
-    def get_disallowed_fields(cls):
-        """
-        Return a list of fields restricted from user input.
-
-        Submodels should override this method to specify fields where user input
-        is restricted. By default, it returns an empty list, indicating no fields are
-        restricted.
-
-        Returns
-        -------
-        list
-            A list of field names (strings)
-
-        """
-        return []
 
 
 class FrozenModel(CoreBaseModel):
