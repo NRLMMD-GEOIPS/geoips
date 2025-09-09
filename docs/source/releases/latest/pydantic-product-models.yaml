@@ -1,22 +1,25 @@
 enhancement:
-- title: 'Pydantic Product Models'
+- title: 'OBP Pydantic Product / Product Default Models'
   description: |
-    Added new pydantic models for product and product default plugins. These are the
-    last remaining yaml-based plugins that needed to be converted over to pydantic.
+    Adds new pydantic models used to validate product and product_default plugins. These
+    updates are intended to completely replace the JSON schema we currently use to
+    validate yaml-based plugins. Minor changes were needed to be made to
+    geoips/pydantic/bases.py to take into account the differences in product plugins.
 
-    Additionally, added unit tests for these models that reach 100% coverage. Still need
-    to do some tweaking to those tests, since the way products were set up, it seems
-    pydantic fails in the incorrect model, although the failure is in fact correct. Need
-    to sort this out.
+    Additionally, this update adds unit testing for these new models, and updated the
+    .gitignore file to ignore both types of our plugin registry files (.json, .yaml).
   files:
     added:
       - geoips/pydantic/products.py
+      - tests/unit_tests/pydantic/product_defaults/test_cases_bad.yaml
+      - tests/unit_tests/pydantic/product_defaults/test_cases_neutral.yaml
       - tests/unit_tests/pydantic/products/test_cases_bad.yaml
       - tests/unit_tests/pydantic/products/test_cases_neutral.yaml
     modified:
       - .gitignore
       - geoips/pydantic/bases.py
       - tests/unit_tests/pydantic/test_pydantic_models.py
+      - tests/unit_tests/pydantic/utils.py
   related-issue:
     number: null
     repo_url: ''
