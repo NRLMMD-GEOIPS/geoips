@@ -242,11 +242,6 @@ class SingleProductPluginModel(PluginModel):
             raise ValueError(
                 "You must provide exactly one of 'family' or 'product_defaults'."
             )
-        # NOTE: Hardcoding this here. I tried using a top-level
-        # interface: ClassVar[str] = "products" but that resulted in the following error
-
-        # pydantic.errors.PydanticUserError: Decorators defined with incorrect fields:
-        # self["interface"] = "products"
         return self
 
     # Not implementing as a model validator as it would not consistently run last.
