@@ -7,6 +7,7 @@
 import copy
 import json
 from typing import ClassVar, Tuple
+
 # Third-Party Libraries
 import pytest
 from pydantic import ConfigDict, Field, ValidationError
@@ -72,7 +73,9 @@ class MockCoreBaseModel(bases.CoreBaseModel):
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
-    restricted_fields: ClassVar[Tuple[str, ...]] = ( bases.CoreBaseModel.restricted_fields + ("restricted_field_1",))
+    restricted_fields: ClassVar[Tuple[str, ...]] = (
+        bases.CoreBaseModel.restricted_fields + ("restricted_field_1",)
+    )
     model_config = ConfigDict(extra="allow")
     # @classmethod
     # def get_disallowed_fields(cls):
@@ -100,7 +103,9 @@ def test_good_core_base_model_check_restricted_fields():
     """Test if CoreBaseModel rejects fields marked restricted."""
     with pytest.raises(ValidationError) as exec_info:
         MockCoreBaseModel(
-            plugin_type="Reader", pluginname="abi_netcdf", restricted_field_1="restricted_field_value"
+            plugin_type="Reader",
+            pluginname="abi_netcdf",
+            restricted_field_1="restricted_field_value",
         )
     assert "restricted_field_1 can't be user-defined" in str(exec_info.value)
 
