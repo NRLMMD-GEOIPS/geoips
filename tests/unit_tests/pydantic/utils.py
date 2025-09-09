@@ -46,6 +46,13 @@ class PathDict(dict):
         value: any
             - The value to set the attribute to.
         """
+        if key in ("", "/"):  # special case: replace self entirely
+            if not isinstance(value, dict):
+                raise TypeError("Root replacement must be a dict-like object")
+            self.clear()
+            self.update(value)
+            return
+
         keys = key.split("/")
         if len(keys) > 1:
             current = self
@@ -173,7 +180,7 @@ def load_geoips_yaml_plugin(interface_name: str, plugin_name: str) -> dict:
         entry = registry[plugin_name]
 
     relpath = entry["relpath"]
-    print("relpaht \t", relpath)
+    print("relpath \t", relpath)
     abspath = str(files("geoips") / relpath)
     package = "geoips"
 
@@ -203,7 +210,12 @@ def retrieve_model(plugin):
         - The associated plugin model used to validate this plugin.
     """
     interface = plugin["interface"]
-    module = geoips_pydantic._modules[f"geoips.pydantic.{interface}"]
+
+    if interface == "product_defaults":
+        module = geoips_pydantic._modules["geoips.pydantic.products"]
+    else:
+        module = geoips_pydantic._modules[f"geoips.pydantic.{interface}"]
+
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"
@@ -371,14 +383,26 @@ def validate_bad_plugin(
             val_err = errors[0]
         # In Pydantic ValidationError, the last element of 'loc' tuple identifies
         # the failing attribute
-        bad_field = val_err["loc"][-1]
+
+        if len(val_err["loc"]) == 0:
+            # occurs when ValueErrors are raised for products / product_default plugins
+            # specifying plugin types which don't adhere to their family type.
+            bad_field = failing_model
+        else:
+            bad_field = val_err["loc"][-1]
+
         err_msg = val_err["msg"]
 
         model_class = _resolve_model_class(failing_model)
 
         if model_class:
+            # bad_field == model_class.__name__ in the case that a single product plugin
+            # provides both 'family' and 'product_default' keys, or when a plugin is
+            # added to a single product plugin's arguments that doesn't adhere to the
+            # family it falls under.
             assert (
                 bad_field in model_class.model_fields
+                or bad_field == model_class.__name__
             ), f"Field '{bad_field}' not found in model '{failing_model}'"
         if err_str:
             assert (

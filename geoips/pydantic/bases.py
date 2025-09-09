@@ -210,7 +210,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
-    apiVerson: ClassVar[str | None] = None
+    apiVersion: ClassVar[str | None] = None
     _namespace: ClassVar[str | None] = None
 
     interface: PythonIdentifier = Field(
@@ -259,12 +259,27 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            if interface_name == "products" or "source_names" in values:
+            if (
+                interface_name == "products"
+                or interface_name is None
+                or "source_names" in values
+            ):
                 # need different logic for products as they use get_plugin_metadata via
                 # 'source_name', 'plugin_name'
                 if values.get("family") == "list":
                     # product list
-                    first_product_name = values.get("spec").get("products")[0]["name"]
+                    if not isinstance(
+                        values.get("spec", {}), dict
+                    ) or "products" not in values.get("spec", {}):
+                        # Missing 'products' field, raise appropriate error.
+                        raise ValueError(
+                            "Error: Product list plugin is missing the 'products' field"
+                            " in its 'spec' entry."
+                        )
+
+                    first_product_name = values.get("spec", {}).get("products")[0][
+                        "name"
+                    ]
                     metadata = getattr(ints, interface_name).get_plugin_metadata(
                         values.get("name"), first_product_name
                     )

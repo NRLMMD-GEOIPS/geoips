@@ -4,9 +4,9 @@ Validates Product plugins using pydantic. Intended to be a 'carryover' model whi
 be used until we fully switch over to using workflow plugins.
 """
 
-from typing import List, Union
+from typing import List, Literal, Union
 
-from pydantic import RootModel, Field, ConfigDict, model_validator
+from pydantic import ConfigDict, Field, model_validator, RootModel
 import yaml
 
 from geoips.geoips_utils import merge_nested_dicts
@@ -99,6 +99,34 @@ class ProductDefaultPluginModel(PluginModel):
         ..., description="The specification of a product default plugin."
     )
 
+    @model_validator(mode="before")
+    def _validate_plugins_if_exist(self):
+        """Validate that if a plugin is provided, it is part of the family provided.
+
+        Where family comes from spec.family or spec.product_defaults.family.
+        """
+        family_name = self["family"]
+
+        if family_name in FAMILIES_CHECKED_AGAINST:
+            # Only validating for the alg-cmap-int -based families currently
+            for plugin_type in ["algorithm", "colormapper", "interpolator"]:
+                if plugin_type in self["spec"]:
+                    if (
+                        plugin_type not in family_name
+                        and self["spec"][plugin_type] is not None
+                    ):
+                        raise ValueError(
+                            f"Error: '{plugin_type}' plugin supplied but that does not "
+                            "adhere to the family supplied or the family of the product"
+                            " default supplied."
+                        )
+                elif plugin_type in family_name and plugin_type not in self["spec"]:
+                    raise ValueError(
+                        "Error: Your product or product default is missing required "
+                        f"'{plugin_type}' plugin based on the family provided."
+                    )
+        return self
+
 
 class ProductSpec(ProductDefaultSpec):
     """Format of the argument specifications for a product plugin.
@@ -147,6 +175,8 @@ class SingleProductPluginModel(PluginModel):
     """Format for how to specify a singular product plugin."""
 
     model_config = ConfigDict(extra="allow")
+
+    interface: Literal["products"] = Field("products", frozen=True)
 
     source_names: List[str] = Field(
         ...,
@@ -216,7 +246,7 @@ class SingleProductPluginModel(PluginModel):
         # interface: ClassVar[str] = "products" but that resulted in the following error
 
         # pydantic.errors.PydanticUserError: Decorators defined with incorrect fields:
-        self["interface"] = "products"
+        # self["interface"] = "products"
         return self
 
     # Not implementing as a model validator as it would not consistently run last.
@@ -240,6 +270,11 @@ class SingleProductPluginModel(PluginModel):
                             "adhere to the family supplied or the family of the product"
                             " default supplied."
                         )
+                elif plugin_type in family_name and plugin_type not in self["spec"]:
+                    raise ValueError(
+                        "Error: Your product or product default is missing required "
+                        f"'{plugin_type}' plugin based on the family provided."
+                    )
         return self
 
     def _override_product_defaults(self):

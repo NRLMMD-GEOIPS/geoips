@@ -20,6 +20,7 @@ models_available = {
     "feature_annotators": "default_oldlace",
     "gridline_annotators": "default_palegreen",
     "products": ("abi", "Infrared"),
+    "product_defaults": "windbarbs",
     "sectors": "korea",
 }
 
