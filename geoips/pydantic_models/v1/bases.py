@@ -197,44 +197,60 @@ class CoreBaseModel(BaseModel):
 
 
 class FrozenModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+    """
+    Inherits all of the configuration from `CoreBaseModel`.
 
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are not allowed, and the object data cannot be modified after initialization.
+    The following overrides are applied:
+    - extra="forbid": Forbids additional fields beyond those defined in the model.
+    - frozen=True: Disallows modification of field values after object instantiation.
+
+    This model is intended for cases where additional fields are not permitted and the
+    object data must remain immutable after initialization.
     """
 
     model_config = ConfigDict(extra="forbid", frozen=True)
 
 
 class PermissiveFrozenModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+    """
+    Inherits all of the configuration from `CoreBaseModel`.
 
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are allowed, but the object data cannot be modified after initialization.
+    The following overrides are applied:
+    - extra="allow": Allows additional fields beyond those defined in the model.
+    - frozen=True: Disallows modification of field values after object instantiation.
+
+    This model is intended for cases where additional fields are permitted and the
+    object data must remain immutable after initialization.
     """
 
     model_config = ConfigDict(extra="allow", frozen=True)
 
 
 class DynamicModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+    """
+    Inherits all of the configuration from `CoreBaseModel`.
 
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are not allowed, but the object data can be modified after initialization.
+    The following overrides are applied:
+    - extra="forbid": Forbids additional fields beyond those defined in the model.
+    - frozen=False: Allows modification of field values after object instantiation.
+
+    This model is intended for cases where additional fields are not permitted and the
+    object data remains mutable after initialization.
     """
 
     model_config = ConfigDict(extra="forbid", frozen=False)
 
 
 class PermissiveDynamicModel(CoreBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
+    """
+    Inherits all of the configuration from `CoreBaseModel`.
 
-    This model extends ``CoreBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are allowed, and the object data can be modified after initialization.
+    The following overrides are applied:
+    - extra="allow": Allows additional fields beyond those defined in the model.
+    - frozen=False: Allows modification of field values after object instantiation.
+
+    This model is intended for cases where additional fields are permitted and the
+    object data remains immutable after initialization.
     """
 
     model_config = ConfigDict(extra="allow", frozen=False)
