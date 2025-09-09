@@ -25,7 +25,6 @@ geoips config install test_data_noaa_aws test_data_multi_scan_times test_data_gp
 if [[ "$include_reference_repos" == "true" ]]; then
   . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh settings_repo .github $test_exit $install_script
   . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh settings_repo geoips_ci $test_exit $install_script
-  # These may not currently be on cira nextcloud
   . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github template_test_data $test_exit $install_script
   geoips config install test_data_modis test_data_smos test_data_tpw
 fi
