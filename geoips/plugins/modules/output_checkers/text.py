@@ -147,7 +147,7 @@ def _print_rich_diff(diff_output: str, file1: str, file2: str):
         msgs.append(f"File 1: {file1}")
         msgs.append(f"File 2: {file2}")
         msgs.append(diff_output)
-        log_with_emphasis(LOG.error, msgs)
+        log_with_emphasis(LOG.error, "\n".join(msgs))
 
 
 def _prompt_user_for_overwrite(file1: str, file2: str) -> bool:
