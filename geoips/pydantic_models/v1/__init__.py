@@ -20,7 +20,7 @@ def collect_modules():
     """Dynamically find and import all submodules within a package."""
     modules = {}
 
-    # Get the current package (i.e., geoips.models)
+    # Get the current package (i.e., geoips.pydantic_models)
     package = sys.modules[__name__]
 
     for _, module_name, is_pkg in pkgutil.walk_packages(  # NOQA
