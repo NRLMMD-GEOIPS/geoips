@@ -551,7 +551,9 @@ class PluginRegistry:
 
         if getattr(interface_obj, "use_pydantic", False):
             validated = self.load_plugin(plugin)
-            return validated
+            # return validated
+            validated_dump = validated.model_dump()
+            return validated_dump
         else:
             validated = interface_obj.validator.validate(plugin)
             return interface_obj._plugin_yaml_to_obj(name, validated)
