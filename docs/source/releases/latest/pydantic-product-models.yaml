@@ -17,7 +17,14 @@ enhancement:
       - tests/unit_tests/pydantic/products/test_cases_neutral.yaml
     modified:
       - .gitignore
+      - geoips/dev/product.py
+      - geoips/interfaces/yaml_based/gridline_annotators.py
+      - geoips/interfaces/yaml_based/product_defaults.py
+      - geoips/interfaces/yaml_based/products.py
+      - geoips/interfaces/yaml_based/sectors.py
+      - geoips/plugin_registry.py
       - geoips/pydantic/bases.py
+      - tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py
       - tests/unit_tests/pydantic/test_pydantic_models.py
       - tests/unit_tests/pydantic/utils.py
   related-issue:
