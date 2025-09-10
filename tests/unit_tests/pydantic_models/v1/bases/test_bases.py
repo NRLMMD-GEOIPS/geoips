@@ -6,10 +6,11 @@
 # Python Standard Libraries
 import copy
 import json
+from typing import ClassVar, Tuple
 
 # Third-Party Libraries
 import pytest
-from pydantic import Field, ValidationError
+from pydantic import ConfigDict, Field, ValidationError
 
 # GeoIPS Libraries
 from geoips.pydantic_models.v1 import bases
@@ -68,16 +69,19 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
 
 # Test CoreBaseModel
 class MockCoreBaseModel(bases.CoreBaseModel):
-    """Test CoreBaseModel to test __str__method of CoreBaseModel."""
+    """Test CoreBaseModel to test __str__ method of CoreBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
-
-    @classmethod
-    def get_disallowed_fields(cls):
-        """Return a list of fields restricted from user input."""
-        # return super().get_disallowed_fields()
-        return ["internal_field"]
+    restricted_fields: ClassVar[Tuple[str, ...]] = (
+        bases.CoreBaseModel.restricted_fields + ("restricted_field_1",)
+    )
+    model_config = ConfigDict(extra="allow")
+    # @classmethod
+    # def get_disallowed_fields(cls):
+    #     """Return a list of fields restricted from user input."""
+    #     # return super().get_disallowed_fields()
+    #     return ["internal_field"]
 
 
 def test_good_core_base_model_model_name():
@@ -95,13 +99,15 @@ def test_good_core_base_model_whitespace():
     assert test_model.plugin_name == "abi_netcdf"
 
 
-def test_good_core_base_model_check_internal_field():
-    """Test if CoreBaseModel rejects fields marked internal."""
+def test_good_core_base_model_check_restricted_fields():
+    """Test if CoreBaseModel rejects fields marked restricted."""
     with pytest.raises(ValidationError) as exec_info:
         MockCoreBaseModel(
-            plugin_type="Reader", pluginname="abi_netcdf", internal_field="internal"
+            plugin_type="Reader",
+            pluginname="abi_netcdf",
+            restricted_field_1="restricted_field_value",
         )
-    assert "internal_field can't be user-defined" in str(exec_info.value)
+    assert "restricted_field_1 can't be user-defined" in str(exec_info.value)
 
 
 def test_good_core_base_model_alias():
