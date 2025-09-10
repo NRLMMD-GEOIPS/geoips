@@ -4,6 +4,7 @@
 """Gridline Annotator interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
+from geoips.pydantic.gridline_annotators import GridlineAnnotatorPluginModel
 
 
 class GridlineAnnotatorsInterface(BaseYamlInterface):
@@ -33,6 +34,7 @@ class GridlineAnnotatorsInterface(BaseYamlInterface):
         "wrap": ["boolean"],
         "zorder": ["number"],
     }
+    validator = GridlineAnnotatorPluginModel
 
 
 gridline_annotators = GridlineAnnotatorsInterface()

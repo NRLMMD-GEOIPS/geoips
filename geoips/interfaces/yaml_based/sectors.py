@@ -9,9 +9,7 @@ from pyresample import kd_tree
 
 from geoips.interfaces.base import BaseYamlPlugin, BaseYamlInterface
 from geoips.image_utils.mpl_utils import create_figure_and_main_ax_and_mapobj
-
-# Uncomment when ready to switch from JsonSchema to Pydantic
-# from geoips.pydantic.sectors import SectorPluginModel
+from geoips.pydantic.sectors import SectorPluginModel
 
 # Commenting these out for PR #260
 # Will work on this again after the 2023 workshop
@@ -160,8 +158,7 @@ class SectorsInterface(BaseYamlInterface):
 
     name = "sectors"
     plugin_class = SectorPluginBase
-    # Uncomment when ready to switch from JsonSchema to Pydantic
-    # validator = SectorPluginModel
+    validator = SectorPluginModel
 
 
 sectors = SectorsInterface()

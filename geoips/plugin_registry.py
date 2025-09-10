@@ -18,14 +18,12 @@ in all plugins multiple times.
 """
 
 from importlib import util, metadata, resources
-from inspect import isclass
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
 import json
-import pydantic
 import yaml
 
 from geoips.create_plugin_registries import create_plugin_registries
@@ -482,12 +480,14 @@ class PluginRegistry:
         plugin["abspath"] = abspath
         plugin["relpath"] = relpath
 
-        if isclass(interface_obj.validator) and issubclass(
-            pydantic.BaseModel, interface_obj.validator
-        ):
-            validated = interface_obj.validator(**plugin)
-        else:
-            validated = interface_obj.validator.validate(plugin)
+        def remove_none(d: dict) -> dict:
+            """Recursively remove all keys with value None from a dictionary."""
+            if not isinstance(d, dict):
+                return d
+            return {k: remove_none(v) for k, v in d.items() if v is not None}
+
+        validated = interface_obj.validator(**plugin).model_dump()
+        validated = remove_none(validated)
 
         return interface_obj._plugin_yaml_to_obj(name, validated)
 
