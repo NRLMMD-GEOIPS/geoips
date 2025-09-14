@@ -1,5 +1,5 @@
 enhancement:
-- title: 'StaticBaseModel for GeoIPS Pydantic validation'
+- title: 'CoreBaseModel for GeoIPS Pydantic validation'
   description: 'Customized ConfigDict configurations for GeoIPS'
   files:
     deleted:
@@ -8,11 +8,18 @@ enhancement:
     - ''
     added:
     - 'docs/source/releases/latest/856-feature-pydantic_static-base-model.yaml'
+    - 'geoips/pydantic_models/bases.py'
     modified:
     - 'docs/dev/order_based_procflow.rst'
-    - 'geoips/pydantic/bases.py'
-    - 'tests/unit_tests/pydantic/bases/test_bases.py'
-    - 'tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py'
+    - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
+    - 'geoips/plugins/yaml/workflows/read_test_v2alpha1.yaml'
+    - 'geoips/pydantic_models/v1/bases.py'
+    - 'geoips/pydantic_models/v1/feature_annotators.py'
+    - 'geoips/pydantic_models/v1/gridline_annotators.py'
+    - 'geoips/pydantic_models/v1/sectors.py'
+    - 'geoips/pydantic_models/v1/workflows.py'
+    - 'tests/unit_tests/pydantic_models/v1/bases/test_bases.py'
+    - 'tests/unit_tests/pydantic_models/v1/workflows/test_reader_arguments_model.py'
   related-issue: 
     number: 856
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
