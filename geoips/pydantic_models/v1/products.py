@@ -10,7 +10,7 @@ from pydantic import ConfigDict, Field, model_validator, RootModel
 import yaml
 
 from geoips.geoips_utils import merge_nested_dicts
-from geoips.pydantic.bases import (
+from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
     PythonIdentifier,
