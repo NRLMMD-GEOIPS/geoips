@@ -10,7 +10,7 @@ from jsonschema.exceptions import ValidationError
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.interfaces.base import YamlPluginValidator, BaseYamlInterface
 from geoips.interfaces.yaml_based.product_defaults import product_defaults
-from geoips.pydantic.products import ProductPluginModel
+from geoips.pydantic_models.v1.products import ProductPluginModel
 
 LOG = logging.getLogger(__name__)
 

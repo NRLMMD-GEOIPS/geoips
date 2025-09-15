@@ -4,7 +4,7 @@
 """Product Defaults interface module."""
 
 from geoips.interfaces.base import BaseYamlInterface
-from geoips.pydantic.products import ProductDefaultPluginModel
+from geoips.pydantic_models.v1.products import ProductDefaultPluginModel
 
 
 class ProductDefaultsInterface(BaseYamlInterface):

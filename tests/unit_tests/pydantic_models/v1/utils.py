@@ -211,14 +211,16 @@ def retrieve_model(plugin):
     """
     interface = plugin["interface"]
 
-    # if interface == "product_defaults":
-    #     module = geoips_models._modules["geoips.pydantic.products"]
-    # else:
-    #     module = geoips_models._modules[f"geoips.pydantic.{interface}"]
+    if interface == "product_defaults":
+        module = import_module("geoips.pydantic_models.v1.products")
+        # module = geoips_models._modules["geoips.pydantic.products"]
+    else:
+        module = import_module(f"geoips.pydantic_models.v1.{interface}")
+        # module = geoips_models._modules[f"geoips.pydantic.{interface}"]
 
     # upcoming PR: https://github.com/NRLMMD-GEOIPS/geoips/issues/1125
     # module = geoips_models._modules[f"geoips.pydantic_models.v1.{interface}"]
-    module = import_module(f"geoips.pydantic_models.v1.{interface}")
+    # module = import_module(f"geoips.pydantic_models.v1.{interface}")
     if "_" in interface:
         int_split = interface.split("_")
         interface = f"{int_split[0].title()}{int_split[1].title()}"
