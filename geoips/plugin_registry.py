@@ -32,6 +32,7 @@ from geoips.errors import PluginError, PluginRegistryError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.utils.types.partial_lexeme import Lexeme
+from geoips.interfaces.base import YamlPluginValidator
 
 LOG = logging.getLogger(__name__)
 
@@ -555,8 +556,14 @@ class PluginRegistry:
                 return d
             return {k: remove_none(v) for k, v in d.items() if v is not None}
 
-        validated = interface_obj.validator(**plugin).model_dump()
-        validated = remove_none(validated)
+        if interface_obj.name == "sectors" and plugin.get("family") == "generated":
+            # Use old validation for dynamic sectors for the time being. Still working
+            # on how to implement this in pydantic. I'm running into consistent problems
+            # via the way I've tried to implement this so far.
+            validated = YamlPluginValidator().validate(plugin)
+        else:
+            validated = interface_obj.validator(**plugin).model_dump()
+            validated = remove_none(validated)
 
         return interface_obj._plugin_yaml_to_obj(name, validated)
 

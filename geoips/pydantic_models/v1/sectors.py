@@ -9,13 +9,17 @@ from pydantic import (
     Field,
     ConfigDict,
     field_validator,
+    # RootModel,
 )
 from pydantic.functional_validators import AfterValidator
 
 from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
+    # DynamicModel,
+    # PermissiveDynamicModel,
     PluginModel,
+    # PythonIdentifier,
 )
 
 
@@ -602,7 +606,7 @@ class VolcanoMetadata(FrozenModel):
 
 
 class SectorPluginModel(PluginModel):
-    """Sector plugin format."""
+    """Static sector plugin format."""
 
     model_config = ConfigDict(extra="allow")
     spec: AreaDefinitionSpec = Field(
@@ -652,3 +656,69 @@ class SectorPluginModel(PluginModel):
         if "description" not in value or not value["description"]:
             value["description"] = info.data["docstring"]
         return value
+
+
+# class SectorSpecGenerator(PermissiveDynamicModel):
+#     """The format of the name and arguments for a sector spec generator plugin."""
+
+#     name: PythonIdentifier = Field(
+#         ...,
+#         description="The name of the sector_spec_generator plugin to use.",
+#     )
+#     arguments: dict = Field(
+#         ...,
+#         description=(
+#             "A dictionary of arguments to provide to the sector_spec_generator plugin. "  # NOQA
+#             "If an empty dictionary is provided, the default arguments for that plugin "  # NOQA
+#             "will be used in place."
+#         ),
+#     )
+
+
+# class DynamicSectorSpec(DynamicModel):
+#     """The format of a dynamic sector's 'spec' field."""
+
+#     sector_spec_generator: SectorSpecGenerator = Field(
+#         ...,
+#         description=(
+#             "A field containing the name of the sector_spec_generator to use and the "
+#             "arguments to provide to it."
+#         ),
+#     )
+
+
+# class DynamicSectorPluginModel(PluginModel):
+#     """Dynamic sector plugin format."""
+
+#     model_config = ConfigDict(extra="allow")
+
+#     spec: DynamicSectorSpec = Field(
+#         ...,
+#         description=(
+#             "A field demonstrating how to specify / format your dynamic sector plugin."  # NOQA
+#         ),
+#     )
+
+
+# # Discriminated Union via RootModel
+# class _SectorPluginUnion(
+#     RootModel[Union[StaticSectorPluginModel, DynamicSectorPluginModel]]
+# ):
+#     """Private root model to unpack via SectorPluginModel."""
+
+#     root: Union[StaticSectorPluginModel, DynamicSectorPluginModel]
+
+
+# class SectorPluginModel:
+#     """The format of a singular product plugin or a list of them."""
+
+#     def __new__(cls, **data):
+#         """Create a new instance of a SectorPluginModel exposing the subclass of root.
+
+#         Where root is the attribute used to access either type of model used to
+#         construct a SectorPluginModel.
+
+#         I.e. '_SectorPluginUnion(**data).root = Real Model' # NOQA RS210
+#         """
+#         parsed_model = _SectorPluginUnion(**data).root
+#         return parsed_model
