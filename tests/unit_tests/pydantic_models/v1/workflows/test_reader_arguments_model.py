@@ -46,6 +46,7 @@ def test_bad_reader_arguments_model_invalid_field_type():
     """Tests ReaderArgumentsModel for invalid field type instantiation."""
     invalid_test_data = {
         "area_def": 123,
+        "variables": "hello",
         "metadata_only": "invalid",
         "self_register": "invalid",
         "fnames": "invalid",
@@ -56,8 +57,10 @@ def test_bad_reader_arguments_model_invalid_field_type():
 
     error_info = exec_info.value.errors()
 
+    print("error_info \n\n\n", error_info)
     test_data_errors = {
         "area_def": "string_type",
+        "variables": "list_type",
         "metadata_only": "bool_parsing",
     }
     for field, error_type in test_data_errors.items():
