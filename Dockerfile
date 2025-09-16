@@ -166,6 +166,13 @@ ENTRYPOINT ["pytest"]
 FROM test_site AS dev
 
 # Install lint, debug, etc. on top of full test
+USER root
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+       openssh-client vim imagemagick \
+    && rm -rf /var/lib/apt/lists/*
+USER ${USER}
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test,lint,debug]"
 
 ###############################################################################
