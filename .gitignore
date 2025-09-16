@@ -180,6 +180,9 @@ venv.bak/
 # Rope project settings
 .ropeproject
 
+# Ruff settings
+.ruff.toml
+
 # mkdocs documentation
 /site
 
