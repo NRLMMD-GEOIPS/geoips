@@ -99,15 +99,15 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && create_plugin_registries
 
 ###############################################################################
-#                          SYSTEM BUILD STAGE
+#                          SITE BUILD STAGE
 ###############################################################################
-FROM build AS system_build
+FROM build AS site_build
 
 # Install all plugins
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/system_install.sh \
+    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/site_install.sh \
     && create_plugin_registries
 
 ###############################################################################
@@ -149,9 +149,9 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,te
 ENTRYPOINT ["pytest"]
 
 ###############################################################################
-#                          SYSTEM TEST STAGE
+#                          SITE TEST STAGE
 ###############################################################################
-FROM system_build AS test_system
+FROM site_build AS test_site
 
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test]" \
     && echo "import coverage; coverage.process_startup()" > ~/.local/lib/python3.11/site-packages/coverage.pth
@@ -163,9 +163,16 @@ ENTRYPOINT ["pytest"]
 ###############################################################################
 #                           DEV STAGE
 ###############################################################################
-FROM test_system AS dev
+FROM test_site AS dev
 
 # Install lint, debug, etc. on top of full test
+USER root
+RUN apt-get update \
+    && apt-get upgrade -y \
+    && apt-get install -y --no-install-recommends \
+       openssh-client vim imagemagick \
+    && rm -rf /var/lib/apt/lists/*
+USER ${USER}
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test,lint,debug]"
 
 ###############################################################################
