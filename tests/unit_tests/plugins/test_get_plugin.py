@@ -36,7 +36,7 @@ def yield_interface_plugin_tuples():
             # remove this.
             continue
         for interface_name in registry[plugin_type]:
-            
+
             if interface_name == "workflows":
                 pass
 
