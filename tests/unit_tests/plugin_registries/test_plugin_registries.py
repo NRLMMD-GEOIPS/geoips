@@ -345,7 +345,10 @@ class TestPluginRegistry:
             wrkflw = self.real_reg_validator.get_yaml_plugin(workflows, wf_name)
         except KeyError as e:
             if "workflows.order_based" in str(e):
-                pytest.skip("This is entanglement of JSON schema validation with Pydantic schema validation which is going to be resolved!!!")
+                pytest.skip(
+                    "Entanglement of JSON and Pydantic schema validation;"
+                    " to be resolved soon!!!"
+                )
             raise
 
         if isinstance(prd, dict):
