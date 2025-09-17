@@ -550,8 +550,11 @@ class PluginRegistry:
         plugin["relpath"] = relpath
 
         if getattr(interface_obj, "use_pydantic", False):
-            validated = self.load_plugin(plugin)
-            return validated.model_dump()
+            # plugin_json_formatted = self.load_plugin(plugin)
+            # plugin_dict_formatted = plugin_json_formatted.model_dump()
+            # validated = interface_obj.validator.validate(plugin_dict_formatted)
+            # return interface_obj._plugin_yaml_to_obj(name, validated)
+            pass
         else:
             validated = interface_obj.validator.validate(plugin)
             return interface_obj._plugin_yaml_to_obj(name, validated)
