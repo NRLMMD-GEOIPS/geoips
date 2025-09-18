@@ -29,17 +29,14 @@ def yield_interface_plugin_tuples():
             and how to test the results.
     """
     registry = plugin_registry_module.plugin_registry.registered_plugins
-    print("registry \n\n\n", registry)
     for plugin_type in registry:
         if plugin_type == "text_based":
             # Functionality is not yet set up for this. Once PR #504 gets merged, we can
             # remove this.
             continue
         for interface_name in registry[plugin_type]:
-
             if interface_name == "workflows":
                 pass
-
             elif interface_name == "products":
                 # Products have another level which is 'source_name', so we need
                 # different functionality here to handle that
