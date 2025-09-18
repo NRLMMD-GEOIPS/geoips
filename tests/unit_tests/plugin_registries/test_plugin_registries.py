@@ -340,7 +340,6 @@ class TestPluginRegistry:
         # wrkflw = self.real_reg_validator.get_yaml_plugin(workflows, "abi_infrared")
 
         wf_name = "abi_infrared"
-
         try:
             wrkflw = self.real_reg_validator.get_yaml_plugin(workflows, wf_name)
         except KeyError as e:

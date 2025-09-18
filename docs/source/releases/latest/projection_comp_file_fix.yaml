@@ -2,25 +2,14 @@ bug fix:
 - title: 'Update projection comparison files for integration tests.'
   description: 'The ordering of projection descriptors changed and this caused multiple integration strict comparison tests to fail. This updates the comparison files to match the new ordering.'
   files:
-    added:
-    - 'docs/source/releases/latest/projection_comp_file_fix.yaml'
     modified:
-    - '.cspell.json'
-    - 'geoips/interfaces/base.py'
-    - 'docs/dev/order_based_procflow.rst'
-    - 'geoips/interfaces/yaml_based/feature_annotators.py'
-    - 'geoips/plugin_registry.py'
-    - 'geoips/schema/feature_annotators/cartopy.yaml'
-    - 'geoips/pydantic_models/v1/bases.py'
+    - 'tests/integration_tests/full_install.sh'
+    - 'tests/integration_tests/site_install.sh'
     - 'tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml'
     - 'tests/outputs/amsua_mhs_mirs.tc.RainRate.imagery_annotated/20210419_235400_WP022021_amsu-a_mhs_metop-a_RainRate_115kts_32p68_1p0.png.yaml'
     - 'tests/outputs/mhs_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_mhs_metop-a_183-3H_115kts_100p00_1p0.png.yaml'
     - 'tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png.yaml'
     - 'tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png.yaml'
-    - 'tests/unit_tests/plugin_registries/test_plugin_registries.py'
-    - 'tests/unit_tests/plugins/test_get_plugin.py'
-    - 'tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml'
-    - 'tests/utils/test_interfaces.py'
   related-issue:
     number: 1130
     repo_url: ''
