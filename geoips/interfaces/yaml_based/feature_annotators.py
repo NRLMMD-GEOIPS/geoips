@@ -10,7 +10,7 @@ class FeatureAnnotatorsInterface(BaseYamlInterface):
     """Interface for feature annotator plugins."""
 
     name = "feature_annotators"
-    use_pydantic = True
+    use_pydantic = False
 
 
 feature_annotators = FeatureAnnotatorsInterface()
