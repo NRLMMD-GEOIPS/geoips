@@ -19,7 +19,7 @@ spec:
   description: |
     GOES-West coverage
     20km resolution, 1000x1000, centered on -137.2
-  proj_id: "EPSG:4326"
+  # proj_id: "EPSG:4326"
   projection:
     lat_0: 0
     lon_0: 0
