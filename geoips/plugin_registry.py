@@ -32,6 +32,7 @@ from geoips.errors import PluginError, PluginRegistryError
 from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import merge_nested_dicts
 from geoips.utils.types.partial_lexeme import Lexeme
+
 # from geoips.interfaces.base import YamlPluginValidator
 
 LOG = logging.getLogger(__name__)
