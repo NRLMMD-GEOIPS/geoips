@@ -13,7 +13,8 @@ import pytest
 from pydantic import ConfigDict, Field, ValidationError
 
 # GeoIPS Libraries
-from geoips.pydantic_models.v1 import bases
+from geoips.pydantic_models import bases as bases_root
+from geoips.pydantic_models.v1 import bases as bases_v1
 
 
 @pytest.mark.parametrize(
@@ -35,7 +36,7 @@ from geoips.pydantic_models.v1 import bases
 )
 def test_good_valid_python_identifier(valid_identifier):
     """Tests python_identifier call against multiple valid Python identifiers."""
-    assert bases.python_identifier(valid_identifier) == valid_identifier
+    assert bases_root.python_identifier(valid_identifier) == valid_identifier
 
 
 @pytest.mark.parametrize(
@@ -58,7 +59,7 @@ def test_good_valid_python_identifier(valid_identifier):
 def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
     """Tests python_identifier call against multiple invalid Python identifiers."""
     with pytest.raises(ValueError) as exec_info:
-        bases.python_identifier(invalid_identifier)
+        bases_root.python_identifier(invalid_identifier)
 
     assert isinstance(exec_info.value, ValueError), "Exception raised is not ValueError"
     error_message = str(exec_info.value)
@@ -68,13 +69,13 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
 
 
 # Test CoreBaseModel
-class MockCoreBaseModel(bases.CoreBaseModel):
+class MockCoreBaseModel(bases_root.CoreBaseModel):
     """Test CoreBaseModel to test __str__ method of CoreBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
     restricted_fields: ClassVar[Tuple[str, ...]] = (
-        bases.CoreBaseModel.restricted_fields + ("restricted_field_1",)
+        bases_root.CoreBaseModel.restricted_fields + ("restricted_field_1",)
     )
     model_config = ConfigDict(extra="allow")
     # @classmethod
@@ -168,7 +169,7 @@ def test_bad_core_base_model_invalid_field_type():
 
 def test_good_plugin_valid_instance(valid_plugin_data):
     """Test PluginModel with valid inputs."""
-    plugin = bases.PluginModel(**valid_plugin_data)
+    plugin = bases_v1.PluginModel(**valid_plugin_data)
 
     assert plugin.interface == valid_plugin_data["interface"]
     assert plugin.family == valid_plugin_data["family"]
@@ -187,7 +188,7 @@ def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
     invalid_data["unexpected_field"] = "unexpected_value"
 
     with pytest.raises(ValidationError) as exec_info:
-        bases.PluginModel(**invalid_data)
+        bases_v1.PluginModel(**invalid_data)
 
     error_info = exec_info.value.errors()
     assert any(
@@ -200,7 +201,7 @@ def test_bad_plugin_invalid_instance_additional_field(valid_plugin_data):
 
 def test_good_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     """Test PluginModel's valid_interface() method with valid interfaces."""
-    model = bases.PluginModel(**valid_plugin_data)
+    model = bases_v1.PluginModel(**valid_plugin_data)
     assert model.interface in valid_interfaces
 
 
@@ -216,7 +217,7 @@ def test_bad_plugin_model_valid_interfaces(valid_plugin_data, valid_interfaces):
     invalid_data["interface"] = invalid_interface
 
     with pytest.raises(ValidationError, match="Invalid interface"):
-        bases.PluginModel(**invalid_data)
+        bases_v1.PluginModel(**invalid_data)
 
 
 # Parameterized test input for a valid description test
@@ -228,7 +229,7 @@ def test_good_plugin_model_docstring(valid_plugin_data, docstring):
     """Test PluginModel with a good docstring."""
     data = copy.deepcopy(valid_plugin_data)
     data["docstring"] = docstring
-    model = bases.PluginModel(**data)
+    model = bases_v1.PluginModel(**data)
     assert model.docstring == docstring
 
 
@@ -258,7 +259,7 @@ def test_bad_plugin_model_description(valid_plugin_data, invalid_docstring):
     data["description"] = invalid_docstring
 
     with pytest.raises(ValueError) as exec_info:
-        bases.PluginModel(**data)
+        bases_v1.PluginModel(**data)
 
     error_info = exec_info.value.errors()
     assert any(error["loc"] == ("description",) for error in error_info)
@@ -283,7 +284,7 @@ def test_bad_plugin_model_set_description(
     """Test PluginModel's set_description() method when description is set to None."""
     data = copy.deepcopy(valid_plugin_data)
     data.update(docstring_input)
-    model = bases.PluginModel(**data)
+    model = bases_v1.PluginModel(**data)
 
     assert model.description == expected_description, (
         f"Expected description: {expected_description},"
@@ -312,7 +313,7 @@ def test_bad_plugin_model_set_description_without_input_field(
     data = copy.deepcopy(valid_plugin_data)
     data.pop("description", None)
     data.update(docstring_input)
-    model = bases.PluginModel(**data)
+    model = bases_v1.PluginModel(**data)
     assert model.description == expected_description, (
         f"Expected description: {expected_description},"
         f"but got this: {model.docstring}"
@@ -329,7 +330,7 @@ def test_bad_plugin_model_validate_one_line_description_length(valid_plugin_data
     with pytest.warns(
         FutureWarning, match="Description cannot be more than 72 characters."
     ):
-        model = bases.PluginModel(**data)
+        model = bases_v1.PluginModel(**data)
 
     assert model.description
 
@@ -340,6 +341,6 @@ def test_bad_plugin_model_validate_one_line_description_multi_line(valid_plugin_
     data["description"] = "This description is a \n multi line one."
 
     with pytest.warns(FutureWarning, match="Description must be a single line."):
-        model = bases.PluginModel(**data)
+        model = bases_v1.PluginModel(**data)
 
     assert model.description
