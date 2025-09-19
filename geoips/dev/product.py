@@ -249,7 +249,7 @@ def get_covg_from_product(prod_plugin, output_dict=None, covg_field=None):
     prod_spec = prod_plugin["spec"]
     if covg_field in prod_spec:
         return coverage_checkers.get_plugin(prod_spec[covg_field]["plugin"]["name"])
-    elif "coverage_checker" in prod_spec:
+    elif "coverage_checker" in prod_spec and prod_spec["coverage_checker"]:
         return coverage_checkers.get_plugin(
             prod_spec["coverage_checker"]["plugin"]["name"]
         )
@@ -284,7 +284,7 @@ def get_covg_args_from_product(prod_plugin, output_dict=None, covg_field=None):
     # args attached to the product plugin.
     if covg_field in prod_spec:
         return prod_spec[covg_field]["plugin"]["arguments"].copy()
-    elif "coverage_checker" in prod_spec:
+    elif "coverage_checker" in prod_spec and prod_spec["coverage_checker"]:
         return prod_spec["coverage_checker"]["plugin"]["arguments"].copy()
     else:
         return {}
