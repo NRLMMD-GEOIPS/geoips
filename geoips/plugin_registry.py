@@ -555,16 +555,16 @@ class PluginRegistry:
             plugin_dict_formatted = plugin_json_formatted.model_dump()
             validated = interface_obj.validator.validate(plugin_dict_formatted)
             return interface_obj._plugin_yaml_to_obj(name, validated)
-        # def remove_none(d: dict) -> dict:
-        #     """Recursively remove all keys with value None from a dictionary."""
-        #     if not isinstance(d, dict):
-        #         return d
-        #     return {k: remove_none(v) for k, v in d.items() if v is not None}
+            # def remove_none(d: dict) -> dict:
+            #     """Recursively remove all keys with value None from a dictionary."""
+            #     if not isinstance(d, dict):
+            #         return d
+            #     return {k: remove_none(v) for k, v in d.items() if v is not None}
 
-        # if interface_obj.name == "sectors" and plugin.get("family") == "generated":
-        #     # Use old validation for dynamic sectors for the time being. Still working
-        #     # on how to implement this in pydantic. I'm running into consistent problems
-        #     # via the way I've tried to implement this so far.
+            # if interface_obj.name == "sectors" and plugin.get("family") == "generated":
+            #     # Use old validation for dynamic sectors for the time being. Still working
+            #     # on how to implement this in pydantic. I'm running into consistent problems
+            #     # via the way I've tried to implement this so far.
             validated = YamlPluginValidator().validate(plugin)
         else:
             validated = interface_obj.validator(**plugin).model_dump()
