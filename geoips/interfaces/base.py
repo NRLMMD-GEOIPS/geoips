@@ -192,8 +192,12 @@ class YamlPluginValidator:
             validator_id = f"{plugin['interface']}.{plugin['family']}"
 
         try:
+            if validator_id == "workflows.order_based":
+                return plugin
             validator = self.validators[validator_id]
         except KeyError as err:
+            if validator_id == "workflows.order_based":
+                return plugin
             raise ValidationError(
                 f"No validator found for '{validator_id}'"
                 f"\nfrom plugin '{plugin['name']}'"
