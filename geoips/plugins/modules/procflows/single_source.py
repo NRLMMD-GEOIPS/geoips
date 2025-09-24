@@ -70,6 +70,11 @@ OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG = [
     "xrdict_to_outlist",
 ]
 
+OUTPUT_FAMILIES_COMPATIBLE_WITH_FUSED_XARRAY = [
+    "xrdict_varlist_outfnames_to_outlist",
+    "xrdict_area_product_outfnames_to_outlist",
+]
+
 FILENAME_FORMATS_WITHOUT_COVG = [
     "xarray_metadata_to_filename",
     "xarray_area_product_to_filename",
@@ -1240,6 +1245,13 @@ def plot_data(
             )
             cmap_args = prod_plugin["spec"]["colormapper"]["plugin"]["arguments"]
             mpl_colors_info = cmap_plugin(**cmap_args)
+
+        if output_plugin.family in OUTPUT_FAMILIES_COMPATIBLE_WITH_FUSED_XARRAY:
+            if fused_xarray_dict is None and alg_xarray is not None:
+                fused_xarray_dict = alg_xarray
+            if fused_xarray_dict is None:
+                raise ValueError(f"Invalid data passed to output_formatter "
+                                    f"of family: {output_plugin.family}")
 
         output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
