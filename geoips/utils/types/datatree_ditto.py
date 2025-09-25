@@ -14,6 +14,27 @@ class DataTreeDitto(DataTree):
     various data types (numpy arrays, etc.) to xarray Datasets while preserving
     metadata needed for round-trip conversion back to original types.
 
+    Pokemon, the world's most valuable intellectual property,
+    has a pokemon named "ditto" that duplicates its opponents behavior and structure
+    with only slight difference. This class - DataTreeDitto - behaves like to xarray
+    DataTrees with slight differences to accommodate a wider variety of data types.
+
+    ⠀⠀⠀⢠⡜⠛⠛⠿⣤⠀⠀⣤⡼⠿⠿⢧⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⠀⣀⡶⠎⠁⠀⠀⠀⠉⠶⠶⠉⠁⠀⠀⠈⠹⢆⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+    ⣀⡿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠶⠶⠶⠶⣆⡀⠀⠀⠀⠀
+    ⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢣⡄⠀⠀⠀
+    ⠛⣧⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀
+    ⠀⠛⣧⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⠀⠀⠀⠀⢠⡼⠃⠀⠀
+    ⠀⠀⠿⢇⡀⠀⠀⠀⠀⠀⠀⠀⠰⠶⠶⢆⣀⣀⣀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀
+    ⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀
+    ⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀
+    ⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢣⣤
+    ⠀⣶⡏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿
+    ⠀⠿⣇⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⢀⣀⣸⠿
+    ⠀⠀⠙⢳⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⡞⠛⠛⠛⠛⠛⠛⣶⣶⣶⣶⡞⠛⠃⠀
+
+    "Ditto" from Pokemon is pictured above.
+
     Examples
     --------
     >>> import numpy as np
@@ -49,12 +70,12 @@ class DataTreeDitto(DataTree):
         >>> dt.ds.data.values.tolist()
         [1, 2, 3]
         """
-        # Initialize class-level converter registry if not exists
+        # Initialize class-level converter registry if it does not exist
         if not hasattr(DataTreeDitto, "_converters"):
             DataTreeDitto._converters = {}
             DataTreeDitto._register_builtin_converters()
 
-        # Convert data if it's not an xarray object
+        # Convert data if the data is not an xarray DataSet
         if data is not None:
             if isinstance(data, xr.DataArray):
                 # Convert DataArray to Dataset
@@ -63,31 +84,12 @@ class DataTreeDitto(DataTree):
                 # Convert non-xarray object
                 data = self._convert_to_dataset(data)
 
-        # Call parent constructor
         super().__init__(dataset=data, children=children, name=name)
 
         # Handle parent separately if provided
         if parent is not None:
             # Let DataTree handle the parent-child relationship
             parent[name or "unnamed"] = self
-
-    def _set_parent(self, new_parent, child_name):
-        """Override to match DataTree's expected signature.
-
-        Parameters
-        ----------
-        new_parent : DataTree
-            The new parent node.
-        child_name : str
-            Name of this node in the parent.
-
-        Returns
-        -------
-        Any
-            Result of parent's _set_parent method.
-        """
-        # Call the parent's _set_parent method with correct signature
-        return super()._set_parent(new_parent, child_name)
 
     @classmethod
     def _register_builtin_converters(cls):
