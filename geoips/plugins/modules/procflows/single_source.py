@@ -70,6 +70,8 @@ OUTPUT_FAMILIES_WITH_NO_OUTFNAMES_ARG = [
     "xrdict_to_outlist",
 ]
 
+# output_formatters in this list of output families can receive their data
+#   from data_fusion or from the normal procflow.
 OUTPUT_FAMILIES_COMPATIBLE_WITH_FUSED_XARRAY = [
     "xrdict_varlist_outfnames_to_outlist",
     "xrdict_area_product_outfnames_to_outlist",
@@ -1247,13 +1249,16 @@ def plot_data(
             mpl_colors_info = cmap_plugin(**cmap_args)
 
         if output_plugin.family in OUTPUT_FAMILIES_COMPATIBLE_WITH_FUSED_XARRAY:
-            if fused_xarray_dict is None and alg_xarray is not None:
-                fused_xarray_dict = alg_xarray
+            # This check allows these output_formatter families to be used
+            #   even without data fusion.
             if fused_xarray_dict is None:
-                raise ValueError(
-                    f"Invalid data passed to output_formatter "
-                    f"of family: {output_plugin.family}"
-                )
+                if alg_xarray is None:
+                    raise ValueError(
+                        f"Invalid data passed to output_formatter "
+                        f"of family: {output_plugin.family}"
+                    )
+                else:
+                    fused_xarray_dict = alg_xarray
 
         output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)

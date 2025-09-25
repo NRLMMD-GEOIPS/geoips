@@ -11,6 +11,7 @@ bug fix:
     - 'docs/source/releases/latest/1164-output-formatter-families-pass-empty-xarray-dataset-in-single-source.yaml'
     modified:
     - 'geoips/plugins/modules/procflows/single_source.py'
+    - '.cspell.json'
   related-issue:
     number: 1164
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
