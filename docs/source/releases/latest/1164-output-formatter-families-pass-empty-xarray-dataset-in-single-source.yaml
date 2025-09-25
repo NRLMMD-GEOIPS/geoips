@@ -1,10 +1,10 @@
 bug fix:
-- title: "Bugfix: Don't pass empty xarray in single_source"
+- title: "Don't pass empty xarray in single_source"
   description: |
-    - Output Formatter families `xrdict_area_product_to_outlist` and
+    Output Formatter families `xrdict_area_product_to_outlist` and
     `xrdict_area_product_outfnames_to_outlist` pass the variable
     `fused_xarray_dict` even when it's empty.
-    - Fixing the single_source procflow so that it will use the `alg_xarray`
+    Fixing the single_source procflow so that it will use the `alg_xarray`
     instead when it detects that `fused_xarray_dict` is `None`.
   files:
     added:

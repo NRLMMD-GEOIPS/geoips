@@ -1250,8 +1250,10 @@ def plot_data(
             if fused_xarray_dict is None and alg_xarray is not None:
                 fused_xarray_dict = alg_xarray
             if fused_xarray_dict is None:
-                raise ValueError(f"Invalid data passed to output_formatter "
-                                    f"of family: {output_plugin.family}")
+                raise ValueError(
+                    f"Invalid data passed to output_formatter "
+                    f"of family: {output_plugin.family}"
+                )
 
         output_plugin = output_formatters.get_plugin(output_formatter)
         output_kwargs = remove_unsupported_kwargs(output_plugin, output_kwargs)
