@@ -51,7 +51,7 @@ class Labels(PermissiveFrozenModel):
     backgroundcolor: Optional[ColorType] = Field(
         None,
         description=(
-            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
+            "A rgb tuple, matplotlib named color, or hexadecimal string (#XXXXXX) "
             "to apply to the background of your label frame.\n"
             "For more info, see: "
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
@@ -60,7 +60,7 @@ class Labels(PermissiveFrozenModel):
     color: Optional[ColorType] = Field(
         None,
         description=(
-            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
+            "A rgb tuple, matplotlib named color, or hexadecimal string (#XXXXXX) "
             "to apply to the label text of your image.\n"
             "For more info, see: "
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
@@ -140,7 +140,7 @@ class GridlineAnnotatorSpec(FrozenModel):
     background: Optional[ColorType] = Field(
         None,
         description=(
-            "A rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX) "
+            "A rgb tuple, matplotlib named color, or hexadecimal string (#XXXXXX) "
             "to apply to the background of your image frame.\n"
             "For more info, see: "
             "https://matplotlib.org/stable/users/explain/colors/colors.html"
