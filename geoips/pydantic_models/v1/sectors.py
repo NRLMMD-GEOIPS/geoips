@@ -1,3 +1,4 @@
+# cspell:ignore ellps clat clon
 """Pydantic models used to validate GeoIPS sector plugins."""
 
 from datetime import datetime

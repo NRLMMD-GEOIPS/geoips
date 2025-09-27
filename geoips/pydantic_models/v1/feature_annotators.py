@@ -13,7 +13,7 @@ from geoips.pydantic_models.v1.bases import (
 )
 
 MATPLOTLIB_COLOR_DOC = (
-    "An rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."
+    "An rgb tuple, matplotlib named color, or hexadecimal string (#XXXXXX)."
     "For more info, see: "
     "https://matplotlib.org/stable/users/explain/colors/colors.html"
 )

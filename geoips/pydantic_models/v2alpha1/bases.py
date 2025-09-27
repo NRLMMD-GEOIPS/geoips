@@ -13,7 +13,6 @@ Other models defined here validate field types within child plugin models.
 from __future__ import annotations
 
 # Python Standard Libraries
-import keyword
 import logging
 from typing import Any, ClassVar, Dict, Union, Tuple, Type
 
@@ -27,11 +26,11 @@ from pydantic import (
     model_validator,
 )
 from pydantic_core import PydanticCustomError
-from pydantic.functional_validators import AfterValidator
+# from pydantic.functional_validators import AfterValidator
 from pydantic._internal._model_construction import (
     ModelMetaclass,
 )  # internal API, but safe to use
-from typing_extensions import Annotated
+# from typing_extensions import Annotated
 
 
 # GeoIPS imports
