@@ -100,7 +100,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
             " Run geoips list interfaces to see available options."
         ),
     )
-    test: PythonIdentifier = Field(..., description="Testing for apiVersion v2"
+    test: PythonIdentifier = Field(..., description="Testing for apiVersion v2")
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
     name: PythonIdentifier = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
