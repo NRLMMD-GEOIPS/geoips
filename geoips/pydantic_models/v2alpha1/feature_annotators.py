@@ -2,12 +2,17 @@
 
 from pydantic import Field
 
-from geoips.pydantic_models.v2alpha1.bases import (
+
+from geoips.pydantic_models.root_bases import (
     FrozenModel,
     PermissiveFrozenModel,
+)
+
+from geoips.pydantic_models.v2alpha1.bases import (
     PluginModel,
     ColorType,
 )
+
 
 MATPLOTLIB_COLOR_DOC = (
     "An rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."
