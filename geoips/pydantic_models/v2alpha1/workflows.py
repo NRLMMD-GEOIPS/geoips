@@ -25,7 +25,7 @@ from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic_models.bases import (
+from geoips.pydantic_models.root_bases import (
     PythonIdentifier,
     FrozenModel,
     PermissiveFrozenModel,

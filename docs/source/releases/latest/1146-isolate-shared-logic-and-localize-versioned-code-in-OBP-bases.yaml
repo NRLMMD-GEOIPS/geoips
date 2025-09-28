@@ -1,12 +1,13 @@
 enhancement:
 - title: 'Refactor: Isolate shared logic and localize versioned code in OBP bases'
-  description: 'Improves code maintainability by removing redundant code and splitting shared and versioned logic'
+  description: 'Enhances code maintainability by removing redundant code, partitioning shared and versioned logic'
   files:
     added:
-    - 'docs/source/releases/latest/856-feature-pydantic_static-base-model.yaml'
+    - 'docs/source/releases/latest/1146-isolate-shared-logic-and-localize-versioned-code-in-OBP-bases.yaml'
     - 'geoips/pydantic_models/bases.py'
+    - 'tests/unit_tests/pydantic_models/test_bases.py'
+    - 'tests/unit_tests/pydantic_models/v2alpha1/bases/test_bases.py'
     modified:
-    - 'docs/dev/order_based_procflow.rst'
     - 'geoips/plugins/yaml/workflows/read_test_v1.yaml'
     - 'geoips/plugins/yaml/workflows/read_test_v2alpha1.yaml'
     - 'geoips/pydantic_models/v1/bases.py'
@@ -14,10 +15,11 @@ enhancement:
     - 'geoips/pydantic_models/v1/gridline_annotators.py'
     - 'geoips/pydantic_models/v1/sectors.py'
     - 'geoips/pydantic_models/v1/workflows.py'
+    - 'geoips/pydantic_models/v2alpha1/bases.py'
+    - 'geoips/pydantic_models/v2alpha1/workflows.py'
     - 'tests/unit_tests/pydantic_models/v1/bases/test_bases.py'
-    - 'tests/unit_tests/pydantic_models/v1/workflows/test_reader_arguments_model.py'
     deleted:
-    - ''
+    - 'tests/unit_tests/pydantic_models/v2alpha1/test_bases.py'
     moved:
     - ''
   related-issue:

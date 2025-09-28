@@ -12,7 +12,7 @@ import pytest
 from pydantic import ConfigDict, Field, ValidationError
 
 # GeoIPS Libraries
-from geoips.pydantic_models import bases as bases_root
+from geoips.pydantic_models import root_bases as base
 
 
 @pytest.mark.parametrize(
@@ -34,7 +34,7 @@ from geoips.pydantic_models import bases as bases_root
 )
 def test_good_valid_python_identifier(valid_identifier):
     """Tests python_identifier call against multiple valid Python identifiers."""
-    assert bases_root.python_identifier(valid_identifier) == valid_identifier
+    assert base.python_identifier(valid_identifier) == valid_identifier
 
 
 @pytest.mark.parametrize(
@@ -57,7 +57,7 @@ def test_good_valid_python_identifier(valid_identifier):
 def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
     """Tests python_identifier call against multiple invalid Python identifiers."""
     with pytest.raises(ValueError) as exec_info:
-        bases_root.python_identifier(invalid_identifier)
+        base.python_identifier(invalid_identifier)
 
     assert isinstance(exec_info.value, ValueError), "Exception raised is not ValueError"
     error_message = str(exec_info.value)
@@ -67,13 +67,13 @@ def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
 
 
 # Test CoreBaseModel
-class MockCoreBaseModel(bases_root.CoreBaseModel):
+class MockCoreBaseModel(base.CoreBaseModel):
     """Test CoreBaseModel to test __str__ method of CoreBaseModel."""
 
     plugin_type: str = Field(description="name of the plugin type")
     plugin_name: str = Field(description="name of the plugin", alias="pluginname")
     restricted_fields: ClassVar[Tuple[str, ...]] = (
-        bases_root.CoreBaseModel.restricted_fields + ("restricted_field_1",)
+        base.CoreBaseModel.restricted_fields + ("restricted_field_1",)
     )
     model_config = ConfigDict(extra="allow")
     # @classmethod
