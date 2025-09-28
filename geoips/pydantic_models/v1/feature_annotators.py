@@ -3,8 +3,6 @@
 
 """Pydantic models used to validate GeoIPS feature annotator plugins."""
 
-
-
 # Previously, the model names used as type hints were quoted marking them as strings;
 # leading to forward references, which allow referring to a class before Python has
 # fully parsed it.

@@ -1,5 +1,7 @@
-# cspell:ignore ellps clat clon
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore ellps clat clon
 
 # Previously, the model names used as type hints were quoted marking them as strings;
 # leading to forward references, which allow referring to a class before Python has
