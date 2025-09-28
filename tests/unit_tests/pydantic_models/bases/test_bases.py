@@ -4,7 +4,6 @@
 """Test Pydantic base models for Order-Based Procflow."""
 
 # Python Standard Libraries
-import copy
 import json
 from typing import ClassVar, Tuple
 
@@ -14,6 +13,7 @@ from pydantic import ConfigDict, Field, ValidationError
 
 # GeoIPS Libraries
 from geoips.pydantic_models import bases as bases_root
+
 
 @pytest.mark.parametrize(
     "valid_identifier",
