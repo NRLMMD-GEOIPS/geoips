@@ -32,7 +32,11 @@ from pydantic._internal._model_construction import (
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic_models.root_bases import FrozenModel, PythonIdentifier, get_interfaces
+from geoips.pydantic_models.root_bases import (
+    FrozenModel,
+    PythonIdentifier,
+    get_interfaces,
+)
 from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
