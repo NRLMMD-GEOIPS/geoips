@@ -1,6 +1,16 @@
 # cspell:ignore ellps clat clon
-"""Pydantic models used to validate GeoIPS sector plugins."""
 
+
+# Previously, the model names used as type hints were quoted marking them as strings;
+# leading to forward references, which allow referring to a class before Python has
+# fully parsed it.
+
+# By adding from __future__ import annotations, Python defers evaluation of all type
+# annotations until runtime, automatically treating them as strings. This eliminates
+# the need to manually quote forward-referenced types (simplified type hinting).
+from __future__ import annotations
+
+"""Pydantic models used to validate GeoIPS sector plugins."""
 from datetime import datetime
 from enum import Enum
 from typing import Literal, Tuple, Union

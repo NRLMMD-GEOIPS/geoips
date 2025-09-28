@@ -10,6 +10,14 @@ Intended for use by other base models.
 Other models defined here validate field types within child plugin models.
 """
 
+
+# Previously, the model names used as type hints were quoted marking them as strings;
+# leading to forward references, which allow referring to a class before Python has
+# fully parsed it.
+
+# By adding from __future__ import annotations, Python defers evaluation of all type
+# annotations until runtime, automatically treating them as strings. This eliminates
+# the need to manually quote forward-referenced types (simplified type hinting).
 from __future__ import annotations
 
 # Python Standard Libraries
