@@ -5,11 +5,10 @@
 
 # Python Standard Libraries
 import copy
-import json
 
 # Third-Party Libraries
 import pytest
-from pydantic import Field, ValidationError
+from pydantic import ValidationError
 
 # GeoIPS Libraries
 from geoips.pydantic_models.v2alpha1 import bases
