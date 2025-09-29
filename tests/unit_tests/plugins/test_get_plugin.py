@@ -35,7 +35,9 @@ def yield_interface_plugin_tuples():
             # remove this.
             continue
         for interface_name in registry[plugin_type]:
-            if interface_name == "products":
+            if interface_name == "workflows":
+                pass
+            elif interface_name == "products":
                 # Products have another level which is 'source_name', so we need
                 # different functionality here to handle that
                 for source_name in registry[plugin_type][interface_name]:
