@@ -6,6 +6,14 @@ import numpy as np
 import xarray as xr
 from xarray import DataTree
 
+from collections.abc import (
+    Callable,
+    Hashable,
+    Iterable,
+    Iterator,
+    Mapping,
+)
+
 
 class DataTreeDitto(DataTree):
     """A DataTree subclass that automatically converts non-xarray objects to datasets.
@@ -19,22 +27,6 @@ class DataTreeDitto(DataTree):
     with only slight difference. This class - DataTreeDitto - behaves like to xarray
     DataTrees with slight differences to accommodate a wider variety of data types.
 
-    ⠀⠀⠀⢠⡜⠛⠛⠿⣤⠀⠀⣤⡼⠿⠿⢧⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⠀⣀⡶⠎⠁⠀⠀⠀⠉⠶⠶⠉⠁⠀⠀⠈⠹⢆⣀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ⣀⡿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠶⠶⠶⠶⣆⡀⠀⠀⠀⠀
-    ⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢣⡄⠀⠀⠀
-    ⠛⣧⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀
-    ⠀⠛⣧⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠿⠀⠀⠀⠀⢠⡼⠃⠀⠀
-    ⠀⠀⠿⢇⡀⠀⠀⠀⠀⠀⠀⠀⠰⠶⠶⢆⣀⣀⣀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀
-    ⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠉⠉⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀⠀
-    ⠀⠀⠀⢸⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡇⠀⠀
-    ⠀⠀⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⢣⣤
-    ⠀⣶⡏⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿
-    ⠀⠿⣇⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣀⣀⣀⣀⠀⠀⠀⠀⢀⣀⣸⠿
-    ⠀⠀⠙⢳⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⣶⡞⠛⠛⠛⠛⠛⠛⣶⣶⣶⣶⡞⠛⠃⠀
-
-    "Ditto" from Pokemon is pictured above.
-
     Examples
     --------
     >>> import numpy as np
@@ -46,7 +38,7 @@ class DataTreeDitto(DataTree):
     [[1, 2], [3, 4]]
     """
 
-    def __init__(self, data=None, parent=None, children=None, name=None):
+    def __init__(self, dataset=None, children=None, name=None):
         """Initialize a DataTreeDitto instance.
 
         Parameters
@@ -76,20 +68,32 @@ class DataTreeDitto(DataTree):
             DataTreeDitto._register_builtin_converters()
 
         # Convert data if the data is not an xarray DataSet
-        if data is not None:
-            if isinstance(data, xr.DataArray):
-                # Convert DataArray to Dataset
-                data = data.to_dataset()
-            elif not isinstance(data, xr.Dataset):
+        if dataset is not None:
+            # if isinstance(dataset, xr.DataArray):
+            #    # Convert DataArray to Dataset
+            #    dataset = dataset.to_dataset()
+            if not isinstance(
+                dataset,
+                (
+                    xr.Dataset,
+                    xr.DataArray,
+                    xr.core.coordinates.DataTreeCoordinates,
+                    xr.DataTree,
+                ),
+            ):
                 # Convert non-xarray object
-                data = self._convert_to_dataset(data)
+                dataset = self._convert_to_dataset(dataset)
 
-        super().__init__(dataset=data, children=children, name=name)
+        super().__init__(dataset=dataset, children=children, name=name)
 
-        # Handle parent separately if provided
-        if parent is not None:
-            # Let DataTree handle the parent-child relationship
-            parent[name or "unnamed"] = self
+    def _convert_output_to_DataTreeDitto(f):
+        def f_that_returns_datatree_ditto(*args, **kwargs):
+            result = f(*args, **kwargs)
+            if isinstance(result, DataTree) and not isinstance(result, DataTreeDitto):
+                return DataTreeDitto._convert_datatree_to_ditto(result)
+            return result
+
+        return f_that_returns_datatree_ditto
 
     @classmethod
     def _register_builtin_converters(cls):
@@ -129,6 +133,9 @@ class DataTreeDitto(DataTree):
         ...     return DataTreeDitto._dataset_to_numpy(ds, **kwargs).tolist()
         >>> DataTreeDitto.register_converter(list, list_to_dataset, dataset_to_list)
         """
+        # if not hasattr(DataTreeDitto, "_converters"):
+        #    DataTreeDitto._converters = {}
+        #    DataTreeDitto._register_builtin_converters()
         cls._converters[obj_type] = {
             "to_dataset": to_dataset_func,
             "from_dataset": from_dataset_func,
@@ -309,25 +316,29 @@ class DataTreeDitto(DataTree):
 
         @wraps(func)
         def wrapper(self, key, value):
-            if isinstance(value, DataTreeDitto):
-                # Already a DataTreeDitto, proceed normally
+            if isinstance(
+                value,
+                (
+                    DataTreeDitto,
+                    xr.Dataset,
+                    xr.DataArray,
+                    xr.core.variable.Variable,
+                    xr.core.coordinates.DataTreeCoordinates,
+                ),
+            ):
                 return func(self, key, value)
             elif isinstance(value, DataTree):
                 # Convert DataTree to DataTreeDitto
-                new_ditto = DataTreeDitto(data=value.ds, name=key)
+                new_ditto = DataTreeDitto(dataset=value.ds, name=key)
                 # Recursively convert children
                 for child_name, child in value.children.items():
                     new_ditto[child_name] = child
-                return func(self, key, new_ditto)
-            elif isinstance(value, (xr.Dataset, xr.DataArray)):
-                # Create new DataTreeDitto with xarray object
-                new_ditto = DataTreeDitto(data=value, name=key)
                 return func(self, key, new_ditto)
             else:
                 # Convert non-xarray object
                 try:
                     dataset = self._convert_to_dataset(value)
-                    new_ditto = DataTreeDitto(data=dataset, name=key)
+                    new_ditto = DataTreeDitto(dataset=dataset, name=key)
                     return func(self, key, new_ditto)
                 except TypeError:
                     raise TypeError(
@@ -358,6 +369,7 @@ class DataTreeDitto(DataTree):
         """
         super().__setitem__(key, value)
 
+    @_convert_output_to_DataTreeDitto
     def __getitem__(self, key: str) -> Union["DataTreeDitto", Any]:
         """Override getitem to return DataTreeDitto instances.
 
@@ -379,18 +391,59 @@ class DataTreeDitto(DataTree):
         >>> isinstance(child, DataTreeDitto)
         True
         """
-        result = super().__getitem__(key)
-        if isinstance(result, DataTree) and not isinstance(result, DataTreeDitto):
-            # Convert to DataTreeDitto while preserving structure
-            return self._convert_datatree_to_ditto(result)
-        return result
+        return super().__getitem__(key)
 
-    def _convert_datatree_to_ditto(self, dt: DataTree) -> "DataTreeDitto":
+    # @classmethod
+    # def from_dict(cls, data=None, name=None):
+    #    # Pass keyword arguments directly, without the '*'
+    #    result = super().from_dict(data, name=name)
+    #    if isinstance(result, DataTree) and not isinstance(result, DataTreeDitto):
+    #        return cls._convert_datatree_to_ditto(result)
+    #    return result
+
+    @_convert_output_to_DataTreeDitto
+    def map_over_datasets(
+        self,
+        func: Callable[..., Any],
+        *args: Any,
+        kwargs: Mapping[str, Any] | None = None,
+    ) -> DataTree | tuple[DataTree, ...]:
+        return super().map_over_datasets(func, *args, kwargs=kwargs)
+
+    @_convert_output_to_DataTreeDitto
+    def _unary_op(self, f, *args, **kwargs) -> DataTree:
+        return super()._unary_op(f, *args, **kwargs)
+
+    @_convert_output_to_DataTreeDitto
+    def _binary_op(self, other, f, reflexive=False, join=None) -> DataTree:
+        return super()._binary_op(other, f, reflexive, join)
+
+    @_convert_output_to_DataTreeDitto
+    def filter(self: DataTree, filterfunc: Callable[[DataTree], bool]) -> DataTree:
+        return super().filter(filterfunc)
+
+    @_convert_output_to_DataTreeDitto
+    def match(self, pattern: str) -> DataTree:
+        return super().match(pattern)
+
+    @_convert_output_to_DataTreeDitto
+    def mean(
+        self,
+        dim=None,
+        *,
+        skipna=None,
+        keep_attrs=None,
+        **kwargs,
+    ):
+        return super().mean(dim, skipna=skipna, keep_attrs=keep_attrs, **kwargs)
+
+    @staticmethod
+    def _convert_datatree_to_ditto(dt: DataTree) -> "DataTreeDitto":
         """Convert a DataTree to DataTreeDitto recursively.
 
         Parameters
         ----------
-        dt : DataTree
+        tt : DataTree
             DataTree instance to convert.
 
         Returns
@@ -398,9 +451,9 @@ class DataTreeDitto(DataTree):
         DataTreeDitto
             Converted DataTreeDitto with all children also converted.
         """
-        new_ditto = DataTreeDitto(data=dt.ds, name=dt.name)
+        new_ditto = DataTreeDitto(dataset=dt.ds, name=dt.name)
         for child_name, child in dt.children.items():
-            new_ditto[child_name] = self._convert_datatree_to_ditto(child)
+            new_ditto[child_name] = DataTreeDitto._convert_datatree_to_ditto(child)
         return new_ditto
 
     def get_original(self, path: str = ".") -> Any:

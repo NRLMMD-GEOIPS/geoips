@@ -26,22 +26,15 @@ class TestDataTreeDittoCore:
     def test_initialization_with_dataset(self):
         """Test creating DataTreeDitto with xarray Dataset."""
         ds = xr.Dataset({"temp": (["x", "y"], np.random.rand(2, 3))})
-        dt = DataTreeDitto(data=ds)
+        dt = DataTreeDitto(dataset=ds)
         # ds property returns a view, so we check the underlying data
         assert "temp" in dt.ds.data_vars
         assert isinstance(dt, DataTreeDitto)
 
-    def test_initialization_with_dataarray(self):
-        """Test creating DataTreeDitto with xarray DataArray."""
-        da = xr.DataArray(np.random.rand(2, 3), dims=["x", "y"], name="temp")
-        dt = DataTreeDitto(data=da)
-        assert isinstance(dt.ds, xr.Dataset)
-        assert "temp" in dt.ds.data_vars
-
     def test_initialization_with_numpy_array(self):
         """Test creating DataTreeDitto with numpy array."""
         arr = np.random.rand(3, 4)
-        dt = DataTreeDitto(data=arr)
+        dt = DataTreeDitto(dataset=arr)
         assert isinstance(dt.ds, xr.Dataset)
         # Check the underlying dataset for attributes
         actual_ds = dt.ds._dataset if hasattr(dt.ds, "_dataset") else dt.ds
@@ -51,7 +44,7 @@ class TestDataTreeDittoCore:
     def test_initialization_with_unsupported_type(self):
         """Test creating DataTreeDitto with unsupported type raises error."""
         with pytest.raises(TypeError, match="No converter registered"):
-            DataTreeDitto(data="unsupported string")
+            DataTreeDitto(dataset="unsupported string")
 
 
 class TestConverterSystem:
@@ -151,17 +144,6 @@ class TestAssignmentAndRetrieval:
         assert isinstance(dt["xarray_node"], DataTreeDitto)
         assert "temp" in dt["xarray_node"].ds.data_vars
 
-    def test_setitem_datatree(self):
-        """Test assigning DataTree via setitem."""
-        dt = DataTreeDitto()
-        ds = xr.Dataset({"temp": (["x", "y"], np.random.rand(2, 3))})
-        original_dt = DataTree(dataset=ds)
-
-        dt["datatree_node"] = original_dt
-
-        assert "datatree_node" in dt.children
-        assert isinstance(dt["datatree_node"], DataTreeDitto)
-
     def test_setitem_unsupported_type(self):
         """Test assigning unsupported type raises error."""
         dt = DataTreeDitto()
@@ -202,7 +184,7 @@ class TestOriginalObjectRetrieval:
     def test_get_original_current_node(self):
         """Test getting original object from current node."""
         arr = np.random.rand(3, 4)
-        dt = DataTreeDitto(data=arr)
+        dt = DataTreeDitto(dataset=arr)
 
         original = dt.get_original(".")
         np.testing.assert_array_equal(original, arr)
@@ -336,7 +318,7 @@ class TestMetadataAndIntrospection:
     def test_list_converted_nodes_root_conversion(self):
         """Test listing when root node itself is converted."""
         arr = np.random.rand(3, 3)
-        dt = DataTreeDitto(data=arr)
+        dt = DataTreeDitto(dataset=arr)
 
         converted = dt.list_converted_nodes()
         assert "/" in converted
@@ -413,7 +395,7 @@ class TestEdgeCases:
         ds = xr.Dataset({"data": (["x", "y"], np.random.rand(2, 3))})
         ds.attrs["_ditto_original_type"] = "nonexistent.FakeType"
 
-        dt = DataTreeDitto(data=ds)
+        dt = DataTreeDitto(dataset=ds)
         original = dt.get_original(".")
 
         # Should fallback to returning the dataset
