@@ -17,10 +17,7 @@ from pydantic import Field, model_validator
 from typing import Any, Optional
 
 from geoips.pydantic_models.root_bases import ColorType, FrozenModel, PermissiveFrozenModel
-from geoips.pydantic_models.v1.bases import (
-    PluginModel,
-    ColorType,
-)
+from geoips.pydantic_models.v1.bases import PluginModel
 
 MATPLOTLIB_COLOR_DOC = (
     "An rgb tuple, matplotlib named color, or hexadecimal string (#XXXXXX)."
