@@ -114,7 +114,6 @@ class InterpolatorArgumentsModel(PermissiveFrozenModel):
 class WorkflowArgumentsModel(PermissiveFrozenModel):
     """Validate Workflow arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
