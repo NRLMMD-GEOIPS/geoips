@@ -14,7 +14,7 @@ from typing import Literal, Union, List, Optional
 from pydantic import Field
 
 from geoips.pydantic_models.root_bases import ColorType, FrozenModel, PermissiveFrozenModel
-from geoips.pydantic_models.v1.bases import PluginModel
+from geoips.pydantic_models.v2alpha1.bases import PluginModel
 
 
 class Spacing(FrozenModel):

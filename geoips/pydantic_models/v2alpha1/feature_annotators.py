@@ -4,6 +4,7 @@ from pydantic import Field
 
 
 from geoips.pydantic_models.root_bases import (
+    ColorType,
     FrozenModel,
     PermissiveFrozenModel,
 )

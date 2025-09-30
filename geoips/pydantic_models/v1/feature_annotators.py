@@ -14,9 +14,9 @@ from __future__ import annotations
 
 
 from pydantic import Field, model_validator
-from typing import Optional
+from typing import Any, Optional
 
-from geoips.pydantic_models.root_bases import FrozenModel, PermissiveFrozenModel
+from geoips.pydantic_models.root_bases import ColorType, FrozenModel, PermissiveFrozenModel
 from geoips.pydantic_models.v1.bases import (
     PluginModel,
     ColorType,

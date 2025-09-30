@@ -49,9 +49,6 @@ from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
 
-ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
-ColorType = Union[ColorTuple, str]
-
 
 class PluginModelMetadata(ModelMetaclass):
     """API version and namespace metadata for the corresponding plugin model.
