@@ -5,6 +5,7 @@ enhancement:
     added:
     - 'docs/source/releases/latest/1146-isolate-shared-logic-and-localize-versioned-code-in-OBP-bases.yaml'
     - 'geoips/pydantic_models/bases.py'
+    - 'geoips/pydantic_models/v2alpha1/gridline_annotators.py'
     - 'tests/unit_tests/pydantic_models/test_bases.py'
     - 'tests/unit_tests/pydantic_models/v2alpha1/bases/test_bases.py'
     modified:
