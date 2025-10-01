@@ -1,3 +1,4 @@
+#cspell:ignore mtif
 """Pydantic PluginModel for GeoIPS Product plugins.
 
 Validates Product plugins using pydantic. Intended to be a 'carryover' model which will
