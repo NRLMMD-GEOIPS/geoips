@@ -3,7 +3,7 @@ product_missing_source_names:
   val:
     name: Infrared
     docstring: |
-      Infrared product for abi
+      Infrared product for abi.
     product_defaults: Infrared
     spec:
       variables: ["B14BT"]
@@ -14,7 +14,7 @@ product_has_family_and_product_defaults:
   val:
     name: Infrared
     docstring: |
-      Infrared product for abi
+      Infrared product for abi.
     source_names: [abi]
     product_defaults: Infrared
     family: interpolator_algorithm_colormapper
@@ -27,7 +27,7 @@ product_missing_variables:
   val:
     name: Infrared
     docstring: |
-      Infrared product for abi
+      Infrared product for abi.
     source_names: [abi]
     product_defaults: Infrared
     spec: {}
@@ -38,7 +38,7 @@ product_using_plugin_not_specified_in_family:
   val:
     name: Infrared
     docstring: |
-      Infrared product for abi
+      Infrared product for abi.
     source_names: [abi]
     family: algorithm_colormapper
     spec:
