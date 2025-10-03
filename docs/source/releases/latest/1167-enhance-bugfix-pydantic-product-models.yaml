@@ -31,7 +31,9 @@ feature:
     - 'tests/unit_tests/pydantic_models/v1/products/test_cases_bad.yaml'
     - 'tests/unit_tests/pydantic_models/v1/products/test_cases_neutral.yaml'
     modified:
+    - 'geoips/pydantic_models/v1/bases.py'
     - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+    - 'tests/unit_tests/pydantic_models/v1/utils.py'
   related-issue:
     number: null
     repo_url: ''
