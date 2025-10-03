@@ -355,6 +355,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
     for more information about how this is used.
     """
 
+    # apiVersion: ClassVar[str | None] = None
     apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
 
@@ -366,7 +367,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         ),
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
-    name: PythonIdentifier = Field(..., description="Plugin name.")
+    name: str = Field(..., description="Plugin name.")
     docstring: str = Field(..., description="Docstring for the plugin in numpy format.")
     description: str = Field(
         None,
@@ -406,9 +407,44 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            metadata = getattr(ints, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            if (
+                interface_name == "products"
+                or interface_name is None
+                or "source_names" in values
+            ):
+                # need different logic for products as they use get_plugin_metadata via
+                # 'source_name', 'plugin_name'
+                if values.get("family") == "list":
+                    # product list
+                    if not isinstance(
+                        values.get("spec", {}), dict
+                    ) or "products" not in values.get("spec", {}):
+                        # Missing 'products' field, raise appropriate error.
+                        raise ValueError(
+                            "Error: Product list plugin is missing the 'products' field"
+                            " in its 'spec' entry."
+                        )
+
+                    first_product_name = values.get("spec", {}).get("products")[0][
+                        "name"
+                    ]
+                    metadata = getattr(ints, interface_name).get_plugin_metadata(
+                        values.get("name"), first_product_name
+                    )
+                else:
+                    # singular product
+                    source_names = values.get("source_names")
+                    if source_names is None:
+                        raise ValueError(
+                            "Error: product plugin is missing the 'source_names' field."
+                        )
+                    metadata = getattr(ints, "products").get_plugin_metadata(
+                        source_names[0], values.get("name")
+                    )
+            else:
+                metadata = getattr(ints, interface_name).get_plugin_metadata(
+                    values.get("name")
+                )
         except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
