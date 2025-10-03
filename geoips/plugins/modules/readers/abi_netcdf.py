@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore invf glle
+
 """Standard GeoIPS xarray dictionary based ABI NetCDF data reader."""
 
 # Python Standard Libraries
@@ -505,7 +507,7 @@ def get_latitude_longitude(
         # Create memmap to the lat/lon file
         # Nothing will be read until explicitly requested
         # We are mapping this here so that the lats and lons are available when
-        # calculating satlelite angles
+        # calculating satellite angles
         if geolocation_cache_backend == "memmap":
             shape = (metadata["num_lines"], metadata["num_samples"])
             offset = 8 * metadata["num_samples"] * metadata["num_lines"]
@@ -1662,6 +1664,8 @@ def get_data(
         sample_inds = gvars["Samples"]
     else:
         full_disk = True
+        line_inds = None
+        sample_inds = None
 
     band_num = md["var_info"]["band_id"]
 

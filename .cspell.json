@@ -5,11 +5,16 @@
     // Words considered correct for THIS project specifically
     "words": [
         // Project Specific / Acronyms / People / Orgs
-        "AWIPS",
+        "libopenblas",
+		"ryglickicane",
+		"amsua",
+	    "AWIPS",
         "CIMSS",
         "CIRA",
         "CIRA's",
         "CLAVR-x",
+	    "CLAVR",
+	    "coveragerc",
         "ECMWF",
         "ESRL",
         "EUMETSAT",
@@ -71,6 +76,7 @@
         "mamba",
         "matplotlib",
         "metpy",
+		"mirs",
         "nbsphinx",
         "netcdf4",
         "numba",
@@ -83,14 +89,17 @@
         "pillow",
         "pip",
         "plotly",
+		"PWAT",
         "pycrtm",
         "pydantic",
         "pygrib",
         "pyhdf",
+        "pykdtree",
         "pyproj",
         "pyproject",
         "pypublicdecompwt",
         "pyresample",
+        "pyroCb",
         "pystac",
         "pytest",
         "pytests",
@@ -109,6 +118,7 @@
         "xarrays",
         "xobjs",
         "zarr",
+        "zarray",
         // METOC / Remote Sensing / Science Terms
         "AMSR",
         "Bufr",
@@ -604,6 +614,7 @@
     // --- Ignored Words ---
     // Words to ignore entirely, even if misspelled (use sparingly!)
     "ignoreWords": [
+        "BADVALS",
         "BADCOMPARE",
         "GOODCOMPARE",
         "PRIVATEWWW",
@@ -611,22 +622,29 @@
         "TESTDATA",
         "YYYYMMDDTHHMNSS",
         "abc",
+        "adname",
         "amet",
         "awips",
         "baz",
         "capsys",
         "cmap",
         "cogeotiff",
+        "cosx",
+        "cosy",
+        "currchan",
         "dd",
         "ddhhmmss",
         "dolor",
+        "dsname",
         "dtype",
         "fillval",
         "fillvalue",
+        "fldk",
         "fname",
         "fnames",
         "foobar",
         "fpaths",
+        "gvars",
         "hh",
         "hhmmss",
         "hscat",
@@ -656,20 +674,27 @@
         "ndarray",
         "nn",
         "nodata",
+        "nprocs",
         "nullval",
         "oscat",
+        "outfnames",
         "pname",
         "qux",
         "remss",
         "rplugin",
+        "sinx",
+        "siny",
         "ss",
         "stddev",
         "stderr",
         "stdin",
         "stdout",
+        "subplg",
         "tmp",
         "ttt",
         "volc", // volcano
+	    "xdist",
+        "xrdict",
         "xyz",
         "yyyy",
         "yyyyddd",
@@ -678,6 +703,7 @@
         "YYYYMMDDTHHMMZ",
         "yyyymmdd",
         "zzz",
+        "zorder",
     ],
     // --- Global Ignore Patterns ---
     // Regular expressions for patterns to ignore globally
@@ -830,7 +856,7 @@
                 "/#\\s*noqa\\b/g", // Ignore noqa comments
                 "/#\\s*type:\\s*ignore/g", // Ignore type ignore comments
                 "/(?:from|import)\\s+[a-zA-Z0-9_.]+(?:\\s+(?:as)\\s+[a-zA-Z0-9_]+)?/g", // Import statements
-                "/(?<!\\w)(?:r|u|b|f|rb|fr|br)?['\"][^'\"]*['\"]/g", // String literals (careful, can hide errors)
+                "/(?<!\\w)(?:r|u|b|f|rb|fr|br)?['\"][^'\"]{1,3}['\"]/g", // String literals (careful, can hide errors)
                 "/@[a-zA-Z_][a-zA-Z0-9_]*/g", // Ignore decorators
                 "/\\b[A-Za-z_][A-Za-z0-9_]*\\.[A-Za-z_][A-Za-z0-9_]*/g", // Ignore attribute access like 'obj.attr'
                 "/\\s*[a-zA-Z_][a-zA-Z0-9_]*\\s*=/g", // Variable assignments

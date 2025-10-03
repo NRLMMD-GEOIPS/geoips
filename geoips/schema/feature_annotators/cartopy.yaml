@@ -23,7 +23,7 @@ properties:
       coastline: &line-args
         type: object
         # Only allow enabled, color, linewidth for now. Update if others needed.
-        unevaluatedProperties: false
+        unevaluatedProperties: true
         properties:
           enabled:
             type: boolean

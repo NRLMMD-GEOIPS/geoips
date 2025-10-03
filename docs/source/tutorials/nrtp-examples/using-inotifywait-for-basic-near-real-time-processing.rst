@@ -35,7 +35,6 @@ Potential Shortcomings
    the ``close_write`` event occurs, but there is a chance of partial files if
    they're moved or copied slowly (eg. copying over a network connection).
 
-
 Step 1: Install Dependencies
 ----------------------------
 
