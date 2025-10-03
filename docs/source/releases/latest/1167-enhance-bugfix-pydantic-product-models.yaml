@@ -21,7 +21,7 @@ feature:
   description: 'Adds new pydantic models used to validate product and product_default plugins.'
   files:
     deleted:
-    - ''
+    - 'tests/unit_tests/plugins/yaml/sectors/test_sectors_jsonschema.py'
     moved:
     - ''
     added:
