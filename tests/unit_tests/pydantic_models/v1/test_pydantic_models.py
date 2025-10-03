@@ -19,6 +19,8 @@ from tests.unit_tests.pydantic_models.v1.utils import (
 models_available = {
     "feature_annotators": "default_oldlace",
     "gridline_annotators": "default_palegreen",
+    "products": ("abi", "Infrared"),
+    "product_defaults": "windbarbs",
     "sectors": "korea",
 }
 
