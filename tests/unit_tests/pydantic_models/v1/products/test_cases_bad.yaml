@@ -1,0 +1,79 @@
+product_missing_source_names:
+  key: /
+  val:
+    name: Infrared
+    docstring: |
+      Infrared product for abi
+    product_defaults: Infrared
+    spec:
+      variables: ["B14BT"]
+  cls: SingleProductPluginModel
+  err_str: "Error: product plugin is missing the 'source_names' field."
+product_has_family_and_product_defaults:
+  key: /
+  val:
+    name: Infrared
+    docstring: |
+      Infrared product for abi
+    source_names: [abi]
+    product_defaults: Infrared
+    family: interpolator_algorithm_colormapper
+    spec:
+      variables: ["B14BT"]
+  cls: SingleProductPluginModel
+  err_str: "You must provide exactly one of 'family' or 'product_defaults'."
+product_missing_variables:
+  key: /
+  val:
+    name: Infrared
+    docstring: |
+      Infrared product for abi
+    source_names: [abi]
+    product_defaults: Infrared
+    spec: {}
+  cls: ProductSpec
+  err_str: Field required
+product_using_plugin_not_specified_in_family:
+  key: /
+  val:
+    name: Infrared
+    docstring: |
+      Infrared product for abi
+    source_names: [abi]
+    family: algorithm_colormapper
+    spec:
+      variables: ["B14BT"]
+      algorithm:
+        plugin:
+          name: single_channel
+          arguments:
+            output_data_range: [-90.0, 30.0]
+            input_units: Kelvin
+            output_units: celsius
+            min_outbounds: crop
+            max_outbounds: crop
+            norm: null
+            inverse: null
+      colormapper:
+        plugin:
+          name: Infrared
+          arguments:
+            data_range: [-90.0, 30.0]
+      interpolator:
+        plugin:
+          name: interp_nearest
+          arguments: {}
+  cls: SingleProductPluginModel
+  err_str: "Error: 'interpolator' plugin supplied but that does not adhere to the family supplied or the family of the product default supplied."
+product_list_missing_products_key:
+  key: spec
+  val:
+    - name: Infrared
+      docstring: |
+        Infrared product for abi
+      source_names: [abi]
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT"]
+  cls: ProductsListPluginModel
+  err_str: "Error: Product list plugin is missing the 'products' field in its 'spec' entry."
