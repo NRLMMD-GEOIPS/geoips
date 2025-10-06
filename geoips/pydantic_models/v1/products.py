@@ -278,7 +278,8 @@ class SingleProductPluginModel(PluginModel):
         if self["product_defaults"]:
             self["spec"] = merge_nested_dicts(
                 self["spec"],
-                self["product_defaults"].spec.dict(),
+                # self["product_defaults"].spec.dict(),
+                self["product_defaults"].spec.model_dump(),
                 in_place=False,
                 replace=False,
             )
