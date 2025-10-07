@@ -217,7 +217,8 @@ class SingleProductPluginModel(PluginModel):
             from geoips.interfaces import product_defaults
 
             abspath = product_defaults.get_plugin(self["product_defaults"])["abspath"]
-            yam = yaml.safe_load(open(abspath, "r"))
+            with open(abspath, "r", encoding="utf-8") as f:
+                yam = yaml.safe_load(f) or {}
             # This assigns the actual model to the product defaults attribute. We then
             # merge that (keeping original product contents) with the products spec.
             self["product_defaults"] = ProductDefaultPluginModel(**yam)
@@ -278,7 +279,6 @@ class SingleProductPluginModel(PluginModel):
         if self["product_defaults"]:
             self["spec"] = merge_nested_dicts(
                 self["spec"],
-                # self["product_defaults"].spec.dict(),
                 self["product_defaults"].spec.model_dump(),
                 in_place=False,
                 replace=False,
