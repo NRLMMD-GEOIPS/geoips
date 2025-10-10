@@ -5,108 +5,13 @@
 
 # Python Standard Libraries
 import copy
-import json
 
 # Third-Party Libraries
 import pytest
-from pydantic import Field, ValidationError
+from pydantic import ValidationError
 
 # GeoIPS Libraries
 from geoips.pydantic_models.v2alpha1 import bases
-
-
-@pytest.mark.parametrize(
-    "valid_identifier",
-    [
-        "variable",
-        "_underscore_prefixed_variable",
-        "variable_alpha_numeric123",
-        "_",
-        "valid_variable_with_underscore",
-    ],
-    ids=[
-        "simple identifier",
-        "underscore-prefixed",
-        "alphanumeric",
-        "single underscore",
-        "contains underscore",
-    ],
-)
-def test_good_valid_python_identifier(valid_identifier):
-    """Tests python_identifier call against multiple valid Python identifiers."""
-    assert bases.python_identifier(valid_identifier) == valid_identifier
-
-
-@pytest.mark.parametrize(
-    "invalid_identifier, expected_error",
-    [
-        ("123_starts_with_number", "is not a valid Python identifier"),
-        ("invalid_$_symbol", "is not a valid Python identifier"),
-        ("variable with_space", "is not a valid Python identifier"),
-        ("", "is not a valid Python identifier"),
-        ("class", "is a reserved Python keyword"),
-    ],
-    ids=[
-        "starts with number",
-        "contains invalid special character",
-        "contains space",
-        "empty variable name",
-        "uses reserved keyword",
-    ],
-)
-def test_bad_invalid_python_identifier(invalid_identifier, expected_error):
-    """Tests python_identifier call against multiple invalid Python identifiers."""
-    with pytest.raises(ValueError) as exec_info:
-        bases.python_identifier(invalid_identifier)
-
-    assert isinstance(exec_info.value, ValueError), "Exception raised is not ValueError"
-    error_message = str(exec_info.value)
-    assert (
-        expected_error in error_message
-    ), f"{error_message} does not match {expected_error}"
-
-
-# Test PrettyBaseModel
-class MockPrettyBaseModel(bases.PrettyBaseModel):
-    """Test PrettyBaseModel to test __str__method of PrettyBaseModel."""
-
-    plugin_type: str = Field(description="name of the plugin type")
-    plugin_name: str = Field(description="name of the plugin")
-
-
-def test_good_pretty_base_model_str():
-    """Test if the PrettyBaseModel returns JSON data with two-space indentation."""
-    test_model = MockPrettyBaseModel(plugin_type="Reader", plugin_name="abi_netcdf")
-
-    string_representation_of_model = str(test_model)
-    expected_json_format = json.dumps(
-        {"plugin_type": "Reader", "plugin_name": "abi_netcdf"}, indent=2
-    )
-
-    assert string_representation_of_model == expected_json_format
-
-
-def test_bad_pretty_base_model_missing_required_field():
-    """Test PrettyBaseModel for missing required fields."""
-    with pytest.raises(ValidationError) as exec_info:
-        MockPrettyBaseModel(plugin_type="Reader")
-
-    error_info = exec_info.value.errors()
-    assert len(error_info) == 1
-    assert error_info[0]["loc"] == ("plugin_name",)
-    assert error_info[0]["type"] == "missing"
-
-
-def test_bad_pretty_base_model_invalid_field_type():
-    """Test PrettyBaseModel for missing required fields."""
-    with pytest.raises(ValidationError) as exec_info:
-        MockPrettyBaseModel(plugin_type="Reader", plugin_name=123)
-
-    error_info = exec_info.value.errors()
-    assert len(error_info) == 1
-    assert error_info[0]["loc"] == ("plugin_name",)
-    assert error_info[0]["type"] == "string_type"
-
 
 # Test PluginModel
 

@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Pydantic base models for GeoIPS.
 
 Intended for use by other base models.
@@ -10,164 +13,38 @@ Other models defined here validate field types within child plugin models.
 from __future__ import annotations
 
 # Python Standard Libraries
-import keyword
 import logging
-from typing import Any, ClassVar, Dict, Union, Tuple, Type
+from typing import Any, ClassVar, Dict, Tuple, Type
+
+# from typing import Type
 import warnings
 
 # Third-Party Libraries
 from pydantic import (
-    BaseModel,
-    ConfigDict,
     Field,
     field_validator,
     model_validator,
 )
 from pydantic_core import PydanticCustomError
-from pydantic.functional_validators import AfterValidator
-from typing_extensions import Annotated
+
+# from pydantic.functional_validators import AfterValidator
 from pydantic._internal._model_construction import (
     ModelMetaclass,
 )  # internal API, but safe to use
 
+# from typing_extensions import Annotated
+
+
 # GeoIPS imports
 from geoips import interfaces
+from geoips.pydantic_models.root_bases import (
+    FrozenModel,
+    PythonIdentifier,
+    get_interfaces,
+)
 from geoips.geoips_utils import get_interface_module
 
 LOG = logging.getLogger(__name__)
-
-ColorTuple = Union[Tuple[float, float, float], Tuple[float, float, float, float]]
-ColorType = Union[ColorTuple, str]
-
-
-class PrettyBaseModel(BaseModel):
-    """Make Pydantic models pretty-print by default.
-
-    This model overrides the default string representation of Pydantic models to
-    generate a user-friendly, JSON-formatted output with two-space indentation.
-    """
-
-    def __str__(self) -> str:
-        """Return a pretty-print string representation of a Pydantic model.
-
-        The returned string will be formatted as JSON with two-space indentation.
-
-        Returns
-        -------
-        str
-            A JSON-formatted string representation of the Pydantic model.
-        """
-        # Check if exclude unset removes all None attributes or just those which weren't
-        # set. I.e. field = None, vs field defaults to None, and hasn't been supplied
-        return self.model_dump_json(indent=2, exclude_unset=True)
-
-
-class FrozenModel(PrettyBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are not allowed, and the object data cannot be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=True)
-
-
-class PermissiveFrozenModel(PrettyBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are allowed, but the object data cannot be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=True)
-
-
-class DynamicModel(PrettyBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are not allowed, but the object data can be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="forbid", populate_by_name=True, frozen=False)
-
-
-class PermissiveDynamicModel(PrettyBaseModel):
-    """Pydantic model with a customized ``ConfigDict`` configurations for GeoIPS.
-
-    This model extends ``PrettyBaseModel`` and uses Pydantic's ConfigDict to provide
-    customized configurations. It is intended for use in cases where additional fields
-    are allowed, and the object data can be modified after initialization.
-    """
-
-    model_config = ConfigDict(extra="allow", populate_by_name=True, frozen=False)
-
-
-def python_identifier(val: str) -> str:
-    """Validate if a string is a valid Python identifier.
-
-    Validate if a string is a valid Python identifier and not a reserved Python keyword.
-    `See <https://docs.python.org/3/reference/lexical_analysis.html#identifiers>`_ for
-    more information on Python identifiers and reserved keywords.
-
-    Validation is performed by calling `str.isidentifier` and `keyword.iskeyword`.
-
-    Parameters
-    ----------
-    val : str
-        The input string to validate.
-
-    Returns
-    -------
-    str
-        The input string if it is a valid Python identifier.
-
-    Raises
-    ------
-    ValueError
-        If the input string is invalid as a Python identifier or a reserved keyword.
-    """
-    error_messages = []
-    if not val.isidentifier():
-        error_messages.append(f"'{val}' is not a valid Python identifier.")
-    if keyword.iskeyword(val):
-        error_messages.append(f"'{val}' is a reserved Python keyword.")
-
-    if error_messages:
-        error_message = " ".join(error_messages) + " Please update it."
-        LOG.interactive(error_message, exc_info=True)
-        raise ValueError(error_message)
-
-    return val
-
-
-# Create the PythonIdentifier type
-PythonIdentifier = Annotated[str, AfterValidator(python_identifier)]
-
-
-def get_interfaces(namespace) -> set[str]:
-    """Return a set of distinct interfaces.
-
-    This function returns all available plugin interfaces. The results are cached for
-    runtime memory optimization.
-
-    Returns
-    -------
-    set of str
-        set of interfaces
-    """
-    if namespace == "geoips.plugin_packages":
-        return {
-            available_interfaces
-            for ifs in interfaces.list_available_interfaces().values()
-            for available_interfaces in ifs
-        }
-    else:
-        mod = get_interface_module(namespace)
-        return set(mod.__all__)
 
 
 class PluginModelMetadata(ModelMetaclass):

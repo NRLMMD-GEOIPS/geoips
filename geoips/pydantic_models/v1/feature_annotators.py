@@ -3,18 +3,28 @@
 
 """Pydantic models used to validate GeoIPS feature annotator plugins."""
 
+# Previously, the model names used as type hints were quoted marking them as strings;
+# leading to forward references, which allow referring to a class before Python has
+# fully parsed it.
+
+# By adding from __future__ import annotations, Python defers evaluation of all type
+# annotations until runtime, automatically treating them as strings. This eliminates
+# the need to manually quote forward-referenced types (simplified type hinting).
+from __future__ import annotations
+
+
 from pydantic import Field, model_validator
 from typing import Optional
 
-from geoips.pydantic_models.v1.bases import (
+from geoips.pydantic_models.root_bases import (
+    ColorType,
     FrozenModel,
     PermissiveFrozenModel,
-    PluginModel,
-    ColorType,
 )
+from geoips.pydantic_models.v1.bases import PluginModel
 
 MATPLOTLIB_COLOR_DOC = (
-    "An rgb tuple, matplotlib named color, or hexidecimal string (#XXXXXX)."
+    "An rgb tuple, matplotlib named color, or hexadecimal string (#XXXXXX)."
     "For more info, see: "
     "https://matplotlib.org/stable/users/explain/colors/colors.html"
 )

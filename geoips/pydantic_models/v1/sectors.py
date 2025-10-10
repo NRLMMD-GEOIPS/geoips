@@ -1,5 +1,8 @@
-"""Pydantic models used to validate GeoIPS sector plugins."""
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore ellps clat clon
+"""Pydantic models used to validate GeoIPS sector plugins."""
 from datetime import datetime
 from enum import Enum
 from typing import Literal, Tuple, Union
@@ -12,11 +15,8 @@ from pydantic import (
 )
 from pydantic.functional_validators import AfterValidator
 
-from geoips.pydantic_models.v1.bases import (
-    FrozenModel,
-    PermissiveFrozenModel,
-    PluginModel,
-)
+from geoips.pydantic_models.root_bases import FrozenModel, PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import PluginModel
 
 
 class EarthConstants(float, Enum):

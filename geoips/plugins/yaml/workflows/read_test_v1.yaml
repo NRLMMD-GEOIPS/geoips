@@ -28,3 +28,7 @@ spec:
         inverse: null
     # workflow:
     #     name: read_test
+    interpolator:
+      kind: interpolator
+      name: interp_nearest
+      arguments: {}

@@ -25,12 +25,12 @@ from pydantic import ConfigDict, Field, field_validator, model_validator
 
 # GeoIPS imports
 from geoips import interfaces
-from geoips.pydantic_models.v2alpha1.bases import (
+from geoips.pydantic_models.root_bases import (
     PythonIdentifier,
-    PluginModel,
     FrozenModel,
     PermissiveFrozenModel,
 )
+from geoips.pydantic_models.v2alpha1.bases import PluginModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -114,7 +114,6 @@ class InterpolatorArgumentsModel(PermissiveFrozenModel):
 class WorkflowArgumentsModel(PermissiveFrozenModel):
     """Validate Workflow arguments."""
 
-    model_config = ConfigDict(extra="allow")
     pass
 
 
