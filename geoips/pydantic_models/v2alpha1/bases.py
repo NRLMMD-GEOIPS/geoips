@@ -14,7 +14,7 @@ from __future__ import annotations
 
 # Python Standard Libraries
 import logging
-from typing import Any, ClassVar, Dict, Union, Tuple, Type
+from typing import Any, ClassVar, Dict, Tuple, Type
 
 # from typing import Type
 import warnings

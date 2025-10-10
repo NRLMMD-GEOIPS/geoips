@@ -11,7 +11,6 @@ from geoips.pydantic_models.root_bases import (
 
 from geoips.pydantic_models.v2alpha1.bases import (
     PluginModel,
-    ColorType,
 )
 
 

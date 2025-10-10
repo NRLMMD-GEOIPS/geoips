@@ -14,9 +14,13 @@ from __future__ import annotations
 
 
 from pydantic import Field, model_validator
-from typing import Any, Optional
+from typing import Optional
 
-from geoips.pydantic_models.root_bases import ColorType, FrozenModel, PermissiveFrozenModel
+from geoips.pydantic_models.root_bases import (
+    ColorType,
+    FrozenModel,
+    PermissiveFrozenModel,
+)
 from geoips.pydantic_models.v1.bases import PluginModel
 
 MATPLOTLIB_COLOR_DOC = (
