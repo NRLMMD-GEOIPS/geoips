@@ -1,370 +1,63 @@
-Version 1.15.2 (2025-07-31)
+Version 1.15.2 (2025-10-14)
 ***************************
 
- * *Bug fix*: Ensure geoips_rebuild_registries is properly set as a bool
- * *Bug fix*: Cast radius of influence to float when passing to interp_kd_tree
- * *Bug fix*: Ssmi_binary numpy 2.x uint16 cast bug fix
- * *Bug fix*: No longer support bug in datetime64 scaling
- * *Bug fix*: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
- * *Bug fix*: Remove unused geoips_get, add 1.15.2 environment files
- * *Bug fix*: Ssmi_binary numpy 2.x uint16 cast bug fix
- * *Bug fix*: Ensure plugin-is-valid passes with type hints in plugin call signature
- * *Bug fix*: Ensure overall_usage_dict exists before accessing it
- * *Bug fix*: Add pytest alias to ensure the user doesn't want to track their pytest output
- * *Bug fix*: Do not try to parse any empty lines in tc deck file
- * *Bug fix*: Additional test output updates
- * *Bug fix*: Update amsub -> amsua_mhs for extra test script
- * *Bug fix*: Do not try to parse any empty lines in tc deck file
- * *Bug fix*: Add geoips prefix to the pregenerated geolocation env vars
- * *Bug fix*: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
- * *Bug fix*: Remove unused geoips_get, add 1.15.2 environment files
- * *Bug fix*: Fix segfault issue in fci reader
- * *Bug fix*: Allow non-bash scripts in test_integration.py
- * *Bug fix*: Allow another level in uncompress_test_data.sh
- * *Enhancement*: Add new sectors for full disk meteosat products
- * *Enhancement*: Add roi into geosatellite sensor readers
- * *Enhancement*: Add guam and hawaii static sectors to main geoips repo
  * *Enhancement*: Use base_paths to control output of geostationary geolocation files
+ * *Enhancement*: Add roi into geosatellite sensor readers
+ * *Enhancement*: Track resource usage at checkpoints, add zarr hooks to geostationary readers
  * *Enhancement*: Add comments to aws reader and delete annotated images
  * *Enhancement*: Update aws reader and clean imagery
  * *Enhancement*: Add arctic weather satellite text data for tc products
  * *Enhancement*: Add aws reader and test products
- * *Enhancement*: Add support for using zarray for geolocation cache
+ * *Enhancement*: Add new sectors for full disk meteosat products
  * *Enhancement*: Additional metadata for geostationary readers.
- * *Enhancement*: Track resource usage at checkpoints, add zarr hooks to geostationary readers
- * *Testing*: Add pytest-based integration tests for all packages
- * *Testing*: Raise more informative error for json schema plugin validationerror
- * *Testing*: Standardize base, full, and system pytest markers for better test separation
- * *Testing*: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
- * *Testing*: Update download_noaa_aws.sh script to write to geoips_outdirs
- * *Testing*: Update download_noaa_aws.sh script to write to geoips_outdirs
- * *Testing*: Raise more informative error for json schema plugin validationerror
- * *Testing*: Standardize base, full, and system pytest markers for better test separation
- * *Testing*: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
+ * *Enhancement*: Add support for using zarray for geolocation cache
+ * *Enhancement*: Add guam and hawaii static sectors to main geoips repo
+ * *Bug fix*: Do not try to parse any empty lines in tc deck file
+ * *Bug fix*: Allow non-bash scripts in test_integration.py
+ * *Bug fix*: Allow another level in uncompress_test_data.sh
+ * *Bug fix*: Ensure geoips_rebuild_registries is properly set as a bool
+ * *Bug fix*: Ensure overall_usage_dict exists before accessing it
+ * *Bug fix*: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
+ * *Bug fix*: Remove unused geoips_get, add 1.15.2 environment files
+ * *Bug fix*: Add pytest alias to ensure the user doesn't want to track their pytest output
+ * *Bug fix*: Additional test output updates
+ * *Bug fix*: Update amsub -> amsua_mhs for extra test script
+ * *Bug fix*: Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
+ * *Bug fix*: Remove unused geoips_get, add 1.15.2 environment files
+ * *Bug fix*: Ssmi_binary numpy 2.x uint16 cast bug fix
+ * *Bug fix*: Cast radius of influence to float when passing to interp_kd_tree
+ * *Bug fix*: Ssmi_binary numpy 2.x uint16 cast bug fix
+ * *Bug fix*: No longer support bug in datetime64 scaling
+ * *Bug fix*: Add geoips prefix to the pregenerated geolocation env vars
+ * *Bug fix*: Fix segfault issue in fci reader
+ * *Bug fix*: Do not try to parse any empty lines in tc deck file
+ * *Bug fix*: Ensure plugin-is-valid passes with type hints in plugin call signature
  * *Testing*: Finalize pytest integration markers based on srs
- * *Actions*: Copy the pip base requirements to requirements.txt
+ * *Testing*: Raise more informative error for json schema plugin validationerror
+ * *Testing*: Standardize base, full, and system pytest markers for better test separation
+ * *Testing*: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
+ * *Testing*: Update download_noaa_aws.sh script to write to geoips_outdirs
+ * *Testing*: Raise more informative error for json schema plugin validationerror
+ * *Testing*: Standardize base, full, and system pytest markers for better test separation
+ * *Testing*: Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
+ * *Testing*: Add pytest-based integration tests for all packages
+ * *Testing*: Update download_noaa_aws.sh script to write to geoips_outdirs
  * *Documentation*: Update upcoming and tagged versions
+ * *Actions*: Copy the pip base requirements to requirements.txt
 
-Bug fix
-=======
+Enhancement
+===========
 
-Ensure geoips_rebuild_registries is properly set as a bool
-----------------------------------------------------------
+Use base_paths to control output of geostationary geolocation files
+-------------------------------------------------------------------
 
-Allow 0, false, or False for setting in environment.
-
-::
-
-     modified: geoips/filenames/base_paths.py
-
-Bug fix
-=======
-
-Cast radius of influence to float when passing to interp_kd_tree
-----------------------------------------------------------------
-
-With numpy 2.0 / netcdf upgrade, some readers now return np.float64 for radius of
-influence.  Pyresample fails with
-
-* TypeError radius_of_influence must be number
-
-Cast to float within pyresample wrapper to avoid errors.
-
-::
-
-     modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
-
-Bug fix
-=======
-
-Ssmi_binary numpy 2.x uint16 cast bug fix
------------------------------------------
-
-buffer values were overflowing due to uint8, cast as uint16
-
-::
-
-     modified: geoips/plugins/modules/readers/ssmi_binary.py
-
-Bug fix
-=======
-
-No longer support bug in datetime64 scaling
--------------------------------------------
-
-This was a bug until numpy 2.x with improperly handling scaling factors for
-numpy datetime64 objects.  It now appears to work correctly, so remove the hard
-coded 1e-9 scaling factor.
-
-I am honestly not exactly sure how this worked before, but changing the default
-scaling from 1e-9 to 1 works now, and 1e-9 default scaling worked for numpy < 2.
-My best guess is that the datetime64's were stored improperly with numpy < 2, so
-when it thought it was units of seconds, it was actually units of nanoseconds, so
-we always had to use the 1e-9 scale factor, regardless of whether it said it
-was seconds or nanoseconds.
-
-::
-
-     modified: geoips/xarray_utils/time.py
-
-Bug fix
-=======
-
-Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
-------------------------------------------------------------------------
-
-* For now, explicitly add any new YAML product fields to schema
-* We may want to generalize this for OBP, but keep things explicit to better track
-  what/how we are implementing things now.
-
-::
-
-     modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
-     modified: geoips/schema/product_defaults/specs/interpolator.yaml
-
-Bug fix
-=======
-
-Remove unused geoips_get, add 1.15.2 environment files
-------------------------------------------------------
-
-* Remove geoips/commandline/geoips_get.py - keeps returning in public merges.
-* Add 1.15.2 environment files
-
-::
-
-     deleted: geoips/commandline/geoips_get.py
-     added: environments/mamba_base_package_list_1.15.2_20250409.yml
-     added: environments/pip_base_requirements_1.15.2_20250409.txt
-
-Bug fix
-=======
-
-Ssmi_binary numpy 2.x uint16 cast bug fix
------------------------------------------
-
-buffer values were overflowing due to uint8, cast as uint16
-
-::
-
-     modified: geoips/plugins/modules/readers/ssmi_binary.py
-
-Bug fix
-=======
-
-Ensure plugin-is-valid passes with type hints in plugin call signature
-----------------------------------------------------------------------
-
-Previously if a plugin had type hints within the call signature, the return
-value of inspect.signature was not being parsed properly, and the plugin
-was not being recognized as valid.  Ensure we use only the argument name
-for comparison against the list of allowed arguments.
-
-Note currently plugin_is_valid is only tested by calling
-tests/utils/test_interfaces.py, in the future call signatures will be
-validated differently, but we want to ensure this test is regularly
-run to ensure compliance with expected call signature formatting
-as much as possible.
-
-::
-
-     modified: geoips/interfaces/base.py""
-
-Bug fix
-=======
-
-Ensure overall_usage_dict exists before accessing it
-----------------------------------------------------
-
-I have no idea why this wasn't working.
-
-::
-
-     modified: geoips/utils/memusg.py
-
-Bug fix
-=======
-
-Add pytest alias to ensure the user doesn't want to track their pytest output
------------------------------------------------------------------------------
-
-Just a reminder.
-
-::
-
-     modified: setup/config_geoips
-
-Bug fix
-=======
-
-Do not try to parse any empty lines in tc deck file
----------------------------------------------------
-
-Use regex to skip any lines in a deck file that do not have any
-alpha-numeric characters, which implies the line is empty.
-
-::
-
-     modified: geoips/sector_utils/tc_tracks_database.py
-
-Bug fix
-=======
-
-Additional test output updates
-------------------------------
-
-Extra tests
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-     modified:
-     tests/outputs/ewsg.static.Infrared.imagery_clean/20201211.230905.ews-g1.gvar.Infrared.ewsg.65p15.noaa.10p0.png
-     modified:
-     tests/outputs/modis.Infrared.unprojected_image/20210104.201500.aqua.modis.Infrared.self_register.100p00.nasa.3p0.png
-     modified:
-     tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png
-     modified:
-     tests/outputs/seviri.WV-Upper.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
-
-Bug fix
-=======
-
-Update amsub -> amsua_mhs for extra test script
------------------------------------------------
-
-Updating naming for accuracy
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-
-Bug fix
-=======
-
-Do not try to parse any empty lines in tc deck file
----------------------------------------------------
-
-Use regex to skip any lines in a deck file that do not have any
-alpha-numeric characters, which implies the line is empty.
-
-::
-
-     modified: geoips/sector_utils/tc_tracks_database.py
-
-Bug fix
-=======
-
-Add geoips prefix to the pregenerated geolocation env vars
-----------------------------------------------------------
-
-By standard, always prefix geoips env vars with GEOIPS, so include it in these
-new ones.
+Use PREGENERATED_STATIC_GEOLOCATION and PREGENERATED_DYNAMIC_GEOLOCATION variables
+to control output location.
 
 ::
 
      modified: geoips/filenames/base_paths.py
      modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
-     modified: setup/bash_setup/color_prompt
-
-Bug fix
-=======
-
-Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
-------------------------------------------------------------------------
-
-* For now, explicitly add any new YAML product fields to schema
-* We may want to generalize this for OBP, but keep things explicit to better track
-  what/how we are implementing things now.
-
-::
-
-     modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
-     modified: geoips/schema/product_defaults/specs/interpolator.yaml
-
-Bug fix
-=======
-
-Remove unused geoips_get, add 1.15.2 environment files
-------------------------------------------------------
-
-* Remove geoips/commandline/geoips_get.py - keeps returning in public merges.
-* Add 1.15.2 environment files
-
-::
-
-     deleted: geoips/commandline/geoips_get.py
-     added: environments/mamba_base_package_list_1.15.2_20250409.yml
-     added: environments/pip_base_requirements_1.15.2_20250409.txt
-
-Bug fix
-=======
-
-Fix segfault issue in fci reader
---------------------------------
-
-Refactor the FCI reader to remove dependency on using the satpy FCI reader. The
-satpy reader causes a segfault when converting a dask array to a numpy array. No
-idea why....
-
-Added a new function that allows us to toggle between using the satpy reader, vs
-using xarray to open the data and convert radiances to reflectances or brightness
-temperatures. There are differences in the output imagery, so updated the comparison
-outputs to use the reflectances/brightness temperatures generated by the new
-read_with_xarray function.
-
-Disabled the sun_zen_correction in the fci product YAML for the visible product, as
-this correction was causing washed out reflectances near the scan edge.
-
-::
-
-     deleted:
-     tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p10.EUMETSAT.20p0.png
-     added:
-     tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p09.EUMETSAT.20p0.png
-     modified: geoips/plugins/modules/readers/fci_netcdf.py
-     modified: geoips/plugins/yaml/products/fci.yaml
-     modified:
-     tests/outputs/fci.unprojected_image.Infrared/20240113.115000.MTG-I1.fci.Infrared.self_register.71p89.EUMETSAT.50p0.png
-
-Bug fix
-=======
-
-Allow non-bash scripts in test_integration.py
----------------------------------------------
-
-Previously explicitly called bash $script_name, update test_integration to call
-with "bash" if .sh in the script name, else just call the full line directly.
-
-::
-
-     modified: tests/integration_tests/test_integration.py
-
-Bug fix
-=======
-
-Allow another level in uncompress_test_data.sh
-----------------------------------------------
-
-Ensure all files get extracted.
-
-::
-
-     modified: tests/utils/uncompress_test_data.sh
-
-Enhancement
-===========
-
-Add new sectors for full disk meteosat products
------------------------------------------------
-
-Add new meteosat and meteosat_iodc sectors that cover the full disk imagery of
-meteosat satellites centered at 0deg and 45.5deg, respectively
-
-::
-
-     added: geoips/plugins/yaml/sectors/static/meteosat_eu.yaml
-     added: geoips/plugins/yaml/sectors/static/meteosat_iodc.yaml
 
 Enhancement
 ===========
@@ -389,29 +82,38 @@ if ROI is not defined.
 Enhancement
 ===========
 
-Add guam and hawaii static sectors to main geoips repo
-------------------------------------------------------
+Track resource usage at checkpoints, add zarr hooks to geostationary readers
+----------------------------------------------------------------------------
 
-Static sectors covering Guam and Hawaii.
+Add new "track_resource_usage" and "checkpoint_usage_stats" methods to the
+memusg.PidLog class. The "track_resource_usage" method allows for more detailed
+profiling of resource usage statistics at specified checkpoints in a procflow. The
+"checkpoint_usage_stats" method returns a dictionary of each checkpoint with the
+recorded resource usage statistics. These detailed resource usage statistics can be
+written to the database if both `--product_db` and `--store_checkpoint_statistics`
+are passed to the procflow.These checkpoints are currently limited to the
+config_based procflow, and in geostationary readers (including
+readers.geostationary_geolocation).
+
+Also updated the ewsg_netcdf, ahi_hsd, ami_netcdf, and seviri_hrit readers to
+include hooks for toggling between using memmap or zarr as the backend for storing
+pre-calcuated geostationary geolocation data. (Note the ewsg_netcdf reader has the
+hooks, but the settings are not actively used. Added for consistency with the other
+geostationary readers.)
 
 ::
 
-     added: geoips/plugins/yaml/sectors/static/guam.yaml
-     added: geoips/plugins/yaml/sectors/static/hawaii.yaml
-
-Enhancement
-===========
-
-Use base_paths to control output of geostationary geolocation files
--------------------------------------------------------------------
-
-Use PREGENERATED_STATIC_GEOLOCATION and PREGENERATED_DYNAMIC_GEOLOCATION variables
-to control output location.
-
-::
-
-     modified: geoips/filenames/base_paths.py
+     modified: geoips/commandline/args.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
      modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: geoips/utils/memusg.py
 
 Enhancement
 ===========
@@ -536,27 +238,16 @@ Five test images are created.
 Enhancement
 ===========
 
-Add support for using zarray for geolocation cache
---------------------------------------------------
+Add new sectors for full disk meteosat products
+-----------------------------------------------
 
-Update the ABI reader and geolocation utils to support saving the pre-generated
-geolocation cache in either numpy.memmap or zarray. The default behavior is to keep
-using numpy.memmap, but the new geolocation_cache_backend allows users to toggle
-between "memmap" or "zarr".
-
-Also updated the readers interface to pass kwargs to the reader when using the
-read_data_to_xarray_dict and call_files_and_get_top_level_metadata ReadersInterface
-methods.
-
-Add test scripts for ABI zarray geolocation cache backend.
+Add new meteosat and meteosat_iodc sectors that cover the full disk imagery of
+meteosat satellites centered at 0deg and 45.5deg, respectively
 
 ::
 
-     added: tests/scripts/abi.config_based_output_low_memory_zarr_backend.sh
-     added: tests/yaml_configs/abi_test_low_memory_zarr_cache_backend.yaml
-     modified: geoips/interfaces/module_based/readers.py
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     added: geoips/plugins/yaml/sectors/static/meteosat_eu.yaml
+     added: geoips/plugins/yaml/sectors/static/meteosat_iodc.yaml
 
 Enhancement
 ===========
@@ -582,38 +273,517 @@ different variables other than product name.
 Enhancement
 ===========
 
-Track resource usage at checkpoints, add zarr hooks to geostationary readers
-----------------------------------------------------------------------------
+Add support for using zarray for geolocation cache
+--------------------------------------------------
 
-Add new "track_resource_usage" and "checkpoint_usage_stats" methods to the
-memusg.PidLog class. The "track_resource_usage" method allows for more detailed
-profiling of resource usage statistics at specified checkpoints in a procflow. The
-"checkpoint_usage_stats" method returns a dictionary of each checkpoint with the
-recorded resource usage statistics. These detailed resource usage statistics can be
-written to the database if both `--product_db` and `--store_checkpoint_statistics`
-are passed to the procflow.These checkpoints are currently limited to the
-config_based procflow, and in geostationary readers (including
-readers.geostationary_geolocation).
+Update the ABI reader and geolocation utils to support saving the pre-generated
+geolocation cache in either numpy.memmap or zarray. The default behavior is to keep
+using numpy.memmap, but the new geolocation_cache_backend allows users to toggle
+between "memmap" or "zarr".
 
-Also updated the ewsg_netcdf, ahi_hsd, ami_netcdf, and seviri_hrit readers to
-include hooks for toggling between using memmap or zarr as the backend for storing
-pre-calcuated geostationary geolocation data. (Note the ewsg_netcdf reader has the
-hooks, but the settings are not actively used. Added for consistency with the other
-geostationary readers.)
+Also updated the readers interface to pass kwargs to the reader when using the
+read_data_to_xarray_dict and call_files_and_get_top_level_metadata ReadersInterface
+methods.
+
+Add test scripts for ABI zarray geolocation cache backend.
 
 ::
 
-     modified: geoips/commandline/args.py
-     modified: geoips/plugins/modules/procflows/config_based.py
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     added: tests/scripts/abi.config_based_output_low_memory_zarr_backend.sh
+     added: tests/yaml_configs/abi_test_low_memory_zarr_cache_backend.yaml
+     modified: geoips/interfaces/module_based/readers.py
      modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
-     modified: geoips/plugins/modules/readers/fci_netcdf.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
      modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Enhancement
+===========
+
+Add guam and hawaii static sectors to main geoips repo
+------------------------------------------------------
+
+Static sectors covering Guam and Hawaii.
+
+::
+
+     added: geoips/plugins/yaml/sectors/static/guam.yaml
+     added: geoips/plugins/yaml/sectors/static/hawaii.yaml
+
+Bug fix
+=======
+
+Do not try to parse any empty lines in tc deck file
+---------------------------------------------------
+
+Use regex to skip any lines in a deck file that do not have any
+alpha-numeric characters, which implies the line is empty.
+
+::
+
+     modified: geoips/sector_utils/tc_tracks_database.py
+
+Bug fix
+=======
+
+Allow non-bash scripts in test_integration.py
+---------------------------------------------
+
+Previously explicitly called bash $script_name, update test_integration to call
+with "bash" if .sh in the script name, else just call the full line directly.
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Bug fix
+=======
+
+Allow another level in uncompress_test_data.sh
+----------------------------------------------
+
+Ensure all files get extracted.
+
+::
+
+     modified: tests/utils/uncompress_test_data.sh
+
+Bug fix
+=======
+
+Ensure geoips_rebuild_registries is properly set as a bool
+----------------------------------------------------------
+
+Allow 0, false, or False for setting in environment.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+
+Bug fix
+=======
+
+Ensure overall_usage_dict exists before accessing it
+----------------------------------------------------
+
+I have no idea why this wasn't working.
+
+::
+
      modified: geoips/utils/memusg.py
+
+Bug fix
+=======
+
+Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
+------------------------------------------------------------------------
+
+* For now, explicitly add any new YAML product fields to schema
+* We may want to generalize this for OBP, but keep things explicit to better track
+  what/how we are implementing things now.
+
+::
+
+     modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
+     modified: geoips/schema/product_defaults/specs/interpolator.yaml
+
+Bug fix
+=======
+
+Remove unused geoips_get, add 1.15.2 environment files
+------------------------------------------------------
+
+* Remove geoips/commandline/geoips_get.py - keeps returning in public merges.
+* Add 1.15.2 environment files
+
+::
+
+     deleted: geoips/commandline/geoips_get.py
+     added: environments/mamba_base_package_list_1.15.2_20250409.yml
+     added: environments/pip_base_requirements_1.15.2_20250409.txt
+
+Bug fix
+=======
+
+Add pytest alias to ensure the user doesn't want to track their pytest output
+-----------------------------------------------------------------------------
+
+Just a reminder.
+
+::
+
+     modified: setup/config_geoips
+
+Bug fix
+=======
+
+Additional test output updates
+------------------------------
+
+Extra tests
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+     modified:
+     tests/outputs/ewsg.static.Infrared.imagery_clean/20201211.230905.ews-g1.gvar.Infrared.ewsg.65p15.noaa.10p0.png
+     modified:
+     tests/outputs/modis.Infrared.unprojected_image/20210104.201500.aqua.modis.Infrared.self_register.100p00.nasa.3p0.png
+     modified:
+     tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png
+     modified:
+     tests/outputs/seviri.WV-Upper.unprojected_image/20231211.080000.msg-2.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png
+
+Bug fix
+=======
+
+Update amsub -> amsua_mhs for extra test script
+-----------------------------------------------
+
+Updating naming for accuracy
+
+::
+
+     modified: tests/integration_tests/test_integration.py
+
+Bug fix
+=======
+
+Add pad_x_scale_factor and pad_y_scale_factor to product_defaults schema
+------------------------------------------------------------------------
+
+* For now, explicitly add any new YAML product fields to schema
+* We may want to generalize this for OBP, but keep things explicit to better track
+  what/how we are implementing things now.
+
+::
+
+     modified: geoips/schema/product_defaults/specs/interpolator_algorithm_colormapper.yaml
+     modified: geoips/schema/product_defaults/specs/interpolator.yaml
+
+Bug fix
+=======
+
+Remove unused geoips_get, add 1.15.2 environment files
+------------------------------------------------------
+
+* Remove geoips/commandline/geoips_get.py - keeps returning in public merges.
+* Add 1.15.2 environment files
+
+::
+
+     deleted: geoips/commandline/geoips_get.py
+     added: environments/mamba_base_package_list_1.15.2_20250409.yml
+     added: environments/pip_base_requirements_1.15.2_20250409.txt
+
+Bug fix
+=======
+
+Ssmi_binary numpy 2.x uint16 cast bug fix
+-----------------------------------------
+
+buffer values were overflowing due to uint8, cast as uint16
+
+::
+
+     modified: geoips/plugins/modules/readers/ssmi_binary.py
+
+Bug fix
+=======
+
+Cast radius of influence to float when passing to interp_kd_tree
+----------------------------------------------------------------
+
+With numpy 2.0 / netcdf upgrade, some readers now return np.float64 for radius of
+influence.  Pyresample fails with
+
+* TypeError radius_of_influence must be number
+
+Cast to float within pyresample wrapper to avoid errors.
+
+::
+
+     modified: geoips/plugins/modules/interpolators/pyresample_wrappers/interp_gauss.py
+
+Bug fix
+=======
+
+Ssmi_binary numpy 2.x uint16 cast bug fix
+-----------------------------------------
+
+buffer values were overflowing due to uint8, cast as uint16
+
+::
+
+     modified: geoips/plugins/modules/readers/ssmi_binary.py
+
+Bug fix
+=======
+
+No longer support bug in datetime64 scaling
+-------------------------------------------
+
+This was a bug until numpy 2.x with improperly handling scaling factors for
+numpy datetime64 objects.  It now appears to work correctly, so remove the hard
+coded 1e-9 scaling factor.
+
+I am honestly not exactly sure how this worked before, but changing the default
+scaling from 1e-9 to 1 works now, and 1e-9 default scaling worked for numpy < 2.
+My best guess is that the datetime64's were stored improperly with numpy < 2, so
+when it thought it was units of seconds, it was actually units of nanoseconds, so
+we always had to use the 1e-9 scale factor, regardless of whether it said it
+was seconds or nanoseconds.
+
+::
+
+     modified: geoips/xarray_utils/time.py
+
+Bug fix
+=======
+
+Add geoips prefix to the pregenerated geolocation env vars
+----------------------------------------------------------
+
+By standard, always prefix geoips env vars with GEOIPS, so include it in these
+new ones.
+
+::
+
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+     modified: setup/bash_setup/color_prompt
+
+Bug fix
+=======
+
+Fix segfault issue in fci reader
+--------------------------------
+
+Refactor the FCI reader to remove dependency on using the satpy FCI reader. The
+satpy reader causes a segfault when converting a dask array to a numpy array. No
+idea why....
+
+Added a new function that allows us to toggle between using the satpy reader, vs
+using xarray to open the data and convert radiances to reflectances or brightness
+temperatures. There are differences in the output imagery, so updated the comparison
+outputs to use the reflectances/brightness temperatures generated by the new
+read_with_xarray function.
+
+Disabled the sun_zen_correction in the fci product YAML for the visible product, as
+this correction was causing washed out reflectances near the scan edge.
+
+::
+
+     deleted:
+     tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p10.EUMETSAT.20p0.png
+     added:
+     tests/outputs/fci.static.Visible.imagery_annotated/20240113.115000.MTG-I1.fci.Visible.global.26p09.EUMETSAT.20p0.png
+     modified: geoips/plugins/modules/readers/fci_netcdf.py
+     modified: geoips/plugins/yaml/products/fci.yaml
+     modified:
+     tests/outputs/fci.unprojected_image.Infrared/20240113.115000.MTG-I1.fci.Infrared.self_register.71p89.EUMETSAT.50p0.png
+
+Bug fix
+=======
+
+Do not try to parse any empty lines in tc deck file
+---------------------------------------------------
+
+Use regex to skip any lines in a deck file that do not have any
+alpha-numeric characters, which implies the line is empty.
+
+::
+
+     modified: geoips/sector_utils/tc_tracks_database.py
+
+Bug fix
+=======
+
+Ensure plugin-is-valid passes with type hints in plugin call signature
+----------------------------------------------------------------------
+
+Previously if a plugin had type hints within the call signature, the return
+value of inspect.signature was not being parsed properly, and the plugin
+was not being recognized as valid.  Ensure we use only the argument name
+for comparison against the list of allowed arguments.
+
+Note currently plugin_is_valid is only tested by calling
+tests/utils/test_interfaces.py, in the future call signatures will be
+validated differently, but we want to ensure this test is regularly
+run to ensure compliance with expected call signature formatting
+as much as possible.
+
+::
+
+     modified: geoips/interfaces/base.py""
+
+Testing
+=======
+
+Finalize pytest integration markers based on srs
+------------------------------------------------
+
+The Software Requirements Specification includes very specific delineation between
+GeoIPS Core, GeoIPS Site, and GeoIPS System implementations.
+Update pytest markers based on the definitions in the SRS, and update all verbiage
+in integration tests / setup scripts.
+
+::
+
+     moved: tests/integration_tests/site_install.sh <- system_install.sh
+     modified: pytest.ini
+     modified: setup/check_system_requirements.sh
+     modified: tests/integration_tests/site_install.sh
+     modified: tests/integration_tests/test_integration.py
+     modified: tests/utils/interactive_pytest.sh
+
+Testing
+=======
+
+Raise more informative error for json schema plugin validationerror
+-------------------------------------------------------------------
+
+I believe this will still work as long as the original error is included as
+str(err) within the output.  Previously the original error was not included,
+and the unit tests would fail because they are looking for a specific string
+within the error contents.
+
+::
+
+     modified: geoips/interfaces/base.py
+
+Testing
+=======
+
+Standardize base, full, and system pytest markers for better test separation
+----------------------------------------------------------------------------
+
+* Remove all unit tests and test interfaces from check_code. This ensures check_code
+  operates on the current repo only, and does not apply long-running pytests
+  (unit tests/long) or checks that operate on all installed plugins (test_interfaces)
+* Add "system" pytest marker for integration tests that span multiple plugin repos.
+  No tests that operate on any additional plugin repositories should be included
+  in the "base", "full", or "extra" pytest markers.
+
+  * "base" pytest marker intended to be a fast-running basic test of the CURRENT
+    repos functionality
+  * "full" pytest marker intended to be a complete test of the current repos
+    functionality, but should not operate on any other repositories.
+  * "extra" pytest marker operates only on the current repo, but includes
+    non-standard or non-required tests.
+  * "realtime" pytest marker allows testing specifically real-time functionality,
+    currently unused but could be implemented for realtime processing tests.
+* Separate base_install.sh, full_install.sh, and system_install.sh to match
+  functionality in base, full, and system markers.
+
+::
+
+     modified: tests/utils/check_code.sh
+     modified: tests/integration_tests/test_integration.py
+     modified: pytest.ini
+     modified: tests/integration_tests/base_install.sh
+     modified: tests/integration_tests/full_install.sh
+     added: tests/integration_tests/system_install.sh
+
+Testing
+=======
+
+Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
+---------------------------------------------------------------------------------------------
+
+Allow consistent operation on all repos. Also move logs to consistent locations
+for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.
+
+* $GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs
+* $GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh
+* $GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh
+
+::
+
+     modified: tests/utils/interactive_pytest.sh
+     modified: setup/check_system_requirements.sh
+     modified: tests/utils/test_all_pre.sh
+
+Testing
+=======
+
+Update download_noaa_aws.sh script to write to geoips_outdirs
+-------------------------------------------------------------
+
+Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
+Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
+will now be a static test data repository of datasets originally downloaded from
+NOAA AWS, and dynamically/interactively downloaded datasets will be written to
+$GEOIPS_OUTDIRS by default.
+
+::
+
+     modified: tests/download_noaa_aws.sh
+
+Testing
+=======
+
+Raise more informative error for json schema plugin validationerror
+-------------------------------------------------------------------
+
+I believe this will still work as long as the original error is included as
+str(err) within the output.  Previously the original error was not included,
+and the unit tests would fail because they are looking for a specific string
+within the error contents.
+
+::
+
+     modified: geoips/interfaces/base.py
+
+Testing
+=======
+
+Standardize base, full, and system pytest markers for better test separation
+----------------------------------------------------------------------------
+
+* Remove all unit tests and test interfaces from check_code. This ensures check_code
+  operates on the current repo only, and does not apply long-running pytests
+  (unit tests/long) or checks that operate on all installed plugins (test_interfaces)
+* Add "system" pytest marker for integration tests that span multiple plugin repos.
+  No tests that operate on any additional plugin repositories should be included
+  in the "base", "full", or "extra" pytest markers.
+
+  * "base" pytest marker intended to be a fast-running basic test of the CURRENT
+    repos functionality
+  * "full" pytest marker intended to be a complete test of the current repos
+    functionality, but should not operate on any other repositories.
+  * "extra" pytest marker operates only on the current repo, but includes
+    non-standard or non-required tests.
+  * "realtime" pytest marker allows testing specifically real-time functionality,
+    currently unused but could be implemented for realtime processing tests.
+* Separate base_install.sh, full_install.sh, and system_install.sh to match
+  functionality in base, full, and system markers.
+
+::
+
+     modified: tests/utils/check_code.sh
+     modified: tests/integration_tests/test_integration.py
+     modified: pytest.ini
+     modified: tests/integration_tests/base_install.sh
+     modified: tests/integration_tests/full_install.sh
+     added: tests/integration_tests/system_install.sh
+
+Testing
+=======
+
+Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
+---------------------------------------------------------------------------------------------
+
+Allow consistent operation on all repos. Also move logs to consistent locations
+for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.
+
+* $GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs
+* $GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh
+* $GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh
+
+::
+
+     modified: tests/utils/interactive_pytest.sh
+     modified: setup/check_system_requirements.sh
+     modified: tests/utils/test_all_pre.sh
 
 Testing
 =======
@@ -638,73 +808,6 @@ Add pytest-based integration tests for all packages
 Testing
 =======
 
-Raise more informative error for json schema plugin validationerror
--------------------------------------------------------------------
-
-I believe this will still work as long as the original error is included as
-str(err) within the output.  Previously the original error was not included,
-and the unit tests would fail because they are looking for a specific string
-within the error contents.
-
-::
-
-     modified: geoips/interfaces/base.py
-
-Testing
-=======
-
-Standardize base, full, and system pytest markers for better test separation
-----------------------------------------------------------------------------
-
-* Remove all unit tests and test interfaces from check_code. This ensures check_code
-  operates on the current repo only, and does not apply long-running pytests
-  (unit tests/long) or checks that operate on all installed plugins (test_interfaces)
-* Add "system" pytest marker for integration tests that span multiple plugin repos.
-  No tests that operate on any additional plugin repositories should be included
-  in the "base", "full", or "extra" pytest markers.
-
-  * "base" pytest marker intended to be a fast-running basic test of the CURRENT
-    repos functionality
-  * "full" pytest marker intended to be a complete test of the current repos
-    functionality, but should not operate on any other repositories.
-  * "extra" pytest marker operates only on the current repo, but includes
-    non-standard or non-required tests.
-  * "realtime" pytest marker allows testing specifically real-time functionality,
-    currently unused but could be implemented for realtime processing tests.
-* Separate base_install.sh, full_install.sh, and system_install.sh to match
-  functionality in base, full, and system markers.
-
-::
-
-     modified: tests/utils/check_code.sh
-     modified: tests/integration_tests/test_integration.py
-     modified: pytest.ini
-     modified: tests/integration_tests/base_install.sh
-     modified: tests/integration_tests/full_install.sh
-     added: tests/integration_tests/system_install.sh
-
-Testing
-=======
-
-Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
----------------------------------------------------------------------------------------------
-
-Allow consistent operation on all repos. Also move logs to consistent locations
-for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.
-
-* $GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs
-* $GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh
-* $GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh
-
-::
-
-     modified: tests/utils/interactive_pytest.sh
-     modified: setup/check_system_requirements.sh
-     modified: tests/utils/test_all_pre.sh
-
-Testing
-=======
-
 Update download_noaa_aws.sh script to write to geoips_outdirs
 -------------------------------------------------------------
 
@@ -717,121 +820,6 @@ $GEOIPS_OUTDIRS by default.
 ::
 
      modified: tests/download_noaa_aws.sh
-
-Testing
-=======
-
-Update download_noaa_aws.sh script to write to geoips_outdirs
--------------------------------------------------------------
-
-Previously download_noaa_aws.sh wrote to $GEOIPS_TESTDATA_DIR/test_data_noaa_aws.
-Update to now write to $GEOIPS_OUTDIRS/noaa_aws_downloads, test_data_noaa_aws
-will now be a static test data repository of datasets originally downloaded from
-NOAA AWS, and dynamically/interactively downloaded datasets will be written to
-$GEOIPS_OUTDIRS by default.
-
-::
-
-     modified: tests/download_noaa_aws.sh
-
-Testing
-=======
-
-Raise more informative error for json schema plugin validationerror
--------------------------------------------------------------------
-
-I believe this will still work as long as the original error is included as
-str(err) within the output.  Previously the original error was not included,
-and the unit tests would fail because they are looking for a specific string
-within the error contents.
-
-::
-
-     modified: geoips/interfaces/base.py
-
-Testing
-=======
-
-Standardize base, full, and system pytest markers for better test separation
-----------------------------------------------------------------------------
-
-* Remove all unit tests and test interfaces from check_code. This ensures check_code
-  operates on the current repo only, and does not apply long-running pytests
-  (unit tests/long) or checks that operate on all installed plugins (test_interfaces)
-* Add "system" pytest marker for integration tests that span multiple plugin repos.
-  No tests that operate on any additional plugin repositories should be included
-  in the "base", "full", or "extra" pytest markers.
-
-  * "base" pytest marker intended to be a fast-running basic test of the CURRENT
-    repos functionality
-  * "full" pytest marker intended to be a complete test of the current repos
-    functionality, but should not operate on any other repositories.
-  * "extra" pytest marker operates only on the current repo, but includes
-    non-standard or non-required tests.
-  * "realtime" pytest marker allows testing specifically real-time functionality,
-    currently unused but could be implemented for realtime processing tests.
-* Separate base_install.sh, full_install.sh, and system_install.sh to match
-  functionality in base, full, and system markers.
-
-::
-
-     modified: tests/utils/check_code.sh
-     modified: tests/integration_tests/test_integration.py
-     modified: pytest.ini
-     modified: tests/integration_tests/base_install.sh
-     modified: tests/integration_tests/full_install.sh
-     added: tests/integration_tests/system_install.sh
-
-Testing
-=======
-
-Tee -a interactive_pytest.sh output, pass in pytest markers directly, clean up log locations.
----------------------------------------------------------------------------------------------
-
-Allow consistent operation on all repos. Also move logs to consistent locations
-for various testing purposes to clean up $GEOIPS_OUTDIRS/logs.
-
-* $GEOIPS_OUTDIRS/logs/install for check_system_requirements.sh installation logs
-* $GEOIPS_OUTDIRS/logs/test_all for test_all_pre.sh
-* $GEOIPS_OUTDIRS/logs/pytest for interactive_pytest.sh
-
-::
-
-     modified: tests/utils/interactive_pytest.sh
-     modified: setup/check_system_requirements.sh
-     modified: tests/utils/test_all_pre.sh
-
-Testing
-=======
-
-Finalize pytest integration markers based on srs
-------------------------------------------------
-
-The Software Requirements Specification includes very specific delineation between
-GeoIPS Core, GeoIPS Site, and GeoIPS System implementations.
-Update pytest markers based on the definitions in the SRS, and update all verbiage
-in integration tests / setup scripts.
-
-::
-
-     moved: tests/integration_tests/site_install.sh <- system_install.sh
-     modified: pytest.ini
-     modified: setup/check_system_requirements.sh
-     modified: tests/integration_tests/site_install.sh
-     modified: tests/integration_tests/test_integration.py
-     modified: tests/utils/interactive_pytest.sh
-
-Actions
-=======
-
-Copy the pip base requirements to requirements.txt
---------------------------------------------------
-
-Use the base requirements as the default.
-
-::
-
-     modified: docs/source/getting-started/installing/linux_with_conda.rst
 
 Documentation
 =============
@@ -846,3 +834,15 @@ Update upcoming and tagged versions
 
      modified: .github/versions/tagged_version
      modified: .github/versions/upcoming_version
+
+Actions
+=======
+
+Copy the pip base requirements to requirements.txt
+--------------------------------------------------
+
+Use the base requirements as the default.
+
+::
+
+     modified: docs/source/getting-started/installing/linux_with_conda.rst

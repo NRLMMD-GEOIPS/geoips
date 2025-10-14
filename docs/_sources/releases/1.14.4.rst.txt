@@ -1,22 +1,35 @@
-Version 1.14.4 (2025-07-31)
+Version 1.14.4 (2025-10-14)
 ***************************
 
- * *Enhancement*: Create mtg fci reader
  * *Enhancement*: Viirs l2 netcdf reader
- * *Release process*: Add 1.14.4 release note
+ * *Enhancement*: Create mtg fci reader
+ * *Bug fix*: Changed plaformdirs version in requirements.txt
  * *Bug fix*: Make code_of_conduct.md optional in build_docs.py
  * *Bug fix*: Resolve string-based output_checker_threshold_image return
- * *Bug fix*: Changed plaformdirs version in requirements.txt
- * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
- * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
  * *Bug fix*: Bug fix abi_l2_netcdf reader
  * *Bug fix*: Force brassy version >=0.0.3 in pyproject.toml, required by build_docs.py
  * *Bug fix*: Clean up log output for output checkers
- * *Installation*: Update installation instructions to use miniforge installer
- * *Installation*: Update full install to include all packages available on github.com
+ * *Bug fix*: Bug fix atms reader - only crop to valid indices when key exists
+ * *Bug fix*: Allow seviri hrit reader to complete when hrv files present
  * *Documentation*: Update upcoming and tagged versions
+ * *Release process*: Add 1.14.4 release note
+ * *Installation*: Update full install to include all packages available on github.com
+ * *Installation*: Update installation instructions to use miniforge installer
  * *Bug fixes*: Clone git test data repositories to the correct location
  * *Bug fixes*: Use autoescape=true for jinja template
+
+Enhancement
+===========
+
+Viirs l2 netcdf reader
+----------------------
+
+Add new reader for VIIRS L2 netCDF files.
+(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
+
+::
+
+     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
 
 Enhancement
 ===========
@@ -59,31 +72,18 @@ data_manipulations.corrections module.
      modified: setup/config_geoips
      modified: tests/test_all.sh
 
-Enhancement
-===========
+Bug fix
+=======
 
-Viirs l2 netcdf reader
-----------------------
+Changed plaformdirs version in requirements.txt
+-----------------------------------------------
 
-Add new reader for VIIRS L2 netCDF files.
-(e.g. VIIRS L2 files distributed by NASA LANCE/LAADS)
-
-::
-
-     added: geoips/plugins/modules/readers/viirs_l2_netcdf.py
-
-Release process
-===============
-
-Add 1.14.4 release note
------------------------
-
-* Upcoming public version 1.15.0.
-* Upcoming internal version 1.14.4.
+The previous platformdir version caused a circular dependency error, this updates the version number to allow
+installation from requirements.txt.
 
 ::
 
-     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
+     modified: environments/requirements.txt
 
 Bug fix
 =======
@@ -109,52 +109,6 @@ Set it explicitly, rather than using get_env_var.
 ::
 
      modified: geoips/filenames/base_paths.py
-
-Bug fix
-=======
-
-Changed plaformdirs version in requirements.txt
------------------------------------------------
-
-The previous platformdir version caused a circular dependency error, this updates the version number to allow
-installation from requirements.txt.
-
-::
-
-     modified: environments/requirements.txt
-
-Bug fix
-=======
-
-Allow seviri hrit reader to complete when hrv files present
------------------------------------------------------------
-
-SEVIRI HRIT reader does not support the High Res Vis (HRV) files currently,
-so skips over *HRV* files.  When multi-scan-time support was added, files
-were read one at a time, so HRV files were filtered out and the reader
-subsequently failed on the empty list of filenames.  Raise NoValidFilesError
-on empty list, to allow catching from the reader read_data_to_xarray_dict
-method and skipping over missing files.
-
-::
-
-     modified: geoips/errors.py
-     modified: geoips/interfaces/module_based/readers.py
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
-
-Bug fix
-=======
-
-Bug fix atms reader - only crop to valid indices when key exists
-----------------------------------------------------------------
-
-Only crop ATMS data to valid indices when the "valid_indices" key exists in the
-xarray dataset. This key is only populated when reading in a GEO file. As a result,
-the reader will error when only reading in SDR files.
-
-::
-
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
 
 Bug fix
 =======
@@ -208,17 +162,65 @@ to the file)
 
      modified: geoips/interfaces/module_based/output_checkers.py
 
-Installation
-============
+Bug fix
+=======
 
-Update installation instructions to use miniforge installer
------------------------------------------------------------
+Bug fix atms reader - only crop to valid indices when key exists
+----------------------------------------------------------------
 
-mambaforge deprecated
+Only crop ATMS data to valid indices when the "valid_indices" key exists in the
+xarray dataset. This key is only populated when reading in a GEO file. As a result,
+the reader will error when only reading in SDR files.
 
 ::
 
-     modified: docs/source/starter/installation.rst
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Bug fix
+=======
+
+Allow seviri hrit reader to complete when hrv files present
+-----------------------------------------------------------
+
+SEVIRI HRIT reader does not support the High Res Vis (HRV) files currently,
+so skips over *HRV* files.  When multi-scan-time support was added, files
+were read one at a time, so HRV files were filtered out and the reader
+subsequently failed on the empty list of filenames.  Raise NoValidFilesError
+on empty list, to allow catching from the reader read_data_to_xarray_dict
+method and skipping over missing files.
+
+::
+
+     modified: geoips/errors.py
+     modified: geoips/interfaces/module_based/readers.py
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+
+Documentation
+=============
+
+Update upcoming and tagged versions
+-----------------------------------
+
+* Tagged version: 1.14.4
+* Upcoming version: 1.14.5
+
+::
+
+     modified: .github/versions/tagged_version
+     modified: .github/versions/upcoming_version
+
+Release process
+===============
+
+Add 1.14.4 release note
+-----------------------
+
+* Upcoming public version 1.15.0.
+* Upcoming internal version 1.14.4.
+
+::
+
+     added: docs/source/releases/upcoming/1.14.4-internal-release.yaml
 
 Installation
 ============
@@ -240,19 +242,17 @@ since that is currently unused on github.com.
 
      modified: tests/integration_tests/full_install.sh
 
-Documentation
-=============
+Installation
+============
 
-Update upcoming and tagged versions
------------------------------------
+Update installation instructions to use miniforge installer
+-----------------------------------------------------------
 
-* Tagged version: 1.14.4
-* Upcoming version: 1.14.5
+mambaforge deprecated
 
 ::
 
-     modified: .github/versions/tagged_version
-     modified: .github/versions/upcoming_version
+     modified: docs/source/starter/installation.rst
 
 Bug fixes
 =========

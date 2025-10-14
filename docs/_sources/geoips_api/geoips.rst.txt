@@ -14,7 +14,7 @@ Subpackages
    geoips.image_utils
    geoips.interfaces
    geoips.plugins
-   geoips.pydantic
+   geoips.pydantic_models
    geoips.sector_utils
    geoips.utils
    geoips.xarray_utils

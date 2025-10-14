@@ -1,115 +1,74 @@
-Version 1.14.5 (2025-07-31)
+Version 1.14.5 (2025-10-14)
 ***************************
 
- * *Bug fix*: Replace all geoips paths in output file list, not just geoips_outdirs
- * *Bug fix*: Add support for adding b-deck files to tc tracks database
- * *Bug fix*: Xfail if unit-test directory does not exist for given package.
- * *Bug fix*: Resolve ami geolocation bugs.
- * *Bug fix*: Resolve issues masking near terminator for seviri reader.
+ * *Bug fix*: Fix clobbering when passing product_database_writer_kwargs
+ * *Bug fix*: Fix bug preventing invest b-deck files from being added to decks database
  * *Bug fix*: Allow command line tests for editable and non-editable installs
  * *Bug fix*: Check if unit-tests folder exists when determining if it exists.
+ * *Bug fix*: Abi netcdf non-resampled read roi and sat zen cutoff same as resampled
  * *Bug fix*: Fix which version of geoips is shown at the command line
  * *Bug fix*: Return error code from build_docs.sh
- * *Bug fix*: Black and flake8 updates for cogeotiff
  * *Bug fix*: Roll back xarray, attempt fix knmi scat time conversion xarray bug
- * *Bug fix*: Fix bug preventing invest b-deck files from being added to decks database
+ * *Bug fix*: Add support for adding b-deck files to tc tracks database
+ * *Bug fix*: Resolve ami geolocation bugs.
+ * *Bug fix*: Resolve issues masking near terminator for seviri reader.
+ * *Bug fix*: Replace all geoips paths in output file list, not just geoips_outdirs
  * *Bug fix*: Close abi netcdf file object after reading
  * *Bug fix*: Replace amsu-b references with mhs, and update mirs netcdf reader
- * *Bug fix*: Abi netcdf non-resampled read roi and sat zen cutoff same as resampled
- * *Bug fix*: Fix clobbering when passing product_database_writer_kwargs
+ * *Bug fix*: Xfail if unit-test directory does not exist for given package.
  * *Bug fix*: Revert naming of mhs variables
- * *Enhancement*: Pass config_dict to database writer
- * *Enhancement*: Switch default vimrc colorscheme to a light theme, default
- * *Enhancement*: Allow setting log format strings via base_paths/config
- * *Enhancement*: Add support for ews-g3 (goes-14)
+ * *Bug fix*: Black and flake8 updates for cogeotiff
+ * *Refactor*: Consolidate setup config environment variables
+ * *Refactor*: Consolidate geotiff output formatters
+ * *Enhancement*: Add noaa-21 support to viirs_netcdf reader
+ * *Enhancement*: Add missingrequiredxarraymetadata error
+ * *Enhancement*: Allow lat/lon based area_defs to create correct resolution in filenames.
  * *Enhancement*: Support scale and offset information in cogeotiff output formatter
  * *Enhancement*: Add geotiff_imagery_path to base_paths and use in geotiff_fname
  * *Enhancement*: Add imagery paths to geoips_utils replace_geoips_paths
- * *Enhancement*: Allow lat/lon based area_defs to create correct resolution in filenames.
- * *Enhancement*: Add noaa-21 support to viirs_netcdf reader
- * *Enhancement*: Add missingrequiredxarraymetadata error
- * *Documentation*: Add more informative error messages for create_plugin_registries
+ * *Enhancement*: Switch default vimrc colorscheme to a light theme, default
+ * *Enhancement*: Pass config_dict to database writer
+ * *Enhancement*: Add support for ews-g3 (goes-14)
+ * *Enhancement*: Allow setting log format strings via base_paths/config
  * *Documentation*: Update upcoming and tagged versions
+ * *Documentation*: Add more informative error messages for create_plugin_registries
  * *Continuous integration*: Build stable image on tag.
- * *Refactor*: Consolidate setup config environment variables
- * *Refactor*: Consolidate geotiff output formatters
  * *Testing*: Update geotiff test outputs
 
 Bug fix
 =======
 
-Replace all geoips paths in output file list, not just geoips_outdirs
----------------------------------------------------------------------
+Fix clobbering when passing product_database_writer_kwargs
+----------------------------------------------------------
 
-Use existing GeoIPS utility, replace_geoips_paths, in order to ensure
-all paths are replaced in the output file list, and not just
-GEOIPS_OUTDIRS.
-
-Also, ensure the same env vars are replaced in check_output_file_list.sh as are
-replaced in replace_geoips_paths (not just GEOIPS_OUTDIRS)
+Fix bug that clobbered the available_sectors settings for a given sector when
+passing the --product_database_writer_kwargs command line argument to the
+config_based procflow. Previously when passing --product_database_writer_kwargs, the
+only information saved under available_sectors -> <SECTOR> would be the information
+provided by --product_database_writer_kwargs. This fix now overrides any existing
+settings, rather than offering a bulk replacement.
 
 ::
 
-     modified: geoips/plugins/modules/procflows/single_source.py
      modified: geoips/plugins/modules/procflows/config_based.py
-     modified: tests/utils/check_output_file_list.sh
 
 Bug fix
 =======
 
-Add support for adding b-deck files to tc tracks database
----------------------------------------------------------
+Fix bug preventing invest b-deck files from being added to decks database
+-------------------------------------------------------------------------
 
-The update_tc_tracks_database previously only supported G-Deck files, which are
-not available outside NRL. This commandline utility/database should support tracking
-B-Deck files. The files are largely similar, biggest difference relates to the index
-of the storm name between the two files, and how lat/lon values are stored in the
-files.
+Fix bug that was preventing b-deck invest files from being added to the TC decks
+database. The regular expression check for b-deck files was only supporting
+named storm files and not invests, which contain the storm start time in
+the deck file name.
+
+Also add error handling if either a b-deck or g-deck file cannot be parsed and added
+to the decks database.
 
 ::
 
      modified: geoips/sector_utils/tc_tracks_database.py
-
-Bug fix
-=======
-
-Xfail if unit-test directory does not exist for given package.
---------------------------------------------------------------
-
-Rather than failing the unit tests overall if a single GeoIPS plugin package
-does not contain a unit-test directory, xfail.  Perhaps in the future we want
-to 100% require unit-test directories, but for now we should not cause the full
-code check to fail due to a single package that does not contain unit tests.
-
-::
-
-     modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
-
-Bug fix
-=======
-
-Resolve ami geolocation bugs.
------------------------------
-
-Fixed related bugs to masking data near terminator, and
-AMI geolocation bugs.
-
-::
-
-     modified: geoips/plugins/modules/readers/ami_netcdf.py
-
-Bug fix
-=======
-
-Resolve issues masking near terminator for seviri reader.
----------------------------------------------------------
-
-Fixed related bugs to masking data near terminator, and
-AMI geolocation bugs.
-
-::
-
-     modified: geoips/plugins/modules/readers/seviri_hrit.py
 
 Bug fix
 =======
@@ -149,6 +108,23 @@ exist, raise an error that the unit-tests folder does not exist.
 Bug fix
 =======
 
+Abi netcdf non-resampled read roi and sat zen cutoff same as resampled
+----------------------------------------------------------------------
+
+Previously there was no sat zenith cut off for abi non-resampled reads,
+and ROI was not applied consistently with resampled
+
+update non-resampled to use ROI factor of 5 to match resampled reads.
+
+update sat zenith cutoff for non-resampled reads to 75 to match resampled.
+
+::
+
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+
+Bug fix
+=======
+
 Fix which version of geoips is shown at the command line
 --------------------------------------------------------
 
@@ -173,18 +149,6 @@ Avoid incorrect 0 return from build_docs.sh if build_docs.py fails.
 Bug fix
 =======
 
-Black and flake8 updates for cogeotiff
---------------------------------------
-
-Black and flake8 formatting ONLY for cogeotiff.py
-
-::
-
-     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
-
-Bug fix
-=======
-
 Roll back xarray, attempt fix knmi scat time conversion xarray bug
 ------------------------------------------------------------------
 
@@ -198,20 +162,63 @@ This didn't quite work, checking it in for reference, roll back xr.
 Bug fix
 =======
 
-Fix bug preventing invest b-deck files from being added to decks database
--------------------------------------------------------------------------
+Add support for adding b-deck files to tc tracks database
+---------------------------------------------------------
 
-Fix bug that was preventing b-deck invest files from being added to the TC decks
-database. The regular expression check for b-deck files was only supporting
-named storm files and not invests, which contain the storm start time in
-the deck file name.
-
-Also add error handling if either a b-deck or g-deck file cannot be parsed and added
-to the decks database.
+The update_tc_tracks_database previously only supported G-Deck files, which are
+not available outside NRL. This commandline utility/database should support tracking
+B-Deck files. The files are largely similar, biggest difference relates to the index
+of the storm name between the two files, and how lat/lon values are stored in the
+files.
 
 ::
 
      modified: geoips/sector_utils/tc_tracks_database.py
+
+Bug fix
+=======
+
+Resolve ami geolocation bugs.
+-----------------------------
+
+Fixed related bugs to masking data near terminator, and
+AMI geolocation bugs.
+
+::
+
+     modified: geoips/plugins/modules/readers/ami_netcdf.py
+
+Bug fix
+=======
+
+Resolve issues masking near terminator for seviri reader.
+---------------------------------------------------------
+
+Fixed related bugs to masking data near terminator, and
+AMI geolocation bugs.
+
+::
+
+     modified: geoips/plugins/modules/readers/seviri_hrit.py
+
+Bug fix
+=======
+
+Replace all geoips paths in output file list, not just geoips_outdirs
+---------------------------------------------------------------------
+
+Use existing GeoIPS utility, replace_geoips_paths, in order to ensure
+all paths are replaced in the output file list, and not just
+GEOIPS_OUTDIRS.
+
+Also, ensure the same env vars are replaced in check_output_file_list.sh as are
+replaced in replace_geoips_paths (not just GEOIPS_OUTDIRS)
+
+::
+
+     modified: geoips/plugins/modules/procflows/single_source.py
+     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: tests/utils/check_output_file_list.sh
 
 Bug fix
 =======
@@ -300,36 +307,17 @@ Also add a new amsu-a product - currently only supports the RainRate product.
 Bug fix
 =======
 
-Abi netcdf non-resampled read roi and sat zen cutoff same as resampled
-----------------------------------------------------------------------
+Xfail if unit-test directory does not exist for given package.
+--------------------------------------------------------------
 
-Previously there was no sat zenith cut off for abi non-resampled reads,
-and ROI was not applied consistently with resampled
-
-update non-resampled to use ROI factor of 5 to match resampled reads.
-
-update sat zenith cutoff for non-resampled reads to 75 to match resampled.
+Rather than failing the unit tests overall if a single GeoIPS plugin package
+does not contain a unit-test directory, xfail.  Perhaps in the future we want
+to 100% require unit-test directories, but for now we should not cause the full
+code check to fail due to a single package that does not contain unit tests.
 
 ::
 
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-
-Bug fix
-=======
-
-Fix clobbering when passing product_database_writer_kwargs
-----------------------------------------------------------
-
-Fix bug that clobbered the available_sectors settings for a given sector when
-passing the --product_database_writer_kwargs command line argument to the
-config_based procflow. Previously when passing --product_database_writer_kwargs, the
-only information saved under available_sectors -> <SECTOR> would be the information
-provided by --product_database_writer_kwargs. This fix now overrides any existing
-settings, rather than offering a bulk replacement.
-
-::
-
-     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: tests/unit_tests/commandline/test_geoips_list_unit_tests.py
 
 Bug fix
 =======
@@ -347,67 +335,86 @@ style for now, at least.
      modified: geoips/plugins/modules/readers/amsua_mhs_mirs.py
      modified: geoips/plugins/yaml/products/mhs.yaml
 
-Enhancement
-===========
+Bug fix
+=======
 
-Pass config_dict to database writer
------------------------------------
+Black and flake8 updates for cogeotiff
+--------------------------------------
 
-To ensure all processing workflow configuration information is available
-to the database writers, just pass the full config_dict.  When order basd
-procflow is implemented, I expect to be able to pass the full order based
-procflow config into the database writers as well, and we will be able to
-adjust to get the appropriate information out at that time.
+Black and flake8 formatting ONLY for cogeotiff.py
 
 ::
 
-     modified: geoips/plugins/modules/procflows/config_based.py
+     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
 
-Enhancement
-===========
+Refactor
+========
 
-Switch default vimrc colorscheme to a light theme, default
-----------------------------------------------------------
+Consolidate setup config environment variables
+----------------------------------------------
 
-Use light by default, not dark
-
-::
-
-     modified: setup/bash_setup/vimrc_ale
-
-Enhancement
-===========
-
-Allow setting log format strings via base_paths/config
-------------------------------------------------------
-
-Move GEOIPS_LOGGING_LEVEL to geoips/filenames/base_paths.py (which will
-eventually be the geoips config), and add GEOIPS_LOGGING_DATFMT_STRING
-and GEOIPS_LOGGING_FMT_STRING for making the logging output format fully
-configurable. Maintain the same defaults, and allow passing in an explicit
-string now rather than using the "verbose" keyword arg (which was a bool,
-and mapped to one of 2 format strings).
-
-Now just default to None in args, so the defaults are pulled from gpaths in
-log_setup.py directly.
+* Add create_brassy_changelog helper function
+* Use $GEOIPS_CONFIG_PATH and $GEOIPS_CONFIG_FILE env vars for reference
+* Use $GEOIPS_SYSTEM_VERSION if defined in prompt, else $GEOIPS_VERSION
 
 ::
 
-     modified: geoips/commandline/log_setup.py
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/commandline/args.py
+     modified: setup/config_geoips
+     modified: setup/bash_setup/color_prompt
+
+Refactor
+========
+
+Consolidate geotiff output formatters
+-------------------------------------
+
+Have cogeotiff_rgba and geotiff_standard both call cogeotiff.  Eventually
+probably delete these, unless we find there is a benefit to having the
+ability to explicitly request no-cog (geotiff_standard), or explicitly
+request RGBA (auto-detected in cogeotiff)
+
+::
+
+     modified: geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
+     modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
 
 Enhancement
 ===========
 
-Add support for ews-g3 (goes-14)
---------------------------------
+Add noaa-21 support to viirs_netcdf reader
+------------------------------------------
 
-Add hooks for EWS-G3 (GOES-14) to ewsg reader.
+JPSS-2 -> NOAA-21 platform name in viirs_netcdf.
 
 ::
 
-     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+     modified: geoips/plugins/modules/readers/viirs_netcdf.py
+
+Enhancement
+===========
+
+Add missingrequiredxarraymetadata error
+---------------------------------------
+
+Error to raise if at any point during geoips processing an xarray object
+does not contain all required metadata.  We should add a function to validate
+the output of readers, etc, and raise this error if any metadata is missing.
+
+::
+
+     modified: geoips/errors.py
+
+Enhancement
+===========
+
+Allow lat/lon based area_defs to create correct resolution in filenames.
+------------------------------------------------------------------------
+
+I don't think this actually works 100%.  May need to adjust slightly.
+
+::
+
+     modified: geoips/plugins/modules/filename_formatters/geoips_fname.py
 
 Enhancement
 ===========
@@ -455,52 +462,64 @@ This includes WWW and internal imagery paths specified in base_paths
 Enhancement
 ===========
 
-Allow lat/lon based area_defs to create correct resolution in filenames.
-------------------------------------------------------------------------
+Switch default vimrc colorscheme to a light theme, default
+----------------------------------------------------------
 
-I don't think this actually works 100%.  May need to adjust slightly.
+Use light by default, not dark
 
 ::
 
-     modified: geoips/plugins/modules/filename_formatters/geoips_fname.py
+     modified: setup/bash_setup/vimrc_ale
 
 Enhancement
 ===========
 
-Add noaa-21 support to viirs_netcdf reader
-------------------------------------------
+Pass config_dict to database writer
+-----------------------------------
 
-JPSS-2 -> NOAA-21 platform name in viirs_netcdf.
+To ensure all processing workflow configuration information is available
+to the database writers, just pass the full config_dict.  When order basd
+procflow is implemented, I expect to be able to pass the full order based
+procflow config into the database writers as well, and we will be able to
+adjust to get the appropriate information out at that time.
 
 ::
 
-     modified: geoips/plugins/modules/readers/viirs_netcdf.py
+     modified: geoips/plugins/modules/procflows/config_based.py
 
 Enhancement
 ===========
 
-Add missingrequiredxarraymetadata error
----------------------------------------
+Add support for ews-g3 (goes-14)
+--------------------------------
 
-Error to raise if at any point during geoips processing an xarray object
-does not contain all required metadata.  We should add a function to validate
-the output of readers, etc, and raise this error if any metadata is missing.
+Add hooks for EWS-G3 (GOES-14) to ewsg reader.
 
 ::
 
-     modified: geoips/errors.py
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
 
-Documentation
-=============
+Enhancement
+===========
 
-Add more informative error messages for create_plugin_registries
-----------------------------------------------------------------
+Allow setting log format strings via base_paths/config
+------------------------------------------------------
 
-Ensure informative error message when docstring does not exist in plugins.
+Move GEOIPS_LOGGING_LEVEL to geoips/filenames/base_paths.py (which will
+eventually be the geoips config), and add GEOIPS_LOGGING_DATFMT_STRING
+and GEOIPS_LOGGING_FMT_STRING for making the logging output format fully
+configurable. Maintain the same defaults, and allow passing in an explicit
+string now rather than using the "verbose" keyword arg (which was a bool,
+and mapped to one of 2 format strings).
+
+Now just default to None in args, so the defaults are pulled from gpaths in
+log_setup.py directly.
 
 ::
 
-     modified: geoips/create_plugin_registries.py
+     modified: geoips/commandline/log_setup.py
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/commandline/args.py
 
 Documentation
 =============
@@ -516,6 +535,18 @@ Update upcoming and tagged versions
      modified: .github/versions/tagged_version
      modified: .github/versions/upcoming_version
 
+Documentation
+=============
+
+Add more informative error messages for create_plugin_registries
+----------------------------------------------------------------
+
+Ensure informative error message when docstring does not exist in plugins.
+
+::
+
+     modified: geoips/create_plugin_registries.py
+
 Continuous integration
 ======================
 
@@ -529,37 +560,6 @@ status checks.
 ::
 
      added: .github/workflows/build-stable-image.yaml
-
-Refactor
-========
-
-Consolidate setup config environment variables
-----------------------------------------------
-
-* Add create_brassy_changelog helper function
-* Use $GEOIPS_CONFIG_PATH and $GEOIPS_CONFIG_FILE env vars for reference
-* Use $GEOIPS_SYSTEM_VERSION if defined in prompt, else $GEOIPS_VERSION
-
-::
-
-     modified: setup/config_geoips
-     modified: setup/bash_setup/color_prompt
-
-Refactor
-========
-
-Consolidate geotiff output formatters
--------------------------------------
-
-Have cogeotiff_rgba and geotiff_standard both call cogeotiff.  Eventually
-probably delete these, unless we find there is a benefit to having the
-ability to explicitly request no-cog (geotiff_standard), or explicitly
-request RGBA (auto-detected in cogeotiff)
-
-::
-
-     modified: geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
-     modified: geoips/plugins/modules/output_formatters/geotiff_standard.py
 
 Testing
 =======

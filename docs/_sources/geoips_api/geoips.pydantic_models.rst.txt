@@ -1,0 +1,19 @@
+geoips.pydantic\_models package
+===============================
+
+Subpackages
+-----------
+
+.. toctree::
+   :maxdepth: 4
+
+   geoips.pydantic_models.v1
+   geoips.pydantic_models.v2alpha1
+
+Module contents
+---------------
+
+.. automodule:: geoips.pydantic_models
+   :members:
+   :undoc-members:
+   :show-inheritance:

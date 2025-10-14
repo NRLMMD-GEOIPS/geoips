@@ -1,0 +1,45 @@
+geoips.pydantic\_models.v2alpha1 package
+========================================
+
+Submodules
+----------
+
+geoips.pydantic\_models.v2alpha1.bases module
+---------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v2alpha1.bases
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v2alpha1.feature\_annotators module
+-----------------------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v2alpha1.feature_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v2alpha1.sectors module
+-----------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v2alpha1.sectors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v2alpha1.workflows module
+-------------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v2alpha1.workflows
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.pydantic_models.v2alpha1
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,39 +1,71 @@
-Version 1.16.0 (2025-07-31)
+Version 1.16.0 (2025-10-14)
 ***************************
 
+ * *Bug fix*: Cli geoips run -h bug fix
+ * *Bug fix*: Moved bash tag to the top of base_install.sh
  * *Bug fix*: Fixes file object resource warnings across multiple files
  * *Bug fix*: Fix typo in short term cache geolocation variable names
- * *Bug fix*: Updated unit tests to no longer be stochastic
- * *Bug fix*: Moved bash tag to the top of base_install.sh
- * *Bug fix*: Cli geoips run -h bug fix
  * *Bug fix*: Test expose unit test fix
- * *Enhancement*: Support creating interfaces in new plugin packages
- * *Enhancement*: Auto populate repo url and start date for brassy changelogs
- * *Enhancement*: Add longitude of projection origin metadata to ami and seviri readers.
- * *Enhancement*: Obp workflow definition enhancements.
- * *Enhancement*: Spelling fixes
- * *Enhancement*: Obp pydantic feature annotator models
- * *Enhancement*: Cli test dataset update
- * *Enhancement*: Write awips2 compatible netcdf files from smap or smos windspeed data
- * *Enhancement*: Geoips test sector enhancement
- * *Enhancement*: Order based procflow pydantic sector models
- * *Enhancement*: Update tests to assert futurewarning emissions.
- * *Enhancement*: Cli registry commands and minor cli qol updates
- * *Enhancement*: Implement lexeme type for singular/plural normalization.
+ * *Bug fix*: Updated unit tests to no longer be stochastic
  * *Enhancement*: Update obp procflow to accept workflow as its first argument
- * *Enhancement*: Enhance yaml-based testing framework
+ * *Enhancement*: Support creating interfaces in new plugin packages
+ * *Enhancement*: Implement lexeme type for singular/plural normalization.
+ * *Enhancement*: Add longitude of projection origin metadata to ami and seviri readers.
+ * *Enhancement*: Cli registry commands and minor cli qol updates
+ * *Enhancement*: Obp workflow definition enhancements.
+ * *Enhancement*: Cli test dataset update
  * *Enhancement*: Standardize reader arguments
+ * *Enhancement*: Update tests to assert futurewarning emissions.
+ * *Enhancement*: Order based procflow pydantic sector models
+ * *Enhancement*: Auto populate repo url and start date for brassy changelogs
+ * *Enhancement*: Enhance yaml-based testing framework
+ * *Enhancement*: Geoips test sector enhancement
+ * *Enhancement*: Write awips2 compatible netcdf files from smap or smos windspeed data
+ * *Enhancement*: Obp pydantic feature annotator models
+ * *Enhancement*: Spelling fixes
  * *Deprecation*: Migrate deprecated pydantic method to recommended alternative
- * *Documentation*: Order-based procflow documentation
  * *Documentation*: Add documentation about code transition assistance
- * *Refactor*: Python dependency and interactive log level updates
- * *Refactor*: Plugin registry class updates
+ * *Documentation*: Order-based procflow documentation
  * *Release process*: Add 1.16.0 release note
  * *Release process*: Update internal and github.com 'upcoming_version' and 'tagged_version'
  * *Bug fixes*: Remove explicit --config from flake8 check_code.sh call
  * *Testing*: Add pytest-based integration tests for all packages
  * *Testing*: Order-based procflow testing
  * *Future*: Order-based procflow
+ * *Refactor*: Python dependency and interactive log level updates
+ * *Refactor*: Plugin registry class updates
+
+Bug fix
+=======
+
+Cli geoips run -h bug fix
+-------------------------
+
+There was an oversight in the command
+geoips.commandline.commandline_interface:support_legacy_procflows which has a set
+of hardcoded, valid procflows that can be ran. Since this code is hit before the
+argparser is actually initalized (needs to be for the time being, until OBP is out),
+the check against vaild procflows would fail if the command 'geoips run -h' was
+ran, as '-h' is not a valid procflow. This PR updates that logic to allow for '-h'
+to be passed in that format, and adds that as a unit test.
+
+::
+
+     modified: geoips/commandline/commandline_interface.py
+     modified: tests/unit_tests/commandline/test_geoips_run.py
+
+Bug fix
+=======
+
+Moved bash tag to the top of base_install.sh
+--------------------------------------------
+
+base_install.sh does not play nicely with some other non-bash shells. This fixes potential issues by moving the bash tag
+to the top of the file to instruct systems to use bash to execute the file.
+
+::
+
+     modified: tests/integration_tests/base_install.sh
 
 Bug fix
 =======
@@ -74,6 +106,20 @@ CACHE_DIR_SHORTTERM_GEOLOCATION
 Bug fix
 =======
 
+Test expose unit test fix
+-------------------------
+
+Simple bug fix that wasn't caught by a PR merged yesterday. All this PR does is
+update the logging level that caplog uses in a unit test. Now uses logging level of
+25 instead of the previous 35.
+
+::
+
+     modified: tests/unit_tests/commandline/test_expose.py
+
+Bug fix
+=======
+
 Updated unit tests to no longer be stochastic
 ---------------------------------------------
 
@@ -88,51 +134,17 @@ seed so that the same behavior is replicated across unit test runs.
      modified: geoips/plugins/modules/output_checkers/text.py
      modified: tests/unit_tests/commandline/test_geoips_describe_plugin.py
 
-Bug fix
-=======
+Enhancement
+===========
 
-Moved bash tag to the top of base_install.sh
---------------------------------------------
+Update obp procflow to accept workflow as its first argument
+------------------------------------------------------------
 
-base_install.sh does not play nicely with some other non-bash shells. This fixes potential issues by moving the bash tag
-to the top of the file to instruct systems to use bash to execute the file.
-
-::
-
-     modified: tests/integration_tests/base_install.sh
-
-Bug fix
-=======
-
-Cli geoips run -h bug fix
--------------------------
-
-There was an oversight in the command
-geoips.commandline.commandline_interface:support_legacy_procflows which has a set
-of hardcoded, valid procflows that can be ran. Since this code is hit before the
-argparser is actually initalized (needs to be for the time being, until OBP is out),
-the check against vaild procflows would fail if the command 'geoips run -h' was
-ran, as '-h' is not a valid procflow. This PR updates that logic to allow for '-h'
-to be passed in that format, and adds that as a unit test.
+Reorders arguments in the OBP call function to make workflow the first positional parameter.
 
 ::
 
-     modified: geoips/commandline/commandline_interface.py
-     modified: tests/unit_tests/commandline/test_geoips_run.py
-
-Bug fix
-=======
-
-Test expose unit test fix
--------------------------
-
-Simple bug fix that wasn't caught by a PR merged yesterday. All this PR does is
-update the logging level that caplog uses in a unit test. Now uses logging level of
-25 instead of the previous 35.
-
-::
-
-     modified: tests/unit_tests/commandline/test_expose.py
+     modified: geoips/plugins/modules/procflows/order_based.py
 
 Enhancement
 ===========
@@ -170,15 +182,17 @@ that plugin package.
 Enhancement
 ===========
 
-Auto populate repo url and start date for brassy changelogs
------------------------------------------------------------
+Implement lexeme type for singular/plural normalization.
+--------------------------------------------------------
 
-Set the start date to the current date, and populate the repo_url with
-$GEOIPS_REPO_URL if it is set.
+Introduce ``Lexeme``, a lightweight ``str`` subclass that normalizes English
+singular and plural spellings for comparison, hashing, and Pydantic (v2only)
+model support.
 
 ::
 
-     modified: setup/config_release
+     added: geoips/utils/types/partial_lexeme.py
+     added: tests/unit_tests/utils/types/test_partial_lexeme.py
 
 Enhancement
 ===========
@@ -196,6 +210,46 @@ support coordinate setup.
      modified: geoips/plugins/modules/readers/ami_netcdf.py
      modified: geoips/plugins/modules/readers/seviri_hrit.py
      modified: geoips/plugins/modules/readers/gfs_grib.py
+
+Enhancement
+===========
+
+Cli registry commands and minor cli qol updates
+-----------------------------------------------
+
+This update enhances the CLI by adding 3 new commands related to the plugin registry
+and additionally makes some quality of life (QOL) to the 'geoips config install'
+command. QOL improvements include adding a progress bar for data install and
+extraction. The three new commands that were added build off of the plugin registry
+updates included in branches 'south-china-sea-sector' and '945-plugin-registry-class'
+
+The new commands ('geoips config create-registries',
+'geoips config delete-registries', 'geoips list registries'), as their names
+suggest, create, delete, and list plugin registries found within a given namespace.
+You can filter the config commands via -n namespace and -p packages, and for the
+create command, you can also specify what file format you want to save to (-s). The
+list command additionally supports relative path versus absolute path. These
+commands replace 'create_plugin_registries', which is still in pyproject.toml, but
+deprecated. Running 'create_plugin_registries' essentially is just a wrapper for
+'geoips config create-registries'. Unit tests have been added for all new
+functionality.
+
+::
+
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_config.py
+     modified: geoips/commandline/geoips_list.py
+     modified: geoips/create_plugin_registries.py
+     modified: geoips/plugin_registry.py
+     modified: pyproject.toml
+     modified: .cspell.json
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+     modified: tests/unit_tests/commandline/test_geoips_config_create_registries.py
+     modified: tests/unit_tests/commandline/test_geoips_config_delete_registries.py
+     modified: tests/unit_tests/commandline/test_geoips_list_registries.py
 
 Enhancement
 ===========
@@ -235,43 +289,6 @@ Refactors step definition to use 'kind' instead of 'type', placing it within the
 Enhancement
 ===========
 
-Spelling fixes
---------------
-
-Fixes spelling errors on main from the last release (prior to May 30, 2025) and adds correctly spelled but falsely
-flagged words to cspell config file.
-
-::
-
-     modified: .cspell.json
-     modified: geoips/pydantic/sectors.py
-
-Enhancement
-===========
-
-Obp pydantic feature annotator models
--------------------------------------
-
-Implemented pydantic schema for feature annotator plugins. Builds off of the base
-pydantic PluginModel and implemented unit test for this new functionality as well.
-Refactored the pydantic unit test utility module so unit tests for other interfaces
-could be generalized to reduce code duplication.
-
-::
-
-     added: geoips/pydantic/feature_annotators.py
-     added: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
-     added: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
-     modified: geoips/plugins/yaml/feature_annotators/default.yaml
-     modified: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
-     modified: geoips/plugins/yaml/feature_annotators/tc_visir.yaml
-     modified: geoips/pydantic/bases.py
-     modified: tests/unit_tests/pydantic/sectors/test_sectors.py
-     modified: tests/unit_tests/pydantic/utils.py
-
-Enhancement
-===========
-
 Cli test dataset update
 -----------------------
 
@@ -298,68 +315,32 @@ This PR is related to a GeoColor PR which updates its installation instructions.
 Enhancement
 ===========
 
-Write awips2 compatible netcdf files from smap or smos windspeed data
----------------------------------------------------------------------
+Standardize reader arguments
+----------------------------
 
-Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.
+Standardize the arguments in the call() function across all GeoIPS reader plugins to ensure consistency where possible.
 
 ::
 
-     added: docs/source/releases/latest/cira_smap_awips2_branch.yaml
-     added: geoips/plugins/modules/output_formatters/windspeed_awips2_formatter.py
-     added: tests/scripts/smap.awips.netcdf.sh
-     added: tests/scripts/smos.awips.netcdf.sh
-     modified: setup/test-data-urls.yaml
-     modified: tests/integration_tests/test_integration.py
+     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/amsr2_netcdf.py
+     modified: geoips/plugins/modules/readers/ssmi_binary.py
+     modified: geoips/plugins/modules/readers/ssmis_binary.py
 
 Enhancement
 ===========
 
-Geoips test sector enhancement
-------------------------------
+Update tests to assert futurewarning emissions.
+-----------------------------------------------
 
-The large update of this PR was centered at the command 'geoips test sector', where
-we modified that command to support sector overlays. Essentially, if you want to
-understand the geospatial domain of a certain sector, you can run
-'geoips test sector --overlay', and this will overlay your sector in a
-red-transparent fashion over the global sector. This is especially useful for very
-small sectors that might not provide much information when running the command as
-usual. To implement this, slight modifications were made to the CLI and larger
-updates were made to the SectorBasePlugin class.
-
-Other updates included replacing all underscores in optional CLI arguments with
-dashes. Lots of unit tests check the output of help commands, which explains why
-so many files were updated. This is just name changes and does not impact the
-functionality of the CLI at all.
-
-Lastly, removed irrelevant file that was out of date and out of scope.
+Add support for FutureWarning assertions using pytest.warns and additional utility functions.
 
 ::
 
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_config.py
-     modified: geoips/commandline/geoips_test.py
-     modified: geoips/interfaces/yaml_based/sectors.py
-     modified: tests/unit_tests/commandline/cli_top_level_tester.py
-     modified: tests/unit_tests/commandline/cmd_instructions/invalid_json/cmd_instructions.json
-     modified: tests/unit_tests/commandline/cmd_instructions/invalid_json/cmd_instructions.yaml
-     modified: tests/unit_tests/commandline/cmd_instructions/invalid_yaml/cmd_instructions.json
-     modified: tests/unit_tests/commandline/cmd_instructions/invalid_yaml/cmd_instructions.yaml
-     modified: tests/unit_tests/commandline/cmd_instructions/json_missing/cmd_instructions.yaml
-     modified: tests/unit_tests/commandline/cmd_instructions/json_newer/cmd_instructions.json
-     modified: tests/unit_tests/commandline/cmd_instructions/json_newer/cmd_instructions.yaml
-     modified: tests/unit_tests/commandline/cmd_instructions/yaml_missing/cmd_instructions.json
-     modified: tests/unit_tests/commandline/cmd_instructions/yaml_newer/cmd_instructions.json
-     modified: tests/unit_tests/commandline/cmd_instructions/yaml_newer/cmd_instructions.yaml
-     modified: tests/unit_tests/commandline/test_geoips_describe_package.py
-     modified: tests/unit_tests/commandline/test_geoips_list_interface.py
-     modified: tests/unit_tests/commandline/test_geoips_list_source_names.py
-     modified: tests/unit_tests/commandline/test_geoips_test_linting.py
-     modified: tests/unit_tests/commandline/test_geoips_test_script.py
-     modified: tests/unit_tests/commandline/test_geoips_test_sector.py
-     modified: tests/unit_tests/commandline/test_geoips_test_unit_test.py
-     removed: interface_notes.md
+     modified: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+     modified: tests/unit_tests/pydantic/sectors/test_cases.yaml
+     modified: tests/unit_tests/pydantic/utils.py
 
 Enhancement
 ===========
@@ -446,83 +427,15 @@ by Kumar, specifically with regards to Readers, Workflows, and Bases.
 Enhancement
 ===========
 
-Update tests to assert futurewarning emissions.
------------------------------------------------
+Auto populate repo url and start date for brassy changelogs
+-----------------------------------------------------------
 
-Add support for FutureWarning assertions using pytest.warns and additional utility functions.
-
-::
-
-     modified: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
-     modified: tests/unit_tests/pydantic/sectors/test_cases.yaml
-     modified: tests/unit_tests/pydantic/utils.py
-
-Enhancement
-===========
-
-Cli registry commands and minor cli qol updates
------------------------------------------------
-
-This update enhances the CLI by adding 3 new commands related to the plugin registry
-and additionally makes some quality of life (QOL) to the 'geoips config install'
-command. QOL improvements include adding a progress bar for data install and
-extraction. The three new commands that were added build off of the plugin registry
-updates included in branches 'south-china-sea-sector' and '945-plugin-registry-class'
-
-The new commands ('geoips config create-registries',
-'geoips config delete-registries', 'geoips list registries'), as their names
-suggest, create, delete, and list plugin registries found within a given namespace.
-You can filter the config commands via -n namespace and -p packages, and for the
-create command, you can also specify what file format you want to save to (-s). The
-list command additionally supports relative path versus absolute path. These
-commands replace 'create_plugin_registries', which is still in pyproject.toml, but
-deprecated. Running 'create_plugin_registries' essentially is just a wrapper for
-'geoips config create-registries'. Unit tests have been added for all new
-functionality.
+Set the start date to the current date, and populate the repo_url with
+$GEOIPS_REPO_URL if it is set.
 
 ::
 
-     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_config.py
-     modified: geoips/commandline/geoips_list.py
-     modified: geoips/create_plugin_registries.py
-     modified: geoips/plugin_registry.py
-     modified: pyproject.toml
-     modified: .cspell.json
-     modified: tests/unit_tests/commandline/cli_top_level_tester.py
-     modified: tests/unit_tests/commandline/test_geoips_config_create_registries.py
-     modified: tests/unit_tests/commandline/test_geoips_config_delete_registries.py
-     modified: tests/unit_tests/commandline/test_geoips_list_registries.py
-
-Enhancement
-===========
-
-Implement lexeme type for singular/plural normalization.
---------------------------------------------------------
-
-Introduce ``Lexeme``, a lightweight ``str`` subclass that normalizes English
-singular and plural spellings for comparison, hashing, and Pydantic (v2only)
-model support.
-
-::
-
-     added: geoips/utils/types/partial_lexeme.py
-     added: tests/unit_tests/utils/types/test_partial_lexeme.py
-
-Enhancement
-===========
-
-Update obp procflow to accept workflow as its first argument
-------------------------------------------------------------
-
-Reorders arguments in the OBP call function to make workflow the first positional parameter.
-
-::
-
-     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: setup/config_release
 
 Enhancement
 ===========
@@ -542,18 +455,105 @@ Modularizes test infrastructure, resolves edge-case bugs, and removes false posi
 Enhancement
 ===========
 
-Standardize reader arguments
-----------------------------
+Geoips test sector enhancement
+------------------------------
 
-Standardize the arguments in the call() function across all GeoIPS reader plugins to ensure consistency where possible.
+The large update of this PR was centered at the command 'geoips test sector', where
+we modified that command to support sector overlays. Essentially, if you want to
+understand the geospatial domain of a certain sector, you can run
+'geoips test sector --overlay', and this will overlay your sector in a
+red-transparent fashion over the global sector. This is especially useful for very
+small sectors that might not provide much information when running the command as
+usual. To implement this, slight modifications were made to the CLI and larger
+updates were made to the SectorBasePlugin class.
+
+Other updates included replacing all underscores in optional CLI arguments with
+dashes. Lots of unit tests check the output of help commands, which explains why
+so many files were updated. This is just name changes and does not impact the
+functionality of the CLI at all.
+
+Lastly, removed irrelevant file that was out of date and out of scope.
 
 ::
 
-     modified: geoips/plugins/modules/readers/abi_l2_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/amsr2_netcdf.py
-     modified: geoips/plugins/modules/readers/ssmi_binary.py
-     modified: geoips/plugins/modules/readers/ssmis_binary.py
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_config.py
+     modified: geoips/commandline/geoips_test.py
+     modified: geoips/interfaces/yaml_based/sectors.py
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+     modified: tests/unit_tests/commandline/cmd_instructions/invalid_json/cmd_instructions.json
+     modified: tests/unit_tests/commandline/cmd_instructions/invalid_json/cmd_instructions.yaml
+     modified: tests/unit_tests/commandline/cmd_instructions/invalid_yaml/cmd_instructions.json
+     modified: tests/unit_tests/commandline/cmd_instructions/invalid_yaml/cmd_instructions.yaml
+     modified: tests/unit_tests/commandline/cmd_instructions/json_missing/cmd_instructions.yaml
+     modified: tests/unit_tests/commandline/cmd_instructions/json_newer/cmd_instructions.json
+     modified: tests/unit_tests/commandline/cmd_instructions/json_newer/cmd_instructions.yaml
+     modified: tests/unit_tests/commandline/cmd_instructions/yaml_missing/cmd_instructions.json
+     modified: tests/unit_tests/commandline/cmd_instructions/yaml_newer/cmd_instructions.json
+     modified: tests/unit_tests/commandline/cmd_instructions/yaml_newer/cmd_instructions.yaml
+     modified: tests/unit_tests/commandline/test_geoips_describe_package.py
+     modified: tests/unit_tests/commandline/test_geoips_list_interface.py
+     modified: tests/unit_tests/commandline/test_geoips_list_source_names.py
+     modified: tests/unit_tests/commandline/test_geoips_test_linting.py
+     modified: tests/unit_tests/commandline/test_geoips_test_script.py
+     modified: tests/unit_tests/commandline/test_geoips_test_sector.py
+     modified: tests/unit_tests/commandline/test_geoips_test_unit_test.py
+     removed: interface_notes.md
+
+Enhancement
+===========
+
+Write awips2 compatible netcdf files from smap or smos windspeed data
+---------------------------------------------------------------------
+
+Write AWIPS2 compatible NetCDF files from SMAP or SMOS windspeed data.
+
+::
+
+     added: docs/source/releases/latest/cira_smap_awips2_branch.yaml
+     added: geoips/plugins/modules/output_formatters/windspeed_awips2_formatter.py
+     added: tests/scripts/smap.awips.netcdf.sh
+     added: tests/scripts/smos.awips.netcdf.sh
+     modified: setup/test-data-urls.yaml
+     modified: tests/integration_tests/test_integration.py
+
+Enhancement
+===========
+
+Obp pydantic feature annotator models
+-------------------------------------
+
+Implemented pydantic schema for feature annotator plugins. Builds off of the base
+pydantic PluginModel and implemented unit test for this new functionality as well.
+Refactored the pydantic unit test utility module so unit tests for other interfaces
+could be generalized to reduce code duplication.
+
+::
+
+     added: geoips/pydantic/feature_annotators.py
+     added: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+     added: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
+     modified: geoips/plugins/yaml/feature_annotators/default.yaml
+     modified: geoips/plugins/yaml/feature_annotators/default_oldlace.yaml
+     modified: geoips/plugins/yaml/feature_annotators/tc_visir.yaml
+     modified: geoips/pydantic/bases.py
+     modified: tests/unit_tests/pydantic/sectors/test_sectors.py
+     modified: tests/unit_tests/pydantic/utils.py
+
+Enhancement
+===========
+
+Spelling fixes
+--------------
+
+Fixes spelling errors on main from the last release (prior to May 30, 2025) and adds correctly spelled but falsely
+flagged words to cspell config file.
+
+::
+
+     modified: .cspell.json
+     modified: geoips/pydantic/sectors.py
 
 Deprecation
 ===========
@@ -571,18 +571,6 @@ Refactor deprecated dict() method with model_dump() for Pydantic V2 compatibilit
 Documentation
 =============
 
-Order-based procflow documentation
-----------------------------------
-
-Documentation of Order-Based Procflow usage process.
-
-::
-
-     added: docs/dev/order_based_procflow.rst
-
-Documentation
-=============
-
 Add documentation about code transition assistance
 --------------------------------------------------
 
@@ -595,61 +583,17 @@ geospatial data processing routines integrated alongside GeoIPS.
      added: docs/source/releases/latest/dev-assist-package-translation.yaml
      modified: docs/source/contribute/index.rst
 
-Refactor
-========
+Documentation
+=============
 
-Python dependency and interactive log level updates
----------------------------------------------------
+Order-based procflow documentation
+----------------------------------
 
-This PR makes small updates to the minimum python version GeoIPS supports and the
-logging level that is associated with INTERACTIVE mode. GeoIPS now only supports
-python versions >= 3.11.0. Additionally, we updated the numeric value of the
-INTERACTIVE log level to be 25 rather than 35 so that LOG.WARNING output (35) will
-still be shown in our logs.
+Documentation of Order-Based Procflow usage process.
 
 ::
 
-     modified: docs/source/getting-started/installing/expert.rst
-     modified: docs/source/getting-started/installing/linux_with_conda.rst
-     modified: docs/source/getting-started/installing/mac_with_conda.rst
-     modified: geoips/__init__.py
-     modified: pyproject.toml
-
-Refactor
-========
-
-Plugin registry class updates
------------------------------
-
-Largely refactors base.py and plugin_registry.py to consolidate all registry
-functionality to the PluginRegistry class. The PluginRegistry class is responsible
-for collecting registries to create a top-level namespace registry, which
-encapsulates all of the plugin registries found within plugin packages that fall
-under such namespace. Additionally, the PluginRegistry class is responsible for
-creating or deleting registry files, as well as retrieving plugins and their
-metadata when requested from any interface. The PluginRegistry class can also
-rebuild registries at runtime if plugins or interfaces are missing.
-
-This update took a lot of the functionality contained in base.py and moved it to
-the PluginRegistry class. Essentially, <interface>.get_plugin is just a wrapper
-to a call to the plugin registry now.
-
-Additionally, this PR largely updated the test_plugin_registries.py unit test file
-to greatly increase coverage. Went from around 20% to 97% coverage. Minor changes to
-other unit test files were needed due to the changes made in this PR.
-
-At this point, GeoIPS can function as a utility package for other package to implement
-similar plugin functionality. Other packages can create new interfaces and plugins
-in a new namespace and they will be registered to that namespace. No one package can
-define or collect interfaces/plugins from the multiple namespaces.
-
-::
-
-     modified: geoips/commandline/geoips_validate.py
-     modified: geoips/interfaces/base.py
-     modified: geoips/plugin_registry.py
-     modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
-     modified: tests/unit_tests/plugins/test_get_plugin_metadata.py
+     added: docs/dev/order_based_procflow.rst
 
 Release process
 ===============
@@ -772,3 +716,59 @@ Validation for readers and yaml products for the Order-Based Procflow (OBP)
      modified: geoips/plugins/modules/procflows/__init__.py
      modified: geoips/plugins/yaml/products/abi.yaml
      modified: geoips/plugins/yaml/sectors/static/alaska.yaml
+
+Refactor
+========
+
+Python dependency and interactive log level updates
+---------------------------------------------------
+
+This PR makes small updates to the minimum python version GeoIPS supports and the
+logging level that is associated with INTERACTIVE mode. GeoIPS now only supports
+python versions >= 3.11.0. Additionally, we updated the numeric value of the
+INTERACTIVE log level to be 25 rather than 35 so that LOG.WARNING output (35) will
+still be shown in our logs.
+
+::
+
+     modified: docs/source/getting-started/installing/expert.rst
+     modified: docs/source/getting-started/installing/linux_with_conda.rst
+     modified: docs/source/getting-started/installing/mac_with_conda.rst
+     modified: geoips/__init__.py
+     modified: pyproject.toml
+
+Refactor
+========
+
+Plugin registry class updates
+-----------------------------
+
+Largely refactors base.py and plugin_registry.py to consolidate all registry
+functionality to the PluginRegistry class. The PluginRegistry class is responsible
+for collecting registries to create a top-level namespace registry, which
+encapsulates all of the plugin registries found within plugin packages that fall
+under such namespace. Additionally, the PluginRegistry class is responsible for
+creating or deleting registry files, as well as retrieving plugins and their
+metadata when requested from any interface. The PluginRegistry class can also
+rebuild registries at runtime if plugins or interfaces are missing.
+
+This update took a lot of the functionality contained in base.py and moved it to
+the PluginRegistry class. Essentially, <interface>.get_plugin is just a wrapper
+to a call to the plugin registry now.
+
+Additionally, this PR largely updated the test_plugin_registries.py unit test file
+to greatly increase coverage. Went from around 20% to 97% coverage. Minor changes to
+other unit test files were needed due to the changes made in this PR.
+
+At this point, GeoIPS can function as a utility package for other package to implement
+similar plugin functionality. Other packages can create new interfaces and plugins
+in a new namespace and they will be registered to that namespace. No one package can
+define or collect interfaces/plugins from the multiple namespaces.
+
+::
+
+     modified: geoips/commandline/geoips_validate.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/plugin_registry.py
+     modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
+     modified: tests/unit_tests/plugins/test_get_plugin_metadata.py

@@ -1,0 +1,53 @@
+geoips.pydantic\_models.v1 package
+==================================
+
+Submodules
+----------
+
+geoips.pydantic\_models.v1.bases module
+---------------------------------------
+
+.. automodule:: geoips.pydantic_models.v1.bases
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v1.feature\_annotators module
+-----------------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v1.feature_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v1.gridline\_annotators module
+------------------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v1.gridline_annotators
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v1.sectors module
+-----------------------------------------
+
+.. automodule:: geoips.pydantic_models.v1.sectors
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+geoips.pydantic\_models.v1.workflows module
+-------------------------------------------
+
+.. automodule:: geoips.pydantic_models.v1.workflows
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: geoips.pydantic_models.v1
+   :members:
+   :undoc-members:
+   :show-inheritance:

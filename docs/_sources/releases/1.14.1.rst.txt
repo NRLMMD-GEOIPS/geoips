@@ -1,4 +1,4 @@
-Version 1.14.1 (2025-07-31)
+Version 1.14.1 (2025-10-14)
 ***************************
 
  * *Release process*: Update tagged_version and upcoming_version

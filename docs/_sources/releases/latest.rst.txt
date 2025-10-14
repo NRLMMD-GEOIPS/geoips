@@ -1,101 +1,588 @@
-Version latest (2025-07-31)
+Version latest (2025-10-14)
 ***************************
 
- * *Documentation*: Enhanced documentation for output formatters and checkers
- * *Documentation*: User instructions for installing geoips on linux with conda
+ * *Feature*: Enable versioned schema and models processing.
+ * *Bug fix*: Update projection comparison files for integration tests.
+ * *Bug fix*: Make full_install executable.
+ * *Bug fix*: Fix error handling in yamlpluginvalidator.validate()
+ * *Bug fix*: Don't pass empty xarray in single_source
+ * *Bug fix*: Fix unclosed file handle warnings
+ * *Bug fix*: Fix linting errors from flake8 and cspell
+ * *Bug fix*: Restore non-editable installability.
+ * *Bug fix*: Fixing uninstantiated variables in abi_netcdf reader
+ * *Bug fix*: Change np.fromstring to np.frombuffer
+ * *Bug fix*: Geoips config install bug fix.
+ * *Bug fix*: Fix permissions bug
+ * *Bug fix*: Use filter="tar" in tarfile extract commands
+ * *Bug fix*: Fix pydantic and json schema entanglement
+ * *Bug fix*: Pin python to <3.13.0
+ * *Bug fix*: Fix permissions bug
+ * *Bug fix*: Graceful exit if product name is not specified in single source run
+ * *Bug fix*: Fix install scripts
+ * *Enhancement*: Alphabetize command-line arguments in help output
+ * *Enhancement*: Add --warnings option to the cli
+ * *Enhancement*: Update dockerfile
+ * *Enhancement*: Corebasemodel for geoips pydantic validation
+ * *Enhancement*: Reorganize testing documentation structure
+ * *Enhancement*: Pydantic gridline annotator plugin models
+ * *Enhancement*: Add support for neutral tests in yaml-based testing
+ * *Enhancement*: Write cached json files to geoips_cache_dir
+ * *Enhancement*: Geoips run order based command
+ * *Enhancement*: Add support for invalid json in command-line kwargs. eg. --reader-kwargs
  * *Documentation*: Copy-edited cli documentation
+ * *Documentation*: Update to non-conda installation documentation
+ * *Documentation*: User instructions for installing geoips on windows with conda
  * *Documentation*: Add pytest testing documentation
  * *Documentation*: Add linux help section to testing documentation
  * *Documentation*: Document file cache and geoips_cache_dir
- * *Documentation*: User instructions for installing geoips on windows with conda
- * *Documentation*: User instructions for installing geoips on windows with conda
+ * *Documentation*: User instructions for installing geoips on linux with conda
  * *Documentation*: Add test sector documentation
- * *Documentation*: Update to non-conda installation documentation
- * *Bug fix*: Fix linting errors from flake8 and cspell
- * *Bug fix*: Geoips config install bug fix.
- * *Bug fix*: Restore non-editable installability.
- * *Bug fix*: Use filter="tar" in tarfile extract commands
- * *Bug fix*: Pin python to <3.13.0
- * *Bug fix*: Fix error handling in yamlpluginvalidator.validate()
- * *Bug fix*: Fixing uninstantiated variables in abi_netcdf reader
- * *Bug fix*: Fix unclosed file handle warnings
- * *Bug fix*: Change np.fromstring to np.frombuffer
- * *Continuous integration*: Update input data and output imagery
- * *Testing*: Nextcloud test dataset updates.
- * *Testing*: Added test_data_amsub to nextcloud
- * *Deprecation*: Update deprecated area_def.x-y_size and area_def.name calls.
- * *Deprecation*: Fix ahi_hsd warnings
- * *Enhancement*: Reorganize testing documentation structure
- * *Enhancement*: Pydantic gridline annotator plugin models
- * *Enhancement*: Geoips run order based command
- * *Enhancement*: Write cached json files to geoips_cache_dir
- * *Enhancement*: Alphabetize command-line arguments in help output
- * *Enhancement*: Add support for neutral tests in yaml-based testing
- * *Enhancement*: Add --warnings option to the cli
- * *Enhancement*: Add support for invalid json in command-line kwargs. eg. --reader-kwargs
- * *Enhancement*: Update dockerfile
- * *Removal*: Remove outdated integration tests documentation
+ * *Documentation*: User instructions for installing geoips on windows with conda
+ * *Documentation*: Enhanced documentation for output formatters and checkers
  * *Installation*: Finalize the conda create command for completeness
  * *Installation*: Add a troubleshooting page to installation section of docs
+ * *Continuous integration*: Update input data and output imagery
+ * *Continuous integration*: Cspell regex fix
+ * *Deprecation*: Fix ahi_hsd warnings
+ * *Deprecation*: Update deprecated area_def.x-y_size and area_def.name calls.
+ * *Testing*: Nextcloud test dataset updates.
+ * *Testing*: Added test_data_amsub to nextcloud
+ * *Removal*: Remove outdated integration tests documentation
  * *Hot fix*: Add support for alternative data_fusion package name
 
-Documentation
-=============
+Feature
+=======
 
-Enhanced documentation for output formatters and checkers
+Enable versioned schema and models processing.
+----------------------------------------------
+
+Use "apiVersion" to support versioned schema and models validation.
+
+::
+
+     added: docs/source/releases/latest/1019-enable-versioned-schema-and-models-using-apiversion.yaml
+     added: geoips/models/__init__.py
+     added: geoips/models/v1/__init__.py
+     added: geoips/models/v1/bases.py
+     added: geoips/models/v1/feature_annotators.py
+     added: geoips/models/v1/gridline_annotators.py
+     added: geoips/models/v1/sectors.py
+     added: geoips/models/v1/workflows.py
+     added: geoips/models/v2alpha1/__init__.py
+     added: geoips/models/v2alpha1/bases.py
+     added: geoips/models/v2alpha1/feature_annotators.py
+     added: geoips/models/v2alpha1/sectors.py
+     added: geoips/models/v2alpha1/workflows.py
+     added: geoips/plugins/yaml/workflows/read_test_v1.yaml
+     added: geoips/plugins/yaml/workflows/read_test_v2alpha1.yaml
+     added: tests/unit_tests/models/v1/__init__.py
+     added: tests/unit_tests/models/v1/bases/test_bases.py
+     added: tests/unit_tests/models/v1/conftest.py
+     added: tests/unit_tests/models/v1/feature_annotators/test_cases.yaml
+     added: tests/unit_tests/models/v1/feature_annotators/test_cases_bad.yaml
+     added: tests/unit_tests/models/v1/feature_annotators/test_cases_neutral.yaml
+     added: tests/unit_tests/models/v1/feature_annotators/test_feature_annotators.py
+     added: tests/unit_tests/models/v1/gridline_annotators/test_cases_bad.yaml
+     added: tests/unit_tests/models/v1/gridline_annotators/test_cases_neutral.yaml
+     added: tests/unit_tests/models/v1/sectors/test_cases.yaml
+     added: tests/unit_tests/models/v1/sectors/test_cases_bad.yaml
+     added: tests/unit_tests/models/v1/sectors/test_cases_neutral.yaml
+     added: tests/unit_tests/models/v1/sectors/test_sectors.py
+     added: tests/unit_tests/models/v1/test_pydantic_models.py
+     added: tests/unit_tests/models/v1/utils.py
+     added: tests/unit_tests/models/v1/workflows/test_reader_arguments_model.py
+     added: tests/unit_tests/models/v1/workflows/test_workflow_step_definition_model.py
+     added: tests/unit_tests/models/v1/workflows/test_workflows.py
+     added: tests/unit_tests/models/v2alpha1/__init__.py
+     added: tests/unit_tests/models/v2alpha1/conftest.py
+     added: tests/unit_tests/models/v2alpha1/test_bases.py
+     modified: .cspell.json
+     modified: geoips/interfaces/base.py
+     modified: geoips/interfaces/yaml_based/feature_annotators.py
+     modified: geoips/interfaces/yaml_based/workflows.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/plugins/modules/procflows/order_based.py
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/utils/types/partial_lexeme.py
+     modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
+     modified: tests/unit_tests/plugins/yaml/test_all_yaml_plugins.py
+     deleted: geoips/plugins/yaml/workflows/read_test.yaml
+     deleted: geoips/pydantic/__init__.py
+     deleted: geoips/pydantic/bases.py
+     deleted: geoips/pydantic/feature_annotators.py
+     deleted: geoips/pydantic/gridline_annotators.py
+     deleted: geoips/pydantic/sectors.py
+     deleted: geoips/pydantic/workflows.py
+     deleted: tests/unit_tests/pydantic/bases/test_bases.py
+     deleted: tests/unit_tests/pydantic/conftest.py
+     deleted: tests/unit_tests/pydantic/feature_annotators/test_cases_bad.yaml
+     deleted: tests/unit_tests/pydantic/feature_annotators/test_cases_neutral.yaml
+     deleted: tests/unit_tests/pydantic/gridline_annotators/test_cases_bad.yaml
+     deleted: tests/unit_tests/pydantic/gridline_annotators/test_cases_neutral.yaml
+     deleted: tests/unit_tests/pydantic/sectors/test_cases_bad.yaml
+     deleted: tests/unit_tests/pydantic/sectors/test_cases_neutral.yaml
+     deleted: tests/unit_tests/pydantic/test_pydantic_models.py
+     deleted: tests/unit_tests/pydantic/utils.py
+     deleted: tests/unit_tests/pydantic/workflows/test_reader_arguments_model.py
+     deleted: tests/unit_tests/pydantic/workflows/test_workflow_step_definition_model.py
+     deleted: tests/unit_tests/pydantic/workflows/test_workflows.py
+
+Bug fix
+=======
+
+Update projection comparison files for integration tests.
 ---------------------------------------------------------
 
-Added comprehensive documentation for output checkers and formatters, including detailed explanations of how they work,
-their importance in the testing process, and practical examples of their usage.
+The ordering of projection descriptors changed and this caused multiple integration strict comparison tests to fail.
+This updates the comparison files to match the new ordering.
 
 ::
 
-     added: docs/source/concepts/architecture/interfaces/module_based/output-checkers/index.rst
-     added: docs/source/releases/latest/doc-expand-w-plugins.yaml
-     modified: docs/source/concepts/architecture/documentation/index.rst
-     modified: docs/source/concepts/architecture/documentation/where-to-put.rst
-     modified: docs/source/concepts/architecture/index.rst
-     modified: docs/source/concepts/architecture/plugin-registries.rst
-     modified: docs/source/concepts/architecture/structure-of-geoips/index.rst
-     modified: docs/source/concepts/architecture/tests/index.rst
-     modified: docs/source/concepts/functionality/command-line/index.rst
-     modified: docs/source/concepts/functionality/documentation-building.rst
-     modified: docs/source/concepts/functionality/index.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/algorithm.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/colormapper.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/filename_formats.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/interpolators.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/output_formats.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/procflows.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/readers.rst
-     modified: docs/source/concepts/functionality/interfaces/module_based/title_formats.rst
-     modified: docs/source/concepts/functionality/interfaces/yaml_based/dynamic_sectors.rst
-     modified: docs/source/concepts/functionality/interfaces/yaml_based/gridline_annotators.rst
-     modified: docs/source/concepts/functionality/interfaces/yaml_based/product_defaults.rst
-     modified: docs/source/concepts/functionality/interfaces/yaml_based/products.rst
-     modified: docs/source/concepts/functionality/interfaces/yaml_based/static_sectors.rst
-     modified: docs/source/tutorials/nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.rst
+     modified: tests/integration_tests/full_install.sh
+     modified: tests/integration_tests/site_install.sh
+     modified:
+     tests/outputs/amsr2_ocean.tc.windspeed.imagery_clean/20200518_073601_IO012020_amsr2_gcom-w1_windspeed_140kts_85p45_1p0-clean.png.yaml
+     modified:
+     tests/outputs/amsua_mhs_mirs.tc.RainRate.imagery_annotated/20210419_235400_WP022021_amsu-a_mhs_metop-a_RainRate_115kts_32p68_1p0.png.yaml
+     modified:
+     tests/outputs/mhs_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_mhs_metop-a_183-3H_115kts_100p00_1p0.png.yaml
+     modified:
+     tests/outputs/mimic_fine.tc.TPW-PWAT.imagery_annotated/20210419_230000_WP022021_mimic_tpw_TPW-PWAT_115kts_100p00_1p0.png.yaml
+     modified:
+     tests/outputs/saphir.tc.183-3HNearest.imagery_annotated/20210209_003103_SH192021_saphir_meghatropiques_183-3HNearest_135kts_88p76_1p0.png.yaml
 
-Documentation
-=============
+Bug fix
+=======
 
-User instructions for installing geoips on linux with conda
------------------------------------------------------------
+Make full_install executable.
+-----------------------------
 
-Add installation instructions for external users to install GeoIPS on Linux with Conda
+This makes full_install.sh executable. At some point it lost the exec flag. This adds it back. It was the only shell
+script with this issue.
 
 ::
 
-     added: docs/source/contribute/dev-install.rst
-     added: docs/source/contribute/dev_linux_with_conda.rst
-     added: docs/source/getting-started/installing/user_linux_with_conda.rst
-     added: docs/source/releases/latest/1089-add-user-install-instructions-Linux.yaml
-     added: docs/source/releases/latest/update-user-install-docs.yaml
+     modified: tests/integration_tests/full_install.sh
+
+Bug fix
+=======
+
+Fix error handling in yamlpluginvalidator.validate()
+----------------------------------------------------
+
+Handle the ``AttributeError`` that is raised when `plugin` doesn't have a
+``get()`` method. Narrow the scope of the current error handling to minimize
+side effects.
+
+::
+
+     modified: geoips/interfaces/base.py
+
+Bug fix
+=======
+
+Don't pass empty xarray in single_source
+----------------------------------------
+
+Output Formatter families `xrdict_area_product_to_outlist` and
+`xrdict_area_product_outfnames_to_outlist` pass the variable
+`fused_xarray_dict` even when it's empty.
+Fixing the single_source procflow so that it will use the `alg_xarray`
+instead when it detects that `fused_xarray_dict` is `None`.
+
+::
+
+     added: docs/source/releases/latest/1164-output-formatter-families-pass-empty-xarray-dataset-in-single-source.yaml
+     modified: geoips/plugins/modules/procflows/single_source.py
      modified: .cspell.json
+
+Bug fix
+=======
+
+Fix unclosed file handle warnings
+---------------------------------
+
+Several file handles were not correctly closed. This closes them.
+
+::
+
+     modified: geoips/create_plugin_registries.py
+
+Bug fix
+=======
+
+Fix linting errors from flake8 and cspell
+-----------------------------------------
+
+Fix linting errors from flake8 and cspell
+
+::
+
+     modified: geoips/plugins/modules/readers/amsua_mhs_mirs.py
+
+Bug fix
+=======
+
+Restore non-editable installability.
+------------------------------------
+
+Move test-data-urls file into GeoIPS repo to fix a breaking change to non-editable installs.
+
+::
+
+     added: geoips/commandline/ancillary_info/test-data-urls.yaml
+     modified: geoips/commandline/ancillary_info/test_data.py
+     modified: setup/download_test_data.py
+
+Bug fix
+=======
+
+Fixing uninstantiated variables in abi_netcdf reader
+----------------------------------------------------
+
+Checking for cached data introduced an error in abi_netcdf reader. This fixes that error as well as a downstream error
+where a datetime was not timezone-aware
+
+::
+
+     added: docs/source/releases/latest/1085-cached-data-check-is-causing-error-in-readers.yaml
+     modified: geoips/plugins/modules/readers/abi_netcdf.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+
+Bug fix
+=======
+
+Change np.fromstring to np.frombuffer
+-------------------------------------
+
+np.fromstring was removed from numpy in v2.3.0. The correct command is now
+np.frombuffer. This PR just makes that update.
+
+::
+
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
+     modified: geoips/plugins/modules/readers/ssmis_binary.py
+
+Bug fix
+=======
+
+Geoips config install bug fix.
+------------------------------
+
+The command 'geoips config install' will cause a KeyError if the environment
+variable $GEOIPS_TESTDATA_DIR is not set. This PR updates this logic and raises an
+argparse error if this environment variable isn't set and the --outdir variable was
+not provided.
+
+Additionally, this PR added new logic to create the specified output directory if it
+doesn't already exist.
+
+::
+
+     modified: geoips/commandline/geoips_config.py
+
+Bug fix
+=======
+
+Fix permissions bug
+-------------------
+
+This is a small fix that follows up on a previous fix to the documentation building script.
+
+::
+
+     modified: docs/build_docs.py
+
+Bug fix
+=======
+
+Use filter="tar" in tarfile extract commands
+--------------------------------------------
+
+Update all uses of tarfile to use the filter="tar" option in extract commands.
+This prevents a number of different types of malicious tar files from being
+extracted. This will become default behavior in Python 3.14. This gets rid of a
+DeprecationWarning in lower versions of Python.
+
+::
+
+     modified: geoips/commandline/geoips_config.py
+     modified: setup/download_test_data.py
+
+Bug fix
+=======
+
+Fix pydantic and json schema entanglement
+-----------------------------------------
+
+Disable json schema validation for pydantic plugins
+
+::
+
+     added: docs/source/releases/latest/1143-bugfix-disable-entanglement-of-json-pydantic-validation.yaml
+     modified: geoips/interfaces/yaml_based/feature_annotators.py
+     modified: geoips/interfaces/base.py
+     modified: geoips/plugin_registry.py
+     modified: geoips/schema/feature_annotators/cartopy.yaml
+     modified: tests/unit_tests/plugin_registries/test_plugin_registries.py
+     modified: tests/unit_tests/plugins/test_get_plugin.py
+     modified: tests/unit_tests/schema/bad/feature_annotators/cartopy.yaml
+     modified: tests/utils/test_interfaces.py
+
+Bug fix
+=======
+
+Pin python to <3.13.0
+---------------------
+
+Changes to datetime handling are breaking in python 3.13. This pins the python version below 3.13 for now.
+
+::
+
+     modified: pyproject.toml
+
+Bug fix
+=======
+
+Fix permissions bug
+-------------------
+
+This is a small fix to the documentation building script that changes error handling for git repository validation. It
+updates code to handle git repos that are read only and not owned by the current user. Uses the slower but more robust
+pygit2 discover_repository function as backup when the normal class constructor fails. This unblocks documentation
+builds on all plugin repos for geoips.
+
+::
+
+     modified: docs/build_docs.py
+
+Bug fix
+=======
+
+Graceful exit if product name is not specified in single source run
+-------------------------------------------------------------------
+
+The error issued when a product is omitted is long and non-specific. The Commandline script should detect this and issue
+a sensible error to tell the user to add a Product.
+
+::
+
+     added: docs/source/releases/latest/1118-CLI-single-source-missing-product-name.yaml
+     modified: geoips/commandline/args.py
+
+Bug fix
+=======
+
+Fix install scripts
+-------------------
+
+This adds missing test data sets to the site and full install scripts necessary for running the site and full
+integration tests.
+
+::
+
+     added: docs/source/releases/latest/biosafetylvl5-install-patches.yaml
+     modified: tests/integration_tests/full_install.sh
+     modified: tests/integration_tests/site_install.sh
+
+Enhancement
+===========
+
+Alphabetize command-line arguments in help output
+-------------------------------------------------
+
+Implemented a custom argument formatter that sorts command-line arguments alphabetically when displaying help messages.
+This improves readability of help text by presenting arguments in a consistent, predictable order.
+
+::
+
+     modified: geoips/commandline/geoips_command.py
+     modified: docs/source/concepts/architecture/index.rst
+     added: tests/unit_tests/commandline/test_help_sorting.py
+     added: docs/source/concepts/architecture/command_line_interface.rst
+
+Enhancement
+===========
+
+Add --warnings option to the cli
+--------------------------------
+
+Add a --warnings option to the CLI to allow controlling
+behavior when warnings are encountered. Can be set to
+hide, print, or raise an error on warnings.
+
+::
+
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_test.py
+     modified: tests/unit_tests/commandline/test_geoips_config_create_registries.py
+     modified: tests/unit_tests/commandline/test_geoips_config_delete_registries.py
+     modified: tests/unit_tests/commandline/test_geoips_list_registries.py
+
+Enhancement
+===========
+
+Update dockerfile
+-----------------
+
+This update adds multi-stage builds for dev, prod and testing.
+
+::
+
+     modified: Dockerfile
+
+Enhancement
+===========
+
+Corebasemodel for geoips pydantic validation
+--------------------------------------------
+
+Establishes CoreBaseModel as the base class containing required Pydantic ConfigDict settings for GeoIPS
+
+::
+
+     added: docs/source/releases/latest/856-feature-pydantic_static-base-model.yaml
+     modified: docs/dev/order_based_procflow.rst
+     modified: geoips/pydantic_models/v1/bases.py
+     modified: tests/unit_tests/pydantic_models/v1/bases/test_bases.py
+     modified: tests/unit_tests/pydantic_models/v1/workflows/test_reader_arguments_model.py
+
+Enhancement
+===========
+
+Reorganize testing documentation structure
+------------------------------------------
+
+Restructured testing documentation by creating a dedicated testing section under contribute/ and consolidating test
+running instructions into a comprehensive guide
+
+::
+
+     deleted: docs/dev/integration_tests.rst
+     added: docs/source/contribute/testing/index.rst
+     added: docs/source/contribute/testing/running_tests.rst
      modified: docs/source/contribute/index.rst
-     modified: docs/source/getting-started/installing/expert.rst
-     modified: docs/source/getting-started/installing/index.rst
-     deleted: docs/source/getting-started/installing/linux_with_conda.rst
+
+Enhancement
+===========
+
+Pydantic gridline annotator plugin models
+-----------------------------------------
+
+Transformed legacy json schema code for gridline annotators into our newly developed
+pydantic schema. Currently still support legacy schema validation for operational
+GeoIPS, however these changes are one of many needed to support the order based
+procflow.
+
+Additionally, this PR modified unit testing code for sectors and feature annotators
+in an attempt to generalize the testing that will be applied to these models. Added
+a test cases file for gridline annotators models as well, used for unit testing.
+
+::
+
+     deleted: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
+     deleted: tests/unit_tests/pydantic/sectors/test_sectors.py
+     added: geoips/pydantic/gridline_annotators.py
+     added: tests/unit_tests/pydantic/gridline_annotators/test_cases.yaml
+     added: tests/unit_tests/pydantic/test_pydantic_models.py
+     modified: geoips/plugins/yaml/gridline_annotators/default.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/north_pole.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/tc_pmw.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/tc_visir.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
+     modified: geoips/plugins/yaml/gridline_annotators/tc_windspeed.yaml
+     modified: geoips/pydantic/feature_annotators.py
+     modified: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+     modified: tests/unit_tests/pydantic/utils.py
+
+Enhancement
+===========
+
+Add support for neutral tests in yaml-based testing
+---------------------------------------------------
+
+Enhances YAML-based testing by adding support for neutral tests and pydantic validation.
+
+::
+
+     deleted: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
+     deleted: tests/unit_tests/pydantic/sectors/test_cases.yaml
+     added: docs/source/releases/latest/1001-add-support-for-neutral-tests-in-yaml-based-testing.yaml
+     added: tests/unit_tests/pydantic/feature_annotators/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic/feature_annotators/test_cases_neutral.yaml
+     added: tests/unit_tests/pydantic/sectors/test_cases_bad.yaml
+     added: tests/unit_tests/pydantic/sectors/test_cases_neutral.yaml
+     modified: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
+     modified: tests/unit_tests/pydantic/sectors/test_sectors.py
+     modified: tests/unit_tests/pydantic/utils.py
+
+Enhancement
+===========
+
+Write cached json files to geoips_cache_dir
+-------------------------------------------
+
+The CLI was not usable when installed by a user other than the user running the CLI.
+This was because the CLI writes cached json files and was writing them into the install
+directory. This PR introduces GEOIPS_CACHE_DIR which defaults to platformdirs.user_cache_dir().
+It also reorganizes a bit to move the caching functions to geoips/utils for use by other
+code. This will also be used by the plugin registry. Note, this also adds a new formal
+dependency on platformdirs, however, this was already a dependency of other dependencies.
+
+::
+
+     deleted: tests/unit_tests/commandline/json_missing/cmd_instructions.yaml
+     added: geoips/utils/cache_files.py
+     added: tests/unit_tests/utils/cache_files.py
+     modified: .cspell.json
+     modified: pyproject.toml
+     modified: geoips/commandline/ancillary_info/__init__.py
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/filenames/base_paths.py
+     modified: geoips/interfaces/base.py
+     modified: tests/unit_tests/commandline/cli_top_level_tester.py
+     modified: tests/unit_tests/commandline/test_get_commandline_instructions.py
+
+Enhancement
+===========
+
+Geoips run order based command
+------------------------------
+
+This update adds a new command, ``geoips run order_based`` command, which executes
+the order based process workflow (procflow). While there will likely be updates to
+this command in the future, these changes allow you to execute an obp procflow from
+the command line rather than manually calling the associated python module.
+
+Currently, the order based procflow only supports reader plugins. More to be
+supported in the future.
+
+::
+
+     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
+     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
+     modified: geoips/commandline/commandline_interface.py
+     modified: geoips/commandline/geoips_command.py
+     modified: geoips/commandline/geoips_run.py
+     modified: tests/unit_tests/commandline/test_geoips_run.py
+
+Enhancement
+===========
+
+Add support for invalid json in command-line kwargs. eg. --reader-kwargs
+------------------------------------------------------------------------
+
+'JSON does not officially support single quotes ( eg. '' ). However, sometimes people include them in command line
+kwargs. This adds support for single quotes by calling ast.literal_eval instead of json.loads.'
+
+::
+
+     added: docs/source/releases/latest/335-simplify-cli-kwargs-arguments.yaml
+     modified: geoips/commandline/args.py
 
 Documentation
 =============
@@ -112,6 +599,36 @@ Copy-edited CLI documentation for correct rst, clarity and brevity.
      modified: docs/source/concepts/functionality/command-line/command_line_autodoc.rst
      modified: docs/source/concepts/functionality/command-line/index.rst
      moved: docs/source/concepts/functionality/data_units.rst
+
+Documentation
+=============
+
+Update to non-conda installation documentation
+----------------------------------------------
+
+This updates the "expert" install docs to reflect the package in its current state. It splits the documentation into two
+files: one for devs and one for users.
+
+::
+
+     added: docs/source/contribute/dev-install.rst
+     modified: docs/source/getting-started/installing/expert.rst
+     modified: docs/source/contribute/index.rst
+     modified: .cspell.json
+
+Documentation
+=============
+
+User instructions for installing geoips on windows with conda
+-------------------------------------------------------------
+
+Add installation instructions for external users to install GeoIPS on Windows with Conda
+
+::
+
+     added: docs/source/releases/latest/add-user-install-instructions-Windows.yaml
+     modified: docs/source/releases/latest/add-user-install-instructions-Windows.yaml
+     modified: docs/source/getting-started/installing/user_linux_with_conda.rst
 
 Documentation
 =============
@@ -153,6 +670,40 @@ Provide documentation describing GEOIPS_CACHE_DIR and the files that get cached.
 Documentation
 =============
 
+User instructions for installing geoips on linux with conda
+-----------------------------------------------------------
+
+Add installation instructions for external users to install GeoIPS on Linux with Conda
+
+::
+
+     added: docs/source/contribute/dev-install.rst
+     added: docs/source/contribute/dev_linux_with_conda.rst
+     added: docs/source/getting-started/installing/user_linux_with_conda.rst
+     added: docs/source/releases/latest/1089-add-user-install-instructions-Linux.yaml
+     added: docs/source/releases/latest/update-user-install-docs.yaml
+     modified: .cspell.json
+     modified: docs/source/contribute/index.rst
+     modified: docs/source/getting-started/installing/expert.rst
+     modified: docs/source/getting-started/installing/index.rst
+     deleted: docs/source/getting-started/installing/linux_with_conda.rst
+
+Documentation
+=============
+
+Add test sector documentation
+-----------------------------
+
+This adds documentation for the up-and-coming small test sectors for integration tests.
+
+::
+
+     added: docs/source/concepts/architecture/tests/test-sectors.rst
+     modified: docs/source/concepts/architecture/tests/index.rst
+
+Documentation
+=============
+
 User instructions for installing geoips on windows with conda
 -------------------------------------------------------------
 
@@ -174,172 +725,68 @@ Add installation instructions for external users to install GeoIPS on Windows wi
 Documentation
 =============
 
-User instructions for installing geoips on windows with conda
--------------------------------------------------------------
+Enhanced documentation for output formatters and checkers
+---------------------------------------------------------
 
-Add installation instructions for external users to install GeoIPS on Windows with Conda
-
-::
-
-     added: docs/source/releases/latest/add-user-install-instructions-Windows.yaml
-     modified: docs/source/releases/latest/add-user-install-instructions-Windows.yaml
-     modified: docs/source/getting-started/installing/user_linux_with_conda.rst
-
-Documentation
-=============
-
-Add test sector documentation
------------------------------
-
-This adds documentation for the up-and-coming small test sectors for integration tests.
+Added comprehensive documentation for output checkers and formatters, including detailed explanations of how they work,
+their importance in the testing process, and practical examples of their usage.
 
 ::
 
-     added: docs/source/concepts/architecture/tests/test-sectors.rst
+     added: docs/source/concepts/architecture/interfaces/module_based/output-checkers/index.rst
+     added: docs/source/releases/latest/doc-expand-w-plugins.yaml
+     modified: docs/source/concepts/architecture/documentation/index.rst
+     modified: docs/source/concepts/architecture/documentation/where-to-put.rst
+     modified: docs/source/concepts/architecture/index.rst
+     modified: docs/source/concepts/architecture/plugin-registries.rst
+     modified: docs/source/concepts/architecture/structure-of-geoips/index.rst
      modified: docs/source/concepts/architecture/tests/index.rst
+     modified: docs/source/concepts/functionality/command-line/index.rst
+     modified: docs/source/concepts/functionality/documentation-building.rst
+     modified: docs/source/concepts/functionality/index.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/algorithm.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/colormapper.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/filename_formats.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/interpolators.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/output_formats.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/procflows.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/readers.rst
+     modified: docs/source/concepts/functionality/interfaces/module_based/title_formats.rst
+     modified: docs/source/concepts/functionality/interfaces/yaml_based/dynamic_sectors.rst
+     modified: docs/source/concepts/functionality/interfaces/yaml_based/gridline_annotators.rst
+     modified: docs/source/concepts/functionality/interfaces/yaml_based/product_defaults.rst
+     modified: docs/source/concepts/functionality/interfaces/yaml_based/products.rst
+     modified: docs/source/concepts/functionality/interfaces/yaml_based/static_sectors.rst
+     modified: docs/source/tutorials/nrtp-examples/using-inotifywait-for-basic-near-real-time-processing.rst
 
-Documentation
-=============
+Installation
+============
 
-Update to non-conda installation documentation
-----------------------------------------------
+Finalize the conda create command for completeness
+--------------------------------------------------
 
-This updates the "expert" install docs to reflect the package in its current state. It splits the documentation into two
-files: one for devs and one for users.
-
-::
-
-     added: docs/source/contribute/dev-install.rst
-     modified: docs/source/getting-started/installing/expert.rst
-     modified: docs/source/contribute/index.rst
-     modified: .cspell.json
-
-Bug fix
-=======
-
-Fix linting errors from flake8 and cspell
------------------------------------------
-
-Fix linting errors from flake8 and cspell
-
-::
-
-     modified: geoips/plugins/modules/readers/amsua_mhs_mirs.py
-
-Bug fix
-=======
-
-Geoips config install bug fix.
-------------------------------
-
-The command 'geoips config install' will cause a KeyError if the environment
-variable $GEOIPS_TESTDATA_DIR is not set. This PR updates this logic and raises an
-argparse error if this environment variable isn't set and the --outdir variable was
-not provided.
-
-Additionally, this PR added new logic to create the specified output directory if it
-doesn't already exist.
+Add a thorough list of packages for the conda create command.
+This is a more complete list than is needed, but may help avoid
+potential issues with missing libraries for different architectures.
 
 ::
 
-     modified: geoips/commandline/geoips_config.py
+     modified: docs/source/getting-started/installing/linux_with_conda.rst
 
-Bug fix
-=======
+Installation
+============
 
-Restore non-editable installability.
-------------------------------------
+Add a troubleshooting page to installation section of docs
+----------------------------------------------------------
 
-Move test-data-urls file into GeoIPS repo to fix a breaking change to non-editable installs.
-
-::
-
-     added: geoips/commandline/ancillary_info/test-data-urls.yaml
-     modified: geoips/commandline/ancillary_info/test_data.py
-     modified: setup/download_test_data.py
-
-Bug fix
-=======
-
-Use filter="tar" in tarfile extract commands
---------------------------------------------
-
-Update all uses of tarfile to use the filter="tar" option in extract commands.
-This prevents a number of different types of malicious tar files from being
-extracted. This will become default behavior in Python 3.14. This gets rid of a
-DeprecationWarning in lower versions of Python.
+During the workshop installation, this can be used to compile issues
+during the installation process.  After the workshop, this can be used
+to allow for a simplified installation, with potential issues and
+resolutions identified.
 
 ::
 
-     modified: geoips/commandline/geoips_config.py
-     modified: setup/download_test_data.py
-
-Bug fix
-=======
-
-Pin python to <3.13.0
----------------------
-
-Changes to datetime handling are breaking in python 3.13. This pins the python version below 3.13 for now.
-
-::
-
-     modified: pyproject.toml
-
-Bug fix
-=======
-
-Fix error handling in yamlpluginvalidator.validate()
-----------------------------------------------------
-
-Handle the ``AttributeError`` that is raised when `plugin` doesn't have a
-``get()`` method. Narrow the scope of the current error handling to minimize
-side effects.
-
-::
-
-     modified: geoips/interfaces/base.py
-
-Bug fix
-=======
-
-Fixing uninstantiated variables in abi_netcdf reader
-----------------------------------------------------
-
-Checking for cached data introduced an error in abi_netcdf reader. This fixes that error as well as a downstream error
-where a datetime was not timezone-aware
-
-::
-
-     added: docs/source/releases/latest/1085-cached-data-check-is-causing-error-in-readers.yaml
-     modified: geoips/plugins/modules/readers/abi_netcdf.py
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-
-Bug fix
-=======
-
-Fix unclosed file handle warnings
----------------------------------
-
-Several file handles were not correctly closed. This closes them.
-
-::
-
-     modified: geoips/create_plugin_registries.py
-
-Bug fix
-=======
-
-Change np.fromstring to np.frombuffer
--------------------------------------
-
-np.fromstring was removed from numpy in v2.3.0. The correct command is now
-np.frombuffer. This PR just makes that update.
-
-::
-
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-     modified: geoips/plugins/modules/readers/ssmis_binary.py
+     modified: docs/source/getting-started/installing/troubleshooting.rst
 
 Continuous integration
 ======================
@@ -430,54 +877,32 @@ Disable viirs.static.visible.imagery_clean.sh until issue 1076 is solved.
      modified: tests/scripts/seviri.WV-Upper.unprojected_image.sh
      modified: tests/scripts/seviri.airmass.imagery_clean.sh
 
-Testing
-=======
+Continuous integration
+======================
 
-Nextcloud test dataset updates.
--------------------------------
+Cspell regex fix
+----------------
 
-With the recent release of brand new and/or updated test datasets coming from
-internal NRL, we needed to update our public hosting of datasets to match these
-changes. The data has since been transferred over, and we need to reflect this
-within our code base so the CLI can properly install the new datasets. This was a
-simple update to test-data-urls.yaml, based on a script I wrote to detect unique
-test datasets being used within plugin packages.
-
-Additionally, this PR fixes a small bug in the 'geoips config install' command where
-'all' wasn't working properly.
-
-Finally, this PR added test datasets for saphir and cygnss. When calling the test
-scripts for these datasets, it was found that cygnss' compare image was out of date
-and needed updating.
+This updates the cspell config file so that cspell checks string literals longer than 3 chars.
 
 ::
 
-     modified: geoips/commandline/geoips_config.yaml
-     modified: setup/test-data-urls.yaml
-     modified: tests/integration_tests/test_integration.py
-     modified:
-     tests/outputs/cygnss.tc.windspeed.imagery_clean/20240125_060307_SH062024_cygnss_cygnss_windspeed_80kts_6p22_1p0-clean.png
+     modified: .cspell.json
 
-Testing
-=======
+Deprecation
+===========
 
-Added test_data_amsub to nextcloud
-----------------------------------
+Fix ahi_hsd warnings
+--------------------
 
-This PR is part of many updates we've made to public test datasets for GeoIPS. We
-found matching AMSU-B data to what was used internally, and are now making it public
-so we can expand our test suite.
-
-Additionally, this PR removed a duplicate test-data-urls.yaml file from setup/,
-which was used before dev-staging got merged into main. test-data-urls.yaml is now
-located in geoips/commandline/ancillary_info/, and should work whether or not the
-user is installed in editable mode.
+Simple PR which addresses warnings raised via the ahi_hsd reader. The changes made
+in this PR address an unclosed file handler and multiple instances where
+n-dimensional arrays were cast to a scalar value, which will be deprecated in the
+future. No functional changes were made.
 
 ::
 
-     deleted: setup/test-data-urls.yaml
-     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
-     modified: tests/integration_tests/test_integration.py
+     modified: geoips/plugins/modules/readers/ahi_hsd.py
 
 Deprecation
 ===========
@@ -566,203 +991,54 @@ the .yaml files. The contents were the same, so no actual functionality has chan
      modified:
      tests/outputs/viirsday.tc.Night-Vis-IR.imagery_annotated/20210209_074210_SH192021_viirs_noaa-20_Night-Vis-IR_130kts_100p00_1p0.png.yaml
 
-Deprecation
-===========
+Testing
+=======
 
-Fix ahi_hsd warnings
---------------------
+Nextcloud test dataset updates.
+-------------------------------
 
-Simple PR which addresses warnings raised via the ahi_hsd reader. The changes made
-in this PR address an unclosed file handler and multiple instances where
-n-dimensional arrays were cast to a scalar value, which will be deprecated in the
-future. No functional changes were made.
+With the recent release of brand new and/or updated test datasets coming from
+internal NRL, we needed to update our public hosting of datasets to match these
+changes. The data has since been transferred over, and we need to reflect this
+within our code base so the CLI can properly install the new datasets. This was a
+simple update to test-data-urls.yaml, based on a script I wrote to detect unique
+test datasets being used within plugin packages.
 
-::
+Additionally, this PR fixes a small bug in the 'geoips config install' command where
+'all' wasn't working properly.
 
-     modified: geoips/plugins/modules/readers/ahi_hsd.py
-
-Enhancement
-===========
-
-Reorganize testing documentation structure
-------------------------------------------
-
-Restructured testing documentation by creating a dedicated testing section under contribute/ and consolidating test
-running instructions into a comprehensive guide
+Finally, this PR added test datasets for saphir and cygnss. When calling the test
+scripts for these datasets, it was found that cygnss' compare image was out of date
+and needed updating.
 
 ::
 
-     deleted: docs/dev/integration_tests.rst
-     added: docs/source/contribute/testing/index.rst
-     added: docs/source/contribute/testing/running_tests.rst
-     modified: docs/source/contribute/index.rst
+     modified: geoips/commandline/geoips_config.yaml
+     modified: setup/test-data-urls.yaml
+     modified: tests/integration_tests/test_integration.py
+     modified:
+     tests/outputs/cygnss.tc.windspeed.imagery_clean/20240125_060307_SH062024_cygnss_cygnss_windspeed_80kts_6p22_1p0-clean.png
 
-Enhancement
-===========
+Testing
+=======
 
-Pydantic gridline annotator plugin models
------------------------------------------
+Added test_data_amsub to nextcloud
+----------------------------------
 
-Transformed legacy json schema code for gridline annotators into our newly developed
-pydantic schema. Currently still support legacy schema validation for operational
-GeoIPS, however these changes are one of many needed to support the order based
-procflow.
+This PR is part of many updates we've made to public test datasets for GeoIPS. We
+found matching AMSU-B data to what was used internally, and are now making it public
+so we can expand our test suite.
 
-Additionally, this PR modified unit testing code for sectors and feature annotators
-in an attempt to generalize the testing that will be applied to these models. Added
-a test cases file for gridline annotators models as well, used for unit testing.
-
-::
-
-     deleted: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
-     deleted: tests/unit_tests/pydantic/sectors/test_sectors.py
-     added: geoips/pydantic/gridline_annotators.py
-     added: tests/unit_tests/pydantic/gridline_annotators/test_cases.yaml
-     added: tests/unit_tests/pydantic/test_pydantic_models.py
-     modified: geoips/plugins/yaml/gridline_annotators/default.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/default_palegreen.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/north_pole.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/tc_0p25degree.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/tc_pmw.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/tc_visir.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/tc_visir_3200km.yaml
-     modified: geoips/plugins/yaml/gridline_annotators/tc_windspeed.yaml
-     modified: geoips/pydantic/feature_annotators.py
-     modified: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
-     modified: tests/unit_tests/pydantic/utils.py
-
-Enhancement
-===========
-
-Geoips run order based command
-------------------------------
-
-This update adds a new command, ``geoips run order_based`` command, which executes
-the order based process workflow (procflow). While there will likely be updates to
-this command in the future, these changes allow you to execute an obp procflow from
-the command line rather than manually calling the associated python module.
-
-Currently, the order based procflow only supports reader plugins. More to be
-supported in the future.
+Additionally, this PR removed a duplicate test-data-urls.yaml file from setup/,
+which was used before dev-staging got merged into main. test-data-urls.yaml is now
+located in geoips/commandline/ancillary_info/, and should work whether or not the
+user is installed in editable mode.
 
 ::
 
-     modified: geoips/commandline/ancillary_info/alias_mapping.yaml
-     modified: geoips/commandline/ancillary_info/cmd_instructions.yaml
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_run.py
-     modified: tests/unit_tests/commandline/test_geoips_run.py
-
-Enhancement
-===========
-
-Write cached json files to geoips_cache_dir
--------------------------------------------
-
-The CLI was not usable when installed by a user other than the user running the CLI.
-This was because the CLI writes cached json files and was writing them into the install
-directory. This PR introduces GEOIPS_CACHE_DIR which defaults to platformdirs.user_cache_dir().
-It also reorganizes a bit to move the caching functions to geoips/utils for use by other
-code. This will also be used by the plugin registry. Note, this also adds a new formal
-dependency on platformdirs, however, this was already a dependency of other dependencies.
-
-::
-
-     deleted: tests/unit_tests/commandline/json_missing/cmd_instructions.yaml
-     added: geoips/utils/cache_files.py
-     added: tests/unit_tests/utils/cache_files.py
-     modified: .cspell.json
-     modified: pyproject.toml
-     modified: geoips/commandline/ancillary_info/__init__.py
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/filenames/base_paths.py
-     modified: geoips/interfaces/base.py
-     modified: tests/unit_tests/commandline/cli_top_level_tester.py
-     modified: tests/unit_tests/commandline/test_get_commandline_instructions.py
-
-Enhancement
-===========
-
-Alphabetize command-line arguments in help output
--------------------------------------------------
-
-Implemented a custom argument formatter that sorts command-line arguments alphabetically when displaying help messages.
-This improves readability of help text by presenting arguments in a consistent, predictable order.
-
-::
-
-     modified: geoips/commandline/geoips_command.py
-     modified: docs/source/concepts/architecture/index.rst
-     added: tests/unit_tests/commandline/test_help_sorting.py
-     added: docs/source/concepts/architecture/command_line_interface.rst
-
-Enhancement
-===========
-
-Add support for neutral tests in yaml-based testing
----------------------------------------------------
-
-Enhances YAML-based testing by adding support for neutral tests and pydantic validation.
-
-::
-
-     deleted: tests/unit_tests/pydantic/feature_annotators/test_cases.yaml
-     deleted: tests/unit_tests/pydantic/sectors/test_cases.yaml
-     added: docs/source/releases/latest/1001-add-support-for-neutral-tests-in-yaml-based-testing.yaml
-     added: tests/unit_tests/pydantic/feature_annotators/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic/feature_annotators/test_cases_neutral.yaml
-     added: tests/unit_tests/pydantic/sectors/test_cases_bad.yaml
-     added: tests/unit_tests/pydantic/sectors/test_cases_neutral.yaml
-     modified: tests/unit_tests/pydantic/feature_annotators/test_feature_annotators.py
-     modified: tests/unit_tests/pydantic/sectors/test_sectors.py
-     modified: tests/unit_tests/pydantic/utils.py
-
-Enhancement
-===========
-
-Add --warnings option to the cli
---------------------------------
-
-Add a --warnings option to the CLI to allow controlling
-behavior when warnings are encountered. Can be set to
-hide, print, or raise an error on warnings.
-
-::
-
-     modified: geoips/commandline/commandline_interface.py
-     modified: geoips/commandline/geoips_command.py
-     modified: geoips/commandline/geoips_test.py
-     modified: tests/unit_tests/commandline/test_geoips_config_create_registries.py
-     modified: tests/unit_tests/commandline/test_geoips_config_delete_registries.py
-     modified: tests/unit_tests/commandline/test_geoips_list_registries.py
-
-Enhancement
-===========
-
-Add support for invalid json in command-line kwargs. eg. --reader-kwargs
-------------------------------------------------------------------------
-
-'JSON does not officially support single quotes ( eg. '' ). However, sometimes people include them in command line
-kwargs. This adds support for single quotes by calling ast.literal_eval instead of json.loads.'
-
-::
-
-     added: docs/source/releases/latest/335-simplify-cli-kwargs-arguments.yaml
-     modified: geoips/commandline/args.py
-
-Enhancement
-===========
-
-Update dockerfile
------------------
-
-This update adds multi-stage builds for dev, prod and testing.
-
-::
-
-     modified: Dockerfile
+     deleted: setup/test-data-urls.yaml
+     modified: geoips/commandline/ancillary_info/test-data-urls.yaml
+     modified: tests/integration_tests/test_integration.py
 
 Removal
 =======
@@ -775,35 +1051,6 @@ Removed the old integration_tests.rst file as part of documentation reorganizati
 ::
 
      deleted: docs/dev/integration_tests.rst
-
-Installation
-============
-
-Finalize the conda create command for completeness
---------------------------------------------------
-
-Add a thorough list of packages for the conda create command.
-This is a more complete list than is needed, but may help avoid
-potential issues with missing libraries for different architectures.
-
-::
-
-     modified: docs/source/getting-started/installing/linux_with_conda.rst
-
-Installation
-============
-
-Add a troubleshooting page to installation section of docs
-----------------------------------------------------------
-
-During the workshop installation, this can be used to compile issues
-during the installation process.  After the workshop, this can be used
-to allow for a simplified installation, with potential issues and
-resolutions identified.
-
-::
-
-     modified: docs/source/getting-started/installing/troubleshooting.rst
 
 Hot fix
 =======

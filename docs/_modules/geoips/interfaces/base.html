@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>geoips.interfaces.base &#8212; GeoIPS, Geolocated Information Processing System 1.16.3 documentation</title>
+    <title>geoips.interfaces.base &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -39,7 +39,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=ad773350"></script>
+    <script data-url_root="../../../" id="documentation_options" src="../../../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../../../_static/doctools.js?v=888ff710"></script>
     <script src="../../../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
@@ -58,7 +58,7 @@ window.addEventListener("load", () => mermaid.run());
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 31, 2025 02:52:42"/>
+    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
   </head>
   
   
@@ -124,8 +124,8 @@ window.addEventListener("load", () => mermaid.run());
       
     
     
-    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.16.3 documentation - Home"/>
-    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.16.3 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../../../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -432,6 +432,8 @@ window.addEventListener("load", () => mermaid.run());
 
 <span class="sd">&quot;&quot;&quot;Base classes for interfaces, plugins, and plugin validation machinery.&quot;&quot;&quot;</span>
 
+<span class="c1"># cspell:ignore refjs</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">yaml</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">inspect</span>
@@ -619,8 +621,12 @@ window.addEventListener("load", () => mermaid.run());
             <span class="n">validator_id</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;interface&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">.</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;family&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
 
         <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">validator_id</span> <span class="o">==</span> <span class="s2">&quot;workflows.order_based&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">plugin</span>
             <span class="n">validator</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validators</span><span class="p">[</span><span class="n">validator_id</span><span class="p">]</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">validator_id</span> <span class="o">==</span> <span class="s2">&quot;workflows.order_based&quot;</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">plugin</span>
             <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
                 <span class="sa">f</span><span class="s2">&quot;No validator found for &#39;</span><span class="si">{</span><span class="n">validator_id</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
                 <span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">from plugin &#39;</span><span class="si">{</span><span class="n">plugin</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&#39;&quot;</span>
@@ -751,7 +757,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">interface_type</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># This is set by child classes</span>
     <span class="n">rebuild_registries</span> <span class="o">=</span> <span class="n">PATHS</span><span class="p">[</span><span class="s2">&quot;GEOIPS_REBUILD_REGISTRIES&quot;</span><span class="p">]</span>
     <span class="c1"># Setting this attribute at the top level so it can be used by all methods.</span>
-    <span class="c1"># This can be overriden by setting them in child interface classes</span>
+    <span class="c1"># This can be overridden by setting them in child interface classes</span>
     <span class="n">apiVersion</span> <span class="o">=</span> <span class="s2">&quot;geoips/v1&quot;</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
@@ -858,6 +864,7 @@ window.addEventListener("load", () => mermaid.run());
     <span class="n">validator</span> <span class="o">=</span> <span class="n">YamlPluginValidator</span><span class="p">()</span>
     <span class="n">interface_type</span> <span class="o">=</span> <span class="s2">&quot;yaml_based&quot;</span>
     <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;BaseYamlInterface&quot;</span>
+    <span class="n">use_pydantic</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;YAML plugin interface new method.&quot;&quot;&quot;</span>
@@ -1003,10 +1010,26 @@ window.addEventListener("load", () => mermaid.run());
         <span class="n">family_list</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">plugin_ids</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">plugins</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">plugin</span><span class="o">.</span><span class="n">family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">family_list</span><span class="p">:</span>
-                <span class="n">family_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">)</span>
-                <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin</span><span class="o">.</span><span class="n">family</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+            <span class="c1"># TODO: Refactor to remove this `if` block after full migration from JSON</span>
+            <span class="c1"># to Pydantic schemas.</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="s2">&quot;model_dump&quot;</span><span class="p">):</span>
+                <span class="n">pdata</span> <span class="o">=</span> <span class="n">plugin</span><span class="o">.</span><span class="n">model_dump</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">pdata</span> <span class="o">=</span> <span class="n">plugin</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">plugin</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="k">else</span> <span class="n">plugin</span><span class="o">.</span><span class="vm">__dict__</span>
+
+            <span class="n">plugin_family</span> <span class="o">=</span> <span class="n">pdata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;family&quot;</span><span class="p">)</span>
+            <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">pdata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">plugin_family</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">plugin_name</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Missing required plugin fields. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot; Expected &#39;family&#39; and &#39;name&#39; got: family=</span><span class="si">{</span><span class="n">plugin_family</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;name=</span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2">. Full plugin data: </span><span class="si">{</span><span class="n">pdata</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">plugin_family</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">family_list</span><span class="p">:</span>
+                <span class="n">family_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_family</span><span class="p">)</span>
+                <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin_family</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">plugin_ids</span><span class="p">[</span><span class="n">plugin_family</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">plugin_name</span><span class="p">)</span>
 
         <span class="n">output</span> <span class="o">=</span> <span class="p">{</span>
             <span class="s2">&quot;all_valid&quot;</span><span class="p">:</span> <span class="n">all_valid</span><span class="p">,</span>

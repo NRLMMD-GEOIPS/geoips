@@ -1,21 +1,21 @@
-Version 1.16.1 (2025-07-31)
+Version 1.16.1 (2025-10-14)
 ***************************
 
  * *Bug fix*: Update arctic weather satellite sector path and test data repo path
- * *Bug fix*: Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
  * *Bug fix*: Update geostationary readers for appropriate python 3.11 zarr usage
- * *Bug fix*: Renamed all remaining test scripts and output from global to global-cylindrical
- * *Bug fix*: Update test image output with minor differences
  * *Bug fix*: Rmdir latest folder before running build docs
+ * *Bug fix*: Add site-nrlmmd-geoips option to interactive pytest
+ * *Bug fix*: Renamed all remaining test scripts and output from global to global-cylindrical
  * *Bug fix*: Use realpath for repopath in build_docs.sh
  * *Bug fix*: Do not include trailing underscore in release notes
  * *Bug fix*: Combine and remove errant leading space in arctic weather satellite docstrings
  * *Bug fix*: Add modified file to auto-populate brassy changelog release note
  * *Bug fix*: Update tc tracks database when passing one deck file at commandline
- * *Bug fix*: Add site-nrlmmd-geoips option to interactive pytest
+ * *Bug fix*: Update test image output with minor differences
+ * *Bug fix*: Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
+ * *Release updates*: Ensure check_code.sh calls flake8 from the current repository
  * *Release updates*: Bug fixes on the open source github.com geoips site integration tests.
  * *Release updates*: Update tagged_version and upcoming_version
- * *Release updates*: Ensure check_code.sh calls flake8 from the current repository
 
 Bug fix
 =======
@@ -43,18 +43,6 @@ Update arctic weather satellite sector path and test data repo path
 Bug fix
 =======
 
-Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
--------------------------------------------------------------------------
-
-How did we not catch this earlier?
-
-::
-
-     modified: tests/scripts/viirs.static.visible.imagery_clean.sh
-
-Bug fix
-=======
-
 Update geostationary readers for appropriate python 3.11 zarr usage
 -------------------------------------------------------------------
 
@@ -69,6 +57,38 @@ Update geostationary readers for appropriate python 3.11 zarr usage
      modified: geoips/plugins/modules/readers/fci_netcdf.py
      modified: geoips/plugins/modules/readers/seviri_hrit.py
      modified: geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+
+Bug fix
+=======
+
+Rmdir latest folder before running build docs
+---------------------------------------------
+
+If the latest folder is left over in a repository, build docs will fail.
+Just remove the latest folder if it is empty.
+
+::
+
+     modified: docs/build_docs.sh
+
+Bug fix
+=======
+
+Add site-nrlmmd-geoips option to interactive pytest
+---------------------------------------------------
+
+This should be all encompassing for everything required to test a complete
+github.com NRLMMD-GEOIPS installation. This includes all integration tests, as
+well as all short and long pytests.
+
+Additionally, ensure markers are passed properly to the pytest command from
+within interactive_pytest.sh - we can't include the quotes in the
+pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
+and include the -m within the actual call to pytest.
+
+::
+
+     modified: tests/utils/interactive_pytest.sh
 
 Bug fix
 =======
@@ -133,37 +153,6 @@ Missed these.
      modified: tests/scripts/aws_TB325-1.imagery_clean.sh
      modified: tests/scripts/aws_TB50.imagery_clean.sh
      modified: tests/scripts/aws_TB89.imagery_clean.sh
-
-Bug fix
-=======
-
-Update test image output with minor differences
------------------------------------------------
-
-* VIIRS has minor differences throughout image (speckled)
-* DMW and MIMIC image edge differences
-
-::
-
-     modified:
-     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
-     modified:
-     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
-     modified:
-     tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
-
-Bug fix
-=======
-
-Rmdir latest folder before running build docs
----------------------------------------------
-
-If the latest folder is left over in a repository, build docs will fail.
-Just remove the latest folder if it is empty.
-
-::
-
-     modified: docs/build_docs.sh
 
 Bug fix
 =======
@@ -233,21 +222,46 @@ script would ignore a single deck file if passed at the commandline.
 Bug fix
 =======
 
-Add site-nrlmmd-geoips option to interactive pytest
----------------------------------------------------
+Update test image output with minor differences
+-----------------------------------------------
 
-This should be all encompassing for everything required to test a complete
-github.com NRLMMD-GEOIPS installation. This includes all integration tests, as
-well as all short and long pytests.
-
-Additionally, ensure markers are passed properly to the pytest command from
-within interactive_pytest.sh - we can't include the quotes in the
-pytest_marker_arg variable, so include ONLY the markers in pytest_marker_arg,
-and include the -m within the actual call to pytest.
+* VIIRS has minor differences throughout image (speckled)
+* DMW and MIMIC image edge differences
 
 ::
 
-     modified: tests/utils/interactive_pytest.sh
+     modified:
+     tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png
+     modified:
+     tests/outputs/viirs.static.visible.imagery_clean/20240925.043006.NOAA-21.viirs.Visible.se_asia.7p30.NOAA.1p0.png
+     modified:
+     tests/outputs/mimic_coarse.static.TPW-CIMSS.imagery_annotated/20210723.000000.tpw.mimic.TPW-CIMSS.global_cylindrical.83p60.cimss.20p0.png
+
+Bug fix
+=======
+
+Use geoips_testdata_dir vs geoips_packages_dir in viirs test script call.
+-------------------------------------------------------------------------
+
+How did we not catch this earlier?
+
+::
+
+     modified: tests/scripts/viirs.static.visible.imagery_clean.sh
+
+Release updates
+===============
+
+Ensure check_code.sh calls flake8 from the current repository
+-------------------------------------------------------------
+
+flake8 uses the .flake8 config from the CWD, not from the path you are calling it
+on, so ensure we cd to the current repository from check_code.sh before calling
+flake8
+
+::
+
+     modified: tests/utils/check_code.sh
 
 Release updates
 ===============
@@ -277,17 +291,3 @@ upcoming_version 1.16.2 (system-nrlmry bug fixes)
 
      modified: .github/versions/upcoming_version
      modified: .github/versions/tagged_version
-
-Release updates
-===============
-
-Ensure check_code.sh calls flake8 from the current repository
--------------------------------------------------------------
-
-flake8 uses the .flake8 config from the CWD, not from the path you are calling it
-on, so ensure we cd to the current repository from check_code.sh before calling
-flake8
-
-::
-
-     modified: tests/utils/check_code.sh

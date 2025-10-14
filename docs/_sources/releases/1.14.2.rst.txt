@@ -1,90 +1,151 @@
-Version 1.14.2 (2025-07-31)
+Version 1.14.2 (2025-10-14)
 ***************************
 
- * *Enchancement*: Reader functionality and product fixes
- * *Enhancement*: Add resampling capability to viirs_sdr_hdf5 reader
- * *Enhancement*: Add support for amsr2 rss products
- * *Enhancement*: Add support for abi derived motion winds (dmw) products
- * *Enhancement*: Override product database schema/tables when searching for composite inputs
  * *Bug fix*: Replace old database interface import
- * *Bug fix*: Fix cogeotiff colormap bug
- * *Bug fix*: Update ews-g reader platform name attribute
- * *Bug fix*: Bug fixes for 2 dimensional windbarbs
  * *Bug fix*: Bug fixes for abi dmw config based test script
  * *Bug fix*: Bug fix atms reader
+ * *Bug fix*: Update ews-g reader platform name attribute
  * *Bug fix*: Handle cogeotiff error when producing output for a non-eqc projected sector
+ * *Bug fix*: Fix cogeotiff colormap bug
  * *Bug fix*: Bug fixes for cli
- * *Documentation*: Add algorithm interface documentation
+ * *Bug fix*: Bug fixes for 2 dimensional windbarbs
+ * *Enhancement*: Add support for abi derived motion winds (dmw) products
+ * *Enhancement*: Add resampling capability to viirs_sdr_hdf5 reader
+ * *Enhancement*: Add support for amsr2 rss products
+ * *Enhancement*: Override product database schema/tables when searching for composite inputs
  * *Documentation*: Update upcoming and tagged versions
+ * *Documentation*: Add algorithm interface documentation
  * *Enhancements*: Add databases interface
+ * *Enchancement*: Reader functionality and product fixes
 
-Enchancement
-============
+Bug fix
+=======
 
-Reader functionality and product fixes
---------------------------------------
+Replace old database interface import
+-------------------------------------
 
-Fixed a viirs_sdr_hdf5 bowtie bug, and reflectance channel differences
-between viirs_netcdf data. Created a GFS GRIB reader and algorithm
-to modify, and slice model data. Fixed several bugs, plotting polar
-data, and sectoring N-dimensional data variables.
+Update any remaining database interface imports that still referenced geoips_db
 
 ::
 
-     added: docs/source/new-docs/concepts/functionality/data_units.rst
-     added: geoips/plugins/modules/algorithms/model_channel.py
-     added: geoips/plugins/modules/readers/gfs_grib.py
-     added: geoips/plugins/yaml/product_defaults/model/model_waves.yaml
-     added: geoips/plugins/yaml/product_defaults/model/model_windspeed.yaml
-     added: geoips/plugins/yaml/products/gfs_model.yaml
-     added: geoips/plugins/yaml/product_defaults/model/model_waves.yaml
-     added: geoips/plugins/modules/algorithms/model/model_windbarbs.py
-     added: geoips/plugins/yaml/product_defaults/model/model_windbarbs.yaml
-     modified: geoips/plugins/yaml/products/viirs.yaml
-     modified: geoips/plugins/modules/readers/viirs_netcdf.py
-     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
-     modified: geoips/image_utils/maps.py
-     modified: geoips/plugins/modules/algorithms/sfc_winds/windbarbs.py
-     modified: pyproject.toml
-     modified: geoips/xarray_utils/data.py
-     modified: geoips/xarray_utils/data.py
+     modified: geoips/utils/composite.pygeoips/utils/composite.py
 
-Enhancement
-===========
+Bug fix
+=======
 
-Add resampling capability to viirs_sdr_hdf5 reader
---------------------------------------------------
+Bug fixes for abi dmw config based test script
+----------------------------------------------
 
-Add logic for resampling data upon read to a given sector
-
-Add option to disable bowtie correction
+Ensure file inputs use $GEOIPS_TESTDATA_DIR.
 
 ::
 
-     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+     modified: tests/scripts/abi.config_based_dmw_overlay.sh
 
-Enhancement
-===========
+Bug fix
+=======
 
-Add support for amsr2 rss products
-----------------------------------
+Bug fix atms reader
+-------------------
 
-Add new product yaml for AMSR2 RSS source inputs. This YAML is more or less a carbon
-copy of the amsr2_winds product YAML, but with the sensor name set as amsr2rss
+Mask data with bad lat/lons. This will not only break downstream interpolation
+but also results in bad start datetimes in the metadata
 
-Also add new test script and comparison outputs for AMSR2 RSS. Add test script call
-to both test_all.sh and integration_tests/full_test.sh
+Also update how metadata_only impacts the reader behavior. Previously reader would
+read in all data if metadata_only was True, and also did not properly set the
+xarray attributes if metadata_only was False.
 
 ::
 
-     added: geoips/plugins/yaml/products/amsr2_rss.yaml
-     added:
-     tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png
-     added:
-     tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png.yaml
-     added: tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh
+     modified: geoips/plugins/modules/readers/atms_hdf5.py
+
+Bug fix
+=======
+
+Update ews-g reader platform name attribute
+-------------------------------------------
+
+Add support for handling legacy GOES-15 ews-g file, and update mapping of
+platform_name: GOES-13 => EWS-G1, GOES-15 => EWS-G2
+
+Add new `legacy_platform_name` attribute, which holds the satellite name used in the
+source file
+
+::
+
+     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
+
+Bug fix
+=======
+
+Handle cogeotiff error when producing output for a non-eqc projected sector
+---------------------------------------------------------------------------
+
+Replace TypeError and ValueError with custom GeoIPS errors in cogeotiff output
+formatters. Replace TypeError with OutputFormatterInvalidProjectionError, which is
+raised when the sector projection is not eqc. Replace ValueError with
+OutputFormatterDatelineError, which is raised when a sector crosses the dateline.
+
+Handle OutputFormatterInvalidProjectionError and OutputFormatterDatelineError raised
+by output formatters. Not handling these errors can cause issues with config_based
+processing, where multiple sectors may be passed to the procflow and they might not
+all be the same projection or cross the dateline. For this type of scenario, rather
+than raising an error and stopping all processing, log a warning of the issue.
+
+::
+
+     modified: geoips/errors.py
+     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
+     modified: geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
+     modified: geoips/plugins/modules/procflows/single_source.py
+
+Bug fix
+=======
+
+Fix cogeotiff colormap bug
+--------------------------
+
+PhotometricInterpretation error
+https://gis.stackexchange.com/questions/352813/gdal-creating-color-ramp-gives-error-1-tiffsetfieldimages-out-tif-cannot-mod
+Moved the mem.write cogeotiff.py#L153
+line after the mem.write_colormap line below it.
+
+Also added the cogeotiff and cogeotiff_rgba tests scripts to
+both test_all.sh and full_test.sh
+
+::
+
+     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
      modified: tests/integration_tests/full_test.sh
      modified: tests/test_all.sh
+
+Bug fix
+=======
+
+Bug fixes for cli
+-----------------
+
+Ensure we use str(docstring) when constructing package info for tabulate,
+since tabulate will fail if any field is None. Perhaps we want to get
+people to fix the missing docstring, but I expect at this point in the
+code we should not fail catastrophically if a None has made it through.
+
+::
+
+     modified: geoips/commandline/geoips_list.py
+
+Bug fix
+=======
+
+Bug fixes for 2 dimensional windbarbs
+-------------------------------------
+
+Updated windbarb algorithms to handle 2d windbarbs.
+
+::
+
+     modified: geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py
+     modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
 
 Enhancement
 ===========
@@ -145,6 +206,43 @@ Add new test scripts and example output for DMW products.
 Enhancement
 ===========
 
+Add resampling capability to viirs_sdr_hdf5 reader
+--------------------------------------------------
+
+Add logic for resampling data upon read to a given sector
+
+Add option to disable bowtie correction
+
+::
+
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+
+Enhancement
+===========
+
+Add support for amsr2 rss products
+----------------------------------
+
+Add new product yaml for AMSR2 RSS source inputs. This YAML is more or less a carbon
+copy of the amsr2_winds product YAML, but with the sensor name set as amsr2rss
+
+Also add new test script and comparison outputs for AMSR2 RSS. Add test script call
+to both test_all.sh and integration_tests/full_test.sh
+
+::
+
+     added: geoips/plugins/yaml/products/amsr2_rss.yaml
+     added:
+     tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png
+     added:
+     tests/outputs/amsr2_rss.tc.windspeed.imagery_clean/20200518_073600_IO012020_amsr2rss_gcom-w1_windspeed_140kts_71p87_1p0-clean.png.yaml
+     added: tests/scripts/amsr2_rss.tc.windspeed.imagery_clean.sh
+     modified: tests/integration_tests/full_test.sh
+     modified: tests/test_all.sh
+
+Enhancement
+===========
+
 Override product database schema/tables when searching for composite inputs
 ---------------------------------------------------------------------------
 
@@ -155,148 +253,6 @@ are located in a different product database schema/table than the current config
 ::
 
      modified: geoips/plugins/modules/procflows/config_based.py
-
-Bug fix
-=======
-
-Replace old database interface import
--------------------------------------
-
-Update any remaining database interface imports that still referenced geoips_db
-
-::
-
-     modified: geoips/utils/composite.pygeoips/utils/composite.py
-
-Bug fix
-=======
-
-Fix cogeotiff colormap bug
---------------------------
-
-PhotometricInterpretation error
-https://gis.stackexchange.com/questions/352813/gdal-creating-color-ramp-gives-error-1-tiffsetfieldimages-out-tif-cannot-mod
-Moved the mem.write cogeotiff.py#L153
-line after the mem.write_colormap line below it.
-
-Also added the cogeotiff and cogeotiff_rgba tests scripts to
-both test_all.sh and full_test.sh
-
-::
-
-     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
-     modified: tests/integration_tests/full_test.sh
-     modified: tests/test_all.sh
-
-Bug fix
-=======
-
-Update ews-g reader platform name attribute
--------------------------------------------
-
-Add support for handling legacy GOES-15 ews-g file, and update mapping of
-platform_name: GOES-13 => EWS-G1, GOES-15 => EWS-G2
-
-Add new `legacy_platform_name` attribute, which holds the satellite name used in the
-source file
-
-::
-
-     modified: geoips/plugins/modules/readers/ewsg_netcdf.py
-
-Bug fix
-=======
-
-Bug fixes for 2 dimensional windbarbs
--------------------------------------
-
-Updated windbarb algorithms to handle 2d windbarbs.
-
-::
-
-     modified: geoips/plugins/modules/algorithms/pressure_winds/windbarbs_dmw.py
-     modified: geoips/plugins/modules/output_formatters/imagery_windbarbs.py
-
-Bug fix
-=======
-
-Bug fixes for abi dmw config based test script
-----------------------------------------------
-
-Ensure file inputs use $GEOIPS_TESTDATA_DIR.
-
-::
-
-     modified: tests/scripts/abi.config_based_dmw_overlay.sh
-
-Bug fix
-=======
-
-Bug fix atms reader
--------------------
-
-Mask data with bad lat/lons. This will not only break downstream interpolation
-but also results in bad start datetimes in the metadata
-
-Also update how metadata_only impacts the reader behavior. Previously reader would
-read in all data if metadata_only was True, and also did not properly set the
-xarray attributes if metadata_only was False.
-
-::
-
-     modified: geoips/plugins/modules/readers/atms_hdf5.py
-
-Bug fix
-=======
-
-Handle cogeotiff error when producing output for a non-eqc projected sector
----------------------------------------------------------------------------
-
-Replace TypeError and ValueError with custom GeoIPS errors in cogeotiff output
-formatters. Replace TypeError with OutputFormatterInvalidProjectionError, which is
-raised when the sector projection is not eqc. Replace ValueError with
-OutputFormatterDatelineError, which is raised when a sector crosses the dateline.
-
-Handle OutputFormatterInvalidProjectionError and OutputFormatterDatelineError raised
-by output formatters. Not handling these errors can cause issues with config_based
-processing, where multiple sectors may be passed to the procflow and they might not
-all be the same projection or cross the dateline. For this type of scenario, rather
-than raising an error and stopping all processing, log a warning of the issue.
-
-::
-
-     modified: geoips/errors.py
-     modified: geoips/plugins/modules/output_formatters/cogeotiff.py
-     modified: geoips/plugins/modules/output_formatters/cogeotiff_rgba.py
-     modified: geoips/plugins/modules/procflows/single_source.py
-
-Bug fix
-=======
-
-Bug fixes for cli
------------------
-
-Ensure we use str(docstring) when constructing package info for tabulate,
-since tabulate will fail if any field is None. Perhaps we want to get
-people to fix the missing docstring, but I expect at this point in the
-code we should not fail catastrophically if a None has made it through.
-
-::
-
-     modified: geoips/commandline/geoips_list.py
-
-Documentation
-=============
-
-Add algorithm interface documentation
--------------------------------------
-
-Create documentation for the algorithm interface.
-
-::
-
-     added: docs/source/new-docs/concepts/functionality/interfaces/module_based/algorithm.rst
-     added: docs/source/releases/latest/508-document-algorithm-interface.yaml
 
 Documentation
 =============
@@ -313,6 +269,19 @@ Update upcoming and tagged versions
 
      modified: .github/versions/tagged_version
      modified: .github/versions/upcoming_version
+
+Documentation
+=============
+
+Add algorithm interface documentation
+-------------------------------------
+
+Create documentation for the algorithm interface.
+
+::
+
+     added: docs/source/new-docs/concepts/functionality/interfaces/module_based/algorithm.rst
+     added: docs/source/releases/latest/508-document-algorithm-interface.yaml
 
 Enhancements
 ============
@@ -349,3 +318,34 @@ procflow.
      modified: geoips/interfaces/__init__.py
      modified: geoips/plugins/modules/procflows/single_source.py
      added: geoips/interfaces/module_based/databases.py
+
+Enchancement
+============
+
+Reader functionality and product fixes
+--------------------------------------
+
+Fixed a viirs_sdr_hdf5 bowtie bug, and reflectance channel differences
+between viirs_netcdf data. Created a GFS GRIB reader and algorithm
+to modify, and slice model data. Fixed several bugs, plotting polar
+data, and sectoring N-dimensional data variables.
+
+::
+
+     added: docs/source/new-docs/concepts/functionality/data_units.rst
+     added: geoips/plugins/modules/algorithms/model_channel.py
+     added: geoips/plugins/modules/readers/gfs_grib.py
+     added: geoips/plugins/yaml/product_defaults/model/model_waves.yaml
+     added: geoips/plugins/yaml/product_defaults/model/model_windspeed.yaml
+     added: geoips/plugins/yaml/products/gfs_model.yaml
+     added: geoips/plugins/yaml/product_defaults/model/model_waves.yaml
+     added: geoips/plugins/modules/algorithms/model/model_windbarbs.py
+     added: geoips/plugins/yaml/product_defaults/model/model_windbarbs.yaml
+     modified: geoips/plugins/yaml/products/viirs.yaml
+     modified: geoips/plugins/modules/readers/viirs_netcdf.py
+     modified: geoips/plugins/modules/readers/viirs_sdr_hdf5.py
+     modified: geoips/image_utils/maps.py
+     modified: geoips/plugins/modules/algorithms/sfc_winds/windbarbs.py
+     modified: pyproject.toml
+     modified: geoips/xarray_utils/data.py
+     modified: geoips/xarray_utils/data.py

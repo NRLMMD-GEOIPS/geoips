@@ -1,18 +1,97 @@
-Version 1.15.1 (2025-07-31)
+Version 1.15.1 (2025-10-14)
 ***************************
 
+ * *Bug fixes*: Create interactive_test.sh integration test script
+ * *Bug fixes*: Default to no automated plugin registry creation.
+ * *Bug fixes*: Add pip and mamba environment files for 1.15.1 full install env
+ * *Bug fixes*: Update ami test sector and imagery type
  * *Bug fixes*: Replace xarray_datatree with xarray
  * *Bug fixes*: Numpy 2.0/netcdf 1.7 bug fixes for ami reader, seg faults and dtypes
  * *Bug fixes*: Numpy 2.0 un-bug fixes for smap reader
  * *Bug fixes*: Xarray > 2024.3.0 bug fix for scat noaa netcdf reader
  * *Bug fixes*: Matplotlib 3.10 image updates using interpolation_stage data
- * *Bug fixes*: Update ami test sector and imagery type
- * *Bug fixes*: Create interactive_test.sh integration test script
- * *Bug fixes*: Default to no automated plugin registry creation.
- * *Bug fixes*: Add pip and mamba environment files for 1.15.1 full install env
  * *Documentation*: Clean up output checker comparison outputs
  * *Release process*: Add pip and mamba 1.15.0 public and 1.15.1 full test bug fix env files
  * *Breaking change*: Turn off matplotlib interpolation, and update all test outputs
+
+Bug fixes
+=========
+
+Create interactive_test.sh integration test script
+--------------------------------------------------
+
+Actual integration tests are now called via pytest with specific markers
+(full and integration for full test, base and integration for base test).
+Create a single "interactive_test" script that can be called with either a
+"full_test" or "base_test" argument that will call the pytest command
+appropriately from the command line, and redirect the output to
+$GEOIPS_OUTDIRS/logs/pytest/full_test or base_test.  This allows easily
+running integration tests from the command line, and tracking the output for
+later perusal.  This may be replaced with pytest arguments in the future for
+storing the full output, but for now just redirect the full output to a log file.
+We will likely want to always maintain an "interactive_test.sh" script that
+calls the pytest-based integration tests appropriately, and tracks the output
+appropriately.
+
+::
+
+     deleted: tests/integration_tests/full_test.sh
+     deleted: tests/integration_tests/base_test.sh
+     added: tests/integration_tests/interactive_test.sh
+
+Bug fixes
+=========
+
+Default to no automated plugin registry creation.
+-------------------------------------------------
+
+Turn off automated plugin registry creation in the setup/config_geoips
+environment.
+
+::
+
+     modified: setup/config_geoips
+
+Bug fixes
+=========
+
+Add pip and mamba environment files for 1.15.1 full install env
+---------------------------------------------------------------
+
+Environment files after bug fixing on 1.15.1 for successful full install and test.
+
+::
+
+     added: environments/mamba_full_package_list_1.15.1_20250407.yml
+     added: environments/pip_full_requirements_1.15.1_20250407.txt
+
+Bug fixes
+=========
+
+Update ami test sector and imagery type
+---------------------------------------
+
+To avoid additional issues with matplotlib updates, update the AMI
+test scripts to produce non-annotated imagery, and a small subsector.
+
+::
+
+     modified: tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh, renamed clean
+     modified: tests/scripts/ami.static.Infrared.imagery_annotated.sh, renamed clean
+     modified: tests/scripts/ami.static.Visible.imagery_annotated.sh, renamed clean
+     added: geoips/plugins/yaml/sectors/test/geostationary/geokompsat_subsector.yaml
+     moved:
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
+     ->
+     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_clean/20241010.000039.GK-2A.ami.absdiff-IR-BD.geokompsat-subsector-27deg.20p50.nmsc.10p0.png
+     moved:
+     tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png
+     ->
+     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat_subsector.100p0.nmsc.10p0.png
+     moved:
+     tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
+     ->
+     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsator.100p0.nmsc.10p0.png
 
 Bug fixes
 =========
@@ -121,85 +200,6 @@ but there were still a few that had slight differences.
      tests/outputs/ami.WV-Upper.unprojected_image/20231208.030032.GK-2A.ami.WV-Upper.self_register.76p19.nmsc.2p0.png
      modified:
      tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
-
-Bug fixes
-=========
-
-Update ami test sector and imagery type
----------------------------------------
-
-To avoid additional issues with matplotlib updates, update the AMI
-test scripts to produce non-annotated imagery, and a small subsector.
-
-::
-
-     modified: tests/scripts/ami.static.mst.absdiff-IR-BD.imagery_annotated.sh, renamed clean
-     modified: tests/scripts/ami.static.Infrared.imagery_annotated.sh, renamed clean
-     modified: tests/scripts/ami.static.Visible.imagery_annotated.sh, renamed clean
-     added: geoips/plugins/yaml/sectors/test/geostationary/geokompsat_subsector.yaml
-     moved:
-     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_annotated/20241010.000039.GK-2A.ami.absdiff-IR-BD.korea.83p16.nmsc.1p0.png
-     ->
-     tests/outputs/ami.static.mst.absdiff-IR-BD.imagery_clean/20241010.000039.GK-2A.ami.absdiff-IR-BD.geokompsat-subsector-27deg.20p50.nmsc.10p0.png
-     moved:
-     tests/outputs/ami.static.Infrared.imagery_annotated/20231208.030032.GK-2A.ami.Infrared.geokompsat.45p56.nmsc.10p0.png
-     ->
-     tests/outputs/ami.static.Infrared.imagery_clean/20231208.030032.GK-2A.ami.Infrared.geokompsat_subsector.100p0.nmsc.10p0.png
-     moved:
-     tests/outputs/ami.static.Visible.imagery_annotated/20231208.030032.GK-2A.ami.Visible.geokompsat.45p56.nmsc.10p0.png
-     ->
-     tests/outputs/ami.static.Visible.imagery_clean/20231208.030032.GK-2A.ami.Visible.geokompsator.100p0.nmsc.10p0.png
-
-Bug fixes
-=========
-
-Create interactive_test.sh integration test script
---------------------------------------------------
-
-Actual integration tests are now called via pytest with specific markers
-(full and integration for full test, base and integration for base test).
-Create a single "interactive_test" script that can be called with either a
-"full_test" or "base_test" argument that will call the pytest command
-appropriately from the command line, and redirect the output to
-$GEOIPS_OUTDIRS/logs/pytest/full_test or base_test.  This allows easily
-running integration tests from the command line, and tracking the output for
-later perusal.  This may be replaced with pytest arguments in the future for
-storing the full output, but for now just redirect the full output to a log file.
-We will likely want to always maintain an "interactive_test.sh" script that
-calls the pytest-based integration tests appropriately, and tracks the output
-appropriately.
-
-::
-
-     deleted: tests/integration_tests/full_test.sh
-     deleted: tests/integration_tests/base_test.sh
-     added: tests/integration_tests/interactive_test.sh
-
-Bug fixes
-=========
-
-Default to no automated plugin registry creation.
--------------------------------------------------
-
-Turn off automated plugin registry creation in the setup/config_geoips
-environment.
-
-::
-
-     modified: setup/config_geoips
-
-Bug fixes
-=========
-
-Add pip and mamba environment files for 1.15.1 full install env
----------------------------------------------------------------
-
-Environment files after bug fixing on 1.15.1 for successful full install and test.
-
-::
-
-     added: environments/mamba_full_package_list_1.15.1_20250407.yml
-     added: environments/pip_full_requirements_1.15.1_20250407.txt
 
 Documentation
 =============

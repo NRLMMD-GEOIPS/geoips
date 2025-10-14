@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>geoips package &#8212; GeoIPS, Geolocated Information Processing System 1.16.3 documentation</title>
+    <title>geoips package &#8212; GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation</title>
   
   
   
@@ -40,7 +40,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=ad773350"></script>
+    <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js?v=c5be8013"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=4825356b"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
@@ -53,7 +53,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="1.1" />
-    <meta name="docbuild:last-update" content="Jul 31, 2025 02:52:42"/>
+    <meta name="docbuild:last-update" content="Oct 14, 2025 20:03:48"/>
   </head>
   
   
@@ -119,8 +119,8 @@
       
     
     
-    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.16.3 documentation - Home"/>
-    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.16.3 documentation - Home"/>
+    <img src="../_static/NRL_logo_RGB.jpg" class="logo__image only-light" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
+    <img src="../_static/NRL_logo_sidebar_Reverse.png" class="logo__image only-dark pst-js-only" alt="GeoIPS, Geolocated Information Processing System 1.17.0a0 documentation - Home"/>
   
   
 </a></div>
@@ -405,7 +405,11 @@
 </details></li>
 </ul>
 </details></li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html">geoips.pydantic package</a></li>
+<li class="toctree-l2 has-children"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html">geoips.pydantic_models.v2alpha1 package</a></li>
+</ul>
+</details></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.utils.html">geoips.utils package</a></li>
 <li class="toctree-l2"><a class="reference internal" href="geoips.xarray_utils.html">geoips.xarray_utils package</a></li>
@@ -974,6 +978,7 @@
 <li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.plugin_is_valid"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.plugin_is_valid()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.plugins_all_valid"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.plugins_all_valid()</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.test_interface"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.test_interface()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.use_pydantic"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.use_pydantic</span></code></a></li>
 <li class="toctree-l4"><a class="reference internal" href="geoips.interfaces.html#geoips.interfaces.base.BaseYamlInterface.validator"><code class="docutils literal notranslate"><span class="pre">BaseYamlInterface.validator</span></code></a></li>
 </ul>
 </li>
@@ -1006,317 +1011,30 @@
 <li class="toctree-l2"><a class="reference internal" href="geoips.plugins.html#module-geoips.plugins">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="geoips.pydantic.html">geoips.pydantic package</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#submodules">Submodules</a></li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.bases">geoips.pydantic.bases module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.DynamicModel"><code class="docutils literal notranslate"><span class="pre">DynamicModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.DynamicModel.model_config"><code class="docutils literal notranslate"><span class="pre">DynamicModel.model_config</span></code></a></li>
+<li class="toctree-l1"><a class="reference internal" href="geoips.pydantic_models.html">geoips.pydantic_models package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic_models.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v1.html">geoips.pydantic_models.v1 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#module-geoips.pydantic_models.v1.bases">geoips.pydantic_models.v1.bases module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#module-geoips.pydantic_models.v1.feature_annotators">geoips.pydantic_models.v1.feature_annotators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#module-geoips.pydantic_models.v1.gridline_annotators">geoips.pydantic_models.v1.gridline_annotators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#module-geoips.pydantic_models.v1.sectors">geoips.pydantic_models.v1.sectors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#module-geoips.pydantic_models.v1.workflows">geoips.pydantic_models.v1.workflows module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v1.html#module-geoips.pydantic_models.v1">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.FrozenModel"><code class="docutils literal notranslate"><span class="pre">FrozenModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.FrozenModel.model_config"><code class="docutils literal notranslate"><span class="pre">FrozenModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PermissiveDynamicModel"><code class="docutils literal notranslate"><span class="pre">PermissiveDynamicModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PermissiveDynamicModel.model_config"><code class="docutils literal notranslate"><span class="pre">PermissiveDynamicModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PermissiveFrozenModel"><code class="docutils literal notranslate"><span class="pre">PermissiveFrozenModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PermissiveFrozenModel.model_config"><code class="docutils literal notranslate"><span class="pre">PermissiveFrozenModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel"><code class="docutils literal notranslate"><span class="pre">PluginModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.abspath"><code class="docutils literal notranslate"><span class="pre">PluginModel.abspath</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.apiVersion"><code class="docutils literal notranslate"><span class="pre">PluginModel.apiVersion</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.apiVerson"><code class="docutils literal notranslate"><span class="pre">PluginModel.apiVerson</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.description"><code class="docutils literal notranslate"><span class="pre">PluginModel.description</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.docstring"><code class="docutils literal notranslate"><span class="pre">PluginModel.docstring</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.family"><code class="docutils literal notranslate"><span class="pre">PluginModel.family</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.interface"><code class="docutils literal notranslate"><span class="pre">PluginModel.interface</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.model_config"><code class="docutils literal notranslate"><span class="pre">PluginModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.name"><code class="docutils literal notranslate"><span class="pre">PluginModel.name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.package"><code class="docutils literal notranslate"><span class="pre">PluginModel.package</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModel.relpath"><code class="docutils literal notranslate"><span class="pre">PluginModel.relpath</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PluginModelMetadata"><code class="docutils literal notranslate"><span class="pre">PluginModelMetadata</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PrettyBaseModel"><code class="docutils literal notranslate"><span class="pre">PrettyBaseModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.PrettyBaseModel.model_config"><code class="docutils literal notranslate"><span class="pre">PrettyBaseModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.get_interfaces"><code class="docutils literal notranslate"><span class="pre">get_interfaces()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.bases.python_identifier"><code class="docutils literal notranslate"><span class="pre">python_identifier()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.feature_annotators">geoips.pydantic.feature_annotators module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.CartopyFeature"><code class="docutils literal notranslate"><span class="pre">CartopyFeature</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.CartopyFeature.edgecolor"><code class="docutils literal notranslate"><span class="pre">CartopyFeature.edgecolor</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.CartopyFeature.enabled"><code class="docutils literal notranslate"><span class="pre">CartopyFeature.enabled</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.CartopyFeature.linewidth"><code class="docutils literal notranslate"><span class="pre">CartopyFeature.linewidth</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.CartopyFeature.model_config"><code class="docutils literal notranslate"><span class="pre">CartopyFeature.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.CartopyFeature.validate_enabled_fields"><code class="docutils literal notranslate"><span class="pre">CartopyFeature.validate_enabled_fields()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorPluginModel"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorPluginModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorPluginModel.model_config"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorPluginModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorPluginModel.spec"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorPluginModel.spec</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec.background"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec.background</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec.borders"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec.borders</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec.coastline"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec.coastline</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec.model_config"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec.rivers"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec.rivers</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.feature_annotators.FeatureAnnotatorSpec.states"><code class="docutils literal notranslate"><span class="pre">FeatureAnnotatorSpec.states</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html">geoips.pydantic_models.v2alpha1 package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html#module-geoips.pydantic_models.v2alpha1.bases">geoips.pydantic_models.v2alpha1.bases module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html#module-geoips.pydantic_models.v2alpha1.feature_annotators">geoips.pydantic_models.v2alpha1.feature_annotators module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html#module-geoips.pydantic_models.v2alpha1.sectors">geoips.pydantic_models.v2alpha1.sectors module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html#module-geoips.pydantic_models.v2alpha1.workflows">geoips.pydantic_models.v2alpha1.workflows module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic_models.v2alpha1.html#module-geoips.pydantic_models.v2alpha1">Module contents</a></li>
 </ul>
 </li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.gridline_annotators">geoips.pydantic.gridline_annotators module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorPluginModel"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorPluginModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorPluginModel.model_config"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorPluginModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorPluginModel.spec"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorPluginModel.spec</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorSpec"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorSpec</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorSpec.background"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorSpec.background</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorSpec.labels"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorSpec.labels</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorSpec.lines"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorSpec.lines</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorSpec.model_config"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorSpec.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.GridlineAnnotatorSpec.spacing"><code class="docutils literal notranslate"><span class="pre">GridlineAnnotatorSpec.spacing</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels"><code class="docutils literal notranslate"><span class="pre">Labels</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.alpha"><code class="docutils literal notranslate"><span class="pre">Labels.alpha</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.backgroundcolor"><code class="docutils literal notranslate"><span class="pre">Labels.backgroundcolor</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.bottom"><code class="docutils literal notranslate"><span class="pre">Labels.bottom</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.color"><code class="docutils literal notranslate"><span class="pre">Labels.color</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.fontfamily"><code class="docutils literal notranslate"><span class="pre">Labels.fontfamily</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.fontsize"><code class="docutils literal notranslate"><span class="pre">Labels.fontsize</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.fontstretch"><code class="docutils literal notranslate"><span class="pre">Labels.fontstretch</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.fontstyle"><code class="docutils literal notranslate"><span class="pre">Labels.fontstyle</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.fontvariant"><code class="docutils literal notranslate"><span class="pre">Labels.fontvariant</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.fontweight"><code class="docutils literal notranslate"><span class="pre">Labels.fontweight</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.left"><code class="docutils literal notranslate"><span class="pre">Labels.left</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.linespacing"><code class="docutils literal notranslate"><span class="pre">Labels.linespacing</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.model_config"><code class="docutils literal notranslate"><span class="pre">Labels.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.mouseover"><code class="docutils literal notranslate"><span class="pre">Labels.mouseover</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.position"><code class="docutils literal notranslate"><span class="pre">Labels.position</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.right"><code class="docutils literal notranslate"><span class="pre">Labels.right</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.rotation"><code class="docutils literal notranslate"><span class="pre">Labels.rotation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.rotation_mode"><code class="docutils literal notranslate"><span class="pre">Labels.rotation_mode</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.snap"><code class="docutils literal notranslate"><span class="pre">Labels.snap</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.top"><code class="docutils literal notranslate"><span class="pre">Labels.top</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.wrap"><code class="docutils literal notranslate"><span class="pre">Labels.wrap</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.xpadding"><code class="docutils literal notranslate"><span class="pre">Labels.xpadding</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.ypadding"><code class="docutils literal notranslate"><span class="pre">Labels.ypadding</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Labels.zorder"><code class="docutils literal notranslate"><span class="pre">Labels.zorder</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Lines"><code class="docutils literal notranslate"><span class="pre">Lines</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Lines.color"><code class="docutils literal notranslate"><span class="pre">Lines.color</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Lines.linestyle"><code class="docutils literal notranslate"><span class="pre">Lines.linestyle</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Lines.linewidth"><code class="docutils literal notranslate"><span class="pre">Lines.linewidth</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Lines.model_config"><code class="docutils literal notranslate"><span class="pre">Lines.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Spacing"><code class="docutils literal notranslate"><span class="pre">Spacing</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Spacing.latitude"><code class="docutils literal notranslate"><span class="pre">Spacing.latitude</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Spacing.longitude"><code class="docutils literal notranslate"><span class="pre">Spacing.longitude</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.gridline_annotators.Spacing.model_config"><code class="docutils literal notranslate"><span class="pre">Spacing.model_config</span></code></a></li>
-</ul>
-</li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.sectors">geoips.pydantic.sectors module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.area_extent"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.area_extent</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.area_id"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.area_id</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.center"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.center</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.description"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.description</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.model_config"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.projection"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.projection</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.resolution"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.resolution</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.shape"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.shape</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.AreaDefinitionSpec.units"><code class="docutils literal notranslate"><span class="pre">AreaDefinitionSpec.units</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata"><code class="docutils literal notranslate"><span class="pre">BoxMetadata</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata.box_resolution_km"><code class="docutils literal notranslate"><span class="pre">BoxMetadata.box_resolution_km</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata.max_lat"><code class="docutils literal notranslate"><span class="pre">BoxMetadata.max_lat</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata.max_lon"><code class="docutils literal notranslate"><span class="pre">BoxMetadata.max_lon</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata.min_lat"><code class="docutils literal notranslate"><span class="pre">BoxMetadata.min_lat</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata.min_lon"><code class="docutils literal notranslate"><span class="pre">BoxMetadata.min_lon</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.BoxMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">BoxMetadata.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.EarthConstants"><code class="docutils literal notranslate"><span class="pre">EarthConstants</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.EarthConstants.SEMI_MAJOR_AXIS"><code class="docutils literal notranslate"><span class="pre">EarthConstants.SEMI_MAJOR_AXIS</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata"><code class="docutils literal notranslate"><span class="pre">RegionMetadata</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.area"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.area</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.city"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.city</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.continent"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.continent</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.country"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.country</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.state"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.state</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.RegionMetadata.subarea"><code class="docutils literal notranslate"><span class="pre">RegionMetadata.subarea</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorAreaExtent"><code class="docutils literal notranslate"><span class="pre">SectorAreaExtent</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorAreaExtent.lower_left_xy"><code class="docutils literal notranslate"><span class="pre">SectorAreaExtent.lower_left_xy</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorAreaExtent.model_config"><code class="docutils literal notranslate"><span class="pre">SectorAreaExtent.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorAreaExtent.upper_right_xy"><code class="docutils literal notranslate"><span class="pre">SectorAreaExtent.upper_right_xy</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorPluginModel"><code class="docutils literal notranslate"><span class="pre">SectorPluginModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorPluginModel.add_parent"><code class="docutils literal notranslate"><span class="pre">SectorPluginModel.add_parent()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorPluginModel.coerce_metadata"><code class="docutils literal notranslate"><span class="pre">SectorPluginModel.coerce_metadata()</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorPluginModel.metadata"><code class="docutils literal notranslate"><span class="pre">SectorPluginModel.metadata</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorPluginModel.model_config"><code class="docutils literal notranslate"><span class="pre">SectorPluginModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorPluginModel.spec"><code class="docutils literal notranslate"><span class="pre">SectorPluginModel.spec</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection"><code class="docutils literal notranslate"><span class="pre">SectorProjection</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.R"><code class="docutils literal notranslate"><span class="pre">SectorProjection.R</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.a"><code class="docutils literal notranslate"><span class="pre">SectorProjection.a</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.ellipsoid"><code class="docutils literal notranslate"><span class="pre">SectorProjection.ellipsoid</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.h"><code class="docutils literal notranslate"><span class="pre">SectorProjection.h</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.k_0"><code class="docutils literal notranslate"><span class="pre">SectorProjection.k_0</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.lat_0"><code class="docutils literal notranslate"><span class="pre">SectorProjection.lat_0</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.lat_1"><code class="docutils literal notranslate"><span class="pre">SectorProjection.lat_1</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.lat_2"><code class="docutils literal notranslate"><span class="pre">SectorProjection.lat_2</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.lat_ts"><code class="docutils literal notranslate"><span class="pre">SectorProjection.lat_ts</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.lon_0"><code class="docutils literal notranslate"><span class="pre">SectorProjection.lon_0</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.model_config"><code class="docutils literal notranslate"><span class="pre">SectorProjection.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.proj"><code class="docutils literal notranslate"><span class="pre">SectorProjection.proj</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.t_epoch"><code class="docutils literal notranslate"><span class="pre">SectorProjection.t_epoch</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.t_final"><code class="docutils literal notranslate"><span class="pre">SectorProjection.t_final</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.units"><code class="docutils literal notranslate"><span class="pre">SectorProjection.units</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.x_0"><code class="docutils literal notranslate"><span class="pre">SectorProjection.x_0</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorProjection.y_0"><code class="docutils literal notranslate"><span class="pre">SectorProjection.y_0</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorResolution"><code class="docutils literal notranslate"><span class="pre">SectorResolution</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorResolution.dx"><code class="docutils literal notranslate"><span class="pre">SectorResolution.dx</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorResolution.dy"><code class="docutils literal notranslate"><span class="pre">SectorResolution.dy</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorResolution.model_config"><code class="docutils literal notranslate"><span class="pre">SectorResolution.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorShape"><code class="docutils literal notranslate"><span class="pre">SectorShape</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorShape.height"><code class="docutils literal notranslate"><span class="pre">SectorShape.height</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorShape.model_config"><code class="docutils literal notranslate"><span class="pre">SectorShape.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.SectorShape.width"><code class="docutils literal notranslate"><span class="pre">SectorShape.width</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.StaticMetadata"><code class="docutils literal notranslate"><span class="pre">StaticMetadata</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.StaticMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">StaticMetadata.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.StaticMetadata.region"><code class="docutils literal notranslate"><span class="pre">StaticMetadata.region</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.StitchedMetadata"><code class="docutils literal notranslate"><span class="pre">StitchedMetadata</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.StitchedMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">StitchedMetadata.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.StitchedMetadata.primary_area_definition"><code class="docutils literal notranslate"><span class="pre">StitchedMetadata.primary_area_definition</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata"><code class="docutils literal notranslate"><span class="pre">TCMetadata</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.aid_type"><code class="docutils literal notranslate"><span class="pre">TCMetadata.aid_type</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.center_lat"><code class="docutils literal notranslate"><span class="pre">TCMetadata.center_lat</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.center_lon"><code class="docutils literal notranslate"><span class="pre">TCMetadata.center_lon</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.deck_line"><code class="docutils literal notranslate"><span class="pre">TCMetadata.deck_line</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.final_storm_name"><code class="docutils literal notranslate"><span class="pre">TCMetadata.final_storm_name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">TCMetadata.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.pressure"><code class="docutils literal notranslate"><span class="pre">TCMetadata.pressure</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.source_file"><code class="docutils literal notranslate"><span class="pre">TCMetadata.source_file</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.storm_basin"><code class="docutils literal notranslate"><span class="pre">TCMetadata.storm_basin</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.storm_name"><code class="docutils literal notranslate"><span class="pre">TCMetadata.storm_name</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.storm_num"><code class="docutils literal notranslate"><span class="pre">TCMetadata.storm_num</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.storm_year"><code class="docutils literal notranslate"><span class="pre">TCMetadata.storm_year</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.synoptic_time"><code class="docutils literal notranslate"><span class="pre">TCMetadata.synoptic_time</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.TCMetadata.velocity_max"><code class="docutils literal notranslate"><span class="pre">TCMetadata.velocity_max</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.clat"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.clat</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.clon"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.clon</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.model_config"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.plume_height"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.plume_height</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.summit_elevation"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.summit_elevation</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.wind_dir"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.wind_dir</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.VolcanoMetadata.wind_speed"><code class="docutils literal notranslate"><span class="pre">VolcanoMetadata.wind_speed</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.XYCoordinate"><code class="docutils literal notranslate"><span class="pre">XYCoordinate</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.XYCoordinate.model_config"><code class="docutils literal notranslate"><span class="pre">XYCoordinate.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.XYCoordinate.x"><code class="docutils literal notranslate"><span class="pre">XYCoordinate.x</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.XYCoordinate.y"><code class="docutils literal notranslate"><span class="pre">XYCoordinate.y</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.sectors.lat_lon_coordinate"><code class="docutils literal notranslate"><span class="pre">lat_lon_coordinate()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic.workflows">geoips.pydantic.workflows module</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.AlgorithmArgumentsModel"><code class="docutils literal notranslate"><span class="pre">AlgorithmArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.AlgorithmArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">AlgorithmArgumentsModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.CoverageCheckerArgumentsModel"><code class="docutils literal notranslate"><span class="pre">CoverageCheckerArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.CoverageCheckerArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">CoverageCheckerArgumentsModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.FilenameFormatterArgumentsModel"><code class="docutils literal notranslate"><span class="pre">FilenameFormatterArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.FilenameFormatterArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">FilenameFormatterArgumentsModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.InterpolatorArgumentsModel"><code class="docutils literal notranslate"><span class="pre">InterpolatorArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.InterpolatorArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">InterpolatorArgumentsModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.OutputFormatterArgumentsModel"><code class="docutils literal notranslate"><span class="pre">OutputFormatterArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.OutputFormatterArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">OutputFormatterArgumentsModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel.area_def"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel.area_def</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel.fnames"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel.fnames</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel.metadata_only"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel.metadata_only</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel.self_register"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel.self_register</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.ReaderArgumentsModel.variables"><code class="docutils literal notranslate"><span class="pre">ReaderArgumentsModel.variables</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowArgumentsModel"><code class="docutils literal notranslate"><span class="pre">WorkflowArgumentsModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowArgumentsModel.model_config"><code class="docutils literal notranslate"><span class="pre">WorkflowArgumentsModel.model_config</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowPluginModel"><code class="docutils literal notranslate"><span class="pre">WorkflowPluginModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowPluginModel.model_config"><code class="docutils literal notranslate"><span class="pre">WorkflowPluginModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowPluginModel.spec"><code class="docutils literal notranslate"><span class="pre">WorkflowPluginModel.spec</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowSpecModel"><code class="docutils literal notranslate"><span class="pre">WorkflowSpecModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowSpecModel.model_config"><code class="docutils literal notranslate"><span class="pre">WorkflowSpecModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowSpecModel.steps"><code class="docutils literal notranslate"><span class="pre">WorkflowSpecModel.steps</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepDefinitionModel"><code class="docutils literal notranslate"><span class="pre">WorkflowStepDefinitionModel</span></code></a><ul>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepDefinitionModel.arguments"><code class="docutils literal notranslate"><span class="pre">WorkflowStepDefinitionModel.arguments</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepDefinitionModel.kind"><code class="docutils literal notranslate"><span class="pre">WorkflowStepDefinitionModel.kind</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepDefinitionModel.model_config"><code class="docutils literal notranslate"><span class="pre">WorkflowStepDefinitionModel.model_config</span></code></a></li>
-<li class="toctree-l4"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.WorkflowStepDefinitionModel.name"><code class="docutils literal notranslate"><span class="pre">WorkflowStepDefinitionModel.name</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.get_plugin_kinds"><code class="docutils literal notranslate"><span class="pre">get_plugin_kinds()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.workflows.get_plugin_names"><code class="docutils literal notranslate"><span class="pre">get_plugin_names()</span></code></a></li>
-</ul>
-</li>
-<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic.html#module-geoips.pydantic">Module contents</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.collect_classes"><code class="docutils literal notranslate"><span class="pre">collect_classes()</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="geoips.pydantic.html#geoips.pydantic.collect_modules"><code class="docutils literal notranslate"><span class="pre">collect_modules()</span></code></a></li>
-</ul>
-</li>
+<li class="toctree-l2"><a class="reference internal" href="geoips.pydantic_models.html#module-geoips.pydantic_models">Module contents</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="geoips.sector_utils.html">geoips.sector_utils package</a><ul>
@@ -2483,6 +2201,35 @@ types, with their values being the list of unique interfaces that inherit that
 type.</p>
 </dd></dl>
 
+<dl class="py method">
+<dt class="sig sig-object py" id="geoips.plugin_registry.PluginRegistry.load_plugin">
+<span class="sig-name descname"><span class="pre">load_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">BaseModel</span></span></span><a class="reference internal" href="../_modules/geoips/plugin_registry.html#PluginRegistry.load_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#geoips.plugin_registry.PluginRegistry.load_plugin" title="Permalink to this definition">#</a></dt>
+<dd><p>Dynamically load and validate pydantic models based on apiVersion and interface.</p>
+<p>This method parses the <cite>apiVersion</cite> field from the input dictionary to
+determine the package and pydantic model version to use. It then dynamically
+imports the corresponding Pydantic model classes based on the <cite>interface</cite> field
+to validate the input data.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> (<em>dict</em>) – Dictionary representing a plugin definition. Must include the <cite>interface</cite>
+field. May optionally include <cite>apiVersion</cite>. If not present, “geoips/v1” is
+assumed.</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>A validated Pydantic model instance.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>BaseModel</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>ValueError</strong> – If <cite>apiVersion</cite> is improperly formatted or if <cite>interface</cite> field is missing.</p></li>
+<li><p><strong>ImportError</strong> – If the specified module for the given model version cannot be imported.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
 <dl class="py property">
 <dt class="sig sig-object py" id="geoips.plugin_registry.PluginRegistry.registered_module_based_plugins">
 <em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">registered_module_based_plugins</span></span><a class="headerlink" href="#geoips.plugin_registry.PluginRegistry.registered_module_based_plugins" title="Permalink to this definition">#</a></dt>
@@ -2676,6 +2423,7 @@ functionality.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.get_yaml_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_yaml_plugin()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.get_yaml_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_yaml_plugins()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.interface_mapping"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.interface_mapping</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.load_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.load_plugin()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.registered_module_based_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.registered_module_based_plugins</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.registered_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.registered_plugins</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#geoips.plugin_registry.PluginRegistry.registered_yaml_based_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.registered_yaml_based_plugins</span></code></a></li>
