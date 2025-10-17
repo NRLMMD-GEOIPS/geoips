@@ -1,0 +1,12 @@
+bug fix:
+- title: 'Pin pydantic to 2.11.10 or lower'
+  description: 'This prevents breaking changes from pydantics new 2.12 version.'
+  files:
+    modified:
+    - 'pyproject.toml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
