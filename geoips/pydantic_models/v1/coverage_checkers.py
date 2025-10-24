@@ -9,7 +9,7 @@ import xarray
 from typing import Optional
 
 # GeoIPS imports
-from geoips.pydantic_models.v1 import PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
 
 
 class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
