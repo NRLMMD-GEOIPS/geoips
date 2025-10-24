@@ -12,7 +12,7 @@ from typing import Optional
 from geoips.pydantic_models.v1 import PermissiveFrozenModel
 
 
-class CoverageCheckerPluginModel(PermissiveFrozenModel):
+class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     """Coverage-Checker step argument definition.
 
     Pydantic model defining and validating Coverage Checker step arguments.
