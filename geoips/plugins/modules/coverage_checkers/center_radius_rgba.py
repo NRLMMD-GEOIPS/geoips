@@ -3,9 +3,13 @@
 
 """Coverage check routine for RGBA center radius coverage checks."""
 
+# Python Standard Libraries
 import logging
 
+# Third-Party Libraries
 import numpy
+
+# GeoIPS imports
 from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
 
 LOG = logging.getLogger(__name__)
