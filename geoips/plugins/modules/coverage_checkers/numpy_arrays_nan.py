@@ -3,7 +3,11 @@
 
 """Coverage check routine for masked arrays."""
 
+# Python Standard Libraries
 import logging
+
+# GeoIPS imports
+from geoips.data_manipulations.info import percent_not_nan
 
 LOG = logging.getLogger(__name__)
 
@@ -31,6 +35,4 @@ def call(
     float
         Percent coverage of variable_name
     """
-    from geoips.data_manipulations.info import percent_not_nan
-
     return percent_not_nan(xarray_obj[variable_name])
