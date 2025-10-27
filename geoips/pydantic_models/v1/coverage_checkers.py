@@ -3,8 +3,12 @@
 
 """Pydantic models used to validate GeoIPS OBP v1 coverage-checker plugins."""
 
+
+# Python Standard Libraries
+from Typing import Self
+
 # Third-Party Libraries
-from pydantic import Field
+from pydantic import Field, model_validator
 import xarray
 from typing import Optional
 
@@ -28,3 +32,13 @@ class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     radius_km: Optional[float] = Field(
         300, description="Radius of center disk to check for coverage."
     )
+
+    @model_validator(mode="after")
+    def variable_name_presence_check(self) -> Self:
+        """Check if the 'variable_name' exists in the supplied xarray object."""
+        if self.variable_name not in self.xarray_obj:
+            raise ValueError(
+                f"Variable {self.variable_name} not found in the provided xarray "
+                "object; cannot calculate coverage."
+            )
+        return self
