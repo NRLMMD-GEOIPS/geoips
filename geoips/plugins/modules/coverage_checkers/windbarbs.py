@@ -3,7 +3,12 @@
 
 """Coverage check routine for windbarb xarrays."""
 
+# Python Standard Libraries
 import logging
+
+# GeoIPS imports
+from geoips.data_manipulations.info import percent_unmasked
+from geoips.interfaces import interpolators
 
 LOG = logging.getLogger(__name__)
 
@@ -31,13 +36,9 @@ def call(
     float
         Percent coverage of variable_name over area_def
     """
-    from geoips.interfaces import interpolators
-
     interp_plugin = interpolators.get_plugin("interp_nearest")
     output_xarray = interp_plugin(
         area_def, xarray_obj, None, [variable_name], array_num=0
     )
-
-    from geoips.data_manipulations.info import percent_unmasked
 
     return percent_unmasked(output_xarray[variable_name].to_masked_array())
