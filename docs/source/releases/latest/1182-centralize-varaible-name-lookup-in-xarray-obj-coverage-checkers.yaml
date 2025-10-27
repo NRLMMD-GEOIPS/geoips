@@ -7,7 +7,7 @@ performance:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/1182-centralize-varaible-name-lookup-in-xarray-obj-coverage-checkers.yaml'
     modified:
     - 'geoips/plugins/modules/coverage_checkers/center_radius.py'
     - 'geoips/plugins/modules/coverage_checkers/center_radius_rgba.py'
