@@ -3,7 +3,11 @@
 
 """Coverage check routine for masked arrays."""
 
+# Python Standard Libraries
 import logging
+
+# GeoIPS imports
+from geoips.data_manipulations.info import percent_unmasked
 
 LOG = logging.getLogger(__name__)
 
@@ -31,11 +35,4 @@ def call(
     float
         Percent coverage of variable_name
     """
-    from geoips.data_manipulations.info import percent_unmasked
-
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
-        )
-
     return percent_unmasked(xarray_obj[variable_name].to_masked_array())
