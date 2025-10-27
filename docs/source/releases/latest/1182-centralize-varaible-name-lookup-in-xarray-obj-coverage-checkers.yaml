@@ -1,0 +1,24 @@
+performance:
+- title: 'Deduplicate and centralize variable_name lookup in xarray_obj across Coverage Checkers'
+  description: 'Removes redundant variable_name lookup logic and centralizes it in the relevant model validator'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/coverage_checkers/center_radius.py'
+    - 'geoips/plugins/modules/coverage_checkers/center_radius_rgba.py'
+    - 'geoips/plugins/modules/coverage_checkers/masked_arrays.py'
+    - 'geoips/plugins/modules/coverage_checkers/numpy_arrays_nan.py'
+    - 'geoips/plugins/modules/coverage_checkers/rgba.py'
+    - 'geoips/plugins/modules/coverage_checkers/windbarbs.py'
+    - 'geoips/pydantic_models/v1/coverage_checkers.py'
+  related-issue:
+    number: 1181
+    repo_url: ''
+  date:
+    start: null
+    finish: null
