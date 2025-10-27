@@ -5,12 +5,11 @@
 
 
 # Python Standard Libraries
-from Typing import Self
+from typing import Optional, Self
 
 # Third-Party Libraries
 from pydantic import Field, model_validator
 import xarray
-from typing import Optional
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
