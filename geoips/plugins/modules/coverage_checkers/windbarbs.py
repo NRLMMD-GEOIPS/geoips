@@ -31,11 +31,6 @@ def call(
     float
         Percent coverage of variable_name over area_def
     """
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
-        )
-
     from geoips.interfaces import interpolators
 
     interp_plugin = interpolators.get_plugin("interp_nearest")

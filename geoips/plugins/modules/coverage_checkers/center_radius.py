@@ -98,11 +98,6 @@ def call(
     float
         Percent coverage of variable_name
     """
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
-        )
-
     temp_arr = xarray_obj[variable_name].to_masked_array()
 
     res_km = (

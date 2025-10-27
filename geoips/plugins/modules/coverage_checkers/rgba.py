@@ -33,9 +33,4 @@ def call(
     """
     from geoips.image_utils.mpl_utils import percent_unmasked_rgba
 
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
-        )
-
     return percent_unmasked_rgba(xarray_obj[variable_name].to_masked_array())
