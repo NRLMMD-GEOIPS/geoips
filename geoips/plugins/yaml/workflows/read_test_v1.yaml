@@ -26,5 +26,12 @@ spec:
         max_outbounds: crop
         norm: null
         inverse: null
+    coverage_checker:
+      kind: coverage_checker
+      name: center_radius
+      arguments:
+        xarray_obj: null
+        variable_name: 89pct
+        radius_km: 300
     # workflow:
     #     name: read_test
