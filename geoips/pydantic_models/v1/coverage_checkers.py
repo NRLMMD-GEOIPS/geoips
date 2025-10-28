@@ -21,9 +21,6 @@ class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     Pydantic model defining and validating Coverage Checker step arguments.
     """
 
-    xarray_obj: xarray.Dataset = Field(
-        ..., description="xarray object containing variable 'variable_name'"
-    )
     variable_name: str = Field(
         ..., description="Variable name to check percent unmasked."
     )
