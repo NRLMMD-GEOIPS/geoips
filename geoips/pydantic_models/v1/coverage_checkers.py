@@ -9,7 +9,6 @@ from typing import Optional, Self
 
 # Third-Party Libraries
 from pydantic import Field, model_validator
-import xarray
 
 # GeoIPS imports
 from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
