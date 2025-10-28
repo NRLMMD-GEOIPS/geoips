@@ -15,5 +15,5 @@ feature:
     number: null
     repo_url: ''
   date:
-    start: null
-    finish: null
+    start: 10/23/2025
+    finish: 10/28/2025
