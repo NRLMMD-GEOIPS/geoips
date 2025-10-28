@@ -1,4 +1,22 @@
-feature:
+bug fix:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+enhancement:
 - title: 'Pydantic Coverage-Checker Plugin Model'
   description: ''
   files:
@@ -15,5 +33,95 @@ feature:
     number: null
     repo_url: ''
   date:
-    start: 10/28/2025
-    finish: 10/23/2025
+    start: null
+    finish: null
+deprecation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+removal:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+performance:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+documentation:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+continuous integration:
+- title: ''
+  description: ''
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - ''
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
