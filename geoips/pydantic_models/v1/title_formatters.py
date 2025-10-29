@@ -17,7 +17,7 @@ class TitleFormatterArgumentsModel(PermissiveFrozenModel):
     """
 
     area_def: str = Field(None, description="Area definition identifier.")
-    product_name_title: str = Field(..., description="Area definition identifier.") 
+    product_name_title: str = Field(..., description="Area definition identifier.")
     product_datatype_title: str = Field(None, description="TBA.")
     bg_product_name_title: str = Field(None, description="TBA.")
     bg_datatype_title: str = Field(None, description="TBA.")
