@@ -27,7 +27,7 @@ class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     )
     area_def: str = Field(None, description="Area definition identifier.")
     radius_km: Optional[float] = Field(
-        300, description="Radius of center disk to check for coverage."
+        300, description="Radius of center disk to check for coverage. "
     )
 
     # @model_validator(mode="after")
