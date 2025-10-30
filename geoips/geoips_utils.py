@@ -696,3 +696,25 @@ def get_numpy_seeded_random_generator():
 
     """
     return np.random.default_rng(seed=42)
+
+
+def get_sector_from_area_definition(sector_obj, area_definition):
+    """Helper function in the transition to using sector objects.
+
+    Parameters
+    ----------
+    sector_obj: sector? Not sure about the type
+    area_definition: matplotlib.area_definition
+
+    Returns
+    -------
+    Sector
+    """
+    if sector_obj:
+        return sector_obj
+    elif area_definition:
+        # Issue a deprecation warning
+        # Convert to a sector
+        None
+    else:
+        raise TypeError("You must pass either a sector or an area definition")
