@@ -6,7 +6,6 @@
 from datetime import datetime, timedelta
 import logging
 import numpy as np
-import os
 from pathlib import Path
 from pyorbital.astronomy import sun_earth_distance_correction
 from geoips.filenames.base_paths import PATHS

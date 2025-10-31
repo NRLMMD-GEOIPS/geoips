@@ -3,7 +3,7 @@
 
 """Processing workflow for single data source processing."""
 
-from os import getenv, getpid
+from os import getpid
 from os.path import basename, exists
 import logging
 from datetime import timedelta
