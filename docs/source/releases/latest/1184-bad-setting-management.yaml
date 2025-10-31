@@ -1,0 +1,30 @@
+bug fix:
+- title: Centralized environment variable management
+  description: |
+    Fixed inconsistent environment variable handling by centralizing all environment
+    variable access through the PATHS dictionary in geoips/filenames/base_paths.py.
+    This ensures consistent behavior and provides proper defaults for all settings.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - geoips/commandline/args.py
+    - geoips/commandline/geoips_command.py
+    - geoips/commandline/geoips_test.py
+    - geoips/filenames/base_paths.py
+    - geoips/plugins/modules/procflows/single_source.py
+    - geoips/plugins/modules/readers/abi_netcdf.py
+    - geoips/plugins/modules/readers/ahi_hsd.py
+    - geoips/plugins/modules/readers/ami_netcdf.py
+    - geoips/plugins/modules/readers/fci_netcdf.py
+    - geoips/plugins/modules/readers/utils/geostationary_geolocation.py
+  related-issue:
+    number: 1184
+    repo_url: ''
+  date:
+    start: null
+    finish: null
