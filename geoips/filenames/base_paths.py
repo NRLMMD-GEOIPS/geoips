@@ -161,7 +161,7 @@ def initialize_paths():
         # Valid options are "ignore", "default", "error", "always", "module", "once"
         # See https://docs.python.org/3/library/warnings.html#the-warnings-filter
         # for details on each option.
-        "GEOIPS_WARNING_LEVEL": "default",
+        "GEOIPS_WARNING_LEVEL": "ignore",
         # Geolocation auto-generation control
         "DONT_AUTOGEN_GEOLOCATION": False,
         # Database URI
