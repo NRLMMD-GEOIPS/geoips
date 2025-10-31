@@ -9,6 +9,7 @@ import glob
 import logging
 import os
 from pathlib import Path
+from geoips.filenames.base_paths import PATHS
 
 # Third-Party Libraries
 import netCDF4 as ncdf
@@ -106,9 +107,7 @@ CENTER_WAVENUMBERS = {
 }
 
 
-DONT_AUTOGEN_GEOLOCATION = False
-if os.getenv("DONT_AUTOGEN_GEOLOCATION"):
-    DONT_AUTOGEN_GEOLOCATION = True
+DONT_AUTOGEN_GEOLOCATION = PATHS["DONT极AUTOGEN_GEOLOCATION"]
 
 
 """
