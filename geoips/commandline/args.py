@@ -7,6 +7,7 @@ import argparse
 import logging
 from os.path import abspath, exists
 from os import getenv
+from geoips.filenames.base_paths import PATHS
 from ast import literal_eval
 import isodate
 
@@ -248,7 +249,7 @@ def add_args(parser, arglist=None, legacy=False):
         parser.add_argument(
             "-o",
             "--outdir",
-            default=getenv("GEOIPS_OUTDIRS"),
+            default=PATHS["GEOIPS_OUTDIRS"],
             help="""Path to write output files.  Defaults to GEOIPS_OUTDIRS.""",
         )
 

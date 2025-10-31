@@ -13,6 +13,7 @@ import warnings
 # from os import listdir
 from os import environ, makedirs
 from os.path import basename, exists, join
+from geoips.filenames.base_paths import PATHS
 import sys
 
 # from pytest import main as invoke_pytest
@@ -140,7 +141,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             "--outdir",
             "-o",
             type=str,
-            default=f"{environ['GEOIPS_OUTDIRS']}",
+            default=f"{PATHS['GEOIPS_OUTDIRS']}",
             help="The output directory to create your sector image in.",
         )
         self.parser.add_argument(
