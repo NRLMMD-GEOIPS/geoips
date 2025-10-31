@@ -15,6 +15,7 @@ from geoips.errors import PluginError
 from geoips.errors import OutputFormatterDatelineError
 from geoips.errors import OutputFormatterInvalidProjectionError
 from geoips.filenames.duplicate_files import remove_duplicates
+from geoips.filenames.base_paths import PATHS
 from geoips.geoips_utils import copy_standard_metadata, output_process_times
 from geoips.utils.memusg import PidLog
 from geoips.xarray_utils.data import sector_xarrays
@@ -1927,7 +1928,7 @@ def call(fnames, command_line_args=None):
         from geoips.interfaces import databases
 
         db_writer = databases.get_plugin(product_db_writer)
-        if not getenv("GEOIPS_DB_URI"):
+        if not PATHS["GEOIPS_DB_URI"]:
             raise ValueError("Need to set $GEOIPS_DB_URI")
 
     # Load plugins
