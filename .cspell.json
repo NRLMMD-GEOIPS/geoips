@@ -677,6 +677,7 @@
         "nprocs",
         "nullval",
         "oscat",
+        "outfnames",
         "pname",
         "qux",
         "remss",
@@ -692,7 +693,8 @@
         "tmp",
         "ttt",
         "volc", // volcano
-	"xdist",
+	    "xdist",
+        "xrdict",
         "xyz",
         "yyyy",
         "yyyyddd",
