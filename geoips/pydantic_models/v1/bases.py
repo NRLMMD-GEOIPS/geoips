@@ -340,6 +340,7 @@ class PluginModelMetadata(ModelMetaclass):
         if not hasattr(cls, "apiVersion") or cls.apiVersion is None:
             cls.apiVersion = "geoips/v1"
         cls._namespace = f"{cls.apiVersion.split('/')[0]}.plugin_packages"
+
         return cls
 
 
@@ -406,9 +407,13 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            metadata = getattr(ints, interface_name).get_plugin_metadata(
-                values.get("name")
-            )
+            if not values.get("unregistered"):
+                metadata = getattr(ints, interface_name).get_plugin_metadata(
+                    values.get("name")
+                )
+            else:
+                metadata = {"package": "unregistered"}
+                values.pop("unregistered")
         except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."

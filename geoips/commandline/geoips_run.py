@@ -8,11 +8,13 @@ Runs the appropriate script based on the args provided.
 
 from ast import literal_eval
 from colorama import Fore, Style
+from pathlib import Path
 
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.interfaces import procflows, workflows
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -145,7 +147,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             type=str,
             help=(
                 "The name of the workflow plugin to execute. Cannot be supplied "
-                "alongside the --generated argument."
+                "alongside the --generated or --filepath argument."
             ),
         )
         self.obp_mutex_args.add_argument(
@@ -156,7 +158,17 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
             help=(
                 "A literal evaluation of a string formatted python dictionary "
                 "representing a 'generated' (at runtime) workflow plugin to operate on."
-                " Cannot be supplied alongside the --workflow argument."
+                " Cannot be supplied alongside the --workflow or --filepath argument."
+            ),
+        )
+        self.obp_mutex_args.add_argument(
+            "-f",
+            "--filepath",
+            default=None,
+            type=Path,
+            help=(
+                "A absolute path to the workflow file to operate on."
+                " Cannot be supplied alongside the --workflow or --generated argument."
             ),
         )
 
@@ -183,9 +195,12 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                     "generated workflow could not be literally evaluated as a python "
                     "dictionary."
                 )
+            workflow["unregistered"] = True
+            # Validate the generated workflow
+            WorkflowPluginModel(**workflow)
 
         obp = procflows.get_plugin("order_based")
-        obp(args.workflow, args.filenames, args)
+        obp(workflow, args.filenames, args)
         print(self.warning)
 
 
