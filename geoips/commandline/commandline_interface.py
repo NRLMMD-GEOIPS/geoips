@@ -115,6 +115,10 @@ class GeoipsCLI(GeoipsCommand):
     def execute_command(self):
         """Execute the given command."""
         self.GEOIPS_ARGS = self.parser.parse_args()
+
+        # from IPython import embed as shell
+
+        # shell()
         if hasattr(self.GEOIPS_ARGS, "exe_command"):
             # The command called is executable (child of GeoipsExecutableCommand)
             # so execute that command now.

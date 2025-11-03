@@ -6,12 +6,13 @@
 Runs the appropriate script based on the args provided.
 """
 
+from ast import literal_eval
 from colorama import Fore, Style
 
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
-from geoips.interfaces import procflows
+from geoips.interfaces import procflows, workflows
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -136,13 +137,29 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
-        self.parser.add_argument(
+        self.obp_mutex_args = self.parser.add_mutually_exclusive_group(required=True)
+        self.obp_mutex_args.add_argument(
             "-w",
             "--workflow",
+            default=None,
             type=str,
-            required=True,
-            help="The name of the workflow plugin to execute. REQUIRED.",
+            help=(
+                "The name of the workflow plugin to execute. Cannot be supplied "
+                "alongside the --generated argument."
+            ),
         )
+        self.obp_mutex_args.add_argument(
+            "-g",
+            "--generated",
+            default=None,
+            type=literal_eval,
+            help=(
+                "A literal evaluation of a string formatted python dictionary "
+                "representing a 'generated' (at runtime) workflow plugin to operate on."
+                " Cannot be supplied alongside the --workflow argument."
+            ),
+        )
+
         add_args(parser=self.parser, legacy=self.legacy)
 
     def __call__(self, args):
@@ -156,9 +173,19 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through.
         """
-        workflow = args.workflow
+        if args.workflow:
+            workflow = workflows.get_plugin(args.workflow)
+        else:
+            workflow = args.generated
+            if not isinstance(workflow, dict):
+                raise ValueError(
+                    "Error: Argument '--generated' was supplied but the format of the "
+                    "generated workflow could not be literally evaluated as a python "
+                    "dictionary."
+                )
+
         obp = procflows.get_plugin("order_based")
-        obp(workflow, args.filenames, args)
+        obp(args.workflow, args.filenames, args)
         print(self.warning)
 
 
