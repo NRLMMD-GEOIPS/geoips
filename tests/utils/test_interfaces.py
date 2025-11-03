@@ -8,6 +8,7 @@ import json
 
 from geoips import interfaces
 from geoips.interfaces.base import BaseInterface
+from geoips.interfaces.yaml_based import workflows
 from geoips.commandline.log_setup import setup_logging
 from geoips.commandline.args import get_argparser, check_command_line_args
 from geoips.utils.context_managers import import_optional_dependencies
@@ -124,11 +125,13 @@ def main():
     # raising an exception on error.
     for curr_interface in curr_interfaces:
         # Do not test "BaseInterface"
-        if (type(curr_interface) is BaseInterface) or not isinstance(
-            curr_interface, BaseInterface
+        # Do not test workflows
+        if (
+            (type(curr_interface) is BaseInterface)
+            or not isinstance(curr_interface, BaseInterface)
+            or isinstance(curr_interface, workflows.WorkflowsInterface)
         ):
             continue
-
         LOG.info("")
         LOG.interactive(f"Testing {curr_interface.name}...")
 
