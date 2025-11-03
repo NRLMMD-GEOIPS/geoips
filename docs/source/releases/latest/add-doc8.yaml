@@ -1,9 +1,9 @@
 enhancement:
 - title: Add doc8 linting to code testing framework
   description: |
-    Added doc8 documentation linter support to the code testing script.
-    The script now supports running doc8 with a maximum line length of 120 characters
-    on documentation source files located at `$path/docs/source`.
+    Added doc8 documentation linter support to the check_code.sh.
+    Check_code now supports running doc8 with a maximum line length of 120 characters (our standard)
+    on documentation source files.
   files:
     deleted: []
     moved: []
