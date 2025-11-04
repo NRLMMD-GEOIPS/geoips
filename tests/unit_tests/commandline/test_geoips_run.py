@@ -6,6 +6,8 @@
 See geoips/commandline/ancillary_info/cmd_instructions.yaml for more information.
 """
 
+from importlib.resources import files
+
 import pytest
 
 from tests.unit_tests.commandline.cli_top_level_tester import BaseCliTest
@@ -152,6 +154,14 @@ class TestGeoipsRun(BaseCliTest):
             }
         ),
     ]
+    obp_args_workflow_path = [
+        "geoips",
+        "run",
+        "order_based",
+        "$GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/*",
+        "--filepath",
+        f"{files('geoips') / 'plugins/yaml/workflows/read_test_v1.yaml'}",
+    ]
 
     @property
     def command_combinations(self):
@@ -173,6 +183,7 @@ class TestGeoipsRun(BaseCliTest):
             self._cmd_list.append(self.new_abi_static_infrared_args)
             self._cmd_list.append(self.obp_args_workflow_name)
             self._cmd_list.append(self.obp_args_generated_workflow)
+            self._cmd_list.append(self.obp_args_workflow_path)
             if "data_fusion" in self.plugin_package_names:
                 # Only add these argument lists if data_fusion is installed
                 self._cmd_list.append(self.geo_args)
