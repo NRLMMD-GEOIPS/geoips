@@ -281,6 +281,11 @@ def initialize_paths():
         paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"]
     )
 
+    # Casting some values to bool
+    paths["DONT_AUTOGEN_GEOLOCATION"] = bool(
+        paths["DONT_AUTOGEN_GEOLOCATION"]
+    )
+
     return paths
 
 
