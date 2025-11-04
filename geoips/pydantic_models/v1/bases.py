@@ -358,8 +358,9 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
-    # Exclude the variable below form model serialization as it is only used for logic
-    # used in before validators
+    # Exclude the variable below from model serialization as it is only used for logic
+    # used in before validators. I.e. this will not be included in
+    # PluginModel.model_dump()
     is_registered: bool = Field(
         True, exclude=True, description="Whether or not this plugin is registered."
     )
@@ -368,7 +369,7 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         ...,
         description=(
             "Name of the plugin's interface. "
-            " Run geoips list interfaces to see available options."
+            "Run geoips list interfaces to see available options."
         ),
     )
     family: PythonIdentifier = Field(..., description="Family of the plugin.")
@@ -412,7 +413,8 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            if values.get("is_registered"):
+            is_registered = values.get("is_registered", True)
+            if is_registered:
                 metadata = getattr(ints, interface_name).get_plugin_metadata(
                     values.get("name")
                 )
