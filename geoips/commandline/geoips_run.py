@@ -195,9 +195,9 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
                     "generated workflow could not be literally evaluated as a python "
                     "dictionary."
                 )
-            workflow["unregistered"] = True
-            # Validate the generated workflow
-            WorkflowPluginModel(**workflow)
+            # Validate the generated workflow with is_registered set to false as this
+            # plugin has been dynamically generated
+            WorkflowPluginModel(**workflow, is_registered=False)
 
         obp = procflows.get_plugin("order_based")
         obp(workflow, args.filenames, args)

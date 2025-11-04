@@ -358,6 +358,11 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
 
     apiVersion: str = Field("geoips/v1", description="apiVersion")
     _namespace: ClassVar[str | None] = None
+    # Exclude the variable below form model serialization as it is only used for logic
+    # used in before validators
+    is_registered: bool = Field(
+        True, exclude=True, description="Whether or not this plugin is registered."
+    )
 
     interface: PythonIdentifier = Field(
         ...,
@@ -407,13 +412,12 @@ class PluginModel(FrozenModel, metaclass=PluginModelMetadata):
         else:
             ints = get_interface_module(cls._namespace)
         try:
-            if not values.get("unregistered"):
+            if values.get("is_registered"):
                 metadata = getattr(ints, interface_name).get_plugin_metadata(
                     values.get("name")
                 )
             else:
                 metadata = {"package": "unregistered"}
-                values.pop("unregistered")
         except AttributeError as e:
             raise ValueError(
                 f"Invalid interface: '{interface_name}'."
