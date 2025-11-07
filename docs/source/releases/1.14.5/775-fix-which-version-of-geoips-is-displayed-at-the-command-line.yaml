@@ -3,18 +3,12 @@ bug fix:
   description: |
     Filter out the deploy tags so the latest tagged version of GeoIPS is shown.
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
     modified:
     - 'setup/config_geoips'
   related-issue:
-    internal: GEOIPS#775
+    internal: GEOIPS#775 - Fix which version of GeoIPS is shown at the command line
     number: 775
-    repo_url: 'geoips'
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
   date:
     start: 2025-03-11
     finish: 2025-03-11
