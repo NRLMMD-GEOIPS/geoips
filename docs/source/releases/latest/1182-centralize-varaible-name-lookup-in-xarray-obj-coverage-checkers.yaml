@@ -17,7 +17,7 @@ performance:
     - 'geoips/plugins/modules/coverage_checkers/windbarbs.py'
     - 'geoips/pydantic_models/v1/coverage_checkers.py'
   related-issue:
-    internal: null
+    internal: "GEOIPS#1181-Deduplicate and centralize variable_name lookup in xarray_obj across Coverage Checkers"
     number: 1181
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
   date:
