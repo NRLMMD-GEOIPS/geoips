@@ -23,7 +23,7 @@ class TitleFormatterArgumentsModel(PermissiveFrozenModel):
     )
     bg_product_name_title: str = Field(
         None,
-        description="Background product name title to include when background layer is provided.",
+        description="Background product name title when background layer is provided.",
     )
     bg_datatype_title: str = Field(
         None, description="Background data type label for the background product title."
