@@ -1,0 +1,19 @@
+bug fix:
+- title: 'Fix bug preventing invest b-deck files from being added to decks database'
+  description: |
+    Fix bug that was preventing b-deck invest files from being added to the TC decks
+    database. The regular expression check for b-deck files was only supporting
+    named storm files and not invests, which contain the storm start time in
+    the deck file name.
+
+    Also add error handling if either a b-deck or g-deck file cannot be parsed and added
+    to the decks database.
+  files:
+    modified:
+    - 'geoips/sector_utils/tc_tracks_database.py'
+  related-issue:
+    internal: "GEOIPS#759 - Fix bug preventing invest b-deck files from being added to decks database"
+    number: 759
+  date:
+    start: 2025-03-13
+    finish: 2025-03-13
