@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Fixtures for testing the Order-based procflow TitleFormatterArguments pydantic model."""
+"""Fixtures for testing the Order-based procflow's TitleFormatterArgumentsModel."""
 
 # Third-Party Libraries
 import pytest
@@ -9,7 +9,7 @@ import pytest
 
 @pytest.fixture
 def valid_title_formatter_arguments():
-    """Fixture to provide sample valid plugin data for testing TitleFormatterArgumentsModel."""
+    """Fixture providing valid data TitleFormatterArgumentsModel tests."""
     return {
         "area_def": "test_string",
         "product_name_title": "tc_copyright",

@@ -20,12 +20,12 @@ test_cases_bad = load_test_cases(interface, "bad")
 
 
 def test_good_title_formatter(valid_title_formatter_arguments):
-    """Assert that a valid title formatter plugin is valid.
+    """Validate a known-good TitleFormatterArgumentsModel configuration.
 
     Parameters
     ----------
     valid_title_formatter_arguments: dict
-        - A dictionary representing a valid feature title formatter plugin.
+        - A dictionary representing a valid title formatter plugin.
     """
     validate_base_plugin(valid_title_formatter_arguments, TitleFormatterArgumentsModel)
 
@@ -34,15 +34,15 @@ def test_good_title_formatter(valid_title_formatter_arguments):
     "test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys())
 )
 def test_bad_title_formatter_plugins(valid_title_formatter_arguments, test_tup):
-    """Perform validation on title_formatter plugins, including failing cases.
+    """Validate that invalid TitleFormatterArgumentsModel configs fail as expected.
 
     Parameters
     ----------
     valid_title_formatter_arguments: dict
-        - A dictionary representing a valid feature title formatter plugin.
+        - A dictionary representing a valid title formatter plugin.
     test_tup:
-        - A tuple formatted (description, key, value, class, err_str), formatted (str, any, str, str)
-          used to run and validate tests.
+        - A tuple formatted (description, key, value, class, err_str), formatted (str,
+          any, str, str) used to run and validate tests.
     """
     validate_bad_plugin(
         valid_title_formatter_arguments, test_tup, TitleFormatterArgumentsModel
