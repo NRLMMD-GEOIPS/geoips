@@ -34,7 +34,7 @@ def test_good_title_formatter(valid_title_formatter_arguments):
     "test_tup", test_cases_bad.values(), ids=list(test_cases_bad.keys())
 )
 def test_bad_title_formatter_plugins(valid_title_formatter_arguments, test_tup):
-    """Validate that invalid TitleFormatterArgumentsModel configs fail as expected.
+    """Ensure invalid TitleFormatterArgumentsModel configs fail with the expected error.
 
     Parameters
     ----------
