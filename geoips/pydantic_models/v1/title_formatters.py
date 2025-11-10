@@ -17,8 +17,8 @@ class TitleFormatterArgumentsModel(PermissiveFrozenModel):
     """
 
     area_def: str = Field(None, description="Area definition identifier.")
-    product_name_title: str = Field(..., description="Area definition identifier.")
-    product_datatype_title: str = Field(None, description="TBA.")
-    bg_product_name_title: str = Field(None, description="TBA.")
-    bg_datatype_title: str = Field(None, description="TBA.")
-    title_copyright: str = Field(None, description="TBA.")
+    product_name_title: str = Field(None, description="Product name title.")
+    product_datatype_title: str = Field(None, description="Product data type label to incude in the title.")
+    bg_product_name_title: str = Field(None, description="Background product name title to include when background layer is provided.")
+    bg_datatype_title: str = Field(None, description="Background data type label for the background product title.")
+    title_copyright: str = Field(None, description="Copyright string to append to the generated title")
