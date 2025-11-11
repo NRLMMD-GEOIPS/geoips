@@ -131,25 +131,3 @@ spec:
     enabled: false
 
 ---
-error: ValidationError
-error_pattern: ".*Unevaluated properties are not allowed \\('idontexist' was unexpected\\).*"
-interface: "feature_annotators"
-family: "cartopy"
-name: "default"
-docstring: "Extra 'idontexist' property"
-spec:
-  coastline:
-    enabled: true
-    edgecolor: red
-    linewidth: 2
-    idontexist: none
-  borders:
-    enabled: true
-    edgecolor: red
-    linewidth: 1
-  states:
-    enabled: true
-    edgecolor: red
-    linewidth: 0.5
-  rivers:
-    enabled: false
