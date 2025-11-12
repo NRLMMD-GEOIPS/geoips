@@ -76,6 +76,14 @@ def call(workflow, fnames, command_line_args=None):
                 step_def.kind,
             )
 
+            if interface == "coverage_checkers":
+                # uncomment after integrating DataTree Ditto into OBP
+                #  if variable_name not in xarray_obj:
+                #      raise KeyError(
+                #         f"Variable {variable_name} did not exist. Can not calculate coverage."
+                #         )
+                data = plg(data, **step_def.arguments)
+
     LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 
 
