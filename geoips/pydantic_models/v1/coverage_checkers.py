@@ -29,13 +29,3 @@ class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
     radius_km: Optional[float] = Field(
         300, description="Radius of center disk to check for coverage. "
     )
-
-    # @model_validator(mode="after")
-    # def variable_name_presence_check(self) -> Self:
-    #     """Check if the 'variable_name' exists in the supplied xarray object."""
-    #     if self.variable_name not in self.xarray_obj:
-    #         raise ValueError(
-    #             f"Variable {self.variable_name} not found in the provided xarray "
-    #             "object; cannot calculate coverage."
-    #         )
-    #     return self
