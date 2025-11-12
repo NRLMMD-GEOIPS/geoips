@@ -31,7 +31,6 @@ from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
 )
-from geoips.pydantic_models.v1.coverage_checkers import CoverageCheckerArgumentsModel
 from geoips.utils.types.partial_lexeme import Lexeme
 
 LOG = logging.getLogger(__name__)
@@ -83,6 +82,12 @@ def get_plugin_kinds() -> set[str]:
 
 class OutputFormatterArgumentsModel(PermissiveFrozenModel):
     """Validate Output Formatter arguments."""
+
+    pass
+
+
+class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
+    """Validate Coverage Checker arguments."""
 
     pass
 

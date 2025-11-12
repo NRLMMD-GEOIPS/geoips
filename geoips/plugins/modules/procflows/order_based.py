@@ -37,7 +37,7 @@ def call(workflow, fnames, command_line_args=None):
     LOG.interactive(f"Begin processing '{workflow}' workflow.")
     wf_plugin = interfaces.workflows.get_plugin(workflow)
 
-    handled_interfaces = ["readers", "coverage_checkers"]
+    handled_interfaces = ["readers"]
     for step_id, step_def in wf_plugin.spec.steps.items():
         interface = str(Lexeme(step_def.kind).plural)
 
