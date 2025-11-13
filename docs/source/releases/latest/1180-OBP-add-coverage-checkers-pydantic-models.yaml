@@ -1,6 +1,6 @@
 feature:
 - title: 'Order-Based Procflow: Add Coverage Checkers'
-  description: "Add Pydantic models for Coverage Checkers OBP plugin and add asscoiate code for CBP's pre-call method."
+  description: "Define OBP Pydantic model for Coverage Checker plugins and add asscoiate code for CBP pre-call method."
   files:
     deleted:
     - ''
