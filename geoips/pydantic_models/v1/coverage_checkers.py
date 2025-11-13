@@ -13,10 +13,10 @@ from typing import Optional
 from pydantic import Field
 
 # GeoIPS imports
-from geoips.pydantic_models.v1.bases import PermissiveFrozenModel
+from geoips.pydantic_models.v1.bases import DynamicModel
 
 
-class CoverageCheckerArgumentsModel(PermissiveFrozenModel):
+class CoverageCheckerArgumentsModel(DynamicModel):
     """Coverage-Checker step argument definition.
 
     Pydantic model defining and validating Coverage Checker step arguments.
