@@ -1,0 +1,43 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: read_test_v1
+docstring: |
+  11.2 µm Infrared.
+
+  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
+description: 11.2 µm Infrared.
+spec:
+  steps:
+    reader:
+      kind: reader
+      name: abi_l2_netcdf
+      arguments:
+        resampled_read: true
+    coverage_checker:
+      kind: coverage_checker
+      name: 
+      arguments:
+        minimum_coverage: 0
+    sector:
+      kind: sector
+      name: ['goes_east']
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+    output_formatter:
+      kind: output_formatter
+      name: imagery_windbarbs
+      arguments: {}
+    output_checker:
+      kind: output_checker
+      name: 
+      arguments:
+        compare_path: "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_windbarbs"
