@@ -19,31 +19,3 @@ spec:
       arguments:
         variable_name: 89pct
         radius_km: 300
-
-
-
-    # reader:
-    #   kind: reader
-    #   name: abi_netcdf
-    #   arguments:
-    #     variables: ['B14BT']
-    # algorithm:
-    #   kind: algorithm
-    #   name: single_channel
-    #   arguments:
-    #     variables: ['B14BT']
-    #     output_data_range: [-90.0, 30.0]
-    #     input_units: Kelvin
-    #     output_units: celsius
-    #     min_outbounds: crop
-    #     max_outbounds: crop
-    #     norm: null
-    #     inverse: null
-    # coverage_checker:
-    #   kind: coverage_checker
-    #   name: center_radius
-    #   arguments:
-    #     variable_name: 89pct
-    #     # radius_km: 300
-    # # workflow:
-    # #     name: read_test
