@@ -141,12 +141,16 @@ class PidLog:
             ps_child = self.ps_parent.children(recursive=True)
 
             # filter out own pid and any children spawned
-            all_pids = [self.ps_parent] + [
-                i
-                for i in ps_child
-                for j in i.parents()
-                if i.pid != self.own_pid and j.pid != self.own_pid
-            ]
+            try:
+                all_pids = [self.ps_parent] + [
+                    i
+                    for i in ps_child
+                    for j in i.parents()
+                    if i.pid != self.own_pid and j.pid != self.own_pid
+                ]
+            except psutil.NoSuchProcess as resp:
+                LOG.warning(f"Process no longer exists, skipping, {resp}")
+                continue
 
             tmp_cpu, cpu_per, thrd_cnt, uss_tmp, rss_tmp = [], 0, 0, 0, 0
 

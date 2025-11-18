@@ -1,0 +1,19 @@
+enhancement:
+  - title: Add x_size and y_size kwargs to imagery_annotated output formatter.
+    description: |
+      Allows specifying x_size and y_size separately from the area definition shape.
+      This is useful if you are producing multiple output formats for a single sector,
+      and you do not need as high resolution output for the annotated image as other
+      potential outputs.  This prevents reprocessing the data for multiple sized sectors,
+      but still allows outputting a lower resolution / smaller annotated image.
+
+      This reduced the time to write an 8250x8000 sector from 42s for the full size
+      to 20s for 515x500, plus MUCH less space on disk.
+    files:
+      modified:
+        - "geoips/plugins/modules/output_formatters/imagery_annotated.py"
+    date:
+      start: 2025-11-17
+      finish: 2025-11-17
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates

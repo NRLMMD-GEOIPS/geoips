@@ -16,6 +16,7 @@ import numpy as np
 import xarray
 
 from geoips.interfaces import readers
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
@@ -605,9 +606,12 @@ def call(
     area_def=None,
     self_register=False,
     roi=None,
-    geolocation_cache_backend="memmap",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=75,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -631,6 +635,11 @@ def call(
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file
         * Defined in yaml file where variables and tuning parameters are set
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 75 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -655,7 +664,10 @@ def call(
         roi=roi,
         geolocation_cache_backend=geolocation_cache_backend,
         cache_chunk_size=cache_chunk_size,
+        cache_solar_angles=cache_solar_angles,
+        geolocation_only=geolocation_only,
         resource_tracker=resource_tracker,
+        satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
     )
 
 
@@ -668,7 +680,10 @@ def call_single_time(
     roi=None,
     geolocation_cache_backend="memmap",
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -704,6 +719,8 @@ def call_single_time(
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the
           PidLog.checkpoint_usage_stats method.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to None
 
     Returns
     -------
@@ -903,6 +920,7 @@ def call_single_time(
             BADVALS,
             area_def,
             geolocation_cache_backend=geolocation_cache_backend,
+            cache_solar_angles=cache_solar_angles,
             resource_tracker=resource_tracker,
         )
         if not gvars[adname]:
@@ -944,6 +962,7 @@ def call_single_time(
                     BADVALS,
                     area_def,
                     geolocation_cache_backend=geolocation_cache_backend,
+                    cache_solar_angles=cache_solar_angles,
                     resource_tracker=resource_tracker,
                 )
             except IndexError as resp:
@@ -951,6 +970,15 @@ def call_single_time(
                 raise IndexError(resp)
 
     LOG.interactive("Done with geolocation for {}".format(adname))
+    if geolocation_only:
+        geo_xarrays = {"METADATA": xarray_obj}
+        for dsname in gvars.keys():
+            geo_xarrays[dsname] = xarray.Dataset()
+            geo_xarrays[dsname].attrs = xarray_obj.attrs.copy()
+            for varname in gvars[dsname].keys():
+                geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
+        return geo_xarrays
+
     LOG.info("")
 
     # Read the data
@@ -1036,14 +1064,8 @@ def call_single_time(
         try:
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
-            for varname, var in gvars[res].items():
-                gvars[res][varname] = np.ma.array(
-                    var, mask=gvars[res]["satellite_zenith_angle"].mask
-                )
-                gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
-                )
         except KeyError:
+            LOG.info("No Lines/Samples in gvar res %s, skipping pop", res)
             pass
     for ds in datavars.keys():
         if not datavars[ds]:
@@ -1052,12 +1074,38 @@ def call_single_time(
     # Create the final dictionary of xarray objects.
     xarray_objs = {}
     for dsname in datavars.keys():
+
+        # Get the indices for masking sat zenith angle
+        if satellite_zenith_angle_cutoff and "satellite_zenith_angle" in gvars[dsname]:
+            satzen_mask_inds = (
+                gvars[dsname]["satellite_zenith_angle"] > satellite_zenith_angle_cutoff
+            )
+        else:
+            # Latitude variable is always defined, and the mask here should correspond
+            # to data that is valid and on disk.
+            satzen_mask_inds = gvars[dsname]["latitude"].mask == True
+
+        # Create a new xarray object to populate with all the data.
         xobj = xarray.Dataset()
         xobj.attrs = xarray_obj.attrs.copy()
         for varname in datavars[dsname].keys():
-            xobj[varname] = xarray.DataArray(datavars[dsname][varname])
+            LOG.info(
+                "Masking var %s greater than %s degrees sat zenith angle",
+                varname,
+                satellite_zenith_angle_cutoff,
+            )
+            xobj[varname] = xarray.DataArray(
+                np.ma.masked_where(satzen_mask_inds, datavars[dsname][varname])
+            )
         for varname in gvars[dsname].keys():
-            xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+            LOG.info(
+                "Masking gvar %s greater than %s degrees sat zenith angle",
+                varname,
+                satellite_zenith_angle_cutoff,
+            )
+            xobj[varname] = xarray.DataArray(
+                np.ma.masked_where(satzen_mask_inds, gvars[dsname][varname])
+            )
 
         # if roi is not defined in yaml file, a default roi is applied
         if roi is None:

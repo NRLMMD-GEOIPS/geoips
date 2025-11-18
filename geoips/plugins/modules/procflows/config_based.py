@@ -358,6 +358,9 @@ def get_sectored_read(
     # the data.  Just skip those.  We need a better method for handling this generally,
     # but for now skip IndexErrors.
     except IndexError as resp:
+        LOG.exception("%s SKIPPING no coverage for %s", resp, area_def)
+        return {}
+    except CoverageError as resp:
         LOG.error("%s SKIPPING no coverage for %s", resp, area_def)
         return {}
     return xobjs
@@ -725,19 +728,19 @@ def get_area_defs_from_available_sectors(
     Returns
     -------
     dict
-        Dictionary of required area_defs, with area_def.description as the dictionary
+        Dictionary of required area_defs, with area_def.area_id as the dictionary
         keys. Based on YAML config-specified available_sectors, and command
         line args
 
     Notes
     -----
-    * Each area_def.description key has one or more "sector_types" associated with it.
+    * Each area_def.area_id key has one or more "sector_types" associated with it.
     * Each sector_type dictionary contains the actual "requested_sector_dict"
       from the YAML config, and the actual AreaDefinition object that was
       returned.
 
-        * ``area_defs[area_def.description][sector_type]['requested_sector_dict']``
-        * ``area_defs[area_def.description][sector_type]['area_def']``
+        * ``area_defs[area_def.area_id][sector_type]['requested_sector_dict']``
+        * ``area_defs[area_def.area_id][sector_type]['area_def']``
     """
     area_defs = {}
 
@@ -792,16 +795,16 @@ def get_area_defs_from_available_sectors(
             # sector_types attached to it. Ie, we may have different sizes/resolutions
             # for the same region, so we want a dictionary of sector_types
             # within the dictionary of area_defs
-            if area_def.description not in area_defs:
+            if area_def.area_id not in area_defs:
                 # Store the actual sector_dict and area_def in the dictionary
-                area_defs[area_def.description] = {
+                area_defs[area_def.area_id] = {
                     sector_type: {
                         "requested_sector_dict": sector_dict,
                         "area_def": area_def,
                     }
                 }
             else:
-                area_defs[area_def.description][sector_type] = {
+                area_defs[area_def.area_id][sector_type] = {
                     "requested_sector_dict": sector_dict,
                     "area_def": area_def,
                 }
@@ -1029,12 +1032,23 @@ def call(fnames, command_line_args=None):
             raise ValueError("Need to set both $GEOIPS_DB_URI")
 
     pid_track.track_resource_usage(logstr="MEMUSG", verbose=False, key="READ METADATA")
-    reader_plugin = readers.get_plugin(config_dict["reader_name"])
+    if command_line_args.get("reader_name"):
+        reader_plugin = readers.get_plugin(command_line_args.get("reader_name"))
+    else:
+        reader_plugin = readers.get_plugin(config_dict["reader_name"])
     LOG.interactive(
         "Reading metadata from datasets using reader '%s'...", reader_plugin.name
     )
     reader_kwargs = remove_unsupported_kwargs(reader_plugin, reader_kwargs)
     xobjs = reader_plugin(fnames, metadata_only=True, **reader_kwargs)
+    # Store a copy of the xobjs metadata. If resampled_read or sectored_read are true,
+    # and we encounter a sector with no coverage, the xobjs variable will be clobbered
+    # with an empty dictionary due to the get_sectored_read function. This will break
+    # the area defintion sector_type loop, since the next iteration will be unable to
+    # compile the list of all_source_names, since it looks at the xobjs variable. When
+    # the get_sectored_read function experiences a CoverageError and returns an empty
+    # dict, we will reset xobjs with xobjs_meta.
+    xobjs_meta = xobjs.copy()
     pid_track.track_resource_usage(logstr="MEMUSG", verbose=False, key="READ METADATA")
     source_name = xobjs["METADATA"].source_name
 
@@ -1181,6 +1195,7 @@ def call(fnames, command_line_args=None):
                     key=f"SECTORED READ: {adef_key};{sector_type}",
                 )
                 if not xobjs:
+                    xobjs = xobjs_meta
                     continue
             if resampled_read:
                 pid_track.track_resource_usage(
@@ -1210,6 +1225,7 @@ def call(fnames, command_line_args=None):
                     key=f"RESAMPLED READ: {adef_key};{sector_type}",
                 )
                 if not xobjs:
+                    xobjs = xobjs_meta
                     continue
 
             pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
@@ -1308,7 +1324,7 @@ def call(fnames, command_line_args=None):
             if len(pad_sect_xarrays) == 0:
                 LOG.interactive(
                     "SKIPPING no pad_area_def pad_sect_xarrays returned for %s",
-                    area_def.description,
+                    area_def.area_id,
                 )
                 continue
 
@@ -1326,7 +1342,7 @@ def call(fnames, command_line_args=None):
             ):
                 LOG.interactive(
                     "SKIPPING duplicate area_def, out of time range, for %s",
-                    area_def.description,
+                    area_def.area_id,
                 )
                 continue
 
@@ -1454,7 +1470,7 @@ def call(fnames, command_line_args=None):
                     if len(sect_xarrays) == 0:
                         LOG.interactive(
                             "SKIPPING no area_def sect_xarrays returned for %s",
-                            area_def.description,
+                            area_def.area_id,
                         )
                         continue
                     if (
@@ -1531,36 +1547,60 @@ def call(fnames, command_line_args=None):
             # the data. Do NOT sector if we are using a reader_defined or self_register
             # area_def - that indicates we are going to use all of the data we have, so
             # we will not sector
-            if area_def.sector_type not in ["reader_defined", "self_register"]:
+            if area_def.sector_type in ["reader_defined", "self_register"]:
                 LOG.interactive(
-                    "Sectoring self register xarrays for area_def '%s'",
-                    area_def.description,
+                    "NOT sectoring xarrays for reader_defined or self_register "
+                    "sector_types. area_def '%s' type %s, presector %s",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
+                )
+                sect_xarrays = pad_sect_xarrays
+            elif not presector_data:
+                LOG.interactive(
+                    "NOT sectoring xarrays, presector_data not requested. "
+                    "area_def '%s' type %s, presector %s",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
+                )
+                sect_xarrays = pad_sect_xarrays
+            elif presector_data:
+                LOG.interactive(
+                    "Sectoring xarrays for area_def '%s', presectoring requested. "
+                    "type '%s', presector '%s'",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
                 )
                 pid_track.track_resource_usage(
                     logstr="MEMUSG",
                     verbose=False,
-                    key=f"SECTOR SELF REGISTERED: {adef_key};{sector_type}",
+                    key=f"SECTOR AREA_DEF: {adef_key};{sector_type}",
                 )
-                if presector_data:
-                    # window start/end time override hours before/after sector time.
-                    sect_xarrays = sector_xarrays(
-                        pad_sect_xarrays,
-                        area_def,
-                        varlist=curr_variables,
-                        hours_before_sector_time=6,
-                        hours_after_sector_time=9,
-                        drop=True,
-                        window_start_time=window_start_time,
-                        window_end_time=window_end_time,
-                    )
-                else:
-                    sect_xarrays = pad_sect_xarrays
+                # window start/end time override hours before/after sector time.
+                sect_xarrays = sector_xarrays(
+                    pad_sect_xarrays,
+                    area_def,
+                    varlist=curr_variables,
+                    hours_before_sector_time=6,
+                    hours_after_sector_time=9,
+                    drop=True,
+                    window_start_time=window_start_time,
+                    window_end_time=window_end_time,
+                )
                 pid_track.track_resource_usage(
                     logstr="MEMUSG",
                     verbose=False,
-                    key=f"SECTOR SELF REGISTERED: {adef_key};{sector_type}",
+                    key=f"SECTOR AREA_DEF: {adef_key};{sector_type}",
                 )
             else:
+                LOG.interactive(
+                    "NOT sectoring xarrays for area_def '%s' type %s, presector %s",
+                    area_def.area_id,
+                    area_def.sector_type,
+                    presector_data,
+                )
                 sect_xarrays = pad_sect_xarrays
 
             pid_track.print_mem_usg(logstr="MEMUSG", verbose=False)
@@ -1570,7 +1610,7 @@ def call(fnames, command_line_args=None):
             if len(sect_xarrays) == 0:
                 LOG.interactive(
                     "SKIPPING no area_def sect_xarrays returned for %s",
-                    area_def.description,
+                    area_def.area_id,
                 )
                 continue
 
@@ -1985,7 +2025,13 @@ def call(fnames, command_line_args=None):
                             else:
                                 rgb_var = None
                             alg_xarray = combine_preproc_xarrays_with_alg_xarray(
-                                pre_proc, alg_xarray, rgb_var=rgb_var
+                                pre_proc,
+                                alg_xarray,
+                                rgb_var=rgb_var,
+                                covg_plugin=covg_plugin,
+                                covg_varname=covg_varname,
+                                area_def=area_def,
+                                covg_args=covg_args,
                             )
                             comp_covg = covg_plugin(
                                 alg_xarray, covg_varname, area_def, **covg_args
@@ -2101,8 +2147,11 @@ def call(fnames, command_line_args=None):
         if cpath != "no_comparison":
             from geoips.interfaces.module_based.output_checkers import output_checkers
 
+            checker_override = command_line_args["output_checker_name"]
             for output_product in final_products[cpath]["files"]:
-                plugin_name = output_checkers.identify_checker(output_product)
+                plugin_name = output_checkers.identify_checker(
+                    output_product, checker_override
+                )
                 output_checker = output_checkers.get_plugin(plugin_name)
                 kwargs = {}
                 if output_checker.name in output_checker_kwargs:
@@ -2135,6 +2184,13 @@ def call(fnames, command_line_args=None):
         elif cpath != "no_comparison":
             LOG.info("SUCCESSFUL COMPARISON DIR: %s\n", cpath)
             successful_comparison_dirs = successful_comparison_dirs + 1
+        for filename in final_products[cpath]["files"]:
+            LOG.interactive(
+                "    \u001b[34mCONFIGSUCCESS\033[0m %s",
+                filename,
+            )
+            if filename in final_products[cpath]["database writes"]:
+                LOG.interactive("    DATABASESUCCESS %s", filename)
         for filename in final_products[cpath]["files"]:
             LOG.interactive(
                 "    \u001b[34mCONFIGSUCCESS\033[0m %s",
@@ -2182,7 +2238,7 @@ def call(fnames, command_line_args=None):
                     )
 
     mem_usage_stats = pid_track.print_mem_usg(logstr="MEMUSG", verbose=True)
-    LOG.interactive("READER_NAME: %s", config_dict["reader_name"])
+    LOG.interactive("READER_NAME: %s", reader_plugin.name)
     num_products = sum(
         [len(final_products[cpath]["files"]) for cpath in final_products]
     )

@@ -85,8 +85,12 @@ if [[ "$decompress_type" == "tgz" ]]; then
             date -u
             echo "   Trying $tgz_fname..."
             if [[ ! -e ${tgz_fname%.*} ]]; then
-                echo "    tar -xzf $tgz_fname -C `dirname $tgz_fname`"
-                tar -xzf $tgz_fname -C `dirname $tgz_fname`
+                echo "    tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`"
+                tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`
+                if [[ "$GEOIPS_TEST_DATA_REMOVE_TGZ" == "True" &&  "$?" == "0" ]]; then
+                    echo "Successfully decompressed, removing $tgz_fname"
+                    rm -fv $tgz_fname
+                fi
             else
                 echo "    Already decompressed"
             fi
@@ -98,8 +102,12 @@ if [[ "$decompress_type" == "tgz" ]]; then
             date -u
             echo "   Trying $tgz_fname..."
             if [[ ! -e ${tgz_fname%.*} ]]; then
-                echo "    tar -xzf $tgz_fname -C `dirname $tgz_fname`"
-                tar -xzf $tgz_fname -C `dirname $tgz_fname`
+                echo "    tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`"
+                tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`
+                if [[ "$GEOIPS_TEST_DATA_REMOVE_TGZ" == "True" &&  "$?" == "0" ]]; then
+                    echo "Successfully decompressed, removing $tgz_fname"
+                    rm -fv $tgz_fname
+                fi
             else
                 echo "    Already decompressed"
             fi
@@ -111,8 +119,29 @@ if [[ "$decompress_type" == "tgz" ]]; then
             date -u
             echo "   Trying $tgz_fname..."
             if [[ ! -e ${tgz_fname%.*} ]]; then
-                echo "    tar -xzf $tgz_fname -C `dirname $tgz_fname`"
-                tar -xzf $tgz_fname -C `dirname $tgz_fname`
+                echo "    tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`"
+                tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`
+                if [[ "$GEOIPS_TEST_DATA_REMOVE_TGZ" == "True" && "$?" == "0" ]]; then
+                    echo "Successfully decompressed, removing $tgz_fname"
+                    rm -fv $tgz_fname
+                fi
+            else
+                echo "    Already decompressed"
+            fi
+        done
+    fi
+    echo "Checking for tgz files in $data_path/*/*/*/*.tgz..."
+    if ls $data_path/*/*/*/*.tgz >& /dev/null; then
+        for tgz_fname in $data_path/*/*/*/*.tgz; do
+            date -u
+            echo "   Trying $tgz_fname..."
+            if [[ ! -e ${tgz_fname%.*} ]]; then
+                echo "    tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`"
+                tar --skip-old-files -xzvf $tgz_fname -C `dirname $tgz_fname`
+                if [[ "$GEOIPS_TEST_DATA_REMOVE_TGZ" == "True" &&  "$?" == "0" ]]; then
+                    echo "Successfully decompressed, removing $tgz_fname"
+                    rm -fv $tgz_fname
+                fi
             else
                 echo "    Already decompressed"
             fi

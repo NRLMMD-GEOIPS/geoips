@@ -11,7 +11,7 @@ geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_seviri/data/20250624/120
              --reader_name seviri_hrit \
              --product_name Natural_Color \
              --output_formatter imagery_clean \
-             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.Natural-Color.imagery_clean" \
+             --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/seviri.Natural_Color.imagery_clean" \
              --sector_list global_cylindrical \
              --filename_formatter geoips_fname
 retval=$?

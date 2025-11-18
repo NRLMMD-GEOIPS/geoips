@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Minor bugfixes for readers and algorithms'
+  description: 'Fixes for the amsr2_netcdf reader to read multiple files.
+  Modified the HNCC algorithm to better capture TC imagery. Added a static 
+  sector for Kazakhstan.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/plugins/yaml/sectors/static/kazakh.yaml'
+    modified:
+    - 'geoips/plugins/modules/readers/amsr2_netcdf.py'
+    - 'geoips/plugins/modules/algorithms/visir/HNear_Constant_Contrast.py'
+  date:
+    start: 2025-10-15
+    finish: 2025-10-15
