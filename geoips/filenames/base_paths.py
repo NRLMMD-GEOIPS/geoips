@@ -126,7 +126,6 @@ def initialize_paths():
     # or metadata. This ensures consistent tests and generalized output paths.
     # This GEOIPS_REPLACE_OUTPUT_PATHS is referenced in the following scripts and files:
     # * geoips/geoips/geoips_utils.py
-    # * geoips/tests/utils/check_output_file_list.sh
     # * geoips/tests/integration_tests/test_integration.py
     # * geoips/geoips/filenames/base_paths.py
     replace_output_paths = get_env_var(
