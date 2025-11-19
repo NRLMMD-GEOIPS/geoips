@@ -728,7 +728,6 @@ class _SectorPluginUnion(
 ):
     """Private root model to unpack via SectorPluginModel."""
 
-    # root: Union[StaticSectorPluginModel, DynamicSectorPluginModel]
     root: Union[DynamicSectorPluginModel, StaticSectorPluginModel]
 
 
