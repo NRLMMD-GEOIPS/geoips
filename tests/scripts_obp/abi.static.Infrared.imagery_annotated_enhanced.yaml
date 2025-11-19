@@ -10,78 +10,32 @@ interface: workflows
 family: order_based
 name: read_test_v1
 product_name: Infrared
-docstring: |
-  11.2 µm Infrared.
-
-  This product utilizes channel 14 (11.2 µm) and highlights areas of deep convection within a Tropical Cyclone.
-description: 11.2 µm Infrared.
+docstring: To be added.
+description: To be added.
 spec:
-  log_level: info # add for now; non-functional 
-  # in future, we can add it at each step level 
+  log_level: info
   steps:
     reader:
       kind: reader
-      name: abi_l2_netcdf
+      name: abi_netcdf
       arguments: {
-        resampled_read: true,
-        self_register: LOW,
-        self_register_dataset: Full-Disk / DNB / IMAGER / 1KM / LOW,
-          # JN: there should be mid, high, moderate, conus 
-          # Find why they are used; used by single source but not by readers
-        self_register_source: ami  / viirs / ssmis / modis / fci
-          # 
+        resampled_read: true
       }
-    coverage_checker:
-      kind: coverage_checker
-      name: 
-      arguments: {
-        minimum_coverage: 0
-      }
-    interpolator:
-      kind:
-      name:
-      arguments: {
-        sector: ['goes_east']
-        # for now, it would only take one sector
-        # there should be a split operator that would
-        # split the operation based on number of sectors 
-        # in the sector list 
-      }
-    trackfile_parser:
-      kind: trackfile_parser
-      name: bdeck_parser
-      trackfiles: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bsh252020.dat
-      JQ: Should we ask Evan for implementing this plugin / pydantic model as part of PR #1122 
-      JQ: Priority: low
+    sector:
+      kind: sector
+      name: ['goes_east']
     filename_formatter:
       kind: filename_formatter
       name: geoips_fname
-      arguments: {
-        # filename_formatter_kwargs: {}
-        # should be used to overlay arguments here 
-        }
     output_formatter:
       kind: output_formatter
-      name: imagery_windbarbs
+      name: imagery_annotated
       arguments: {
         feature_annotator: default_oldlace, 
         gridline_annotator: default_palegreen,
-        # output_formatter_kwargs: '{"x_size": "1000", "y_size": "1000"}'
-        # should be used to overlay or update arguments here 
-        # nest dict
       }
-    metadata_filename_formatter:
-      kind: metadata_filename_formatter
-      name: metadata_default_name
-      # arguments: metadata_filename_formatter_kwargs '{}'
-      # should be used to overlay
-    metadata_output_formatter:
-      kind: metadata_output_formatter
-      name: metadata_default_name
-      # arguments: metadata_output_formatter_kwargs '{}' 
-      # should be used to overlay
     output_checker:
       kind: output_checker
       name: 
       arguments:
-        compare_path: "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_windbarbs"
+        compare_path: "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated_enhanced"
