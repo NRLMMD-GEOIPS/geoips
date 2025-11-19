@@ -80,6 +80,14 @@ class TestCaseModel(BaseModel):
     key: str = Field(..., description="Path to the attribute being mutated.")
     val: Any = Field(..., description="The value to set for the given key.")
     cls: object = Field(..., description="The name of the model expected to fail.")
+    loc: Tuple = Field(
+        None,
+        description=(
+            "Optional tuple which depicts the exact location of the failing "
+            "field. Sometimes needed for models which can take various forms (I.e. "
+            "sector plugins)."
+        ),
+    )
     err_str: str = Field(
         ..., description="Expected error message fragment for the ValidationError."
     )
@@ -382,6 +390,7 @@ def validate_bad_plugin(
         # reported, or, if no failing model could be associated with this error, we
         # just default to the last error reported.
         errors = e.errors()
+
         if len(e.errors()) > 1:
             val_err = _attempt_to_associate_model_with_error(failing_model, errors)
         else:
@@ -397,7 +406,6 @@ def validate_bad_plugin(
             bad_field = val_err["loc"][-1]
 
         err_msg = val_err["msg"]
-
         model_class = _resolve_model_class(failing_model)
 
         if model_class:
@@ -405,10 +413,13 @@ def validate_bad_plugin(
             # provides both 'family' and 'product_default' keys, or when a plugin is
             # added to a single product plugin's arguments that doesn't adhere to the
             # family it falls under.
-            assert (
-                bad_field in model_class.model_fields
-                or bad_field == model_class.__name__
-            ), f"Field '{bad_field}' not found in model '{failing_model}'"
+            if test_tup.loc is not None:
+                assert test_tup.loc == val_err["loc"]
+            else:
+                assert (
+                    bad_field in model_class.model_fields
+                    or bad_field == model_class.__name__
+                ), f"Field '{bad_field}' not found in model '{failing_model}'"
         if err_str:
             assert (
                 err_str in err_msg or err_str == err_msg

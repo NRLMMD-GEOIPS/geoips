@@ -16,7 +16,6 @@ class WorkflowsInterface(BaseYamlInterface):
 
     name = "workflows"
     validator = WorkflowPluginModel
-    # use_pydantic = True
 
 
 workflows = WorkflowsInterface()

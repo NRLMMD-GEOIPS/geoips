@@ -9,17 +9,17 @@ from pydantic import (
     Field,
     ConfigDict,
     field_validator,
-    # RootModel,
+    RootModel,
 )
 from pydantic.functional_validators import AfterValidator
 
 from geoips.pydantic_models.v1.bases import (
     FrozenModel,
     PermissiveFrozenModel,
-    # DynamicModel,
-    # PermissiveDynamicModel,
+    DynamicModel,
+    PermissiveDynamicModel,
     PluginModel,
-    # PythonIdentifier,
+    PythonIdentifier,
 )
 
 
@@ -605,10 +605,10 @@ class VolcanoMetadata(FrozenModel):
     ]
 
 
-class SectorPluginModel(PluginModel):
+class StaticSectorPluginModel(PluginModel):
     """Static sector plugin format."""
 
-    model_config = ConfigDict(extra="allow")
+    # model_config = ConfigDict(extra="allow")
     spec: AreaDefinitionSpec = Field(
         ...,
         description=(
@@ -658,67 +658,90 @@ class SectorPluginModel(PluginModel):
         return value
 
 
-# class SectorSpecGenerator(PermissiveDynamicModel):
-#     """The format of the name and arguments for a sector spec generator plugin."""
+class SectorSpecGenerator(PermissiveDynamicModel):
+    """The format of the name and arguments for a sector spec generator plugin."""
 
-#     name: PythonIdentifier = Field(
-#         ...,
-#         description="The name of the sector_spec_generator plugin to use.",
-#     )
-#     arguments: dict = Field(
-#         ...,
-#         description=(
-#             "A dictionary of arguments to provide to the sector_spec_generator plugin. "  # NOQA
-#             "If an empty dictionary is provided, the default arguments for that plugin "  # NOQA
-#             "will be used in place."
-#         ),
-#     )
-
-
-# class DynamicSectorSpec(DynamicModel):
-#     """The format of a dynamic sector's 'spec' field."""
-
-#     sector_spec_generator: SectorSpecGenerator = Field(
-#         ...,
-#         description=(
-#             "A field containing the name of the sector_spec_generator to use and the "
-#             "arguments to provide to it."
-#         ),
-#     )
+    name: PythonIdentifier = Field(
+        ...,
+        description="The name of the sector_spec_generator plugin to use.",
+    )
+    arguments: dict = Field(
+        ...,
+        description=(
+            "A dictionary of arguments to provide to the sector_spec_generator plugin. "
+            "If an empty dictionary is provided, the default arguments for that plugin "
+            "will be used in place."
+        ),
+    )
 
 
-# class DynamicSectorPluginModel(PluginModel):
-#     """Dynamic sector plugin format."""
+class DynamicSectorSpec(DynamicModel):
+    """The format of a dynamic sector's 'spec' field."""
 
-#     model_config = ConfigDict(extra="allow")
+    sector_spec_generator: SectorSpecGenerator = Field(
+        ...,
+        description=(
+            "A field containing the name of the sector_spec_generator to use and the "
+            "arguments to provide to it."
+        ),
+    )
+    # These are not required nor should be implemented for DynamicSectorPluginModels.
+    # These are only implemented due to the Union operator (used to detect static vs
+    # dynamic sector models) as pydantic will attempt to coerce a potential dynamic
+    # sector model into a static sector model. Most of the time we can check if
+    # 'sector_spec_generator' exists within the model's spec and just return before
+    # setting 'area_id' and 'description', however, if 'sector_spec_generator' is
+    # (as is the case in one of our unit tests), then we need to optionally allow these
+    # to be set and just ignore them.
+    area_id: str = Field(
+        None,
+        description=(
+            "A name for the resulting pyresample AreaDefinition. "
+            "Defaults to the sector's name."
+        ),
+        exclude=True,
+    )
+    description: str = Field(
+        None,
+        description=(
+            "A description for the resulting pyresample AreaDefinition. "
+            "Defaults to the sector's docstring."
+        ),
+        exclude=True,
+    )
 
-#     spec: DynamicSectorSpec = Field(
-#         ...,
-#         description=(
-#             "A field demonstrating how to specify / format your dynamic sector plugin."  # NOQA
-#         ),
-#     )
+
+class DynamicSectorPluginModel(PluginModel):
+    """Dynamic sector plugin format."""
+
+    spec: DynamicSectorSpec = Field(
+        ...,
+        description=(
+            "A field demonstrating how to specify / format your dynamic sector plugin."
+        ),
+    )
 
 
-# # Discriminated Union via RootModel
-# class _SectorPluginUnion(
-#     RootModel[Union[StaticSectorPluginModel, DynamicSectorPluginModel]]
-# ):
-#     """Private root model to unpack via SectorPluginModel."""
+# Discriminated Union via RootModel
+class _SectorPluginUnion(
+    RootModel[Union[DynamicSectorPluginModel, StaticSectorPluginModel]]
+):
+    """Private root model to unpack via SectorPluginModel."""
 
-#     root: Union[StaticSectorPluginModel, DynamicSectorPluginModel]
+    # root: Union[StaticSectorPluginModel, DynamicSectorPluginModel]
+    root: Union[DynamicSectorPluginModel, StaticSectorPluginModel]
 
 
-# class SectorPluginModel:
-#     """The format of a singular product plugin or a list of them."""
+class SectorPluginModel:
+    """The format of a singular product plugin or a list of them."""
 
-#     def __new__(cls, **data):
-#         """Create a new instance of a SectorPluginModel exposing the subclass of root.
+    def __new__(cls, **data):
+        """Create a new instance of a SectorPluginModel exposing the subclass of root.
 
-#         Where root is the attribute used to access either type of model used to
-#         construct a SectorPluginModel.
+        Where root is the attribute used to access either type of model used to
+        construct a SectorPluginModel.
 
-#         I.e. '_SectorPluginUnion(**data).root = Real Model' # NOQA RS210
-#         """
-#         parsed_model = _SectorPluginUnion(**data).root
-#         return parsed_model
+        I.e. '_SectorPluginUnion(**data).root = Real Model' # NOQA RS210
+        """
+        parsed_model = _SectorPluginUnion(**data).root
+        return parsed_model
