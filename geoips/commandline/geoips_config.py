@@ -284,7 +284,7 @@ class GeoipsConfigInstallGithub(GeoipsExecutableCommand):
         call_list = [
             "bash",
             join(
-                geoips.filenames.base_paths.PATHS["GEOIPS_TESTDATA_DIR"],
+                geoips.filenames.base_paths.PATHS["GEOIPS_PACKAGES_DIR"],
                 "geoips",
                 "setup",
                 "check_system_requirements.sh",

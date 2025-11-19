@@ -190,7 +190,12 @@ def read_atmos(filenames, coord_flag=False):
         * xarray formatted to geoips standards
     """
     LOG.info("Reading ATMOS file")
-    xr_list = {"gfs_pressure": [], "gfs_surface": [], "gfs_singlelayer": []}
+    xr_list = {
+        "gfs_pressure": [],
+        "gfs_surface": [],
+        "gfs_singlelayer": [],
+        "gfs_atmosphere": [],
+    }
     base_time = []
     fcst_time = []
     for f in filenames:
@@ -211,9 +216,13 @@ def read_atmos(filenames, coord_flag=False):
         tmp_sl = pg_frame.select(typeOfLevel="atmosphereSingleLayer")
         single_atm_xr = surf_grb_to_xr(tmp_sl, coord_flag=coord_flag)
 
+        tmp_atmos = pg_frame.select(typeOfLevel="atmosphere")
+        atmos_xr = surf_grb_to_xr(tmp_atmos, coord_flag=coord_flag)
+
         xr_list["gfs_pressure"].append(xr_pres)
         xr_list["gfs_surface"].append(surface_xr)
         xr_list["gfs_singlelayer"].append(single_atm_xr)
+        xr_list["gfs_atmosphere"].append(atmos_xr)
 
         # track the analysis and valid forcast date
         base_time.append(tmp_sl[0].analDate)

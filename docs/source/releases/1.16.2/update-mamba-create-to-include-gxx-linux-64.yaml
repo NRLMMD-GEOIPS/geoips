@@ -1,0 +1,18 @@
+installation:
+- title: 'Update linux with conda installation to include gxx_linux-64'
+  description: |
+    gxx_linux-64 required for numpy >= 2.3 and numexpr >= 2.11
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'docs/source/getting-started/installing/linux_with_conda.rst'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-07-09

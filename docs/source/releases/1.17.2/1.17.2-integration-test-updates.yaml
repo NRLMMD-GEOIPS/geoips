@@ -1,0 +1,45 @@
+bug fix:
+- title: 'Allow interactive pytest to make better use of defaults in pytest.ini'
+  description: |
+    * cd to directory when running pytest, do NOT pass path (otherwise,
+      it does not limit itself to unit_tests and integration_tests directories)
+    * Pass "$@" directly to pytest call, so arguments are preserved.
+    * Remove args and geoips-system commands, just use all.
+    * Add -k as well as -m default args for individual commands, to allow filtering
+      with both -k and -m for short, long, required, optional, etc.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/interactive_pytest.sh'
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+  date:
+    start: 2025-10-31
+    finish: 2025-10-31
+- title: 'For test output consistency, unset all WWW output location env vars from test_integration.py setup_environment'
+  description: |
+    For consistency in tests, ensure the output env vars are not set by default in the
+    geoips test_integration.py setup_environment. Add argument to setup_environment
+    requesting the WWW env vars should NOT be unset.  This ensures consistent
+    testing by default, but allows you to explicitly test specific output locations
+    if needed.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+    - 'geoips/geoips_utils.py'
+  related-issue:
+    internal: geoips#959 - 1.17.2 bug fixes
+  date:
+    start: 2025-10-31
+    finish: 2025-10-31

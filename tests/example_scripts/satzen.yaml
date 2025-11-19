@@ -1,0 +1,49 @@
+# Ensure we do not cut off any of the data, so we can get valid cutoff below.
+reader_kwargs:
+  satellite_zenith_angle_cutoff: null
+
+available_sectors:
+  # These need to be separate sectors so it doesn't try to re-use the
+  # algorithm application.......
+  static_70:
+    sector_list:
+      - global_cylindrical
+  static_null:
+    sector_list:
+      - global_cylindrical
+
+outputs:
+  static_70:
+    requested_sector_type: static_70
+    output_formatter: imagery_annotated
+    gridline_annotator: global
+    filename_formatters: ["geoips_fname"]
+    remove_duplicates: null
+    product_names:
+      - !ENV ${GLOBAL_SATZEN_PRODUCT_BASE}-Day-Night
+      - !ENV ${GLOBAL_SATZEN_PRODUCT_BASE}-Day-Only
+      - !ENV ${GLOBAL_SATZEN_PRODUCT_BASE}-Night-Only
+    product_spec_override:
+      all:
+        algorithm:
+          plugin:
+            arguments:
+              satellite_zenith_angle_cutoff: 70
+    minimum_coverage: 0
+  static_null_cutoff:
+    requested_sector_type: static_null
+    output_formatter: imagery_annotated
+    gridline_annotator: global
+    filename_formatters: ["geoips_fname"]
+    remove_duplicates: null
+    product_names:
+      - !ENV ${GLOBAL_SATZEN_PRODUCT_BASE}-Day-Night
+      - !ENV ${GLOBAL_SATZEN_PRODUCT_BASE}-Day-Only
+      - !ENV ${GLOBAL_SATZEN_PRODUCT_BASE}-Night-Only
+    product_spec_override:
+      all:
+        algorithm:
+          plugin:
+            arguments:
+              satellite_zenith_angle_cutoff: null
+    minimum_coverage: 0

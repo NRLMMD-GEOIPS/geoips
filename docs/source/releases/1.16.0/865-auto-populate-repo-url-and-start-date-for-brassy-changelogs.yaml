@@ -13,7 +13,7 @@ enhancement:
     modified:
     - 'setup/config_release'
   related-issue:
-    internal: GEOIPS#865
+    internal: geoips#865
   date:
     start: 2025-05-23
     finish: 2025-05-23

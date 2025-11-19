@@ -1,0 +1,20 @@
+installation:
+- title: 'Add GEOIPS_SYSTEM_CACHE_DIR as overrideable environment variable in geoips config'
+  description: |
+    This provides a location for all cache files (geoips, satpy, etc) to be stored in
+    a single location, facilitating sharing the cache directory across installations
+    or releases.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'setup/config_geoips'
+  related-issue:
+    internal: GEOIPS#957
+  date:
+    start: 2025-10-03
+    finish: 2025-10-03

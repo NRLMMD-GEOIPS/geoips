@@ -3,6 +3,7 @@
 
 """Utilities for creating a database of tropical cyclone tracks."""
 
+from geoips.errors import FileFormatError
 from geoips.filenames.base_paths import PATHS as gpaths
 import logging
 
@@ -10,8 +11,8 @@ import sqlite3
 
 LOG = logging.getLogger(__name__)
 
-TC_DECKS_DB = gpaths["TC_DECKS_DB"]
-TC_DECKS_DIR = gpaths["TC_DECKS_DIR"]
+TC_DECKS_DB = gpaths["GEOIPS_TC_DECKS_DB"]
+TC_DECKS_DIR = gpaths["GEOIPS_TC_DECKS_DIR"]
 
 
 def open_tc_db(dbname=TC_DECKS_DB):
@@ -402,6 +403,7 @@ def get_all_storms_from_db(
     """
     from os.path import exists as path_exists
 
+    allowed_aid_types = []
     return_area_defs = []
     connection_cursor, connection = open_tc_db()
     LOG.interactive(
@@ -431,11 +433,22 @@ def get_all_storms_from_db(
         if not path_exists(deck_filename):
             LOG.warning("Deck file does not exist! %s", deck_filename)
             continue
-        area_defs = trackfile_to_area_defs(
-            deck_filename,
-            trackfile_parser=trackfile_parser,
-            tc_spec_template=tc_spec_template,
-        )
+        try:
+            # Deck files are expected to be properly formatted
+            area_defs, allowed_aid_types = trackfile_to_area_defs(
+                deck_filename,
+                trackfile_parser=trackfile_parser,
+                tc_spec_template=tc_spec_template,
+            )
+        except IndexError as e:
+            error_message = (
+                f"Could not parse deck file with {trackfile_parser}: {deck_filename}"
+                "\nThis may be due to a poorly formatted trackfile "
+                "and requires manual inspection"
+            )
+            LOG.error(error_message)
+            raise FileFormatError(error_message) from e
+
         for area_def in area_defs:
             if (
                 area_def.sector_start_datetime > start_datetime
@@ -447,4 +460,4 @@ def get_all_storms_from_db(
                     return_area_defs += [area_def]
     LOG.interactive("%s storms found in time range in tcdb!", len(return_area_defs))
     # return None if no storm matched
-    return return_area_defs
+    return return_area_defs, allowed_aid_types
