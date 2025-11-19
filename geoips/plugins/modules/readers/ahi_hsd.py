@@ -14,6 +14,7 @@ import os
 import re
 from struct import unpack
 from pathlib import Path
+import bz2
 
 # Third-Party Libraries
 import numpy as np
@@ -1156,6 +1157,11 @@ def call_single_time(
                 )
                 continue
         try:
+            with bz2.open(fname, "rb") as file_stream:
+                # The name attribute does not get set and we need it
+                file_stream.name = fname
+                all_metadata[fname] = _get_metadata(file_stream)
+        except OSError as resp:
             with open(fname, "rb") as file_stream:
                 all_metadata[fname] = _get_metadata(file_stream)
         except IOError as resp:
@@ -1213,8 +1219,8 @@ def call_single_time(
 
     if len(list(res_md.keys())) == 0:
         raise ValueError(
-            "No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: "
-            f"{fnames}"
+            "No valid files found in list, make sure they are .DAT or "
+            f".DAT.bz2: {fnames}"
         )
 
     # Gather metadata
