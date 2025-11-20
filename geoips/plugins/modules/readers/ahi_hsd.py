@@ -14,7 +14,7 @@ import os
 import re
 from struct import unpack
 from pathlib import Path
-import bz2
+import bz2   
 
 # Third-Party Libraries
 import numpy as np
@@ -1829,3 +1829,6 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         val[error_inds] = BADVALS["Error"]
 
     return data
+
+
+
