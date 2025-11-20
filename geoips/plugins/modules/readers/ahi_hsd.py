@@ -1828,7 +1828,4 @@ def get_data(md, gvars, rad=False, ref=False, bt=False, zoom=1.0):
         val[offdisk_inds] = BADVALS["Off_Of_Disk"]
         val[error_inds] = BADVALS["Error"]
 
-    return data   
-
-
-  
+    return data
