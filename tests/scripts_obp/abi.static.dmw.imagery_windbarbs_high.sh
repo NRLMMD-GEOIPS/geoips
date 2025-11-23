@@ -6,6 +6,7 @@
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
 
+# cspell:ignore DMWVF
 geoips run order_based -w  $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20210929/0000/OR_ABI-L2-DMWVF*.nc \
              --reader_name abi_l2_netcdf \
             #  --product_name DMW-High \
