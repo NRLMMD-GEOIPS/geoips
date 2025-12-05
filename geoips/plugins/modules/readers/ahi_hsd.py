@@ -1529,6 +1529,7 @@ def call_single_time(
                 xobj[varname].attrs["channel_number"] = int(varname[1:3])
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+        # Test linters change
         # if hasattr(xobj, 'area_definition') and xobj.area_definition is not None:
         #     xobj.attrs['interpolation_radius_of_influence'] =
         #     max(xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y)
