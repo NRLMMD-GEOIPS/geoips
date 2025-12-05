@@ -1161,7 +1161,7 @@ def call_single_time(
                 # The name attribute does not get set and we need it
                 file_stream.name = fname
                 all_metadata[fname] = _get_metadata(file_stream)
-        except OSError as resp:
+        except OSError:
             with open(fname, "rb") as file_stream:
                 all_metadata[fname] = _get_metadata(file_stream)
         except IOError as resp:
