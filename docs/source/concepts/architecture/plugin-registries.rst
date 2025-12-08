@@ -57,7 +57,7 @@ definition for ``denver``
     abspath: /local/home/user/geoips/geoips_packages/geoips/geoips/plugins/yaml/sectors/static/denver.yaml
     package: geoips
 
-when 'create_plugin_registries' is ran, an entry representing sector-plugin
+when ``geoips config create-registries`` is ran, an entry representing sector-plugin
 'denver' will be added to the registry at the path ``"yaml_based/sectors/denver"``
 as shown below:
 

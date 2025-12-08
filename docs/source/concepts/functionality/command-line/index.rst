@@ -629,7 +629,7 @@ An additional output directory can be specified with ``--outdir``. For example:
 
     geoips test sector <sector_name> --outdir <output_directory_path>
 
-After creating a new sector plugin, run ``create_plugin_registries``
+After creating a new sector plugin, run ``geoips config create-registries``
 to add the sector to your registry.
 
 Once added, this command can produce an image to
