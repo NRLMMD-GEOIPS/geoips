@@ -7,9 +7,8 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
-run_procflow \
+geoips run single_source \
     $GEOIPS_TESTDATA_DIR/test_data_arctic_weather_satellite/data/20250416/W_NO-KSAT-Tromso%2CSAT%2CAWS1-MWR-1B-RAD_C_OHB__20250416161751_G_O_20250416142833_20250416160447*.nc \
-    --procflow single_source \
     --reader_name aws_netcdf \
     --product_name TB89 \
     --filename_formatter geoips_fname  \
