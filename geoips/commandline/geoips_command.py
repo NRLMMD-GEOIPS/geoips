@@ -277,7 +277,10 @@ class GeoipsCommand(abc.ABC):
                 # command which has epilog text, which in this case, is a warning saying
                 # this procflow is in development and is subject to change at any time
                 if self.name == "order_based":
-                    epilog = self.warning
+                    if PATHS["NO_COLOR"]:
+                        epilog = self.warning_no_color
+                    else:
+                        epilog = self.warning_with_color
                 else:
                     epilog = None
                 # If the command's name exists w/in the alias mapping, then
