@@ -12,8 +12,8 @@ EVERY currently installed plugin package. A separate registered_plugins.json is
 created at the top level package directory for each plugin package.
 """
 
-import warnings
-import yaml
+from argparse import ArgumentParser
+import logging
 from importlib import metadata, resources, util, import_module
 from inspect import signature
 from os.path import (
@@ -26,12 +26,15 @@ from os.path import (
     relpath as os_relpath,
 )
 from os import remove
+from pathlib import Path
 import re
-import logging
+import warnings
+
+import json
+import yaml
+
 import geoips.interfaces
 from geoips.errors import PluginRegistryError
-import json
-from argparse import ArgumentParser
 
 
 LOG = logging.getLogger(__name__)
@@ -476,6 +479,12 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
     for plugin_type in plugin_paths:
         # Loop through each file of the current plugin type.
         for filepath in plugin_paths[plugin_type]:
+            # If any 'part' of the full filepath starts with a '.' (dot) directory or
+            # file, do not use this filepath. Just continue to the next filepath
+            # provided.
+            if any([str(part).startswith(".") for part in Path(filepath).parts]):
+                continue
+
             filepath = str(filepath)
             # Path relative to the package directory
             relpath = os_relpath(filepath, start=package_dir)
