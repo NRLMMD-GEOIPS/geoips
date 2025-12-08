@@ -34,6 +34,28 @@ import platformdirs
 LOG = logging.getLogger(__name__)
 
 
+def cast_to_bool(value):
+    """Cast the environment variable with value 'value' to a boolean.
+
+    For example, if the variable was 'GEOIPS_REBUILD_REGISTRIES' and its value was '0',
+    then this variable would be cast as a False boolean.
+
+    Parameters
+    ----------
+    value: Any
+        - The value of an environment variable.
+
+    Returns
+    -------
+    value: bool
+        - The boolean casted value of the corresponding environment variable.
+    """
+    if value == "0" or value == "False" or value == "false":
+        return False
+    else:
+        return True
+
+
 def get_env_var(var_name, default, rstrip_path=True):
     """Retrieve environment variable or provided default, optionally rstrip a '/'.
 
@@ -111,6 +133,10 @@ def initialize_paths():
         "GEOIPS_REBUILD_REGISTRIES",
         True,
     )
+    paths["NO_COLOR"] = get_env_var(
+        "NO_COLOR",
+        True,
+    )
     paths["GEOIPS_DATA_CACHE_DIR"] = get_env_var(
         "GEOIPS_DATA_CACHE_DIR",
         os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "geoips"),
@@ -119,12 +145,10 @@ def initialize_paths():
         "SATPY_DATA_CACHE_DIR", os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "satpy")
     )
     # Convert the string to a bool
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "False":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
-    if paths["GEOIPS_REBUILD_REGISTRIES"] == "false":
-        paths["GEOIPS_REBUILD_REGISTRIES"] = False
+    paths["GEOIPS_REBUILD_REGISTRIES"] = cast_to_bool(
+        paths["GEOIPS_REBUILD_REGISTRIES"]
+    )
+    paths["NO_COLOR"] = cast_to_bool(paths["NO_COLOR"])
 
     # Identify defaults for global GeoIPS variables.  The actual values for
     # these variables will be set using get_env_var below.
@@ -239,6 +263,10 @@ def initialize_paths():
             "GEOIPS_REBUILD_REGISTRIES_TRUE": True,
             "GEOIPS_REBUILD_REGISTRIES_FALSE": False,
         },
+        paths["NO_COLOR"]: {
+            "NO_COLOR_TRUE": True,
+            "NO_COLOR_FALSE": False,
+        },
     }
 
     # looping through all the directory-based paths and global variables set above
@@ -253,7 +281,7 @@ def initialize_paths():
         sub_directories,
     ) in default_derivative_directory_path_defaults.items():
         for key, sub_path in sub_directories.items():
-            if "GEOIPS_REBUILD_REGISTRIES" in key:
+            if "GEOIPS_REBUILD_REGISTRIES" in key or "NO_COLOR" in key:
                 paths[key] = get_env_var(key, sub_path, rstrip_path=False)
             else:
                 paths[key] = get_env_var(key, os.path.join(top_directory, sub_path))

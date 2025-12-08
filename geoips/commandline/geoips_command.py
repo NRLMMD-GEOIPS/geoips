@@ -22,6 +22,7 @@ import yaml
 
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
+from geoips.filenames.base_paths import PATHS
 
 
 class PluginPackages:
@@ -513,11 +514,18 @@ class GeoipsExecutableCommand(GeoipsCommand):
                     key = "GeoIPS Package"
                 elif key == "Relpath":
                     key = "Relative Path"
-                formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
-                formatted_line += Fore.YELLOW + value + Style.RESET_ALL
+
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"{key}:{value}"
+                else:
+                    formatted_line = Fore.CYAN + key + ":" + Style.RESET_ALL
+                    formatted_line += Fore.YELLOW + value + Style.RESET_ALL
                 print(formatted_line)
             else:
-                formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
+                if PATHS["NO_COLOR"]:
+                    formatted_line = f"\t{line}"
+                else:
+                    formatted_line = "\t" + Fore.YELLOW + line + Style.RESET_ALL
                 print(formatted_line)
 
     def _get_registry_by_interface_and_package(self, interface, package_name):
