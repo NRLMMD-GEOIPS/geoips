@@ -3,7 +3,8 @@ testing:
   description: |
     We have unit tests for every GeoIPS CLI command and the test module for 'geoips list
     test-datasets' needs updated. This is a simple update to the hardcoded values for
-    our test datasets. No logic was modified, just the hardcoded values.
+    our test datasets. We now retrieve the appropriate list of test dataset names in the
+    same manner we do for the actual CLI command.
   files:
     modified:
       - tests/unit_tests/commandline/cli_top_level_tester.py
