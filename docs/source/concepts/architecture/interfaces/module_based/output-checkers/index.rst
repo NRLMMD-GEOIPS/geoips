@@ -59,8 +59,7 @@ Example command:
 
 .. code-block:: bash
 
-    run_procflow $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
-                 --procflow single_source \
+    geoips run single_source $GEOIPS_TESTDATA_DIR/test_data_noaa_aws/data/goes16/20200918/1950/* \
                  --reader_name abi_netcdf \
                  --product_name Infrared \
                  --compare_path "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated" \

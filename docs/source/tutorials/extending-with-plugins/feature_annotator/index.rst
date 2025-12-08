@@ -127,9 +127,8 @@ annotator
 
 .. code-block:: bash
 
-  run_procflow \
+  geoips run single_source \
       $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-      --procflow single_source \
       --reader_name clavrx_hdf4 \
       --product_name My-Cloud-Depth \
       --output_formatter imagery_annotated \
