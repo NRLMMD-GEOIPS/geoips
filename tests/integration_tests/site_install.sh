@@ -27,7 +27,7 @@ fi
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo template_basic_plugin $test_exit $install_script
 geoips config install test_data_amsub test_data_atms test_data_arctic_weather_satellite test_data_cygnss test_data_fci \
                       test_data_gfs test_data_tpw test_data_clavrx test_data_modis test_data_saphir \
-                      test_data_fusion test_data_smos 
+                      test_data_fusion test_data_smos
 
 if [[ "$include_reference_repos" == "true" ]]; then
   # Currently these need to be installed in this order, until the fortran pyproject.toml builds are working.
@@ -47,4 +47,4 @@ if [[ "$include_reference_repos" == "true" ]]; then
   # . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github test_data_mint_analysis $test_exit $install_script
 fi
 
-create_plugin_registries
+geoips config create-registries
