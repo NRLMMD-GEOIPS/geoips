@@ -12,6 +12,9 @@ enhancement:
     variable is enabled, pytest will no longer color its terminal output.
   files:
     modified:
+      - docs/source/concepts/configuration/index.rst
+      - docs/source/concepts/functionality/command-line/index.rst
+      - docs/source/concepts/index.rst
       - geoips/commandline/commandline_interface.py
       - geoips/commandline/geoips_command.py
       - geoips/commandline/geoips_run.py
