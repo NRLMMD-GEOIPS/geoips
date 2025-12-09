@@ -1,0 +1,25 @@
+enhancement:
+- title: 'Add NO_COLOR Environment Variable to GeoIPS'
+  description: |
+    The GeoIPS CLI has a few commands which can produce output that is colored
+    differently than most terminal text. We do this via the 'colorama' package, however,
+    we did not have a setting to disable colored terminal output if wanted. We took in
+    consideration what other software packages have implemented and decided to reinforce
+    that standard by implementing a new 'NO_COLOR' environment variable. If set to True,
+    then GeoIPS will no longer produce colored output via the terminal. Keep in mind
+    that since this variable commonly used among software packages, setting NO_COLOR to
+    True may impact packages outside the scope of GeoIPS. For example, when this
+    variable is enabled, pytest will no longer color its terminal output.
+  files:
+    modified:
+      - geoips/commandline/commandline_interface.py
+      - geoips/commandline/geoips_command.py
+      - geoips/commandline/geoips_run.py
+      - geoips/commandline/geoips_tree.py
+      - geoips/filenames/base_paths.py
+  related-issue:
+    number: 1082
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 12/08/2025
+    finish: 12/09/2025
