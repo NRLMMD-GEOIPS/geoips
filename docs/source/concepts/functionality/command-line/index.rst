@@ -760,7 +760,7 @@ For example, running ``geoips tree`` returns:
 
 ``geoips tree`` provides arguments to filter its output.
 
-* ``--color``: highlights output by depth
+* ``--color``: highlights output by depth (Environment variable 'NO_COLOR' must be disabled)
 
 * ``--max-depth``: limits tree levels outputted. Defaults to two levels.
 

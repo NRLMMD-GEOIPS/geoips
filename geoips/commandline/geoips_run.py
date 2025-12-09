@@ -11,6 +11,7 @@ from colorama import Fore, Style
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
+from geoips.filenames.base_paths import PATHS
 from geoips.interfaces import procflows
 from geoips.utils.context_managers import import_optional_dependencies
 
@@ -124,7 +125,7 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
     name = "order_based"
     command_classes = []
-    warning = (
+    warning_with_color = (
         Fore.RED
         + "\nWARNING: "
         + Fore.YELLOW
@@ -132,6 +133,10 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         + "change. This warning will be removed once this command is "
         + "stable.\n"
         + Style.RESET_ALL
+    )
+    warning_no_color = (
+        "\nWARNING: `geoips run order_based` is experimental and is subject to change. "
+        "This warning will be removed once this command is stable.\n"
     )
 
     def add_arguments(self):
@@ -159,7 +164,11 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         workflow = args.workflow
         obp = procflows.get_plugin("order_based")
         obp(workflow, args.filenames, args)
-        print(self.warning)
+
+        if PATHS["NO_COLOR"]:
+            print(self.warning_no_color)
+        else:
+            print(self.warning_with_color)
 
 
 class GeoipsRunSingleSource(GeoipsExecutableCommand):
