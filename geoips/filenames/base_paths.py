@@ -148,6 +148,10 @@ def initialize_paths():
     paths["GEOIPS_REBUILD_REGISTRIES"] = cast_to_bool(
         paths["GEOIPS_REBUILD_REGISTRIES"]
     )
+    # NOTE: Environment variable 'NO_COLOR' will disable any colored output from the
+    # terminal, even if it's not produced via GeoIPS. For example, if this is set to
+    # True in your bashrc, even pytest output will be monochrome. We chose this variable
+    # name as it is consistent with the settings that other software packages use.
     paths["NO_COLOR"] = cast_to_bool(paths["NO_COLOR"])
 
     # Identify defaults for global GeoIPS variables.  The actual values for
