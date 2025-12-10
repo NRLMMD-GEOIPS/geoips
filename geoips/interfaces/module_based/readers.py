@@ -94,9 +94,11 @@ class ReadersInterface(BaseModuleInterface):
         for x in fnames:
             try:
                 all_file_metadata.append(
-                    read_single_time_func([x], metadata_only=True, chans=chans)[
-                        "METADATA"
-                    ]
+                    read_single_time_func(
+                        [x],
+                        metadata_only=True,
+                        chans=chans,
+                    )["METADATA"]
                 )
                 updated_fnames += [x]
             except NoValidFilesError:

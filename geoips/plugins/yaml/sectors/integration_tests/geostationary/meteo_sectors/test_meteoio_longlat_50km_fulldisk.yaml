@@ -1,0 +1,72 @@
+interface: sectors
+family: area_definition_static
+name: test_meteoio_longlat_50km_fulldisk
+docstring: |
+  The test datasets corresponding to these sectors can be found in the
+  test_data_seviri test data repository.
+
+  Note the METEO-IO satellite location refers to the following METEOSAT satellites
+
+  * MSG-1 (aka METEOSAT-8, sensor SEVIRI)
+  * MSG-2 (aka METEOSAT-9, sensor SEVIRI)
+
+  '''
+  geoips config install test_data_seviri
+  '''
+
+  METEO-IO coverage, EPSG:4326 with prime meridian at 45.5
+
+  ~50km resolution, 150 deg long x 144 deg lat, 310x300, centered on 45.5
+
+  Low resolution full disk test sector for METEO-IO test processing that is not
+  dependent specific meteorological features or time of day within the dataset.
+
+  Note METEO-IO can refer to the following satellites
+
+  * MSG-1 (aka METEOSAT-8, SEVIRI sensor)
+  * MSG-2 (aka METEOSAT-9, SEVIRI sensor)
+metadata:
+  region:
+    continent: Tests
+    country: x
+    area: Goes_East
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: test_meteoio_longlat_50km_fulldisk
+  description: |
+    METEO-IO coverage, EPSG:4326 with prime meridian at 45.5
+
+    ~50km resolution, 150 deg long x 144 deg lat, 310x300, centered on 45.5
+
+    Low resolution full disk test sector for METEO-IO test processing that is not
+    dependent specific meteorological features or time of day within the dataset.
+
+    The test datasets corresponding to these sectors can be found in the
+    test_data_seviri test data repository.
+
+    Note the METEO-IO satellite location refers to the following METEOSAT satellites
+
+    * MSG-1 (aka METEOSAT-8, sensor SEVIRI)
+    * MSG-2 (aka METEOSAT-9, sensor SEVIRI)
+
+    '''
+    geoips config install test_data_seviri
+    '''
+  projection:
+    lat_0: 0
+    lon_0: 0
+    pm: 45.5
+    proj: longlat
+    datum: "WGS84"
+  shape:
+    height: 300
+    width: 310
+  # This is wrt -75.2 prime meridian being "0"
+  # Units are degrees, so xy in degrees not meters
+  # 150 deg x 144 deg sector, ~16650km x 15984km,
+  # 310x300 pixels, ~50km x 50km res
+  area_extent:
+    lower_left_xy: [-75, -72]
+    upper_right_xy: [75, 72]

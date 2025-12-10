@@ -1,0 +1,21 @@
+bug fix:
+- title: 'Provide empty line and sample index definitions for full disk reads'
+  description: |
+    Radiance retrievals pass in line and sample indices even when retrieving
+    the full disk, but those variables were only defined for non-full disk
+    reads. Defining full disk versions as empty lists so that radiance
+    retrieval succeeds.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-18
+    finish: 2025-06-18

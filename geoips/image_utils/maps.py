@@ -167,9 +167,14 @@ def meridians(area_def, grid_size):
 
     corners = area_def.corners
     lons = [np.rad2deg(corn.lon) for corn in corners]
-    llcrnrlon = lons[3]
-    urcrnrlon = lons[1]
-
+    if area_def.proj_dict["lat_0"] > 0:
+        crn_idx = 0
+        mc_idx = 1
+    else:
+        crn_idx = 3
+        mc_idx = 2
+    llcrnrlon = lons[crn_idx]
+    urcrnrlon = lons[mc_idx]
     # Needed for full disk - need to generalize so it works for both.
     # mlons = np.ma.masked_greater(sector.area_definition.get_lonlats()[0],180)
     # corners = mlons.min(),mlons.max()
@@ -178,10 +183,15 @@ def meridians(area_def, grid_size):
     # urcrnrlon = corners[1]
 
     cent_lon = area_def.proj_dict["lon_0"]
+
     if urcrnrlon < cent_lon < llcrnrlon:
         urcrnrlon += 360
     elif urcrnrlon < llcrnrlon:
         llcrnrlon -= 360
+    # Draw all the lines if over the poles
+    if (area_def.proj_dict["lat_0"] == -90) or (area_def.proj_dict["lat_0"] == 90):
+        llcrnrlon = -180
+        urcrnrlon = 180
 
     min_meridian = ceil(float(llcrnrlon) / gs) * gs
     max_meridian = ceil(float(urcrnrlon) / gs) * gs
@@ -351,6 +361,7 @@ def compute_lat_auto_spacing(area_def):
     minlat = area_def.area_extent_ll[1]
     maxlat = area_def.area_extent_ll[3]
     lat_extent = maxlat - minlat
+
     if lat_extent > 5:
         lat_spacing = int(lat_extent / 5)
     elif lat_extent > 2.5:
@@ -359,6 +370,7 @@ def compute_lat_auto_spacing(area_def):
         lat_spacing = 2
     else:
         lat_spacing = lat_extent / 5.0
+    # LOG.info(f"LAT spacing: {lat_spacing}")
     return lat_spacing
 
 
@@ -366,6 +378,7 @@ def compute_lon_auto_spacing(area_def):
     """Compute automatic spacing for longitude lines based on area definition."""
     minlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[0])
     maxlon = pyresample.utils.wrap_longitudes(area_def.area_extent_ll[2])
+
     if minlon > maxlon and maxlon < 0:
         maxlon = maxlon + 360
     lon_extent = maxlon - minlon
@@ -376,6 +389,7 @@ def compute_lon_auto_spacing(area_def):
         lon_spacing = 1
     else:
         lon_spacing = lon_extent / 5.0
+    # LOG.info(f"LON spacing: {lon_spacing}")
     return lon_spacing
 
 

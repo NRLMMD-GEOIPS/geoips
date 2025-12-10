@@ -60,11 +60,8 @@ build-backend = "poetry_dynamic_versioning.backend"                          # o
 setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.11.0,<3.13.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
-# Note netcdf <1.7.0 didn't seg fault if you did not properly close netcdf files.
-# >= 1.7.0 reasonably DOES seg fault without properly closing netcdf files.
-netcdf4 = ">1.7.0"    # Base requirement >= 1.7.0 works without reader seg faults
-# Note there was a version of numpy 2.x that broke masked datetime64 arrays in smap.
-numpy = ">=2.2.4,<2.3.0"      # Base requirement >=2.2.4 works
+netcdf4 = ">1.7.0"     # Base requirement >= 1.7.0 works without reader seg faults
+numpy = ">=2.3.0"      # Base requirement, 2.2.6 works, 2.3.0 breaks float pyYAML serialization, BUT MINDY FIXED IT
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
@@ -78,7 +75,7 @@ ephem = "*"            # Required for overpass predictor
 h5py = "*"             # hdf5 readers (GMI)
 isodate = "*"          # Required for overpass predictor
 jsonschema = ">4.18.0" # Provides validation for YAML plugins
-numexpr = "*"     # for efficiency improvements
+numexpr = "*"          # for efficiency improvements
 psutil = "*"           # Required for memory checks
 pydantic = ">=2.10.0"  # Data validation using Python type hints
 pyhdf = "*"            # hdf4 readers (MODIS)
@@ -147,6 +144,8 @@ pytest-xdist = { version = "*", optional = true }
 pixelmatch = { version = "*", optional = true }
 # Debug group
 ipython = { version = "*", optional = true }
+# Dev group
+poetry-dynamic-versioning = { version = "*", optional = true }
 
 #[tool.poetry.dev-dependencies]
 # nothing at this stage;
@@ -185,6 +184,9 @@ test = [
     "pytest-xdist",
 ]
 debug = ["ipython"]
+dev = [
+    "poetry-dynamic-versioning",  # Required for updating version in editable mode
+]
 
 [tool.poetry.plugins."geoips.plugin_packages"]
 geoips = "geoips"

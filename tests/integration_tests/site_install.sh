@@ -7,44 +7,52 @@ echo "GEOIPS_MODIFIED_BRANCH: $GEOIPS_MODIFIED_BRANCH"
 
 test_exit=""
 install_script=""
+skip_create_registries="false"
 if [[ "$1" == "exit_on_missing" ]]; then
     test_exit="exit_on_missing"
     install_script="$0"
 fi
-if [[ "$1" == "include_reference_repos" ]]; then
-    include_reference_repos="true"
+if [[ "$2" == "skip_create_registries" ]]; then
+    skip_create_registries="true"
 fi
 
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh geoips_site
-# Includes test_data_amsr2 and geoips repo
-. $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
-# Includes cartopy shapefiles, .vscode repo, and all single-sensor test data repos
+
+# Includes base_install, plus cartopy shapefiles, .vscode repo, and all test data repos required to run tests in geoips repo
 . $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh
+
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo data_fusion $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo recenter_tc $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_plugin_example $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo recenter_tc $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ryglickicane $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo tc_mint $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo template_basic_plugin $test_exit $install_script
-geoips config install test_data_amsub test_data_atms test_data_arctic_weather_satellite test_data_cygnss test_data_fci \
-                      test_data_gfs test_data_tpw test_data_clavrx test_data_modis test_data_saphir \
-                      test_data_fusion test_data_smos 
 
-if [[ "$include_reference_repos" == "true" ]]; then
-  # Currently these need to be installed in this order, until the fortran pyproject.toml builds are working.
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo fortran_utils $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo rayleigh $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ancildat $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo synth_green $test_exit $install_script
-  # The above fortran packages need to be installed BEFORE installing geocolor, lunarref, or true_color
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geocolor $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo lunarref $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo true_color $test_exit $install_script
-  # These may not currently be on github.com
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ryglickicane $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo tc_mint $test_exit $install_script
-  . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github test_data_mint $test_exit $install_script
-  # This one takes forever, skip for now.
-  # . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh test_data_github test_data_mint_analysis $test_exit $install_script
+###########################################
+# DO NOT alphabetize plugin packages in this section.
+# Currently these need to be installed in this order, until the fortran pyproject.toml builds are working.
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo fortran_utils $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo rayleigh $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ancildat $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo synth_green $test_exit $install_script
+# The above fortran packages need to be installed BEFORE installing geocolor, lunarref, or true_color.
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geocolor $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo lunarref $test_exit $install_script
+. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo true_color $test_exit $install_script
+###########################################
+
+# Test data repos required for fully supported plugin packages (above)
+geoips config install template_test_data
+geoips config install test_data_clavrx
+geoips config install test_data_fusion
+geoips config install test_data_geocolor
+geoips config install test_data_mint
+# Takes forever, skip
+# geoips config install test_data_mint_analysis
+
+if [[ "$skip_create_registries" == "true" ]]; then
+    echo "Skipping geoips config create-registries"
+else
+    geoips config create-registries
 fi
-
-create_plugin_registries

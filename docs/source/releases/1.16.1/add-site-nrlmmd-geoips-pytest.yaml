@@ -19,7 +19,7 @@ bug fix:
     modified:
     - 'tests/utils/interactive_pytest.sh'
   related-issue:
-    internal: GEOIPS#861
+    internal: geoips#861
   date:
     start: 2025-06-06
     finish: 2025-06-09

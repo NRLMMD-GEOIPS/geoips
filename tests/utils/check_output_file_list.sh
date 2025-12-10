@@ -4,14 +4,31 @@
 # Default value for copy_dir so script does not fail if copy_dir undefined.
 expected_outputs=${1:-${expected_outputs:-''}}
 copy_dir=${2:-${copy_dir:-''}}
-tmp_outdirs=${3:-${tmp_outdirs:-''}}
 
 echo "expected_outputs: $expected_outputs"
 echo "copy_dir: $copy_dir"
-echo "tmp_outdirs: $tmp_outdirs"
+echo ""
+echo "Call from final directory:"
+echo "bash $0 $expected_outputs $copy_dir"
+echo ""
+echo "Call from temp output file list directory:"
+echo "bash $0 ${expected_outputs/output_file_list/output_file_list_temp_current/} $copy_dir"
+echo ""
+# Ensure all output paths have any defined GEOIPS_REPLACE_OUTPUT_PATHS replaced with
+# the defaults for test consistency.
+# See geoips/geoips/filenames/base_paths.py for more information on
+# GEOIPS_REPLACE_OUTPUT_PATHS
+echo "GEOIPS_REPLACE_OUTPUT_PATHS: $GEOIPS_REPLACE_OUTPUT_PATHS"
+echo "Available output paths:"
+for replace_path_env_var in $GEOIPS_REPLACE_OUTPUT_PATHS; do
+    replace_path=${!replace_path_env_var} 
+    if [[ "${replace_path}" != "" ]]; then
+        echo "    $replace_path_env_var: $replace_path"
+    fi
+done
 
 if [[ ! -f $expected_outputs ]]; then
-    echo "Expected outputs file does not exist, please create before running test: $expected_outputs"
+    echo "Expected outputs file does not exist, please create before comparing output filenames with list: $expected_outputs"
     exit 1
 fi
 
@@ -20,25 +37,25 @@ fi
     echo
     exit_state=0
     while read filename; do
-        # Setting this order up to match geoips/geoips_utils replace_geoips_paths
-        if [[ "$tmp_outdirs" == "" ]]; then
-            fname="${filename/'$GEOIPS_OUTDIRS'/$GEOIPS_OUTDIRS}"
-        else
-            fname="${filename/'$GEOIPS_OUTDIRS'/$tmp_outdirs}"
-        fi
-        fname="${fname/'$TCWWW'/$TCWWW}"
-        fname="${fname/'$PRIVATEWWW'/$PRIVATEWWW}"
-        fname="${fname/'$PUBLICWWW'/$PUBLICWWW}"
-        fname="${fname/'$GEOTIFF_IMAGERY_PATH'/$GEOTIFF_IMAGERY_PATH}"
-        fname="${fname/'$ANNOTATED_IMAGERY_PATH'/$ANNOTATED_IMAGERY_PATH}"
-        fname="${fname/'$CLEAN_IMAGERY_PATH'/$CLEAN_IMAGERY_PATH}"
-        fname="${fname/'$GEOIPS_OUTDIRS'/$GEOIPS_OUTDIRDS}"
+        # Use the list of GEOIPS_REPLACE_OUTPUT_PATHS as specified in the environment.
+        # List must be used for all output metadata and tests to ensure consistency.
+        # Note for python-based processing GEOIPS_REPLACE_OUTPUT_PATHS is automatically
+        # defaulted in geoips/geoips/filenames/base_paths.py, but must be set in the
+        # environment when using this test comparison script.
+        fname=$filename
+        for replace_path_env_var in $GEOIPS_REPLACE_OUTPUT_PATHS; do
+           replace_path=${!replace_path_env_var} 
+           fname="${fname/'$'$replace_path_env_var/$replace_path}"
+        done
+        # Replace non-output-path based env vars.  This should match the order listed
+        # in geoips/geoips_utils.py
+        fname="${fname/'$GEOIPS_OUTDIRS'/$GEOIPS_OUTDIRS}"
         fname="${fname/'$GEOIPS_PACKAGES_DIR'/$GEOIPS_PACKAGES_DIR}"
         fname="${fname/'$GEOIPS_TESTDATA_DIR'/$GEOIPS_TESTDATA_DIR}"
         fname="${fname/'$GEOIPS_DEPENDENCIES_DIR'/$GEOIPS_DEPENDENCIES_DIR}"
         fname="${fname/'$GEOIPS_BASEDIR'/$GEOIPS_BASEDIR}"
         if [[ -f "$fname" ]]; then
-            echo "FOUNDPRODUCT $fname"
+            echo "FOUNDPRODUCT $filename"
             if [[ "$copy_dir" != "" && -d $copy_dir ]]; then
                 copy_fname=`basename $fname`
                 unzipped_fname=""
@@ -76,7 +93,7 @@ fi
                     gzip $unzipped_fname
                 fi
             fi
-        else   
+        else
             ext="${fname##*.}"
             if [[ "$ext" == "gz" ]]; then
                 unzipped_fname="${fname%.*}"
@@ -86,11 +103,12 @@ fi
                 fi
             fi
             echo "*******************************************"
-            echo "MISSINGPRODUCT $fname"
+            echo "MISSINGPRODUCT $filename"
             echo "*******************************************"
             exit_state=1
         fi
     done < $expected_outputs
 
 echo "Number outputs expected: "`wc -l $expected_outputs| cut -d " " -f 1`
-echo "Return code for product comparison: $exit_state"
+echo "Return code for output file list comparison: $exit_state"
+exit $exit_state
