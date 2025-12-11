@@ -7,117 +7,18 @@ feature:
     moved:
     - ''
     added:
-    - ''
+    - 'docs/source/releases/latest/1206-Introduce-OBP-workflows.yaml'
+    - 'tests/scripts_obp/abi.static.Infrared.imagery_annotated_enhanced.yaml'
+    - 'tests/scripts_obp/abi.static.dmw.imagery_windbarbs_high.sh'
+    - 'tests/scripts_obp/abi.static.dmw.imagery_windbarbs_high.yaml'
+    - 'tests/scripts_obp/ssmi.tc.37pct.imagery_clean.sh'
+    - 'tests/scripts_obp/ssmi.tc.37pct.imagery_clean.yaml'
     modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-enhancement:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-deprecation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-removal:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-performance:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-documentation:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
-  related-issue:
-    number: null
-    repo_url: ''
-  date:
-    start: null
-    finish: null
-continuous integration:
-- title: ''
-  description: ''
-  files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
-    modified:
-    - ''
+    - 'docs/source/releases/1.14.5/759-update-tc_decks_database-to-support-b-deck-files-1.yaml'
+    - 'docs/source/releases/1.14.5/770-ingest-amsu-a-datasets-from-mirs-files.yaml'
+    - 'docs/source/releases/1.14.5/773-revert-naming-of-mhs-variables-in-mhs-product-config-and-amsua_mhs_mirs-reader.yaml'
+    - 'docs/source/releases/1.14.5/775-fix-which-version-of-geoips-is-displayed-at-the-command-line.yaml'
+    - 'docs/source/releases/1.16.0/946-handle-singular-and-plural-forms-of-plugins-cleanly.yaml'
   related-issue:
     number: null
     repo_url: ''
