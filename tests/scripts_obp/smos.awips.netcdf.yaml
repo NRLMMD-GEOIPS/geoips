@@ -1,6 +1,8 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+# cspell:ignore cfnoc sdrmi
+
 # Default values - if you do not have this exact test case available, call with available data files / sectors.
 # This exact test case required for valid comparisons - update the "compare_path" argument or remove the output_checker step
 

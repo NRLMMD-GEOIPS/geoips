@@ -1,6 +1,10 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
+#!/bin/bash
+
+# cspell:ignore cfnoc sdrmi
+
 set -eu
 
 geoips run order_based -f $GEOIPS_PACKAGES_DIR/geoips/tests/scripts_obp/smos.awips.netcdf.yaml   \
