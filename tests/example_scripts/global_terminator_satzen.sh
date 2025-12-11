@@ -44,7 +44,7 @@ if [[ "$1" == "" && "$2" == "" && "$3" == "" ]]; then
   exit 1
 fi
 
-reader="$1" 
+reader="$1"
 export GLOBAL_SATZEN_PRODUCT_BASE="$2"
 fnames="$3"
 echo geoips run config_based \
