@@ -1,7 +1,9 @@
+#!/bin/bash
+
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-# cspell:ignore bdecks cfnoc sdrmi tdrmi
+# cspell:ignore cfnoc sdris
 
 set -eu
 
