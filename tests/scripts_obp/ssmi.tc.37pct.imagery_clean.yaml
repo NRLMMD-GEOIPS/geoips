@@ -5,22 +5,19 @@
 
 # This exact test case required for valid comparisons - remove "compare_path" argument if running a different
 # set of arguments.
+# cspell:ignore bdecks cfnoc sdrmi tdrmi
 apiVersion: geoips/v1
 interface: workflows
 family: order_based
 name: read_test_v1
 product_name: Infrared
+test: [$GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def,
+         $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def]
 docstring: |
   37pct.
 
   The 37pct product_defaults configuration for ssmis products.
 description: 37pct.
-interface: product_defaults
-family: interpolator_algorithm_colormapper
-name: 37pct
-docstring: |
-  The 37pct product_defaults configuration.
-
 spec:
   log_level: info 
   steps:
