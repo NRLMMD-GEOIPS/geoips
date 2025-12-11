@@ -11,17 +11,16 @@ interface: workflows
 family: order_based
 name: read_test_v1
 product_name: Infrared
-test: [$GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def,
-         $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def]
+test:
+  - $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def
+  - $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def
 docstring: |
   37pct.
 
   The 37pct product_defaults configuration for ssmis products.
 description: 37pct.
 spec:
-  log_level: info 
-  steps:
-spec:
+  log_level: info
   steps:
     reader:
       kind: reader
@@ -41,7 +40,6 @@ spec:
           norm: null,
           inverse: null,
         }
-    mtif_type: pmw
     colormapper:
       kind: colormapper
       name: pmw_37pct
@@ -54,10 +52,10 @@ spec:
       kind: output_formatter
       name: imagery_clean
       arguments: { }
-    trackfile_parser:
-      kind: trackfile_parser
-      name: bdeck_parser
-      trackfiles: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat 
+    # trackfile_parser:
+    #   kind: trackfile_parser
+    #   name: bdeck_parser
+    #   trackfiles: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat 
     output_checker:
       kind: output_checker
       name: output_checker_default
