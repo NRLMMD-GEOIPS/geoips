@@ -1,8 +1,6 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-# cspell:ignore bdecks cfnoc sdrmi tdrmi
-
 set -eu
 
 geoips run order_based -f "$GEOIPS_PACKAGES_DIR/geoips/tests/scripts_obp/smos.tc.sectored.text_winds.yaml"   \
