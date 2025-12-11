@@ -3,7 +3,7 @@
 
 #!/bin/bash
 
-# cspell:ignore cfnoc sdrmi
+# cspell:ignore sdrmi
 
 set -eu
 
