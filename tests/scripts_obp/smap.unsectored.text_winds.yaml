@@ -1,0 +1,37 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - update the "compare_path" argument or remove the output_checker step
+
+# For reference, bdeck file with coverage is: $GEOIPS_PACKAGES_DIR/geoips/tests/sectored/bwp202021.dat
+# Not used for unsectored output, but potentially for other products
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: read_test_v1
+product_name: unsectored
+test:
+  - $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def
+docstring: The unsectored product_defaults configuration for smap-spd products.
+description: The unsectored product_defaults configuration for smap-spd products.
+spec:
+  log_level: info
+  steps:
+    reader:
+      kind: reader
+      name: smap_remss_winds_netcdf
+      arguments: {variables: ["wind_speed_kts"]}
+    filename_formatter:
+      kind: filename_formatter
+      name: text_winds_full_fname
+      arguments: { }
+    output_formatter:
+      kind: output_formatter
+      name: text_winds
+      arguments: { }
+    output_checker:
+      kind: output_checker
+      name: output_checker_default
+      arguments:
+        compare_path: "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/smap.unsectored.text_winds"

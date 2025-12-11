@@ -1,0 +1,64 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# cspell:ignore bdecks sdrmi
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+# This exact test case required for valid comparisons - update the "compare_path" argument or remove the output_checker step
+
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: read_test_v1
+product_name: Infrared
+# test:
+#   input_files:
+#     - $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.sdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def
+#     - $GEOIPS_TESTDATA_DIR/test_data_ssmi/data/US058SORB-DEFspp.tdrmi_f15_d20200519_s080800_e095300_r05633_cfnoc.def
+docstring: |
+  37pct.
+
+  The 37pct product_defaults configuration for ssmis products.
+description: 37pct.
+spec:
+  log_level: info
+  steps:
+    reader:
+      kind: reader
+      name: ssmi_binary
+      arguments: { }
+    interpolator:
+      kind: interpolator
+      name: interp_gauss
+      arguments: { sigmaval: 10000}
+    algorithm:
+      kind: algorithm
+      name: pmw_37pct
+      arguments: {
+          output_data_range: [230, 280],
+          min_outbounds: crop,
+          max_outbounds: mask,
+          norm: null,
+          inverse: null,
+        }
+    colormapper:
+      kind: colormapper
+      name: pmw_37pct
+      arguments: {data_range: [230, 280]}
+    filename_formatter:
+      kind: filename_formatter
+      name: tc_clean_fname
+      arguments: { }
+    output_formatter:
+      kind: output_formatter
+      name: imagery_clean
+      arguments: { }
+    # trackfile_parser:
+    #   kind: trackfile_parser
+    #   name: bdeck_parser
+    #   trackfiles: $GEOIPS_PACKAGES_DIR/geoips/tests/sectors/tc_bdecks/bio012020.dat 
+    output_checker:
+      kind: output_checker
+      name: output_checker_default
+      arguments:
+        compare_path: "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/ssmi.tc.37pct.imagery_clean"

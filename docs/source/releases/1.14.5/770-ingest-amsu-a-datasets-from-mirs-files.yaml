@@ -16,14 +16,14 @@ bug fix:
     or mhs at the dataset level. i.e. The source name in METADATA.attrs will always be
     amsu-a_mhs, AMSUA.attrs will be amsu-a, and MHS.attrs will be mhs. Due to this
     switching, we had to add amsu-a_mhs as a source input to all amsu-a and mhs product
-    yamls.
+    yaml files.
 
     There was no problem with implementing the varying dataset source name in the single
     source procflow, but it did cause issues with the config based procflow. The config
     based procflow relies on checking the top level METADATA to get the product plugin.
     To solve this problem, we added the ability to loop through all datasets and check
     each source name. This was only a problem in two locations, and while the solution
-    implemented in this pull request works this funtionality should really be toggled
+    implemented in this pull request works this functionality should really be toggled
     (e.g. if METADATA.source_name == multi)
 
     An mhs product YAML previously existed, but it was not actually used. This PR
@@ -49,9 +49,8 @@ bug fix:
     - 'tests/outputs/amsub_mirs.tc.183-3H.imagery_annotated/20210419_235400_WP022021_mhs_metop-a_183-3H_115kts_100p00_1p0.png.yaml'
     - 'tests/scripts/mhs_mirs.tc.183-3H.imagery_annotated.sh'
   related-issue:
-    internal: GEOIPS#770
+    internal: GEOIPS#770 - Replace AMSU-B references with MHS
     number: 770
-    repo_url: 'geoips'
   date:
     start: 2025-03-05
     finish: 2025-03-05

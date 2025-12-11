@@ -1,0 +1,41 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
+# Default values - if you do not have this exact test case available, call with available data files / sectors.
+
+# This exact test case required for valid comparisons - remove "compare_path" argument if running a different
+# set of arguments.
+apiVersion: geoips/v1
+interface: workflows
+family: order_based
+name: read_test_v1
+product_name: Infrared
+docstring: To be added.
+description: To be added.
+spec:
+  log_level: info
+  steps:
+    reader:
+      kind: reader
+      name: abi_netcdf
+      arguments: {
+        resampled_read: true
+      }
+    sector:
+      kind: sector
+      name: ['goes_east']
+    filename_formatter:
+      kind: filename_formatter
+      name: geoips_fname
+    output_formatter:
+      kind: output_formatter
+      name: imagery_annotated
+      arguments: {
+        feature_annotator: default_oldlace, 
+        gridline_annotator: default_palegreen,
+      }
+    output_checker:
+      kind: output_checker
+      name: 
+      arguments:
+        compare_path: "$GEOIPS_PACKAGES_DIR/geoips/tests/outputs/abi.static.<product>.imagery_annotated_enhanced"
