@@ -24,11 +24,16 @@ base_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh",
 ]
 
-# This includes ALL test scripts within the geoips repo itself with available data.
-# This test list should NOT require/test anything in any other plugin package.
-full_integ_test_calls = [
+# Linting integration tests, ensure code and documentation are correctly formatted.
+lint_integ_test_calls = [
     "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath",
     "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only",
+]
+
+# This includes ALL test scripts within the geoips repo itself with available data,
+# excluding the tests under base and lint markers.
+# This test list should NOT require/test anything in any other plugin package.
+full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
@@ -416,6 +421,28 @@ def run_script_with_bash(script, unset_output_path_env_vars=True):
 @pytest.mark.integration
 @pytest.mark.parametrize("script", base_integ_test_calls)
 def test_integ_base_test_script(base_setup: None, script: str):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    setup_environment()
+    run_script_with_bash(script)
+
+
+@pytest.mark.lint
+@pytest.mark.integration
+@pytest.mark.parametrize("script", lint_integ_test_calls)
+def test_integ_lint_test_script(base_setup: None, script: str):
     """
     Run integration test scripts by executing specified shell commands.
 

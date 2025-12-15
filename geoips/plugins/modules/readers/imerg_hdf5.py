@@ -125,23 +125,27 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
         # Older versions of h5py - 2.10.0
         lat = fileobj["Grid"]["lat"].value  # (1800)
         lon = fileobj["Grid"]["lon"].value  # (3600)
-
         rain = fileobj["Grid"]["precipitationCal"].value  # (1,3600,1800)
         rrProb = fileobj["Grid"][
             "probabilityLiquidPrecipitation"
         ].value  # (1,3600,1800)
         rrErr = fileobj["Grid"]["randomError"].value  # (1,3600,1800)
         IRrr = fileobj["Grid"]["IRprecipitation"].value  # (1,3600,1800)
+    elif "Intermediate" in fileobj["Grid"]:
+        lat = fileobj["Grid"]["lat"][:]  # (1800)
+        lon = fileobj["Grid"]["lon"][:]  # (3600)
+        rain = fileobj["Grid"]["precipitation"][:]  # (1,3600,1800)
+        rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][:]  # (1,3600,1800)
+        rrErr = fileobj["Grid"]["randomError"][:]  # (1,3600,1800)
+        IRrr = fileobj["Grid"]["Intermediate"]["IRprecipitation"][:]  # (1,3600,1800)
     else:
         # Newer versions of h5py - 3.2.1
         lat = fileobj["Grid"]["lat"][:]  # (1800)
         lon = fileobj["Grid"]["lon"][:]  # (3600)
-
         rain = fileobj["Grid"]["precipitationCal"][:]  # (1,3600,1800)
         rrProb = fileobj["Grid"]["probabilityLiquidPrecipitation"][:]  # (1,3600,1800)
         rrErr = fileobj["Grid"]["randomError"][:]  # (1,3600,1800)
         IRrr = fileobj["Grid"]["IRprecipitation"][:]  # (1,3600,1800)
-
     lat_2d, lon_2d = np.meshgrid(lat, lon)  # (3600,1800)
 
     # take out the fake additional array of 3d_array (actually 2D array),
@@ -151,10 +155,28 @@ def call(fnames, metadata_only=False, chans=None, area_def=None, self_register=F
     rrErr = np.squeeze(rrErr)
     IRrr = np.squeeze(IRrr)
 
-    start_dt = datetime.utcfromtimestamp(fileobj["Grid"]["time"][...][0])
-    end_dt = start_dt + timedelta(
-        minutes=int(fileobj["Grid"]["HQobservationTime"][...].max())
+    # Deal with potential epoch time changes in data file
+    # The "seconds since" point changed from 1970-01-01 in V06B to 1980-01-06 in V07B
+    seconds_since_datetime = datetime.strptime(
+        fileobj["Grid"]["time"].attrs["units"].astype(str),
+        "seconds since %Y-%m-%d %H:%M:%S UTC",
     )
+    epoch_delta = seconds_since_datetime - datetime(1970, 1, 1)
+    start_dt = datetime.fromtimestamp(fileobj["Grid"]["time"][...][0]) + epoch_delta
+
+    # NOTE: HQobservationTime is used for V06B V06C V06D V06E data through
+    # 31 May 2024 and MWobservationTime is for V07 data beginning 1 June 2024
+    if "HQobservationTime" in fileobj["Grid"]:
+        end_dt = start_dt + timedelta(
+            minutes=int(fileobj["Grid"]["HQobservationTime"][...].max())
+        )
+    elif (
+        "Intermediate" in fileobj["Grid"]
+        and "MWobservationTime" in fileobj["Grid"]["Intermediate"]
+    ):
+        end_dt = start_dt + timedelta(
+            minutes=int(fileobj["Grid"]["Intermediate"]["MWobservationTime"][...].max())
+        )
 
     # close the h5 object
     fileobj.close()
