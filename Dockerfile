@@ -33,8 +33,6 @@ ARG DEBIAN_FRONTEND=noninteractive
     ARG GEOIPS_TESTDATA_DIR=/geoips_testdata
     ARG GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/
 
-    ARG TESTDATA_DIR=/home/gwynu/geoips_aux/geoips_test_data
-
     # If set to something other than "False", will chmod -R a+rw on output dirs
     ARG UNSAFE_PERMS=False
 
@@ -169,7 +167,9 @@ ENTRYPOINT ["pytest"]
 ###############################################################################
 FROM test_site AS dev
 
-# Install lint, debug, etc. on top of site test
+# Install lint, debug, etc. on top of site test as well as some helpful tools
+# Modify permissions as well and make the default user root
+# Even though it is reccomended to use user geoips_user
 USER root
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
@@ -179,7 +179,9 @@ RUN apt-get update \
     && usermod -aG sudo ${USER} \
     && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers \
     && chown -R geoips_user /output/ \
-    && chmod -R 0777 /output/
+    && chmod -R 0777 /output/ \
+    && chown -R geoips_user /packages/ \
+    && chmod -R 0777 /packages/
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test,lint,debug]"
 
 ###############################################################################
