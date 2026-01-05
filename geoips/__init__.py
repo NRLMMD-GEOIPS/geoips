@@ -16,6 +16,7 @@ Homepage: https://github.com/NRLMMD-GEOIPS/geoips
 
 .. |unireg|    unicode:: U+000AE .. REGISTERED SIGN
 """
+import netCDF4  # noqa
 from matplotlib import rcParams
 from geoips import errors
 from geoips import filenames
@@ -26,6 +27,7 @@ from ._version import __version__, __version_tuple__
 
 import logging  # noqa
 from geoips.commandline.log_setup import add_logging_level
+
 
 # Turn off image interpolation for matplotlib by default.
 rcParams["image.interpolation"] = "none"

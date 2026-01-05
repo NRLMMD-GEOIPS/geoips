@@ -33,6 +33,8 @@ ARG DEBIAN_FRONTEND=noninteractive
     ARG GEOIPS_TESTDATA_DIR=/geoips_testdata
     ARG GEOIPS_REPO_URL=https://github.com/NRLMMD-GEOIPS/
 
+    ARG TESTDATA_DIR=/home/gwynu/geoips_aux/geoips_test_data
+
     # If set to something other than "False", will chmod -R a+rw on output dirs
     ARG UNSAFE_PERMS=False
 
@@ -84,19 +86,20 @@ ARG DEBIAN_FRONTEND=noninteractive
     RUN git config --global --add safe.directory '*'
 
     # Install GeoIPS in editable mode
-    RUN python -m pip install --no-cache-dir -e "." \
-        && create_plugin_registries
+    RUN python -m pip install --no-cache-dir -e "."
+    RUN geoips config create-reg
 
-    ###############################################################################
-    #                          FULL BUILD STAGE
-    ###############################################################################
-    FROM build AS full_build
+###############################################################################
+#                          FULL BUILD STAGE
+###############################################################################
+FROM build AS full_build
 
-    # Install all plugins
-    RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
-        && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
-        && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-        && create_plugin_registries
+# Install all plugins
+RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR} \
+    python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
+    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
+    && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
+    && create_plugin_registries
 
 ###############################################################################
 #                          SITE BUILD STAGE
@@ -104,7 +107,8 @@ ARG DEBIAN_FRONTEND=noninteractive
 FROM build AS site_build
 
 # Install all plugins
-RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
+RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR} \
+    python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/site_install.sh \
@@ -165,7 +169,15 @@ ENTRYPOINT ["pytest"]
 ###############################################################################
 FROM test_site AS dev
 
-# Install lint, debug, etc. on top of full test
+# Install lint, debug, etc. on top of site test
+USER root
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    ssh vim wget sudo \
+    && rm -rf /var/lib/apt/lists/* \
+    && git config --global --add safe.directory '*' \
+    && usermod -aG sudo ${USER} \
+    && echo "${USER} ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/[doc,test,lint,debug]"
 
 ###############################################################################

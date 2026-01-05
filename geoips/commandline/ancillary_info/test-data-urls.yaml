@@ -24,7 +24,7 @@ test_data_urls:
   test_data_saphir: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_saphir.tgz"
   test_data_sar: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_sar_1.12.2_github.com.tgz"
   test_data_scat: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_scat_1.11.3_github.com.tgz"
-  test_data_seviri: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_seviri_1.16.1_github.com.tgz"
+  test_data_seviri: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_seviri_1.17.2_github.com.tgz"
   test_data_smap: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smap_1.6.0_github.com.tgz"
   test_data_smos: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=test_data_smos_1.15.3_github.com.tgz"
   # test_data_ssmi: "https://io2.cira.colostate.edu/s/J73tEcn22smktMi/download?path=%2F&files=
