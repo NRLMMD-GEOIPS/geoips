@@ -6,6 +6,7 @@
 import os
 import shlex
 from datetime import datetime, timezone
+import re
 
 import pytest
 
@@ -335,6 +336,27 @@ def full_setup():
     """
     check_full_install()
 
+def is_likely_oserror_missing_file(log_contents: str) -> bool:
+    """
+    Check if the log contents indicate a likely OSError for a missing file.
+
+    Searches the last ten lines of the provided log contents for patterns
+    that suggest an OSError related to a missing file.
+
+    Parameters
+    ----------
+    log_contents : str
+        The contents of the log file to check.
+
+    Returns
+    -------
+    bool
+        True if the log contents indicate a likely OSError for a missing file,
+        False otherwise.
+    """
+    last_ten_lines = "\n".join(log_contents.strip().splitlines()[-10:])
+    pattern = r"OSError: File '[^']+' not found\."
+    return re.search(pattern, last_ten_lines) is not None
 
 def run_script_with_bash(script, unset_output_path_env_vars=True):
     """
@@ -389,7 +411,7 @@ def run_script_with_bash(script, unset_output_path_env_vars=True):
     # print(" ".join(expanded_call))
     log_fname = set_log_filename(expanded_call[1:])
 
-    # Note - this never seems to print until after the cmd is complete
+    # Note - this will not print until after the cmd is complete
     print(f"Log: {log_fname} , latest logs:")
     print(f"ls -lthr {os.path.dirname(log_fname)}/*")
     print(datetime.now(timezone.utc))
@@ -405,11 +427,20 @@ def run_script_with_bash(script, unset_output_path_env_vars=True):
         for env_var in removed_env_vars:
             os.environ[env_var] = removed_env_vars[env_var]
     if retval != 0:
+        with open(log_fname, "r") as logfile:
+            log_contents = logfile.read()
+            print("\nLOG FILE CONTENTS:\n")
+            print(log_contents)
+            print("-"*80)
         print("FAILED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
         print(f"FAILED LOG FILE: {log_fname}")
         print("FAILED")
-        raise RuntimeError(f"CalledProcessError, see output in log {log_fname}\n")
+
+        if is_likely_oserror_missing_file(log_contents):
+            raise FileNotFoundError(f"FileNotFoundError, see output in log {log_fname}\n")
+        else:
+            raise RuntimeError(f"CalledProcessError, see output in log {log_fname}\n")
     else:
         print("PASSED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
