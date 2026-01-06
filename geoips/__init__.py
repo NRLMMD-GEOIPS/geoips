@@ -16,6 +16,9 @@ Homepage: https://github.com/NRLMMD-GEOIPS/geoips
 
 .. |unireg|    unicode:: U+000AE .. REGISTERED SIGN
 """
+# Importing netCDF4 here so that it is always imported before
+# xarray. Because if xarray is imported first, xarrays
+# own netCDF4 functions conflict and cause segfaults
 import netCDF4  # noqa
 from matplotlib import rcParams
 from geoips import errors
