@@ -61,7 +61,7 @@ setuptools = "<70"     # Required for any fortran builds until meson working
 python = ">=3.11.0,<3.13.0"    # mandatory to declare the required python version
 matplotlib = ">=3.7.0" # Base requirement works, version specific to test outputs
 netcdf4 = ">1.7.0"     # Base requirement >= 1.7.0 works without reader seg faults
-numpy = ">=2.3.0,<2.4.0"      # Base requirement, 2.3.0 float pyYAML serialization resolved
+numpy = ">=2.3.0,<2.4.0"      # Base requirement, 2.3.0 float pyYAML serialization resolved, pinned under 2.4.0 for astropy compatibility 
 pyresample = "*"       # Base requirement Geospatial image resampling
 # efficiency improvements >= 1.22.3
 pyyaml = "*"           # Base requirement
