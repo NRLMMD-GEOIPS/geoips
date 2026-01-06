@@ -1,15 +1,35 @@
 bug fix:
-- title: ''
-  description: ''
+- title: 'Pin AstroPy to 7.1.0 and numpy to <2.4.0 for compatibility'
+  description: 'Pinned AstroPy to version 7.1.0 and numpy to versions below 2.4.0 to prevent incompatibility issues with numpy 2.4.0'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
     modified:
-    - ''
+    - 'environments/1.17.1_siteinstall_pip_requirements_20251022.txt'
+    - 'pyproject.toml'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Improve ami_netcdf error handling for missing files'
+  description: 'Updated ami_netcdf reader to provide comprehensible error messages when no files are passed, rather than failing with esoteric errors later in the process. Also removed empty log statements.'
+  files:
+    modified:
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Fix netcdf4 import order issues'
+  description: 'Added netcdf4 import to geoips-init.py to fix issues with XArray and netcdf import orders, resolving conflicts between different netcdf4 readers used by XArray and netcdf4'
+  files:
+    deleted: []
+    moved: []
+    added: []
+    modified:
+    - 'geoips/__init__.py'
   related-issue:
     number: null
     repo_url: ''
@@ -17,17 +37,60 @@ bug fix:
     start: null
     finish: null
 enhancement:
-- title: ''
-  description: ''
+- title: 'Update Docker documentation and configuration'
+  description: 'Updated Dockerfile with improvements for developer usability and build process. Added geoips_user to sudo group, installed vim, ssh, wget, and sudo. Opened permissions on output and packages to prevent permission errors in dev build stage.'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
+    deleted: []
+    moved: []
+    added: []
     modified:
-    - ''
+    - 'Dockerfile'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Rewrite GeoTIFF output checker'
+  description: 'Completely rewrote the GeoTIFF output checker to actually check test data information inside the GeoTIFF files rather than just diffing files directly'
+  files:
+    modified:
+    - 'geoips/plugins/modules/output_checkers/geotiff.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Add environment variable for private plugin installation'
+  description: 'Added GEOIPS_USE_PRIVATE_PLUGINS environment variable to site install - if not set, private plugins wont be installed; if set to true, private plugins will be installed. This allows Dockerfile to build correctly in different contexts.'
+  files:
+    modified:
+    - 'tests/integration_tests/site_install.sh'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Add regex checks to integration test outputs'
+  description: 'Added regex checks to output logs from integration tests to identify if tests failed because files were missing (e.g., "no files found on disk" or "blank file was not found") and error in a clearer way. Also logged pytest contents to pytest log.'
+  files:
+    modified:
+    - 'tests/integration_tests/test_integration.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
+- title: 'Add --no-fail-on-missing-data flag to pytest'
+  description: 'Added optional --no-fail-on-missing-data flag to integration pytest. When passed, tests will xfail if data is missing; when not passed, tests will fail normally. Updated test reader script to provide more comprehensible log outputs when mean differs from expected.'
+  files:
+    modified:
+    - 'tests/conftest.py'
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/unit_tests_long/plugins/modules/readers/test_readers.py'
   related-issue:
     number: null
     repo_url: ''
@@ -88,36 +151,31 @@ performance:
   date:
     start: null
     finish: null
-documentation:
-- title: ''
-  description: ''
+continuous integration:
+- title: 'Update Docker ignore and git ignore configurations'
+  description: 'Updated .dockerignore and .gitignore files to allow GIPS test data build mount. Updated Dockerfile to use this build mount when building, adding new options in dev step for improved developer usability.'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
+    deleted: []
+    moved: []
+    added: []
     modified:
-    - ''
+    - '.dockerignore'
+    - '.gitignore'
   related-issue:
     number: null
     repo_url: ''
   date:
     start: null
     finish: null
-continuous integration:
-- title: ''
-  description: ''
+- title: 'Update release note documentation'
+  description: 'Updated release note names'
   files:
-    deleted:
-    - ''
-    moved:
-    - ''
-    added:
-    - ''
+    deleted: []
+    moved: []
+    added: []
     modified:
-    - ''
+    - 'docs/source/releases/1.17.2/1.17.2-os-patches-bsl5.yaml'
+    - 'docs/source/releases/1.17.2/1.17.2-os-patches-jsolbrig.yaml'
   related-issue:
     number: null
     repo_url: ''
