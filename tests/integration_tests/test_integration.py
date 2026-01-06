@@ -413,7 +413,7 @@ def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_var
     # print(" ".join(expanded_call))
     log_fname = set_log_filename(expanded_call[1:])
 
-    # Note - this will not print until after the cmd is complete
+    # Note - this never seems to print until after the cmd is complete
     print(f"Log: {log_fname} , latest logs:")
     print(f"ls -lthr {os.path.dirname(log_fname)}/*")
     print(datetime.now(timezone.utc))
