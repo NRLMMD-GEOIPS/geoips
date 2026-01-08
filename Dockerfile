@@ -92,25 +92,32 @@ ARG DEBIAN_FRONTEND=noninteractive
 ###############################################################################
 FROM build AS full_build
 
-# Install all plugins
-RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR} \
-    python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
+USER root
+RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
+    git config --global --add safe.directory '*' \
+    && python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && create_plugin_registries
+    && create_plugin_registries \
+    && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
 
+USER ${USER}
 ###############################################################################
 #                          SITE BUILD STAGE
 ###############################################################################
 FROM build AS site_build
 
 # Install all plugins
-RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR} \
-    python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
+USER root
+RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
+    git config --global --add safe.directory '*' \
+    && python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/site_install.sh \
-    && create_plugin_registries
+    && create_plugin_registries \
+    && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
+USER ${USER}
 
 ###############################################################################
 #                          BASE TEST STAGE
