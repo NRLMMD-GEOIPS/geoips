@@ -683,7 +683,7 @@ def call_single_time(
     cache_solar_angles=False,
     geolocation_only=False,
     resource_tracker=None,
-    satellite_zenith_angle_cutoff=None,
+    satellite_zenith_angle_cutoff=75,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -1063,6 +1063,14 @@ def call_single_time(
         try:
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
+            for varname, var in gvars[res].items():
+                if satellite_zenith_angle_cutoff:
+                    gvars[res][varname] = np.ma.array(
+                        var, mask=gvars[res]["satellite_zenith_angle"].mask
+                    )
+                    gvars[res][varname] = np.ma.masked_where(
+                        gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
+                    )
         except KeyError:
             LOG.info("No Lines/Samples in gvar res %s, skipping pop", res)
             pass
@@ -1074,37 +1082,39 @@ def call_single_time(
     xarray_objs = {}
     for dsname in datavars.keys():
 
-        # Get the indices for masking sat zenith angle
-        if satellite_zenith_angle_cutoff and "satellite_zenith_angle" in gvars[dsname]:
-            satzen_mask_inds = (
-                gvars[dsname]["satellite_zenith_angle"] > satellite_zenith_angle_cutoff
-            )
-        else:
-            # Latitude variable is always defined, and the mask here should correspond
-            # to data that is valid and on disk.
-            satzen_mask_inds = gvars[dsname]["latitude"].mask == True
+        # # Get the indices for masking sat zenith angle
+        # if satellite_zenith_angle_cutoff and "satellite_zenith_angle" in gvars[dsname]:  # NOQA
+        #     satzen_mask_inds = (
+        #         gvars[dsname]["satellite_zenith_angle"] > satellite_zenith_angle_cutoff  # NOQA
+        #     )
+        # else:
+        #     # Latitude variable is always defined, and the mask here should correspond
+        #     # to data that is valid and on disk.
+        #     satzen_mask_inds = gvars[dsname]["latitude"].mask == True
 
         # Create a new xarray object to populate with all the data.
         xobj = xarray.Dataset()
         xobj.attrs = xarray_obj.attrs.copy()
         for varname in datavars[dsname].keys():
-            LOG.info(
-                "Masking var %s greater than %s degrees sat zenith angle",
-                varname,
-                satellite_zenith_angle_cutoff,
-            )
-            xobj[varname] = xarray.DataArray(
-                np.ma.masked_where(satzen_mask_inds, datavars[dsname][varname])
-            )
+            xobj[varname] = xarray.DataArray(datavars[dsname][varname])
+            # LOG.info(
+            #     "Masking var %s greater than %s degrees sat zenith angle",
+            #     varname,
+            #     satellite_zenith_angle_cutoff,
+            # )
+            # xobj[varname] = xarray.DataArray(
+            #     np.ma.masked_where(satzen_mask_inds, datavars[dsname][varname])
+            # )
         for varname in gvars[dsname].keys():
-            LOG.info(
-                "Masking gvar %s greater than %s degrees sat zenith angle",
-                varname,
-                satellite_zenith_angle_cutoff,
-            )
-            xobj[varname] = xarray.DataArray(
-                np.ma.masked_where(satzen_mask_inds, gvars[dsname][varname])
-            )
+            xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+            # LOG.info(
+            #     "Masking gvar %s greater than %s degrees sat zenith angle",
+            #     varname,
+            #     satellite_zenith_angle_cutoff,
+            # )
+            # xobj[varname] = xarray.DataArray(
+            #     np.ma.masked_where(satzen_mask_inds, gvars[dsname][varname])
+            # )
 
         # if roi is not defined in yaml file, a default roi is applied
         if roi is None:
@@ -1147,7 +1157,7 @@ def get_test_files(test_data_dir):
     for file in filelist:
         if not os.path.exists(file):
             raise FileNotFoundError(f"File {file} does not exist")
-    tmp_xr = call(filelist)
+    tmp_xr = call(filelist, satellite_zenith_angle_cutoff=75)
     return tmp_xr
 
 
