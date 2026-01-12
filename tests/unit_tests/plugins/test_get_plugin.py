@@ -67,8 +67,8 @@ def yield_interface_plugin_tuples():
     registry["module_based"]["algorithms"][
         "out_of_sync_single_channel"
     ] = single_channel_entry
-    # Test that an out of sync plugin causes 'create_plugin_registries' to be ran so it
-    # is synced up again
+    # Test that an out of sync plugin causes 'geoips config create-registries' to be
+    # ran so it is synced up again
     yield ("algorithms", ("single_channel",), "out_of_sync")
     reload(plugin_registry_module)
     registry = plugin_registry_module.plugin_registry.registered_plugins

@@ -10,7 +10,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
     && apt-get upgrade -y \
     && apt-get install -y --no-install-recommends \
-       wget git libopenblas-dev g++ make gfortran \
+    wget git libopenblas-dev g++ make gfortran \
     && rm -rf /var/lib/apt/lists/*
 
 # Upgrade pip
@@ -56,17 +56,17 @@ RUN mkdir -p "${GEOIPS_OUTDIRS}" \
     && mkdir -p "${GEOIPS_TESTDATA_DIR}" \
     && mkdir -p "${GEOIPS_PACKAGES_DIR}/geoips" \
     && chown -R "${USER}:${GROUP_ID}" \
-           "${GEOIPS_OUTDIRS}" \
-           "${GEOIPS_DEPENDENCIES_DIR}" \
-           "${GEOIPS_TESTDATA_DIR}" \
-           "${GEOIPS_PACKAGES_DIR}" \
+    "${GEOIPS_OUTDIRS}" \
+    "${GEOIPS_DEPENDENCIES_DIR}" \
+    "${GEOIPS_TESTDATA_DIR}" \
+    "${GEOIPS_PACKAGES_DIR}" \
     && if [ "${UNSAFE_PERMS}" != "False" ]; then \
-         chmod -R a+rw \
-           "${GEOIPS_OUTDIRS}" \
-           "${GEOIPS_DEPENDENCIES_DIR}" \
-           "${GEOIPS_TESTDATA_DIR}" \
-           "${GEOIPS_PACKAGES_DIR}"; \
-       fi
+    chmod -R a+rw \
+    "${GEOIPS_OUTDIRS}" \
+    "${GEOIPS_DEPENDENCIES_DIR}" \
+    "${GEOIPS_TESTDATA_DIR}" \
+    "${GEOIPS_PACKAGES_DIR}"; \
+    fi
 
 USER ${USER}
 
@@ -85,7 +85,7 @@ RUN git config --global --add safe.directory '*'
 
 # Install GeoIPS in editable mode
 RUN python -m pip install --no-cache-dir -e "." \
-    && create_plugin_registries
+    && geoips config create-registries
 
 ###############################################################################
 #                          FULL BUILD STAGE
@@ -96,7 +96,7 @@ FROM build AS full_build
 RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && create_plugin_registries
+    && geoips config create-registries
 
 ###############################################################################
 #                          SYSTEM BUILD STAGE
@@ -108,7 +108,7 @@ RUN python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/system_install.sh \
-    && create_plugin_registries
+    && geoips config create-registries
 
 ###############################################################################
 #                          BASE TEST STAGE
@@ -179,33 +179,33 @@ USER root
 # Remove unnecessary files for smaller production image
 RUN cd "$GEOIPS_PACKAGES_DIR/geoips" \
     && rm -rf \
-       CHANGELOG_TEMPLATE.rst \
-       environments \
-       .github \
-       pyproject.toml \
-       tests \
-       CODE_OF_CONDUCT.md \
-       Dockerfile \
-       .flake8 \
-       .gitignore \
-       pytest.ini \
-       update_this_release_note \
-       bandit.yml \
-       COMMIT_MESSAGE_TEMPLATE.md \
-       .dockerignore \
-       interface_notes.md \
-       README.md \
-       CHANGELOG.rst \
-       .config \
-       docs \
-       setup \
-       requirements.txt \
+    CHANGELOG_TEMPLATE.rst \
+    environments \
+    .github \
+    pyproject.toml \
+    tests \
+    CODE_OF_CONDUCT.md \
+    Dockerfile \
+    .flake8 \
+    .gitignore \
+    pytest.ini \
+    update_this_release_note \
+    bandit.yml \
+    COMMIT_MESSAGE_TEMPLATE.md \
+    .dockerignore \
+    interface_notes.md \
+    README.md \
+    CHANGELOG.rst \
+    .config \
+    docs \
+    setup \
+    requirements.txt \
     && apt-get remove -y \
-       git \
-       make \
-       g++ \
-       wget \
-       gfortran \
+    git \
+    make \
+    g++ \
+    wget \
+    gfortran \
     && apt-get autoremove -y \
     && rm -rf /var/lib/apt/lists/*
 

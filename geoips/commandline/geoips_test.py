@@ -194,7 +194,7 @@ class GeoipsTestSector(GeoipsExecutableCommand):
             raise self.parser.error(
                 f"Sector '{sector_name}' is not a valid plugin.\nPlease use a plugin "
                 "found under 'geoips list interface sectors' or create a new plugin "
-                f"named '{sector_name}' and run 'create_plugin_registries'."
+                f"named '{sector_name}' and run 'geoips config create-registries'."
             )
         print(f"Creating {fname}.")
         sect.create_test_plot(fname, overlay=overlay)

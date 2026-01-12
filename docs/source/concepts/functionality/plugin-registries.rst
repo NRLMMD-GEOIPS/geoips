@@ -62,7 +62,7 @@ occurs:
 
 How to Create/Update the Plugin Registries
 ------------------------------------------
-``create_plugin_registries`` executable can be called to create or update the
+``geoips config create-registries`` executable can be called to create or update the
 plugin registries.
 
 This executable will create a separate registry for each installed GeoIPS
@@ -76,7 +76,7 @@ format as YAML rather than JSON. This is useful for debugging since YAML is,
 arguably, easier to read than JSON. The YAML registries will be ignored by
 GeoIPS, though, because they are significantly slower to load than JSON.
 
-.. admonition:: Usage: create_plugin_registries
+.. admonition:: Usage: geoips config create-registries
 
     .. autoprogram:: geoips.create_plugin_registries:get_parser()
-        :prog: create_plugin_registries
+        :prog: geoips config create-registries

@@ -138,7 +138,7 @@ To test your installation you will call two scripts:
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh
 
     # Create the GeoIPS plugin registries
-    create_plugin_registries
+    geoips config create-registries
 
     # Run integration tests
     $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_test.sh

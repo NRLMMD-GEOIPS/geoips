@@ -70,17 +70,18 @@ they just describe what each property does.
             variables: ["cld_height_acha", "latitude", "longitude"]
 
 To use your product that you just created, you'll need to create a bash script that
-implements ``run_procflow`` (run-process-workflow). This is a script which defines the
-*process-workflow* needed to generate your product. We'll keep this short for now, but you
-are able to strictly define how you want your product to be created, as well as what
-format you'd like it outputted as. You can also define the sector you'd like your data
-to be plotted on, as well as compare the output product to a validated product if wanted.
+implements ``geoips run <procflow_name>`` (run-process-workflow). This is a script which
+defines the *process-workflow* needed to generate your product. We'll keep this short
+for now, but you are able to strictly define how you want your product to be created, as
+well as what format you'd like it outputted as. You can also define the sector you'd
+like your data to be plotted on, as well as compare the output product to a validated
+product if wanted.
 
-GeoIPS is called via a command line interface (CLI). The main command that you will use is
-run_procflow which will run your data through the selected procflow using the specified
-plugins. It's easiest to do this via a script, and scripts are stored in your plugin
-package's ``tests/`` directory because they can be used later to regression test your
-package.
+GeoIPS is called via a command line interface (CLI). The main command that you will use
+is ``geoips run <procflow_name>`` which will run your data through the selected procflow
+using the specified plugins. It's easiest to do this via a script, and scripts are
+stored in your plugin package's ``tests/`` directory because they can be used later to
+regression test your package.
 
 Creating a Script to Visualize Your Product
 -------------------------------------------
@@ -97,9 +98,8 @@ We'll now create a test script to generate an image for the product you just cre
 
 .. code-block:: bash
 
-    run_procflow \
+    geoips run single_source \
         $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-        --procflow single_source \
         --reader_name clavrx_hdf4 \
         --product_name My-Cloud-Top-Height \
         --output_formatter imagery_annotated \
@@ -294,9 +294,8 @@ like the code shown below.
 
 .. code-block:: bash
 
-  run_procflow \
+  geoips run single_source \
       $GEOIPS_TESTDATA_DIR/test_data_clavrx/data/goes16_2023101_1600/clavrx_OR_ABI-L1b-RadF-M6C01_G16_s20231011600207.level2.hdf \
-      --procflow single_source \
       --reader_name clavrx_hdf4 \
       --product_name My-Cloud-Depth \
       --output_formatter imagery_annotated \

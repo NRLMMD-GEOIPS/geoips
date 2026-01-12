@@ -29,5 +29,5 @@ if [[ "$include_reference_repos" == "true" ]]; then
   geoips config install test_data_modis test_data_smos test_data_tpw
 fi
 
-create_plugin_registries
+geoips config create-registries
 

@@ -1,0 +1,57 @@
+# :cspell: ignore viirsday
+deprecation:
+- title: 'Update Legacy Commands'
+  description: |
+    This PR updates all references to legacy GeoIPS commands (I.e.
+    'create_plugin_registries' and 'run_procflow') to use their new counterparts (
+    'geoips config create-registries' and 'geoips run <procflow_name>', respectively).
+
+    This includes updates to scripts, docstrings, and documentation where the offending
+    commands were found. These updates do not impact any actual logic in the codebase.
+  files:
+    modified:
+      - Dockerfile
+      - docs/source/concepts/architecture/interfaces/module_based/output-checkers/index.rst
+      - docs/source/concepts/architecture/plugin-registries.rst
+      - docs/source/concepts/functionality/command-line/index.rst
+      - docs/source/concepts/functionality/plugin-registries.rst
+      - docs/source/contribute/dev_mac_with_conda.rst
+      - docs/source/tutorials/extending-with-plugins/colormapper/index.rst
+      - docs/source/tutorials/extending-with-plugins/feature_annotator/index.rst
+      - docs/source/tutorials/extending-with-plugins/gridline_annotator.rst
+      - docs/source/tutorials/extending-with-plugins/output_formatter.rst
+      - docs/source/tutorials/extending-with-plugins/product/index.rst
+      - geoips/commandline/geoips_test.py
+      - geoips/create_plugin_registries.py
+      - geoips/geoips_utils.py
+      - tests/integration_tests/full_install.sh
+      - tests/integration_tests/site_install.sh
+      - tests/scripts/abi.static.Infrared.netcdf_geoips.sh
+      - tests/scripts/ami.WV-Upper.unprojected_image.sh
+      - tests/scripts/ami.static.Infrared.imagery_clean.sh
+      - tests/scripts/ami.static.Visible.imagery_clean.sh
+      - tests/scripts/ami.tc.WV.geotiff.sh
+      - tests/scripts/amsr2.global.89H-Physical.cogeotiff.sh
+      - tests/scripts/amsr2.tc.89H-Physical.histogram_netcdf.sh
+      - tests/scripts/aws_TB165.imagery_clean.sh
+      - tests/scripts/aws_TB180.imagery_clean.sh
+      - tests/scripts/aws_TB325-1.imagery_clean.sh
+      - tests/scripts/aws_TB50.imagery_clean.sh
+      - tests/scripts/aws_TB89.imagery_clean.sh
+      - tests/scripts/aws_tc_TB165.imagery_clean.sh
+      - tests/scripts/aws_tc_TB180.imagery_clean.sh
+      - tests/scripts/aws_tc_TB325-1.imagery_clean.sh
+      - tests/scripts/aws_tc_TB50.imagery_clean.sh
+      - tests/scripts/aws_tc_TB89.imagery_clean.sh
+      - tests/scripts/gfs.static.waveheight.imagery_clean.sh
+      - tests/scripts/gfs.static.windspeed.imagery_clean.sh
+      - tests/scripts/viirs.static.visible.imagery_clean.sh
+      - tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh
+      - tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh
+      - tests/unit_tests/plugins/test_get_plugin.py
+  related-issue:
+    number: 1059
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
+  date:
+    start: 12/08/2025
+    finish: 12/08/2025

@@ -105,7 +105,7 @@ def load_all_yaml_plugins():
         if not os.path.exists(pkg_plug_path):
             raise PluginRegistryError(
                 f"Plugin registry {pkg_plug_path} did not exist, "
-                "please run 'create_plugin_registries'"
+                "please run 'geoips config create-registries'"
             )
         # This will include all plugins, including schemas, yaml_based,
         # and module_based plugins.
