@@ -89,7 +89,7 @@ def remove_registries(plugin_packages):
     LOG.interactive(
         "\n\n\n\nERROR: Removing registries due to improperly formatted plugins.\n"
         "You must fix the error(s) shown below before GeoIPS can operate correctly.\n"
-        "Once fixed, please run 'create_plugin_registries' to set up GeoIPS "
+        "Once fixed, please run 'geoips config create-registries' to set up GeoIPS "
         "appropriately\n\n\n"
     )
     # Remove registered_plugins.yaml and registered_plugins.json if they exist
@@ -903,7 +903,7 @@ def add_module_plugin(package, relpath, plugins):
                     f" plugin '{name}' is using a deprecated source_names "
                     "implementation. Please add a module-level 'source_names' "
                     "attribute to this plugin and re-run "
-                    "'create_plugin_registries'. This will be fully deprecated "
+                    "'geoips config create-registries'. This will be fully deprecated "
                     "when GeoIPS v2.0.0 is released."
                 ),
                 DeprecationWarning,
