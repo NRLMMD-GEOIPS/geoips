@@ -10,6 +10,7 @@ deprecation:
     commands were found. These updates do not impact any actual logic in the codebase.
   files:
     modified:
+      - Dockerfile
       - docs/source/concepts/architecture/interfaces/module_based/output-checkers/index.rst
       - docs/source/concepts/architecture/plugin-registries.rst
       - docs/source/concepts/functionality/command-line/index.rst
@@ -20,6 +21,9 @@ deprecation:
       - docs/source/tutorials/extending-with-plugins/gridline_annotator.rst
       - docs/source/tutorials/extending-with-plugins/output_formatter.rst
       - docs/source/tutorials/extending-with-plugins/product/index.rst
+      - geoips/commandline/geoips_test.py
+      - geoips/create_plugin_registries.py
+      - geoips/geoips_utils.py
       - tests/integration_tests/full_install.sh
       - tests/integration_tests/site_install.sh
       - tests/scripts/abi.static.Infrared.netcdf_geoips.sh
@@ -44,6 +48,7 @@ deprecation:
       - tests/scripts/viirs.static.visible.imagery_clean.sh
       - tests/scripts/viirsclearnight.Night-Vis-IR-GeoIPS1.imagery_annotated.sh
       - tests/scripts/viirsday.global.Night-Vis-IR.cogeotiff_rgba.sh
+      - tests/unit_tests/plugins/test_get_plugin.py
   related-issue:
     number: 1059
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
