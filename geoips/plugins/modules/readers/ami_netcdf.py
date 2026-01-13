@@ -740,6 +740,9 @@ def call_single_time(
     datavars = {}
     geo_metadata = {}
 
+    if fnames is None or len(fnames) == 0:
+        raise ValueError("No input files specified")
+
     # Get metadata for all input data files
     # Check to be sure that all input files are form the same image time
     all_metadata = {}
@@ -896,7 +899,6 @@ def call_single_time(
     # This saves us from having very slightly different solar angles for each channel.
     # Loop over resolutions and get metadata as needed
     if self_register:
-        LOG.info("")
         LOG.info("Getting geolocation information for adname %s.", adname)
         geo_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
 
@@ -936,7 +938,6 @@ def call_single_time(
                 res_md[res]
             except KeyError:
                 continue
-            LOG.info("")
             LOG.info(
                 "Getting geolocation information for resolution %s for %s", res, adname
             )
@@ -978,8 +979,6 @@ def call_single_time(
             for varname in gvars[dsname].keys():
                 geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
         return geo_xarrays
-
-    LOG.info("")
 
     # Read the data
     # Will read all data if sector_definition is None
@@ -1134,7 +1133,6 @@ def call_single_time(
         xarray_objs["METADATA"] = xobj[[]]
 
     LOG.info("Done reading GEOKOMPSAT AMI data for %s", adname)
-    LOG.info("")
 
     return xarray_objs
 
@@ -1144,9 +1142,12 @@ def get_test_files(test_data_dir):
     """Generate testing xarray from test data."""
     filepath = test_data_dir + "/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc"
     filelist = glob.glob(filepath)
-    tmp_xr = call(filelist)
     if len(filelist) == 0:
-        raise NameError("No files found")
+        raise FileNotFoundError("No files found")
+    for file in filelist:
+        if not os.path.exists(file):
+            raise FileNotFoundError(f"File {file} does not exist")
+    tmp_xr = call(filelist)
     return tmp_xr
 
 

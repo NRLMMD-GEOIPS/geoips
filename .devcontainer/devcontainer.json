@@ -1,21 +1,56 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/docker-existing-dockerfile
 {
-	"name": "Local Dockerfile",
+	"name": "GeoIPS Dev Container",
 	"build": {
 		// Sets the run context to one level up instead of the .devcontainer folder.
 		"context": "..",
-		// Update the 'dockerFile' property if you aren't using the standard 'Dockerfile' filename.
 		"dockerfile": "../Dockerfile",
+		"target": "dev",
+		"args": {
+			"USER_ID": "${localEnv:UID:1000}",
+			"GROUP_ID": "${localEnv:GID:1000}"
+		},
+		"options": [
+			"--build-context",
+			"testdata=${localEnv:GEOIPS_TESTDATA_DIR}"
+		]
 	},
 	"mounts": [
-		"source=${localEnv:CARTOPY_SHAPEFILES}/shapefiles,target=/app/geoips_packages/shapefiles,type=bind",//,readonly",
-		"source=${localEnv:CARTOPY_SHAPEFILES}/clone,target=/app/geoips_packages/shapefiles_clone,type=bind",//,readonly",
-		"source=${localEnv:GEOIPS_TESTDATA_DIR},target=/mnt/geoips_testdata,type=bind",//,readonly",
+		// Cartopy shapefiles
+		"source=${localEnv:CARTOPY_SHAPEFILES}/shapefiles,target=/packages/shapefiles,type=bind",
+		"source=${localEnv:CARTOPY_SHAPEFILES}/clone,target=/packages/shapefiles_clone,type=bind",
+
+		// GeoIPS testdata
+		"source=${localEnv:GEOIPS_TESTDATA_DIR},target=/geoips_testdata,type=bind",
+
+		// Output directory
 		"source=${localEnv:GEOIPS_OUTDIRS},target=/output,type=bind",
-		],
-	"workspaceMount": "source=${localWorkspaceFolder},target=/app/geoips_packages/geoips,type=bind",
-	"workspaceFolder": "/app/geoips_packages/geoips",
+
+		// SSH keys and shell config for geoips_user
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/home/geoips_user/.ssh,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_vscode,target=/home/geoips_user/.bash_aliases,type=bind,readonly",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.pokemon_vscode,target=/home/geoips_user/.pokemon,type=bind,readonly",
+
+		// SSH keys and shell config for root (for when sudo is needed)
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.ssh/,target=/root/.ssh,type=bind",
+		"source=${localEnv:HOME}${localEnv:USERPROFILE}/.bash_vscode,target=/root/.bash_aliases,type=bind,readonly",
+		//"source=${localEnv:HOME}${localEnv:USERPROFILE}/.pokemon_vscode,target=/root/.pokemon,type=bind,readonly"
+	],
+	"workspaceMount": "source=${localWorkspaceFolder},target=/packages/geoips,type=bind",
+	"workspaceFolder": "/packages/geoips",
+
+	// Run as the geoips_user by default
+	"remoteUser": "geoips_user",
+
+	// Set environment variables
+	"containerEnv": {
+		"GEOIPS_TESTDATA_DIR": "/geoips_testdata",
+		"GEOIPS_OUTDIRS": "/output",
+		"GEOIPS_PACKAGES_DIR": "/packages",
+		"CARTOPY_DATA_DIR": "/packages"
+	},
+
 	"customizations": {
 		"vscode": {
 			"extensions": [
@@ -27,7 +62,15 @@
 				"ms-python.black-formatter",
 				"ms-azuretools.vscode-docker",
 				"ms-python.isort"
-			]
+			],
+			"settings": {
+				"python.defaultInterpreterPath": "/home/geoips_user/.local/bin/python",
+				"python.testing.pytestEnabled": true,
+				"python.testing.unittestEnabled": false,
+				"python.linting.enabled": true,
+				"python.linting.flake8Enabled": true,
+				"python.formatting.provider": "black"
+			}
 		}
 	}
 
@@ -38,11 +81,8 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "cat /etc/os-release",
+	// "postCreateCommand": "create_plugin_registries"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
-
-	// Uncomment to connect as an existing user other than the container default. More info: https://aka.ms/dev-containers-non-root.
-	// "remoteUser": "devcontainer"
 }
