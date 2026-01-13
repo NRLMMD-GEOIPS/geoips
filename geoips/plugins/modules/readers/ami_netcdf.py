@@ -1060,20 +1060,26 @@ def call_single_time(
 
     # Remove lines and samples arrays.  Not needed.
     for res in gvars.keys():
-        try:
-            gvars[res].pop("Lines")
-            gvars[res].pop("Samples")
-            for varname, var in gvars[res].items():
-                if satellite_zenith_angle_cutoff:
-                    gvars[res][varname] = np.ma.array(
-                        var, mask=gvars[res]["satellite_zenith_angle"].mask
-                    )
-                    gvars[res][varname] = np.ma.masked_where(
-                        gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
-                    )
-        except KeyError:
-            LOG.info("No Lines/Samples in gvar res %s, skipping pop", res)
-            pass
+        # Providing None as a default in case the dictionary is missing 'Lines' or
+        # 'Samples'. Since we skip if these don't exist anyways, I don't see this
+        # being an issue, but I'd like an expert opinion on this part.
+
+        # The reason this is useful is for cases in which these variables are
+        # missing but you still want to mask all of the other variables in this
+        # resolution by the satellite zenith angle cutoff provided.
+        gvars[res].pop("Lines", None)
+        gvars[res].pop("Samples", None)
+        for varname, var in gvars[res].items():
+            if satellite_zenith_angle_cutoff:
+                LOG.interactive(
+                    f"Cutting off at {satellite_zenith_angle_cutoff} degrees."
+                )
+                gvars[res][varname] = np.ma.array(
+                    var, mask=gvars[res]["satellite_zenith_angle"].mask
+                )
+                gvars[res][varname] = np.ma.masked_where(
+                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
+                )
     for ds in datavars.keys():
         if not datavars[ds]:
             datavars.pop(ds)
