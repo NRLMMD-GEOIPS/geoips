@@ -20,6 +20,8 @@ _version.py
 *.o
 *.swp
 *.simg
+# build mounts for dockerfile
+geoips_test_data
 
 # directory for profiling outputs
 profiling/

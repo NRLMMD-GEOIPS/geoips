@@ -4,6 +4,7 @@
 #!/bin/bash
 
 echo "GEOIPS_MODIFIED_BRANCH: $GEOIPS_MODIFIED_BRANCH"
+echo "GEOIPS_USE_PRIVATE_PLUGINS: $GEOIPS_USE_PRIVATE_PLUGINS"
 
 test_exit=""
 install_script=""
@@ -25,8 +26,13 @@ fi
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_clavrx $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geoips_plugin_example $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo recenter_tc $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ryglickicane $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo tc_mint $test_exit $install_script
+
+# Private repos - only clone if GEOIPS_USE_PRIVATE_PLUGINS is set to "true"
+if [[ "$GEOIPS_USE_PRIVATE_PLUGINS" == "true" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ryglickicane $test_exit $install_script
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo tc_mint $test_exit $install_script
+fi
+
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo template_basic_plugin $test_exit $install_script
 
 ###########################################
@@ -36,10 +42,15 @@ fi
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo rayleigh $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo ancildat $test_exit $install_script
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo synth_green $test_exit $install_script
+
 # The above fortran packages need to be installed BEFORE installing geocolor, lunarref, or true_color.
 . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo geocolor $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo lunarref $test_exit $install_script
-. $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo true_color $test_exit $install_script
+
+# Private repos (lunarref and true_color) - only clone if GEOIPS_USE_PRIVATE_PLUGINS is set to "true"
+if [[ "$GEOIPS_USE_PRIVATE_PLUGINS" == "true" ]]; then
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo lunarref $test_exit $install_script
+    . $GEOIPS_PACKAGES_DIR/geoips/setup/check_system_requirements.sh source_repo true_color $test_exit $install_script
+fi
 ###########################################
 
 # Test data repos required for fully supported plugin packages (above)
@@ -47,9 +58,13 @@ geoips config install template_test_data
 geoips config install test_data_clavrx
 geoips config install test_data_fusion
 geoips config install test_data_geocolor
-geoips config install test_data_mint
 # Takes forever, skip
 # geoips config install test_data_mint_analysis
+
+# Private test data - only install if GEOIPS_USE_PRIVATE_PLUGINS is set to "true"
+if [[ "$GEOIPS_USE_PRIVATE_PLUGINS" == "true" ]]; then
+    geoips config install test_data_mint
+fi
 
 if [[ "$skip_create_registries" == "true" ]]; then
     echo "Skipping geoips config create-registries"

@@ -44,6 +44,7 @@ geoips config install test_data_smap
 geoips config install test_data_smos
 geoips config install test_data_tpw
 geoips config install test_data_viirs
+geoips config install test_data_noaa_aws
 
 if [[ "$skip_create_registries" == "true" ]]; then
     echo "Skipping geoips config create-registries"
