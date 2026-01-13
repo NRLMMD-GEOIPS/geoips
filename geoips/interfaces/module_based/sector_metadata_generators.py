@@ -15,8 +15,8 @@ class SectorMetadataGeneratorsInterface(BaseModuleInterface):
     """
 
     name = "sector_metadata_generators"
-    required_args = {"tc": ["trackfile_name"]}
-    required_kwargs = {"tc": []}
+    required_args = {"tc": ["trackfile_name"], "volc": ["trackfile_name"]}
+    required_kwargs = {"tc": [], "volc": []}
 
 
 sector_metadata_generators = SectorMetadataGeneratorsInterface()
