@@ -14,6 +14,7 @@ bug fix:
     modified:
       - .gitignore
       - geoips/plugins/modules/readers/ami_netcdf.py
+      - tests/integration_tests/full_install.sh
   related-issue:
     number: null
     repo_url: ''
