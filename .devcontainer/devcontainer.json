@@ -81,7 +81,7 @@
 	// "forwardPorts": [],
 
 	// Uncomment the next line to run commands after the container is created.
-	// "postCreateCommand": "create_plugin_registries"
+	// "postCreateCommand": "geoips config create-registries"
 
 	// Configure tool-specific properties.
 	// "customizations": {},
