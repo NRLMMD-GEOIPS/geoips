@@ -98,7 +98,7 @@ RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
     && python -m pip install --no-cache-dir -e "$GEOIPS_PACKAGES_DIR/geoips/" \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
-    && create_plugin_registries \
+    && geoips config create-reg \
     && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
 
 USER ${USER}
@@ -115,7 +115,7 @@ RUN --mount=type=bind,from=testdata,target=${GEOIPS_TESTDATA_DIR},rw \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/base_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/full_install.sh \
     && bash $GEOIPS_PACKAGES_DIR/geoips/tests/integration_tests/site_install.sh \
-    && create_plugin_registries \
+    && geoips config create-reg \
     && chown -R ${USER}:${GROUP_ID} ${GEOIPS_PACKAGES_DIR} ${GEOIPS_OUTDIRS}
 USER ${USER}
 
