@@ -37,16 +37,41 @@ Xarray Standard Attributes
 The following standard attributes are used internally to GeoIPS for consistent
 generation of titles, legends, regridding, etc
 
-* 'source_name' - REQUIRED
-* 'platform_name' - REQUIRED
-* 'data_provider' - REQUIRED
-* 'start_datetime' - REQUIRED
-* 'end_datetime' - REQUIRED
+Note these are referenced explicitly in the geoips/geoips_utils.py
+copy_standard_metadata method.
+
+* 'source_name' - REQUIRED (should use '-' delimiter where needed/appropriate)
+* 'platform_name' - REQUIRED (should use '-' delimiter where needed/appropriate)
+* 'data_provider' - REQUIRED (should use '-' delimiter where needed/appropriate)
+* 'start_datetime' - REQUIRED (datetime object)
+* 'end_datetime' - REQUIRED (datetime object)
 * 'interpolation_radius_of_influence' - REQUIRED
   used for pyresample-based interpolation
 
 The following optional attributes can be used within processing if available.
+These are also referenced explicitly in geoips_utils.py copy_standard_metadata,
+and are included if they exist, and skipped if they do not exist.
 
+* 'data_attribution' - OPTIONAL dictionary containing the following entries: 
+
+  * 'title'
+
+    * List of strings containing lines to add to titles, etc for appropriate dataset
+      attribution.  In supported title_formatters, image titles are appended with one
+      line per entry in the data_attribution["title"] list. Can contain any
+      punctuation, should not be used in instances where specific delimiters are
+      required.
+  * 'long'
+
+    * Verbose string containing full dataset attribution.  For use in metadata
+      YAML output files and other documentation. Can contain any punctuation, should
+      not be used in instances where specific delimiters are required.
+  * 'short'
+
+    * A single string for use in dataset attribution. Appropriate for concise titles,
+      data fields, etc.  This is a slightly expanded form of "data_provider" (which
+      is a very concise string used for filenames, etc). Can contain punctuation,
+      should not be used in instances where specific delimiters are required.
 * 'source_file_names' - OPTIONAL
 
   * list of strings containing names of all files that went into
@@ -79,6 +104,9 @@ The following optional attributes can be used within processing if available.
 
   * if specified, products will not be generated with
     coverage < minimum_coverage
+* 'granule_minutes' - OPTIONAL
+
+  * Number of minutes per granule
 * 'sample_distance_km' - OPTIONAL
 
   * if specified, sample_distance_km can be used to produce

@@ -17,7 +17,7 @@ class AlgorithmsInterface(BaseModuleInterface):
         "channel_combination": ["arrays"],
         "list_numpy_to_numpy": ["arrays"],
         "xarray_to_numpy": ["xobj"],
-        "xarray_to_xarray": ["xobj", "variables", "product_name"],
+        "xarray_to_xarray": ["xobj", "variables"],  # product_name optional
         "rgb": ["arrays"],
         "xarray_dict_to_xarray": ["xarray_dict"],
         "xarray_dict_dict_to_xarray": ["xarray_dict_dict"],

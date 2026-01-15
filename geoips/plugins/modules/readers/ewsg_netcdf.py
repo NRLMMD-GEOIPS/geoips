@@ -43,6 +43,7 @@ import pandas as pd
 import xarray as xr
 
 from geoips.interfaces import readers
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 
 # If this reader is not installed on the system, don't fail altogether, just skip this
@@ -92,8 +93,10 @@ def call(
     area_def=None,
     self_register=False,
     roi=None,
-    geolocation_cache_backend="memmap",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
 ):
     """Read EWS-G data in netcdf4 format.
@@ -146,6 +149,8 @@ def call(
         geolocation_cache_backend=geolocation_cache_backend,
         cache_chunk_size=cache_chunk_size,
         resource_tracker=resource_tracker,
+        cache_solar_angles=cache_solar_angles,
+        geolocation_only=geolocation_only,
     )
 
 
@@ -158,6 +163,8 @@ def call_single_time(
     roi=None,
     geolocation_cache_backend="memmap",
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
 ):
     """Read EWS-G data in netcdf4 format for one or more files.
@@ -307,8 +314,8 @@ def call_single_time(
         end_scan = "%04d%02d%02d%02d%02d%02d" % (yr_e, mo_e, dy_e, hr_e, mm_e, ss_e)
 
         # convert date in required format
-        Start_date = pd.to_datetime(start_scan, format="%Y%m%d%H%M%S")
-        End_date = pd.to_datetime(end_scan, format="%Y%m%d%H%M%S")
+        Start_date = pd.to_datetime(start_scan, format="%Y%m%d%H%M%S").to_pydatetime()
+        End_date = pd.to_datetime(end_scan, format="%Y%m%d%H%M%S").to_pydatetime()
 
         xarray_ewsg.attrs["start_datetime"] = Start_date
         xarray_ewsg.attrs["end_datetime"] = End_date

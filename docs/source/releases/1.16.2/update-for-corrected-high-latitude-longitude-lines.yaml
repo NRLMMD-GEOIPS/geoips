@@ -1,0 +1,18 @@
+bug fix:
+- title: 'Update for corrected high latitude longitude lines'
+  description: |
+    Updated test output imagery for fix to missing longitude lines at high latitude.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/outputs/abi.static.DMW-LowMidHigh.imagery_windbarbs_multi_level/20210929.000020.goes-16.abi.DMW-LowMidHigh.w_atlantic.10p48.noaa.3p0.png'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-07-10
+    finish: 2025-07-10
