@@ -1,14 +1,4 @@
 ####################################################
-# geoips package specific .gitignore options:
-
-# auto-downloaded test datasets
-tests/data/**
-# auto-generated command instructions file
-geoips/commandline/ancillary_info/cmd_instructions.json
-# auto-generated alias mapping file for the cli
-geoips/commandline/ancillary_info/alias_mapping.json
-
-####################################################
 # GeoIPS Environment specific .gitignore options:
 
 # auto-generated release note files, all release note information
@@ -17,6 +7,7 @@ geoips/commandline/ancillary_info/alias_mapping.json
 docs/source/releases/*.rst
 # auto-generated plugin registry file
 registered_plugins.json
+registered_plugins.yaml
 # auto-generated version file, created at run-time
 _version.py
 # auto-generated diff images for test outputs
@@ -30,10 +21,28 @@ _version.py
 *.o
 *.swp
 *.simg
+# build mounts for dockerfile
+geoips_test_data
 
 # directory for profiling outputs
 profiling/
 *.pstats
+
+####################################################
+# geoips package specific .gitignore options:
+
+# auto-downloaded test datasets
+tests/data/**
+# auto-generated command instructions file
+geoips/commandline/ancillary_info/cmd_instructions.json
+# auto-generated alias mapping file for the cli
+geoips/commandline/ancillary_info/alias_mapping.json
+
+####################################################
+# recenter_tc package specific .gitignore options:
+
+# ARCHER test outputs
+archer_test*
 
 ####################################################
 # Fortran specific .gitignore options:

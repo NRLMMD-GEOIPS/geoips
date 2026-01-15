@@ -14,8 +14,7 @@ enhancement:
     modified:
     - ''
   related-issue:
-    number: 847
-    repo_url: '/GEOIPS/geoips'
+    internal: geoips#847
   date:
     start: 2025-05-09
     finish: 2025-05-09

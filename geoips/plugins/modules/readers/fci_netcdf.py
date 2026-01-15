@@ -13,6 +13,7 @@ import xarray
 import zarr
 
 from geoips.interfaces import readers
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     check_geolocation_cache_backend,
     get_geolocation_cache_filename,
@@ -462,7 +463,7 @@ def avail_chans_in_file(fci_file):
     """
     with xarray.open_dataset(fci_file) as df:
         meta = df.l1c_channels_present.data
-    return list(meta)
+    return meta.tolist()
 
 
 def final_calibrated_variable_name(ncvar_name, chan_map=CHAN_MAP):
@@ -641,7 +642,15 @@ def convert_radiance_to_bt(variable_dataset, line_inds=None, sample_inds=None):
     vc = np.mean(variable_dataset.radiance_to_bt_conversion_coefficient_wavenumber)
     Lv = variable_dataset["effective_radiance"]
     if line_inds is not None:
-        Lv = Lv[line_inds, sample_inds]
+        # Updated indexing for NumPy 2.3 compatibility:
+        # Old code `Lv[line_inds, sample_inds]` fails with 2D indexers.
+        # Use xarray's `.isel()` with labeled DataArrays to preserve elementwise
+        # indexing and maintain xarray structure (dims, coordinates, and methods)
+        # under NumPy 2.3+.
+        Lv = Lv.isel(
+            y=xarray.DataArray(line_inds, dims=("y", "x")),
+            x=xarray.DataArray(sample_inds, dims=("y", "x")),
+        )
     t_eff = (c2 * vc) / (a * np.log(1 + (c1 * vc**3) / Lv)) - b / a
     return t_eff
 
@@ -704,14 +713,22 @@ def convert_radiance_to_reflectance(
         d_t = earth_sun_distance_km / 149597870.7  # NOQA
     Ir = np.nanmean(variable_dataset.channel_effective_solar_irradiance)  # NOQA
     if line_inds is not None:
-        R = R[line_inds, sample_inds]
+        # Updated indexing for NumPy 2.3 compatibility:
+        # Old code `Lv[line_inds, sample_inds]` fails with 2D indexers.
+        # Use xarray's `.isel()` with labeled DataArrays to preserve elementwise
+        # indexing and maintain xarray structure (dims, coordinates, and methods)
+        # under NumPy 2.3+.
+        R = R.isel(
+            y=xarray.DataArray(line_inds, dims=("y", "x")),
+            x=xarray.DataArray(sample_inds, dims=("y", "x")),
+        )
     brf = np.empty(shape=R.shape)
     pi = np.pi  # NOQA
     cos_sol_zen_ang = np.cos(np.deg2rad(solar_zenith_angle))  # NOQA
     ne.evaluate("(pi * R * d_t**2) / (Ir * cos_sol_zen_ang)", out=brf)
     brf_xarr = xarray.DataArray(
         brf,
-        coords={"y": variable_dataset.coords["y"], "x": variable_dataset.coords["x"]},
+        coords={"y": R.coords["y"], "x": R.coords["x"]},
     )
     # log(mean)/log(0.5) for mean rng 0 to 1
     gamma_correction = np.log(np.nanmean(brf)) / np.log(0.5)
@@ -726,8 +743,11 @@ def read_with_xarray(
     area_def=None,
     geolocation_cache_backend="zarr",
     chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     precise_earth_sun_distance=True,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """Load files with xarray and calibrate.
 
@@ -746,6 +766,8 @@ def read_with_xarray(
         Standard geoips attributes, by default None
     area_def : pyresample.AreaDefinition, optional
         Crop data to specific area definition, by default None
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to None
 
     Returns
     -------
@@ -793,6 +815,7 @@ def read_with_xarray(
                     BADVALS,
                     area_def,
                     geolocation_cache_backend=geolocation_cache_backend,
+                    cache_solar_angles=cache_solar_angles,
                     chunk_size=chunk_size,
                     resource_tracker=resource_tracker,
                 )
@@ -801,6 +824,8 @@ def read_with_xarray(
                         continue
                     LOG.debug("Adding %s to xarray dataset", gkey)
                     dset[gkey] = (("y", "x"), gvar)
+            if geolocation_only:
+                continue
             if "Rad" in gchan:
                 calibration_type = "Radiance"
                 # Convert from wavenumber to wavelength
@@ -833,6 +858,16 @@ def read_with_xarray(
             sat_zenith = gvars["satellite_zenith_angle"]
             masked = np.ma.array(calibrated, mask=sat_zenith.mask)
             calibrated.data = masked
+            if satellite_zenith_angle_cutoff:
+                LOG.info(
+                    "Masking data greater than %s degrees sat zenith angle",
+                    satellite_zenith_angle_cutoff,
+                )
+                masked = np.ma.masked_where(
+                    gvars["satellite_zenith_angle"] > satellite_zenith_angle_cutoff,
+                    calibrated,
+                )
+                calibrated.data = masked
         except KeyError:
             LOG.info("Did not find satellite zenith angle to mask for %s", gchan)
             pass
@@ -849,10 +884,17 @@ def read_with_xarray(
                 show_log=False,
             )
 
+    if geolocation_only:
+        return dset
     # Use a set here because gvars could include the same variables as geoips_chans
     # For example, we request satellite and solar zenith angle in our geoips_chans,
     # which is already included in gvars
     for dkey in set(geoips_chans + list(gvars)):
+        # With numpy 2.3 upgrade, sometimes Lines and Samples will exist in
+        # the gvars list, but not exist in the dset.
+        if dkey not in dset:
+            LOG.debug("%s is not in dset", dkey)
+            continue
         # Flip data arrays upside down - otherwise image will be upside down in
         # unprojected output
         LOG.debug("Adding %s to xarray dataset", dkey)
@@ -875,7 +917,10 @@ def read_fci_netcdf_files(
     use_satpy=False,
     geolocation_cache_backend="zarr",
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """Read and calibrate data using satpy's fci_l1c_nc reader.
 
@@ -892,6 +937,8 @@ def read_fci_netcdf_files(
     self_register : bool, optional
         Self register data to given resolution, by default False
         (currently unsupported)
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to None
 
     Returns
     -------
@@ -904,7 +951,9 @@ def read_fci_netcdf_files(
         )
     avail_vars = avail_chans_in_file(fci_files[0])
     if not chans:
-        chans = avail_vars
+        # If chans is None, set chans to the GeoIPS band names for each variable found
+        # in the FCI files.
+        chans = [CHAN_MAP[x] for x in avail_vars]
     ingested = {}
     for fci_file in fci_files:
         if "TRAIL" in fci_file:
@@ -951,6 +1000,9 @@ def read_fci_netcdf_files(
                 metadata=standard_meta,
                 geolocation_cache_backend=geolocation_cache_backend,
                 chunk_size=cache_chunk_size,
+                cache_solar_angles=cache_solar_angles,
+                geolocation_only=geolocation_only,
+                satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
             )
     # Otherwise read in chans with similar resolutions to maintain resolution
     else:
@@ -961,8 +1013,8 @@ def read_fci_netcdf_files(
                 LOG.info("No channels to read at %s resolution", res)
                 continue
             # Use those indices to retrieve the correct 'geoips' variables that we'll
-            # need to read
-            read_geoips_chans = list(np.array(chans)[read_idxs])
+            # need to read.  Cast np.str to str.
+            read_geoips_chans = [str(x) for x in np.array(chans)[read_idxs]]
             LOG.info(
                 "Reading in following chans: %s: %s", res, " ".join(read_geoips_chans)
             )
@@ -983,7 +1035,10 @@ def read_fci_netcdf_files(
                     area_def=area_def,
                     geolocation_cache_backend=geolocation_cache_backend,
                     chunk_size=cache_chunk_size,
+                    cache_solar_angles=cache_solar_angles,
+                    geolocation_only=geolocation_only,
                     resource_tracker=resource_tracker,
+                    satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
                 )
     return ingested
 
@@ -995,9 +1050,12 @@ def call(
     area_def=None,
     self_register=False,
     use_satpy=False,
-    geolocation_cache_backend="zarr",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """Read and calibrate FCI data.
 
@@ -1015,6 +1073,8 @@ def call(
     self_register : bool, optional
         Self register data to given resolution, by default False
         (currently unsupported)
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to None
 
     Returns
     -------
@@ -1044,6 +1104,9 @@ def call(
         use_satpy=use_satpy,
         geolocation_cache_backend=geolocation_cache_backend,
         cache_chunk_size=cache_chunk_size,
+        cache_solar_angles=cache_solar_angles,
+        geolocation_only=geolocation_only,
+        satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
     )
 
     return fci_data

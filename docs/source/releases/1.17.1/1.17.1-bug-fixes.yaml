@@ -1,0 +1,164 @@
+bug fixes:
+- title: Bug fixes on 1.17.1
+  description: |
+    Rearranged env files so they start with X.Y.Z, then env tag (e.g., baseinstall, sitetestfull, etc)
+
+    * geoips/environments all files
+
+    Add 20210929 DMW datasets to test_data_abi so test scripts run (L1b required for config-based).
+
+    * abi.static.dmw.imagery_windbarbs_high.sh
+    * abi.config_based_dmw_overlay.sh
+
+    Tiny sector fixes in tests/output and tests/scripts
+
+    * Updated abi dust rgb tiny sector test output.
+      3km -> 10km, new location/coverage ?.
+    * Removed some old config-based Visible tiny sector outputs
+    * Renamed config-based non-dataset-based tiny sector from goes16 to goeseast
+
+      * Final tiny sector is test_goeseast_eqc_3km_landocean
+
+    Use metadata_default vs metadata_tc
+
+    * metadata_default should never change, so only test metadata_tc once, so we only
+      have one integration test output to update when metadata_tc output formatter
+      changes
+    * amsr2.config_based_overlay_output.sh
+
+      * amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml
+      * amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml
+    * amsr2.config_based_overlay_output_low_memory.sh
+
+      * amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml
+      * amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml
+
+    Partial caching fix for abi_netcdf
+
+    * geoips/plugins/modules/readers/abi_netcdf.py
+
+    Rearrange proj4 strings
+
+    * abi.config_based_output_low_memory.sh and abi.config_based_output.sh
+
+      * abi.tc.Infrared.imagery_clone.low_memory
+      * abi.tc.IR-BD.imagery_clone.low_memory
+    * abi.config_based_output.sh
+
+      * abi.tc.Visible.imagery_clean
+      * abi.tc.IR-BD.imagery_clean
+    * hy2.tc.windspeed.imagery_annotated
+    * ssmi.tc.37pct.imagery_clean
+
+    Environment and minor testing updates
+
+    * Quote additional_args in interactive_pytest.sh so it works with more than one word.
+    * setup/config_geoips - make GEOIPS_LOGGING_LEVEL a supported overrideable env var.
+      and default to info. Also make GEOIPS_PERSISTENT_DATA_DIRS overrideable env var
+      with default to $GEOIPS BASEDIR/../persistent_data_dirs.
+    * output_checkers.py - print out all the files in the output comparison directory when
+      there are no matching files (easier CTRL-click)
+    * color_prompt - include GEOIPS BASEDIR in prompt, and source color_prompt from config_geoips
+    * check_system_requirements - add create_environment_file for consistent naming, and allow copying to final requirements.txt
+      (and moved all the environment files to new naming)
+    * base_install/full_install/site_install - put config install each on their own line,
+      i think install-github doesn't support more than one in the call, and having them
+      on separate lines makes it easier to follow changes anyway. Also alphabetize. Also
+      make sure we have the correct set of test data repos / packages for each.
+    * tests/integration_tests/test_integration.py mark full integration tests optional.
+    * tests/utils/link_integration_test_packages.sh THIS ONLY LINKS pytest.ini now ;-O
+      pytest_packges linking now breaks with pydantic validation (more than one location
+      for the same plugin)
+    * tests/yaml_configs/abi_test.yaml
+      test_goes16_eqc_3km_subsector -> test_goeseast_eqc_3km_landocean
+    * tests/yaml_configs/abi_test_full_zarr_cache_backend.yaml
+      test_goes16_eqc_3km_nadir -> test_goeseast_eqc_3km_nadir
+    * tests/yaml_configs/abi_test_low_memory_zarr_cache_backend.yaml
+      test_goes16_longlat_20km_fulldisk -> test_goeseast_longlat_50km_fulldisk
+    * geoips/commandline/geoips_config.py GEOIPS_PACKAGES_DIR for check_system_requirements.sh!
+      we accidentally merge conflicted this to GEOIPS_TESTDATA_DIR, because we were thinking
+      "config install is installing data, why are we using GEOIPS_PACKAGES_DIR". That is
+      not right.
+    * tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh - needs to be
+      None not null for literal_eval!  json.loads needed null.
+
+    Other minor bug fixes
+
+    * contribute and installing index.rst - Fix links for installation script in index.rst files.
+
+    Satellite zenith angle cutoff fixes
+
+    * ami.static.Visible.imagery_clean.sh and ami.static.Infrared.imagery_clean.sh
+
+      * geostationary_geolocation.py area_def defined lon/lats don't have the correct mask,
+        use satzen mask since it is correct.
+      * ami_netcdf.py - update so defaults to 75 satzen cutoff, since  that is what it was
+        hard coded to use before (until we update all test outputs)
+
+    Very slight coverage change / minimal test output change
+
+    * All the seviri test outputs
+
+      * global cylindrical from 22.76 to 22.84
+      * Night Microphys only from 22.76 to 22.81 !
+      * unprojected from 69.07 to 69.10
+      * NOTE WV-Upper no_self_register unprojected_image has unk coverage, so unchnaged!
+  files:
+    added:
+    - 'docs/source/releases/latest/1.17.1-sitetestfull-bug-fixes.yaml'
+    moved:
+    - 'every file in environments/'
+    - 'and modified, renamed and moved tiny sector: tests/outputs/abi.static.nasa_dust_rgb.imagery_clean/20200918.195020.goes-16.abi.nasa_dust_rgb.test_goes16_eqc_10km_edge_day_20200918T1950Z.25p55.noaa.10p0.png <- tests/outputs/abi.static.nasa_dust_rgb.imagery_clean/20200918.195020.goes-16.abi.nasa_dust_rgb.test_goes16_eqc_3km_edge_day_20200918T1950Z.93p58.noaa.3p0.png'
+    - 'renamed tiny sector: tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.test_goes16_eqc_3km_nadir.100p00.noaa.3p0.png -> tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.test_goeseast_eqc_3km_landocean.100p00.noaa.3p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.global_cylindrical.22p76.nesdisstar.20p0.png        tests/outputs/seviri.Convective_Storms.imagery_clean/20250624.120000.msg-3.seviri.Convective_Storms.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.global_cylindrical.22p76.nesdisstar.20p0.png  tests/outputs/seviri.Day_Microphys_Summer.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Summer.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.global_cylindrical.22p76.nesdisstar.20p0.png  tests/outputs/seviri.Day_Microphys_Winter.imagery_clean/20250624.120000.msg-3.seviri.Day_Microphys_Winter.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.global_cylindrical.22p76.nesdisstar.20p0.png        tests/outputs/seviri.Day_Solar.imagery_clean/20250624.120000.msg-3.seviri.Day_Solar.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.global_cylindrical.22p76.nesdisstar.20p0.png  tests/outputs/seviri.Dust-RGB.imagery_clean/20250624.120000.msg-3.seviri.Dust_RGB.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.global_cylindrical.22p76.nesdisstar.20p0.png        tests/outputs/seviri.Natural-Color.imagery_clean/20250624.120000.msg-3.seviri.Natural_Color.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.global_cylindrical.22p76.nesdisstar.20p0.png    tests/outputs/seviri.Night_Microphys.imagery_clean/20250624.120000.msg-3.seviri.Night_Microphys.global_cylindrical.22p81.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.global_cylindrical.22p76.nesdisstar.20p0.png  tests/outputs/seviri.Volcanic_Ash.imagery_clean/20250624.120000.msg-3.seviri.Volcanic_Ash.global_cylindrical.22p84.nesdisstar.20p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.WV-Upper.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper.self_register.69p07.nesdisstar.10p0.png   tests/outputs/seviri.WV-Upper.unprojected_image/20250624.120000.msg-3.seviri.WV-Upper.self_register.69p10.nesdisstar.10p0.png'
+    - 'very slight coverage change R100    tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.global_cylindrical.22p76.nesdisstar.20p0.png    tests/outputs/seviri.airmass.imagery_clean/20250624.120000.msg-3.seviri.airmass.global_cylindrical.22p84.nesdisstar.20p0.png'
+    modified:
+    - 'None not null! tests/integration_tests/tiny_sectors/tiny_sectors_geostationary.sh'
+    - 'geoips/commandline/geoips_config.py'
+    - 'tests/yaml_configs/abi_test_low_memory_zarr_cache_backend.yaml'
+    - 'tests/yaml_configs/abi_test_full_zarr_cache_backend.yaml'
+    - 'tests/yaml_configs/abi_test.yaml'
+    - 'tests/utils/link_integration_test_packages.sh'
+    - 'tests/integration_tests/test_integration.py'
+    - 'tests/integration_tests/base_install.sh'
+    - 'tests/integration_tests/full_install.sh'
+    - 'tests/integration_tests/site_install.sh'
+    - 'consistent env file naming setup/check_system_requirements.sh'
+    - 'include GEOIPS BASEDIR in prompt setup/bash_setup/color_prompt'
+    - 'renamed tiny sector: tests/scripts/abi.static.nasa_dust_rgb.imagery_clean.sh'
+    - 'GEOIPS_LOGGING_LEVEL, GEOIPS_PERSISTENT_DATA_DIRS, GEOIPS_TESTDATA_DIR defaults: setup/config_geoips'
+    - 'update link: docs/source/contribute/index.rst'
+    - 'update link: docs/source/getting-started/installing/index.rst'
+    - 'quote additional args: tests/utils/interactive_pytest.sh'
+    - 'rearrange proj4: tests/outputs/abi.tc.Infrared.imagery_clean.low_memory/20200918_195020_AL202020_abi_goes-16_Infrared_110kts_100p00_1p0.png.yaml'
+    - 'rearrange proj4: tests/outputs/abi.tc.IR-BD.imagery_clean.low_memory/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml'
+    - 'rearrange proj4: tests/outputs/abi.tc.IR-BD.imagery_clean/20200918_195020_AL202020_abi_goes-16_IR-BD_110kts_100p00_1p0.png.yaml'
+    - 'rearrange proj4: tests/outputs/abi.tc.Visible.imagery_clean/20200918_195020_AL202020_abi_goes-16_Visible_110kts_100p00_1p0.png.yaml'
+    - 'rearrange proj4: tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png.yaml'
+    - 'rearrange proj4: tests/outputs/ssmi.tc.37pct.imagery_clean/20200519_090000_IO012020_ssmi_F15_37pct_110kts_50p65_1p0-clean.png.yaml'
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+    - 'geoips/plugins/modules/readers/ami_netcdf.py'
+    - 'metadata_default tests/scripts/amsr2.config_based_overlay_output.sh'
+    - 'metadata_default tests/scripts/amsr2.config_based_overlay_output_low_memory.sh'
+    - 'metadata default tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgInfrared-Gray.png.yaml'
+    - 'metadata default tests/outputs/amsr2.tc_overlay.37pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_37pct_140kts_95p89_res1p0-cr100-bgVisible.png.yaml'
+    - 'metadata default tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Infrared-Gray/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgInfrared-Gray.png.yaml'
+    - 'metadata default tests/outputs/amsr2.tc_overlay.89pct.imagery_annotated_over_Visible/20200518_073601_IO012020_amsr2_gcom-w1_89pct_140kts_98p32_res1p0-cr100-bgVisible.png.yaml'
+    - 'geoips/interfaces/module_based/output_checkers.py'
+    - 'geoips/plugins/modules/readers/abi_netcdf.py'
+    deleted:
+    - 'deleted old tiny sector name: tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.test_goes16_eqc_3km_subsector.100p00.noaa.3p0.png'
+    - 'deleted old tiny sector name: tests/outputs/abi.static.Visible.imagery_clean/20200918.195020.goes-16.abi.Visible.test_goes16_eqc_3km_terminator_20200918T1950Z.79p46.noaa.3p0.png'
+  related-issue:
+    internal: geoips#959 - 1.17.0 updates*
+  date:
+    start: 2025-10-20
+    finish: 2025-10-20
