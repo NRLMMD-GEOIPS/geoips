@@ -1,0 +1,24 @@
+enhancement:
+- title: 'New Module-based Validators Interface'
+  description: |
+    This update creates an entirely new module-based 'validators' interface. Plugins of
+    this type should be responsible for producing statistics via the comparison of a
+    produced dataset and a source of truth dataset that can be displayed via a specific
+    output formatter. Think of a bar chart, regression analysis, etc.
+
+    This update sets up the basic infrastructure of the validators interface, adds this
+    interface to relevant CLI commands, and creates a dummy validator plugin that can
+    be used for testing purposes.
+  files:
+    added:
+      - geoips/interfaces/module_based/validators.py
+      - geoips/plugins/modules/validators/difference.py
+    modified:
+      - geoips/commandline/ancillary_info/cmd_instructions.yaml
+      - geoips/interfaces/__init__.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
