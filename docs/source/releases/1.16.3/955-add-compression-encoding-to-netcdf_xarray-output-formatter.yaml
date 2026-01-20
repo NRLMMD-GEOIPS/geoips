@@ -1,0 +1,38 @@
+enhancement:
+- title: 'Add compression encoding to netcdf output formatters'
+  description: |
+    Add two new kwargs (use_compression and compression_kwargs) to the netcdf output
+    formatter functions for enabling compression when writing xarray datasets to a
+    NetCDF file. By default, use_compression is true, and compression_kwargs is None.
+    If compression_kwargs is None, the underlying write_xarray_to_netcdf function in the
+    netcdf_xarray output formatter sets encoding kwargs for the to_netcdf function as
+    zlib=True and compression_level=5.
+
+    Update the abi.static.Infrared.netcdf_geoips and atms.tc.165H.netcdf_geoips test
+    comparison outputs with new compressed NetCDF file. (Also use the 10km tiny test
+    sector for the abi.static.Infrared.netcdf_geoips test, as the 3km tiny test sector
+    no longer exists)
+
+    The 20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_10km_edge_night_20200918T1950Z.nc
+    file size decreased from 2.1M to 176K
+
+    The atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc
+    file size decreased from 3.5M to 860K
+  files:
+    deleted:
+    - 'tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_3km_edge_night_20200918T1950Z.nc'
+    moved:
+    - ''
+    added:
+    - 'tests/outputs/abi.static.Infrared.netcdf_geoips/20200918.195020.goes-16.Infrared_latitude_longitude.test_goes16_eqc_10km_edge_night_20200918T1950Z.nc'
+    modified:
+    - 'geoips/plugins/modules/output_formatters/netcdf_full.py'
+    - 'geoips/plugins/modules/output_formatters/netcdf_geoips.py'
+    - 'geoips/plugins/modules/output_formatters/netcdf_xarray.py'
+    - 'tests/outputs/atms.tc.165H.netcdf_geoips/20210809.083826.noaa-20.165H_latitude_longitude.tc2021ep11kevin.nc'
+    - 'tests/scripts/abi.static.Infrared.netcdf_geoips.sh'
+  related-issue:
+    internal: GEOIPS#955
+  date:
+    start: 2025-10-03
+    finish: 2025-10-03

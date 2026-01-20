@@ -1,0 +1,19 @@
+bug fix:
+- title: 'Remove product_name from required xarray_to_xarray algorithm arg list'
+  description: |
+    Some xarray to xarray algorithms may be tied to a specific product name, so
+    the product_name argument would not be required in the call signature.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/module_based/algorithms.py'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-13
+    finish: 2025-06-13

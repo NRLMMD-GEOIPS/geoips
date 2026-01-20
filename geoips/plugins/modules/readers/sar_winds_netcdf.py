@@ -40,25 +40,67 @@ def read_sar_data(wind_xarray):
     # Setting standard geoips attributes
     LOG.info("Reading SAR data")
     wind_xarray.attrs["source_name"] = "sar-spd"
+
+    rcm_attribution_short = "CSA-NOAA/NESDIS/STAR/SOCD"
+    rcm_attribution = [
+        "RADARSAT Constellation Mission Imagery Copyright Government of Canada 2025",
+        "RADARSAT is an official mark of the Canadian Space Agency",
+        "Data pre-processed by NOAA/NESDIS/STAR/SOCD",
+    ]
+
+    sentinel_attribution_short = "ESA-NOAA/NESDIS/STAR/SOCD"
+    sentinel_attribution = [
+        "Contains modified Copernicus Sentinel data",
+        "Data pre-processed by NOAA/NESDIS/STAR/SOCD",
+    ]
+
     if (
         "platform" in wind_xarray.attrs
         and wind_xarray.platform.lower() == "sentinel-1a"
     ):
         wind_xarray.attrs["platform_name"] = "sentinel-1"
+        data_provider = "esa-star"
+        data_attribution_title = sentinel_attribution
+        data_attribution_short = sentinel_attribution_short
+
     elif "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "rcm-1":
         wind_xarray.attrs["platform_name"] = "rcm-1"
+        data_provider = "csa-star"
+        data_attribution_title = rcm_attribution
+        data_attribution_short = rcm_attribution_short
+
     elif "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "rcm-2":
         wind_xarray.attrs["platform_name"] = "rcm-2"
+        data_provider = "csa-star"
+        data_attribution_title = rcm_attribution
+        data_attribution_short = rcm_attribution_short
+
     elif "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "rcm-3":
         wind_xarray.attrs["platform_name"] = "rcm-3"
+        data_provider = "csa-star"
+        data_attribution_title = rcm_attribution
+        data_attribution_short = rcm_attribution_short
+
     elif (
         "platform" in wind_xarray.attrs and wind_xarray.platform.lower() == "radarsat-2"
     ):
         wind_xarray.attrs["platform_name"] = "radarsat-2"
+        data_provider = "csa-star"
+        data_attribution_title = rcm_attribution
+        data_attribution_short = rcm_attribution_short
+
     else:
         raise ValueError(
             f"Unsupported satellite name for SAR data: {wind_xarray.platform}"
         )
+
+    wind_xarray.attrs["data_attribution"] = {
+        "short": data_attribution_short,
+        "title": data_attribution_title,
+        "long": " ".join(data_attribution_title),
+    }
+    wind_xarray.attrs["data_provider"] = data_provider
+
     wind_xarray.attrs["interpolation_radius_of_influence"] = 3000
     # For resampling to a minimum-sized grid
     wind_xarray.attrs["sample_distance_km"] = 3.0
@@ -66,9 +108,8 @@ def read_sar_data(wind_xarray):
     wind_xarray.attrs["sample_pixels_y"] = 300
     wind_xarray.attrs["minimum_coverage"] = 0
     wind_xarray.attrs["granule_minutes"] = 0.42
-    wind_xarray.attrs["data_provider"] = "star"
-    if "acknowledgment" in wind_xarray.attrs and "NOAA" in wind_xarray.acknowledgment:
-        wind_xarray.attrs["data_provider"] = "star"
+    # if "acknowledgment" in wind_xarray.attrs and "NOAA" in wind_xarray.acknowledgment:
+    #     wind_xarray.attrs["data_provider"] = "star"
     # Used for tc filenames / text files
 
     LOG.info("Shape: %s", wind_xarray["sar_wind"].shape)

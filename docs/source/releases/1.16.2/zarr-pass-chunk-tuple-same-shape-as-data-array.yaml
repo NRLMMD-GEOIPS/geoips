@@ -1,0 +1,20 @@
+bug fix:
+- title: 'Ensure chunks passed to zf.create_dataset are of same shape as array'
+  description: |
+    Was just using fixed (chunk_size, chunk_size). Ensure we are passing a tuple
+    that is the same shape as the array. Otherwise zf.create_dataset will fail due to
+    mismatched shapes
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
+  related-issue:
+    number: 861
+  date:
+    start: 2025-06-17
+    finish: 2025-06-17

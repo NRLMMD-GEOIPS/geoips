@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Add TCPRIVATEWWW to both geoips_utils and base_paths'
+  description: |
+    Ensure TCPRIVATEWWW is a supported env var for WWW output locations.  This should
+    complete the available standard WWW output locations, no others will be
+    supported as a standard across the GeoIPS Ecosystem.
+
+    * TCWWW
+    * TCPRIVATEWWW
+    * PUBLICWWW
+    * PRIVATEWWW
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - geoips/filenames/base_paths.py
+    - geoips/geoips_utils.py
+  date:
+    start: 2025-08-08
+    finish: 2025-08-08

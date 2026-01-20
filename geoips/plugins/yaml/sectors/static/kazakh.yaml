@@ -1,0 +1,28 @@
+interface: sectors
+family: area_definition_static
+name: kazakh 
+docstring: "Kazakhstan Country."
+metadata:
+  region:
+    continent: Asia
+    country: Kazakhstan
+    area: x
+    subarea: x
+    state: x
+    city: x
+spec:
+  area_id: kazakh
+  description: Kazakhstan Country
+  projection:
+    a: 6371228.0
+    lat_0: 49.0
+    lon_0: 70.0
+    proj: stere
+    units: km
+  resolution:
+    - 3
+    - 3
+  shape:
+    height: 1200
+    width: 1920
+  center: [0, 0]
