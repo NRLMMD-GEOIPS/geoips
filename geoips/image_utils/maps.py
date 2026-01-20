@@ -14,7 +14,6 @@ import matplotlib.ticker as mticker
 from cartopy.mpl.gridliner import LONGITUDE_FORMATTER, LATITUDE_FORMATTER
 from geoips.interfaces import feature_annotators, gridline_annotators
 
-
 LOG = logging.getLogger(__name__)
 
 
