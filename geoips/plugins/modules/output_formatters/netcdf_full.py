@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Full NetCDF output format, writing out all channels in full dataset."""
+
 import logging
 
 LOG = logging.getLogger(__name__)

@@ -16,6 +16,7 @@ Homepage: https://github.com/NRLMMD-GEOIPS/geoips
 
 .. |unireg|    unicode:: U+000AE .. REGISTERED SIGN
 """
+
 # Importing netCDF4 here so that it is always imported before
 # xarray. Because if xarray is imported first, xarrays
 # own netCDF4 functions conflict and cause segfaults
@@ -30,7 +31,6 @@ from ._version import __version__, __version_tuple__
 
 import logging  # noqa
 from geoips.commandline.log_setup import add_logging_level
-
 
 # Turn off image interpolation for matplotlib by default.
 rcParams["image.interpolation"] = "none"

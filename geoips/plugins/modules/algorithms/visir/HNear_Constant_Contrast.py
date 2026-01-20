@@ -5,6 +5,7 @@
 
 Algorithm is based upon work by Zinke (2017) for improved NCC VIIRS DNB imagery.
 """
+
 # python libs
 import logging
 
