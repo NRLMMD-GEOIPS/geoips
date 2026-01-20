@@ -14,6 +14,7 @@ enhancement:
       - geoips/interfaces/module_based/validators.py
       - geoips/plugins/modules/validators/difference.py
     modified:
+      - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/interfaces/__init__.py
   related-issue:
