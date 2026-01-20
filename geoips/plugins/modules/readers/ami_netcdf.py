@@ -905,7 +905,7 @@ def call_single_time(
         i = np.arange(0, geo_metadata[adname]["num_lines"], dtype="f")
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
         i, j = np.meshgrid(i, j)
-        (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
+        fldk_lats, fldk_lons = latlon_from_lincol_geos(
             self_register,
             j,
             i,
@@ -947,7 +947,7 @@ def call_single_time(
                 i = np.arange(0, geo_metadata[res]["num_lines"], dtype="f")
                 j = np.arange(0, geo_metadata[res]["num_samples"], dtype="f")
                 i, j = np.meshgrid(i, j)
-                (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
+                fldk_lats, fldk_lons = latlon_from_lincol_geos(
                     res,
                     j,
                     i,

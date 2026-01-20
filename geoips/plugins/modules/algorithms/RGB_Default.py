@@ -5,6 +5,7 @@
 
 This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
 """
+
 import logging
 
 from geoips.image_utils.mpl_utils import alpha_from_masked_arrays, rgba_from_arrays
