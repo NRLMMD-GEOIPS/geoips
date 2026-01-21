@@ -1,0 +1,39 @@
+bug fix:
+- title: 'Allow overriding GEOIPS_CONDA_INSTALL_DIR upstream, and ALWAYS set/use GEOIPS_CONDA_INSTALL_DIR'
+  description: |
+    If GEOIPS_CONDA_INSTALL_DIR is set, ensure it is used in both config_geoips and
+    geoips_conda_init_setup. 
+
+    Also, ensure GEOIPS_CONDA_INSTALL_DIR is always set, so we can consistently use the
+    correct installation location, without hardcoding $GEOIPS_DEPENDENCIES_DIR/miniconda3
+    all over the place.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - setup/config_geoips
+    - setup/geoips_conda_init_setup
+  date:
+    start: 2025-07-30
+    finish: 2025-07-30
+bug fix:
+- title: 'Print out full path to final output files in addition to env var replaced paths'
+  description: |
+    For easier CTRL-Click in VSCode, include both full path and env var replaced paths.
+    env var replaced paths are good for copy/paste generalized outputs.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - geoips/plugins/modules/procflows/config_based.py
+  date:
+    start: 2025-07-30
+    finish: 2025-07-30

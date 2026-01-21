@@ -5,6 +5,7 @@
 
 This algorithm expects two VIIRS channels (DNBRad and M16BT) for a RGB image
 """
+
 import logging
 
 LOG = logging.getLogger(__name__)

@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Filename formatter for full-day text windspeed products."""
+
 import logging
 
 from os.path import join as pathjoin

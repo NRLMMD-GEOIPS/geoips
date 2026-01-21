@@ -1,0 +1,32 @@
+documentation:
+- title: Add release note for version 1.17.2
+  description: |
+    Release note on release branch to force tag/release, package/publish,
+    and deploy docs.
+
+    Additionally add any updated files from geoips_ci/sync
+  files:
+    added:
+    - docs/source/releases/latest/1.17.2-release-note.yaml
+    modified:
+    - geoips_ci/sync updated files
+  date:
+    start: 2025-11-12
+    finish: 2025-11-12
+  related-issue:
+    internal: geoips#959 - 1.17.2 updates
+documentation:
+- title: Update upcoming and tagged versions
+  description: |
+
+    * Tagged version: 1.17.2
+    * Upcoming version: 1.17.3
+  files:
+    modified:
+    - .github/versions/tagged_version
+    - .github/versions/upcoming_version
+  date:
+    start: 2025-11-12
+    finish: 2025-11-12
+  related-issue:
+    internal: geoips#959 - 1.17.2 updates

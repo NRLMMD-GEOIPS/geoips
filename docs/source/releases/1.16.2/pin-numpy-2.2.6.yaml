@@ -1,0 +1,31 @@
+bug fix:
+- title: 'Pin numpy to < 2.3'
+  description: |
+    numpy 2.3 changes how numpy handles scalar types so they no longer inherit directly
+    from Python's built in types.  This prevents packages like PyYAML from automatically
+    treating them as serializable. In the past, isinstance(float, np.float64(1)) would
+    have returned True. Now it returns False. So, YAML serialization of numpy types no
+    longer works. We have to convert prior to serialization.
+
+    For now, we are going to pin numpy to < 2.3 while we resolve these updates.
+
+    Additionally add gxx_linux-64 to conda install for consistent glibc version for
+    installing numpy >= 2.3, and numexpr >= 2.11.
+
+    Additionally, add libgit2 to conda install for consistent libgit2 for
+    pygit / brassy installation.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'pyproject.toml'
+    - 'docs/source/getting-started/installing/install-with-conda.rst'
+  related-issue:
+    internal: GEOIPS#861
+  date:
+    start: 2025-06-11
+    finish: 2025-06-11

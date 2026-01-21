@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Matplotlib information for standard imagery with an existing system colormap."""
+
 import logging
 
 from matplotlib.colors import Normalize
