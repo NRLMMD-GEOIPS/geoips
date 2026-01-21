@@ -15,6 +15,7 @@ Notes
   dependence for time). satpy requires time to open file, and requires standard
   (decompressed) filenames, so built in filename dependence by using satpy.
 """
+
 # Python Standard Libraries
 import os
 import logging

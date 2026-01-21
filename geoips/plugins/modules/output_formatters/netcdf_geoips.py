@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Geoips style NetCDF output format."""
+
 import logging
 
 LOG = logging.getLogger(__name__)

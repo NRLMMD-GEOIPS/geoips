@@ -3,7 +3,6 @@
 
 """Takes in a dictionary of xarrays and converts to xarray datatree."""
 
-
 import logging
 from xarray import DataTree
 
