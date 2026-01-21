@@ -24,6 +24,7 @@ Resources for Contributors
 
    code-of-conduct
    coding-standards
+   linters
    dev-assisted-package-creation
    git-workflow
    dev_linux_with_conda
