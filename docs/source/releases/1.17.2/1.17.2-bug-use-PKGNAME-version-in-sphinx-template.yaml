@@ -1,0 +1,14 @@
+bug fix:
+  - title: Use PKGNAME version in sphinx template rather than geoips version
+    description: |
+      Previously the geoips version was used for all package documentation builds.
+      Update sphinx template to use PKGNAME when importing the version to ensure the
+      correct current version is used.
+    files:
+      modified:
+        - "docs/source/_templates/sphinx_conf.template.py"
+    date:
+      start: 2025-11-17
+      finish: 2025-11-17
+    related-issue:
+      internal: geoips#959 - 1.17.2 updates

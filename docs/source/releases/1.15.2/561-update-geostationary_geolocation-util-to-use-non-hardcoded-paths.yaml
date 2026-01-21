@@ -14,8 +14,7 @@ enhancement:
     - 'geoips/filenames/base_paths.py'
     - 'geoips/plugins/modules/readers/utils/geostationary_geolocation.py'
   related-issue:
-    number: 561
-    repo_url: GEOIPS/geoips
+    internal: geoips#561
   date:
     start: 2025-03-22
     finish: 2025-03-22

@@ -9,7 +9,6 @@ import inspect
 import pkgutil
 import sys
 
-
 LOG = logging.getLogger(__name__)
 
 

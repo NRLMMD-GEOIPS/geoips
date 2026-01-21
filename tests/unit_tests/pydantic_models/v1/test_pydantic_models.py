@@ -1,3 +1,6 @@
+# # # This source code is subject to the license referenced at
+# # # https://github.com/NRLMMD-GEOIPS.
+
 """Testing module for Pydantic PluginModels."""
 
 from copy import deepcopy
@@ -13,7 +16,6 @@ from tests.unit_tests.pydantic_models.v1.utils import (
     validate_base_plugin,
     validate_neutral_plugin,
 )
-
 
 # A mapping of interfaces implemented in pydantic and a plugin to validate against.
 models_available = {
