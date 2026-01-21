@@ -77,7 +77,7 @@ isodate = "*"          # Required for overpass predictor
 jsonschema = ">4.18.0" # Provides validation for YAML plugins
 numexpr = "*"          # for efficiency improvements
 psutil = "*"           # Required for memory checks
-pydantic = ">=2.10.0"  # Data validation using Python type hints
+pydantic = ">=2.10.0,!=2.12.0,!=2.12.1,!=2.12.2"  # Data validation using Python type hints; 2.12.0->2.12.2 all have breaking changes. 2.12.3 and above works fine
 pyhdf = "*"            # hdf4 readers (MODIS)
 pyaml-env = "*"        # Reading YAML output config files, with paths
 pyorbital = "*"        # required by satpy

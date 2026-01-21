@@ -1,0 +1,24 @@
+feature:
+- title: 'OBP Pydantic Product / Product Default Models'
+  description: 'Adds new pydantic models used to validate product and product_default plugins.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/pydantic_models/v1/products.py'
+    - 'tests/unit_tests/pydantic_models/v1/product_defaults/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/product_defaults/test_cases_neutral.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/products/test_cases_bad.yaml'
+    - 'tests/unit_tests/pydantic_models/v1/products/test_cases_neutral.yaml'
+    modified:
+    - 'geoips/pydantic_models/v1/bases.py'
+    - 'tests/unit_tests/pydantic_models/v1/test_pydantic_models.py'
+    - 'tests/unit_tests/pydantic_models/v1/utils.py'
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
