@@ -1,0 +1,24 @@
+bug fix:
+- title: 'Minor bug fixes to geoips_netcdf_fname formatter and viirs_l2_netcdf reader'
+  description: |
+    geoips_netcdf_fname - Add handling if xarray_obj.area_definition is None, and set
+    area_id as "x" if None.
+
+    viirs_l2_netcdf - Add list of empty vars to loaded vars to prevent reader from
+    thinking there are missing variables in the file, fix deprecation warnings, and
+    provide option for generating time arrays.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'geoips/plugins/modules/filename_formatters/geoips_netcdf_fname.py'
+    - 'geoips/plugins/modules/readers/viirs_l2_netcdf.py'
+  related-issue:
+    number: null
+  date:
+    start: 2025-07-09
+    finish: 2025-07-09

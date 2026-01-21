@@ -163,6 +163,7 @@ Additional info::
     LZ_angle:  local zinath angle (deg)
     SZ_angle:  solar zinath angle (deg)
 """
+
 # Python Standard Libraries
 from datetime import datetime
 import logging

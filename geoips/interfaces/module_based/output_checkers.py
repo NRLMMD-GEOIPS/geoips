@@ -15,10 +15,9 @@ from geoips.commandline.log_setup import log_with_emphasis
 import gzip
 from glob import glob
 from os.path import exists, splitext, basename, dirname, isdir, join
-from os import makedirs, getenv
+from os import makedirs, getenv, listdir
 from shutil import copyfileobj
 from geoips.filenames.base_paths import make_dirs
-
 
 LOG = logging.getLogger(__name__)
 rezip = False
@@ -870,10 +869,21 @@ class OutputCheckersBasePlugin(BaseModulePlugin):
             **kwargs,
         )
         remove_temp_files += curr_remove_temp_files
-        log_with_emphasis(
-            LOG.info,
-            f"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path}",
-        )
+        if not exists(compare_path):
+            log_with_emphasis(
+                LOG.info,
+                f"COMPARE PATH DOES NOT EXIST: {compare_path} "
+                f"Not comparing outputs.",
+            )
+        else:
+            compare_filenames = [
+                join(compare_path, file_name) for file_name in listdir(compare_path)
+            ]
+            log_with_emphasis(
+                LOG.info,
+                f"DONE RUNNING COMPARISONS OF KNOWN OUTPUTS IN {compare_path} "
+                f"{compare_filenames}",
+            )
 
         # Identify all missing products based on the list of output products
         # and the dictionary of comparison products
@@ -1012,8 +1022,29 @@ class OutputCheckersInterface(BaseModuleInterface):
     #     "compare_outputs": ["test_product_func"],
     # }
 
-    def identify_checker(self, filename):
-        """Identify the correct output checker plugin and return its name."""
+    def identify_checker(self, filename, checker_override_name=None):
+        """Identify the correct output checker plugin and return its name.
+
+        Parameters
+        ----------
+        filename : str
+            - The name of the file to be checked against a comparison output.
+        checker_override_name: str (default=None)
+            - If set, specifies an output checker that should be used for the
+              input, instead of trying to discover it from the file name. If
+              the requested output checker is not found, fall back on trying
+              to discover it from the file name.
+
+        Returns
+        -------
+        string
+            - The name of the discovered output checker.
+        """
+        plugin_names = [checker.module.name for checker in self.get_plugins()]
+        # First, check if an override was requested for this file.
+        if checker_override_name and checker_override_name in plugin_names:
+            return self.get_plugin(checker_override_name).module.name
+
         checker_found = False
         checker_name = None
         if is_gz(filename):

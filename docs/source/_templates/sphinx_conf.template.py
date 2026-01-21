@@ -5,9 +5,9 @@
 
 import sys
 import os
-import geoips
+import PKGNAME
 
-VERSION = str(geoips.__version__)
+VERSION = str(PKGNAME.__version__)
 
 source_path = os.path.dirname(os.path.abspath(__file__))
 

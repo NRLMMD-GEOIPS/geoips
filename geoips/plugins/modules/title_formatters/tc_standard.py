@@ -6,6 +6,9 @@
 # Python Standard Libraries
 import logging
 
+# GeoIPS Libraries
+from geoips.filenames.base_paths import PATHS as gpaths
+
 LOG = logging.getLogger(__name__)
 
 interface = "title_formatters"
@@ -24,6 +27,9 @@ def call(
     title_copyright=None,
 ):
     """Create standard GeoIPS formatted title for tropical cyclone products."""
+    if title_copyright is None:
+        title_copyright = gpaths["GEOIPS_COPYRIGHT"]
+
     LOG.info("Setting dynamic title")
 
     # Make sure we reflect the actual start_datetime in the filename
@@ -64,6 +70,7 @@ def call(
     else:
         # title_string = f'{title_line1}\n{title_line2}\n{title_copyright}'
         title_string = f"{title_line1}, {title_copyright}\n{title_line2}"
+
     LOG.info("title_string: %s", title_string)
 
     return title_string
