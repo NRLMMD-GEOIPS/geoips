@@ -37,7 +37,7 @@ def call(workflow, fnames, command_line_args=None):
     LOG.interactive(f"Begin processing '{workflow}' workflow.")
     wf_plugin = interfaces.workflows.get_plugin(workflow)
 
-    handled_interfaces = ["readers"]
+    handled_interfaces = ["readers", "coverage_checkers"]
     for step_id, step_def in wf_plugin.spec.steps.items():
         interface = str(Lexeme(step_def.kind).plural)
 
@@ -75,6 +75,15 @@ def call(workflow, fnames, command_line_args=None):
                 step_def.name,
                 step_def.kind,
             )
+
+            if interface == "coverage_checkers":
+                # uncomment once DataTreeDitto is available
+                # if variable_name not in xarray_obj:
+                #     raise KeyError(
+                #         f"Missing variable {variable_name!r}; cannot compute coverage." # noqa: E501
+                #         )
+                # else:
+                data = plg(data, **step_def.arguments)
 
     LOG.interactive(f"\nThe workflow '{workflow}' has finished processing.\n")
 

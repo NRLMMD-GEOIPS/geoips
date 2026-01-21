@@ -3,7 +3,11 @@
 
 """Coverage check routine for RGBA arrays."""
 
+# Python Standard Libraries
 import logging
+
+# GeoIPS imports
+from geoips.image_utils.mpl_utils import percent_unmasked_rgba
 
 LOG = logging.getLogger(__name__)
 
@@ -31,11 +35,4 @@ def call(
     float
         Percent coverage of variable_name
     """
-    from geoips.image_utils.mpl_utils import percent_unmasked_rgba
-
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
-        )
-
     return percent_unmasked_rgba(xarray_obj[variable_name].to_masked_array())

@@ -3,9 +3,13 @@
 
 """Coverage check routine for RGBA center radius coverage checks."""
 
+# Python Standard Libraries
 import logging
 
+# Third-Party Libraries
 import numpy
+
+# GeoIPS imports
 from geoips.plugins.modules.coverage_checkers.center_radius import create_radius
 
 LOG = logging.getLogger(__name__)
@@ -38,11 +42,6 @@ def call(
     float
         Percent coverage of variable_name
     """
-    if variable_name not in xarray_obj:
-        raise KeyError(
-            f"Variable {variable_name} did not exist. Can not calculate coverage."
-        )
-
     temp_arr = xarray_obj[variable_name][:, :, 3]
 
     res_km = (
