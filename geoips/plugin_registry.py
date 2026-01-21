@@ -145,7 +145,7 @@ class PluginRegistry:
                 try:
                     registry = self._load_registry(reg_path)
                 except FileNotFoundError as e:
-                    if PATHS["GEOIPS_REBUILD_REGISTRIES"]:
+                    if PATHS["GEOIPS_REBUILD_REGISTRIES"] == True:
                         # This will be hit if we have this environment variable set to
                         # True
                         LOG.warning(
