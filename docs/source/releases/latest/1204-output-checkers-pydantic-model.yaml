@@ -1,0 +1,18 @@
+enhancement:
+- title: 'Adding an Output Checker Pydantic Model'
+  description: 'Creating a Pydantic model for output checkers.'
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - 'geoips/pydantic_models/v1/output_checkers.py'
+    modified:
+    - ''
+  related-issue:
+    number: 1204
+    repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips'
+  date:
+    start: 2026/01/21
+    finish: null
