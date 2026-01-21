@@ -3,7 +3,6 @@
 
 """Test Order-based procflow WorkflowStepDefinition Model."""
 
-
 # Python Standard Libraries
 import copy
 
