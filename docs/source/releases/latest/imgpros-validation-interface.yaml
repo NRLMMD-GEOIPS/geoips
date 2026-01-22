@@ -11,9 +11,11 @@ enhancement:
     be used for testing purposes.
   files:
     added:
+      - docs/source/concepts/functionality/interfaces/module_based/validators.rst
       - geoips/interfaces/module_based/validators.py
       - geoips/plugins/modules/validators/difference.py
     modified:
+      - docs/source/concepts/functionality/interfaces/index.rst
       - geoips/commandline/ancillary_info/alias_mapping.yaml
       - geoips/commandline/ancillary_info/cmd_instructions.yaml
       - geoips/interfaces/__init__.py
