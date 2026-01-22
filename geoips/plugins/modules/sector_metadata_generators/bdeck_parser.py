@@ -97,6 +97,7 @@ location per line (split between 3 lines each in comments for readability)::
      25,   20,   30, 1009,  210,  20, 105,   0,   L,   0,    ,   0,   0,
             TEDDY, D, 12, NEQ,  330,  360,  300,  300, genesis-num, 039,
 """
+
 import os
 import logging
 from datetime import datetime

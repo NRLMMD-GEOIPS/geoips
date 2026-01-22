@@ -423,10 +423,14 @@ instructions:
     help_str: |
       Run the order_based process workflow (procflow). This procflow executes operations
       in the order they are specified in the provided workflow plugin. Eventually, this
-      will be the only procflow supported by GeoIPS. '--workflow' is a required argument
-      for this command.
+      will be the only procflow supported by GeoIPS. One of --workflow <workflow_name>,
+      --generated <generated_workflow>, or --filepath <absolute_filepath(.yaml/.json)>
+      is required for this command to run.
     usage_str: |
       To use, type `geoips run order_based -w <workflow> **<order_based_args>`.
+      OR, type `geoips run order_based -g <generated_workflow> **<order_based_args>`.
+      OR, type `geoips run order_based -f <absolute_filepath(.yaml/.json)>
+      **<order_based_args>`.
     output_info:
       - Log output of the order based process workflow.
   geoips_run_single_source:
