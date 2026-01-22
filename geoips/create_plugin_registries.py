@@ -12,10 +12,12 @@ EVERY currently installed plugin package. A separate registered_plugins.json is
 created at the top level package directory for each plugin package.
 """
 
-import warnings
-import yaml
+from argparse import ArgumentParser
+from copy import deepcopy
+import logging
 from importlib import metadata, resources, util, import_module
 from inspect import isclass, signature
+from os import remove
 from os.path import (
     basename,
     dirname,
@@ -25,13 +27,14 @@ from os.path import (
     join as os_join,
     relpath as os_relpath,
 )
-from os import remove
 import re
-import logging
-import geoips.interfaces
-from geoips.errors import PluginRegistryError
+import warnings
+
 import json
-from argparse import ArgumentParser
+import yaml
+
+from geoips.errors import PluginRegistryError
+import geoips.interfaces
 
 LOG = logging.getLogger(__name__)
 
@@ -509,17 +512,22 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
     # Retroactively move all class_based plugins from the module_based portion of the
     # registry to the class_based portion of the registry. This will likely be
     # refactored later but is a stop-gap for the time being.
-    for interface_name in plugins["module_based"]:
-        for plugin_name in plugins["module_based"][interface_name]:
-            entry = plugins["module_based"][interface_name][plugin_name]
+    module_based_copy = deepcopy(plugins["module_based"])
+    for interface_name in module_based_copy:
+        for plugin_name in module_based_copy[interface_name]:
+            entry = module_based_copy[interface_name][plugin_name]
 
             if not entry["derived_object"]:
-                if not isinstance(plugins["class_based"][interface_name], dict):
+                if interface_name not in plugins["class_based"].keys():
                     plugins["class_based"][interface_name] = {}
 
+                # Pop the class_based entry from the actual module_based dictionary
                 plugins["class_based"][interface_name][plugin_name] = plugins[
                     "module_based"
                 ][interface_name].pop(plugin_name)
+
+    # Remove the copy. No longer needed
+    del module_based_copy
 
     # Ensure we return a string error_message with ALL errors appended.
     # This will be raised at the end if error_message has any contents.
@@ -566,10 +574,8 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
         try:
             interface_name = plugin["interface"]
         except KeyError:
-            raise PluginRegistryError(
-                f"""No 'interface' level in '{filepath}'.
-                    Ensure all required metadata is included."""
-            )
+            raise PluginRegistryError(f"""No 'interface' level in '{filepath}'.
+                    Ensure all required metadata is included.""")
         if namespace != "geoips.plugin_packages":
             mod = import_module(package)
             interface_module = getattr(mod.interfaces, f"{interface_name}")
@@ -826,6 +832,7 @@ def collect_class_plugin_metadata(module, plugin_class=None):
         "docstring": format_docstring(plugin_class.__doc__),
         "family": plugin_class.family,
         "interface": plugin_class.interface,
+        "name": plugin_class.name,
         "plugin_type": "module_based",
         "signature": str(signature(plugin_class.call)),
         "derived_object": False,
@@ -884,7 +891,7 @@ def add_module_plugin(package, relpath, plugins):
                          at relpath '{relpath}'\n"""
         return error_message
 
-    if "class_based" in module_path or hasattr(module, "plugin_class"):
+    if "classes" in module_path or hasattr(module, "plugin_class"):
         # We've encountered a truly 'class-based' plugin. I.e. we don't need to generate
         # the plugin object from the module itself. Collect metadata from this plugin
         # in a different fashion to what we've done previously.
