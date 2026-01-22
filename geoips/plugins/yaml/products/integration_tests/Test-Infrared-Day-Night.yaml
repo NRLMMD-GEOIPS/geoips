@@ -1,0 +1,70 @@
+interface: products
+family: list
+name: test-infrared-day-night
+docstring: |
+  Products only used for diagnostic integration tests
+
+spec:
+  products:
+    - name: Test-Infrared-Day-Night
+      source_names: [abi]
+      docstring: |
+        11.2 µm Infrared product retaining both day and night data,
+        for diagnostic purposes. Include satellite_zenith_angle with the
+        standard Infrared product for testing sat zenith masking.
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT", "MED:satellite_zenith_angle"]
+
+    - name: Test-Infrared-ABI-B13-Day-Night
+      source_names: [abi]
+      docstring: |
+        Channel 13 10.3 µm Infrared product retaining both day and night data,
+        for diagnostic purposes. Include satellite_zenith_angle with the
+        standard Infrared product for testing sat zenith masking.
+
+        This product is for use with datasets that do not contain the B14 11.2um
+        channel.
+      product_defaults: Infrared
+      spec:
+        variables: ["B13BT", "MED:satellite_zenith_angle"]
+
+    - name: Test-Infrared-Day-Night
+      source_names: [ahi]
+      docstring: |
+        11.2 µm Infrared product retaining both day and night data,
+        for diagnostic purposes. Include satellite_zenith_angle with the
+        standard Infrared product for testing sat zenith masking.
+      product_defaults: Infrared
+      spec:
+        variables: ["B13BT", "MED:satellite_zenith_angle"]
+
+    - name: Test-Infrared-Day-Night
+      source_names: [ami]
+      docstring: |
+        11.2 µm Infrared product retaining both day and night data,
+        for diagnostic purposes. Include satellite_zenith_angle with the
+        standard Infrared product for testing sat zenith masking.
+      product_defaults: Infrared
+      spec:
+        variables: ["IR112BT", "MED:satellite_zenith_angle"]
+
+    - name: Test-Infrared-Day-Night
+      source_names: [fci]
+      docstring: |
+        11.2 µm Infrared product retaining both day and night data,
+        for diagnostic purposes. Include satellite_zenith_angle with the
+        standard Infrared product for testing sat zenith masking.
+      product_defaults: Infrared
+      spec:
+        variables: ["B14BT", "MED:satellite_zenith_angle"]
+
+    - name: Test-Infrared-Day-Night
+      source_names: [seviri]
+      docstring: |
+        11.2 µm Infrared product retaining both day and night data,
+        for diagnostic purposes. Include satellite_zenith_angle with the
+        standard Infrared product for testing sat zenith masking.
+      product_defaults: Infrared
+      spec:
+        variables: ["B09BT", "MED:satellite_zenith_angle"]

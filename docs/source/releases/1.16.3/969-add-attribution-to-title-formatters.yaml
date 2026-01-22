@@ -1,0 +1,66 @@
+enhancement:
+- title: 'Add support for dataset attribution in xarray object metadata, YAML metadata output, and imagery titles'
+  description: |
+    Per data provider request, ensure we can consistently and programmatically provide
+    appropriate dataset attribution in backend xarray objects as well as final
+    product outputs (imagery, YAML metadata, etc).
+
+    * hy2 script - Update output to remove NRL and note source data from EUMETSAT
+    * xarray-standards - Add new attribution xarray attrs, and ensure all existing geoips_utils attrs are included in the list.
+    * geoips_utils - Add new attribution xarray attrs to copy_standard_metadata, and reorder so it's the same order as xarray-standards
+    * mpl_utils - DO NOT set title_copyright to gpaths GEOIPS_COPYRIGHT in mpl_utils, ensure it is set
+      in individual title_formatter plugins for better control within the title_formatters.
+    * metadata_tc output formatter - add xarray_obj attribution fields (data_provider and
+      data_attribution) to the sector_info dictionary, which automatically gets included
+      in the YAML metadata output.
+    * sar_winds_netcdf - add CSA (rcm/radarsat) and ESA (sentinel) and NOAA STAR attribution appropriately to SAR
+      netcdf readers (which is used in the output formatters and title formatters)
+    * hy2 image output - just slightly changed the title, based on updates to the test script
+    * hy2 test script - Remove NRL Imagery from title_copyright (since now included in line 1 by default),
+      and note 'Source data' copyright EUMETSAT, since no longer explicitly stating imagery is copyright NRL.
+    * sar image output - Added attribution lines to title (no change to first 2 lines)
+    * sar yaml output and test script - update to full metadata_tc YAML output format - which includes
+      additional fields beyond the metadata_standard output format. Previously was not
+      including metadata_tc in test outputs to avoid having to update test outputs all
+      the time if we slightly modified our desired TC metadata output fields, but including
+      a single test to minimize output updates for changes to metadata_tc, but still provide
+      consistent testing of that metadata output formatter.
+
+      * covg_info (fname, full, and image_production)
+      * start, mid, and end data_times
+      * NEW data_provider
+      * NEW data_attribution (long, short, and title)
+    * sar test script - use tc_copyright title formatter (to include new data_attribution
+      information from reader / xarray attrs), also update to use metadata_tc rather than
+      metadata_standard (so data_attribution is included in YAML output also).
+
+    A couple random pytest updates thrown in
+
+    * interactive_pytest - Add required and optional arguments to interactive_pytest.sh
+    * pytest.ini - standard sync update
+    * test_tiny_sectors_geoips - add tiny_sector, sample_output, and optional markers as appropriate.
+  files:
+    deleted:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/scripts/hy2.tc.windspeed.imagery_annotated.sh'
+    - 'docs/source/concepts/architecture/xarray-standards.rst'
+    - 'geoips/geoips_utils.py'
+    - 'geoips/image_utils/mpl_utils.py'
+    - 'geoips/plugins/modules/output_formatters/metadata_tc.py'
+    - 'geoips/plugins/modules/readers/sar_winds_netcdf.py'
+    - 'pytest.ini'
+    - 'tests/integration_tests/test_tiny_sectors_geoips.py'
+    - 'tests/outputs/hy2.tc.windspeed.imagery_annotated/20211202_084039_WP272021_hscat_hy-2b_windspeed_95kts_97p06_1p0.png'
+    - 'tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png'
+    - 'tests/outputs/sar.tc.nrcs.imagery_annotated/20181025_203206_WP312018_sar-spd_sentinel-1_nrcs_130kts_58p51_res1p0-cr300.png.yaml'
+    - 'tests/scripts/hy2.tc.windspeed.imagery_annotated.sh'
+    - 'tests/scripts/sar.tc.nrcs.imagery_annotated.sh'
+    - 'tests/utils/interactive_pytest.sh'
+  related-issue:
+    internal: geoips#969 release
+  date:
+    start: 2025-10-08
+    finish: 2025-10-12

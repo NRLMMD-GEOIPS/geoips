@@ -22,6 +22,7 @@ from scipy.ndimage import zoom
 
 # GeoIPS Libraries
 from geoips.interfaces import readers
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.memusg import print_mem_usage
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
@@ -452,6 +453,8 @@ def get_latitude_longitude(
                 )
             )
             zf = zarr.open(fname, mode="r")
+            lats = zf["lats"]
+            lons = zf["lons"]
 
     # Switch to xarray based geolocation files
     # saved_xarray = xarray.load_dataset(fname)
@@ -1007,9 +1010,12 @@ def call(
     self_register=False,
     test_arg="AHI Default Test Arg",
     roi=None,
-    geolocation_cache_backend="memmap",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=85,
 ):
     """
     Read AHI HSD data data from a list of filenames.
@@ -1033,17 +1039,11 @@ def call(
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
-    geolocation_cache_backend : str
-        * Specify to use either memmap or zarray to store pre-calculated geolocation
-          data.
-    cache_chunk_size : int
-        * Specify chunck size if using zarray to store pre-calculated geolocation data.
-    resource_tracker: geoips.utils.memusg.PidLog object
-        * Track resource usage using the PidLog class object from geoips.utils.memusg.
-        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
-          for the PID associated with the geoips call. The time and stats of the
-          snapshot are recorded, and can be accessed using the
-          PidLog.checkpoint_usage_stats method.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 85 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -1068,7 +1068,10 @@ def call(
         roi=roi,
         geolocation_cache_backend=geolocation_cache_backend,
         cache_chunk_size=cache_chunk_size,
+        cache_solar_angles=cache_solar_angles,
+        geolocation_only=geolocation_only,
         resource_tracker=resource_tracker,
+        satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
     )
 
 
@@ -1082,7 +1085,10 @@ def call_single_time(
     roi=None,
     geolocation_cache_backend="memmap",
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """
     Read AHI HSD data data from a list of filenames.
@@ -1118,6 +1124,11 @@ def call_single_time(
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the
           PidLog.checkpoint_usage_stats method.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 85 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -1325,6 +1336,7 @@ def call_single_time(
             BADVALS,
             area_def,
             geolocation_cache_backend=geolocation_cache_backend,
+            cache_solar_angles=cache_solar_angles,
             chunk_size=cache_chunk_size,
             resource_tracker=resource_tracker,
         )
@@ -1363,6 +1375,7 @@ def call_single_time(
                     BADVALS,
                     area_def,
                     geolocation_cache_backend=geolocation_cache_backend,
+                    cache_solar_angles=cache_solar_angles,
                     chunk_size=cache_chunk_size,
                     resource_tracker=resource_tracker,
                 )
@@ -1371,6 +1384,15 @@ def call_single_time(
                 raise IndexError(resp)
 
     LOG.info("Done with geolocation for %s", adname)
+    if geolocation_only:
+        geo_xarrays = {"METADATA": xarray_obj}
+        for dsname in gvars.keys():
+            geo_xarrays[dsname] = xarray.Dataset()
+            geo_xarrays[dsname].attrs = xarray_obj.attrs.copy()
+            for varname in gvars[dsname].keys():
+                geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
+        return geo_xarrays
+
     LOG.info("")
     # Read the data
     # Will read all data if area_def is None
@@ -1482,13 +1504,26 @@ def call_single_time(
         try:
             gvars[res].pop("Lines")
             gvars[res].pop("Samples")
+            LOG.info(
+                "Checking sat zenith angles for gvar %s, cutoff specified at %s",
+                res,
+                satellite_zenith_angle_cutoff,
+            )
             for varname, var in gvars[res].items():
                 gvars[res][varname] = np.ma.array(
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
-                gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 85, gvars[res][varname]
-                )
+                if satellite_zenith_angle_cutoff:
+                    LOG.info(
+                        "Masking %s greater than %s degrees sat zenith angle",
+                        varname,
+                        satellite_zenith_angle_cutoff,
+                    )
+                    gvars[res][varname] = np.ma.masked_where(
+                        gvars[res]["satellite_zenith_angle"]
+                        > satellite_zenith_angle_cutoff,
+                        gvars[res][varname],
+                    )
         except KeyError:
             pass
     for ds in datavars.keys():
@@ -1498,9 +1533,19 @@ def call_single_time(
             for varname in datavars[ds].keys():
                 set_variable_metadata(xarray_obj.attrs, band_metadata, ds, varname)
                 datavars[ds][varname] = np.ma.masked_less(datavars[ds][varname], -999.1)
-                if "satellite_zenith_angle" in gvars[ds].keys():
+                if (
+                    satellite_zenith_angle_cutoff
+                    and "satellite_zenith_angle" in gvars[ds].keys()
+                ):
+                    LOG.info(
+                        "Masking %s greater than %s degrees sat zenith angle",
+                        varname,
+                        satellite_zenith_angle_cutoff,
+                    )
                     datavars[ds][varname] = np.ma.masked_where(
-                        gvars[ds]["satellite_zenith_angle"] > 85, datavars[ds][varname]
+                        gvars[ds]["satellite_zenith_angle"]
+                        > satellite_zenith_angle_cutoff,
+                        datavars[ds][varname],
                     )
 
     print_mem_usage("MEMUSG", verbose=False)

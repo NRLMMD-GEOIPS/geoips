@@ -8,8 +8,8 @@ bounding_box:
   minlon: 80.60497403967373
   pixel_height_m: 1000.0
   pixel_width_m: 1000.0
-  proj4_string: +proj=eqc +lat_ts=0 +lat_0=16.5 +lon_0=86.9 +x_0=0 +y_0=0 +R=6371228
-    +units=m +no_defs +type=crs
+  proj4_string: +R=6371228 +lat_0=16.5 +lat_ts=0 +lon_0=86.9 +no_defs +proj=eqc +type=crs
+    +units=m +x_0=0 +y_0=0
 clat: 16.5
 clon: 86.9
 deck_line: IO, 01, 2020051906,   , BEST,   0, 165N,  869E, 110,  941, TY,  34, NEQ,  175,  220,  145,  160,

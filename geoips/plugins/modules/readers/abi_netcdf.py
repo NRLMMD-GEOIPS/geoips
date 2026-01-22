@@ -18,15 +18,18 @@ from scipy.ndimage import zoom
 import xarray
 
 from geoips.interfaces import readers
+from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.utils.context_managers import import_optional_dependencies
 from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
+    check_for_partial_cache,
     check_geolocation_cache_backend,
+    create_empty_partial_cache,
     get_data_cache_filename,
     get_geolocation_cache_filename,
     get_geolocation,
+    rename_partial_cache,
     AutoGenError,
 )
-
 
 LOG = logging.getLogger(__name__)
 # np.seterr(all='raise')
@@ -573,12 +576,15 @@ def call(
     chans=None,
     area_def=None,
     self_register=False,
-    geolocation_cache_backend="memmap",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
     cache_data=False,
     cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
     roi=None,
+    cache_timeout_seconds=30,
+    satellite_zenith_angle_cutoff=75,
 ):
     """
     Read ABI NetCDF data from a list of filenames.
@@ -613,6 +619,11 @@ def call(
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 75 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -639,8 +650,11 @@ def call(
         cache_chunk_size=cache_chunk_size,
         cache_data=cache_data,
         cache_solar_angles=cache_solar_angles,
+        geolocation_only=geolocation_only,
         resource_tracker=resource_tracker,
         roi=roi,
+        cache_timeout_seconds=cache_timeout_seconds,
+        satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
     )
 
 
@@ -654,8 +668,11 @@ def call_single_time(
     cache_chunk_size=None,
     cache_data=False,
     cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
     roi=None,
+    cache_timeout_seconds=30,
+    satellite_zenith_angle_cutoff=None,
 ):
     """Read ABI NetCDF data from a list of filenames.
 
@@ -690,6 +707,11 @@ def call_single_time(
         * Passed in from Call function.
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 75 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -969,6 +991,15 @@ def call_single_time(
             #     gvars[res] = {}
 
     LOG.interactive("Done with geolocation for {}".format(adname))
+    if geolocation_only:
+        geo_xarrays = {"METADATA": xarray_obj}
+        for dsname in gvars.keys():
+            geo_xarrays[dsname] = xarray.Dataset()
+            geo_xarrays[dsname].attrs = xarray_obj.attrs.copy()
+            for varname in gvars[dsname].keys():
+                geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
+        return geo_xarrays
+
     LOG.info("")
 
     # Read the data
@@ -1023,6 +1054,7 @@ def call_single_time(
                 cache_name_prefix=cache_name_prefix,
                 scan_datetime=sdt,
                 standard_metadata=standard_metadata[adname],
+                cache_timeout_seconds=cache_timeout_seconds,
             )
         else:
             data = get_data(
@@ -1036,6 +1068,7 @@ def call_single_time(
                 scan_datetime=sdt,
                 area_def=area_def,
                 standard_metadata=standard_metadata[res],
+                cache_timeout_seconds=cache_timeout_seconds,
             )
         for typ, val in data.items():
             if dsname not in datavars:
@@ -1089,15 +1122,26 @@ def call_single_time(
             LOG.info(f"Did not find Lines and Samples to pop for {res}")
             pass
         try:
-            LOG.info(f"Masking greater than 75 degrees sat zenith angle for {res}")
+            LOG.info(
+                "Checking sat zenith angles for gvar %s, cutoff specified as %s",
+                res,
+                satellite_zenith_angle_cutoff,
+            )
             for varname, var in gvars[res].items():
-                LOG.info(f"Masking {varname} greater than 75 degrees sat zenith angle")
                 gvars[res][varname] = np.ma.array(
                     var, mask=gvars[res]["satellite_zenith_angle"].mask
                 )
-                gvars[res][varname] = np.ma.masked_where(
-                    gvars[res]["satellite_zenith_angle"] > 75, gvars[res][varname]
-                )
+                if satellite_zenith_angle_cutoff:
+                    LOG.info(
+                        "Masking %s greater than %s degrees sat zenith angle",
+                        varname,
+                        satellite_zenith_angle_cutoff,
+                    )
+                    gvars[res][varname] = np.ma.masked_where(
+                        gvars[res]["satellite_zenith_angle"]
+                        > satellite_zenith_angle_cutoff,
+                        gvars[res][varname],
+                    )
         except KeyError:
             LOG.info(f"Did not find satellite zenith angle to mask for {res}")
             pass
@@ -1168,6 +1212,7 @@ def get_cached_radiance(
     scan_datetime=None,
     area_def=None,
     standard_metadata=None,
+    cache_timeout_seconds=30,
 ):
     """Read data for a full channel's worth of files."""
     full_disk_rad_cache = get_data_cache_filename(
@@ -1178,24 +1223,34 @@ def get_cached_radiance(
         chunk_size,
         scan_datetime,
     )
+    cache_partial = full_disk_rad_cache + ".partial"
     if chunk_size:
         chunks = (chunk_size, chunk_size)
     else:
         chunks = None
     if not Path(full_disk_rad_cache).exists():
-        LOG.info("Converting netCDF to zarray")
-        LOG.info("GETDATACACHE to %s", full_disk_rad_cache)
-        with xarray.open_dataset(md["path"]) as ds:
-            ds.to_zarr(
+        if Path(cache_partial).exists():
+            check_for_partial_cache(
                 full_disk_rad_cache,
-                mode="w",
-                consolidated=True,
-                encoding={
-                    "Rad": {"chunks": chunks, "_FillValue": -999.0},
-                    "DQF": {"chunks": chunks, "_FillValue": 255},
-                },
+                cache_partial,
+                cache_timeout_seconds=cache_timeout_seconds,
             )
-        LOG.info("Done converting netCDF to zarray")
+        else:
+            create_empty_partial_cache(cache_partial, "zarr")
+            LOG.info("Converting netCDF to zarray")
+            LOG.info("GETDATACACHE to %s", cache_partial)
+            with xarray.open_dataset(md["path"]) as ds:
+                ds.to_zarr(
+                    cache_partial,
+                    mode="w",
+                    consolidated=True,
+                    encoding={
+                        "Rad": {"chunks": chunks, "_FillValue": -999.0},
+                        "DQF": {"chunks": chunks, "_FillValue": 255},
+                    },
+                )
+            LOG.info("Done converting netCDF to zarray")
+            rename_partial_cache(cache_partial, full_disk_rad_cache)
     # This leads to redundant I/O, but should be OK. Makes thing easier rather than
     # trying to juggle either an xarray object or zarray object.
     LOG.info("GETDATACACHE from %s", full_disk_rad_cache)
@@ -1212,12 +1267,17 @@ def get_cached_radiance(
             chunk_size,
             scan_datetime,
         )
-        if not Path(sector_rad_cache).exists():
+        cache_sector_partial = sector_rad_cache + ".partial"
+        if (
+            not Path(sector_rad_cache).exists()
+            and not Path(cache_sector_partial).exists()
+        ):
+            create_empty_partial_cache(cache_sector_partial, "zarr")
             rad_data = rad_data[line_inds, sample_inds]
             qf = qf[line_inds, sample_inds]
-            LOG.info("GETDATACACHE to %s", sector_rad_cache)
+            LOG.info("GETDATACACHE to %s", cache_sector_partial)
             # zarr does NOT have a close method, so you can NOT use the with context.
-            zf = zarr.open(sector_rad_cache, mode="w")
+            zf = zarr.open(cache_sector_partial, mode="w")
             # Assume both arrays have the same shape and dtype
             kwargs = {
                 "shape": rad_data.shape,
@@ -1230,7 +1290,14 @@ def get_cached_radiance(
             zf.create_dataset("DQF", **kwargs)
             zf["Rad"][:] = rad_data
             zf["DQF"][:] = qf
+            rename_partial_cache(cache_sector_partial, sector_rad_cache)
+
         else:
+            check_for_partial_cache(
+                full_disk_rad_cache,
+                cache_sector_partial,
+                cache_timeout_seconds=cache_timeout_seconds,
+            )
             LOG.info("GETDATACACHE from %s", sector_rad_cache)
             # zarr does NOT have a close method, so you can NOT use the with context.
             zf = zarr.open(sector_rad_cache, mode="r")
@@ -1446,6 +1513,7 @@ def get_cached_reflectance(
     scan_datetime=None,
     area_def=None,
     standard_metadata=None,
+    cache_timeout_seconds=30,
 ):
     """Create or load cached zarray of reflectance data.
 
@@ -1486,31 +1554,39 @@ def get_cached_reflectance(
         chunk_size,
         scan_datetime,
     )
-    if Path(ref_cache).exists():
+    cache_partial = ref_cache + ".partial"
+    if Path(ref_cache).exists() or Path(cache_partial).exists():
+        check_for_partial_cache(
+            ref_cache, cache_partial, cache_timeout_seconds=cache_timeout_seconds
+        )
         LOG.info("GETDATACACHE from %s", ref_cache)
         # zarr does NOT have a close method, so you can NOT use the with context.
         zf = zarr.open(ref_cache, mode="r")
         ref = zf["Ref"]
     else:
+        create_empty_partial_cache(cache_partial, "zarr")
         if chunk_size:
             chunks = (chunk_size, chunk_size)
         else:
             chunks = None
-        LOG.info("GETDATACACHE to %s", ref_cache)
+        LOG.info("GETDATACACHE to %s", cache_partial)
         ref = convert_radiance_to_reflectance(
             radiance, solar_zenith_angle, calibration_metadata, bad_data_mask
         )
+
         kwargs = {
             "shape": ref.shape,
             "dtype": ref.dtype,
         }
         # zarr does NOT have a close method, so you can NOT use the with context.
-        zf = zarr.open(ref_cache, mode="w")
+        zf = zarr.open(cache_partial, mode="w")
         # As of Python 3.11, can't pass chunks=None into create_dataset
         if chunks:
             kwargs["chunks"] = chunks
         zf.create_dataset("Ref", **kwargs)
         zf["Ref"][:] = ref
+        rename_partial_cache(cache_partial, ref_cache)
+
     return ref
 
 
@@ -1564,6 +1640,7 @@ def get_cached_brightness_temperature(
     scan_datetime=None,
     area_def=None,
     standard_metadata=None,
+    cache_timeout_seconds=30,
 ):
     """Create or load cached zarray of brightness temperature data.
 
@@ -1596,7 +1673,7 @@ def get_cached_brightness_temperature(
     array
         Calibrated brightness temperatures
     """
-    ref_cache = get_data_cache_filename(
+    bt_cache = get_data_cache_filename(
         cache_name_prefix + "BT",
         standard_metadata,
         area_def,
@@ -1604,22 +1681,29 @@ def get_cached_brightness_temperature(
         chunk_size,
         scan_datetime,
     )
-    if Path(ref_cache).exists():
-        LOG.info("GETDATACACHE from %s", ref_cache)
+
+    cache_partial = bt_cache + ".partial"
+    if Path(bt_cache).exists() or Path(cache_partial).exists():
+        check_for_partial_cache(
+            bt_cache, cache_partial, cache_timeout_seconds=cache_timeout_seconds
+        )
+        LOG.info("GETDATACACHE from %s", bt_cache)
         # zarr does NOT have a close method, so you can NOT use the with context.
-        zf = zarr.open(ref_cache, mode="r")
+        zf = zarr.open(bt_cache, mode="r")
         bt = zf["BT"]
     else:
+        create_empty_partial_cache(cache_partial, "zarr")
         if chunk_size:
             chunks = (chunk_size, chunk_size)
         else:
             chunks = None
-        LOG.info("GETDATACACHE to %s", ref_cache)
+        LOG.info("GETDATACACHE to %s", cache_partial)
         bt = convert_radiance_to_brightness_temperature(
             radiance, calibration_metadata, bad_data_mask
         )
+
         # zarr does NOT have a close method, so you can NOT use the with context.
-        zf = zarr.open(ref_cache, mode="w")
+        zf = zarr.open(cache_partial, mode="w")
         kwargs = {
             "shape": bt.shape,
             "dtype": bt.dtype,
@@ -1629,6 +1713,8 @@ def get_cached_brightness_temperature(
             kwargs["chunks"] = chunks
         zf.create_dataset("BT", **kwargs)
         zf["BT"][:] = bt
+        rename_partial_cache(cache_partial, bt_cache)
+
     return bt
 
 
@@ -1644,6 +1730,7 @@ def get_data(
     scan_datetime=None,
     area_def=None,
     standard_metadata=None,
+    cache_timeout_seconds=30,
 ):
     """Read data for a full channel's worth of files."""
     # Coordinate arrays for reading
@@ -1653,8 +1740,8 @@ def get_data(
         sample_inds = gvars["Samples"]
     else:
         full_disk = True
-        line_inds = None
-        sample_inds = None
+        line_inds = []
+        sample_inds = []
 
     band_num = md["var_info"]["band_id"]
 
@@ -1670,6 +1757,7 @@ def get_data(
             scan_datetime=scan_datetime,
             area_def=area_def,
             standard_metadata=standard_metadata,
+            cache_timeout_seconds=cache_timeout_seconds,
         )
     else:
         rad_data, qf = read_netcdf_radiance(
@@ -1713,6 +1801,7 @@ def get_data(
                 scan_datetime=scan_datetime,
                 area_def=area_def,
                 standard_metadata=standard_metadata,
+                cache_timeout_seconds=cache_timeout_seconds,
             )
         else:
             ref = convert_radiance_to_reflectance(
@@ -1745,6 +1834,7 @@ def get_data(
                 scan_datetime=scan_datetime,
                 area_def=area_def,
                 standard_metadata=standard_metadata,
+                cache_timeout_seconds=cache_timeout_seconds,
             )
         else:
             bt = convert_radiance_to_brightness_temperature(

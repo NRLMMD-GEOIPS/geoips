@@ -15,6 +15,7 @@ Notes
   dependence for time). satpy requires time to open file, and requires standard
   (decompressed) filenames, so built in filename dependence by using satpy.
 """
+
 # Python Standard Libraries
 import os
 import logging
@@ -557,7 +558,10 @@ def call_single_time(
     roi=None,
     geolocation_cache_backend="memmap",
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=None,
 ):
     """Read SEVIRI hrit data products.
 
@@ -591,6 +595,11 @@ def call_single_time(
           for the PID associated with the geoips call. The time and stats of the
           snapshot are recorded, and can be accessed using the
           PidLog.checkpoint_usage_stats method.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 75 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -756,9 +765,18 @@ def call_single_time(
         BADVALS,
         area_def,
         geolocation_cache_backend=geolocation_cache_backend,
+        cache_solar_angles=cache_solar_angles,
         chunk_size=cache_chunk_size,
         resource_tracker=resource_tracker,
     )
+    if geolocation_only:
+        geo_xarrays = {"METADATA": xarray_obj}
+        for dsname in gvars.keys():
+            geo_xarrays[dsname] = xarray.Dataset()
+            geo_xarrays[dsname].attrs = xarray_obj.attrs.copy()
+            for varname in gvars[dsname].keys():
+                geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
+        return geo_xarrays
 
     # Drop files for channels other than those requested and decompress
     outdir = os.path.join(
@@ -913,11 +931,6 @@ def call_single_time(
         else:
             gvars[adname][var] = np.ma.masked_less_equal(gvars[adname][var], -999)
 
-        if "satellite_zenith_angle" in gvars[adname].keys():
-            gvars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75, gvars[adname][var]
-            )
-
     for var in datavars[adname].keys():
         if toplat < bottomlat:
             datavars[adname][var] = np.ma.masked_less_equal(
@@ -926,19 +939,42 @@ def call_single_time(
         else:
             datavars[adname][var] = np.ma.masked_less_equal(datavars[adname][var], -999)
 
-        if "satellite_zenith_angle" in gvars[adname].keys():
-            datavars[adname][var] = np.ma.masked_where(
-                gvars[adname]["satellite_zenith_angle"] > 75, datavars[adname][var]
-            )
-
     xarray_objs = {}
     for dsname in datavars.keys():
+        if (
+            satellite_zenith_angle_cutoff
+            and "satellite_zenith_angle" in gvars[adname].keys()
+        ):
+            satzen_mask_inds = (
+                gvars[dsname]["satellite_zenith_angle"] > satellite_zenith_angle_cutoff
+            )
+        else:
+            # Latitude variable is always defined, and the mask here should correspond
+            # to data that is valid and on disk.
+            satzen_mask_inds = gvars[dsname]["latitude"].mask == True
+
         xobj = xarray.Dataset()
         xobj.attrs = xarray_obj.attrs.copy()
         for varname in datavars[dsname].keys():
-            xobj[varname] = xarray.DataArray(datavars[dsname][varname])
+            LOG.info(
+                "Masking datavar %s %s greater than %s degrees sat zenith angle",
+                dsname,
+                varname,
+                satellite_zenith_angle_cutoff,
+            )
+            xobj[varname] = xarray.DataArray(
+                np.ma.masked_where(satzen_mask_inds, datavars[dsname][varname])
+            )
         for varname in gvars[dsname].keys():
-            xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+            LOG.info(
+                "Masking gvar %s %s greater than %s degrees sat zenith angle",
+                dsname,
+                varname,
+                satellite_zenith_angle_cutoff,
+            )
+            xobj[varname] = xarray.DataArray(
+                np.ma.masked_where(satzen_mask_inds, gvars[dsname][varname])
+            )
         if roi is not None:
             xobj.attrs["interpolation_radius_of_influence"] = roi
         else:
@@ -967,9 +1003,12 @@ def call(
     area_def=None,
     self_register=False,
     roi=None,
-    geolocation_cache_backend="memmap",
+    geolocation_cache_backend=gpaths["GEOIPS_GEOLOCATION_CACHE_BACKEND"],
     cache_chunk_size=None,
+    cache_solar_angles=False,
+    geolocation_only=False,
     resource_tracker=None,
+    satellite_zenith_angle_cutoff=75,
 ):
     """Read SEVIRI hrit data products.
 
@@ -992,17 +1031,11 @@ def call(
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file
         * Defined in yaml file where variables and tuning parameters are set
-    geolocation_cache_backend : str
-        * Specify to use either memmap or zarray to store pre-calculated geolocation
-          data.
-    cache_chunk_size : int
-        * Specify chunck size if using zarray to store pre-calculated geolocation data.
-    resource_tracker: geoips.utils.memusg.PidLog object
-        * Track resource usage using the PidLog class object from geoips.utils.memusg.
-        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
-          for the PID associated with the geoips call. The time and stats of the
-          snapshot are recorded, and can be accessed using the
-          PidLog.checkpoint_usage_stats method.
+    satellite_zenith_angle_cutoff: cutoff for satellite zenith angle in degrees
+        * Defaults to 75 for now to be consistent with previous hard coded
+          value
+        * Later will update to None (will have to update test scripts or
+          outputs accordingly)
 
     Returns
     -------
@@ -1035,4 +1068,7 @@ def call(
         geolocation_cache_backend=geolocation_cache_backend,
         cache_chunk_size=cache_chunk_size,
         resource_tracker=resource_tracker,
+        satellite_zenith_angle_cutoff=satellite_zenith_angle_cutoff,
+        cache_solar_angles=cache_solar_angles,
+        geolocation_only=geolocation_only,
     )

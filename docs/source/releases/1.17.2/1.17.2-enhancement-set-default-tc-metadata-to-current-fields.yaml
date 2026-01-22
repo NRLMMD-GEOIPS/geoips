@@ -1,0 +1,22 @@
+enhancement:
+  - title: Set the default TC metadata for metadata_default output formatter to current list of TC sector_info
+    description: |
+      To prevent updating every single TC metadata YAML output when a field is added to
+      the trackfile parsers / TC sector_info dictionary, have an explicit list of fields
+      to include in the metadata_default.py output formatter.  Any new fields will NOT
+      be written to the YAML metadata_default output.
+
+      This allows us to test the metadata_tc output formatter (which includes ALL
+      metadata fields) separately from the metadata_default, but still allow outputting
+      metadata_default for any product when desired.
+
+      metadata_default fields will validate that standard fields like final_storm_name,
+      invest_number, deck_line, vmax etc do not change, without adding new fields.
+    files:
+      modified:
+        - "geoips/plugins/modules/output_formatters/metadata_default.py"
+    date:
+      start: 2025-11-17
+      finish: 2025-11-17
+    related-issue:
+      internal: geoips#959 - 1.17.1 updates
