@@ -6,6 +6,7 @@
 import os
 import shlex
 from datetime import datetime, timezone
+import re
 
 import pytest
 
@@ -24,11 +25,16 @@ base_integ_test_calls = [
     "$geoips_repopath/tests/scripts/amsr2_ocean.tc.windspeed.imagery_clean.sh",
 ]
 
-# This includes ALL test scripts within the geoips repo itself with available data.
-# This test list should NOT require/test anything in any other plugin package.
-full_integ_test_calls = [
+# Linting integration tests, ensure code and documentation are correctly formatted.
+lint_integ_test_calls = [
     "$geoips_repopath/tests/utils/check_code.sh all $geoips_repopath",
     "$geoips_repopath/docs/build_docs.sh $geoips_repopath $geoips_pkgname html_only",
+]
+
+# This includes ALL test scripts within the geoips repo itself with available data,
+# excluding the tests under base and lint markers.
+# This test list should NOT require/test anything in any other plugin package.
+full_integ_test_calls = [
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_clean.sh",
     "$geoips_repopath/tests/scripts/abi.static.Infrared.imagery_annotated_enhanced.sh",
     "$geoips_repopath/tests/scripts/console_script_create_sector_image.sh",
@@ -331,7 +337,30 @@ def full_setup():
     check_full_install()
 
 
-def run_script_with_bash(script, unset_output_path_env_vars=True):
+def is_likely_oserror_missing_file(log_contents: str) -> bool:
+    """
+    Check if the log contents indicate a likely OSError for a missing file.
+
+    Searches the last ten lines of the provided log contents for patterns
+    that suggest an OSError related to a missing file.
+
+    Parameters
+    ----------
+    log_contents : str
+        The contents of the log file to check.
+
+    Returns
+    -------
+    bool
+        True if the log contents indicate a likely OSError for a missing file,
+        False otherwise.
+    """
+    last_ten_lines = "\n".join(log_contents.strip().splitlines()[-10:])
+    pattern = r"OSError: (File '[^']+' not found|No files found on disk)\."
+    return re.search(pattern, last_ten_lines) is not None
+
+
+def run_script_with_bash(script, fail_on_missing_data, unset_output_path_env_vars=True):
     """
     Run scripts by executing specified shell commands with bash.
 
@@ -400,11 +429,25 @@ def run_script_with_bash(script, unset_output_path_env_vars=True):
         for env_var in removed_env_vars:
             os.environ[env_var] = removed_env_vars[env_var]
     if retval != 0:
+        with open(log_fname, "r") as logfile:
+            log_contents = logfile.read()
+            print("\nLOG FILE CONTENTS:\n")
+            print(log_contents)
+            print("-" * 80)
         print("FAILED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
         print(f"FAILED LOG FILE: {log_fname}")
         print("FAILED")
-        raise RuntimeError(f"CalledProcessError, see output in log {log_fname}\n")
+
+        if is_likely_oserror_missing_file(log_contents):
+            if fail_on_missing_data:
+                raise FileNotFoundError(
+                    f"FileNotFoundError, see output in log {log_fname}\n"
+                )
+            else:
+                pytest.xfail(f"FileNotFoundError, see output in log {log_fname}\n")
+        else:
+            raise RuntimeError(f"CalledProcessError, see output in log {log_fname}\n")
     else:
         print("PASSED COMMAND FOR PREVIOUS TEST")
         print(" ".join(expanded_call))
@@ -415,7 +458,9 @@ def run_script_with_bash(script, unset_output_path_env_vars=True):
 @pytest.mark.base
 @pytest.mark.integration
 @pytest.mark.parametrize("script", base_integ_test_calls)
-def test_integ_base_test_script(base_setup: None, script: str):
+def test_integ_base_test_script(
+    base_setup: None, script: str, fail_on_missing_data: bool
+):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -431,14 +476,38 @@ def test_integ_base_test_script(base_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data)
+
+
+@pytest.mark.lint
+@pytest.mark.integration
+@pytest.mark.parametrize("script", lint_integ_test_calls)
+def test_integ_lint_test_script(base_setup: None, script: str):
+    """
+    Run integration test scripts by executing specified shell commands.
+
+    Parameters
+    ----------
+    script : str
+        Shell command to execute as part of the integration test. The command may
+        contain environment variables which will be expanded before execution.
+
+    Raises
+    ------
+    subprocess.CalledProcessError
+        If the shell command returns a non-zero exit status.
+    """
+    setup_environment()
+    run_script_with_bash(script, fail_on_missing_data=True)
 
 
 @pytest.mark.full
 @pytest.mark.spans_multiple_packages
 @pytest.mark.integration
 @pytest.mark.parametrize("script", multi_repo_integ_test_calls)
-def test_integ_multi_repo_script(site_setup: None, script: str):
+def test_integ_multi_repo_script(
+    site_setup: None, script: str, fail_on_missing_data: bool
+):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -454,13 +523,13 @@ def test_integ_multi_repo_script(site_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data)
 
 
 @pytest.mark.full
 @pytest.mark.integration
 @pytest.mark.parametrize("script", full_integ_test_calls)
-def test_integ_full_script(full_setup: None, script: str):
+def test_integ_full_script(full_setup: None, script: str, fail_on_missing_data: bool):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -476,7 +545,7 @@ def test_integ_full_script(full_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data)
 
 
 # These are required to test the full functionality of this repo, but have limited
@@ -485,7 +554,9 @@ def test_integ_full_script(full_setup: None, script: str):
 @pytest.mark.optional
 @pytest.mark.integration
 @pytest.mark.parametrize("script", limited_data_integ_test_calls)
-def test_integ_limited_data_script(full_setup: None, script: str):
+def test_integ_limited_data_script(
+    full_setup: None, script: str, fail_on_missing_data: bool
+):
     """
     Run integration test scripts by executing specified shell commands.
 
@@ -501,4 +572,4 @@ def test_integ_limited_data_script(full_setup: None, script: str):
         If the shell command returns a non-zero exit status.
     """
     setup_environment()
-    run_script_with_bash(script)
+    run_script_with_bash(script, fail_on_missing_data)

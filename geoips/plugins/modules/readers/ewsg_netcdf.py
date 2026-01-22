@@ -32,6 +32,7 @@ EWS-G file information::
 
     attributes: many
 """
+
 # Python Standard Libraries
 import logging
 import os

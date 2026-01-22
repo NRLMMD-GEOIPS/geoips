@@ -19,7 +19,6 @@ from os import makedirs, getenv, listdir
 from shutil import copyfileobj
 from geoips.filenames.base_paths import make_dirs
 
-
 LOG = logging.getLogger(__name__)
 rezip = False
 

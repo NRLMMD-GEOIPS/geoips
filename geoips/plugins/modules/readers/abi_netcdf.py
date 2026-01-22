@@ -31,7 +31,6 @@ from geoips.plugins.modules.readers.utils.geostationary_geolocation import (
     AutoGenError,
 )
 
-
 LOG = logging.getLogger(__name__)
 # np.seterr(all='raise')
 

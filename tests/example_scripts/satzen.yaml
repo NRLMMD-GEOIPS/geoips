@@ -1,3 +1,14 @@
+###############################
+## Procflow config to evaluate contents of individual geostationary datasets by plotting
+## a single channel (for efficiency) reprojected to a global grid, and outputting
+## annotated imagery outputs for quick evaluation of the requested dataset.
+##
+## Produces:
+## * Test-Day-Only product to identify which portion of the data contains daytime data.
+## * Test-Night-Only product to identify which portion of the data contains night data.
+## * Test-Day-Night product to display the full extent of the dataset.
+## * Satellite zenith cutoff of None to show the full extent of the dataset.
+## * Satellite zenith cutoff of 70 degrees for reference where valid data exists.
 # Ensure we do not cut off any of the data, so we can get valid cutoff below.
 reader_kwargs:
   satellite_zenith_angle_cutoff: null

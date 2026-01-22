@@ -8,6 +8,7 @@ Wrapper functions for geoips product specifications.
 This functionality will be replaced with a class-based implementation v2.0,
 and deprecated at that time.
 """
+
 import logging
 from geoips.interfaces import colormappers, coverage_checkers
 

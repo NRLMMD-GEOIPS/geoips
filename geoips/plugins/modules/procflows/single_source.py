@@ -438,7 +438,7 @@ def use_variable_from_current_dataset(
             return False
     else:
         LOG.info(
-            "        USING %s varname from dataset %s - first availalbe, and "
+            "        USING %s varname from dataset %s - first available, and "
             "not specified in YAML",
             varname,
             key,

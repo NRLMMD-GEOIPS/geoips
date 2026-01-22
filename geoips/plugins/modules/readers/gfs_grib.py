@@ -16,7 +16,6 @@ This reader can take in multiple forcast times at multiple analysis times.
 import logging
 from os.path import basename
 
-
 # Installed libraries
 import xarray as xr
 import pygrib as pyg

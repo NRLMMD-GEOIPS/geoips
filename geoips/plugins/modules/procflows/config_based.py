@@ -2278,21 +2278,24 @@ def call(fnames, command_line_args=None):
             checkpoint_stats = pid_track.checkpoint_usage_stats()
         else:
             checkpoint_stats = None
-        write_stats_to_database(
-            procflow_name="config_based",
-            platform=xobjs["METADATA"].platform_name.lower(),
-            geoips_vers=geoips_version,
-            source=xobjs["METADATA"].source_name,
-            product="multi",
-            sector_type=sector_type,
-            process_times=process_datetimes,
-            num_products_created=num_products,
-            num_products_deleted=len(removed_products),
-            resource_usage_dict=mem_usage_stats,
-            output_config=command_line_args["output_config"],
-            procflow_id=procflow_id,
-            checkpoints_resource_usage_dict=checkpoint_stats,
-        )
+        try:
+            write_stats_to_database(
+                procflow_name="config_based",
+                platform=xobjs["METADATA"].platform_name.lower(),
+                geoips_vers=geoips_version,
+                source=xobjs["METADATA"].source_name,
+                product="multi",
+                sector_type=sector_type,
+                process_times=process_datetimes,
+                num_products_created=num_products,
+                num_products_deleted=len(removed_products),
+                resource_usage_dict=mem_usage_stats,
+                output_config=command_line_args["output_config"],
+                procflow_id=procflow_id,
+                checkpoints_resource_usage_dict=checkpoint_stats,
+            )
+        except KeyError as e:
+            LOG.error("KeyError - could not write stats to database: %s", e)
     else:
         LOG.interactive("NO PRODDB GEOIPS_VERS {}".format(geoips_version))
     return retval

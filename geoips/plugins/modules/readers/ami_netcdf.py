@@ -683,7 +683,7 @@ def call_single_time(
     cache_solar_angles=False,
     geolocation_only=False,
     resource_tracker=None,
-    satellite_zenith_angle_cutoff=None,
+    satellite_zenith_angle_cutoff=75,
 ):
     """
     Read Geo-Kompsat NetCDF data from a list of filenames.
@@ -712,7 +712,7 @@ def call_single_time(
         * Specify to use either memmap or zarray to store pre-calculated geolocation
           data.
     cache_chunk_size : int
-        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+        * Specify chunk size if using zarray to store pre-calculated geolocation data.
     resource_tracker: geoips.utils.memusg.PidLog object
         * Track resource usage using the PidLog class object from geoips.utils.memusg.
         * The PidLog.track_resource_usage method allows us to snapshot the memory usage
@@ -739,6 +739,9 @@ def call_single_time(
     gvars = {}
     datavars = {}
     geo_metadata = {}
+
+    if fnames is None or len(fnames) == 0:
+        raise ValueError("No input files specified")
 
     # Get metadata for all input data files
     # Check to be sure that all input files are form the same image time
@@ -896,14 +899,13 @@ def call_single_time(
     # This saves us from having very slightly different solar angles for each channel.
     # Loop over resolutions and get metadata as needed
     if self_register:
-        LOG.info("")
         LOG.info("Getting geolocation information for adname %s.", adname)
         geo_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
 
         i = np.arange(0, geo_metadata[adname]["num_lines"], dtype="f")
         j = np.arange(0, geo_metadata[adname]["num_samples"], dtype="f")
         i, j = np.meshgrid(i, j)
-        (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
+        fldk_lats, fldk_lons = latlon_from_lincol_geos(
             self_register,
             j,
             i,
@@ -936,7 +938,6 @@ def call_single_time(
                 res_md[res]
             except KeyError:
                 continue
-            LOG.info("")
             LOG.info(
                 "Getting geolocation information for resolution %s for %s", res, adname
             )
@@ -946,7 +947,7 @@ def call_single_time(
                 i = np.arange(0, geo_metadata[res]["num_lines"], dtype="f")
                 j = np.arange(0, geo_metadata[res]["num_samples"], dtype="f")
                 i, j = np.meshgrid(i, j)
-                (fldk_lats, fldk_lons) = latlon_from_lincol_geos(
+                fldk_lats, fldk_lons = latlon_from_lincol_geos(
                     res,
                     j,
                     i,
@@ -978,8 +979,6 @@ def call_single_time(
             for varname in gvars[dsname].keys():
                 geo_xarrays[dsname][varname] = xarray.DataArray(gvars[dsname][varname])
         return geo_xarrays
-
-    LOG.info("")
 
     # Read the data
     # Will read all data if sector_definition is None
@@ -1061,12 +1060,30 @@ def call_single_time(
 
     # Remove lines and samples arrays.  Not needed.
     for res in gvars.keys():
-        try:
-            gvars[res].pop("Lines")
-            gvars[res].pop("Samples")
-        except KeyError:
-            LOG.info("No Lines/Samples in gvar res %s, skipping pop", res)
-            pass
+        # Providing None as a default in case the dictionary is missing 'Lines' or
+        # 'Samples'. Since we skip if these don't exist anyways, I don't see this
+        # being an issue.
+
+        # The reason this is useful is for cases in which these variables are
+        # missing but you still want to mask all of the other variables in this
+        # resolution by the satellite zenith angle cutoff provided.
+        gvars[res].pop("Lines", None)
+        gvars[res].pop("Samples", None)
+        for varname, var in gvars[res].items():
+            if satellite_zenith_angle_cutoff:
+                LOG.info(
+                    "Masking var %s greater than %s degrees sat zenith angle",
+                    varname,
+                    satellite_zenith_angle_cutoff,
+                )
+                gvars[res][varname] = np.ma.array(
+                    var, mask=gvars[res]["satellite_zenith_angle"].mask
+                )
+                gvars[res][varname] = np.ma.masked_where(
+                    gvars[res]["satellite_zenith_angle"]
+                    > satellite_zenith_angle_cutoff,
+                    gvars[res][varname],
+                )
     for ds in datavars.keys():
         if not datavars[ds]:
             datavars.pop(ds)
@@ -1074,38 +1091,15 @@ def call_single_time(
     # Create the final dictionary of xarray objects.
     xarray_objs = {}
     for dsname in datavars.keys():
-
-        # Get the indices for masking sat zenith angle
-        if satellite_zenith_angle_cutoff and "satellite_zenith_angle" in gvars[dsname]:
-            satzen_mask_inds = (
-                gvars[dsname]["satellite_zenith_angle"] > satellite_zenith_angle_cutoff
-            )
-        else:
-            # Latitude variable is always defined, and the mask here should correspond
-            # to data that is valid and on disk.
-            satzen_mask_inds = gvars[dsname]["latitude"].mask == True
-
         # Create a new xarray object to populate with all the data.
         xobj = xarray.Dataset()
         xobj.attrs = xarray_obj.attrs.copy()
+
         for varname in datavars[dsname].keys():
-            LOG.info(
-                "Masking var %s greater than %s degrees sat zenith angle",
-                varname,
-                satellite_zenith_angle_cutoff,
-            )
-            xobj[varname] = xarray.DataArray(
-                np.ma.masked_where(satzen_mask_inds, datavars[dsname][varname])
-            )
+            xobj[varname] = xarray.DataArray(datavars[dsname][varname])
+
         for varname in gvars[dsname].keys():
-            LOG.info(
-                "Masking gvar %s greater than %s degrees sat zenith angle",
-                varname,
-                satellite_zenith_angle_cutoff,
-            )
-            xobj[varname] = xarray.DataArray(
-                np.ma.masked_where(satzen_mask_inds, gvars[dsname][varname])
-            )
+            xobj[varname] = xarray.DataArray(gvars[dsname][varname])
 
         # if roi is not defined in yaml file, a default roi is applied
         if roi is None:
@@ -1134,7 +1128,6 @@ def call_single_time(
         xarray_objs["METADATA"] = xobj[[]]
 
     LOG.info("Done reading GEOKOMPSAT AMI data for %s", adname)
-    LOG.info("")
 
     return xarray_objs
 
@@ -1142,11 +1135,14 @@ def call_single_time(
 # Unit test functions
 def get_test_files(test_data_dir):
     """Generate testing xarray from test data."""
-    filepath = test_data_dir + "/test_data_noaa_aws/data/geokompsat/20231208/0300/*.nc"
+    filepath = test_data_dir + "/test_data_ami/data/20231208_0300_daytime/*.nc"
     filelist = glob.glob(filepath)
-    tmp_xr = call(filelist)
     if len(filelist) == 0:
-        raise NameError("No files found")
+        raise FileNotFoundError("No files found")
+    for file in filelist:
+        if not os.path.exists(file):
+            raise FileNotFoundError(f"File {file} does not exist")
+    tmp_xr = call(filelist)
     return tmp_xr
 
 
