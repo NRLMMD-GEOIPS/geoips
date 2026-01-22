@@ -1045,8 +1045,8 @@ def call_single_time(
 
     if self_register:
         # Determine which resolution has geolocation
-        LOG.info("Registering to {}".format(self_register))
         all_res = ["LOW", "MED", "HIGH"]
+        LOG.info("Registering to {}".format(self_register))
         if self_register not in all_res:
             raise ValueError("No geolocation data found.")
 

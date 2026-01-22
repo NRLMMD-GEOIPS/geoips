@@ -37,7 +37,7 @@ LOG = logging.getLogger(__name__)
 # Installed Libraries
 
 with import_optional_dependencies(loglevel="info"):
-    """Attempt to import a package & print to LOG.info if the import fails."""
+    # Attempt to import a package & print to LOG.info if the import fails.
     # If this reader is not installed on the system, don't fail alltogether,
     # just skip this import. This reader will not work if the import fails
     # and the package will have to be installed to process data of this type.
@@ -605,6 +605,17 @@ def call(
         * register all data to the specified dataset id (as specified in the
           return dictionary keys).
         * Read multiple resolutions of data if False.
+    geolocation_cache_backend : str
+        * Specify to use either memmap or zarray to store pre-calculated geolocation
+          data.
+    cache_chunk_size : int
+        * Specify chunck size if using zarray to store pre-calculated geolocation data.
+    resource_tracker: geoips.utils.memusg.PidLog object
+        * Track resource usage using the PidLog class object from geoips.utils.memusg.
+        * The PidLog.track_resource_usage method allows us to snapshot the memory usage
+          for the PID associated with the geoips call. The time and stats of the
+          snapshot are recorded, and can be accessed using the
+          PidLog.checkpoint_usage_stats method.
     roi: radius of influence (unit in meter), used in interpolation scheme
         * Default=None, i.e., if not defined in the yaml file.
         * Defined in yaml file where variables and tuning parameters are set.
@@ -663,8 +674,7 @@ def call_single_time(
     cache_timeout_seconds=30,
     satellite_zenith_angle_cutoff=None,
 ):
-    """
-    Read ABI NetCDF data from a list of filenames.
+    """Read ABI NetCDF data from a list of filenames.
 
     Parameters
     ----------
@@ -783,7 +793,8 @@ def call_single_time(
     # From here on we will just rely on the metadata from a single data file
     # for each resolution
     res_md = {}
-    for res in ["LOW", "MED", "HIGH"]:
+    all_res = ["LOW", "MED", "HIGH"]
+    for res in all_res:
         # Find a file for this resolution: Any one will do
         res_chans = list(set(DATASET_INFO[res]).intersection(file_info.keys()))
         if res_chans:
@@ -902,7 +913,9 @@ def call_single_time(
             )
         )
         # Get just the metadata we need
-        standard_metadata[adname] = _get_geolocation_metadata(res_md[self_register])
+        standard_metadata[adname] = _get_geolocation_metadata(
+            res_md[self_register]
+        )
         fldk_lats, fldk_lons = get_latitude_longitude(
             standard_metadata[adname],
             BADVALS,
@@ -930,7 +943,7 @@ def call_single_time(
             )
             gvars[adname] = {}
     else:
-        for res in ["LOW", "MED", "HIGH"]:
+        for res in all_res:
             try:
                 res_md[res]
             except KeyError:
@@ -1070,7 +1083,7 @@ def call_single_time(
     #   remove any unneeded datasets from datavars and gvars
     #   also mask any values below -999.0
     if area_def:
-        for res in ["LOW", "MED", "HIGH"]:
+        for res in all_res:
             if adname not in gvars and res in gvars and gvars[res]:
                 gvars[adname] = gvars[res]
             try:
@@ -1083,41 +1096,17 @@ def call_single_time(
     if self_register:
         # Determine which resolution has geolocation
         LOG.info("Registering to {}".format(self_register))
-        if self_register == "HIGH":
-            datavars[adname] = datavars.pop("HIGH")
-            for varname, var in datavars["LOW"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 4, order=0)
-            datavars.pop("LOW")
-            for varname, var in datavars["MED"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 2, order=0)
-            datavars.pop("MED")
-
-        elif self_register == "MED":
-            datavars[adname] = datavars.pop("MED")
-            for varname, var in datavars["LOW"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = zoom(var, 2, order=0)
-            datavars.pop("LOW")
-            for varname, var in datavars["HIGH"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::2, ::2]
-            datavars.pop("HIGH")
-
-        elif self_register == "LOW":
-            datavars[adname] = datavars.pop("LOW")
-            for varname, var in datavars["MED"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::2, ::2]
-            datavars.pop("MED")
-            for varname, var in datavars["HIGH"].items():
-                datavars[adname][varname] = var
-                # datavars[adname][varname] = var[::4, ::4]
-            datavars.pop("HIGH")
-
-        else:
+        if self_register not in all_res:
             raise ValueError("No geolocation data found.")
+
+        all_res.remove(self_register)
+        datavars[adname] = datavars.pop(self_register)
+        for res in all_res:
+            if res in datavars:
+                for varname, var in datavars[res].items():
+                    datavars[adname][varname] = var
+                datavars.pop(res)
+
 
     # basically just reformat the all_metadata dictionary to
     # reference channel names as opposed to file names..
@@ -1414,7 +1403,7 @@ def read_netcdf_radiance(full_disk, line_inds, sample_inds, md, gvars):
                         "This section of code needs to be reexamined."
                     )
                 # Perform the actual zoom
-                zoom_factor = zoom_factor.astype(np.int)
+                zoom_factor = zoom_factor.astype(int)
                 rad_data = zoom(
                     np.float64(df.variables["Rad"][...]), zoom_factor[0], order=0
                 )
@@ -1437,7 +1426,7 @@ def read_netcdf_radiance(full_disk, line_inds, sample_inds, md, gvars):
                     )
                 # Perform the actual subsampling
                 LOG.info("Before zoom")
-                zoom_factor = zoom_factor.astype(np.int)
+                zoom_factor = zoom_factor.astype(int)
 
                 # NOTE: Strides are broken for netCDF4 library version < 4.6.2.
                 #       At present, the most recent stable release is 4.6.1.
