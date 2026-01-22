@@ -16,11 +16,6 @@ output and truth dataset, or it could be more complex such as producing statisti
 derived between those two datasets (say, comparing them to produce a data for a
 histogram), would would be used by an `output formatter <create-output-formatter>`_.
 
-An output formatter is a module-based GeoIPS plugin designed to output a dataset
-to a file. This encompasses many varied types of output, including geotiff,
-netCDF, and imagery. Output formatters vary in complexity depending on the
-output type.
-
 Every validator plugin at its core should expect these two variables:
 
 1. xarray_obj (produced dataset)
@@ -29,7 +24,9 @@ Every validator plugin at its core should expect these two variables:
 Additional arguments can be specified based on the family the validator falls under. The
 actual validation performed by the plugin is up to the developer creating that plugin.
 
-Output formatters can be executed in two ways:
+Validators can be executed in two ways:
+
+Section 1 below has yet to be implemented. 2 works as specified.
 
 1. **Specification at the Command Line:** Validators are specified
 as arguments at the command line. For example:
