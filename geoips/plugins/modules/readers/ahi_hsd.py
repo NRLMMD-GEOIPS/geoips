@@ -14,6 +14,7 @@ import os
 import re
 from struct import unpack
 from pathlib import Path
+import bz2
 
 # Third-Party Libraries
 import numpy as np
@@ -1178,6 +1179,11 @@ def call_single_time(
                 )
                 continue
         try:
+            with bz2.open(fname, "rb") as file_stream:
+                # The name attribute does not get set and we need it
+                file_stream.name = fname
+                all_metadata[fname] = _get_metadata(file_stream)
+        except OSError:
             with open(fname, "rb") as file_stream:
                 all_metadata[fname] = _get_metadata(file_stream)
         except IOError as resp:
@@ -1235,8 +1241,8 @@ def call_single_time(
 
     if len(list(res_md.keys())) == 0:
         raise ValueError(
-            "No valid files found in list, make sure .DAT.bz2 are bunzip2-ed: "
-            f"{fnames}"
+            "No valid files found in list, make sure they are .DAT or "
+            f".DAT.bz2: {fnames}"
         )
 
     # Gather metadata
@@ -1579,6 +1585,7 @@ def call_single_time(
                 xobj[varname].attrs["channel_number"] = int(varname[1:3])
         for varname in gvars[dsname].keys():
             xobj[varname] = xarray.DataArray(gvars[dsname][varname])
+        # Test linters change
         # if hasattr(xobj, 'area_definition') and xobj.area_definition is not None:
         #     xobj.attrs['interpolation_radius_of_influence'] =
         #     max(xobj.area_definition.pixel_size_x, xobj.area_definition.pixel_size_y)
