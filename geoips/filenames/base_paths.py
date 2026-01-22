@@ -177,7 +177,13 @@ def initialize_paths():
         # Valid options are "ignore", "default", "error", "always", "module", "once"
         # See https://docs.python.org/3/library/warnings.html#the-warnings-filter
         # for details on each option.
-        "GEOIPS_WARNING_LEVEL": "default",
+        "GEOIPS_WARNING_LEVEL": "ignore",
+        # Geolocation auto-generation control
+        "DONT_AUTOGEN_GEOLOCATION": False,
+        # Database URI
+        "GEOIPS_DB_URI": "",  # Empty string by default to allow detection if set
+        # Geolocation directories to read from
+        "READ_GEOLOCDIRS": "",  # Empty string by default
     }
 
     # Long variables names to avoid black and flake8 conflicts.
@@ -291,6 +297,11 @@ def initialize_paths():
     # This needs to be a float
     paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"] = float(
         paths["OUTPUT_CHECKER_THRESHOLD_IMAGE"]
+    )
+
+    # Casting some values to bool
+    paths["DONT_AUTOGEN_GEOLOCATION"] = bool(
+        paths["DONT_AUTOGEN_GEOLOCATION"]
     )
 
     return paths

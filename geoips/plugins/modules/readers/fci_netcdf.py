@@ -6,9 +6,9 @@
 from datetime import datetime, timedelta
 import logging
 import numpy as np
-import os
 from pathlib import Path
 from pyorbital.astronomy import sun_earth_distance_correction
+from geoips.filenames.base_paths import PATHS
 import xarray
 import zarr
 
@@ -50,9 +50,7 @@ except Exception:
         "If numexpr is not installed and you need it, install it."
     )
 
-DONT_AUTOGEN_GEOLOCATION = False
-if os.getenv("DONT_AUTOGEN_GEOLOCATION"):
-    DONT_AUTOGEN_GEOLOCATION = True
+DONT_AUTOGEN_GEOLOCATION = PATHS["DONT_AUTOGEN_GEOLOCATION"]
 
 # Needed until the satpy devs can fix this issue:
 # https://github.com/pytroll/satpy/issues/3067

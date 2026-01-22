@@ -43,18 +43,16 @@ except Exception:
         __file__,
     )
 
-DONT_AUTOGEN_GEOLOCATION = False
-if os.getenv("DONT_AUTOGEN_GEOLOCATION"):
-    DONT_AUTOGEN_GEOLOCATION = True
+DONT_AUTOGEN_GEOLOCATION = gpaths["DONT_AUTOGEN_GEOLOCATION"]
 
 STATIC_GEOLOCDIR = gpaths["GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_STATIC"]
 
 # default dynamic geoloc dir for NRL
 DYNAMIC_GEOLOCDIR = gpaths["GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC"]
 
-READ_GEOLOCDIRS = []
-if os.getenv("READ_GEOLOCDIRS"):
-    READ_GEOLOCDIRS = os.getenv("READ_GEOLOCDIRS").split(":")
+READ_GEOLOCDIRS = (
+    gpaths["READ_GEOLOCDIRS"].split(":") if gpaths["READ_GEOLOCDIRS"] else []
+)
 
 
 class AutoGenError(Exception):

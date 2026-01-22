@@ -20,6 +20,7 @@ from colorama import Fore, Style
 from tabulate import tabulate
 import yaml
 
+from geoips.filenames.base_paths import PATHS
 from geoips.commandline.cmd_instructions import cmd_instructions, alias_mapping
 from geoips.commandline.log_setup import setup_logging
 
@@ -122,7 +123,7 @@ class ParentParsers:
     geoips_parser.add_argument(
         "--warnings",
         type=str,
-        default=os.getenv("GEOIPS_WARNING_LEVEL", "ignore"),
+        default=PATHS["GEOIPS_WARNING_LEVEL"],
         choices=["default", "error", "ignore", "always", "module", "once"],
         help=(
             "Set the warning level for the CLI. See the warnings module documentation "
@@ -358,7 +359,7 @@ class GeoipsCommand(abc.ABC):
         independent_parser.add_argument(
             "--warnings",
             type=str,
-            default=os.getenv("GEOIPS_WARNING_LEVEL", "ignore"),
+            default=PATHS["GEOIPS_WARNING_LEVEL"],
             choices=["default", "error", "ignore", "always", "module", "once"],
         )
         # Parse now, as we'll use logging among all of the child command classes

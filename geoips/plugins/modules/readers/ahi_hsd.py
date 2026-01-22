@@ -13,6 +13,7 @@ import logging
 import os
 import re
 from struct import unpack
+from geoips.filenames.base_paths import PATHS
 from pathlib import Path
 
 # Third-Party Libraries
@@ -49,9 +50,7 @@ except Exception:
         __file__,
     )
 
-DONT_AUTOGEN_GEOLOCATION = False
-if os.getenv("DONT_AUTOGEN_GEOLOCATION"):
-    DONT_AUTOGEN_GEOLOCATION = True
+DONT_AUTOGEN_GEOLOCATION = PATHS["DONT_AUTOGEN_GEOLOCATION"]
 
 # These should be added to the data file object
 BADVALS = {
