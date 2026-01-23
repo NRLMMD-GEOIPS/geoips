@@ -87,6 +87,10 @@ FILENAME_FORMATS_FOR_XARRAY_DICT_TO_OUTPUT_FORMAT = [
     "xarray_area_product_to_filename",
 ]
 
+FILENAME_FORMATS_ACCEPTING_FULL_XARRAY_DICT = [
+    "xarray_dict_to_filename",
+]
+
 # Organizing lists at the top of the single source procflow of all of the
 # xarray-dict based product families to better track how they flow through
 # the procflow.  In the end, there should be one of
