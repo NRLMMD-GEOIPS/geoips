@@ -56,7 +56,7 @@ class GeoipsConfigCreateRegistries(GeoipsExecutableCommand):
         namespace = args.namespace
         save_type = args.save_type
         plugin_registry = PluginRegistry(namespace)
-        print(plugin_registry.create_registries(packages, save_type))
+        plugin_registry.create_registries(packages, save_type)
 
 
 class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
@@ -80,7 +80,7 @@ class GeoipsConfigDeleteRegistries(GeoipsExecutableCommand):
         packages = args.packages
         namespace = args.namespace
         plugin_registry = PluginRegistry(namespace)
-        print(plugin_registry.delete_registries(packages))
+        plugin_registry.delete_registries(packages)
 
 
 class GeoipsConfigInstall(GeoipsExecutableCommand):
