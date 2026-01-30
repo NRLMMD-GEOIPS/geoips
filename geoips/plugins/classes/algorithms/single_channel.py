@@ -215,4 +215,5 @@ class SingleChannelAlgorithmPlugin(BaseAlgorithmPlugin):
         return data
 
 
-plugin_class = SingleChannelAlgorithmPlugin
+# potentially instantiate
+PLUGIN_CLASS = SingleChannelAlgorithmPlugin

@@ -16,7 +16,7 @@ from argparse import ArgumentParser
 from copy import deepcopy
 import logging
 from importlib import metadata, resources, util, import_module
-from inspect import isclass, signature
+from inspect import signature
 from os import remove
 from os.path import (
     basename,
@@ -517,7 +517,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
         for plugin_name in module_based_copy[interface_name]:
             entry = module_based_copy[interface_name][plugin_name]
 
-            if not entry["derived_object"]:
+            if not entry["is_derived_plugin_object"]:
                 if interface_name not in plugins["class_based"].keys():
                     plugins["class_based"][interface_name] = {}
 
@@ -574,8 +574,10 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
         try:
             interface_name = plugin["interface"]
         except KeyError:
-            raise PluginRegistryError(f"""No 'interface' level in '{filepath}'.
-                    Ensure all required metadata is included.""")
+            raise PluginRegistryError(
+                f"""No 'interface' level in '{filepath}'.
+                    Ensure all required metadata is included."""
+            )
         if namespace != "geoips.plugin_packages":
             mod = import_module(package)
             interface_module = getattr(mod.interfaces, f"{interface_name}")
@@ -815,19 +817,6 @@ def collect_class_plugin_metadata(module, plugin_class=None):
         - A dictionary of metadata for the provided plugin class to store in the plugin
           registry.
     """
-    if plugin_class is None:
-        for name, value in vars(module).items():
-            # iterate over the modules attributes and the values of those attributes
-            if "plugin" in name.lower() and isclass(value):
-                plugin_class = value
-                break
-
-        if plugin_class is None:
-            raise LookupError(
-                "Error: Could not find a plugin class in the given module at "
-                f"'{module.__file__}'"
-            )
-
     metadata = {
         "docstring": format_docstring(plugin_class.__doc__),
         "family": plugin_class.family,
@@ -835,7 +824,7 @@ def collect_class_plugin_metadata(module, plugin_class=None):
         "name": plugin_class.name,
         "plugin_type": "module_based",
         "signature": str(signature(plugin_class.call)),
-        "derived_object": False,
+        "is_derived_plugin_object": False,
     }
 
     return metadata
@@ -891,19 +880,26 @@ def add_module_plugin(package, relpath, plugins):
                          at relpath '{relpath}'\n"""
         return error_message
 
-    if "classes" in module_path or hasattr(module, "plugin_class"):
+    if "classes" in module_path or hasattr(module, "PLUGIN_CLASS"):
         # We've encountered a truly 'class-based' plugin. I.e. we don't need to generate
         # the plugin object from the module itself. Collect metadata from this plugin
         # in a different fashion to what we've done previously.
         is_class = True
-        plugin_class = getattr(module, "plugin_class", None)
-
         try:
-            metadata = collect_class_plugin_metadata(module, plugin_class)
-        except LookupError as e:
-            error_message += str(e)
+            PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
+        except AttributeError:
+            plugin_class_error_message = (
+                f"Error: Detected class-based plugin at '{module_path}' but couldn't "
+                "locate the associated 'PLUGIN_CLASS' variable defining which class in "
+                "that module is the actual plugin class to use. \n Please define that "
+                "attribute before continuing. It should be a simple module-level "
+                "attribute that references the uninstantiated version of your plugin "
+                "class."
+            )
+            error_message += str(plugin_class_error_message)
             return error_message
 
+        metadata = collect_class_plugin_metadata(module, PLUGIN_CLASS)
         interface_name = metadata["interface"]
         name = metadata["name"]
 
@@ -990,7 +986,7 @@ def add_module_plugin(package, relpath, plugins):
             "plugin_type": "module_based",
             "signature": str(signature(module.call)),
             "relpath": relpath,
-            "derived_object": True,
+            "is_derived_plugin_object": True,
         }
     else:
         plugins[interface_name][name] = metadata
@@ -998,8 +994,8 @@ def add_module_plugin(package, relpath, plugins):
     if interface_name == "readers":
         if not is_class and hasattr(module, "source_names"):
             plugins[interface_name][name]["source_names"] = module.source_names
-        elif is_class and hasattr(plugin_class, "source_names"):
-            plugins[interface_name][name]["source_names"] = plugin_class.source_names
+        elif is_class and hasattr(PLUGIN_CLASS, "source_names"):
+            plugins[interface_name][name]["source_names"] = PLUGIN_CLASS.source_names
         else:
             warnings.warn(
                 (

@@ -83,6 +83,12 @@ class BaseClassPlugin(ABC):
     after processing, but it could be used for other common tasks as well.
     """
 
+    # If set to True, we are in OBP. False means we are in a legacy procflow.
+    # Set up logic in this or interface classes to convert from DT to data type
+    # referenced in family
+
+    # If no family is provided, just assume it works with DT
+    data_tree = False
     required_attributes = ["interface", "family", "name"]
 
     def _check_interface_attribute(cls):
