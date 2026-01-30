@@ -28,7 +28,7 @@ from abc import ABC, abstractmethod
 import functools
 import inspect
 
-from geoips import interfaces
+# from geoips import interfaces
 
 # P = ParamSpec("P")
 # R = TypeVar("R")
@@ -98,11 +98,11 @@ class BaseClassPlugin(ABC):
         is a known plugin interface.
         """
         valid_str_attr(cls, "interface")
-        if cls.interface not in interfaces.list_available_interfaces()["module_based"]:
-            raise ValueError(
-                f"{cls.__name__}.interface '{cls.interface}' is not a known plugin "
-                "interface"
-            )
+        # if cls.interface not in interfaces.list_available_interfaces()["module_based"]:  # NOQA
+        #     raise ValueError(
+        #         f"{cls.__name__}.interface '{cls.interface}' is not a known plugin "
+        #         "interface"
+        #     )
 
     def _check_family_attribute(cls):
         """Check the validity of the 'family' attribute."""
@@ -250,10 +250,13 @@ class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
     pass
 
 
-class BaseOutputCheckerPlugin(BaseClassPlugin, abstract=True):
-    """Base class for GeoIPS output_checker plugins."""
+# NOTE: The following class is fully defined in
+# geoips.interfaces.module_based.output_checkers
 
-    pass
+# class BaseOutputCheckerPlugin(BaseClassPlugin, abstract=True):
+#     """Base class for GeoIPS output_checker plugins."""
+
+#     pass
 
 
 class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
@@ -298,13 +301,13 @@ class BaseTitleFormatterPlugin(BaseClassPlugin, abstract=True):
     pass
 
 
-class MyAlgorithm(BaseAlgorithmPlugin):
-    """Dummy algorithm class."""
+# class MyAlgorithm(BaseAlgorithmPlugin):
+#     """Dummy algorithm class."""
 
-    interface = "algorithms"
-    family = "example_family"
-    name = "example_name"
+#     interface = "algorithms"
+#     family = "example_family"
+#     name = "example_name"
 
-    def call(self, data: int, factor: int = 1) -> int:
-        """Call placeholder function docstring."""
-        return data * factor
+#     def call(self, data: int, factor: int = 1) -> int:
+#         """Call placeholder function docstring."""
+#         return data * factor

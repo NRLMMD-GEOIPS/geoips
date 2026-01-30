@@ -3,9 +3,9 @@
 
 """Output Checkers interface module."""
 
+from geoips.interfaces.class_based_plugin import BaseClassPlugin
 from geoips.interfaces.base import (
     BaseClassInterface,
-    BaseModulePlugin,
     ValidationError,
 )
 import logging
@@ -561,7 +561,7 @@ def gunzip_product(fname, is_comparison_product=False, clobber=False):
     return gunzip_filename
 
 
-class OutputCheckersBasePlugin(BaseModulePlugin):
+class OutputCheckersBasePlugin(BaseClassPlugin, abstract=True):
     """Output Checkers Base Plugin for comparing data outputs."""
 
     def is_gz(self, fname):
@@ -1084,6 +1084,9 @@ class OutputCheckersInterface(BaseClassInterface):
 
     def valid_plugin(self, plugin):
         """Check the validity of the supplied output_checker plugin."""
+        # NOTE: The following logic will need to change (likely to just
+        # hasattr(plugin, <attr>)) once we fully convert to class-based. There will not
+        # be a 'module' attribute of the plugin class once this conversion has occured.
         if (
             not hasattr(plugin.module, "outputs_match")
             or not hasattr(plugin.module, "correct_file_format")
