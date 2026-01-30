@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Readers interface module."""
+"""Readers interface class."""
 
 import collections
 from datetime import datetime

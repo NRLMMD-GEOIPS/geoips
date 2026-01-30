@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Sector spec generators interface module."""
+"""Sector spec generators interface class."""
 
 from geoips.interfaces.base import BaseClassInterface
 
