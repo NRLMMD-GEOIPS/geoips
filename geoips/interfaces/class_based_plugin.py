@@ -98,7 +98,7 @@ class BaseClassPlugin(ABC):
         is a known plugin interface.
         """
         valid_str_attr(cls, "interface")
-        if cls.interface not in interfaces.list_available_interfaces()["module_based"]:
+        if cls.interface not in interfaces.list_available_interfaces()["class_based"]:
             raise ValueError(
                 f"{cls.__name__}.interface '{cls.interface}' is not a known plugin "
                 "interface"
