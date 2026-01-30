@@ -38,6 +38,21 @@ enhancement:
       - geoips/interfaces/module_based/sector_spec_generators.py
       - geoips/interfaces/module_based/title_formatters.py
       - geoips/plugin_registry.py
+    renamed:
+      - geoips/interfaces/module_based/algorithms.py => geoips/interfaces/class_based/algorithms.py
+      - geoips/interfaces/module_based/colormappers.py => geoips/interfaces/class_based/colormappers.py
+      - geoips/interfaces/module_based/coverage_checkers.py => geoips/interfaces/class_based/coverage_checkers.py
+      - geoips/interfaces/module_based/databases.py => geoips/interfaces/class_based/databases.py
+      - geoips/interfaces/module_based/filename_formatters.py => geoips/interfaces/class_based/filename_formatters.py
+      - geoips/interfaces/module_based/interpolators.py => geoips/interfaces/class_based/interpolators.py
+      - geoips/interfaces/module_based/output_checkers.py => geoips/interfaces/class_based/output_checkers.py
+      - geoips/interfaces/module_based/output_formatters.py => geoips/interfaces/class_based/output_formatters.py
+      - geoips/interfaces/module_based/procflows.py => geoips/interfaces/class_based/procflows.py
+      - geoips/interfaces/module_based/readers.py => geoips/interfaces/class_based/readers.py
+      - geoips/interfaces/module_based/sector_adjusters.py => geoips/interfaces/class_based/sector_adjusters.py
+      - geoips/interfaces/module_based/sector_metadata_generators.py => geoips/interfaces/class_based/sector_metadata_generators.py
+      - geoips/interfaces/module_based/sector_spec_generators.py => geoips/interfaces/class_based/sector_spec_generators.py
+      - geoips/interfaces/module_based/title_formatters.py => geoips/interfaces/class_based/title_formatters.py
   related-issue:
     number: 950
     repo_url: 'https://github.com/NRLMMD-GEOIPS/geoips/'
