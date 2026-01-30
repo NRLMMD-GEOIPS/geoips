@@ -575,14 +575,14 @@ class PluginRegistry:
             plugins.append(self.get_yaml_plugin(interface_obj, name))
         return plugins
 
-    def get_module_plugin(self, interface_obj, name, rebuild_registries=None):
-        """Retrieve a plugin from this interface by name.
+    def get_module_or_class_plugin(self, interface_obj, name, rebuild_registries=None):
+        """Retrieve a module / class plugin from this interface by name.
 
         Parameters
         ----------
         interface_obj: GeoIPS Interface Object
             - The object representing the interface class requesting this module plugin.
-        name : str
+        name: str
             - The name the desired plugin.
         rebuild_registries: bool (default=None)
             - Whether or not to rebuild the registries if get_plugin fails. If set to
@@ -604,7 +604,9 @@ class PluginRegistry:
           If the specified plugin isn't found within the interface.
         """
         try:
-            registered_module_plugins = self.registered_plugins["module_based"]
+            registered_class_or_module_plugins = self.registered_plugins[
+                interface_obj.interface_type
+            ]
         except KeyError:
             # Very likely could occur if registries haven't been built yet
             err_str = f"No plugins found for '{interface_obj.name}' interface."
@@ -618,7 +620,7 @@ class PluginRegistry:
                 f" value. Encountered this '{rebuild_registries}' instead."
             )
 
-        if name not in registered_module_plugins[interface_obj.name]:
+        if name not in registered_class_or_module_plugins[interface_obj.name]:
             err_str = (
                 f"Plugin '{name}', "
                 f"from interface '{interface_obj.name}' "
@@ -629,8 +631,12 @@ class PluginRegistry:
                 interface_obj, name, rebuild_registries, err_str
             )
 
-        package = registered_module_plugins[interface_obj.name][name]["package"]
-        relpath = registered_module_plugins[interface_obj.name][name]["relpath"]
+        package = registered_class_or_module_plugins[interface_obj.name][name][
+            "package"
+        ]
+        relpath = registered_class_or_module_plugins[interface_obj.name][name][
+            "relpath"
+        ]
         module_path = os.path.splitext(relpath.replace("/", "."))[0]
         module_path = f"{package}.{module_path}"
         abspath = resources.files(package) / relpath
@@ -654,14 +660,18 @@ class PluginRegistry:
         spec = util.spec_from_file_location(module_path, abspath)
         module = util.module_from_spec(spec)
         spec.loader.exec_module(module)
-        plugin = interface_obj._plugin_module_to_obj(name, module)
+        if interface_obj.interface_type == "module_based":
+            plugin = interface_obj._plugin_module_to_obj(name, module)
+        else:
+            PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
+            plugin = PLUGIN_CLASS()
         # This function might raise a PluginError with pertinent information on why
         # the plugin is invalid. Don't catch that, we want the error to be raised.
         interface_obj.plugin_is_valid(plugin)
         return plugin
 
-    def get_module_plugins(self, interface_obj):
-        """Retrieve all module plugins for this interface.
+    def get_module_or_class_plugins(self, interface_obj):
+        """Retrieve all module / class plugins for this interface.
 
         Parameters
         ----------
@@ -681,20 +691,26 @@ class PluginRegistry:
         # Check if the current interface (self.name) is found in the
         # registered_plugins dictionary - if it is not, that means there
         # are no plugins for that interface, so return an empty list.
-        registered_module_plugins = self.registered_module_based_plugins
-        if interface_obj.name not in registered_module_plugins:
+
+        registered_module_or_class_plugins = self.registered_plugins[
+            interface_obj.interface_type
+        ]
+        if interface_obj.name not in registered_module_or_class_plugins:
             LOG.debug("No plugins found for '%s' interface.", interface_obj.name)
             return plugins
 
-        for plugin_name in registered_module_plugins[interface_obj.name]:
+        for plugin_name in registered_module_or_class_plugins[interface_obj.name]:
             try:
-                plugins.append(self.get_module_plugin(interface_obj, plugin_name))
+                plugins.append(
+                    self.get_module_or_class_plugin(interface_obj, plugin_name)
+                )
             except AttributeError as resp:
                 raise PluginError(
                     f"Plugin '{plugin_name}' is missing the 'name' attribute, "
                     f"\nfrom package '{plugin_name['package']},' "
                     f"'{plugin_name['relpath']}' module,"
                 ) from resp
+
         return plugins
 
     def retry_get_plugin(

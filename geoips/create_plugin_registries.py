@@ -574,10 +574,8 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
         try:
             interface_name = plugin["interface"]
         except KeyError:
-            raise PluginRegistryError(
-                f"""No 'interface' level in '{filepath}'.
-                    Ensure all required metadata is included."""
-            )
+            raise PluginRegistryError(f"""No 'interface' level in '{filepath}'.
+                    Ensure all required metadata is included.""")
         if namespace != "geoips.plugin_packages":
             mod = import_module(package)
             interface_module = getattr(mod.interfaces, f"{interface_name}")

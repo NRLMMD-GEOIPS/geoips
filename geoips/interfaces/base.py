@@ -766,11 +766,13 @@ class BaseModuleInterface(BaseInterface):
         PluginError
           If the specified plugin isn't found within the interface.
         """
-        return self.plugin_registry.get_module_plugin(self, name, rebuild_registries)
+        return self.plugin_registry.get_module_or_class_plugin(
+            self, name, rebuild_registries
+        )
 
     def get_plugins(self):
         """Retrieve all module plugins for this interface."""
-        return self.plugin_registry.get_module_plugins(self)
+        return self.plugin_registry.get_module_or_class_plugins(self)
 
     def plugin_is_valid(self, plugin):
         """Check that an interface is valid.
@@ -928,3 +930,20 @@ class BaseModuleInterface(BaseInterface):
                 output["family"][curr_id] = curr_family
                 output["docstring"][curr_id] = output["func"][curr_id].docstring
         return output
+
+
+class BaseClassInterface(BaseModuleInterface):
+    """Base Class for GeoIPS Class-Based Interfaces.
+
+    This class should not be instantiated directly. Instead, interfaces should be
+    accessed by importing them from ``geoips.interfaces``. For example:
+    ```
+    from geoips.interfaces import algorithms
+    ```
+    will retrieve an instance of ``AlgorithmsInterface`` which will provide access to
+    the GeoIPS algorithm plugins.
+    """
+
+    interface_type = "class_based"
+    name = "BaseClassInterface"
+    required_args = {}
