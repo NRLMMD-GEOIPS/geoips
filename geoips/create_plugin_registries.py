@@ -777,7 +777,7 @@ def collect_module_plugin_metadata(
     relative path and the package it comes from is collected via 'add_class_plugin'.
 
     NOTE: The 'Returns' section of this docstring is XOR. Either 'metadata' will be
-    returned, or 'error_message'. Not both.
+    returned, or 'error_message'. Not both or neither.
 
     Parameters
     ----------
