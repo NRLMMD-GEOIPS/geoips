@@ -1,4 +1,4 @@
-module_based:
+class_based:
   algorithms:
     pmw_89test:
       docstring: 'Sample algorithm plugin, duplicate of "89pct".
