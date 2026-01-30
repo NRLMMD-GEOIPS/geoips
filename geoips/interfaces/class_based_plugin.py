@@ -220,6 +220,84 @@ class BaseAlgorithmPlugin(BaseClassPlugin, abstract=True):
     pass
 
 
+class BaseColormapperPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS colormapper plugins."""
+
+    pass
+
+
+class BaseCoverageCheckerPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS coverage_checker plugins."""
+
+    pass
+
+
+class BaseDatabasePlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS database plugins."""
+
+    pass
+
+
+class BaseFilenameFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS filename_formatter plugins."""
+
+    pass
+
+
+class BaseInterpolatorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS interpolator plugins."""
+
+    pass
+
+
+class BaseOutputCheckerPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS output_checker plugins."""
+
+    pass
+
+
+class BaseOutputFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS output_formatter plugins."""
+
+    pass
+
+
+class BaseProcflowPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS process workflow (procflow) plugins."""
+
+    pass
+
+
+class BaseReaderPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS reader plugins."""
+
+    pass
+
+
+class BaseSectorAdjusterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_adjuster plugins."""
+
+    pass
+
+
+class BaseSectorMetadataGeneratorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_metadata_generator plugins."""
+
+    pass
+
+
+class BaseSectorSpecGeneratorPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS sector_spec_generator plugins."""
+
+    pass
+
+
+class BaseTitleFormatterPlugin(BaseClassPlugin, abstract=True):
+    """Base class for GeoIPS title_formatter plugins."""
+
+    pass
+
+
 class MyAlgorithm(BaseAlgorithmPlugin):
     """Dummy algorithm class."""
 
