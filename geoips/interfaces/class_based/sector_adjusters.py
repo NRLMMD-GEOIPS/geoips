@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Sector adjusters interface module."""
+"""Sector adjusters interface class."""
 
 from geoips.interfaces.base import BaseClassInterface
 

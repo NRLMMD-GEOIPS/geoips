@@ -1,7 +1,7 @@
 # # # This source code is subject to the license referenced at
 # # # https://github.com/NRLMMD-GEOIPS.
 
-"""Procflows interface module."""
+"""Procflows interface class."""
 
 from geoips.interfaces.base import BaseClassInterface
 
