@@ -1,0 +1,46 @@
+enhancement:
+- title: 'Class Based Plugins -- Registry Updates'
+  description: |
+    In an effort to convert all of our module_based plugins to class_based plugins, we
+    need to update multiple areas of the codebase. One large refactor that needs to
+    occur is plugin registry related updates, which is what is handled in this PR.
+
+    This update includes a refactor of the BaseModuleInterface to become
+    BaseClassInterface, and updates all module_based interfaces to make use of that new
+    class. Directory changes to come soon.
+
+    Additionally, updated create_plugin_registries.py and plugin_registry.py to make
+    use of the new updates to the BaseClassInterface, and added logic to handle the
+    conversion of module_based interfaces to a true plugin class, or the omission of
+    that step if a True class plugin is provided.
+
+    Lastly, created a dummy class-based algorithm to test the new plugin registry
+    infrastructure.
+  files:
+    added:
+      - geoips/interfaces/class_based_plugin.py
+      - geoips/plugins/classes/algorithms/single_channel.py
+    modified:
+      - geoips/create_plugin_registries.py
+      - geoips/interfaces/base.py
+      - geoips/interfaces/module_based/algorithms.py
+      - geoips/interfaces/module_based/colormappers.py
+      - geoips/interfaces/module_based/coverage_checkers.py
+      - geoips/interfaces/module_based/databases.py
+      - geoips/interfaces/module_based/filename_formatters.py
+      - geoips/interfaces/module_based/interpolators.py
+      - geoips/interfaces/module_based/output_checkers.py
+      - geoips/interfaces/module_based/output_formatters.py
+      - geoips/interfaces/module_based/procflows.py
+      - geoips/interfaces/module_based/readers.py
+      - geoips/interfaces/module_based/sector_adjusters.py
+      - geoips/interfaces/module_based/sector_metadata_generators.py
+      - geoips/interfaces/module_based/sector_spec_generators.py
+      - geoips/interfaces/module_based/title_formatters.py
+      - geoips/plugin_registry.py
+  related-issue:
+    number: null
+    repo_url: ''
+  date:
+    start: null
+    finish: null
