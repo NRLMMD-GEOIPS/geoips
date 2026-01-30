@@ -3,10 +3,10 @@
 
 """Filename formatters interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class FilenameFormattersInterface(BaseModuleInterface):
+class FilenameFormattersInterface(BaseClassInterface):
     """Specification for formatting the full path and file name.
 
     File path and name formatting is determined using attributes within the

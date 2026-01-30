@@ -3,10 +3,10 @@
 
 """Title formatters interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class TitleFormattersInterface(BaseModuleInterface):
+class TitleFormattersInterface(BaseClassInterface):
     """Interface for creating GeoIPS formatted titles."""
 
     name = "title_formatters"

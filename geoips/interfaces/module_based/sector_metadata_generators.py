@@ -3,10 +3,10 @@
 
 """Sector metadata generators interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class SectorMetadataGeneratorsInterface(BaseModuleInterface):
+class SectorMetadataGeneratorsInterface(BaseClassInterface):
     """Interface for generating appropriate metadata for a sector.
 
     Provides specification for generating a dictionary-based set of

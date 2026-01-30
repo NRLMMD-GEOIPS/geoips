@@ -3,10 +3,10 @@
 
 """Colormappers interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class ColormappersInterface(BaseModuleInterface):
+class ColormappersInterface(BaseClassInterface):
     """Interface for the colormapper to apply to the resulting product."""
 
     name = "colormappers"

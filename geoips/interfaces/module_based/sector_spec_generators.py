@@ -3,10 +3,10 @@
 
 """Sector spec generators interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class SectorSpecGeneratorsInterface(BaseModuleInterface):
+class SectorSpecGeneratorsInterface(BaseClassInterface):
     """Interface for generating appropriate specifications for a sector.
 
     Generates a sector specification (location, resolution, etc)

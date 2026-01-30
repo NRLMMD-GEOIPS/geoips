@@ -3,10 +3,10 @@
 
 """Interpolators interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class InterpolatorsInterface(BaseModuleInterface):
+class InterpolatorsInterface(BaseClassInterface):
     """Interpolation routine to apply when reprojecting data."""
 
     name = "interpolators"

@@ -3,10 +3,10 @@
 
 """Databases interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class DatabasesInterface(BaseModuleInterface):
+class DatabasesInterface(BaseClassInterface):
     """Interface for database table writers/quieriers."""
 
     name = "databases"

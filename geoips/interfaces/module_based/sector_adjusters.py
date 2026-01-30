@@ -3,10 +3,10 @@
 
 """Sector adjusters interface module."""
 
-from geoips.interfaces.base import BaseModuleInterface
+from geoips.interfaces.base import BaseClassInterface
 
 
-class SectorAdjustersInterface(BaseModuleInterface):
+class SectorAdjustersInterface(BaseClassInterface):
     """Interface for adjusting a sector based on additional information.
 
     Ie, pass in data and the area definition, and modify the area_definition based
