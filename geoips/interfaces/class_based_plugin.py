@@ -196,8 +196,20 @@ class BaseClassPlugin(ABC):
             if attribute_checker is not None:
                 attribute_checker(cls)
 
-        # Prevent overriding __call__
-        if "__call__" in cls.__dict__:
+        cls_registry_entry = getattr(
+            interfaces, cls.interface
+        ).plugin_registry.registered_class_based_plugins[cls.interface][cls.name]
+
+        true_class = True
+
+        if cls_registry_entry["is_derived_plugin_object"]:
+            # Temporarily ignore 'classes' that are still derived from modules. We'll
+            # remove this when we completely convert over to class-based plugins
+            true_class = False
+            cls.call = cls.__dict__["__call__"]
+
+        # Prevent overriding __call__ in a True class-based plugin
+        if "__call__" in cls.__dict__ and true_class:
             raise TypeError(f"{cls.__name__} cannot override __call__")
 
         try:
