@@ -98,7 +98,7 @@ def list_available_interfaces():
     from geoips import interfaces
 
     all_interfaces = {
-        "module_based": [],
+        "class_based": [],
         "text_based": [],
         "yaml_based": [],
     }
