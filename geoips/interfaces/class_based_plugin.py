@@ -28,7 +28,7 @@ from abc import ABC, abstractmethod
 import functools
 import inspect
 
-# from geoips import interfaces
+from geoips import interfaces
 
 # P = ParamSpec("P")
 # R = TypeVar("R")
@@ -98,11 +98,11 @@ class BaseClassPlugin(ABC):
         is a known plugin interface.
         """
         valid_str_attr(cls, "interface")
-        # if cls.interface not in interfaces.list_available_interfaces()["module_based"]:  # NOQA
-        #     raise ValueError(
-        #         f"{cls.__name__}.interface '{cls.interface}' is not a known plugin "
-        #         "interface"
-        #     )
+        if cls.interface not in interfaces.list_available_interfaces()["class_based"]:
+            raise ValueError(
+                f"{cls.__name__}.interface '{cls.interface}' is not a known plugin "
+                "interface"
+            )
 
     def _check_family_attribute(cls):
         """Check the validity of the 'family' attribute."""

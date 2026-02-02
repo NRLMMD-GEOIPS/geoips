@@ -15,14 +15,19 @@ enhancement:
     that step if a True class plugin is provided.
 
     Lastly, created a dummy class-based algorithm to test the new plugin registry
-    infrastructure.
+    infrastructure and updated all failing unit/integration tests to match the new
+    functionality added.
   files:
     added:
       - geoips/interfaces/class_based_plugin.py
       - geoips/plugins/classes/algorithms/single_channel.py
     modified:
+      - geoips/commandline/geoips_describe.py
+      - geoips/commandline/list_available_plugins.py
       - geoips/create_plugin_registries.py
+      - geoips/interfaces/__init__.py
       - geoips/interfaces/base.py
+      - geoips/interfaces/module_based/__init__.py
       - geoips/interfaces/module_based/algorithms.py
       - geoips/interfaces/module_based/colormappers.py
       - geoips/interfaces/module_based/coverage_checkers.py
@@ -38,7 +43,28 @@ enhancement:
       - geoips/interfaces/module_based/sector_spec_generators.py
       - geoips/interfaces/module_based/title_formatters.py
       - geoips/plugin_registry.py
+      - geoips/plugins/modules/procflows/config_based.py
+      - geoips/plugins/modules/procflows/single_source.py
+      - tests/unit_tests/commandline/test_geoips_describe_plugin.py
+      - tests/unit_tests/commandline/test_geoips_list_plugins.py
+      - tests/unit_tests/commandline/test_geoips_list_source_names.py
+      - tests/unit_tests/plugin_registries/files/bad/invalid_interfaces.yaml
+      - tests/unit_tests/plugin_registries/files/bad/missing_lowest_keys.yaml
+      - tests/unit_tests/plugin_registries/files/bad/missing_plugin_types.yaml
+      - tests/unit_tests/plugin_registries/files/good/data_fusion.yaml
+      - tests/unit_tests/plugin_registries/files/good/geoips.yaml
+      - tests/unit_tests/plugin_registries/files/good/geoips_clavrx.yaml
+      - tests/unit_tests/plugin_registries/files/good/geoips_plugin_example.yaml
+      - tests/unit_tests/plugin_registries/files/good/overcast_package.yaml
+      - tests/unit_tests/plugin_registries/files/good/recenter_tc.yaml
+      - tests/unit_tests/plugin_registries/files/good/template_basic_plugin.yaml
+      - tests/unit_tests/plugin_registries/files/good/template_fusion_plugin.yaml
+      - tests/unit_tests/plugin_registries/test_plugin_registries.py
+      - tests/unit_tests/plugins/test_get_plugin.py
+      - tests/unit_tests/plugins/test_get_plugin_metadata.py
+      - tests/utils/test_interfaces.py
     renamed:
+      - geoips/interfaces/module_based/__init__.py => geoips/interfaces/class_based/__init__.py
       - geoips/interfaces/module_based/algorithms.py => geoips/interfaces/class_based/algorithms.py
       - geoips/interfaces/module_based/colormappers.py => geoips/interfaces/class_based/colormappers.py
       - geoips/interfaces/module_based/coverage_checkers.py => geoips/interfaces/class_based/coverage_checkers.py

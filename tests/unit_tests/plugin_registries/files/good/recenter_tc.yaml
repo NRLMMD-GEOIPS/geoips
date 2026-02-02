@@ -1,4 +1,4 @@
-module_based:
+class_based:
   filename_formatters:
     archer_fix:
       docstring: Specifications for output filename formats for tc product types.

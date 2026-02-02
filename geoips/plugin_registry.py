@@ -668,6 +668,9 @@ class PluginRegistry:
             # Otherwise, just grab the associated plugin class and instantiate it.
             PLUGIN_CLASS = getattr(module, "PLUGIN_CLASS")
             plugin = PLUGIN_CLASS()
+            # Set attributes required to test the interface of a given plugin
+            plugin.id = plugin.name
+            plugin.docstring = plugin.__doc__
         # This function might raise a PluginError with pertinent information on why
         # the plugin is invalid. Don't catch that, we want the error to be raised.
         interface_obj.plugin_is_valid(plugin)
