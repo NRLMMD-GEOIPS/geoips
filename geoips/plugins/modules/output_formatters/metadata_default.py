@@ -15,6 +15,37 @@ interface = "output_formatters"
 family = "standard_metadata"
 name = "metadata_default"
 
+# Have the metadata_default output unchanging - metadata_tc will pick up all the fields
+# in sector_info, so any tests that use metadata_tc will test the latest iteration of
+# the TC-specific outputs, and in general we will want to use metadata_default to
+# avoid unnecessarily changing all outputs.
+default_fields = [
+    "adjustment_id",
+    "aid_type",
+    "bounding_box",
+    "clat",
+    "clon",
+    "deck_line",
+    "final_storm_name",
+    "interpolated_time",
+    "invest_number",
+    "parser_name",
+    "pressure",
+    "product_filename",
+    "recenter_type",
+    "sector_type",
+    "source_file_names",
+    "source_filename",
+    "source_sector_file",
+    "storm_basin",
+    "storm_name",
+    "storm_num",
+    "storm_start_datetime",
+    "storm_year",
+    "synoptic_time",
+    "vmax",
+]
+
 
 def call(
     area_def,
@@ -63,10 +94,30 @@ def call(
     )
 
 
+def remove_non_default_metadata(sector_info):
+    """Remove non default metadata from the sector_info dictionary.
+
+    Ensure we have a consistent set of metadata to include in the metadata default
+    output, to reduce unnecessary YAML metadata output comparison changes.
+    """
+    return_sector_info = {}
+    for key in sector_info:
+        if key in default_fields:
+            LOG.info("Retaining key '%s' '%s'", key, sector_info[key])
+            return_sector_info[key] = sector_info[key]
+        else:
+            LOG.info("Removing non default key '%s' '%s'", key, sector_info[key])
+    return return_sector_info
+
+
 def update_sector_info_with_default_metadata(
     area_def, xarray_obj, product_filename=None, metadata_filename=None
 ):
     """Update sector info found in "area_def" with standard metadata output.
+
+    This function is used by metadata_tc output formatter as well for updating the
+    sector_info with these additional default metadata fields. We should not filter
+    out non-default metadata here, since metadata_tc uses this function.
 
     Parameters
     ----------
@@ -149,6 +200,11 @@ def output_metadata_yaml(
     sector_info = update_sector_info_with_default_metadata(
         area_def, xarray_obj, **sector_info_kwargs
     )
+    # NOTE metadata_tc has it's own version of output_tc_metadata_yaml, so adding
+    # this line here does NOT impact metadata_tc.  We CAN NOT remove non-default
+    # metadata directly from update_sector_info_with_default_metadata, because
+    # metadata_tc uses that one directly.
+    sector_info = remove_non_default_metadata(sector_info)
 
     returns = write_yamldict(
         sector_info, metadata_fname, force=True, replace_geoips_paths=True

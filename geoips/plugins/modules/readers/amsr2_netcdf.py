@@ -182,7 +182,7 @@ def read_amsr2_mbt(full_xarray, varname, time_array=None):
     # sub_xarray.attrs['sample_distance_km'] = 3.0
     sub_xarray.attrs["sample_distance_km"] = 2.0
     sub_xarray.attrs["interpolation_radius_of_influence"] = 10000
-    for dim in sub_xarray.dims.keys():
+    for dim in sub_xarray.sizes.keys():
         if "low_rez" in dim:
             # MTIFs need to be "prettier" for PMW products, so 2km resolution for all
             # channels. sub_xarray.attrs['sample_distance_km'] = 7.0
@@ -324,7 +324,7 @@ def call(
     for fname in fnames:
         # full_xarray = xarray.open_dataset(str(fname))
         full_xarrays = [xarray.open_dataset(str(x)) for x in fnames]
-        full_xarray = xarray.merge(full_xarrays)
+        full_xarray = xarray.concat(full_xarrays, dim="Number_of_Scans")
         full_xarray.attrs["data_provider"] = "unknown"
         full_xarray.attrs["source_file_names"] = [basename(fname)]
         full_xarray.attrs["source_name"] = "amsr2"

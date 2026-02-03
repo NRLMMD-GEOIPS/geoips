@@ -6,13 +6,19 @@
 Runs the appropriate script based on the args provided.
 """
 
+from ast import literal_eval
 from colorama import Fore, Style
+from pathlib import Path
+
+import json
+import yaml
 
 from geoips.commandline.args import add_args
 from geoips.commandline.run_procflow import main
 from geoips.commandline.geoips_command import GeoipsCommand, GeoipsExecutableCommand
 from geoips.filenames.base_paths import PATHS
-from geoips.interfaces import procflows
+from geoips.interfaces import procflows, workflows
+from geoips.pydantic_models.v1.workflows import WorkflowPluginModel
 from geoips.utils.context_managers import import_optional_dependencies
 
 data_fusion_installed = False
@@ -141,13 +147,64 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
 
     def add_arguments(self):
         """Add arguments to the run-subparser for the 'run order-based' command."""
-        self.parser.add_argument(
+        self.obp_mutex_args = self.parser.add_mutually_exclusive_group(required=True)
+        self.obp_mutex_args.add_argument(
             "-w",
             "--workflow",
+            default=None,
             type=str,
-            required=True,
-            help="The name of the workflow plugin to execute. REQUIRED.",
+            help=(
+                "The name of the workflow plugin to execute. Cannot be supplied "
+                "alongside the --generated or --filepath argument."
+            ),
         )
+        self.obp_mutex_args.add_argument(
+            "-g",
+            "--generated",
+            default=None,
+            type=literal_eval,
+            help=(
+                "A literal evaluation of a string formatted python dictionary "
+                "representing a 'generated' (at runtime) workflow plugin to operate on."
+                " Cannot be supplied alongside the --workflow or --filepath argument."
+            ),
+        )
+
+        def json_or_yaml_path(value: str) -> Path:
+            """Ensure the value provided is a valid pathlib.Path json or yaml file.
+
+            Parameters
+            ----------
+            value: str
+                - The input value for the filepath to typecheck against.
+
+            Returns
+            -------
+            path: Path
+                - A json or yaml pathlib.Path object.
+            """
+            path = Path(value)
+
+            if not path.exists():
+                raise self.parser.error(f"Input filepath not found: {value}")
+
+            if path.suffix.lower() not in {".json", ".yaml", ".yml"}:
+                raise self.parser.error(
+                    f"File must have extension .json, .yaml, or .yml, not {path.suffix}"
+                )
+            return path
+
+        self.obp_mutex_args.add_argument(
+            "-f",
+            "--filepath",
+            default=None,
+            type=json_or_yaml_path,
+            help=(
+                "A absolute path to the workflow file to operate on."
+                " Cannot be supplied alongside the --workflow or --generated argument."
+            ),
+        )
+
         add_args(parser=self.parser, legacy=self.legacy)
 
     def __call__(self, args):
@@ -161,7 +218,31 @@ class GeoipsRunOrderBased(GeoipsExecutableCommand):
         args: Namespace()
             - The argument namespace to parse through.
         """
-        workflow = args.workflow
+        if args.workflow:
+            workflow = workflows.get_plugin(args.workflow)
+        elif args.generated:
+            workflow = args.generated
+            if not isinstance(workflow, dict):
+                raise ValueError(
+                    "Error: Argument '--generated' was supplied but the format of the "
+                    "generated workflow could not be literally evaluated as a python "
+                    "dictionary."
+                )
+            # Validate the generated workflow with is_registered set to false as this
+            # plugin has been dynamically generated
+            WorkflowPluginModel(**workflow, is_registered=False)
+        else:  # This is the filepath option
+            if args.filepath.suffix.lower() == ".json":
+                loader = json.load
+            else:
+                loader = yaml.safe_load
+
+            with open(args.filepath, "r") as f:
+                workflow = loader(f)
+            # This assumes if you pass the filepath option that the plugin itself is not
+            # registered. Validate that it's formatted correctly.
+            WorkflowPluginModel(**workflow, is_registered=False)
+
         obp = procflows.get_plugin("order_based")
         obp(workflow, args.filenames, args)
 
