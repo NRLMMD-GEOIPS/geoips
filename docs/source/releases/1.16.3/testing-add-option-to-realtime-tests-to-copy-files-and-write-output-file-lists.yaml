@@ -1,0 +1,17 @@
+installation:
+- title: 'Add option to realtime tests allowing both copying files and writing output file list'
+  description: |
+    Allow both copying files and writing output file lists in the same realtime test run.
+  files:
+    deleted:
+    - ''
+    moved:
+    - ''
+    added:
+    - ''
+    modified:
+    - 'tests/utils/get_realtime_test_args.sh'
+  date:
+    start: 2025-08-29
+    finish: 2025-08-29
+

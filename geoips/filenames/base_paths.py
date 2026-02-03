@@ -111,6 +111,10 @@ def initialize_paths():
         "GEOIPS_REBUILD_REGISTRIES",
         True,
     )
+    paths["GEOIPS_GEOLOCATION_CACHE_BACKEND"] = get_env_var(
+        "GEOIPS_GEOLOCATION_CACHE_BACKEND",
+        "memmap",
+    )
     paths["GEOIPS_DATA_CACHE_DIR"] = get_env_var(
         "GEOIPS_DATA_CACHE_DIR",
         os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "geoips"),
@@ -118,6 +122,18 @@ def initialize_paths():
     paths["SATPY_DATA_CACHE_DIR"] = get_env_var(
         "SATPY_DATA_CACHE_DIR", os.path.join(paths["GEOIPS_OUTDIRS"], "cache", "satpy")
     )
+    # This list should include all env vars that could end up in output product paths
+    # or metadata. This ensures consistent tests and generalized output paths.
+    # This GEOIPS_REPLACE_OUTPUT_PATHS is referenced in the following scripts and files:
+    # * geoips/geoips/geoips_utils.py
+    # * geoips/tests/integration_tests/test_integration.py
+    # * geoips/geoips/filenames/base_paths.py
+    replace_output_paths = get_env_var(
+        "GEOIPS_REPLACE_OUTPUT_PATHS",
+        "TCWWW TCPRIVATEWWW PRIVATEWWW PUBLICWWW GEOTIFF_IMAGERY_PATH "
+        "ANNOTATED_IMAGERY_PATH CLEAN_IMAGERY_PATH ",
+    )
+    paths["GEOIPS_REPLACE_OUTPUT_PATHS"] = replace_output_paths.split(" ")
     # Convert the string to a bool
     if paths["GEOIPS_REBUILD_REGISTRIES"] == "0":
         paths["GEOIPS_REBUILD_REGISTRIES"] = False
@@ -204,11 +220,13 @@ def initialize_paths():
             "GEOIPS_ANCILDAT": "ancildat",
             # WWW Paths
             "TCWWW": "preprocessed/tcwww",
+            "TCPRIVATEWWW": "preprocessed/tcprivatewww",
             "PUBLICWWW": "preprocessed/publicwww",
             "PRIVATEWWW": "preprocessed/privatewww",
             # Tropical Cyclone Paths
-            "TC_DECKS_DB": "longterm_files/tc/tc_decks.db",
-            "TC_DECKS_DIR": "longterm_files/tc/decks",
+            "GEOIPS_TC_DECKS_DB": "longterm_files/tc/tc_decks.db",
+            "GEOIPS_TC_DECKS_DIR": "longterm_files/tc/decks",
+            "GEOIPS_TC_DECKS_TYPE": "bdecks",
         },
         paths["GEOIPS_DATA_CACHE_DIR"]: {
             "GEOIPS_DATA_CACHE_DIR_LONGTERM_GEOLOCATION_DYNAMIC": (
@@ -266,7 +284,7 @@ def initialize_paths():
         paths["HOME"] = os.getenv("HOME").rstrip("/")
 
     # Setting links for WWW Paths
-    www_paths = ["TCWWW", "PUBLICWWW", "PRIVATEWWW"]
+    www_paths = ["TCWWW", "TCPRIVATEWWW", "PUBLICWWW", "PRIVATEWWW"]
     for path in www_paths:
         paths[f"{path}_URL"] = get_env_var(f"{path}_URL", paths[path])
 

@@ -4,12 +4,14 @@
 """Generalized geolocation calculations for geostationary satellites."""
 
 import os
+from datetime import datetime
 import logging
 import numpy as np
 from pathlib import Path
 from pyresample import utils
 from pyresample.geometry import SwathDefinition
 from pyresample.kd_tree import get_neighbour_info  # , get_sample_from_neighbour_info
+import time
 import zarr
 
 from geoips.errors import CoverageError
@@ -63,6 +65,12 @@ class AutoGenError(Exception):
 
 class CachedGeolocationIndexError(IndexError):
     """Raise exception on cached geolocation IndexError."""
+
+    pass
+
+
+class CacheNotFoundError(FileNotFoundError):
+    """Raise exception if cached data is not found."""
 
     pass
 
@@ -287,6 +295,100 @@ def get_geolocation_cache_filename(
     return os.path.join(cache, fname)
 
 
+def check_for_partial_cache(
+    cache_filename, partial_cache_filename, cache_timeout_seconds=30
+):
+    """Check if a partial data cache exists.
+
+    These partial (temporary) caches are created when the cache is being created, and is
+    renamed once complete. If a partial cache is found, try for 30 seconds (default) to
+    see if it is renamed to the final cache_filename
+
+    Parameters
+    ----------
+    cache_filename : str
+        Full path to complete cache
+    partial_cache_filename : str
+        Full path to temporary/partial cache
+    cache_timeout_seconds : int, optional
+        Retry window to check for final cache if a partial cache is found, by default 30
+
+    Raises
+    ------
+    CacheNotFoundError
+        If cache_filename is not found after retry window
+    """
+    no_coverage_cache = partial_cache_filename.replace("partial", "no_coverage")
+    if Path(partial_cache_filename).exists():
+        LOG.info("Found partial cache: %s", partial_cache_filename)
+        LOG.info("Will attempt to re-check for complete cache")
+        start_time = datetime.now()
+        partial_exists = Path(partial_cache_filename).exists()
+        while partial_exists:
+            elapsed_seconds = (datetime.now() - start_time).total_seconds()
+            if elapsed_seconds < cache_timeout_seconds:
+                LOG.debug("Partial cache still exists, will check again in 1 second")
+                time.sleep(1)
+            else:
+                LOG.error(
+                    "Exceeded cache timeout of %s seconds."
+                    " If problem persists, delete %s",
+                    cache_timeout_seconds,
+                    partial_cache_filename,
+                )
+                partial_exists = False
+    if Path(no_coverage_cache).exists():
+        # This will potentially cause an issue specifically for dynamic sectors with
+        # interpolated positions where the initial position (ie, storm location at 0Z)
+        # is outside satellite coverage, but a later interpolated position (e.g.,
+        # interpolated location at 5Z) may have coverage. We are going to accept this
+        # case, because the interpolated location will likely still be at edge of scan.
+        # Per images below, for TCs in particular, I really don't think we care about
+        # this, since they don't move much in 6h and I can't imagine we wouldn't want
+        # something at 0Z, but then would want it at 5Z.
+
+        # Note there may be future cases where we would not want to accept this risk, if
+        # a dynamic sector moves very quickly, and intermediate interpolated locations
+        # could vary drastically from the reported positions at specific times.
+        LOG.info("Cache flagged as having no coverage: %s", no_coverage_cache)
+    if not Path(cache_filename).exists():
+        raise CacheNotFoundError("Cache does not exist: %s", cache_filename)
+
+
+def create_empty_partial_cache(partial_cache_filename, cache_backend):
+    """Create an empty cache with temporary name to denote cache is being processed.
+
+    Supported backends include zarray and memmap.
+
+    Parameters
+    ----------
+    partial_cache_filename : str
+        Full path to temporary/partial cache
+    cache_backend : str
+        Backend format of cache
+    """
+    LOG.debug("Creating %s", partial_cache_filename)
+    if cache_backend == "zarr":
+        # Zarrray data store is a directory
+        Path(partial_cache_filename).mkdir(parents=True, exist_ok=True)
+    else:
+        Path(partial_cache_filename).touch(exist_ok=True)
+
+
+def rename_partial_cache(partial_cache_filename, final_cache_filename):
+    """Rename partial cache to final cache file name.
+
+    Parameters
+    ----------
+    partial_cache_filename : str
+        Full path to temporary/partial cache
+    final_cache_filename : str
+        Full path to complete cache
+    """
+    LOG.info("Renaming %s as %s", partial_cache_filename, final_cache_filename)
+    Path(partial_cache_filename).rename(Path(final_cache_filename))
+
+
 def get_geolocation(
     dt,
     gmd,
@@ -300,6 +402,7 @@ def get_geolocation(
     cache_solar_angles=False,
     scan_datetime=None,
     resource_tracker=None,
+    cache_timeout_seconds=30,
 ):
     """
     Gather and return the geolocation data for the input metadata.
@@ -341,6 +444,7 @@ def get_geolocation(
             geolocation_cache_backend=geolocation_cache_backend,
             chunk_size=chunk_size,
             resource_tracker=resource_tracker,
+            cache_timeout_seconds=cache_timeout_seconds,
         )
     except AutoGenError:
         return False
@@ -356,6 +460,7 @@ def get_geolocation(
                 geolocation_cache_backend=geolocation_cache_backend,
                 chunk_size=chunk_size,
                 resource_tracker=resource_tracker,
+                cache_timeout_seconds=cache_timeout_seconds,
             )
         except AutoGenError:
             return False
@@ -412,19 +517,32 @@ def get_geolocation(
         chunk_size=chunk_size,
         cache_solar_angles=cache_solar_angles,
         scan_datetime=scan_datetime,
+        cache_timeout_seconds=cache_timeout_seconds,
     )
     LOG.info("GETGEO Done calculating solar zen/azm for sector %s", adname)
-    sun_zen = np.ma.masked_less_equal(sun_zen, -999.1)
-    sun_azm = np.ma.masked_less_equal(sun_azm, -999.1)
+
+    # Satellite zenith angle masks are set appropriately for off-disk
+    sat_zen = np.ma.masked_less_equal(sat_zen, -999.1)
+    sat_azm = np.ma.masked_less_equal(sat_azm, -999.1)
+
+    # Ensure sun_zen and sun_azm are masked appropriately for off-disk values.
+    sun_zen = np.ma.masked_where(sat_zen.mask == True, sun_zen)
+    sun_azm = np.ma.masked_where(sat_zen.mask == True, sun_azm)
+
     if resource_tracker is not None:
         resource_tracker.track_resource_usage(
             key=key, checkpoint=True, increment_key=True
         )
 
     if area_def is not None:
+        # area_def.get_lonlats does NOT include any off disk masking.
         lons, lats = area_def.get_lonlats()
+        # Set the lats and lons mask to sat_zen, which was set appropriately above.
+        lats = np.ma.masked_where(sat_zen.mask == True, lats)
+        lons = np.ma.masked_where(sat_zen.mask == True, lons)
 
     # Make into a dict
+    # All the off-disk masking was set above, just catch any straggler -999 values.
     geolocation = {
         "latitude": np.ma.masked_less_equal(lats, -999.1),
         "longitude": np.ma.masked_less_equal(lons, -999.1),
@@ -461,6 +579,7 @@ def get_satellite_angles(
     geolocation_cache_backend="memmap",
     chunk_size=None,
     resource_tracker=None,
+    cache_timeout_seconds=30,
 ):
     """Get satellite angles."""
     # If the filename format needs to change for the pre-generated geolocation
@@ -473,6 +592,7 @@ def get_satellite_angles(
         geolocation_cache_backend=geolocation_cache_backend,
         chunk_size=chunk_size,
     )
+    fname_partial = fname + ".partial"
 
     if resource_tracker is not None:
         key = "GEO SAT ANGLES: " + str(Path(fname).name)
@@ -482,7 +602,10 @@ def get_satellite_angles(
             logstr="MEMUSG", verbose=False, key=key, increment_key=True
         )
 
-    if not Path(fname).exists():
+    if not Path(fname).exists() and not Path(fname_partial).exists():
+        # First touch a file with the partial cache name to identify we're creating the
+        # cache.
+        create_empty_partial_cache(fname_partial, geolocation_cache_backend)
         if sect is not None and DONT_AUTOGEN_GEOLOCATION and "tc2019" not in sect.name:
             msg = (
                 "GETGEO Requested NO AUTOGEN GEOLOCATION. "
@@ -545,7 +668,7 @@ def get_satellite_angles(
 
         if geolocation_cache_backend == "memmap":
             LOG.info("Storing to %s", fname)
-            with open(fname, "w") as df:
+            with open(fname_partial, "w") as df:
                 zen.tofile(df)
                 azm.tofile(df)
         elif geolocation_cache_backend == "zarr":
@@ -553,9 +676,10 @@ def get_satellite_angles(
                 chunks = (chunk_size, chunk_size)
             else:
                 chunks = None
-            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+
+            LOG.info("Storing sat zen/azm to %s (chunks=%s)", fname, chunks)
             # NOTE zarr does NOT have a close method, so you can NOT use with context.
-            zf = zarr.open(fname, mode="w")
+            zf = zarr.open(fname_partial, mode="w")
             # Assume azm and zen shape and dtype are the same
             kwargs = {
                 "shape": azm.shape,
@@ -563,15 +687,19 @@ def get_satellite_angles(
             }
             # As of Python 3.11, can't pass chunks=None into create_dataset
             if chunks:
-                kwargs["chunks"] = chunks
+                # Chunks must be a tuple of the same shape as array.
+                kwargs["chunks"] = tuple([chunk_size] * azm.ndim)
             zf.create_dataset("azm", **kwargs)
             zf.create_dataset("zen", **kwargs)
             zf["azm"][:] = azm
             zf["zen"][:] = zen
+        rename_partial_cache(fname_partial, fname)
+
         # Possible switch to xarray based geolocation files, but we lose memmapping.
         # ds = xarray.Dataset({'zeniths':(['x','y'],zen),'azimuths':(['x','y'],azm)})
         # ds.to_netcdf(fname)
     else:
+        check_for_partial_cache(fname, fname_partial, cache_timeout_seconds)
         if geolocation_cache_backend == "memmap":
             # Create a memmap to the lat/lon file
             # Nothing will be read until explicitly requested
@@ -630,6 +758,7 @@ def get_indexes(
     geolocation_cache_backend="memmap",
     chunk_size=None,
     resource_tracker=None,
+    cache_timeout_seconds=30,
 ):
     """
     Return two 2-D arrays containing the X and Y indexes.
@@ -668,6 +797,11 @@ def get_indexes(
         geolocation_cache_backend=geolocation_cache_backend,
         chunk_size=None,
     )
+    fname_partial = fname + ".partial"
+    if Path(fname_partial.replace("partial", "no_coverage")).exists():
+        msg = "NO GOOD DATA AVAILABLE, can not read geostationary dataset"
+        LOG.info(msg)
+        raise CoverageError(msg)
 
     if resource_tracker is not None:
         key = "GEOINDS: " + str(Path(fname).name)
@@ -675,7 +809,10 @@ def get_indexes(
             logstr="MEMUSG", verbose=False, key=key, increment_key=True
         )
 
-    if not Path(fname).exists():
+    if not Path(fname).exists() and not Path(fname_partial).exists():
+        # First touch a file with the partial cache name to identify we're creating the
+        # cache.
+        create_empty_partial_cache(fname_partial, geolocation_cache_backend)
         if (
             area_def is not None
             and DONT_AUTOGEN_GEOLOCATION
@@ -762,6 +899,11 @@ def get_indexes(
         )
         good_lines, good_samples = np.where(valid_input_index.reshape(lats.shape))
         if len(good_lines) == 0 and len(good_samples) == 0:
+            # Rename the partial cache and flag as no coverage if it exists.
+            if Path(fname_partial).exists():
+                rename_partial_cache(
+                    fname_partial, fname_partial.replace("partial", "no_coverage")
+                )
             raise CoverageError(
                 "NO GOOD DATA AVAILABLE, can not read geostationary dataset"
             )
@@ -787,21 +929,22 @@ def get_indexes(
         )
         if geolocation_cache_backend == "memmap":
             # Store indicies for sector
-            with open(str(fname), "w") as df:
+            with open(str(fname_partial), "w") as df:
                 lines.tofile(df)
                 samples.tofile(df)
             # Store indicies for sector
             # Possible switch to xarray based geolocation files, but we lose memmapping.
             # ds = xarray.Dataset({'lines':(['x'],lines),'samples':(['x'],samples)})
-            # ds.to_netcdf(fname)
+            # ds.to_netcdf(fname_partial)
         elif geolocation_cache_backend == "zarr":
             if chunk_size:
                 chunks = (chunk_size, chunk_size)
             else:
                 chunks = None
-            LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+
+            LOG.info("Storing lines/samples to %s (chunks=%s)", fname, chunks)
             # NOTE zarr does NOT have a close method, so you can NOT use with context.
-            zf = zarr.open(fname, mode="w")
+            zf = zarr.open(fname_partial, mode="w")
             # Assume both arrays have the same shape and dtype
             kwargs = {
                 "shape": lines.shape,
@@ -809,12 +952,16 @@ def get_indexes(
             }
             # As of Python 3.11, can't pass chunks=None into create_dataset
             if chunks:
-                kwargs["chunks"] = chunks
+                # Chunks must be a tuple of the same shape as array.
+                kwargs["chunks"] = tuple([chunk_size] * lines.ndim)
             zf.create_dataset("lines", **kwargs)
             zf.create_dataset("samples", **kwargs)
             zf["lines"][:] = lines
             zf["samples"][:] = samples
+        rename_partial_cache(fname_partial, fname)
+
     else:
+        check_for_partial_cache(fname, fname_partial, cache_timeout_seconds)
         LOG.info(
             "GETGEO to %s : inds file for %s, roi_factor %s",
             fname,
@@ -877,6 +1024,17 @@ def get_indexes(
                 )
                 # NOTE zarr does NOT have close method, so you can NOT use with context.
                 zf = zarr.open(fname, mode="r")
+                if "lines" not in zf or "samples" not in zf:
+                    LOG.exception(
+                        "lines and samples not in zarr directory, corrupt zarr? "
+                        f"Please remove {fname} and re-run this script."
+                    )
+                    raise RuntimeError(
+                        "lines and samples not in zarr directory, corrupt zarr? "
+                        f"Please remove the directory:\n"
+                        f"{fname}\n"
+                        "and re-run this script."
+                    )
                 lines = zf["lines"]
                 samples = zf["samples"]
                 lines = np.reshape(lines, shape=shape)
@@ -911,6 +1069,7 @@ def calculate_solar_angles(
     chunk_size=None,
     cache_solar_angles=False,
     scan_datetime=None,
+    cache_timeout_seconds=30,
 ):
     """Calculate solar angles."""
     # If debug is set to True, memory savings will be turned off in order to keep
@@ -935,6 +1094,7 @@ def calculate_solar_angles(
             chunk_size=chunk_size,
             solar_angles=True,
         )
+        fname_partial = fname + ".partial"
         cache_exists = Path(fname).exists()
     else:
         cache_exists = False
@@ -954,6 +1114,10 @@ def calculate_solar_angles(
     # good_lats = lats[good]
     # good_lons = lons[good]
     if cache_solar_angles is False or (cache_solar_angles and cache_exists is False):
+        if cache_solar_angles and not cache_exists and not Path(fname_partial).exists():
+            # First touch a file with the partial cache name to identify we're creating
+            # the cache.
+            create_empty_partial_cache(fname_partial, geolocation_cache_backend)
         # Constants
         pi = np.pi
         pi2 = 2 * pi  # NOQA
@@ -1052,8 +1216,8 @@ def calculate_solar_angles(
         #                                                                  out=sun_azm)
         if cache_solar_angles:
             if geolocation_cache_backend == "memmap":
-                LOG.info("Storing to %s", fname)
-                with open(fname, "w") as df:
+                LOG.info("Storing to %s", fname_partial)
+                with open(fname_partial, "w") as df:
                     sun_zen.tofile(df)
                     sun_azm.tofile(df)
             elif geolocation_cache_backend == "zarr":
@@ -1061,9 +1225,10 @@ def calculate_solar_angles(
                     chunks = (chunk_size, chunk_size)
                 else:
                     chunks = None
-                LOG.info("Storing to %s (chunks=%s)", fname, chunks)
+
+                LOG.info("Storing solar angles to %s (chunks=%s)", fname, chunks)
                 # NOTE zarr does NOT have close method, so you can NOT use the context.
-                zf = zarr.open(fname, mode="w")
+                zf = zarr.open(fname_partial, mode="w")
                 # Assume both arrays have the same shape and dtype
                 kwargs = {
                     "shape": sun_azm.shape,
@@ -1071,13 +1236,17 @@ def calculate_solar_angles(
                 }
                 # As of Python 3.11, can't pass chunks=None into create_dataset
                 if chunks:
-                    kwargs["chunks"] = chunks
+                    # Chunks must be a tuple of the same shape as array.
+                    kwargs["chunks"] = tuple([chunk_size] * sun_azm.ndim)
                 zf.create_dataset("sun_azm", **kwargs)
                 zf.create_dataset("sun_zen", **kwargs)
                 zf["sun_azm"][:] = sun_azm
                 zf["sun_zen"][:] = sun_zen
+            rename_partial_cache(fname_partial, fname)
+
         LOG.info("Done calculating solar zenith and azimuth angles")
     else:
+        check_for_partial_cache(fname, fname_partial, cache_timeout_seconds)
         if geolocation_cache_backend == "memmap":
             # Create a memmap to the lat/lon file
             # Nothing will be read until explicitly requested
