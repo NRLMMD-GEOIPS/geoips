@@ -46,6 +46,7 @@ on any one of DNB or IMG or MOD file.  In order to minimize dupilcated excution
 of VIIRS files, additional adjust of excution of the VIIRS files will be needed
 (discussion with Mindy on how to do it).
 """
+
 # Python Standard Libraries
 from collections import defaultdict
 from datetime import datetime

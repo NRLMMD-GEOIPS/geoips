@@ -42,4 +42,4 @@ properties:
     minItems: 2
     maxItems: 2
     items:
-      type: integer
+      type: number

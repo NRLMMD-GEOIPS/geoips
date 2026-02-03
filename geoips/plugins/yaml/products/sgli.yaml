@@ -1,0 +1,125 @@
+interface: products
+family: list
+name: sgli
+docstring: |
+  The sgli product_inputs configuration, which produces Infrared, and Visible products.
+spec:
+  products:
+    - name: Infrared
+      source_names: [sgli]
+      docstring: |
+        10.8 µm Infrared.  Highlights areas of deep convection within a Tropical Cyclone.
+      product_defaults: Infrared
+      spec:
+        variables: ["TI01BT"]
+    - name: Infrared-Gray
+      source_names: [sgli]
+      docstring: |
+        10.8 µm Gray Scale Infrared. Highlights areas of deep convection within a Tropical Cyclone.
+      product_defaults: Infrared-Gray
+      spec:
+        variables: ["TI01BT"]
+    - name: Visible
+      source_names: [sgli]
+      docstring: | 
+        Visible product using the 530 nm channel. 
+      product_defaults: Visible
+      spec:
+        variables: ["VN05Ref","solar_zenith_angle"]
+        colormapper: # This replaces the version found in product_params/visir/Visible.yaml
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              cbar_label: "Reflectance, SGLI VN05 0.53um Band"
+        algorithm:
+          plugin:
+             name: single_channel
+             arguments:
+               output_data_range: [0, 100.0] # This replaces the default value found in product_params/Visible.yaml
+               gamma_list: [] # This replaces the default value found in product_params/Visible.yaml
+               scale_factor: 100.0
+    - name: Stokes-I-Ref
+      source_names: [sgli]
+      docstring: |
+        Chan PI02 0.87 µm Stokes-I component.
+      product_defaults: Uncorrected-Channel
+      spec:
+        variables: ["PI02Ref"]
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              cmap_name: turbo
+              cbar_label: "Chan02 Stokes-I Reflectance"
+
+    - name: Stokes-Q-Ref
+      source_names: [sgli]
+      docstring: |
+        Chan PI02 0.87 µm Stokes-I component, with solar zenith angle correction.
+      product_defaults: Uncorrected-Channel
+      spec:
+        variables: ["PQ02Ref","solar_zenith_angle"]
+        algorithm:
+          plugin:
+            name: single_channel
+            arguments:
+              sun_zen_correction: True
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              cmap_name: turbo
+              cbar_label: "Chan02 Stokes-Q Reflectance"
+ 
+    - name: Stokes-U-Ref
+      source_names: [sgli]
+      docstring: |
+        Chan PI02 0.87 µm Stokes-I component.
+      product_defaults: Uncorrected-Channel
+      spec:
+        variables: ["PU02Ref"]
+        colormapper:
+          plugin:
+            name: matplotlib_linear_norm
+            arguments:
+              cmap_name: turbo
+              cbar_label: "Chan02 Stokes-U Reflectance"
+    - name: Visible-RGB
+      source_names: [sgli]
+      docstring: |
+        Visible True color composite imagery uses VN8, VN5, VN3 Reflectances. 
+        Channels used are VN08 (.673 um, red), VN5 (0.53um, green), VN03 (.443 um, blue)
+      product_defaults: RGB-Default 
+      spec:
+        variables: ["VN08Ref","VN05Ref","VN03Ref","solar_zenith_angle"]  
+        algorithm:
+          plugin:
+            name: RGB_Default
+            arguments:
+              sun_zen_correction: True
+    - name: IR-RGB
+      source_names: [sgli]
+      docstring: |
+        False RGB color product, uses the SW3, VN11, VN8 colors
+      product_defaults: RGB-Default 
+      spec:
+        variables: ["SW03Ref","VN11Ref","VN08Ref","solar_zenith_angle"] # VNIR5, 530 nm/.53 um 
+        algorithm:
+          plugin:
+            name: RGB_Default
+            arguments:
+              sun_zen_correction: True
+    - name: Cloud-Phase-RGB
+      source_names: [sgli]
+      docstring: |
+        EUMETSAT Cloud Phase RGB product, intended to seperate information from clouds. 
+        Useful for seperation between ice and water clouds, and convective monitoring.
+        Channels used are SW03 (1.63 um, red), SW4 (2.21um, green), VN07 (.673 um, blue)
+      product_defaults: RGB-Default 
+      spec:
+        variables: ["SW03Ref","SW04Ref","VN07Ref","solar_zenith_angle"]  
+        algorithm:
+          plugin:
+            name: RGB_Default
+            arguments:
+              sun_zen_correction: True

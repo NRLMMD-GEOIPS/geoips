@@ -1,0 +1,31 @@
+interface: product_defaults
+family: interpolator_algorithm_colormapper
+name: Test-Infrared-Night-Only
+docstring: |
+  The Infrared-Night-Only product_defaults configuration, used primarily for diagmostic
+  purposes (e.g., to quickly see where the day/night transition is using a low
+  resolution dataset).
+spec:
+  algorithm:
+    plugin:
+      name: single_channel
+      arguments:
+        output_data_range: [-90.0, 30.0]
+        input_units: Kelvin
+        output_units: celsius
+        min_outbounds: crop
+        max_outbounds: crop
+        mask_day: true
+        min_night_zen: 90
+        norm: null
+        inverse: null
+  mtif_type: ir
+  colormapper:
+    plugin:
+      name: Infrared
+      arguments:
+        data_range: [-90.0, 30.0]
+  interpolator:
+    plugin:
+      name: interp_nearest
+      arguments: {}

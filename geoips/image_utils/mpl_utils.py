@@ -8,7 +8,6 @@ import logging
 import matplotlib
 import matplotlib.pyplot as plt
 
-from geoips.filenames.base_paths import PATHS as gpaths
 from geoips.interfaces import title_formatters
 from geoips.image_utils.maps import draw_features, draw_gridlines
 
@@ -271,9 +270,6 @@ def get_title_string_from_objects(
     title_string : str
         the title to use for matplotlib
     """
-    if title_copyright is None:
-        title_copyright = gpaths["GEOIPS_COPYRIGHT"]
-
     from geoips.sector_utils.utils import is_sector_type
 
     if product_datatype_title is None:
