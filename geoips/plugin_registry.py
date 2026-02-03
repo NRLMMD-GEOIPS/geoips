@@ -18,12 +18,12 @@ in all plugins multiple times.
 """
 
 from importlib import import_module, util, metadata, resources
-import json
 import logging
 import os
 from pathlib import Path
 from types import SimpleNamespace
 
+import json
 from pydantic import BaseModel
 import yaml
 
@@ -549,14 +549,16 @@ class PluginRegistry:
         plugin["abspath"] = abspath
         plugin["relpath"] = relpath
 
-        if getattr(interface_obj, "use_pydantic", False):
-            plugin_json_formatted = self.load_plugin(plugin)
-            plugin_dict_formatted = plugin_json_formatted.model_dump()
-            validated = interface_obj.validator.validate(plugin_dict_formatted)
-            return interface_obj._plugin_yaml_to_obj(name, validated)
-        else:
-            validated = interface_obj.validator.validate(plugin)
-            return interface_obj._plugin_yaml_to_obj(name, validated)
+        def remove_none(d: dict) -> dict:
+            """Recursively remove all keys with value None from a dictionary."""
+            if not isinstance(d, dict):
+                return d
+            return {k: remove_none(v) for k, v in d.items() if v is not None}
+
+        validated = interface_obj.validator(**plugin).model_dump()
+        validated = remove_none(validated)
+
+        return interface_obj._plugin_yaml_to_obj(name, validated)
 
     def get_yaml_plugins(self, interface_obj):
         """Retrieve all yaml plugin objects for this interface.
