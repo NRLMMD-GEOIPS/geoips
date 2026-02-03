@@ -11,7 +11,6 @@ from socket import gethostname
 
 from geoips.filenames.base_paths import PATHS as gpaths
 
-
 logging.captureWarnings(True)
 
 

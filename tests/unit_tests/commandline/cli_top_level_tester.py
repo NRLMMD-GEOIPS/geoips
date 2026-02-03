@@ -17,7 +17,6 @@ from geoips.commandline.commandline_interface import GeoipsCLI
 from geoips.commandline.commandline_interface import main as cli_main
 from geoips.geoips_utils import is_editable
 
-
 gcli = GeoipsCLI()
 
 

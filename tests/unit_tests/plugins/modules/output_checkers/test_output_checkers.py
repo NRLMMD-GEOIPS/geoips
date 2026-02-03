@@ -2,6 +2,7 @@
 # # # https://github.com/NRLMMD-GEOIPS.
 
 """Test all Output Checker plugins."""
+
 import pytest
 
 from geoips.interfaces import output_checkers
