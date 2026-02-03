@@ -9,6 +9,7 @@ from pydantic import Field
 
 from geoips.pydantic_models.v1.bases import FrozenModel
 
+
 class OutputCheckersArgumentsModel(FrozenModel):
     """Output Checker spec (specification) format."""
 
@@ -21,4 +22,3 @@ class OutputCheckersArgumentsModel(FrozenModel):
     output_products: Optional[List[str]] = Field(
         ..., strict=True, description="A list of paths to the output file(s)."
     )
-)
