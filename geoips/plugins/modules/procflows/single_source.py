@@ -1325,6 +1325,10 @@ def plot_data(
                 output_plugin.family,
                 output_plugin.name,
             )
+            if "feature_annotator" in output_kwargs:
+                output_kwargs["feature_annotator"] = output_kwargs[
+                    "feature_annotator"
+                ].model_dump()
             output_products = output_plugin(
                 area_def,
                 xarray_obj=alg_xarray,
