@@ -172,10 +172,10 @@ def registry_sanity_check(plugin_packages, save_type):
                 with open(registry_fname, "r") as reg_file:
                     pkg_registry = json.load(reg_file)
             for plugin_type in list(pkg_registry.keys()):
-                # check the pkg's registry for both yaml-based and module-based plugins
+                # check the pkg's registry for both yaml-based and class-based plugins
                 for interface in comp_registry[plugin_type]:
                     # check each interface of comp_pkg
-                    # for each type of plugin (yaml/module)-based
+                    # for each type of plugin (yaml/class)-based
                     if interface in pkg_registry[plugin_type]:
                         # if this interface is also in the pkg_registry, then get the
                         # dictionary of comp_plugins for that interface
@@ -397,7 +397,7 @@ def create_plugin_registries(plugin_packages, save_type, namespace):
         # schema_yaml_path = resources.files(package) / "schema"
         # schema_yamls = schema_yaml_path.rglob("*.yaml")
         # plugin_paths dictionary contains lists of files for each plugin
-        # type (ie, yaml based, text based, and module based plugins, and
+        # type (ie, yaml based, text based, and class based plugins, and
         # in the future potentially schema)
         plugin_paths = {
             "yaml": sorted(yaml_files),
@@ -472,7 +472,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
         resolving errors.
     """
     error_message = ""
-    # Loop through each plugin type, ie, text, yaml, module, and later schema.
+    # Loop through each plugin type, ie, text, yaml, class, and later schema.
     for plugin_type in plugin_paths:
         # Loop through each file of the current plugin type.
         for filepath in plugin_paths[plugin_type]:
@@ -498,7 +498,7 @@ def parse_plugin_paths(plugin_paths, package, package_dir, plugins, namespace):
             #     add_schema_plugin(
             #         filepath, abspath, relpath, package, plugins["schemas"]
             #     )
-            else:  # Python files; class based or module based plugins
+            else:  # Python files; class based plugins
                 error_message += add_class_plugin(
                     package, relpath, plugins["class_based"]
                 )
@@ -693,14 +693,14 @@ def add_yaml_plugin(filepath, relpath, package, plugins, namespace):
 
 
 def add_text_plugin(package, relpath, plugins):
-    """Add all txt plugins into plugin registries.
+    """Add all text plugins into plugin registries.
 
     Parameters
     ----------
     package: str
         The current GeoIPS package being parsed
     relpath: str
-        The relpath path to the module plugin
+        The relpath path to the text plugin
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
 
@@ -908,14 +908,20 @@ def collect_class_plugin_metadata(plugin_class):
 
 
 def add_class_plugin(package, relpath, plugins):
-    """Add the module plugin associated with the filepaths and package to plugins.
+    """Add the class-based plugin associated with the filepaths and package to plugins.
+
+    NOTE: This function will work for 'legacy' module-based plugins that are dynamically
+    converted to class-based objects via <interface>.get_plugin and true class-based
+    plugins. Stores them all under the 'class_based' portion of the plugin registry and
+    denotes whether a plugin is truly class based or not via the metadata variable
+    'is_derived_plugin_object'.
 
     Parameters
     ----------
     package: str
         The current GeoIPS package being parsed
     relpath: str
-        The relpath path to the module plugin
+        The relpath path to the class-based plugin
     plugins: dict
         A dictionary object of all installed GeoIPS package plugins
 
@@ -948,7 +954,7 @@ def add_class_plugin(package, relpath, plugins):
     # Attempting importing module, catch ImportError
     # We have to fix these to be able to import the module to
     # see if 'interface' is defined, in order to see if it
-    # is a properly formatted python module..
+    # is a properly formatted python module.
     try:
         spec.loader.exec_module(module)
     except ImportError as resp:
